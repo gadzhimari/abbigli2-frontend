@@ -19,12 +19,13 @@ const plugins = [
 ];
 
 const alias = {
+  App: path.resolve(__dirname, 'app'),
   Api: path.resolve(__dirname, 'app/api'),
   Tools: path.resolve(__dirname, 'app/tools'),
 };
 
 module.exports = {
-  entry: ['react-hot-loader/patch', './app/index.jsx'],
+  entry: ['./app/index.jsx'],
   output: {
     filename: jsName,
     path: path.resolve(__dirname, 'public/assets'),
