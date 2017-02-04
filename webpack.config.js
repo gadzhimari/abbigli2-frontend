@@ -4,13 +4,13 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 
-const isProd = plugin => (process.env.NODE_ENV === 'production' ? plugin : undefined);
+const isProd = process.env.NODE_ENV === 'production';
 
-const jsName = process.env.NODE_ENV === 'production'
+const jsName = isProd
   ? 'bundle-[hash].js'
   : 'bundle.js';
 
-const cssName = process.env.NODE_ENV === 'production'
+const cssName = isProd
   ? 'style-[hash].css'
   : 'style.css';
 
@@ -18,13 +18,18 @@ const plugins = [
   new ExtractTextPlugin(cssName, {
     allChunks: true,
   }),
-  isProd(new webpack.optimize.DedupePlugin()),
-  isProd(new webpack.optimize.OccurrenceOrderPlugin()),
-  isProd(new AssetsPlugin({
-    filename: 'assets.json',
-    path: path.join(__dirname, 'public', 'assets'),
-  })),
 ];
+
+if (isProd) {
+  plugins.push(
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new AssetsPlugin({
+      filename: 'assets.json',
+      path: path.join(__dirname, 'public', 'assets'),
+    })
+  );
+}
 
 const alias = {
   App: path.resolve(__dirname, 'app'),
@@ -32,21 +37,21 @@ const alias = {
   Tools: path.resolve(__dirname, 'app/tools'),
 };
 
-const styleLoader = process.env.NODE_ENV !== 'production'
-  ? [
+const styleLoader = isProd
+  ? ExtractTextPlugin.extract(
+    'style',
+    'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+    'scss'
+  )
+  : [
     'style?sourceMap',
     'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
     'scss',
-  ]
-  : ExtractTextPlugin.extract(
-    'style',
-    'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-    'scss',
-  );
+  ];
 
-const jsLoader = process.env.NODE_ENV !== 'production'
-  ? 'babel!eslint-loader'
-  : 'babel';
+const jsLoader = isProd
+  ? 'babel'
+  : 'babel!eslint-loader';
 
 module.exports = {
   entry: ['./app/index.jsx'],
@@ -56,8 +61,8 @@ module.exports = {
     publicPath: '/assets/',
   },
   resolve: {
-    modulesDirectories: ['node_modules'],
-    extensions: ['', '.js', '.jsx'],
+    modules: ['node_modules'],
+    extensions: ['.js', '.jsx'],
     alias,
   },
   plugins,
@@ -74,18 +79,7 @@ module.exports = {
       },
     ],
   },
-  debug: process.env.NODE_ENV !== 'production',
-  devtool: process.env.NODE_ENV !== 'production'
-    ? 'source-map'
-    : null,
-  devServer: {
-    headers: { 'Access-Control-Allow-Origin': '*' },
-    contentBase: path.join(__dirname, 'public'),
-    historyApiFallback: true,
-    host: '0.0.0.0',
-    hot: true,
-    port: 8050,
-    publicPath: '/assets/',
-    watchContentBase: true,
-  },
+  devtool: isProd
+    ? null
+    : 'source-map',
 };
