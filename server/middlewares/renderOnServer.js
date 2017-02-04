@@ -1,12 +1,14 @@
+/* eslint-disable no-console,global-require,no-underscore-dangle,import/no-extraneous-dependencies,max-len */
+
 import React from 'react';
 import { RouterContext } from 'react-router';
 import match from 'react-router/lib/match';
 import ReactDOM from 'react-dom/server';
-import routes from 'App/modules';
+import routes from 'App/modules/routes';
 
-const assetUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:8050/' : '/';
+module.exports = (req, res) => {
+  console.log(res.locals.webpackStats.toJson());
 
-export default (req, res) => {
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     const componentHTML = ReactDOM.renderToString(
       <RouterContext {...renderProps} />
@@ -26,7 +28,6 @@ export default (req, res) => {
 
     return res.render('index', {
       markup: componentHTML,
-      baseUrl: assetUrl,
     });
   });
 };
