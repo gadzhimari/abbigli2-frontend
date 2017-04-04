@@ -1,0 +1,51 @@
+.loader {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  margin: 30px auto 50px;
+}
+
+.loader__spinner {
+  background: url("../../images/svg/loader.svg") no-repeat;
+  background-size: 50px 50px;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  -webkit-animation: load3 1.4s infinite linear;
+  animation: load3 1.4s infinite linear;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.loader__logo {
+  background: url("../../images/loader-logo.png") no-repeat;
+  width: 28px;
+  height: 32px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+@-webkit-keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

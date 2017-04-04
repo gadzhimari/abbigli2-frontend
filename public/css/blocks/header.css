@@ -1,0 +1,191 @@
+.header {
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  z-index: 1000;
+  border-bottom: 1px solid #acacac;
+  -webkit-box-shadow: 0 1px 3px 0 #acacac;
+  box-shadow: 0 1px 3px 0 #acacac;
+  -webkit-backface-visibility:hidden;
+}
+
+.logo {
+  background: url("../../images/svg/logo.svg") no-repeat;
+  background-size: 165px 42px;
+  width: 165px;
+  height: 42px;
+  display: block;
+}
+
+.header .logo {
+  margin: auto 0;
+  -webkit-flex-basis: 165px;
+  flex-basis: 165px;
+}
+
+.header__content {
+  margin: 0 15px;
+  position: relative;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.header__avatar-wrap {
+  margin: auto 0 auto 50px;
+  position: relative;
+  text-align: center;
+}
+
+.header__avatar {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.header__avatar-default {
+  background: url("../../images/svg/avatar.svg") no-repeat 50% 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+  border: 1px solid #1076ff;
+  background-size: 19px 23px;
+}
+
+.user-menu {
+  font-size: 14px;
+  position: absolute;
+  top: 45px;
+  right: 0;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #90a4ae;
+  color: #1075ff;
+  z-index: 5;
+  text-align: left;
+  display: none;
+  min-width: 200px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 2px 4px #6a7377;
+  box-shadow: 0 2px 4px #6a7377;
+}
+
+.user-menu__name {
+  font-family: 'SegoeUIBold';
+  color: #263238;
+  margin: 0 0 10px;
+}
+
+.user-menu-corner {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  background: #fff;
+  left: 50%;
+  top: 49px;
+  z-index: 10;
+  display: none;
+  border-left: 1px solid #1075ff;
+  border-top: 1px solid #1075ff;
+  -webkit-transform: rotate(45deg) translate(-50%,0);
+  -ms-transform: rotate(45deg) translate(-50%,0);
+  transform: rotate(45deg) translate(-50%,0);
+}
+
+.user-menu__item {
+  position: relative;
+  display: block;
+  padding-left: 20px;
+  margin-bottom: 5px;
+  color: #263238;
+}
+
+.user-menu__item:last-child {
+  margin: 0;
+}
+
+.user-menu__item:hover {
+  text-decoration: none;
+  color: #1076ff;
+}
+
+.user-menu__item .icon {
+  fill: #263238;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+}
+
+.user-menu__item:hover .icon {
+  fill: #1076ff;
+}
+
+.user-menu__item.messages .icon {
+  background-size: 13px 16px;
+  width: 13px;
+  height: 16px;
+}
+
+.user-menu__item.feed .icon {
+  background-size: 10px 10px;
+  width: 10px;
+  height: 10px;
+}
+
+.user-menu__item.logout .icon {
+  background-size: 13px 13px;
+  width: 13px;
+  height: 13px;
+}
+
+.header__avatar-wrap.open-options .user-menu {
+  display: block;
+}
+
+.create-post {
+  background-color: #1076ff;
+  cursor: pointer;
+  width: 36px;
+  height: 26px;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin: 7px 40px 0 40px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.create-post .icon {
+  fill: #fff;
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+.create-post:hover {
+  background-color: #0e70f0;
+}
+
+.create-post:active {
+  background-color: #0d69e0;
+}

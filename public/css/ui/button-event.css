@@ -1,0 +1,42 @@
+.event-buttons {
+  position: fixed;
+  top: 400px;
+  right: 30px;
+  z-index: 100;
+}
+
+.event-button {
+  background-color: rgba(16, 118, 255, 0.8);
+  width: 80px;
+  height: 80px;
+  position: relative;
+  cursor: pointer;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.event-button .icon {
+  fill: #fff;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.event-button.blog {
+  margin-bottom: 20px;
+}
+
+.event-button.blog .icon {
+  background-size: 34px 36px;
+  width: 34px;
+  height: 36px;
+  margin-left: 2px;
+}
+
+.event-button.event .icon {
+  background-size: 32px 36px;
+  width: 32px;
+  height: 36px;
+}

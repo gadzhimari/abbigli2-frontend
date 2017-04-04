@@ -1,0 +1,88 @@
+.input-profile-wrap {
+  padding: 0 40px;
+  position: relative;
+  height: 30px;
+}
+
+.input-profile {
+  font-family: 'SegoeUI';
+  background-color: #fff;
+  font-size: 14px;
+  line-height: 18px;
+  color: #263238;
+  margin: 0 -40px;
+  padding: 5px 39px;
+  border: 1px solid #90a4ae;
+  outline: 0;
+  width: 100%;
+  box-sizing: content-box;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.input-profile:disabled {
+  background: transparent;
+  border-color: transparent;
+  text-overflow: ellipsis;
+}
+
+.input-profile-wrap .icon {
+  fill: #fff;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  -webkit-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+}
+
+.edit-profile .input-profile-wrap .icon {
+  fill: #b0bec5;
+}
+
+.input-phone .icon {
+  background-size: 14px 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.input-email .icon {
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.input-site .icon {
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.input-email .input-profile:disabled,
+.input-site .input-profile:disabled {
+  text-decoration: underline;
+}
+
+.input-profile-social {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 26px;
+  height: 26px;
+  margin-right: 5px;
+}
+
+.input-profile-social:last-child {
+  margin-right: 0;
+}
+
+.input-profile-social .input-profile {
+  display: none;
+}
+
+.user-profile__title[disabled],
+.input-profile[disabled],
+.user-profile__description[disabled] {
+  -webkit-text-fill-color: rgba(255, 255, 255, 1);
+  -webkit-opacity: 1;
+  color: rgba(255, 255, 255, 1);
+}

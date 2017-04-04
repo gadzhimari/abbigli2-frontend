@@ -1,0 +1,43 @@
+.tag-btn {
+  font-family: 'SegoeUI';
+  font-size: 16px;
+  line-height: 20px;
+  color: #263238;
+  background-color: #fff;
+  padding: 5px 13px 8px;
+  border: 1px solid #b0bec5;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  position: relative;
+  margin: 0 20px 15px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.tag-btn:last-child {
+  margin-right: 0;
+}
+
+.tag-btn:hover {
+  color: #fff;
+}
+
+.blog-tag:hover {
+  background-color: #65c76e;
+  border-color: #65c76e;
+}
+
+.event-tag:hover {
+  background-color: #8436a2;
+  border-color: #8436a2;
+}
+
+.product-tag:hover {
+  background-color: #ff794e;
+  border-color: #ff794e;
+}

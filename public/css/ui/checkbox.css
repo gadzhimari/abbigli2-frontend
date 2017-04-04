@@ -1,0 +1,32 @@
+.checkbox-label {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  padding: 0 0 0 50px;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.checkbox-label:before {
+  content: "";
+  display: block;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  border: 1px solid #90a4ae;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+}
+
+.checkbox:checked + .checkbox-label:before {
+  background: url("../../images/svg/checkmark.svg") no-repeat 50% 50% / 14px 10px;
+  border-color: #546e7a;
+}
+
+.checkbox {
+  display: none;
+}

@@ -1,0 +1,110 @@
+- var dir = process.env.PWD
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>
+
+*|MC:SUBJECT|*
+
+link(href = dir + '/public/mail_views/to_company/__MC_SUBJECT1__.css', rel='stylesheet')
+</title>
+
+
+<script async="" src="./aksb.min.js"></script>
+<script src="./script.js"></script>
+</head>
+<body>
+<center>
+<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+<tbody><tr>
+<td align="center" valign="top" id="bodyCell">
+<!-- BEGIN TEMPLATE // -->
+<!--[if gte mso 9]>
+<table align="center" border="0" cellspacing="0" cellpadding="0" width="600" style="width:600px;">
+<tr>
+<td align="center" valign="top" width="600" style="width:600px;">
+<![endif]-->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer">
+<tbody><tr>
+<td valign="top" id="templatePreheader"></td>
+</tr>
+<tr>
+<td valign="top" id="templateHeader"></td>
+</tr>
+<tr>
+<td valign="top" id="templateBody"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
+<tbody class="mcnTextBlockOuter">
+<tr>
+<td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
+<!--[if mso]>
+<table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
+<tr>
+<![endif]-->
+
+<!--[if mso]>
+<td valign="top" width="600" style="width:600px;">
+<![endif]-->
+<table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
+<tbody><tr>
+
+<td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
+
+<h1><span style="font-size:18px"><span style="font-family:arial,helvetica neue,helvetica,sans-serif">Новая заявка на ремонт:</span></span></h1>
+<br>
+Ваше имя: #{name}<br>
+Адрес электронной почты: #{email}<br>
+Номер телефона: #{phone}<br>
+Предполагаемая дата начала ремонта: #{date}<br>
+<br>
+<br>
+<strong>Состав ремонта:</strong>
+
+<ul>
+<li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">#{room_number} квартира, #{area}&nbsp;м<strong id="docs-internal-guid-1ac23520-e38f-703a-0da0-58e425f37567">²</strong></span>.</li>
+<li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">#{colors} цветовая гамма</span>.</li>
+<li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">#{doors} двери</span>.</li>
+<li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">#{WC} унитаз</span>.</li>
+<li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">Замена радиаторов. Стальные&nbsp;панельные радиаторы #{radiators}. #{radiators_number} шт</span>.</li>
+<li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">Кондиционеры #{conditioner}<strong>,</strong>&nbsp;#{conditioner_color} цвета.#{conditioner_number} шт</span>.</li>
+</ul>
+
+<p><span style="font-family:arial,helvetica neue,helvetica,sans-serif">Цена ремонта #{price}&nbsp;₽</span>.<br>
+<span style="font-family:arial,helvetica neue,helvetica,sans-serif">Продолжительность #{days} календарных дней</span>.</p>
+
+</td>
+</tr>
+</tbody></table>
+<!--[if mso]>
+</td>
+<![endif]-->
+
+<!--[if mso]>
+</tr>
+</table>
+<![endif]-->
+</td>
+</tr>
+</tbody>
+</table></td>
+</tr>
+<tr>
+<td valign="top" id="templateFooter"></td>
+</tr>
+</tbody></table>
+<!--[if gte mso 9]>
+</td>
+</tr>
+</table>
+<![endif]-->
+<!-- // END TEMPLATE -->
+</td>
+</tr>
+</tbody></table>
+</center>
+
+</body></html>

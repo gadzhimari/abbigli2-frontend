@@ -1,0 +1,32 @@
+.subscribe-button {
+  font-family: 'SegoeUI';
+  font-size: 12px;
+  line-height: 16px;
+  color: #fff;
+  border: 0;
+  padding: 5px 15px 5px 30px;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.subscribe-button .icon {
+  fill: #fff;
+  display: block;
+  background-size: 10px 10px;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  -webkit-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+}
+
+.default-button.subscribe-button {
+  padding-left: 30px;
+}

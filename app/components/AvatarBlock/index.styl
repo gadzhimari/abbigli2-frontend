@@ -1,0 +1,237 @@
+.header_menuitem
+  border-left: 1px solid #ccc
+  display inline-block
+  height 76px;
+  padding 0 14px
+  margin-top: 0 !important
+  box-sizing border-box
+  padding-top: 17px
+  color #8b8b8b
+  &:hover
+    background-color: #f6f6f6
+
+  svg
+    height: 25px
+    width: 25px
+    display: block
+    margin: 0 auto
+    fill: #0090de
+
+
+
+
+
+.main-menu__content {
+  display: none;
+  background-color: #fff;
+  position: absolute;
+  top: 90px;
+  right: 0;
+  width: 510px;
+  border: 1px solid #90a4ae;
+  padding: 20px 30px;
+  text-align: left;
+  overflow-y: auto;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 2px 4px #6a7377;
+  box-shadow: 0 2px 4px #6a7377;
+}
+
+.main-menu__title {
+  font-family: 'clear_sansbold', san-serif;
+  font-size: 16px;
+  line-height: 20px;
+  color: rgba(38, 50, 56, 0.5);
+  padding-bottom: 5px;
+  border-bottom: 1px solid #bdc1c3;
+  margin-bottom: 10px;
+}
+
+.main-menu__item {
+  font-family: 'clear_sansbold', san-serif;
+  font-size: 16px;
+  line-height: 20px;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  color: #263238;
+  margin-bottom: 10px;
+}
+
+.main-menu__item-name {
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 10px;
+}
+
+.main-menu__item .icon-wrap {
+  border: 1px solid #b0bec5;
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 10px;
+  position: relative;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.main-menu__item .icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.main-menu__item:nth-child(odd) {
+  margin-right: 15px;
+  width: 240px;
+}
+
+.main-menu__item .icon-new {
+  fill: #eec10e;
+  background-size: 30px 30px;
+  width: 30px;
+  height: 30px;
+}
+
+.main-menu__item .icon-blog {
+  fill: #02a511;
+  background-size: 25px 26px;
+  width: 25px;
+  height: 26px;
+  margin-left: 2px;
+}
+
+.main-menu__item .icon-popular {
+  fill: #f50104;
+  background-size: 28px 27px;
+  width: 28px;
+  height: 27px;
+}
+
+.main-menu__item .icon-event {
+  fill: #65048b;
+  background-size: 22px 25px;
+  width: 22px;
+  height: 25px;
+}
+
+.main-menu__item .icon-mood {
+  fill: #fe702a;
+  background-size: 30px 30px;
+  width: 30px;
+  height: 30px;
+}
+
+.main-menu__item .icon-beside {
+  fill: #1976d2;
+  background-size: 26px 28px;
+  width: 26px;
+  height: 28px;
+}
+
+.main-menu__sections {
+  border-bottom: 1px solid #bdc1c3;
+  padding-bottom: 15px;
+  margin-top: 10px;
+}
+
+.main-menu__section {
+  color: #263238;
+  display: inline-block;
+  vertical-align: top;
+  width: 190px;
+  margin: 2px 0;
+}
+
+.main-menu__section:hover {
+  color: #1076ff;
+}
+
+.main-menu__section:nth-child(odd) {
+  margin-right: 64px;
+}
+
+.main-menu__footer {
+  position: relative;
+  padding-top: 15px;
+}
+
+.main-menu__footer-item {
+  color: #263238;
+}
+
+.main-menu__footer-dev {
+  padding: 0 15px;
+}
+
+.main-menu .social-buttons {
+  font-size: 0;
+  position: absolute;
+  right: 0;
+  top: 10px;
+}
+
+.main-menu .social-btn {
+  width: 32px;
+  height: 32px;
+  margin-right: 5px;
+}
+
+.main-menu__corner {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 8px 12px 8px;
+  border-color: transparent transparent #90a4ae transparent;
+  margin: 0 auto;
+  position: absolute;
+  top: 27px;
+  left: 15px;
+  z-index: 1;
+  display: none;
+}
+
+.main-menu__corner:after {
+  display: block;
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 7px 10px 7px;
+  border-color: transparent transparent #fff transparent;
+  margin: 0 auto;
+  position: absolute;
+  top: 2px;
+  left: -7px;
+}
+
+.open-menu .main-menu__content,
+.open-menu .main-menu__corner {
+  display: block;
+}
+
+.main-menu__mobile {
+  background-color: #90a4ae;
+  cursor: pointer;
+  height: 30px;
+  position: relative;
+  width: 30px;
+  display: none;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.main-menu__mobile .icon {
+  fill: #fff;
+  background-size: 16px 12px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 12px;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

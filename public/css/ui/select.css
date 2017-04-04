@@ -1,0 +1,53 @@
+.select-wrap {
+  width: 200px;
+  height: 34px;
+  overflow: hidden;
+  border: 1px solid #90a4ae;
+  position: relative;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.select-wrap:before {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  background: url("../../images/svg/select-arrow.svg") no-repeat;
+  background-size: 8px 8px;
+  width: 8px;
+  height: 8px;
+  -webkit-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+}
+
+.select {
+  background-color: transparent;
+  width: 220px;
+  padding-left: 15px;
+  font-size: 14px;
+  line-height: 30px;
+  color: #1076ff;
+  border: none;
+  height: 32px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  outline: none;
+  position: relative;
+  -webkit-appearance: none;
+}
+
+.select-arrow {
+  background-color: #fff;
+  position: absolute;
+  width: 20px;
+  right: 0;
+  top: 0;
+  height: 40px;
+}
+
+.select-option {
+  padding: 5px 15px;
+}

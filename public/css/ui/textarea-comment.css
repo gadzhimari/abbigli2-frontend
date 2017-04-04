@@ -1,0 +1,46 @@
+.textarea-comment-wrap {
+  padding: 0 15px;
+  position: relative;
+  margin: 0 0 20px 15px;
+  max-width: 845px;
+}
+
+.textarea-comment {
+  background-color: #f2f6f9;
+  box-sizing: content-box;
+  color: #263238;
+  display: block;
+  font-family: "SegoeUI";
+  font-size: 14px;
+  min-height: 90px;
+  line-height: 18px;
+  margin: 0 -15px;
+  outline: none;
+  padding: 10px 14px;
+  resize: none;
+  width: 100%;
+  border: 1px solid #cfd8dc;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+}
+
+.textarea-comment-wrap .corner-wrap {
+  border-top: 1px solid #cfd8dc;
+  height: 20px;
+  left: -14px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 16px;
+}
+
+.textarea-comment-wrap .corner {
+  background-color: #f2f6f9;
+  border-bottom: 1px solid #cfd8dc;
+  height: 22px;
+  margin-left: 2px;
+  margin-top: -12px;
+  width: 24px;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}

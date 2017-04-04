@@ -1,0 +1,38 @@
+.default-button {
+  background-color: #1076ff;
+  font-family: 'SegoeUIBold', sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  color: #fff;
+  border: 0;
+  padding: 9px 20px;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  white-space: nowrap;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.default-button:hover {
+  background-color: #0e70f0;
+}
+
+.default-button:active {
+  background-color: #0d69e0;
+}
+
+.buttons-wrap .default-button {
+  display: inline-block;
+  vertical-align: top;
+}
+
+button {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+button::-moz-focus-inner {
+  border:0;
+}

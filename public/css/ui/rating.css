@@ -1,0 +1,40 @@
+.rating {
+  height: 20px;
+  width: 110px;
+  overflow: hidden;
+}
+
+.rating__input {
+  display: none; 
+}
+
+.rating__label:before {
+  margin-right: 5px;
+  font-size: 1.25em;
+  font-family: 'FontAwesome';
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating__label.half:before {
+  content: "\f089";
+  position: absolute;
+}
+
+.rating__label {
+  color: #ddd;
+  float: right;
+}
+
+.rating__input:checked ~ .rating__label,
+.rating:not(:checked) > .rating__label:hover,
+.rating:not(:checked) > .rating__label:hover ~ .rating__label { 
+  color: #FFD700;  
+}
+
+.rating-text {
+  font-size: 12px;
+  line-height: 16px;
+  color: #b0bec5;
+  margin-top: 5px;
+}

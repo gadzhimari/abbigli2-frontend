@@ -1,0 +1,107 @@
+.search-form {
+    font-family: 'clear_sansregular', sans-serif;
+    border: 1px solid #cecece;
+    width: 100%;
+    margin: 0 -100px 0 -80px;
+    padding: 4px 99px 4px 79px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    position: relative;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    box-shadow: inset 0 1px 1px rgba(#cecece,.5);
+    text-align: left;
+}
+
+.options {
+    max-height: 310px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #90a4ae;
+    overflow-y: auto;
+    background-color: #fff;
+    text-align: left;
+    -webkit-box-shadow: 0 4px 6px #6a7377;
+    box-shadow: 0 4px 6px #6a7377;
+    -webkit-border-radius: 0 0 2px 2px;
+    border-radius: 0 0 2px 2px;
+}
+
+.options__list {
+    padding: 10px;
+}
+
+.options__list-item {
+    list-style: none;
+    cursor: pointer;
+    &:hover {
+        background-color: #eaeaea;
+    }
+}
+
+.active.options__list-item {
+    background-color: #eaeaea;
+}
+
+.form__input-wrap {
+    position: relative;
+}
+
+.form__input {
+    width: 100%;
+    height: 26px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-family: 'clear_sansregular', sans-serif;
+}
+
+.form__clear {
+    position: absolute;
+    cursor: pointer;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    font-size: 25px;
+}
+
+.form__tags {
+    cursor: pointer;
+    position: relative;
+}
+
+.tag {
+    display: inline-block;
+    margin-right: 10px;
+    background-color: #ebf5ff;
+    background-color: rgba(0, 126, 255, 0.08);
+    border-radius: 2px;
+    border: 1px solid #c2e0ff;
+    border: 1px solid rgba(0, 126, 255, 0.24);
+}
+
+.tag__text {
+    font-size: 14px;
+    text-align: left;
+    display: inline-block;
+    padding: 3px 10px;
+    user-select: none;
+    &:hover {
+        background-color #D8EAFD;
+    }
+}
+
+.tag__delete {
+    text-align: center;
+    font-size: 16px;
+    padding: 2px 5px 4px 5px;
+    display: inline-block;
+    user-select: none;
+    border-left: 1px solid #c2e0ff;
+    border-left: 1px solid rgba(0, 126, 255, 0.24);
+    &:hover {
+        background-color #D8EAFD;
+    }
+}

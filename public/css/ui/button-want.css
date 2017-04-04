@@ -1,0 +1,44 @@
+.want-button {
+  background-color: #1076ff;
+  font-family: 'SegoeUI', sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  color: #fff;
+  border: 0;
+  padding: 5px 20px 8px 50px;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.want-button:hover {
+  background-color: #0e70f0;
+}
+
+.want-button:active {
+  background-color: #0d69e0;
+}
+
+.want-button .icon {
+  position: absolute;
+  left: 22px;
+  top: 11px;
+  fill: #fff;
+  background-size: 18px 16px;
+  width: 18px;
+  height: 16px;
+}
+
+.want-button.tooltip-wrap:hover:before {
+  bottom: 38px;
+}
+
+.want-button.tooltip-wrap:hover:after {
+  bottom: 44px;
+  left: -35px;
+}

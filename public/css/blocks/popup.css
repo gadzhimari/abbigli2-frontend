@@ -1,0 +1,220 @@
+.popup-wrap {
+  opacity: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: none;
+  z-index: 1050;
+  -webkit-transition: opacity linear 0.2s;
+  transition: opacity linear 0.2s;
+}
+
+.modal-open-new .popup-wrap {
+  background-color: rgba(0,0,0,0.7);
+  opacity: 1;
+  display: block;
+}
+
+body.modal-open-new {
+  overflow: hidden;
+}
+
+.popup {
+  background-color: #fff;
+  position: absolute;
+  padding: 30px 20px 40px;
+  top: 50%;
+  max-height: 95%;
+  overflow-y: auto;
+  left: 50%;
+  width: 550px;
+  border: 1px solid #90a4ae;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-box-shadow: 0 2px 4px #3d4041;
+  box-shadow: 0 2px 4px #3d4041;
+}
+
+.popup-close {
+  fill: #263238;
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.popup-title {
+  font-family: 'SegoeUIBold', san-serif;
+  font-size: 26px;
+  line-height: 30px;
+  margin-bottom: 15px;
+}
+
+.popup-notice {
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(38,50,56,0.5);
+  margin-bottom: 15px;
+}
+
+.popup .search-input-wrap {
+  padding: 0 40px 0 15px;
+  margin: 10px 0;
+}
+
+.popup .search-input {
+  margin: 0 -40px 0 -15px;
+  padding: 6px 39px 6px 14px;
+}
+
+.popup .search-tags {
+  margin-right: 40px;
+}
+
+.popup .search-result-people {
+  margin: 10px 2% 15px;
+}
+
+.search-tab__content {
+  display: none;
+}
+
+.search-tab__content.users {
+  text-align: center;
+}
+
+#tab1:checked ~ .search-tab__content-wrap #tab-content1,
+#tab2:checked ~ .search-tab__content-wrap #tab-content2 {
+  display: block;
+}
+
+.search-tab__content.users .search-input-wrap {
+  margin-bottom: 30px;
+}
+
+
+[id^="tab"]:checked + .search-users .icon,
+[id^="tab"]:checked + .search-tags .icon {
+  fill: #1075ff;
+}
+
+.popup-form__field {
+  margin-bottom: 15px;
+}
+
+.popup-form__label {
+  font-family: 'SegoeUIBold', san-serif;
+  font-size: 14px;
+  line-height: 18px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.popup .default-button,
+.popup .cancel-button {
+  min-width: 140px;
+}
+
+.popup .buttons-wrap {
+  margin-top: 30px;
+}
+
+.popup .password-recovery {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 10px;
+}
+
+.popup .select-code-phone {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 30px;
+}
+
+.popup .input-wrap.phone {
+  display: inline-block;
+  vertical-align: top;
+  width: 270px;
+  margin-top: 23px;
+}
+
+.popup .checkbox-wrap {
+  margin-top: 30px;
+}
+
+.popup .attach-file-wrap {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  margin-top: 20px;
+  padding-left: 20px;
+}
+
+.popup .attach-file-wrap .icon {
+  fill: #1076ff;
+  background-size: 8px 16px;
+  width: 8px;
+  height: 16px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.popup .attach-file {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+}
+
+.popup-search {
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.popup-filter {
+  border-bottom: 1px solid #cfd8dc;
+  padding-bottom: 15px;
+}
+
+.popup-filter__sep {
+  padding: 0 10px;
+}
+
+.popup-filter__link.active {
+  font-family: 'SegoeUISemiBold';
+  color: #263238;
+}
+
+.popup-subscribers {
+  text-align: center;
+}
+
+.popup-subscriber {
+  display: inline-block;
+  vertical-align: top;
+  width: 70px;
+  margin: 30px 4% 0;
+}
+
+.popup-subscriber__avatar {
+  height: 50px;
+  margin: 0 auto 5px;
+  overflow: hidden;
+  width: 50px;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.popup-subscriber__name {
+  color: #263238;
+}

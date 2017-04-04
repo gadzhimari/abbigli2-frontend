@@ -1,0 +1,26 @@
+.event-detail-page .title-icon .icon {
+  fill: #65048b;
+  background-size: 18px 21px;
+  height: 21px;
+  width: 18px;
+}
+
+.event-detail-page .subscribe-button {
+  background-color: #8436a2;
+}
+
+.event-detail-page .subscribe-button:hover {
+  background-color: #65048b;
+}
+
+.event-detail-page .subscribe-button:active {
+  background-color: #4c0368;
+}
+
+.event-detail-page .sidebar__title {
+  border-color: #65048b;
+}
+
+.event-detail-page .flex-control-paging li a.flex-active {
+  background-color: #65048b;
+}

@@ -1,0 +1,4 @@
+var w=window;
+if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document,AKSB=AKSB||{};AKSB.q=[];AKSB.mark=function(a,b){AKSB.q.push(["mark",a,b||(new Date).getTime()])};AKSB.measure=function(a,b,c){AKSB.q.push(["measure",a,b,c||(new Date).getTime()])};AKSB.done=function(a){AKSB.q.push(["done",a])};AKSB.mark("firstbyte",(new Date).getTime());AKSB.prof={custid:"405185",ustr:"ECDHE-RSA-AES256-GCM-SHA384",originlat:0,clientrtt:32,ghostip:"92.123.155.84",
+ipv6:false,pct:10,clientip:"84.51.112.23",requestid:"244b3927",protocol:"h2",blver:10,akM:"x",akN:"ae",akTT:"O",akTX:"1",akTI:"244b3927",ai:"307432",ra:"",pmgn:"",pmgi:"",pmp:""};(function(a){var b=
+d.createElement("script");b.async="async";b.src=a;a=d.getElementsByTagName("script");a=a[a.length-1];a.parentNode.insertBefore(b,a)})(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")};

@@ -1,0 +1,52 @@
+.input-wrap {
+  padding: 0 13px;
+  position: relative;
+}
+
+.input {
+  font-family: 'SegoeUI';
+  background-color: #fff;
+  font-size: 14px;
+  line-height: 18px;
+  margin: 0 -13px;
+  padding: 6px 12px;
+  height: 20px;
+  width: 100%;
+  border: 1px solid #90a4ae;
+  outline: 0;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  box-sizing: content-box;
+}
+
+.input-price {
+  width: 165px;
+}
+
+.input-price .input {
+  font-size: 20px;
+  line-height: 24px;
+  padding: 11px 12px 13px;
+}
+
+.input-date .input {
+  background-image: url("../../images/svg/calendar.svg"), url("../../images/svg/calendar-hover.svg");
+  background-position: 95% center, -18px 0;
+  background-repeat: no-repeat;
+  background-size: 18px 20px;
+}
+
+.input-date:hover .input,
+.input-date:focus .input {
+  background-position: -18px 0, 95% center;
+}
+
+.input-wrap label {
+    margin-left: -13px;
+}
+
+input::-moz-placeholder,
+input:-moz-placeholder,
+input:-ms-input-placeholder {
+  color: #aaacae;
+}

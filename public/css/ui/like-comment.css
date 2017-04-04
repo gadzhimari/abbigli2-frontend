@@ -1,0 +1,51 @@
+.like-comment__button {
+  font-family: 'SegoeUIBold';
+  font-size: 12px;
+  line-height: 16px;
+  color: #a9aeb0;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+  margin-right: 5px;
+  position: relative;
+}
+
+.like-comment__button:last-child {
+  margin: 0;
+}
+
+.like-comment__button .icon-wrap {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  border: 1px solid #92989b;
+  margin-top: -3px;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.like-comment__button .icon {
+  background-size: 12px 13px;
+  width: 12px;
+  height: 13px;
+  fill: #92989b;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+.like-comment__button:active, .like-comment__button.active {
+  color: #1076ff;
+}
+
+.like-comment__button:active .icon-wrap, .like-comment__button.active .icon-wrap{
+  border-color: #1076ff;
+}
+
+.like-comment__button:active .icon, .like-comment__button.active .icon {
+  fill: #1076ff;
+}

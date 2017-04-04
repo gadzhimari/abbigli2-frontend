@@ -1,0 +1,27 @@
+.blog-detail-page .title-icon .icon {
+  fill: #02a511;
+  background-size: 23px 24px;
+  height: 24px;
+  margin-left: 1px;
+  width: 23px;
+}
+
+.blog-detail-page .subscribe-button {
+  background-color: #65c76e;
+}
+
+.blog-detail-page .subscribe-button:hover {
+  background-color: #50b35a;
+}
+
+.blog-detail-page .subscribe-button:active {
+  background-color: #3aa645;
+}
+
+.blog-detail-page .sidebar__title {
+  border-color: #02a511;
+}
+
+.blog-detail-page .flex-control-paging li a.flex-active {
+  background-color: #02a511;
+}

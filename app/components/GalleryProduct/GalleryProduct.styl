@@ -1,0 +1,107 @@
+.image-gallery
+    margin-top 0px
+    margin-bottom 20px
+
+    @media phone
+        margin-left -20px
+        margin-right -20px
+
+    .image-gallery-bullets
+        bottom 70px
+
+        .image-gallery-bullet
+            font-size: 0;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            background: #b0bec5;
+            cursor: pointer;
+            border: 4px solid #fff;
+            -webkit-border-radius: 50%;
+            border-radius: 50%;
+            box-shadow none
+            &.active
+                background-color: #02a511;
+                .event-detail-page &
+                    background-color: #8436a2
+
+
+    .image-gallery-slides
+        padding-bottom 5px
+
+    .image-gallery-slide
+        .image-gallery-description
+            position absolute
+            bottom -38px
+            width 100%
+            text-align center
+            background transparent
+            color #888
+
+.image-gallery-thumbnails .image-gallery-thumbnails-container
+    text-align: left
+
+.image-gallery-image
+    width: auto
+    height: 411px
+    position: relative;
+    img
+        width: 100%
+        height: 100%
+        object-fit cover
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+
+.image-gallery-thumbnail
+    width: 105px
+    height: 105px
+    overflow hidden
+    img
+        object-fit: cover
+        height: 100%;
+        width: 100%
+        border: 1px solid #b0bec5
+        box-sizing border-box
+    &.active
+        img
+            border: 2px solid #1076FF;
+
+.image-gallery-right-nav
+.image-gallery-left-nav
+    opacity 0
+    margin-top -20px
+    transition all .3s
+
+.image-gallery-right-nav
+    margin-right -10px
+.image-gallery-left-nav
+    margin-left -10px
+
+.image-gallery-right-nav
+    &:before
+        content ''
+        width 0
+        height 0
+        border: 10px solid black;
+        border-color: #fff #fff transparent transparent;
+        transform rotate(45deg)
+        box-shadow: 2px -2px 2px 0 rgba(0, 0, 0, 0.4);
+.image-gallery-left-nav
+    &:before
+        content ''
+        width 0
+        height 0
+        border: 10px solid black;
+        border-color: transparent transparent #fff #fff;
+        transform rotate(45deg)
+        box-shadow: -2px 2px 2px 0 rgba(0, 0, 0, 0.4);
+
+.image-gallery-slide-wrapper:hover
+    .image-gallery-right-nav
+    .image-gallery-left-nav
+        opacity 1
+        margin-left 0
+        margin-right 0

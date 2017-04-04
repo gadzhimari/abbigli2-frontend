@@ -1,13 +1,15 @@
+global.window = {};
+
 import express from 'express';
 import path from 'path';
 
-import renderOnServer from './middleware/renderOnServer';
+import renderOnServer from './middlewares/renderOnServer';
 
 const app = express();
 
 app.use(express.static('./public'));
 
-app.set('views', path.join(__dirname, '/template'));
+app.set('views', path.join(__dirname, '/templates'));
 
 app.set('view engine', 'ejs');
 

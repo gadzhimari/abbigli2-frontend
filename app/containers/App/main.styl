@@ -1,0 +1,456 @@
+@font-face {
+  font-family: 'FontAwesome';
+  src: url(/fonts/FontAwesome/FontAwesome.eot);
+  src: url(/fonts/FontAwesome/FontAwesome.eot) format('embedded-opentype'),
+  url(/fonts/FontAwesome/FontAwesome.woff) format('woff'),
+  url(/fonts/FontAwesome/FontAwesome.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Bitter';
+  src: url(/fonts/Bitter/bitter-regular-webfont.eot);
+  src: url(/fonts/Bitter/bitter-regular-webfont.eot) format('embedded-opentype'),
+          url(/fonts/Bitter/bitter-regular-webfont.woff) format('woff'),
+          url(/fonts/Bitter/bitter-regular-webfont.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'clear_sansbold';
+  src: url('/fonts/Clearsans/ClearSans-Bold-webfont.eot');
+  src: url('/fonts/Clearsans/ClearSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+          url('/fonts/Clearsans/ClearSans-Bold-webfont.woff') format('woff'),
+          url('/fonts/Clearsans/ClearSans-Bold-webfont.ttf') format('truetype'),
+          url('/fonts/Clearsans/ClearSans-Bold-webfont.svg#clear_sansbold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'clear_sans_lightregular';
+  src: url('/fonts/Clearsans/ClearSans-Light-webfont.eot');
+  src: url('/fonts/Clearsans/ClearSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
+          url('/fonts/Clearsans/ClearSans-Light-webfont.woff') format('woff'),
+          url('/fonts/Clearsans/ClearSans-Light-webfont.ttf') format('truetype'),
+          url('/fonts/Clearsans/ClearSans-Light-webfont.svg#clear_sans_lightregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'clear_sansregular';
+  src: url('/fonts/Clearsans/ClearSans-Regular-webfont.eot');
+  src: url('/fonts/Clearsans/ClearSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+          url('/fonts/Clearsans/ClearSans-Regular-webfont.woff') format('woff'),
+          url('/fonts/Clearsans/ClearSans-Regular-webfont.ttf') format('truetype'),
+          url('/fonts/Clearsans/ClearSans-Regular-webfont.svg#clear_sansregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+}
+
+*::after, *::before {
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body {
+  font-family: "clear_sansregular", Helvetica, Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #263238;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: normal;
+  vertical-align: baseline;
+  overflow-x: hidden;
+}
+
+a {
+  color: #1076ff;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+a:hover {
+  text-decoration: none;
+}
+a:focus {
+  outline: none;
+}
+
+::-webkit-input-placeholder { color:#90a4ae; }
+::-moz-placeholder          { color:#90a4ae; opacity: 1; }
+:-moz-placeholder           { color:#90a4ae; opacity: 1; }
+:-ms-input-placeholder      { color:#90a4ae; }
+
+input, button {
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+   -webkit-tap-highlight-color: rgba(0,0,0,0);
+  &::-moz-focus-inner {
+    border:0;
+  }
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  list-style: none;
+}
+
+.global-wrapper {
+  height: 100%;
+}
+
+.content-wrapper::after {
+  content: "";
+  display: block;
+  height: 87px;
+}
+.content-wrapper {
+  background-color: #f6f6f6;
+  margin-bottom: -87px;
+  min-height: 100%;
+}
+
+.container-fluid {
+  background-color: #f6f6f6;
+  padding: 77px 0 0 0;
+  margin: 0 auto;
+}
+
+.cards-wrap__title {
+  border-bottom: 1px solid #90a4ae;
+  color: #90a4ae;
+  font-family: "clear_sansbold";
+  font-size: 20px;
+  line-height: 24px;
+  margin: 0 30px 20px;
+  padding-bottom: 10px;
+  text-align: left;
+}
+
+.cards-sort {
+  font-size: 22px;
+  line-height: 26px;
+  margin-bottom: 30px;
+  text-align: left;
+  padding: 0 1%;
+}
+
+.cards-sort__page {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.cards-sort__icon {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #b2c0c6;
+  margin: -5px 15px 0 0;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.cards-sort__icon .icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.cards-sort__item {
+  margin-left: 2%;
+}
+
+.cards-sort__tag {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+}
+
+.input-hide {
+  display: none;
+}
+
+.social-btn {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.social-btn:last-child {
+  margin: 0;
+}
+
+.social-btn .icon {
+  fill: #fff;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.facebook {
+  background-color: #3d5b99;
+}
+
+.facebook:hover {
+  background-color: #486ab3;
+}
+
+.facebook .icon {
+  background-size: 9px 20px;
+  height: 20px;
+  width: 9px;
+}
+
+.odnoklassniki {
+  background-color: #f58426;
+}
+
+.odnoklassniki:hover {
+  background-color: #f99039;
+}
+
+.odnoklassniki .icon {
+  //background: url("/images/icons/ok.svg") no-repeat;
+  background-size: 12px 20px;
+  height: 20px;
+  width: 12px;
+}
+
+.vkontakte {
+  background-color: #4D76A4;
+}
+
+.vkontakte:hover {
+  background-color: #5581b3;
+}
+
+.vkontakte .icon {
+  background-size: 14px 20px;
+  width: 14px;
+  height: 20px;
+}
+
+.pinterest {
+  background-color: #ca252b;
+}
+
+.pinterest:hover {
+  background-color: #d9282d;
+}
+
+.pinterest .icon {
+  background-size: 17px 20px;
+  width: 17px;
+  height: 20px;
+}
+
+.google-plus {
+  background-color: #d44a38;
+}
+
+.google-plus:hover {
+  background-color: #ed5440;
+}
+
+.google-plus .icon {
+  background-size: 25px 17px;
+  width: 25px;
+  height: 17px;
+}
+
+.isMobile .modal-backdrop {
+  display:none
+}
+
+.author-subscribe {
+  font-family: 'clear_sansbold';
+  font-size: 16px;
+  line-height: 20px;
+  padding-left: 75px;
+  min-height: 60px;
+  position: relative;
+}
+
+.author-subscribe__ava {
+  border: 1px solid #c9d2d7;
+  width: 60px;
+  height: 60px;
+  left: 0;
+  top: 0;
+  position: absolute;
+  overflow: hidden;
+  display: block;
+  border: 1px solid #b0bec5;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.author-ava {
+  width: 100%;
+  height: 100%;
+}
+
+.author-subscribe__name {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 50px;
+}
+
+.author-subscribe .subscribe-button {
+  margin-top: 10px;
+}
+
+.title-with-icon {
+  font-family: 'clear_sansbold';
+  font-size: 42px;
+  line-height: 48px;
+  margin-bottom: 10px;
+}
+
+.title-icon {
+  border: 1px solid #b2c0c6;
+  height: 40px;
+  width: 40px;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin: 7px 10px 0 0;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.title-icon .icon {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.text {
+  line-height: 20px;
+  margin-bottom: 20px;
+}
+
+.text-title {
+  font-size: 24px;
+  line-height: 28px;
+  margin-bottom: 15px;
+}
+
+.text ul {
+  margin: 0;
+  padding-left: 15px;
+  line-height: 24px;
+  list-style: disc;
+}
+
+.text ul li {
+  padding-left: 15px;
+}
+
+.text-img {
+  width: 100%;
+}
+
+.text-img__caption {
+  font-family: 'clear_sansbold';
+  margin-top: 10px;
+}
+
+.cards-wrap__title {
+  font-family: 'clear_sansbold';
+  font-size: 20px;
+  line-height: 24px;
+  color: #90a4ae;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #90a4ae;
+  text-align: left;
+  margin: 0 30px 20px 30px;
+}
+
+.cards-wrap__title-user {
+  color: #263238;
+}
+
+.hidden {
+  display: none;
+}
+
+.svg-sprite {
+  display: none;
+}
+
+.show-more
+  display: block
+  font-size: 15px;
+  line-height: 19px;
+  color: #0090de;
+  text-align: center;
+  max-width: 130px;
+  position: relative;
+  margin: 20px auto;
+  cursor: pointer;
+  padding-right: 17px;
+  margin-bottom: 50px
+  &:after
+    background: url("/images/icons_with_bg/arrow-more.svg") no-repeat;
+    background-size: 10px 5px;
+    content: '';
+    display: block;
+    width: 10px;
+    height: 5px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(0,-50%) rotate(-90deg);
+
+
+
+@media only screen and (max-width: 670px) {
+  .container-fluid {
+    padding-top: 55px;
+  }
+  .content-wrapper {
+    margin-bottom: -55px;
+    &:after {
+      height: 55px;
+    }
+  }
+}

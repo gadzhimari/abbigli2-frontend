@@ -1,0 +1,66 @@
+.select-input {
+  width: 100%;
+  font-family: 'clear_sansregular';
+  font-size: 14px;
+  line-height: 18px;
+  padding: 7px 15px 6px 35px;
+  position: relative;
+  background-color: #fff;
+}
+
+.disabled {
+  background: transparent;
+  border-color: transparent;
+  text-overflow: ellipsis;
+}
+
+.select-input__field {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  &[disabled] {
+    -webkit-text-fill-color: rgba(255, 255, 255, 1);
+    color: rgba(255, 255, 255, 1);
+    background: transparent;
+    border-color: transparent;
+    text-overflow: ellipsis;
+    cursor: default;
+  }
+}
+
+.select-input__matches {
+  width: 100%;
+  height: 155px;
+  overflow-y: auto;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  background-color: #fff;
+  padding-bottom: 5px;
+}
+
+.select-input__match {
+  width: 100%;
+  padding: 4px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #1076FF;
+  }
+}
+
+.select-input__active-match {
+  background-color: #1076FF;
+}
+
+.select-input__not-found {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}

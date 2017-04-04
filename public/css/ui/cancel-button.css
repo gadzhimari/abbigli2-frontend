@@ -1,0 +1,28 @@
+.cancel-button {
+  background-color: #fff;
+  font-family: 'SegoeUIBold', sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  color: #1076ff;
+  border: 1px solid #1076ff;
+  padding: 9px 20px;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  text-transform: uppercase;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.cancel-button:hover {
+  background-color: #fafafa;
+}
+
+.cancel-button:active {
+  background-color: #ebebeb;
+}
+
+.buttons-wrap .cancel-button {
+  margin-left: 20px;
+}

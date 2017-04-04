@@ -1,0 +1,118 @@
+.product-page .subscribe-button {
+  background-color: #ff794e;
+}
+
+.product-page .subscribe-button:hover {
+  background-color: #ff5722;
+}
+
+.product-page .subscribe-button:active {
+  background-color: #db4b1d;
+}
+
+.product-card {
+  margin: 0 auto;
+  max-width: 1300px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 50px;
+}
+
+.product-container {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  width: 100%;
+}
+
+.product-preview {
+  margin-right: 40px;
+  width: 36%;
+}
+
+.product-info {
+  width: 60%;
+  position: relative;
+  padding-bottom: 80px;
+}
+
+.product-info .author-subscribe {
+  margin-bottom: 20px;
+}
+
+.product-page .title-icon .icon {
+  fill: #ff5722;
+  background-size: 26px 21px;
+  height: 21px;
+  width: 26px;
+}
+
+.product-slider {
+  position: relative;
+}
+
+.product-price {
+  font-family: 'SegoeUIBold';
+  font-size: 36px;
+  line-height: 40px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 50px;
+}
+
+.product-tags {
+  margin-top: 25px;
+}
+
+.product-tags__title {
+  font-size: 12px;
+  line-height: 16px;
+  color: #90a4ae;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.product-tags .tag-btn {
+  margin: 0 10px 10px 0;
+}
+
+.product-info .social-buttons {
+  display: inline-block;
+  margin-top: 15px;
+  vertical-align: top;
+}
+
+body:not(.isMobile) .product-page .social-btn {
+  height: 40px;
+  margin-right: 10px;
+  width: 40px;
+}
+
+.product-page .comment-wrap {
+  margin-bottom: 50px;
+}
+
+.want-textarea {
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+.want-textarea .buttons-wrap {
+  margin-top: 20px;
+  text-align: right;
+}

@@ -6,6 +6,10 @@ const AssetsPlugin = require('assets-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
+function inRoot(relPath) {
+  return path.resolve(__dirname, relPath);
+}
+
 const jsName = isProd
   ? 'bundle-[hash].js'
   : 'bundle.js';
@@ -15,14 +19,28 @@ const cssName = isProd
   : 'style.css';
 
 const plugins = [
-  new ExtractTextPlugin(cssName, {
+  new ExtractTextPlugin({
+    filename: cssName,
     allChunks: true,
   }),
+  new webpack.LoaderOptionsPlugin({
+    test: /\.styl$/,
+    stylus: {
+      import: path.resolve(__dirname, './app/containers/App/variables.styl'),
+    },
+  })
 ];
+
+if (!isProd) {
+  plugins.push(
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development'),
+    })
+  );
+}
 
 if (isProd) {
   plugins.push(
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new AssetsPlugin({
       filename: 'assets.json',
@@ -35,30 +53,40 @@ const alias = {
   App: path.resolve(__dirname, 'app'),
   Api: path.resolve(__dirname, 'app/api'),
   Tools: path.resolve(__dirname, 'app/tools'),
+  'preact-redux': 'react-redux',
+  config: inRoot('app/config'),
+  components: inRoot('app/components'),
+  containers: inRoot('app/containers'),
+  reducers: inRoot('app/reducers'),
+  ducks: inRoot('app/ducks'),
+  actions: inRoot('app/actions'),
+  utils: inRoot('app/utils'),
 };
 
 const styleLoader = isProd
-  ? ExtractTextPlugin.extract(
-    'style',
-    'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-    'scss'
-  )
-  : [
-    'style?sourceMap',
-    'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
-    'scss',
-  ];
+  ? ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: ['css-loader', 'stylus-loader'],
+  })
+  : ExtractTextPlugin.extract({
+    fallback: 'style-loader?sourceMap',
+    use: ['css-loader', 'stylus-loader'],
+  });
 
 const jsLoader = isProd
-  ? 'babel'
-  : 'babel!eslint-loader';
+  ? 'babel-loader'
+  : 'babel-loader';
+
+const publicPath = isProd
+  ? '/assets/'
+  : '/public/assets';
 
 module.exports = {
-  entry: ['./app/index.jsx'],
+  entry: ['./app/index.js'],
   output: {
     filename: jsName,
     path: path.resolve(__dirname, 'public/assets'),
-    publicPath: '/assets/',
+    publicPath,
   },
   resolve: {
     modules: ['node_modules'],
@@ -69,17 +97,42 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.styl$/,
         loader: styleLoader,
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader',
+        }),
       },
       {
         test: /\.(jsx|js)$/,
         loader: jsLoader,
         exclude: [/node_modules/, /public/],
       },
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+      },
+      {
+        test: /\.(jpg|jpeg|png|gif|ico|eot|svg|ttf|woff|woff2|otf)$/,
+        loader: 'url-loader',
+        query: {
+          limit: 15000,
+          emitFile: true,
+        },
+      },
     ],
   },
   devtool: isProd
-    ? null
+    ? false
     : 'source-map',
+  devServer: {
+    contentBase: path.join(__dirname, 'public'),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+  },
 };

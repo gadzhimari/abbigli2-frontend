@@ -1,0 +1,24 @@
+.product-button {
+  font-family: 'SegoeUI';
+  background-color: #ff794e;
+  font-size: 12px;
+  line-height: 16px;
+  color: #fff;
+  border: 0;
+  padding: 5px 15px;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.product-button:hover {
+  background-color: #ff5722;
+}
+
+.product-button:active {
+  background-color: #db4b1d;
+}

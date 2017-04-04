@@ -1,0 +1,68 @@
+.main-page__banner-wrap {
+  background-image: url("../../images/banner/banner.png");
+  background-color: #40c4ff;
+  background-position: top center;
+  background-repeat: no-repeat;
+  height: 180px;
+  position: relative;
+  width: 100%;
+}
+
+.main-page__banner {
+  width: 100%;
+  height: 100%;
+}
+
+.main-page__banner-text {
+  font-family: 'SegoeUIBold';
+  color: #fff;
+  font-size: 24px;
+  line-height: 32px;
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  left: 50%;
+  width: 100%;
+  padding: 0 15%;
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+.card-item:first-child {
+  display: block;
+  width: 100%;
+  height: 85px;
+  margin-bottom: 10px;
+}
+
+.card-item {
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  width: 48%;
+  height: auto;
+}
+
+.card-item:nth-child(2) {
+  margin-right: 4%;
+}
+
+.card-name-wrap {
+  height: 60px;
+  overflow: hidden;
+  position: relative;
+  width: 100%
+}
+
+.card-name {
+  font-family: 'SegoeUIBold', san-serif;
+  font-size: 22px;
+  line-height: 26px;
+  color: #263238;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  max-width: 95%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

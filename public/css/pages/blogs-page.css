@@ -1,0 +1,103 @@
+.blogs-page .cards-sort__icon .icon {
+  fill: #02a511;
+  background-size: 23px 24px;
+  width: 23px;
+  height: 24px;
+  margin-left: 1px;
+}
+
+.cards-sort .search-input-wrap {
+  display: inline-block;
+  vertical-align: middle;
+  width: 550px;
+  padding: 0 40px 0 10px;
+  margin: -4px 0 0 13%;
+}
+
+.cards-sort .search-input-wrap .search-input {
+  margin: 0 -40px 0 -10px;
+  padding: 6px 39px 6px 9px;
+}
+
+.blog-card {
+  background-color: #fff;
+  display: inline-block;
+  vertical-align: top;
+  height: 500px;
+  margin: 0 5px 10px;
+  position: relative;
+  width: 350px;
+  -webkit-box-shadow: 0 0 4px #8f8e8e;
+  box-shadow: 0 0 4px #8f8e8e;
+}
+
+.blog-card__content {
+  color: #263238;
+  height: 420px;
+  overflow: hidden;
+  display: block;
+}
+
+.blog-card__img {
+  position: relative;
+  height: 260px;
+}
+
+.blog-card__avatar {
+  background-color: #fff;
+  border: 3px solid #fff;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 50%;
+  bottom: -25px;
+  overflow: hidden;
+  -webkit-transform: translate(-50%, 0px);
+  transform: translate(-50%, 0px);
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.blog-card__avatar img {
+  width: 100%;
+  height: 100%;
+}
+
+.blog-card__name {
+  font-family: 'SegoeUIBold';
+  font-size: 14px;
+  line-height: 18px;
+  text-transform: uppercase;
+  margin: 35px 0 15px 0;
+  padding: 0 20px;
+}
+
+.blog-card__text {
+  font-size: 14px;
+  line-height: 18px;
+  padding: 0 20px;
+}
+
+.blog-card__date {
+  font-size: 12px;
+  line-height: 16px;
+  color: #90a4ae;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.blog-card__content:hover .blog-card__name,
+.blog-card__content:hover .blog-card__text {
+  color: #1076ff;
+}
+
+.blog-card .like-comment {
+  padding: 0 20px;
+  text-align: left;
+  margin-top: 15px;
+}
+
+.blog-card .like-comment__button {
+  margin-right: 10px;
+}

@@ -1,0 +1,29 @@
+.textarea-wrap {
+  padding: 0 13px;
+}
+
+.textarea {
+  font-family: 'SegoeUI';
+  background: #fff;
+  border: 1px solid #90a4ae;
+  font-size: 14px;
+  line-height: 18px;
+  padding: 6px 12px;
+  margin: 0 -13px;
+  width: 100%;
+  outline: none;
+  height: 85px;
+  display: block;
+  resize: none;
+  word-wrap: break-word;
+  box-sizing: content-box;
+  -webkit-appearance: none;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.textarea::-moz-placeholder,
+.textarea:-moz-placeholder,
+.textarea:-ms-input-placeholder {
+  color: #90a4ae;
+}

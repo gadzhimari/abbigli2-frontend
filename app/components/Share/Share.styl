@@ -1,0 +1,65 @@
+.share {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+
+  &__icon {
+    background-color: #fff;
+    position: relative;
+    border: 1px solid #b9b9b9;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:after {
+      content: '';
+      display: block;
+      background-image: url("/images/icons_with_bg/share.svg"), url("/images/icons_with_bg/share-hover.svg");
+      background-repeat: no-repeat;
+      background-position: 0 0, -17px 0;
+      background-size: 17px 18px;
+      width: 17px;
+      height: 18px;
+      margin: 4px auto 0;
+    }
+
+    &:hover {
+      border-color: #c7c7c7;
+      &:after {
+        background-position: -17px 0, 0 0;
+      }
+    }
+  }
+
+  .dropdown {
+    padding: 5px;
+    top: 35px;
+    left: -7px;
+    right: auto;
+    box-shadow: none;
+
+    &-corner {
+      border-width: 0 6px 6px 6px;
+      margin: 1px auto 0;
+      &:after {
+        border-width: 0 6px 6px 6px;
+        left: -6px;
+      }
+    }
+  }
+  .social-btn {
+    width: 30px;
+    height: 30px;
+    display: block;
+    margin-bottom: 4px;
+    $:last-child {
+      margin: 0;
+    }
+  }
+  &:hover {
+    .dropdown, .dropdown-corner {
+      display: block;
+    }
+  }
+}
