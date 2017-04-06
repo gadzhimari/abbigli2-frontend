@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
+import { FetchingButton } from 'components';
 
 import { __t } from '../../../i18n/translator';
 
 const WantButton = (props) => {
-  const { showWants, showWantsPopup, sendMessage } = props;
+  const { showWants, showWantsPopup, onChange, onSend, isSending } = props;
 
   return (<div>
     {
@@ -21,20 +22,21 @@ const WantButton = (props) => {
       : (<div className="want-textarea">
         <div className="textarea-wrap">
           <textarea
-            name="contenter" id="contenter"
+            name="contenter"
+            id="contenter"
             className="textarea"
             placeholder={__t('Your message to the member who published this product/service')}
-          >
-          </textarea>
+            onChange={onChange}
+          />
         </div>
         <div className="buttons-wrap">
-          <button
+          <FetchingButton
             className="default-button"
-            type="button"
-            onClick={() => sendMessage(this.textarea.value.trim())}
+            onClick={onSend}
+            isFetching={isSending}
           >
             {__t('Send')}
-          </button>
+          </FetchingButton>
           <button
             className="default-button"
             type="button"
@@ -51,7 +53,8 @@ const WantButton = (props) => {
 WantButton.propTypes = {
   showWants: PropTypes.bool.isRequired,
   showWantsPopup: PropTypes.func.isRequired,
-  sendMessage: PropTypes.func.isRequired,
+  onSend: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default WantButton;

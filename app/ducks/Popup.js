@@ -118,7 +118,7 @@ export function deleteMessagePopup(show = true, id, recipient) {
     type: DELETE_MESSAGE,
     show,
     id,
-    recipient
+    recipient,
   };
 }
 

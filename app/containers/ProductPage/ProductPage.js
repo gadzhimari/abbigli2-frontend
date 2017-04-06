@@ -106,6 +106,7 @@ class ProductPage extends Component {
       itemsPosts,
       showWants,
       isDefined,
+      wantSending,
       data,
       dispatch,
       isAuthenticated,
@@ -140,6 +141,7 @@ class ProductPage extends Component {
                 isAuthenticated={isAuthenticated}
                 dispatch={dispatch}
                 myId={me.id}
+                wantSending={wantSending}
               />
               <CardsWrap title={__t('More from author')}>
                 {
@@ -187,6 +189,7 @@ function mapStateToProps(state) {
     isAuthenticated: false,
     me: {},
   };
+  const dialogs = state.Dialogs || {};
 
   return {
     data,
@@ -199,6 +202,7 @@ function mapStateToProps(state) {
     showWants,
     isAuthenticated: auth.isAuthenticated,
     me: auth.me,
+    wantSending: dialogs.isSending,
   };
 }
 

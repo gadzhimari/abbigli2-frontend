@@ -2,7 +2,7 @@ import { API_URL } from 'config';
 import { messagePopup, statusPopup, wantsPopup, deleteMessagePopup } from 'ducks/Popup'
 import { getJsonFromStorage } from 'utils/functions';
 
-const ENDPOINT = API_URL+'my-profile/dialogs/';
+const ENDPOINT = API_URL + 'my-profile/dialogs/';
 
 // Actions
 const REQUEST = 'abbigli/Dialogs/REQUEST';
@@ -12,10 +12,14 @@ const DELETE = 'abbigli/Dialogs/DELETE';
 const SET_ACTIVE = 'abbigli/Dialogs/SET_ACTIVE';
 const MESSAGES_REQUEST = 'abbigli/Dialogs/MESSAGES_REQUEST';
 const SET_MESSAGES = 'abbigli/Dialogs/SET_MESSAGES';
+const PUSH_MESSAGE = 'abbigli/Dialogs/PUSH_MESSAGE';
+const MESSAGE_SENDING = 'abbigli/Dialogs/MESSAGE_SENDING';
+const MESSAGE_SENDED = 'abbigli/Dialogs/MESSAGE_SENDED';
 const PRIVATE_MESSAGE = 'private message';
 
 const initialState = {
   isFetching: true,
+  isSending: false,
   dialogs: [],
   isDelete: false,
   activeDialog: null,
@@ -31,10 +35,20 @@ export default function (state = initialState, action = {}) {
         dialogs: action.data,
         isFetching: false,
       });
-    case DELETE:
+    case DELETE: {
+      const newMessages = state.activeDialog == action.id
+        ? []
+        : state.messages;
+      const newActiveDialog = state.activeDialog == action.id
+        ? null
+        : state.activeDialog;
       return Object.assign({}, state, {
-        isDelete: true,
+        dialogs: state.dialogs
+          .filter(item => item.id !== action.id),
+        messages: newMessages,
+        activeDialog: newActiveDialog,
       });
+    }
     case REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
@@ -57,6 +71,31 @@ export default function (state = initialState, action = {}) {
         messages: action.messages,
         messagesIsFetching: false,
       });
+    case MESSAGE_SENDED:
+      return Object.assign({}, state, {
+        isSending: false,
+      });
+    case MESSAGE_SENDING:
+      return Object.assign({}, state, {
+        isSending: true,
+      });
+    case PUSH_MESSAGE: {
+      const newMessages = [...state.messages];
+      const newDialogs = state.dialogs.map((dialog) => {
+        if (dialog.id === action.dialogID) {
+          dialog.last_message_text = action.message.body;
+          dialog.last_message_sent = action.message.temp_sent_at;
+        }
+
+        return dialog;
+      });
+      newMessages.push(action.message);
+
+      return Object.assign({}, state, {
+        messages: newMessages,
+        dialogs: newDialogs,
+      });
+    }
     default:
       return state;
   }
@@ -75,10 +114,10 @@ export function responseData() {
   };
 }
 
-export function deleteData(deleted = true) {
+export function deleteData(id) {
   return {
-    type: RESPONSE,
-    deleted,
+    type: DELETE,
+    id,
   };
 }
 
@@ -109,6 +148,16 @@ export function setMessages(messages) {
   };
 }
 
+export function pushMessage(message, dialogID) {
+  return {
+    type: PUSH_MESSAGE,
+    message,
+    dialogID,
+  };
+}
+
+const messageSending = () => ({ type: MESSAGE_SENDING });
+const messageSended = () => ({ type: MESSAGE_SENDED });
 
 export function deleteDialog(id) {
   const token = getJsonFromStorage('id_token') || null;
@@ -124,14 +173,10 @@ export function deleteDialog(id) {
   }
 
   return (dispatch) => {
-    dispatch(requestData());
+    dispatch(deleteData(id));
+    dispatch(deleteMessagePopup(false));
 
-    return fetch(ENDPOINT + id + '/', config)
-    .then(() => {
-      dispatch(deleteMessagePopup(false));
-      dispatch(responseData());
-      dispatch(deleteData());
-    });
+    return fetch(ENDPOINT + id + '/', config);
   };
 }
 
@@ -188,78 +233,100 @@ export function loadMessages(id) {
 }
 
 export function sendPostMessage(sender, post, message) {
-  let create_data = {body: `subject=${post.title}&recipient=${sender}&post=${post.id}`}
+  const createFormData = new FormData();
+  const sendFormData = new FormData();
 
-  let senderId = sender || localStorage.getItem('id')
-  let token = getJsonFromStorage('id_token') || null;
-  let config = {
+  createFormData.append('subject', post.title);
+  createFormData.append('post', post.id);
+  createFormData.append('recipient', sender);
+
+  const createData = {
+    body: createFormData,
+  };
+  const token = getJsonFromStorage('id_token') || null;
+  const config = {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    }
+    headers: {},
+  };
+
+  if (token) {
+    config.headers.Authorization = `JWT ${token}`;
   }
-    if(token){config.headers.Authorization = `JWT ${token}`;}
-  return dispatch => {
 
-    dispatch(requestData());
+  return (dispatch) => {
+    dispatch(messageSending());
 
-    return fetch(ENDPOINT, Object.assign(config, create_data))
+    return fetch(ENDPOINT, Object.assign(config, createData))
       .then(res => res.json())
       .then((response) => {
-        if(response){
+        const msg = `<span class="title-message"><a href="${response.post.url}">
+          Link to product: ${response.post.title}
+        </a></span><br />
+        <span class="price">
+          Title: ${response.post.title}
+        </a></span><br />
+        <span class="price">
+          Price: $${response.post.price}
+        </span><br />
+          Message: ${message}<br />
+        <img src="https://abbigli.com/thumbs/unsafe/0x196/${response.post.image}" />
+        `;
+        sendFormData.append('body', msg);
 
-          var msg = ['<span class="title-message"><a href="', response.post.url,
-            '">',
-            response.post.title,
-            '</a></span><br><span class="price">',
-            response.post.price,
-            ' ',
-            'руб.', '</span> <br>', message, '<br/><img src="' + 'https://abbigli.com/thumbs/unsafe/0x196/' + response.post.image + '"/>'].join('');
-
-          return fetch(response.url, Object.assign(config, {body: `body=${msg}`}))
-            .then(res => res.json())
-            .then(response => {
-              if(response){
-                dispatch(responseData())
-                dispatch(wantsPopup(false))
-                dispatch(statusPopup(true))
-              }
-            }).catch(err => console.log("Error: ", err))
-        }
-      }).catch(err => console.log("Error: ", err))
-  }
+        return fetch(response.url, Object.assign(config, { body: sendFormData }))
+          .then((res) => {
+            if (res) {
+              dispatch(messageSended());
+              dispatch(wantsPopup(false));
+              dispatch(statusPopup(true));
+            }
+          });
+      });
+  };
 }
 
-export function sendPrivateMessage(sender, message) {
+export function sendPrivateMessage(sender, message, dialogID) {
+  const formData = new FormData();
+  const createDialogData = new FormData();
 
-  let create_data = {body: `subject=${PRIVATE_MESSAGE}&recipient=${sender}`}
-  let send_data = {body: `body=${message}`}
+  formData.append('body', message.body);
+  createDialogData.append('subject', PRIVATE_MESSAGE);
+  createDialogData.append('recipient', sender);
 
-  let token = getJsonFromStorage('id_token') || null;
-  let config = {
+  const createData = {
+    body: createDialogData,
+  };
+  const sendData = {
+    body: formData,
+  };
+
+  const token = getJsonFromStorage('id_token') || null;
+  const config = {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    headers: {},
+  };
+
+  if (token) {
+    config.headers.Authorization = `JWT ${token}`;
+  }
+
+  return (dispatch) => {
+    if (dialogID) {
+      dispatch(pushMessage(message, dialogID));
+
+      return fetch(`${API_URL}my-profile/dialogs/${dialogID}/`, Object.assign(config, sendData));
     }
-  }
-    if(token){config.headers.Authorization = `JWT ${token}`;}
-  return dispatch => {
 
-    dispatch(requestData());
+    dispatch(messageSending());
 
-    return fetch(ENDPOINT, Object.assign(config, create_data))
+    return fetch(`${API_URL}my-profile/dialogs/`, Object.assign(config, createData))
       .then(res => res.json())
-      .then((response) => {
-        if(response){
-          return fetch(response.url, Object.assign(config, send_data))
-            .then(res => res.json())
-            .then(response => {
-              if(response){
-                dispatch(messagePopup(false))
-                dispatch(statusPopup(true))
-              }
-            }).catch(err => console.log("Error: ", err))
-        }
-      }).catch(err => console.log("Error: ", err))
-  }
+      .then(response => fetch(response.url, Object.assign(config, sendData))
+        .then(() => {
+          dispatch(messagePopup(false));
+          dispatch(statusPopup(true));
+          dispatch(messageSended());
+        })
+      );
+  };
 }

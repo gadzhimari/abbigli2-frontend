@@ -131,6 +131,7 @@ class Tag extends Component {
         const template = (
           <Link
             to={`/tags/${routeParams.tags}/${i}`}
+            key={`${i}-pagelink`}
             className={`page__link ${activeLink === i.toString() ? 'page__link--active' : ''}`}
           >
             {i}

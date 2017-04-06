@@ -15,10 +15,20 @@ class DialogsBlock extends Component {
     super(props);
     this.state = {
       query: '',
-      messageGroups: [],
-      tempMessage: '',
+      messageValue: '',
     };
   }
+
+  componentDidUpdate(prevProps) {
+    const { activeDialog } = this.props;
+
+    if (prevProps.activeDialog !== activeDialog) {
+      this.setState({
+        messageValue: '',
+      });
+    }
+  }
+  
 
   onClickDialog = (dialogId) => {
     const { dispatch } = this.props;
@@ -30,29 +40,40 @@ class DialogsBlock extends Component {
   onSendMessage = (e) => {
     e.preventDefault();
 
-    const { dispatch } = this.props;
-    let array = this.state.loadMessages.slice()
-    let object = {
-      body: this.refs.messageText.value.trim(),
+    const { dispatch, id, activeDialog, dialogs } = this.props;
+    const { messageValue } = this.state;
+    const object = {
+      body: messageValue,
       sender: {
-        id: this.props.id
+        id: Number(id),
       },
-      temp_sent_at: new Date()
-    }
-    array.push(object)
+      temp_sent_at: new Date(),
+    };
+    const recipient = dialogs
+      .filter(dialog => dialog.id === activeDialog)[0].recipient;
 
+    dispatch(sendPrivateMessage(recipient.id, object, activeDialog));
     this.setState({
-      loadMessages: array
-    })
-    this.sendPrivateMessage(this.state.tempId, this.refs.messageText.value.trim())
+      messageValue: '',
+    });
+  }
 
-    this.refs.messageText.value = "";
+  onChangeMessage = ({ target }) => {
+    this.setState({
+      messageValue: target.value,
+    });
   }
 
   doSearch = ({ target }) => {
     this.setState({
       query: target.value,
     });
+  }
+
+  deleteDialog = (id, recipient) => {
+    const { dispatch } = this.props;
+
+    dispatch(deleteMessagePopup(true, id, recipient));
   }
 
   scrollMessages = () => {
@@ -72,9 +93,9 @@ class DialogsBlock extends Component {
       if (daysDiff > 1) {
         groupName = sentAt.format('D MMMM');
       } else if (daysDiff == 1) {
-        groupName = 'Вчера';
+        groupName = 'Yesterday';
       } else {
-        groupName = 'Сегодня';
+        groupName = 'Today';
       }
     }
 
@@ -92,7 +113,7 @@ class DialogsBlock extends Component {
       messagesIsFetching,
     } = this.props;
 
-    const { query } = this.state;
+    const { query, messageValue } = this.state;
 
     const datedDialogs = dialogs.map((item) => {
       const newItem = item;
@@ -194,6 +215,7 @@ class DialogsBlock extends Component {
                 filter={query}
                 dialogClickHandler={this.onClickDialog}
                 activeDialog={activeDialog}
+                deleteDialog={this.deleteDialog}
               />
             </div>
             <div className="messages__chat-wrap">
@@ -212,6 +234,9 @@ class DialogsBlock extends Component {
                   : <MessagesList
                     list={formatedMessages}
                     fetchingStatus={messagesIsFetching}
+                    onChangeMessage={this.onChangeMessage}
+                    messageValue={messageValue}
+                    onSendMessage={this.onSendMessage}
                   />
               }
             </div>
@@ -225,7 +250,9 @@ class DialogsBlock extends Component {
 DialogsBlock.propTypes = {
   dispatch: PropTypes.func.isRequired,
   dialogs: PropTypes.array.isRequired,
+  messages: PropTypes.array.isRequired,
   activeDialog: PropTypes.any,
+  messagesIsFetching: PropTypes.bool.isRequired,
 };
 
 export default DialogsBlock;

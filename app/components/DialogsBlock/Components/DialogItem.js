@@ -1,7 +1,12 @@
 import React, { PropTypes } from 'react';
 
 const DialogItem = (props) => {
-  const { item, clickHandler, isActive } = props;
+  const {
+    item,
+    clickHandler,
+    isActive,
+    deleteDialog,
+  } = props;
   const dialogDefaultClass = item.unread_num !== 0
     ? 'message-item new'
     : 'message-item';
@@ -12,10 +17,17 @@ const DialogItem = (props) => {
   const dialogClick = () => {
     clickHandler(item.id);
   };
+  const removeDialog = () => {
+    deleteDialog(item.id, item.recipient.profile_name);
+  };
 
   const userName = item.recipient && item.recipient.profile_name
     ? item.recipient.profile_name
     : `User with ID: ${item.recipient.id}`;
+
+  const lastMessage = item.last_message_text.includes('title-message')
+    ? 'Product message'
+    : item.last_message_text;
 
   return (
     <div
@@ -62,7 +74,7 @@ const DialogItem = (props) => {
             }
         </div>
         <div className="message__text">
-          {item.last_message_text}
+          {lastMessage}
         </div>
         {
           item.unread_num !== 0
@@ -72,7 +84,10 @@ const DialogItem = (props) => {
           </div>
         }
       </div>
-      <div className="message__delete">
+      <div
+        className="message__delete"
+        onClick={removeDialog}
+      >
         <svg
           className="icon"
         >
@@ -89,6 +104,7 @@ const DialogItem = (props) => {
 DialogItem.propTypes = {
   item: PropTypes.object.isRequired,
   clickHandler: PropTypes.func.isRequired,
+  deleteDialog: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
 };
 

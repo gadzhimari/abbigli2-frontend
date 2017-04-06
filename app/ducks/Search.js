@@ -1,7 +1,7 @@
 // Actions
 
 const SET_TAGS = 'abbigli/Search/SET_TAGS';
-const ADD_TAG = 'abbigli/Search/SET_TAGS';
+const ADD_TAG = 'abbigli/Search/ADD_TAGS';
 const DELETE_TAG = 'abbigli/Search/DELETE_TAG';
 const DELETE_ALL_TAGS = 'abbigli/Search/DELETE_ALL_TAGS';
 

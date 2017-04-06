@@ -119,6 +119,7 @@ class App extends Component {
       userId,
       seo,
       location,
+      messagesSending,
     } = this.props;
 
     const seoData = seo.data.filter((item) => item.url == location.pathname)[0];
@@ -224,6 +225,7 @@ class App extends Component {
               dispatch={dispatch}
               userName={userName}
               userId={userId}
+              sending={messagesSending}
             />
 
           }
@@ -259,8 +261,8 @@ function mapStateToProps(state) {
   const {
     showLogin, showRegister, showDeleteMessage, userId, recipient,
     showReset, showMessage, showStatus, userName,
-
     sendMessageYourselfError, showConfirm, showSupport, showSearch, dialogId } = state.Popup;
+  const messages = state.Dialogs || {};
 
   const seo = (state.Seo) || { isFetching: true,  data: []  };
   const settings = (state.Settings) || { isFetching: true,  data: []  };
@@ -283,8 +285,9 @@ function mapStateToProps(state) {
     showSupport,
     showSearch,
     userName,
-    sendMessageYourselfError
+    sendMessageYourselfError,
+    messagesSending: messages.isSending,
   }
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps)(App);

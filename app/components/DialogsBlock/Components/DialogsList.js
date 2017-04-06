@@ -7,6 +7,7 @@ const DialogsList = (props) => {
     filter,
     dialogClickHandler,
     activeDialog,
+    deleteDialog,
   } = props;
   let dialogList;
 
@@ -26,6 +27,7 @@ const DialogsList = (props) => {
         item={item}
         key={item.id}
         clickHandler={dialogClickHandler}
+        deleteDialog={deleteDialog}
       />)
     }
   </div>);
@@ -36,6 +38,7 @@ DialogsList.propTypes = {
   filter: PropTypes.string.isRequired,
   activeDialog: PropTypes.any,
   dialogClickHandler: PropTypes.func.isRequired,
+  deleteDialog: PropTypes.func.isRequired,
 };
 
 export default DialogsList;

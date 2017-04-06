@@ -49,6 +49,8 @@ class TagsBar extends Component {
   }
 
   updateWrapperWidth = () => {
+    if (!this.sliderWrapper) return;
+
     this.setState({
       sliderWrapperWidth: this.sliderWrapper.offsetWidth,
     });
