@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
+import equal from 'deep-equal';
+
 import { Link } from 'components';
 import TagsSearchForm from '../TagsSearchForm';
-
-import { withRouter } from 'react-router';
-import { connect } from 'preact-redux';
 
 import { setTags, deleteTag, deleteAllTags } from 'ducks/Search';
 
@@ -50,7 +51,8 @@ class Search extends Component {
 
   componentDidUpdate(prevProps) {
     const { tagList, params } = this.props;
-    if (prevProps.tagList !== tagList) {
+
+    if (!equal(prevProps.tagList, tagList)) {
       this.searchByTags();
     }
 
@@ -94,7 +96,6 @@ class Search extends Component {
 
   searchByTags = () => {
     const { router, tagList } = this.props;
-
     if (!tagList.length) {
       router.push('/');
       return;

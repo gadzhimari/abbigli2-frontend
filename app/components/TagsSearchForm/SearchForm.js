@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { API_URL } from 'config';
+import equal from 'deep-equal';
 
 import ScrollBar from '../ScrollBar';
 
@@ -60,7 +61,6 @@ class SearchForm extends Component {
       });
     }
   }
-  
 
   componentDidUpdate(prevProps) {
     const { mustFocus } = this.state;
@@ -74,9 +74,7 @@ class SearchForm extends Component {
       this.input.focus();
     }
 
-    console.log('update', prevProps.tags !== tags);
-
-    if (prevProps.tags !== tags) {
+    if (!equal(prevProps.tags, tags)) {
       const newValue = tags
         .map(tag => tag.text)
         .join(' ');
