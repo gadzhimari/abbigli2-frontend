@@ -45,7 +45,7 @@ class Tag extends Component {
     this.loadRelativeTags();
   }
 
-  componentWillUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     const { routeParams } = this.props;
 
     if (prevProps.routeParams !== routeParams) {
@@ -62,7 +62,6 @@ class Tag extends Component {
       this.loadRelativeTags();
     }
   }
-  
 
   loadRelativeTags = () => {
     const { routeParams } = this.props;
@@ -104,8 +103,14 @@ class Tag extends Component {
         return response.json();
       })
       .then(results => {
-        const array = result.concat(results.results);
+        let array;
         const pageCount = Math.ceil(results.count / 30);
+
+        if (page !== 1) {
+          array = result.concat(results.results);
+        } else {
+          array = results.results;
+        }
 
         this.setState({
           result: array,

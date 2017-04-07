@@ -10,6 +10,9 @@ const DialogItem = (props) => {
   const dialogDefaultClass = item.unread_num !== 0
     ? 'message-item new'
     : 'message-item';
+  const dialogText = item.last_message_text
+    ? item.last_message_text
+    : '';
   const dialogActiveClass = isActive
     ? `${dialogDefaultClass} active`
     : dialogDefaultClass;
@@ -25,7 +28,7 @@ const DialogItem = (props) => {
     ? item.recipient.profile_name
     : `User with ID: ${item.recipient.id}`;
 
-  const lastMessage = item.last_message_text.includes('title-message')
+  const lastMessage = dialogText.includes('title-message')
     ? 'Product message'
     : item.last_message_text;
 

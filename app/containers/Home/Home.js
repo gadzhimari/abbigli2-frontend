@@ -140,7 +140,7 @@ class Home extends Component {
         <HR color={'orange'} />
 
         <div className="map">
-          <img className="map-img" src="/media/map.jpg" />
+          <img className="map-img" src="/images/map.jpg" />
         </div>
 
         <div className="pre-footer">
