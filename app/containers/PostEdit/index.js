@@ -290,6 +290,10 @@ class PostEdit extends Component {
       city = '';
     }
 
+    const newPrice = this.state.price
+      ? this.state.price
+      : 0;
+
     if (token) {
       config = {
         method: 'PATCH',
@@ -300,7 +304,7 @@ class PostEdit extends Component {
         body: JSON.stringify({
           title: this.state.title,
           content: this.state.content,
-          price: this.state.price,
+          price: newPrice,
           tags: this.state.tags,
           type: this.state.type,
           city,

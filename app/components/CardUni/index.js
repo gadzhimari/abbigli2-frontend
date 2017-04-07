@@ -55,7 +55,10 @@ class CardUni extends Component {
 
     return (
       <div className="tile">
-        <Subscription />
+        {/*
+          Hided for this relise
+          <Subscription />
+        */}
         <div
           className="tile__image-holder"
         >
