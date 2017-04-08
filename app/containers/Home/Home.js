@@ -17,6 +17,7 @@ import {
 import { fetchData as fetchDataBlogs } from 'ducks/Blogs';
 import { fetchData as fetchDataEvents } from 'ducks/Events';
 import { fetchData as fetchDataProducts } from 'ducks/Products';
+import { registerPopup } from 'ducks/Popup';
 import { __t } from './../../i18n/translator';
 
 import './Home.styl';
@@ -44,6 +45,12 @@ class Home extends Component {
     });
   }
 
+  showRegister = () => {
+    const { dispatch } = this.props;
+
+    dispatch(registerPopup());
+  }
+
   render() {
     const {
       isFetchingSections,
@@ -54,6 +61,7 @@ class Home extends Component {
       itemsEvents,
       isFetchingProducts,
       itemsProducts,
+      isAuthenticated,
     } = this.props;
 
     return (
@@ -66,7 +74,10 @@ class Home extends Component {
         }
         <Loading loading={isFetchingSections} />
 
-        <BannerBlue />
+        <BannerBlue
+          hideJoin={isAuthenticated}
+          join={this.showRegister}
+        />
 
         <HR color={'blue'} />
 
@@ -181,14 +192,15 @@ Home.propTypes = {
   isFetchingEvents: PropTypes.bool.isRequired,
   itemsProducts: PropTypes.array.isRequired,
   isFetchingProducts: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired
-}
+  dispatch: PropTypes.func.isRequired,
+};
 
 function mapStateToProps(state) {
   const sections = state.Sections;
   const blogs = state.Blogs;
   const events = state.Events;
   const products = state.Products;
+  const auth = state.Auth || {};
 
   return {
     itemsSections: sections.items,
@@ -202,7 +214,8 @@ function mapStateToProps(state) {
 
     itemsProducts: products.items,
     isFetchingProducts: products.isFetching,
-  }
+    isAuthenticated: auth.isAuthenticated,
+  };
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(Home);

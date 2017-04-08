@@ -7,8 +7,20 @@ function BannerOld(props) {
   return (
       <div className="main-page__banner-wrap legacy">
         <div className="main-page__banner-text">
-           {__t('bannerOld.text')}
-          <button className="button-banner" type="button">{__t('join!')}</button></div>
+          {__t('bannerOld.text')}
+          
+          {
+            !props.hideJoin
+              &&
+            <button
+              className="button-banner"
+              type="button"
+              onClick={props.join}
+            >
+              {__t('join!')}
+            </button>
+          }
+        </div>
       </div>
   );
 }
