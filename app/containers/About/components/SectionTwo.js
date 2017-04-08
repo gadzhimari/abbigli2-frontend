@@ -25,7 +25,7 @@ class SectionTwo extends Component {
     return (
       <section id="about-section-2" className="about-section">
           <Slider {...sliderOption}>
-            <div className="about-slide">
+            <div>
               <div className="slide-container">
               <div className="about-slide__text">
                 {__t('about.page.slider1.slide1')}
@@ -38,7 +38,7 @@ class SectionTwo extends Component {
               </div>
             </div>
             </div>
-            <div className="about-slide">
+            <div>
               <div className="slide-container">
               <div className="about-slide__text">
                 {__t('about.page.slider1.slide2')}

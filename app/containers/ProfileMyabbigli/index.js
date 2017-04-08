@@ -83,7 +83,7 @@ class ProfileMyabbigli extends Component {
               className="card-add-wrap"
               to={'/post/new'}
             >
-              <img className="card-img" src="/static/new_theme/images/card-bg.png" style={{ opacity: 0 }} />
+              <img className="card-img" src="/images/card-bg.png" style={{ opacity: 0 }} />
               <div className="card-add">
                 <div className="card-add__text">
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

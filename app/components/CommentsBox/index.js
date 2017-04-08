@@ -153,8 +153,11 @@ class CommentsBox extends Component {
             </svg>
               { __t('Collapse.comments') }</label>
           <div className="comment-items">
-            { list.length > 0 && list.map((item) => (
-              <div className="comment-item">
+            { list.length > 0 && list.map((item, i) => (
+              <div
+                className="comment-item"
+                key={i}
+              >
                 <Link to={`/profile/${item.user.id}/`} className="comment-avatar">
                   {
                     item.user.avatar ?

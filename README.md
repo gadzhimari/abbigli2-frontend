@@ -1,7 +1,14 @@
-##pupie-isomorph
+# Abbigli Frontend
 
-Starter-kit for building isomorphic applications with react and redux
+## Stack
+- React
+- Redux
+- Express
 
-## Features
+## Build instruction
 
-coming soon...
+Via ssh on remote server write command:
+
+```
+    git pull --rebase origin master && npm i && npm run build && pm2 stop 2 && npm start
+```

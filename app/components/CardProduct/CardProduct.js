@@ -273,12 +273,14 @@ class CardProduct extends Component {
               {likeCount}
             </div>
             <div className="like-comment__button message">
-              <a className="icon-wrap" href="/post/olenenok-rudolf-amigurumi#comments">
+              <Link
+                className="icon-wrap"
+                to={`/${typesUrl[type]}/${slug}`}
+              >
                 <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
                   <path d="M0,8V0.8C0,0.359,0.36,0,0.799,0h10.402C11.641,0,12,0.359,12,0.8V12L8.799,8.799h-8C0.36,8.799,0,8.44,0,8z" />
                 </svg>
-
-              </a>
+              </Link>
               {comments_num}
             </div>
           </div>

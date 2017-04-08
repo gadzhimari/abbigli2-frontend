@@ -14,7 +14,7 @@ const FaqTabs = (props) => (
           value="on"
           onChange={props.func}
         />
-        <label className="faq-tab__name faq-registration" for="faq-tab-1">
+        <label className="faq-tab__name faq-registration" htmlFor="faq-tab-1">
           <div className="icon" />
           {__t('faq.tabs.registration.title')}
         </label>
@@ -34,7 +34,7 @@ const FaqTabs = (props) => (
           value="on"
           onChange={props.func}
         />
-        <label className="faq-tab__name faq-project" for="faq-tab-2">
+        <label className="faq-tab__name faq-project" htmlFor="faq-tab-2">
           <div className="icon" />
           {__t('faq.tabs.work.title')}
         </label>
@@ -54,7 +54,7 @@ const FaqTabs = (props) => (
           value="on"
           onChange={props.func}
         />
-        <label className="faq-tab__name faq-profile" for="faq-tab-3">
+        <label className="faq-tab__name faq-profile" htmlFor="faq-tab-3">
           <div className="icon" />
           {__t('faq.tabs.profile.title')}
         </label>
@@ -74,7 +74,7 @@ const FaqTabs = (props) => (
           value="on"
           onChange={props.func}
         />
-        <label className="faq-tab__name faq-message" for="faq-tab-4">
+        <label className="faq-tab__name faq-message" htmlFor="faq-tab-4">
           <div className="icon" />
           {__t('faq.tabs.message.title')}
           </label>
@@ -94,7 +94,7 @@ const FaqTabs = (props) => (
           value="on"
           onChange={props.func}
         />
-        <label className="faq-tab__name faq-post" for="faq-tab-5">
+        <label className="faq-tab__name faq-post" htmlFor="faq-tab-5">
           <div className="icon" />
           {__t('faq.tabs.post.title')}
             </label>
@@ -114,7 +114,7 @@ const FaqTabs = (props) => (
           value="on"
           onChange={props.func}
         />
-        <label className="faq-tab__name faq-want" for="faq-tab-6">
+        <label className="faq-tab__name faq-want" htmlFor="faq-tab-6">
           <div className="icon" />
           {__t('faq.tabs.want.title')}
               </label>
@@ -134,7 +134,7 @@ const FaqTabs = (props) => (
           value="on"
           onChange={props.func}
         />
-        <label className="faq-tab__name faq-favourite" for="faq-tab-7">
+        <label className="faq-tab__name faq-favourite" htmlFor="faq-tab-7">
           <div className="icon" />
           {__t('faq.tabs.favourite.title')}
               </label>
@@ -156,7 +156,7 @@ const FaqTabs = (props) => (
           value="on"
           onChange={props.func}
         />
-        <label className="faq-tab__name faq-tags" for="faq-tab-8">
+        <label className="faq-tab__name faq-tags" htmlFor="faq-tab-8">
           <div className="icon" />
           {__t('faq.tabs.tags.title')}
                 </label>
@@ -176,7 +176,7 @@ const FaqTabs = (props) => (
           value="on"
           onChange={props.func}
         />
-        <label className="faq-tab__name faq-feed" for="faq-tab-9">
+        <label className="faq-tab__name faq-feed" htmlFor="faq-tab-9">
           <div className="icon" />
           {__t('faq.tabs.feed.title')}
         </label>
@@ -197,7 +197,7 @@ const FaqTabs = (props) => (
           value="on"
           onChange={props.func}
         />
-        <label className="faq-tab__name faq-account" for="faq-tab-10">
+        <label className="faq-tab__name faq-account" htmlFor="faq-tab-10">
           <div className="icon" />
           {__t('faq.tabs.account.title')}
         </label>

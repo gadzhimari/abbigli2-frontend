@@ -10,7 +10,17 @@ function BannerBlue(props) {
         <div className="main-page__bannerblue-text">
           {__t('bannerBlue.text')}
           <br/>
-          <a className="join-bannerblue">{__t('join!')} <div className="icon"></div></a>
+          {
+            !props.hideJoin
+              &&
+          <a
+            className="join-bannerblue"
+            onClick={props.join}
+          >
+            {__t('join!')}
+            <div className="icon"></div>
+          </a>
+          }
         </div>
       </div>
     </div>

@@ -15,6 +15,8 @@ import { fetchData, setData } from 'ducks/PostsSpecific';
 import { fetchData as fetchDataBlogs, setData as setDataBlogs } from 'ducks/PostsSpecific'
 import { Link } from 'react-router';
 
+import { registerPopup } from 'ducks/Popup';
+
 
 class SpecificPostsPage extends Component {
 
@@ -30,6 +32,12 @@ class SpecificPostsPage extends Component {
       const { dispatch } = this.props;
       dispatch(fetchDataBlogs(nextProps.route.slug));
     }
+  }
+
+  showRegister = () => {
+    const { dispatch } = this.props;
+
+    dispatch(registerPopup());
   }
 
   render() {
@@ -51,7 +59,10 @@ class SpecificPostsPage extends Component {
 
     return (
       <div className="container-fluid tag-page">
-        <BannerOld></BannerOld>
+        <BannerOld
+          hideJoin={isAuthenticated}
+          join={this.showRegister}
+        />
 
 
 

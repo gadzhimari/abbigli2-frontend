@@ -34,10 +34,6 @@ class ProductPage extends Component {
     };
   }
 
-  componentDidUpdate() {
-    console.log(this.props);
-  }
-
   onUpdate(e) {
     this.setState({
       message: e.target.value,
