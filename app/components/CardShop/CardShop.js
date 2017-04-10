@@ -23,7 +23,7 @@ function CardShop(props) {
       </div>
       <div className="card-shop__info">
         <a className="card-shop__avatar">
-          <img src="https://abbigli.com/thumbs/unsafe/25x25/http://beta.abbigli.ru/media/profile/b/69b85efa-eb75-4b36-83a8-70a810b78a80.jpg" />
+          <img src="https://abbigli.com/thumbs/unsafe/25x25/https://abbigli.com/media/profile/b/69b85efa-eb75-4b36-83a8-70a810b78a80.jpg" />
         </a>
         <a className="card-shop__name">Цветочная поляна</a>
         <div className="card-shop__rating">

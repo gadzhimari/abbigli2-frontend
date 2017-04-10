@@ -100,7 +100,7 @@ class Home extends Component {
         <Loading loading={isFetchingProducts} />
 
         <Link to="/new-products/" className="show-more">
-          { __t('read more') }
+          { __t('Explore') }
         </Link>
 
         <HR color={'green'} />
@@ -145,7 +145,7 @@ class Home extends Component {
         <Loading loading={isFetchingEvents} />
 
         <Link to="/events" className="show-more">
-          { __t('read more') }
+          { __t('Continue') }
         </Link>
 
         <HR color={'orange'} />
