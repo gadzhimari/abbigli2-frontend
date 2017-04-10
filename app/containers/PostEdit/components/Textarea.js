@@ -14,10 +14,6 @@ class Textarea extends Component {
     this.activateRedactor();
   }
 
-  shouldComponentUpdate() {
-    return false;
-  }
-
   activateRedactor = () => {
     const { onChange } = this.props;
 
@@ -86,7 +82,7 @@ class Textarea extends Component {
         <textarea
           id="content"
           value={this.props.value}
-        ></textarea>
+        />
       </div>
     );
   }

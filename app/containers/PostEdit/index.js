@@ -24,6 +24,7 @@ import {
   SelectInput,
   UploadingImage,
   FetchingButton,
+  Loading,
 } from 'components';
 
 import 'react-day-picker/lib/style.css';
@@ -68,6 +69,7 @@ class PostEdit extends Component {
       dayTo: '',
       value: null,
       firefoxBugStop: false,
+      isFetching: true,
       currentCity: null,
       isSaving: false,
       errors: {},
@@ -106,6 +108,7 @@ class PostEdit extends Component {
             title: responseData.title,
             slug: responseData.slug,
             currentCity: responseData.city,
+            isFetching: false,
           });
         }
       });
@@ -389,6 +392,7 @@ class PostEdit extends Component {
       tags,
       title,
       price,
+      isFetching,
     } = this.state;
 
     const { sections } = this.props;
@@ -419,6 +423,12 @@ class PostEdit extends Component {
     const sectionErrorClass = (errors.sections && !this.state.sections.length)
       ? ' post-create__error-input'
       : '';
+
+    if (isFetching) {
+      return (<div className="container-fluid">
+        <Loading loading={isFetching} />
+      </div>);
+    }
 
     return (
       <div className="container-fluid create-post-page" id="page-container">
