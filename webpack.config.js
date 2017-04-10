@@ -45,6 +45,12 @@ if (isProd) {
     new AssetsPlugin({
       filename: 'assets.json',
       path: path.join(__dirname, 'public', 'assets'),
+    }),
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production'),
+      },
     })
   );
 }
