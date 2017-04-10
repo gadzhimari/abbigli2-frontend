@@ -168,7 +168,7 @@ export function loginUser(creds) {
     // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestLogin(creds));
 
-    return fetch(`${DOMAIN_URL}get-token/`, config)
+    return fetch(`${DOMAIN_URL}api/get-token/`, config)
       .then(response =>
         response.json().then(user => ({ user, response }))
       ).then(({user, response}) => {
