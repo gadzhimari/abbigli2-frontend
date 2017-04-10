@@ -39,7 +39,7 @@ class CardUni extends Component {
       liked
     } = this.props.item;
 
-    const { dispatch } = this.props;
+    const { dispatch, priceTemplate } = this.props;
 
     const types_url = {
       1: 'post',
@@ -135,7 +135,7 @@ class CardUni extends Component {
           {
             price &&
             <div className="tile__price">
-              {price} р.
+              {priceTemplate.replace('?', price)}
             </div>
           }
 

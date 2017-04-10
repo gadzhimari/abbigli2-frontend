@@ -47,7 +47,7 @@ module.exports = (req, res) => {
     }
 
     if (!renderProps) {
-      return res.status(404).send('Not found');
+      return res.status(404).sendFile(path.resolve(__dirname, '../templates/404.html'));
     }
 
     return res.render('index', {

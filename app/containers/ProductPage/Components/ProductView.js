@@ -53,6 +53,7 @@ class ProductView extends Component {
       dispatch,
       myId,
       wantSending,
+      priceTemplate,
     } = this.props;
 
     const location = window.location || {};
@@ -82,7 +83,9 @@ class ProductView extends Component {
             }
 
             <div>
-              <div className="product-price">{data.price} руб.</div>
+              <div className="product-price">
+                {priceTemplate.replace('?', data.price)}
+              </div>
               {
                 data.user && data.user.id !== myId
                 &&

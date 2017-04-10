@@ -107,7 +107,8 @@ class ProductPage extends Component {
       dispatch,
       isAuthenticated,
       me,
-      } = this.props;
+      priceTemplate,
+    } = this.props;
 
     const commentsList = this.props.itemsComments;
     const post = { id, title, sections, images, price };
@@ -138,6 +139,7 @@ class ProductPage extends Component {
                 dispatch={dispatch}
                 myId={me.id}
                 wantSending={wantSending}
+                priceTemplate={priceTemplate}
               />
               <CardsWrap title={__t('More from author')}>
                 {
@@ -166,6 +168,7 @@ ProductPage.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
+  priceTemplate: PropTypes.string,
 };
 
 function mapStateToProps(state) {
@@ -186,6 +189,7 @@ function mapStateToProps(state) {
     me: {},
   };
   const dialogs = state.Dialogs || {};
+  const settings = state.Settings || {};
 
   return {
     data,
@@ -199,6 +203,7 @@ function mapStateToProps(state) {
     isAuthenticated: auth.isAuthenticated,
     me: auth.me,
     wantSending: dialogs.isSending,
+    priceTemplate: settings.data.CURRENCY,
   };
 }
 

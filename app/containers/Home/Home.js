@@ -62,6 +62,7 @@ class Home extends Component {
       isFetchingProducts,
       itemsProducts,
       isAuthenticated,
+      priceTemplate,
     } = this.props;
 
     return (
@@ -94,6 +95,7 @@ class Home extends Component {
               .map(item => <CardUni
                 item={item}
                 key={`${item.slug}--top`}
+                priceTemplate={priceTemplate}
               />)
           }
         </TileWrap>
@@ -193,6 +195,7 @@ Home.propTypes = {
   itemsProducts: PropTypes.array.isRequired,
   isFetchingProducts: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
+  priceTemplate: PropTypes.string,
 };
 
 function mapStateToProps(state) {
@@ -201,6 +204,7 @@ function mapStateToProps(state) {
   const events = state.Events;
   const products = state.Products;
   const auth = state.Auth || {};
+  const settings = state.Settings || {};
 
   return {
     itemsSections: sections.items,
@@ -215,6 +219,8 @@ function mapStateToProps(state) {
     itemsProducts: products.items,
     isFetchingProducts: products.isFetching,
     isAuthenticated: auth.isAuthenticated,
+
+    priceTemplate: settings.data.CURRENCY,
   };
 }
 
