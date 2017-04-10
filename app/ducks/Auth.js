@@ -125,8 +125,8 @@ function requestLogin(creds) {
     type: LOGIN_REQUEST,
     isFetching: true,
     isAuthenticated: false,
-    creds
-  }
+    creds,
+  };
 }
 
 function receiveLogin(user) {
@@ -134,8 +134,8 @@ function receiveLogin(user) {
     type: LOGIN_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    id_token: user.token
-  }
+    id_token: user.token,
+  };
 }
 
 function loginError(message) {
@@ -143,8 +143,8 @@ function loginError(message) {
     type: LOGIN_FAILURE,
     isFetching: false,
     isAuthenticated: false,
-    message
-  }
+    message,
+  };
 }
 
 export function setMe(me) {
@@ -158,18 +158,17 @@ export function setMe(me) {
 // Calls the API to get a token and
 // dispatches actions along the way
 export function loginUser(creds) {
-
   let config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`
-  }
+  };
 
   return dispatch => {
     // We dispatch requestLogin to kickoff the call to the API
-    dispatch(requestLogin(creds))
+    dispatch(requestLogin(creds));
 
-    return fetch('http://beta.abbigli.ru/api/get-token/', config)
+    return fetch(`${API_URL}get-token/`, config)
       .then(response =>
         response.json().then(user => ({ user, response }))
       ).then(({user, response}) => {
@@ -232,11 +231,11 @@ export function loginUserSocial(creds) {
 
     let endpoint;
     if (creds.provider === 'fb') {
-      endpoint = 'http://beta.abbigli.ru/api/mobile/social/facebook/';
+      endpoint = `${API_URL}mobile/social/facebook/`;
     }
 
     if (creds.provider === 'vk') {
-      endpoint = 'http://beta.abbigli.ru/api/mobile/social/vk/';
+      endpoint = `${API_URL}mobile/social/vk/`;
     }
 
     return fetch(endpoint, config)
@@ -390,9 +389,9 @@ export function confirmUser(creds) {
 }
 
 
-export const RESET_REQUEST = 'RESET_REQUEST'
-export const RESET_SUCCESS = 'RESET_SUCCESS'
-export const RESET_FAILURE = 'RESET_FAILURE'
+export const RESET_REQUEST = 'RESET_REQUEST';
+export const RESET_SUCCESS = 'RESET_SUCCESS';
+export const RESET_FAILURE = 'RESET_FAILURE';
 
 function requestReset(creds) {
   return {
@@ -435,7 +434,7 @@ export function resetUser(creds) {
     // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestReset(creds))
 
-    return fetch('http://beta.abbigli.ru/api/v1/reset-password/', config)
+    return fetch(`${API_URL}reset-password/`, config)
       .then(response =>
         response.json().then(user => ({ user, response }))
       ).then(({user, response}) => {
