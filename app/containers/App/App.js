@@ -51,13 +51,13 @@ class App extends Component {
         window.document.querySelector('body').className = 'isMobile';
       }
 
-      setTimeout(() => {
-        window.document.getElementById('gPreload').className = 'preload-hidden';
-      }, 1000);
+      // setTimeout(() => {
+      //   window.document.getElementById('gPreload').className = 'preload-hidden';
+      // }, 1000);
 
-      setTimeout(() => {
-        window.document.getElementById('gPreload').style.display = 'none';
-      }, 1500);
+      // setTimeout(() => {
+      //   window.document.getElementById('gPreload').style.display = 'none';
+      // }, 1500);
 
       setTimeout(() => {
         this.slideout = new Slideout({
