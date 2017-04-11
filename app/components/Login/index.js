@@ -12,7 +12,7 @@ export default class Login extends Component {
 
 
   _facebookLogin(e) {
-    var url = 'https://facebook.com/dialog/oauth?client_id=1849094915359995&redirect_uri=http://localhost:3000/?provider=fb&scope=public_profile,email'
+    var url = 'https://facebook.com/dialog/oauth?client_id=1738998542989048&redirect_uri=https://abbigli.com/?provider=fb&scope=public_profile,email'
     e.preventDefault();
 
     var win = window.open(url, "_self");

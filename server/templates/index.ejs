@@ -6,36 +6,19 @@
   <title>Abbigli</title>
   <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
   <meta httpEquiv='Content-Language' content='en' />
-  <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
-  <link rel="stylesheet" href="<%= baseUrl %><%= cssUrl %>">
   <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-   <style>
-        #gPreload {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: #fff;
-          z-index: 9000;
-          opacity: 1;
-          transition: opacity .5s;
-        }
-        #gPreload.preload-hidden {
-          opacity: 0;
-        }
-    </style>
 </head>
 
 <body>
-  <div id="gPreload"></div>
   <div id="swipeMenu"></div>
   <div id="app" class="global-wrapper"><%- markup %></div>
 
-  <script type="text/javascript" src="/js/jQuery_1.11.min.js"></script>
-  <script type="text/javascript" src="/js/redactor.min.js"></script>
-  <script src="<%= baseUrl %><%= jsUrl %>" async></script>
+  <script type="text/javascript" src="/js/jQuery_1.11.min.js" defer></script>
+  <script type="text/javascript" src="/js/redactor.min.js" defer></script>
+  <script src="<%= baseUrl %><%= jsUrl %>" defer></script>
 </body>
 
 </html>
+<link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
+<link rel="stylesheet" href="<%= baseUrl %><%= cssUrl %>">

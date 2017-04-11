@@ -30,7 +30,7 @@ export default class Login extends Component {
 
   _facebookLogin(e) {
 
-    var url = 'https://facebook.com/dialog/oauth?client_id=1849094915359995&redirect_uri=http://localhost:3000/?provider=fb&scope=public_profile,email'
+    var url = 'https://facebook.com/dialog/oauth?client_id=1738998542989048&redirect_uri=https://abbigli.com/?provider=fb&scope=public_profile,email'
     e.preventDefault();
 
     var win = window.open(url, "_self");
@@ -59,8 +59,7 @@ export default class Login extends Component {
   }
 
   _googlePlus(e) {
-
-    var url = 'https://oauth.vk.com/authorize?client_id=5225447&redirect_uri=http://localhost:3000/?provider=vk&display=page&scope=email'
+    const url = 'https://accounts.google.com/o/oauth2/v2/auth?client_id=152791861668-te59cn5d3n0tpefmqe5av5egnr1ucvs4.apps.googleusercontent.com&response_type=code&scope=openid%20email&redirect_uri=https://abbigli.com/?provider=google';
     e.preventDefault();
 
     var win = window.open(url, "_self");
