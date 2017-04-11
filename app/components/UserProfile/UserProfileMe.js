@@ -502,14 +502,24 @@ class UserProfileMe extends Component {
                 </div>
               }
               <div className="user-profile__social-links">
-                <div className="social-links-text">
-                  <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8">
-<path d="M1.52,4c0-1.368,1.112-2.48,2.48-2.48h3.2V0H4C1.792,0,0,1.792,0,4s1.792,4,4,4h3.2V6.479H4
-	C2.632,6.479,1.52,5.367,1.52,4z M4.8,4.8h6.4V3.2H4.8V4.8z M12,0H8.8v1.52H12c1.368,0,2.479,1.112,2.479,2.48
-	c0,1.367-1.111,2.479-2.479,2.479H8.8V8H12c2.207,0,4-1.792,4-4S14.207,0,12,0z"/>
-</svg>
-                  {__t('add.social.links')}
-                </div>
+                {
+                  ((fb_account && fb_account.length > 0)
+                    ||
+                  (pinterest_account && pinterest_account.length > 0)
+                    ||
+                  (google_account && google_account.length > 0))
+                    &&
+                  <div className="social-links-text">
+                    <svg
+                      className="icon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 8"
+                    >
+                      <path d="M1.52,4c0-1.368,1.112-2.48,2.48-2.48h3.2V0H4C1.792,0,0,1.792,0,4s1.792,4,4,4h3.2V6.479H4 C2.632,6.479,1.52,5.367,1.52,4z M4.8,4.8h6.4V3.2H4.8V4.8z M12,0H8.8v1.52H12c1.368,0,2.479,1.112,2.479,2.48 c0,1.367-1.111,2.479-2.479,2.479H8.8V8H12c2.207,0,4-1.792,4-4S14.207,0,12,0z"/>
+                    </svg>
+                    {__t('add.social.links')}
+                  </div>
+                }
                 {
                   (this.state.edit || (fb_account && fb_account.length > 1))
                   &&
