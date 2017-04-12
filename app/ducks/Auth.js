@@ -237,6 +237,10 @@ export function loginUserSocial(creds) {
       endpoint = `${DOMAIN_URL}api/social/vk/`;
     }
 
+    if (creds.provider === 'vk') {
+      endpoint = `${DOMAIN_URL}api/social/google/`;
+    }
+
     return fetch(endpoint, config)
       .then(response =>
         response

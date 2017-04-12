@@ -77,6 +77,7 @@ class App extends Component {
       });
 
       if (this.props.location && this.props.location.query && this.props.location.query.code) {
+        console.log('social auth', this.props.location);
         this.props.dispatch(loginUserSocial(this.props.location.query));
       }
     }
