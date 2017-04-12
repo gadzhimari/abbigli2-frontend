@@ -2,17 +2,17 @@ global.window = {};
 
 import express from 'express';
 import path from 'path';
+import compression from 'compression';
 
 import renderOnServer from './middlewares/renderOnServer';
 
 const app = express();
 
 app.use(express.static('./public'));
-
 app.set('views', path.join(__dirname, '/templates'));
-
 app.set('view engine', 'ejs');
 
+app.use(compression());
 app.use(renderOnServer);
 
 app.listen(3000, () => {

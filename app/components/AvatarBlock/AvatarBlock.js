@@ -116,9 +116,8 @@ class AvatarBlock extends Component {
     if (this.props.isAuthenticated) {
       if (token) {
         config = {
-          //method: 'POST',
           headers: { 'Authorization': `JWT ${token}` }
-        }
+        };
       } else {
         return;
       }

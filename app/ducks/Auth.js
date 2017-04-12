@@ -218,43 +218,44 @@ export function fetchMe() {
 // Calls the API to get a token and
 // dispatches actions along the way
 export function loginUserSocial(creds) {
-
-  let config = {
+  const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ code: creds.code })
-  }
+  };
 
-  return dispatch => {
+  return (dispatch) => {
     // We dispatch requestLogin to kickoff the call to the API
-    dispatch(requestLogin(creds))
+    dispatch(requestLogin(creds));
 
     let endpoint;
     if (creds.provider === 'fb') {
-      endpoint = `${API_URL}mobile/social/facebook/`;
+      endpoint = `${DOMAIN_URL}api/social/facebook/`;
     }
 
     if (creds.provider === 'vk') {
-      endpoint = `${API_URL}mobile/social/vk/`;
+      endpoint = `${DOMAIN_URL}api/social/vk/`;
     }
 
     return fetch(endpoint, config)
       .then(response =>
-        response.json().then(user => ({ user, response }))
-      ).then(({user, response}) => {
+        response
+          .json()
+          .then(user => ({ user, response }))
+      ).then(({ user, response }) => {
         if (!response.ok) {
           // If there was a problem, we want to
           // dispatch the error condition
-          dispatch(loginError(user.message))
-          return Promise.reject(user)
+          dispatch(loginError(user.message));
+          return Promise.reject(user);
         } else {
           // If login was successful, set the token in local storage
-          setJsonToStorage('id_token', user.token)
+          setJsonToStorage('id_token', user.token);
           // Dispatch the success action
-          dispatch(receiveLogin(user))
+          dispatch(receiveLogin(user));
         }
-      }).catch(err => console.log("Error: ", err))
-  }
+      });
+  };
 }
 
 
