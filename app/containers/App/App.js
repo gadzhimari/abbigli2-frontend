@@ -35,12 +35,16 @@ class App extends Component {
     children: PropTypes.any.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+  }
+
   componentWillMount() {
-    if (!this.props.seo.data[0]) {
-      this.props.dispatch(settingsFetchData());
-    }
-    if (!this.props.settings.data.HEADER) {
-      this.props.dispatch(seoFetchData());
+    this.props.dispatch(settingsFetchData());
+    this.props.dispatch(seoFetchData());
+
+    if (this.props.location && this.props.location.query && this.props.location.query.code) {
+      this.props.dispatch(loginUserSocial(this.props.location.query));
     }
   }
 
@@ -75,11 +79,6 @@ class App extends Component {
           window.document.querySelector('body').className = '';
         }
       });
-
-      if (this.props.location && this.props.location.query && this.props.location.query.code) {
-        console.log('social auth', this.props.location);
-        this.props.dispatch(loginUserSocial(this.props.location.query));
-      }
     }
   }
 

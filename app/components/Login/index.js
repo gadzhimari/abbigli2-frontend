@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import { FacebookLogin } from 'react-facebook-login-component';
-
 import './index.styl';
 
 import { loginPopup, registerPopup, resetPopup } from 'ducks/Popup';
