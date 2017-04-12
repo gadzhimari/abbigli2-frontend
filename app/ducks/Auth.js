@@ -221,7 +221,7 @@ export function loginUserSocial(creds) {
   const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code: creds.code })
+    body: JSON.stringify({ code: creds.code }),
   };
 
   return (dispatch) => {
@@ -237,7 +237,7 @@ export function loginUserSocial(creds) {
       endpoint = `${DOMAIN_URL}api/social/vk/`;
     }
 
-    if (creds.provider === 'vk') {
+    if (creds.provider === 'google') {
       endpoint = `${DOMAIN_URL}api/social/google/`;
     }
 
