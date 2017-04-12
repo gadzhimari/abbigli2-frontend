@@ -20,10 +20,10 @@ import {
 } from 'components';
 import { appConfig } from 'config';
 import { loginUser, loginUserSocial, logoutUser, registerUser, confirmUser, resetUser, fetchMe } from 'ducks/Auth';
-import { closeAll } from 'ducks/Popup'
-import { getSupport } from 'ducks/Support'
-import { fetchData as settingsFetchData } from 'ducks/Settings'
-import { fetchData as seoFetchData } from 'ducks/Seo'
+import { closeAll } from 'ducks/Popup';
+import { getSupport } from 'ducks/Support';
+import { fetchData as settingsFetchData } from 'ducks/Settings';
+import { fetchData as seoFetchData } from 'ducks/Seo';
 import './App.styl';
 import './_concat.styl';
 import './main.styl';
@@ -40,8 +40,13 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(settingsFetchData());
-    this.props.dispatch(seoFetchData());
+    if (!this.props.seo.data[0]) {
+      this.props.dispatch(settingsFetchData());
+    }
+
+    if (!this.props.settings.data.HEADER) {
+      this.props.dispatch(seoFetchData());
+    }
 
     if (this.props.location && this.props.location.query && this.props.location.query.code) {
       this.props.dispatch(loginUserSocial(this.props.location.query));
