@@ -135,7 +135,7 @@ class CardUni extends Component {
           {
             price &&
             <div className="tile__price">
-              {priceTemplate.replace('?', price)}
+              {priceTemplate && priceTemplate.replace('?', price)}
             </div>
           }
 

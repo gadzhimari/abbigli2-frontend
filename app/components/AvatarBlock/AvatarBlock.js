@@ -27,19 +27,16 @@ class AvatarBlock extends Component {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
+    const { dispatch, isAuthenticated } = this.props;
+    if (isAuthenticated) {
+      this.fetchProfile();
+    }
     if (this.props.itemsSections.length === 0) {
       dispatch(fetchDataSections());
     }
   }
 
   componentDidMount() {
-    const { isAuthenticated } = this.props;
-
-    if (isAuthenticated) {
-      this.fetchProfile();
-    }
-
     if (window.document) {
       window.addEventListener('click', (e) => {
         const openMenuContainer = document.querySelector('.main-menu');
@@ -91,36 +88,34 @@ class AvatarBlock extends Component {
       this.fetchProfile();
     }
 
-    if (nextProps.isFetchingSections !== this.props.isFetchingSections) {
-      const { dispatch } = this.props;
-      if (this.props.itemsSections.length < 1) {
-        //dispatch(setDataSections());
-      }
-    }
+    // if (nextProps.isFetchingSections !== this.props.isFetchingSections) {
+    //   const { dispatch } = this.props;
+    //   if (this.props.itemsSections.length < 1) {
+    //     //dispatch(setDataSections());
+    //   }
+    // }
 
     if (nextProps.isAuthenticated !== this.props.isAuthenticated) {
       this.forceUpdate();
     }
   }
 
-  componentDidUpdate() {
-    if (this.props.isAuthenticated && this.props.me == null) {
+  componentWillUpdate(nextProps) {
+    if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
       this.fetchProfile();
     }
   }
 
   fetchProfile() {
-    let token = getJsonFromStorage('id_token');
+    const token = getJsonFromStorage('id_token');
     let config = {};
 
-    if (this.props.isAuthenticated) {
-      if (token) {
-        config = {
-          headers: { 'Authorization': `JWT ${token}` }
-        };
-      } else {
-        return;
-      }
+    if (token) {
+      config = {
+        headers: { 'Authorization': `JWT ${token}` },
+      };
+    } else {
+      return;
     }
 
     fetch(API_URL + 'my-profile/', config)
