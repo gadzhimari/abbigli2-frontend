@@ -5,17 +5,23 @@ import { IS_DEVELOPMENT } from './config';
 
 let preloadedState;
 
-if (typeof window !== 'undefined' && window.APP_STATE) {
-  preloadedState = window.APP_STATE;
+if (typeof window !== 'undefined' && window.PRELOADED_STATE) {
+  preloadedState = JSON.parse(decodeURI(window.PRELOADED_STATE));
 } else {
   preloadedState = {};
 }
 
-export default createStore(
-  reducers,
-  preloadedState,
-  compose(
-    applyMiddleware(thunk),
-    (IS_DEVELOPMENT && window.devToolsExtension) ? window.devToolsExtension() : f => f
-  )
-);
+const configureStore = () => {
+  const store = createStore(
+    reducers,
+    preloadedState,
+    compose(
+      applyMiddleware(thunk),
+      (IS_DEVELOPMENT && window.devToolsExtension) ? window.devToolsExtension() : f => f
+    )
+  );
+
+  return store;
+};
+
+export default configureStore;
