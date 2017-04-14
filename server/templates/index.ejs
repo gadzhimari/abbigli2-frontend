@@ -3,11 +3,13 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Abbigli</title>
+  <%- seo.title %>
   <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
   <meta httpEquiv='Content-Language' content='en' />
+  <%- seo.meta %>
   <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <%- commonCss %>
 </head>
 
 <body>
@@ -25,6 +27,9 @@
 
     ga('create', 'UA-78577116-1', 'auto');
     ga('send', 'pageview');
+  </script>
+  <script>
+    window.PRELOADED_STATE = '<%= store %>';
   </script>
   <script type="text/javascript" src="/js/jQuery_1.11.min.js" defer></script>
   <script type="text/javascript" src="/js/redactor.min.js" defer></script>
