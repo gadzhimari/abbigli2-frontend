@@ -96,7 +96,7 @@ class App extends Component {
 
     document.body.scrollTop = 0;
 
-    if (nextProps.isAuthenticated !== isAuthenticated && isAuthenticated) {
+    if (nextProps.isAuthenticated !== isAuthenticated && nextProps.isAuthenticated) {
       dispatch(fetchMe());
     }
   }
