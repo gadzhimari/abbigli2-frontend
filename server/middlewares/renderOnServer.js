@@ -5,11 +5,12 @@ import { RouterContext } from 'react-router';
 import match from 'react-router/lib/match';
 import ReactDOM from 'react-dom/server';
 import { Provider } from 'react-redux';
+import helmet from 'react-helmet';
 
 import path from 'path';
 import fs from 'fs';
 
-import store from '../../app/store';
+import configureStore from '../../app/store';
 import routes from '../../app/routes';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -30,14 +31,10 @@ if (isProd) {
   cssUrl = '/public/assets/style.css';
 }
 
+const commonCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/common.html'), 'utf8');
+
 module.exports = (req, res) => {
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
-    const componentHTML = ReactDOM.renderToString(
-      <Provider store={store} >
-        <RouterContext {...renderProps} />
-      </Provider>
-    );
-
     if (redirectLocation) {
       return res.redirect(301, redirectLocation.pathname + redirectLocation.search);
     }
@@ -49,12 +46,31 @@ module.exports = (req, res) => {
     if (!renderProps) {
       return res.status(404).sendFile(path.resolve(__dirname, '../templates/404.html'));
     }
+    const store = configureStore();
+    const root = renderProps.routes[0].component.WrappedComponent;
 
-    return res.render('index', {
-      markup: componentHTML,
-      baseUrl: assetsUrl,
-      jsUrl,
-      cssUrl,
-    });
+    root.fetchData({ store, token: req.cookies.id_token })
+      .then(() => {
+        const componentHTML = ReactDOM.renderToString(
+          <Provider store={store} >
+            <RouterContext {...renderProps} />
+          </Provider>
+        );
+        const helmetStatic = helmet.renderStatic();
+        const seo = {
+          title: helmetStatic.title.toString(),
+          meta: helmetStatic.meta.toString(),
+        };
+
+        res.render('index', {
+          markup: componentHTML,
+          baseUrl: assetsUrl,
+          jsUrl,
+          cssUrl,
+          store: encodeURI(JSON.stringify(store.getState())),
+          seo,
+          commonCss,
+        });
+      });
   });
 };
