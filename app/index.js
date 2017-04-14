@@ -8,7 +8,7 @@ import match from 'react-router/lib/match';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import routes from './routes';
-import store from './store';
+import configureStore from './store';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -47,7 +47,7 @@ function renderApp() {
     while (container.firstChild) {
       container.removeChild(container.firstChild);
     }
-
+    const store = configureStore();
     const history = syncHistoryWithStore(browserHistory, store);
 
     render(

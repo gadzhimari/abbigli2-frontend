@@ -1,55 +1,33 @@
 // Sections.js
 import { API_URL } from 'config';
-
-const ENDPOINT = API_URL+'settings/';
+import fetch from 'isomorphic-fetch';
 
 // Actions
-const REQUEST = 'abbigli/settings/REQUEST';
 const SET = 'abbigli/settings/SET';
 
+const initialState = {
+  data: {},
+};
+
 // Reducer
-export default function (state = {
-    isFetching: false,
-    data: {},
-}, action = {}) {
-    switch (action.type) {
-        case SET:
-            return Object.assign({}, state, {
-                data: action.data,
-                isFetching: false,
-            });
-        case REQUEST:
-            return Object.assign({}, {
-                isFetching: true,
-                data: {},
-            });
-        default:
-            return state;
-    }
+export default function (state = initialState, action = {}) {
+  switch (action.type) {
+    case SET:
+      return Object.assign({}, state, {
+        data: action.data,
+      });
+    default:
+      return state;
+  }
 }
 
 // Action Creators
-export function requestData() {
-    return {
-        type: REQUEST,
-        ENDPOINT,
-    };
+export function setData(responseData) {
+  return { type: SET, data: responseData };
 }
-
 
 export function fetchData() {
-    return dispatch => {
-        dispatch(requestData());
-        return fetch(ENDPOINT)
-          .then(res => res.json())
-          .then((responseData) => {
-              if (responseData) {
-                  dispatch(setData(responseData));
-              }
-          });
-    };
-}
-
-export function setData(responseData) {
-    return { type: SET, data: responseData };
+  return dispatch => fetch(`${API_URL}settings/`)
+    .then(res => res.json())
+    .then(responseData => dispatch(setData(responseData)));
 }

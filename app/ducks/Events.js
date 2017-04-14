@@ -1,6 +1,7 @@
 // Sections.js
 import { API_URL } from 'config';
 import { getJsonFromStorage } from 'utils/functions';
+import fetch from 'isomorphic-fetch';
 
 // Actions
 const REQUEST = 'abbigli/Events/REQUEST';
@@ -10,7 +11,7 @@ const APPEND = 'abbigli/Events/APPEND';
 
 // Reducer
 export default function (state = {
-  isFetching: false,
+  isFetching: true,
   next: null,
   items: [],
   isFetchingMore: false,
@@ -104,6 +105,7 @@ export function fetchData(page = 1, filter = false, city = null, start = null, e
             dispatch(appendData(responseData));
           }
         }
+        return Promise.resolve();
       });
   }
 }

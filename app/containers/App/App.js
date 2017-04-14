@@ -19,11 +19,19 @@ import {
   mediaHOC,
 } from 'components';
 import { appConfig } from 'config';
-import { loginUser, loginUserSocial, logoutUser, registerUser, confirmUser, resetUser, fetchMe } from 'ducks/Auth';
+import {
+  loginUser,
+  fetchMe,
+  logoutUser,
+  registerUser,
+  confirmUser,
+  resetUser,
+} from 'ducks/Auth';
 import { closeAll } from 'ducks/Popup';
 import { getSupport } from 'ducks/Support';
-import { fetchData as settingsFetchData } from 'ducks/Settings';
-import { fetchData as seoFetchData } from 'ducks/Seo';
+import { fetchData as settingsFetch } from 'ducks/Settings';
+import { fetchData as seoFetch } from 'ducks/Seo';
+import { fetchData as fetchDataSections } from 'ducks/Sections';
 import './App.styl';
 import './_concat.styl';
 import './main.styl';
@@ -35,27 +43,23 @@ class App extends Component {
     children: PropTypes.any.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-  }
+  static fetchData = ({ store, token }) => {
+    const promises = [
+      store.dispatch(seoFetch()),
+      store.dispatch(settingsFetch()),
+    ];
 
-  componentWillMount() {
-    if (!this.props.seo.data[0]) {
-      this.props.dispatch(settingsFetchData());
+    if (token) {
+      promises.push(
+        store.dispatch(fetchMe(token))
+      );
     }
 
-    if (!this.props.settings.data.HEADER) {
-      this.props.dispatch(seoFetchData());
-    }
-
-    if (this.props.location && this.props.location.query && this.props.location.query.code) {
-      this.props.dispatch(loginUserSocial(this.props.location.query));
-    }
+    return Promise.all(promises);
   }
 
   componentDidMount() {
     if (window) {
-      this.props.dispatch(fetchMe());
       if (window.innerWidth < 500) {
         window.document.querySelector('body').className = 'isMobile';
       }
@@ -87,8 +91,14 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentWillUpdate(nextProps) {
+    const { isAuthenticated, dispatch } = this.props;
+
     document.body.scrollTop = 0;
+
+    if (nextProps.isAuthenticated !== isAuthenticated && isAuthenticated) {
+      dispatch(fetchMe());
+    }
   }
 
   toggleMenu = () => {
@@ -253,7 +263,6 @@ App.propTypes = {
 
 
 function mapStateToProps(state) {
-
   const { isAuthenticated, errorMessage } = state.Auth || { isAuthenticated: false, errorMessage: '' };
   const {
     showLogin, showRegister, showDeleteMessage, userId, recipient,

@@ -12,9 +12,11 @@ const DELETE = 'abbigli/Dialogs/DELETE';
 const SET_ACTIVE = 'abbigli/Dialogs/SET_ACTIVE';
 const MESSAGES_REQUEST = 'abbigli/Dialogs/MESSAGES_REQUEST';
 const SET_MESSAGES = 'abbigli/Dialogs/SET_MESSAGES';
+const APPEND_MESSAGES = 'abbigli/Dialogs/APPEND_MESSAGES';
 const PUSH_MESSAGE = 'abbigli/Dialogs/PUSH_MESSAGE';
 const MESSAGE_SENDING = 'abbigli/Dialogs/MESSAGE_SENDING';
 const MESSAGE_SENDED = 'abbigli/Dialogs/MESSAGE_SENDED';
+const LOAD_MORE = 'abbigli/Dialogs/LOAD_MORE';
 const PRIVATE_MESSAGE = 'private message';
 
 const initialState = {
@@ -25,6 +27,8 @@ const initialState = {
   activeDialog: null,
   messages: [],
   messagesIsFetching: false,
+  isLoadingMore: false,
+  next: null,
 };
 
 // Reducer
@@ -79,6 +83,18 @@ export default function (state = initialState, action = {}) {
       return Object.assign({}, state, {
         isSending: true,
       });
+    case LOAD_MORE:
+      return Object.assign({}, state, {
+        isLoadingMore: true,
+      });
+    case APPEND_MESSAGES: {
+      const newMessages = [...action.messages.reverse(), ...state.messages];
+
+      return Object.assign({}, state, {
+        isLoadingMore: false,
+        messages: newMessages,
+      });
+    }
     case PUSH_MESSAGE: {
       const newMessages = [...state.messages];
       const newDialogs = state.dialogs.map((dialog) => {
@@ -156,6 +172,19 @@ export function pushMessage(message, dialogID) {
   };
 }
 
+export function loadMore() {
+  return {
+    type: LOAD_MORE,
+  };
+}
+
+export function appendMessages(messages) {
+  return {
+    type: APPEND_MESSAGES,
+    messages,
+  };
+}
+
 const messageSending = () => ({ type: MESSAGE_SENDING });
 const messageSended = () => ({ type: MESSAGE_SENDED });
 
@@ -200,15 +229,21 @@ export function getDialogs() {
     return fetch(`${API_URL}my-profile/dialogs/`, config)
       .then(res => res.json())
       .then((response) => {
-        dispatch(setData(response));
+        if (page === 1) {
+          dispatch(setData(response));
+        } else {
+          dispatch(appendMessages(response));
+        }
       })
       .catch(err => console.log("Error: ", err));
   };
 }
 
-export function loadMessages(id) {
+export function loadMessages(id, page = 1) {
   const token = getJsonFromStorage('id_token');
-
+  const pageQuery = page === 1
+    ? ''
+    : `?page=${page}`;
   const config = {
     method: 'GET',
     headers: {
@@ -221,12 +256,16 @@ export function loadMessages(id) {
   }
 
   return (dispatch) => {
-    dispatch(messagesRequest());
+    if (page === 1) {
+      dispatch(messagesRequest());
+    } else {
+      dispatch(loadMore());
+    }
 
-    return fetch(`${API_URL}my-profile/dialogs/${id}/`, config)
+    return fetch(`${API_URL}my-profile/dialogs/${id}/${pageQuery}`, config)
       .then(res => res.json())
       .then((response) => {
-        dispatch(setMessages(response.results.reverse()));
+        dispatch(setMessages(response));
       })
       .catch(err => console.log("Error: ", err));
   };
