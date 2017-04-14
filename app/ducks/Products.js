@@ -1,16 +1,17 @@
 import { API_URL } from 'config';
 import { setJsonToStorage, getJsonFromStorage } from 'utils/functions';
+import fetch from 'isomorphic-fetch';
 
-const ENDPOINT = API_URL+'posts/?type=1';
+const ENDPOINT = API_URL + 'posts/?type=1';
 
 // Actions
-const REQUEST   = 'abbigli/Products/REQUEST';
+const REQUEST = 'abbigli/Products/REQUEST';
 const SET = 'abbigli/Products/SET';
 
 // Reducer
-export default function(state = {
-  isFetching: false,
-  items: []
+export default function (state = {
+  isFetching: true,
+  items: [],
 }, action = {}) {
   switch (action.type) {
     case SET:
@@ -38,32 +39,26 @@ export function requestData() {
 
 
 export function fetchData() {
-
-    let token = getJsonFromStorage('id_token') || null;
-    let config = {};
-    if (token) {
-        config = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${token}`
-            }
-        }
-    }
-
+  let token = getJsonFromStorage('id_token') || null;
+  let config = {};
+  if (token) {
+    config = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${token}`,
+      },
+    };
+  }
 
   return dispatch => {
     dispatch(requestData());
-    return fetch(ENDPOINT,config)
+    return fetch(ENDPOINT, config)
       .then(res => res.json())
-      .then((responseData) => {
-        if(responseData.results){
-          dispatch(setData(responseData));
-        }
-      })
+      .then((responseData) => dispatch(setData(responseData)))
   }
 }
 
 export function setData(responseData) {
-  return {type: SET, data: responseData }
+  return { type: SET, data: responseData }
 }

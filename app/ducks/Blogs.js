@@ -2,6 +2,8 @@
 import { API_URL } from 'config';
 import { getJsonFromStorage } from 'utils/functions';
 
+import fetch from 'isomorphic-fetch';
+
 // Actions
 const REQUEST   = 'abbigli/Blogs/REQUEST';
 const REQUEST_APPEND   = 'abbigli/Blogs/REQUEST_APPEND';
@@ -10,7 +12,7 @@ const APPEND = 'abbigli/Blogs/APPEND';
 
 // Reducer
 export default (state = {
-  isFetching: false,
+  isFetching: true,
   next: null,
   items: [],
   isFetchingMore: false,
@@ -104,6 +106,7 @@ export function fetchData(page = 1, request = '', popular = null) {
             dispatch(appendData(responseData));
           }
         }
+        return Promise.resolve();
       });
   };
 }

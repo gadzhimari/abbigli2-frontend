@@ -11,7 +11,7 @@ export const ME_STORE = 'ME_STORE';
 // Initial State
 
 const initialState = {
-  isFetching: true,
+  isFetching: false,
   confirm: false,
   me: {
     avatar: "",
@@ -60,8 +60,8 @@ export default function auth(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: true,
-        errorMessage: ''
-      })
+        errorMessage: '',
+      });
     case LOGIN_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
@@ -112,6 +112,7 @@ export default function auth(state = initialState, action) {
       return Object.assign({}, state, {
         me: action.me,
         isFetching: false,
+        isAuthenticated: true,
       });
     default:
       return state;
@@ -154,65 +155,53 @@ export function setMe(me) {
   };
 }
 
-
-// Calls the API to get a token and
-// dispatches actions along the way
-export function loginUser(creds) {
-  let config = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`
+export function fetchMe(tokenId) {
+  const token = tokenId || getJsonFromStorage('id_token') || null;
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
   };
 
-  return dispatch => {
+  if (token) {
+    config.headers.Authorization = `JWT ${token}`;
+  } else {
+    return Promise.reject();
+  }
+
+  return dispatch => fetch(`${API_URL}my-profile/`, config)
+      .then(res => res.json())
+      .then(userData => dispatch(setMe(userData)));
+}
+
+export function loginUser(creds) {
+  const config = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`,
+  };
+
+  return (dispatch) => {
     // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestLogin(creds));
 
     return fetch(`${DOMAIN_URL}api/get-token/`, config)
       .then(response =>
         response.json().then(user => ({ user, response }))
-      ).then(({user, response}) => {
+      ).then(({ user, response }) => {
         if (!response.ok) {
-          // If there was a problem, we want to
-          // dispatch the error condition
-          dispatch(loginError(user.message))
-          return Promise.reject(user)
-        } else {
-          // If login was successful, set the token in local storage
-          setJsonToStorage('id_token', user.token)
-          // Dispatch the success action
-          dispatch(receiveLogin(user))
-          dispatch(fetchMe())
-        }
-      }).catch(err => console.log("Error: ", err))
-  }
-}
+          dispatch(loginError(user.message));
 
-export function fetchMe() {
-  let token = getJsonFromStorage('id_token') || null;
-  let config = {
-    headers: {
-      'Content-Type': 'application/json'
-    },
+          return Promise.reject(user);
+        }
+        
+        setJsonToStorage('id_token', user.token);
+        document.cookie = `id_token=${user.token}`;
+
+        dispatch(receiveLogin(user));
+      });
   };
-
-  if(token){config.headers.Authorization = `JWT ${token}`;}
-
-  return dispatch => {
-    // We dispatch requestLogin to kickoff the call to the API
-    //dispatch(requestLogin(creds))
-
-    fetch(API_URL + 'my-profile/', config)
-      .then(res => res.json())
-      .then((responseData) => {
-        if (responseData) {
-          dispatch(setMe(responseData));
-        }
-      })
-      .catch(err => console.log("Error: ", err))
-  }
 }
-
 
 
 // Calls the API to get a token and
@@ -298,12 +287,11 @@ function registerError(message) {
 // Calls the API to get a token and
 // dispatches actions along the way
 export function registerUser(creds) {
-
-  let config = {
+  const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ phone: creds.phoneNumber })
-  }
+  };
 
   return dispatch => {
     // We dispatch requestLogin to kickoff the call to the API
@@ -329,25 +317,25 @@ export function registerUser(creds) {
 }
 
 
-export const CONFIRM_REQUEST = 'CONFIRM_REQUEST'
-export const CONFIRM_SUCCESS = 'CONFIRM_SUCCESS'
-export const CONFIRM_FAILURE = 'CONFIRM_FAILURE'
+export const CONFIRM_REQUEST = 'CONFIRM_REQUEST';
+export const CONFIRM_SUCCESS = 'CONFIRM_SUCCESS';
+export const CONFIRM_FAILURE = 'CONFIRM_FAILURE';
 
 function requestConfirm(creds) {
   return {
     type: CONFIRM_REQUEST,
     isFetching: true,
     confirm: false,
-    creds
-  }
+    creds,
+  };
 }
 
 function receiveConfirm(user) {
   return {
     type: CONFIRM_SUCCESS,
     isFetching: false,
-    confirm: true
-  }
+    confirm: true,
+  };
 }
 
 function confirmError(message) {
@@ -355,20 +343,19 @@ function confirmError(message) {
     type: CONFIRM_FAILURE,
     isFetching: false,
     confirm: false,
-    message
-  }
+    message,
+  };
 }
 
 
 // Calls the API to get a token and
 // dispatches actions along the way
 export function confirmUser(creds) {
-
-  let config = {
+  const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ phone: creds.phone, code: creds.code })
-  }
+  };
 
   return dispatch => {
     // We dispatch requestLogin to kickoff the call to the API
@@ -488,6 +475,7 @@ export function logoutUser() {
   return dispatch => {
     dispatch(requestLogout());
     localStorage.removeItem('id_token');
+    document.cookie = 'id_token=';
     dispatch(receiveLogout());
   };
 }
