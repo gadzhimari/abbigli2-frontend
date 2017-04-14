@@ -26,9 +26,6 @@ import './Home.styl';
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      pageLoaded: false,
-    };
   }
 
   componentWillMount() {
@@ -37,12 +34,6 @@ class Home extends Component {
     dispatch(fetchDataBlogs());
     dispatch(fetchDataEvents());
     dispatch(fetchDataProducts());
-  }
-
-  componentDidMount() {
-    this.setState({
-      pageLoaded: true,
-    });
   }
 
   showRegister = () => {

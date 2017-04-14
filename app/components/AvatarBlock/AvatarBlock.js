@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'preact-redux';
 import { Link } from 'react-router';
-import { fetchData as fetchDataSections, setData as setDataSections } from 'ducks/Sections'
+import { fetchData as fetchDataSections } from 'ducks/Sections';
 import { loginPopup, registerPopup, supportPopup } from 'ducks/Popup'
 import { setMe } from 'ducks/Auth'
 import './AvatarBlock.styl';
@@ -26,17 +26,13 @@ class AvatarBlock extends Component {
     this.openMenuToggle = this.openMenuToggle.bind(this);
   }
 
-  componentWillMount() {
-    const { dispatch, isAuthenticated } = this.props;
-    if (isAuthenticated) {
-      this.fetchProfile();
-    }
-    if (this.props.itemsSections.length === 0) {
+  componentDidMount() {
+    const { dispatch, itemsSections } = this.props;
+
+    if (itemsSections.length === 0) {
       dispatch(fetchDataSections());
     }
-  }
 
-  componentDidMount() {
     if (window.document) {
       window.addEventListener('click', (e) => {
         const openMenuContainer = document.querySelector('.main-menu');
@@ -85,50 +81,8 @@ class AvatarBlock extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isAuthenticated !== this.props.isAuthenticated) {
-      this.fetchProfile();
-    }
-
-    // if (nextProps.isFetchingSections !== this.props.isFetchingSections) {
-    //   const { dispatch } = this.props;
-    //   if (this.props.itemsSections.length < 1) {
-    //     //dispatch(setDataSections());
-    //   }
-    // }
-
-    if (nextProps.isAuthenticated !== this.props.isAuthenticated) {
       this.forceUpdate();
     }
-  }
-
-  componentWillUpdate(nextProps) {
-    if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
-      this.fetchProfile();
-    }
-  }
-
-  fetchProfile() {
-    const token = getJsonFromStorage('id_token');
-    let config = {};
-
-    if (token) {
-      config = {
-        headers: { 'Authorization': `JWT ${token}` },
-      };
-    } else {
-      return;
-    }
-
-    fetch(API_URL + 'my-profile/', config)
-      .then(function (response) {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-
-        return response.json();
-      })
-      .then((result) => {
-        this.props.dispatch(setMe(result));
-      });
   }
 
   openMenuToggle = () => {
