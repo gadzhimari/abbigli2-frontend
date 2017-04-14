@@ -30,3 +30,6 @@ export let appConfig = {
     ]
   }
 };
+
+export const FB_ID = '1738998542989048';
+export const GOOGLE_ID = '152791861668-te59cn5d3n0tpefmqe5av5egnr1ucvs4.apps.googleusercontent.com';
