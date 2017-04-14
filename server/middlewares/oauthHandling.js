@@ -12,6 +12,7 @@ router.get('/oauth/facebook', (req, res) => {
   };
 
   fetch(`${DOMAIN_URL}api/social/facebook/`, config)
+    .then(result => result.json())
     .then(response => res
       .cookie('id_token', response.token)
       .redirect('/')
@@ -26,6 +27,7 @@ router.get('/oauth/google', (req, res) => {
   };
 
   fetch(`${DOMAIN_URL}api/social/google/`, config)
+    .then(result => result.json())
     .then(response => res
       .cookie('id_token', response.token)
       .redirect('/')
