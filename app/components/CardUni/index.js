@@ -65,7 +65,7 @@ class CardUni extends Component {
           <Link to={`/${types_url[type]}/${slug}`}>
             {
               images[0]
-                &&
+              &&
               <img
                 className="tile__image"
                 src={'https://abbigli.com/thumbs/unsafe/282x203/' + images[0].file}
@@ -98,7 +98,7 @@ class CardUni extends Component {
           </Link>
           {
             (type === 3)
-              &&
+            &&
             <div
               className="tile__date"
             >
@@ -107,19 +107,31 @@ class CardUni extends Component {
               <span className="tile__city">
                 {
                   city
-                    &&
+                  &&
                   city.name
                 }
               </span>
             </div>
           }
           <Link
-            to={'/profile/' + user.id}
+            to={`/profile/${user.id}`}
             className="tile__author"
           >
-            <div className="tile__author-avatar">
-              <img src={"https://abbigli.com/thumbs/unsafe/25x25/" + user.avatar} alt={user.profile_name} />
-            </div>
+            {
+              user.avatar
+                ? <div className="tile__author-avatar">
+                  <img
+                    src={`https://abbigli.com/thumbs/unsafe/25x25/${user.avatar}`}
+                    alt={user.profile_name}
+                  />
+                </div>
+                : <div className="tile__author-avatar">
+                  <img
+                    src="/images/icons_with_bg/user_active.svg"
+                    alt={user.profile_name}
+                  />
+                </div>
+            }
             <div className="tile__author-name">
               {user.profile_name}
             </div>
