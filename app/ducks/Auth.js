@@ -244,6 +244,7 @@ export function loginUserSocial(creds) {
         } else {
           // If login was successful, set the token in local storage
           setJsonToStorage('id_token', user.token);
+          document.cookie = `id_token=${user.token}`;
           // Dispatch the success action
           dispatch(receiveLogin(user));
         }
@@ -308,7 +309,8 @@ export function registerUser(creds) {
           return Promise.reject(user)
         } else {
           // If login was successful, set the token in local storage
-          setJsonToStorage('id_token', user.token)
+          setJsonToStorage('id_token', user.token);
+          document.cookie = `id_token=${user.token}`;
           // Dispatch the success action
           dispatch(receiveLogin(user))
         }
@@ -372,7 +374,8 @@ export function confirmUser(creds) {
           return Promise.reject(user)
         } else {
           // If login was successful, set the token in local storage
-          setJsonToStorage('id_token', user.token)
+          setJsonToStorage('id_token', user.token);
+          document.cookie = `id_token=${user.token}`;
           // Dispatch the success action
           dispatch(receiveConfirm(user))
         }
@@ -420,7 +423,7 @@ export function resetUser(creds) {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
     body: `username=${creds.username}`
-  }
+  };
 
   return dispatch => {
     // We dispatch requestLogin to kickoff the call to the API

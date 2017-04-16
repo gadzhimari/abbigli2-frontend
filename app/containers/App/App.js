@@ -293,7 +293,7 @@ function mapStateToProps(state) {
     userName,
     sendMessageYourselfError,
     messagesSending: messages.isSending,
-  }
+  };
 }
 
 export default connect(mapStateToProps)(App);

@@ -25,8 +25,23 @@ export function setJsonToStorage(key, data) {
   return data;
 }
 
-export function getJsonFromStorage(key) {
-  return JSON.parse(storage.getItem(key) || "null");
+export function getJsonFromStorage() {
+  if (typeof document === 'undefined') {
+    return null;
+  }
+
+  const Cookies = document.cookie
+    .split('; ')
+    .reduce((prev, cur) => {
+      const next = prev;
+      const curValues = cur.split('=');
+
+      next[curValues[0]] = curValues[1];
+
+      return next;
+    }, {});
+
+  return Cookies.id_token || null;
 }
 
 /**
