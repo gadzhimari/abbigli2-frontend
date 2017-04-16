@@ -9,8 +9,8 @@ const SET = 'abbigli/Sections/SET';
 
 // Reducer
 export default function(state = {
-  isFetching: false,
-  items: []
+  isFetching: true,
+  items: [],
 }, action = {}) {
   switch (action.type) {
     case SET:

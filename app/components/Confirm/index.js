@@ -1,31 +1,30 @@
-import React, { Component} from 'react'
+import React, { Component } from 'react';
 
-import './index.styl'
+import './index.styl';
 
-import { registerPopup, confirmPopup } from 'ducks/Popup'
+import { registerPopup, confirmPopup } from 'ducks/Popup';
 
 export default class Login extends Component {
-
   constructor() {
-    super()
+    super();
     this.state = {
       confirmCode: '',
-      confirmError: ''
-    }
+      confirmError: '',
+    };
   }
 
   confirmChange(e) {
     this.setState({
       confirmCode: e.target.value,
-      confirmError: ''
-     })
+      confirmError: '',
+     });
   }
 
   render() {
     const { errorMessage, dispatch } = this.props;
 
     return (
-      <div className="popup-wrap" id="register-popup" style="display: block;">
+      <div className="popup-wrap" id="register-popup" style={{ display: 'none' }}>
           <div className="popup">
             <svg
               xmlns="http://www.w3.org/2000/svg"
