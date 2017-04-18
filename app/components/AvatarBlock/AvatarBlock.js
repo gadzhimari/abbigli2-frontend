@@ -234,7 +234,7 @@ class AvatarBlock extends Component {
                 {__t('Support')}
               </a>
               <div className="social-buttons">
-                <a className="social-btn facebook" target="_blank" href="https://www.facebook.com/abbigli/">
+                <a className="social-btn facebook" target="_blank" href="https://www.facebook.com/AbbigliHandmade/">
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7.419 16.005">
                     <path d="M7.419,5.279L4.93,5.284V3.609c0,0-0.053-0.919,0.956-0.919c0-0.01,1.522,0,1.522,0V0.001H4.72
                       c0,0-3.081-0.178-3.081,3.498v1.792L0,5.295v2.662h1.639v8.048H4.93V7.957h2.206L7.419,5.279z"/>
