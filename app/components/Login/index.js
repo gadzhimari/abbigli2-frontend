@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import { SocialLogin } from 'components';
+import { SocialLogin, FetchingButton } from 'components';
 
 import { loginPopup, registerPopup, resetPopup } from 'ducks/Popup';
 import { __t } from './../../i18n/translator';
@@ -26,7 +26,11 @@ export default class Login extends Component {
   }
 
   render() {
-    const { errorMessage, dispatch } = this.props;
+    const {
+      errors,
+      dispatch,
+      isFetching,
+    } = this.props;
 
     return (
       <div className="popup-wrap" id="login-popup" style={{ display: 'block' }}>
@@ -48,6 +52,13 @@ export default class Login extends Component {
           <SocialLogin />
           <div className="popup-notice">{__t('or autorize')}</div>
           <div className="popup-form">
+            {
+              errors && errors.non_field_errors
+              &&
+              <div className="login__form-error login__form-error--top">
+                {errors.non_field_errors}
+              </div>
+            }
             <div className="popup-form__field">
               <label
                 className="popup-form__label"
@@ -64,6 +75,13 @@ export default class Login extends Component {
                   ref={phone => (this.phone = phone)}
                 />
               </div>
+              {
+                errors && errors.username
+                &&
+                <div className="login__form-error">
+                  {errors.username}
+                </div>
+              }
             </div>
             <div className="popup-form__field">
               <label
@@ -80,19 +98,23 @@ export default class Login extends Component {
                   ref={password => (this.password = password)}
                 />
               </div>
+              {
+                errors && errors.password
+                &&
+                <div className="login__form-error">
+                  {errors.password}
+                </div>
+              }
             </div>
-            {
-              errorMessage &&
-              <div><label>{errorMessage}</label></div>
-            }
             <div className="buttons-wrap">
-              <button
+              <FetchingButton
                 className="default-button"
-                type="submit"
+                type="button"
                 onClick={this.handleClick}
+                isFetching={isFetching}
               >
                 {__t('Log In')}
-              </button>
+              </FetchingButton>
               <button
                 className="cancel-button"
                 type="submit"

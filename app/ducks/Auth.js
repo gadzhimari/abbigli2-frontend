@@ -1,5 +1,13 @@
 import { API_URL, DOMAIN_URL } from 'config';
-import { setJsonToStorage, getJsonFromStorage } from 'utils/functions';
+import { setJsonToStorage, getJsonFromStorage, deleteFromStorage } from 'utils/functions';
+
+import {
+  registerPopup,
+  confirmPopup,
+  setpassPopup,
+  resetPopup,
+  confirmResetPopup,
+} from 'ducks/Popup';
 
 // Actions
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
@@ -40,7 +48,17 @@ const initialState = {
     vk_account: "",
     website_info: ""
   },
-  isAuthenticated: getJsonFromStorage('id_token') ? true : false
+  isAuthenticated: getJsonFromStorage('id_token') ? true : false,
+  isFetchingRegister: false,
+  isFetchingConfirm: false,
+  isFetchingReset: false,
+  isFetchingSetpass: false,
+  loginErrors: null,
+  registerErrors: null,
+  resetError: null,
+  confirmSignUpError: null,
+  confirmResetError: null,
+  setpassError: null,
 };
 
 // Reducer
@@ -54,59 +72,110 @@ export default function auth(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: true,
         isAuthenticated: false,
-        user: action.creds
-      })
+        user: action.creds,
+      });
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: true,
-        errorMessage: '',
+        errorMessage: null,
       });
     case LOGIN_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: false,
-        errorMessage: action.message,
-      })
+        loginErrors: action.errorObj,
+      });
     case REGISTER_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true,
+        isFetchingRegister: true,
         confirm: false,
-        creds: action.creds
-      })
+        creds: action.creds,
+      });
     case REGISTER_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: false,
-        confirm: true
-      })
+        isFetchingRegister: false,
+        confirm: true,
+        registerErrors: null,
+      });
     case REGISTER_FAILURE:
       return Object.assign({}, state, {
-        isFetching: false,
+        isFetchingRegister: false,
         confirm: false,
-        errorMessage: action.message
-      })
+        registerErrors: action.errorObj,
+      });
     case CONFIRM_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true,
+        isFetchingConfirm: true,
         confirm: false,
-        creds: action.creds
-      })
+        creds: action.creds,
+      });
     case CONFIRM_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: false,
-        confirm: true
-      })
+        isFetchingConfirm: false,
+        confirm: true,
+      });
     case CONFIRM_FAILURE:
       return Object.assign({}, state, {
-        isFetching: false,
+        isFetchingConfirm: false,
         confirm: false,
-        errorMessage: action.message
-      })
+        confirmSignUpError: action.errorObj,
+      });
+    case RESET_REQUEST:
+      return Object.assign({}, state, {
+        isFetchingReset: true,
+        confirm: false,
+        creds: action.creds,
+      });
+    case RESET_SUCCESS:
+      return Object.assign({}, state, {
+        isFetchingReset: false,
+        confirm: true,
+        resetError: null,
+      });
+    case RESET_FAILURE:
+      return Object.assign({}, state, {
+        isFetchingReset: false,
+        confirm: false,
+        resetError: action.errorObj,
+      });
+    case RESET_CONFIRM_REQUEST:
+      return Object.assign({}, state, {
+        isFetchingConfirm: true,
+        confirm: false,
+        creds: action.creds,
+      });
+    case RESET_CONFIRM_SUCCESS:
+      return Object.assign({}, state, {
+        isFetchingConfirm: false,
+        confirm: true,
+        confirmResetError: null,
+      });
+    case RESET_CONFIRM_FAILURE:
+      return Object.assign({}, state, {
+        isFetchingConfirm: false,
+        confirm: false,
+        confirmResetError: action.errorObj,
+      });
     case LOGOUT_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: true,
+        isFetching: false,
         me: {},
-        isAuthenticated: false
+        isAuthenticated: false,
+      });
+    case SET_PASSWORD_REQUEST:
+      return Object.assign({}, state, {
+        isFetchingSetpass: true,
+      });
+    case SET_PASSWORD_SUCCESS:
+      return Object.assign({}, state, {
+        isFetchingSetpass: false,
+        setpassError: null,
+      });
+    case SET_PASSWORD_FAILURE:
+      return Object.assign({}, state, {
+        isFetchingSetpass: false,
+        setpassError: action.errorObj,
       });
     case ME_STORE:
       return Object.assign({}, state, {
@@ -118,7 +187,6 @@ export default function auth(state = initialState, action) {
       return state;
   }
 }
-
 
 // ActionCreators
 function requestLogin(creds) {
@@ -139,12 +207,12 @@ function receiveLogin(user) {
   };
 }
 
-function loginError(message) {
+function loginError(errorObj) {
   return {
     type: LOGIN_FAILURE,
     isFetching: false,
     isAuthenticated: false,
-    message,
+    errorObj,
   };
 }
 
@@ -190,9 +258,9 @@ export function loginUser(creds) {
         response.json().then(user => ({ user, response }))
       ).then(({ user, response }) => {
         if (!response.ok) {
-          dispatch(loginError(user.message));
+          dispatch(loginError(user));
 
-          return Promise.reject(user);
+          return;
         }
         
         setJsonToStorage('id_token', user.token);
@@ -203,85 +271,34 @@ export function loginUser(creds) {
   };
 }
 
-
-// Calls the API to get a token and
-// dispatches actions along the way
-export function loginUserSocial(creds) {
-  const config = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code: creds.code }),
-  };
-
-  return (dispatch) => {
-    // We dispatch requestLogin to kickoff the call to the API
-    dispatch(requestLogin(creds));
-
-    let endpoint;
-    if (creds.provider === 'fb') {
-      endpoint = `${DOMAIN_URL}api/social/facebook/`;
-    }
-
-    if (creds.provider === 'vk') {
-      endpoint = `${DOMAIN_URL}api/social/vk/`;
-    }
-
-    if (creds.provider === 'google') {
-      endpoint = `${DOMAIN_URL}api/social/google/`;
-    }
-
-    return fetch(endpoint, config)
-      .then(response =>
-        response
-          .json()
-          .then(user => ({ user, response }))
-      ).then(({ user, response }) => {
-        if (!response.ok) {
-          // If there was a problem, we want to
-          // dispatch the error condition
-          dispatch(loginError(user.message));
-          return Promise.reject(user);
-        } else {
-          // If login was successful, set the token in local storage
-          setJsonToStorage('id_token', user.token);
-          document.cookie = `id_token=${user.token}`;
-          // Dispatch the success action
-          dispatch(receiveLogin(user));
-        }
-      });
-  };
-}
-
-
-
-export const REGISTER_REQUEST = 'REGISTER_REQUEST'
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
-export const REGISTER_FAILURE = 'REGISTER_FAILURE'
+export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 
 function requestRegister(creds) {
   return {
     type: REGISTER_REQUEST,
     isFetching: true,
     confirm: false,
-    creds
-  }
+    creds,
+  };
 }
 
 function receiveRegister(user) {
   return {
     type: REGISTER_SUCCESS,
     isFetching: false,
-    confirm: true
-  }
+    confirm: true,
+  };
 }
 
-function registerError(message) {
+function registerError(errorObj) {
   return {
     type: REGISTER_FAILURE,
     isFetching: false,
     confirm: false,
-    message
-  }
+    errorObj,
+  };
 }
 
 
@@ -291,31 +308,32 @@ export function registerUser(creds) {
   const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone: creds.phoneNumber })
+    body: JSON.stringify({ phone: creds.phoneNumber }),
   };
 
-  return dispatch => {
+  return (dispatch) => {
     // We dispatch requestLogin to kickoff the call to the API
-    dispatch(requestRegister(creds))
+    dispatch(requestRegister(creds));
 
-    return fetch(API_URL + 'signup/', config)
+    return fetch(`${API_URL}signup/`, config)
       .then(response =>
         response.json().then(user => ({ user, response }))
-      ).then(({user, response}) => {
+      ).then(({ user, response }) => {
         if (!response.ok) {
           // If there was a problem, we want to
           // dispatch the error condition
-          dispatch(registerError(response.statusText))
-          return Promise.reject(user)
-        } else {
-          // If login was successful, set the token in local storage
-          setJsonToStorage('id_token', user.token);
-          document.cookie = `id_token=${user.token}`;
-          // Dispatch the success action
-          dispatch(receiveLogin(user))
+          dispatch(registerError(user));
+
+          return;
         }
-      }).catch(err => console.log("Error: ", err))
-  }
+
+        setJsonToStorage('phoneNum', user.phone);
+        setJsonToStorage('openConfirm', true);
+
+        dispatch(registerPopup(false));
+        dispatch(confirmPopup(true));
+      });
+  };
 }
 
 
@@ -332,7 +350,7 @@ function requestConfirm(creds) {
   };
 }
 
-function receiveConfirm(user) {
+function receiveConfirm() {
   return {
     type: CONFIRM_SUCCESS,
     isFetching: false,
@@ -340,12 +358,12 @@ function receiveConfirm(user) {
   };
 }
 
-function confirmError(message) {
+function confirmError(errorObj) {
   return {
     type: CONFIRM_FAILURE,
     isFetching: false,
     confirm: false,
-    message,
+    errorObj,
   };
 }
 
@@ -356,31 +374,31 @@ export function confirmUser(creds) {
   const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone: creds.phone, code: creds.code })
+    body: JSON.stringify({ phone: creds.phone, code: creds.code }),
   };
 
-  return dispatch => {
-    // We dispatch requestLogin to kickoff the call to the API
-    dispatch(requestConfirm(creds))
+  return (dispatch) => {
+    dispatch(requestConfirm());
 
-    return fetch(API_URL + 'signup/confirm/', config)
-      .then(response =>
-        response.json().then(user => ({ user, response }))
-      ).then(({user, response}) => {
+    return fetch(`${API_URL}signup/confirm/`, config)
+      .then(response => response.json().then(user => ({ user, response })))
+      .then(({ user, response }) => {
         if (!response.ok) {
-          // If there was a problem, we want to
-          // dispatch the error condition
-          dispatch(confirmError(response.statusText[0]))
-          return Promise.reject(user)
-        } else {
-          // If login was successful, set the token in local storage
-          setJsonToStorage('id_token', user.token);
-          document.cookie = `id_token=${user.token}`;
-          // Dispatch the success action
-          dispatch(receiveConfirm(user))
+          dispatch(confirmError(user));
+
+          return;
         }
-      }).catch(err => dispatch(confirmError(err.code[0])))
-  }
+
+        document.cookie = `id_token=${user.token}`;
+
+        deleteFromStorage('openConfirm');
+        setJsonToStorage('openSetpass', true);
+
+        dispatch(receiveConfirm(user));
+        dispatch(confirmPopup(false));
+        dispatch(setpassPopup(true));
+      }).catch(err => dispatch(confirmError(err.code[0])));
+  };
 }
 
 
@@ -393,58 +411,108 @@ function requestReset(creds) {
     type: RESET_REQUEST,
     isFetching: true,
     confirm: false,
-    creds
-  }
+    creds,
+  };
 }
 
-function receiveReset(user) {
+function receiveReset() {
   return {
     type: RESET_SUCCESS,
     isFetching: false,
-    confirm: true
-  }
+    confirm: true,
+  };
 }
 
-function resetError(message) {
+function resetError(errorObj) {
   return {
     type: RESET_FAILURE,
     isFetching: false,
     confirm: false,
-    message
-  }
+    errorObj,
+  };
 }
 
 
 // Calls the API to get a token and
 // dispatches actions along the way
 export function resetUser(creds) {
+  const formData = new FormData();
+  formData.append('username', creds.username);
 
-  let config = {
+  const config = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-    body: `username=${creds.username}`
+    body: formData,
   };
 
-  return dispatch => {
-    // We dispatch requestLogin to kickoff the call to the API
-    dispatch(requestReset(creds))
+  return (dispatch) => {
+    dispatch(requestReset(creds));
 
     return fetch(`${API_URL}reset-password/`, config)
-      .then(response =>
-        response.json().then(user => ({ user, response }))
-      ).then(({user, response}) => {
+      .then(response => response.json().then(user => ({ user, response })))
+      .then(({ user, response }) => {
         if (!response.ok) {
-          // If there was a problem, we want to
-          // dispatch the error condition
-          dispatch(resetError(user.message))
-          return Promise.reject(user)
-        } else {
-          // Dispatch the success action
-          dispatch(receiveReset(user))
+          dispatch(resetError(user));
+
+          return;
         }
-      }).catch(err => console.log("Error: ", err))
-  }
+
+        setJsonToStorage('openResetConfirm', true);
+        setJsonToStorage('phoneNum', user.username);
+
+        dispatch(receiveReset());
+        dispatch(resetPopup(false));
+        dispatch(confirmResetPopup(true));
+      }).catch(err => console.log("Error: ", err));
+  };
 }
+
+export const RESET_CONFIRM_REQUEST = 'RESET_CONFIRM_REQUEST';
+export const RESET_CONFIRM_SUCCESS = 'RESET_CONFIRM_SUCCESS';
+export const RESET_CONFIRM_FAILURE = 'RESET_CONFIRM_FAILURE';
+
+const resetConfirmReq = () => ({
+  type: RESET_CONFIRM_REQUEST,
+});
+
+const resetConfirmSuc = () => ({
+  type: RESET_CONFIRM_SUCCESS,
+});
+
+const resetConfirmFai = errorObj => ({
+  type: RESET_CONFIRM_FAILURE,
+  errorObj,
+});
+
+export const resetConfirm = (creds) => {
+  const config = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: creds.phone, code: creds.code }),
+  };
+
+  return (dispatch) => {
+    dispatch(resetConfirmReq());
+
+    fetch(`${API_URL}reset-password/confirm/`, config)
+      .then(res => res.json().then(detail => ({ detail, response: res }))
+      .then(({ detail, response }) => {
+        if (!response.ok) {
+          dispatch(resetConfirmFai(detail));
+  
+          return;
+        }
+
+        document.cookie = `id_token=${detail.token}`;
+        deleteFromStorage('openResetConfirm');
+        setJsonToStorage('openSetpassReset', true);
+        setJsonToStorage('currentPass', true);
+
+        dispatch(resetConfirmSuc());
+        dispatch(confirmResetPopup(false));
+        dispatch(setpassPopup(true));
+      }));
+  };
+};
 
 
 
@@ -452,24 +520,24 @@ export function resetUser(creds) {
 // Since we are using JWTs, we just need to remove the token
 // from localStorage. These actions are more useful if we
 // were calling the API to log the user out
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
-export const LOGOUT_FAILURE = 'LOGOUT_FAILURE'
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 function requestLogout() {
   return {
     type: LOGOUT_REQUEST,
     isFetching: true,
-    isAuthenticated: true
-  }
+    isAuthenticated: true,
+  };
 }
 
 function receiveLogout() {
   return {
     type: LOGOUT_SUCCESS,
     isFetching: false,
-    isAuthenticated: false
-  }
+    isAuthenticated: false,
+  };
 }
 
 
@@ -482,3 +550,55 @@ export function logoutUser() {
     dispatch(receiveLogout());
   };
 }
+
+export const SET_PASSWORD_REQUEST = 'SET_PASSWORD_REQUEST';
+export const SET_PASSWORD_SUCCESS = 'SET_PASSWORD_REQUEST';
+export const SET_PASSWORD_FAILURE = 'SET_PASSWORD_FAILURE';
+
+const setPassRequest = () => ({
+  type: SET_PASSWORD_REQUEST,
+});
+
+const setPassSuccess = () => ({
+  type: SET_PASSWORD_SUCCESS,
+});
+
+const setPassFailure = errorObj => ({
+  type: SET_PASSWORD_FAILURE,
+  errorObj,
+});
+
+export const setPassword = (creds) => {
+  const token = getJsonFromStorage('id_token');
+  
+  const config = {
+    method: 'POST',
+    body: creds,
+    headers: {},
+  };
+
+  if (token) {
+    config.headers.Authorization = `JWT ${token}`;
+  }
+
+  return (dispatch) => {
+    dispatch(setPassRequest);
+
+    fetch(`${API_URL}my-profile/set-password/`, config)
+      .then(res => res.json().then(detail => ({ detail, response: res }))
+      .then(({ detail, response }) => {
+        if (!response.ok) {
+          dispatch(setPassFailure(detail));
+
+          return;
+        }
+
+        deleteFromStorage('openSetpass');
+        deleteFromStorage('openSetpassReset');
+        deleteFromStorage('currentPass');
+        dispatch(setPassSuccess());
+        dispatch(setpassPopup(false));
+        dispatch(fetchMe());
+      }));
+  };
+};

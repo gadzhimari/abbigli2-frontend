@@ -10,6 +10,8 @@ const MESSAGE = 'abbigli/ui/MESSAGE';
 const WANTS = 'abbigli/ui/WANTS';
 const SUPPORT = 'abbigli/ui/SUPPORT';
 const SEARCH = 'abbigli/ui/SEARCH';
+const SET_PASSWORD = 'abbigli/ui/SET_PASSWORD';
+const CONFIRM_RESET = 'abbigli/ui/CONFIRM_RESET';
 const CLOSEALL = 'abbigli/ui/CLOSEALL';
 
 // Reducer
@@ -24,6 +26,8 @@ export default function (state = {
   showWants: false,
   showSupport: false,
   showSearch: false,
+  showSetpass: false,
+  confirmResetShow: false,
 }, action = {}) {
   switch (action.type) {
     case LOGIN:
@@ -74,6 +78,14 @@ export default function (state = {
       return Object.assign({}, state, {
         showSearch: action.show,
       });
+    case SET_PASSWORD:
+      return Object.assign({}, state, {
+        showSetpass: action.show,
+      });
+    case CONFIRM_RESET:
+      return Object.assign({}, state, {
+        confirmResetShow: action.show,
+      });
     case CLOSEALL:
       return Object.assign({}, state, {
         showLogin: false,
@@ -109,6 +121,13 @@ export function registerPopup(show = true) {
 export function confirmPopup(show = true) {
   return {
     type: CONFIRM,
+    show,
+  };
+}
+
+export function confirmResetPopup(show = true) {
+  return {
+    type: CONFIRM_RESET,
     show,
   };
 }
@@ -170,6 +189,13 @@ export function supportPopup(show = true) {
 export function searchPopup(show = true) {
   return {
     type: SEARCH,
+    show,
+  };
+}
+
+export function setpassPopup(show = true) {
+  return {
+    type: SET_PASSWORD,
     show,
   };
 }

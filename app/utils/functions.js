@@ -25,6 +25,10 @@ export function setJsonToStorage(key, data) {
   return data;
 }
 
+export function deleteFromStorage(key) {
+  storage.removeItem(key);
+}
+
 export function getJsonFromStorage() {
   if (typeof document === 'undefined') {
     return null;

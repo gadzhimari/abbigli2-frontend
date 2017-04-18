@@ -1,6 +1,5 @@
 import { API_URL } from 'config';
 import { setJsonToStorage, getJsonFromStorage } from 'utils/functions';
-import fetch from 'isomorphic-fetch';
 
 const ENDPOINT = API_URL + 'posts/?type=1';
 

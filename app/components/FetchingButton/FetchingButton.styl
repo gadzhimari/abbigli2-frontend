@@ -14,4 +14,26 @@
   0% {
     transform: rotate(0); }
   100% {
-    transform: rotate(360deg); } }
+    transform: rotate(360deg); }
+  }
+
+.loader__wrapper {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -41%, 0);
+}
+
+.loader__wrapper--hide {
+  display: none;
+}
+
+.loader__children {
+  display: inline-block;
+  opacity: 1;
+}
+
+.loader__children--hide {
+  opacity: 0;
+}
