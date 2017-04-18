@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 
+import { FetchingButton } from 'components';
+
 import { registerPopup, resetPopup } from 'ducks/Popup';
 import { __t } from './../../i18n/translator';
 
 import './index.styl';
 
 
-export default class Login extends Component {
+export default class Reset extends Component {
   handleClick = () => {
     const creds = {
       username: this.username.value.trim(),
@@ -28,6 +30,8 @@ export default class Login extends Component {
   }
 
   render() {
+    const { isFetching, errors } = this.props;
+
     return (
       <div className="popup-wrap" id="password-reset-popup" style={{ display: 'block' }}>
         <div className="popup">
@@ -56,15 +60,23 @@ export default class Login extends Component {
                   type="text"
                 />
               </div>
+              {
+                errors && errors.username
+                &&
+                <div className="login__form-error login__form-error--top">
+                  {errors.username}
+                </div>
+              }
             </div>
             <div className="buttons-wrap">
-              <button
+              <FetchingButton
                 className="default-button"
                 type="button"
                 onClick={this.handleClick}
+                isFetching={isFetching}
               >
                 {__t('Recover.your.password')}
-              </button>
+              </FetchingButton>
               <button
                 className="cancel-button"
                 type="button"
@@ -80,7 +92,7 @@ export default class Login extends Component {
   }
 }
 
-Login.propTypes = {
+Reset.propTypes = {
   errorMessage: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   onResetClick: PropTypes.func.isRequired,

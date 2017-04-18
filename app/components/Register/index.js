@@ -1,24 +1,23 @@
 import React, { Component, PropTypes } from 'react';
+import Select from 'react-select';
 
-import { SocialLogin } from 'components';
+import { SocialLogin, FetchingButton } from 'components';
 
-import { loginPopup, registerPopup, confirmPopup } from 'ducks/Popup';
-import countries from './data';
+import { loginPopup, registerPopup } from 'ducks/Popup';
 import { __t } from './../../i18n/translator';
 
 import './index.styl';
 
 export default class Login extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       phoneNumber: '',
       number: '',
-      codes: [],
       checkRules: false,
-      errorText: '',
-      phoneCode: '+7',
+      codeValue: undefined,
+      selfErrors: null,
     };
   }
 
@@ -33,46 +32,66 @@ export default class Login extends Component {
     });
   }
 
-  handleOptions = (e) => {
-    var options = e.target.options;
-    var value = [];
-    for (var i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
+  handleOptions = (val) => {
     this.setState({
-      phoneCode: value[0]
-    })
+      codeValue: val.value,
+      selfErrors: null,
+    });
   }
 
   handleClick = () => {
-    const { errorMessage, dispatch } = this.props;
-    const code = this.state.phoneCode;
+    const {
+      errorMessage,
+      dispatch,
+      onRegisterClick,
+    } = this.props;
+    const code = this.state.codeValue
+      ? this.state.codeValue.trim()
+      : null;
     const number = this.number;
 
-    if (typeof code == "undefined" || number.value.trim().length == 0) {
+    if (!code) {
       this.setState({
-        errorText: 'Проверьте правильно введенных данных'
+        selfErrors: {
+          country: 'You must choose your country',
+        },
       });
     } else {
-      const creds = { phoneNumber: this.code + number.value.trim() };
+      const creds = {
+        phoneNumber: `${code}${number.value.trim()}`,
+      };
 
-      localStorage.setItem('phoneNumber', this.code + number.value.trim());
-      dispatch(dispatch(registerPopup(false)), dispatch(confirmPopup(true)));
-      this.props.onRegisterClick(creds);
+      onRegisterClick(creds);
     }
   }
 
-  render() {
-    const { errorMessage, dispatch } = this.props
+  handleRegister = () => {
+    const { checkRules } = this.state;
 
-    var items = []
-    countries.map((item, i) => {
-      items.push(
-        <option key={i} value={item.value}>{item.label}</option>
-      )
-    });
+    if (checkRules) {
+      this.handleClick();
+    } else {
+      this.setState({
+        errorText: 'You should agree Terms of use of the resource'
+      });
+    }
+  }
+
+  openSignIn = () => {
+    const { dispatch } = this.props;
+
+    dispatch(dispatch(registerPopup(false)), dispatch(loginPopup(true)));
+  }
+
+  closePopup = () => {
+    const { dispatch } = this.props;
+
+    dispatch(registerPopup(false));
+  }
+
+  render() {
+    const { errorMessage, codes, isFetching, errors } = this.props;
+    const { codeValue, selfErrors } = this.state;
 
     return (
       <div className="popup-wrap" id="register-popup" style={{ display: 'block' }}>
@@ -81,7 +100,7 @@ export default class Login extends Component {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 14 14.031"
             className="popup-close icon"
-            onClick={() => { dispatch(registerPopup(false)) }}
+            onClick={this.closePopup}
           >
             <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
           </svg>
@@ -95,10 +114,15 @@ export default class Login extends Component {
             <div className="popup-form__field">
               <div className="select-code-phone">
                 <label className="popup-form__label">{__t('Telephone')}</label>
-                <div className="select-wrap">
-                  <select onChange={this.handleOptions} className="select">
-                    {items}
-                  </select>
+                <div>
+                  <Select
+                    onChange={this.handleOptions}
+                    matchPos="start"
+                    options={codes}
+                    value={codeValue}
+                    placeholder="Choose your country"
+                    clearable={false}
+                  />
                 </div>
               </div>
               <div className="input-wrap phone">
@@ -112,6 +136,20 @@ export default class Login extends Component {
                   placeholder={__t('Phone number without a country code')}
                 />
               </div>
+              {
+                selfErrors && selfErrors.country
+                &&
+                <div className="login__form-error">
+                  {selfErrors.country}
+                </div>
+              }
+              {
+                errors && errors.phone
+                &&
+                <div className="login__form-error">
+                  {errors.phone}
+                </div>
+              }
             </div>
             <div className="checkbox-wrap">
               <input
@@ -123,23 +161,28 @@ export default class Login extends Component {
                 value={this.state.checkRules}
               />
               <label className="checkbox-label" htmlFor="iAgree">
-                {__t('I agree')} <a className="checkbox-label__link" href="/page/agreement">
+                {__t('I agree')}
+                <a className="checkbox-label__link" href="/page/agreement">
                   {__t('Terms of use of the resource')}
-                </a></label>
+                </a>
+              </label>
+              <div className="login__form-error">
+                {this.state.errorText}
+              </div>
             </div>
-            <div className="label-err"><label>{this.state.errorText}</label></div>
             <div className="buttons-wrap">
-              <button
+              <FetchingButton
                 className="default-button"
                 type="button"
-                onClick={(event) => { this.state.checkRules ? (this.handleClick(event)) : this.setState({ errorText: 'You should agree Terms of use of the resource' }) }}
+                onClick={this.handleRegister}
+                isFetching={isFetching}
               >
                 {__t('Sign Up')}
-              </button>
+              </FetchingButton>
               <button
                 className="cancel-button"
                 type="button"
-                onClick={() => { dispatch(dispatch(registerPopup(false)), dispatch(loginPopup(true))) }}
+                onClick={this.openSignIn}
               >
                 {__t('Sign In')}
               </button>
@@ -153,5 +196,5 @@ export default class Login extends Component {
 }
 
 Login.propTypes = {
-  errorMessage: PropTypes.string
-}
+  errorMessage: PropTypes.string,
+};

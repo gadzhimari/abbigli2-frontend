@@ -17,6 +17,8 @@ import {
   Status,
   MobileSearchPopup,
   mediaHOC,
+  SetPasswordPopup,
+  ConfirmReset,
 } from 'components';
 import { appConfig } from 'config';
 import {
@@ -26,10 +28,12 @@ import {
   registerUser,
   confirmUser,
   resetUser,
+  setPassword,
+  resetConfirm,
 } from 'ducks/Auth';
 import { closeAll } from 'ducks/Popup';
 import { getSupport } from 'ducks/Support';
-import { fetchData as settingsFetch } from 'ducks/Settings';
+import { fetchData as settingsFetch, fetchGeo } from 'ducks/Settings';
 import { fetchData as seoFetch } from 'ducks/Seo';
 import { fetchData as fetchDataSections } from 'ducks/Sections';
 import './App.styl';
@@ -47,6 +51,7 @@ class App extends Component {
     const promises = [
       store.dispatch(seoFetch()),
       store.dispatch(settingsFetch()),
+      store.dispatch(fetchGeo()),
     ];
 
     if (token) {
@@ -105,6 +110,18 @@ class App extends Component {
     this.slideout.toggle();
   }
 
+  handleSetPassword = (creds) => {
+    const { dispatch } = this.props;
+
+    dispatch(setPassword(creds));
+  }
+
+  sendConfirmReset = (creds) => {
+    const { dispatch } = this.props;
+
+    dispatch(resetConfirm(creds));
+  }
+
   render() {
     const {
       dispatch,
@@ -121,17 +138,26 @@ class App extends Component {
       userName,
       showConfirm,
       showSupport,
+      showSetpass,
       children,
       showSearch,
       userId,
       seo,
       location,
       messagesSending,
+      geo,
+      isFetchingRegister,
+      isFetchingLogin,
+      isFetchingConfirm,
+      isFetchingSetpass,
+      confirmResetShow,
+      isFetchingReset,
     } = this.props;
 
     const seoData = seo.data.filter((item) => item.url == location.pathname)[0];
     const shouldOpenModal = showLogin || showRegister || showConfirm ||
-      showDeleteMessage || showReset || showMessage || showStatus || showSupport || showSearch;
+      showDeleteMessage || showReset || showMessage || showStatus || showSupport || showSearch ||
+      showSetpass || confirmResetShow;
 
     const searchTemplate = ({ media }) => (media.isDesctop ? <Search /> : null);
 
@@ -171,9 +197,10 @@ class App extends Component {
 
           {(showLogin && !isAuthenticated) &&
             <Login
-              errorMessage={errorMessage}
+              errors={this.props.loginErrors}
               dispatch={dispatch}
               onLoginClick={creds => dispatch(loginUser(creds))}
+              isFetching={isFetchingLogin}
             />
           }
 
@@ -187,17 +214,29 @@ class App extends Component {
 
           {(showRegister && !isAuthenticated) &&
             <Register
-              errorMessage={errorMessage}
+              errors={this.props.registerErrors}
               dispatch={dispatch}
               onRegisterClick={creds => dispatch(registerUser(creds))}
+              codes={geo}
+              isFetching={isFetchingRegister}
+            />
+          }
+
+          {(showSetpass && !isAuthenticated) &&
+            <SetPasswordPopup
+              errors={this.props.setpassError}
+              dispatch={dispatch}
+              handleSet={this.handleSetPassword}
+              isFetching={isFetchingSetpass}
             />
           }
 
           {(showConfirm && !isAuthenticated) &&
             <Confirm
-              errorMessage={errorMessage}
+              errors={this.props.confirmSignUpError}
               dispatch={dispatch}
               onConfirmClick={creds => dispatch(confirmUser(creds))}
+              isFetching={isFetchingConfirm}
             />
           }
 
@@ -212,9 +251,10 @@ class App extends Component {
 
           {(showReset && !isAuthenticated) &&
             <Reset
-              errorMessage={errorMessage}
               dispatch={dispatch}
               onResetClick={creds => dispatch(resetUser(creds))}
+              isFetching={isFetchingReset}
+              errors={this.props.resetError}
             />
           }
 
@@ -235,6 +275,15 @@ class App extends Component {
               sending={messagesSending}
             />
 
+          }
+
+          {(confirmResetShow && !isAuthenticated) &&
+            <ConfirmReset
+              dispatch={dispatch}
+              isFetching={isFetchingConfirm}
+              sendCode={this.sendConfirmReset}
+              errors={this.props.confirmResetError}
+            />
           }
 
           {(showStatus && isAuthenticated) &&
@@ -263,11 +312,26 @@ App.propTypes = {
 
 
 function mapStateToProps(state) {
-  const { isAuthenticated, errorMessage } = state.Auth || { isAuthenticated: false, errorMessage: '' };
+  const {
+    isAuthenticated,
+    errorMessage,
+    isFetchingRegister,
+    isFetching,
+    isFetchingConfirm,
+    isFetchingSetpass,
+    isFetchingReset,
+    loginErrors,
+    registerErrors,
+    resetError,
+    confirmSignUpError,
+    confirmResetError,
+    setpassError,
+  } = state.Auth || { isAuthenticated: false, errorMessage: '' };
   const {
     showLogin, showRegister, showDeleteMessage, userId, recipient,
     showReset, showMessage, showStatus, userName,
-    sendMessageYourselfError, showConfirm, showSupport, showSearch, dialogId } = state.Popup;
+    sendMessageYourselfError, showConfirm, showSupport, showSearch, dialogId, showSetpass,
+    confirmResetShow } = state.Popup;
   const messages = state.Dialogs || {};
 
   const seo = (state.Seo) || { isFetching: true,  data: []  };
@@ -290,9 +354,23 @@ function mapStateToProps(state) {
     showStatus,
     showSupport,
     showSearch,
+    showSetpass,
     userName,
     sendMessageYourselfError,
     messagesSending: messages.isSending,
+    geo: settings.geo,
+    isFetchingRegister,
+    isFetchingLogin: isFetching,
+    isFetchingConfirm,
+    isFetchingSetpass,
+    confirmResetShow,
+    isFetchingReset,
+    loginErrors,
+    registerErrors,
+    resetError,
+    confirmSignUpError,
+    confirmResetError,
+    setpassError,
   };
 }
 

@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 
 import { FetchingButton } from 'components';
 
-import { registerPopup, confirmPopup } from 'ducks/Popup';
+import { resetPopup, confirmResetPopup } from 'ducks/Popup';
 import { __t } from '../../i18n/translator';
 
-import './index.styl';
-
-export default class Confirm extends Component {
+export default class ConfirmReset extends Component {
   constructor() {
     super();
     this.state = {
@@ -17,19 +15,20 @@ export default class Confirm extends Component {
   }
 
   handleClick = () => {
-    const { errorMessage, dispatch, onConfirmClick, isFetching } = this.props;
+    const { errorMessage, dispatch, sendCode } = this.props;
+
     const confirmCode = this.confirmCode;
     const creds = {
       phone: JSON.parse(localStorage.getItem('phoneNum')),
-      code: confirmCode.value.trim(),
+      code: this.state.confirmCode,
     };
 
-    onConfirmClick(creds);
+    sendCode(creds);
   }
 
   confirmChange = (e) => {
     this.setState({
-      confirmCode: e.target.value,
+      confirmCode: e.target.value.trim(),
       confirmError: '',
     });
   }
@@ -37,20 +36,19 @@ export default class Confirm extends Component {
   closePopup = () => {
     const { dispatch } = this.props;
 
-    dispatch(confirmPopup(false));
+    dispatch(confirmResetPopup(false));
   }
 
   goBack = () => {
     const { dispatch } = this.props;
 
-    localStorage.removeItem('openConfirm');
-    localStorage.removeItem('phoneNum');
-    dispatch(dispatch(registerPopup(true)), dispatch(confirmPopup(false)));
+    localStorage.removeItem('openResetConfirm');
+
+    dispatch(dispatch(resetPopup(true)), dispatch(confirmResetPopup(false)));
   }
 
   render() {
     const { errors, dispatch, isFetching } = this.props;
-    const number = JSON.parse(localStorage.getItem('phoneNum'));
 
     return (
       <div className="popup-wrap" id="register-popup" style={{ display: 'block' }}>
@@ -64,7 +62,7 @@ export default class Confirm extends Component {
             <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
           </svg>
           <div className="popup-title">
-            {__t('Confirm your phone ')} {number}
+            {__t('Reset your password on Abbigli')}
           </div>
           <form>
             <div className="input-wrap phone">
@@ -89,6 +87,9 @@ export default class Confirm extends Component {
                 {errors.code}
               </div>
             }
+            <div>
+              <label>{this.state.confirmError}</label>
+            </div>
             <div className="buttons-wrap">
               <FetchingButton
                 className="default-button"
@@ -96,7 +97,7 @@ export default class Confirm extends Component {
                 onClick={this.handleClick}
                 isFetching={isFetching}
               >
-                {__t('Confirm registration')}
+                {__t('Send code')}
               </FetchingButton>
               <button
                 className="cancel-button"

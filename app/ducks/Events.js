@@ -1,7 +1,6 @@
 // Sections.js
 import { API_URL } from 'config';
 import { getJsonFromStorage } from 'utils/functions';
-import fetch from 'isomorphic-fetch';
 
 // Actions
 const REQUEST = 'abbigli/Events/REQUEST';

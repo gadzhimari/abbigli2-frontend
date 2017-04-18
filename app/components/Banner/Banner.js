@@ -8,9 +8,9 @@ function Banner() {
     <div className="home-page__banner-wrap">
       <div className="home-page__banner">
         <div className="home-page__banner-text">
-          <div className="home-page__banner-heading">
+          <h1 className="home-page__banner-heading">
             {__t('banner.header')}
-          </div>
+          </h1>
           {__t('banner.text')}
           <br/>
           <button className="button-banner">

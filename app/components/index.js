@@ -68,3 +68,5 @@ export { default as DialogsBlock } from './DialogsBlock';
 export { default as UploadingImage } from './UploadingImage';
 export { default as FetchingButton } from './FetchingButton';
 export { default as SocialLogin } from './SocialLogin';
+export { default as SetPasswordPopup } from './SetPasswordPopup';
+export { default as ConfirmReset } from './ConfirmReset';

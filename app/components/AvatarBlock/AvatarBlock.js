@@ -1,16 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { fetchData as fetchDataSections } from 'ducks/Sections';
-import { loginPopup, registerPopup, supportPopup } from 'ducks/Popup'
-import { setMe } from 'ducks/Auth'
+import {
+  loginPopup,
+  registerPopup,
+  supportPopup,
+  confirmPopup,
+  setpassPopup,
+  confirmResetPopup,
+} from 'ducks/Popup';
 import './AvatarBlock.styl';
-import fetch from 'isomorphic-fetch';
-import { API_URL } from 'config'
 import { __t } from './../../i18n/translator';
-import { getJsonFromStorage } from 'utils/functions';
-
-import { mediaHOC } from 'components';
 
 import { searchPopup } from 'ducks/Popup';
 
@@ -95,6 +96,39 @@ class AvatarBlock extends Component {
 
   _openNotificationsToggle() {
     this.setState({ openNotifications: !this.state.openNotifications });
+  }
+
+  openRegister = () => {
+    const { isAuthenticated, dispatch } = this.props;
+    const shouldConfirm = JSON.parse(localStorage.getItem('openConfirm'));
+    const shouldSetpass = JSON.parse(localStorage.getItem('openSetpass'));
+    if (isAuthenticated) {
+      this._openUserMenuToggle();
+
+      return;
+    }
+
+    if (shouldConfirm) {
+      dispatch(confirmPopup(true));
+    } else if (shouldSetpass) {
+      dispatch(setpassPopup(true));
+    } else {
+      dispatch(registerPopup(true));
+    }
+  }
+
+  openLogin = () => {
+    const { dispatch } = this.props;
+    const shouldConfirm = JSON.parse(localStorage.getItem('openResetConfirm'));
+    const shouldSetpass = JSON.parse(localStorage.getItem('openSetpassReset'));
+
+    if (shouldConfirm) {
+      dispatch(confirmResetPopup(true));
+    } else if (shouldSetpass) {
+      dispatch(setpassPopup(true));
+    } else {
+      dispatch(loginPopup(true));
+    }
   }
 
   render() {
@@ -259,7 +293,7 @@ class AvatarBlock extends Component {
 
         {
           !isAuthenticated &&
-          <a className="header__menu-item login" onClick={() => { dispatch(loginPopup(true)) }}>
+          <a className="header__menu-item login" onClick={this.openLogin}>
             <div className="icon-wrap">
               <div className="icon"></div>
               <div className="menu__item-name">{__t('Login')}</div>
@@ -270,7 +304,7 @@ class AvatarBlock extends Component {
 
         <div
           className={"header__menu-item " + (isAuthenticated ? 'you' : 'registration')}
-          onClick={() => { isAuthenticated ? this._openUserMenuToggle() : dispatch(registerPopup(true)) }}
+          onClick={this.openRegister}
         >
           {
             isAuthenticated

@@ -2,8 +2,6 @@
 import { API_URL } from 'config';
 import { getJsonFromStorage } from 'utils/functions';
 
-import fetch from 'isomorphic-fetch';
-
 // Actions
 const REQUEST   = 'abbigli/Blogs/REQUEST';
 const REQUEST_APPEND   = 'abbigli/Blogs/REQUEST_APPEND';

@@ -8,6 +8,12 @@ const FetchingButton = props => {
     if (isFetching) return;
     onClick();
   };
+  const childrenClass = isFetching
+    ? 'loader__children loader__children--hide'
+    : 'loader__children';
+  const loaderClass = isFetching
+    ? 'loader__wrapper'
+    : 'loader__wrapper loader__wrapper--hide';
 
   return (
     <button
@@ -15,11 +21,12 @@ const FetchingButton = props => {
       type="button"
       onClick={hundleClick}
     >
-      {
-        isFetching
-          ? <div className="loader01"></div>
-          : children
-      }
+      <div className={loaderClass}>
+        <div className='loader01' />
+      </div>
+      <div className={childrenClass}>
+        {children}
+      </div>
     </button>
   );
 };
