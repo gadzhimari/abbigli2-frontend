@@ -10,6 +10,8 @@ import {
 } from 'components';
 import { setLike } from 'actions/like';
 
+import { registerPopup } from 'ducks/Popup';
+
 import './index.styl';
 
 class CardUni extends Component {
@@ -20,6 +22,25 @@ class CardUni extends Component {
         like: null,
       },
     };
+  }
+
+  like = () => {
+    const { isAuth, item, dispatch } = this.props;
+
+    if (!isAuth) {
+      dispatch(registerPopup());
+
+      return;
+    }
+
+    this.setState({
+      forced: {
+        like: (this.state.forced.like === null
+          ? !item.liked
+          : !this.state.forced.like),
+      },
+    });
+    dispatch(setLike(item.slug));
   }
 
   render() {
@@ -76,10 +97,7 @@ class CardUni extends Component {
 
           <Like
             liked={this.state.forced.like === null ? liked : this.state.forced.like}
-            onClick={() => {
-              this.setState({ forced: { like: (this.state.forced.like === null ? !liked : !this.state.forced.like) } });
-              dispatch(setLike(slug));
-            }}
+            onClick={this.like}
           />
 
           <Share

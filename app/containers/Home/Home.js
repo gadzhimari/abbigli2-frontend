@@ -87,6 +87,7 @@ class Home extends Component {
                 item={item}
                 key={`${item.slug}--top`}
                 priceTemplate={priceTemplate}
+                isAuth={isAuthenticated}
               />)
           }
         </TileWrap>
@@ -106,9 +107,10 @@ class Home extends Component {
               &&
             itemsBlogs
               .slice(0, 8)
-              .map(item => <BlogCard
-                data={item}
+              .map(item => <CardUni
+                item={item}
                 key={`${item.slug}--blogs`}
+                isAuth={isAuthenticated}
               />)
           }
         </TileWrap>
@@ -129,9 +131,10 @@ class Home extends Component {
               &&
             itemsEvents
               .slice(0, 8)
-              .map(item => <EventCard
-                data={item}
+              .map(item => <CardUni
+                item={item}
                 key={`${item.slug}--events`}
+                isAuth={isAuthenticated}
               />)
           }
         </TileWrap>
