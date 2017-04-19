@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import deepEqual from 'deep-equal';
+
 import { fetchData as fetchDataSections } from 'ducks/Sections';
 import {
   loginPopup,
@@ -27,12 +29,16 @@ class AvatarBlock extends Component {
     this.openMenuToggle = this.openMenuToggle.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch, itemsSections } = this.props;
 
     if (itemsSections.length === 0) {
       dispatch(fetchDataSections());
     }
+  }
+
+  componentDidMount() {
+    const { itemsSections } = this.props;
 
     if (window.document) {
       window.addEventListener('click', (e) => {
@@ -73,10 +79,10 @@ class AvatarBlock extends Component {
 
         this.setState({ openNotifications: false });
       });
-      setTimeout(() => {
-        const menuHTML = window.document.querySelector('.dropdown').innerHTML;
-        window.document.getElementById('swipeMenu').innerHTML = menuHTML;
-      }, 500);
+
+      if (itemsSections.length > 0) {
+        this.loadSideMenu();
+      }
     }
   }
 
@@ -84,6 +90,21 @@ class AvatarBlock extends Component {
     if (nextProps.isAuthenticated !== this.props.isAuthenticated) {
       this.forceUpdate();
     }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { itemsSections } = this.props;
+
+    if (!deepEqual(itemsSections, prevProps.itemsSections)) {
+      this.loadSideMenu();
+    }
+  }
+
+
+  loadSideMenu = () => {
+    const menuHTML = window.document.querySelector('.dropdown').innerHTML;
+
+    window.document.getElementById('swipeMenu').innerHTML = menuHTML;
   }
 
   openMenuToggle = () => {
