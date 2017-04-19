@@ -8,14 +8,7 @@ const geoLocation = (req, res, next) => {
     ? location.country.names.en
     : '';
 
-  res.cookie('ip', req.ip);
-  res.cookie('ip2', req.ips[0]);
-  res.cookie('ip3', req.ips[1]);
-  res.cookie('ip4', req.connection.remoteAddress);
-  res.cookie('ip5', req.headers['x-forwarded-for']);
-
-  // res.cookie('ip', req.ip.replace('::ffff:', ''));
-  // res.cookie('country', country);
+  res.cookie('country', country);
 
   next();
 };

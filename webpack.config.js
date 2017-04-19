@@ -72,11 +72,11 @@ const alias = {
 const styleLoader = isProd
   ? ExtractTextPlugin.extract({
     fallback: 'style-loader',
-    use: ['css-loader', 'stylus-loader'],
+    use: ['css-loader', 'postcss-loader', 'stylus-loader'],
   })
   : ExtractTextPlugin.extract({
-    fallback: 'style-loader?sourceMap',
-    use: ['css-loader?sourceMap', 'stylus-loader?sourceMap'],
+    fallback: 'style-loader',
+    use: ['css-loader', 'postcss-loader', 'stylus-loader?sourceMap'],
   });
 
 const jsLoader = isProd
@@ -110,7 +110,7 @@ module.exports = {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader',
+          use: 'css-loader!postcss-loader',
         }),
       },
       {
