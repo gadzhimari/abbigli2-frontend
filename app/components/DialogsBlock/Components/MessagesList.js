@@ -4,9 +4,15 @@ import {
 } from 'components';
 
 class MessagesList extends Component {
-  componentDidUpdate() {
-    if (this.messages) {
+  componentDidUpdate(prevProps) {
+    if (this.messages && !prevProps.loadMore) {
       this.messages.scrollTop = this.messages.scrollHeight;
+    }
+  }
+
+  scrollHandler = () => {
+    if (this.messages.scrollTop === 0) {
+      console.log('load more!');
     }
   }
 

@@ -112,21 +112,21 @@ class MobileSearchPopup extends Component {
             mode === 'tags'
               ? <TagsSearchForm
                 tags={tagList}
-                searchFormclassName="mobile-search__form"
-                inputclassName="mobile-search__input"
-                optionsWrapperclassName="mobile-search__options"
-                optionListclassName="mobile-search__list"
+                searchFormClass="mobile-search__form"
+                inputClass="mobile-search__input"
+                optionsWrapperClass="mobile-search__options"
+                optionListClass="mobile-search__list"
                 optionclassName="mobile-search__option"
-                activeOptionclassName="mobile-search__active-option"
+                activeOptionClass="mobile-search__active-option"
                 onChange={this.tagsCreated}
                 deleteTag={this.deleteTag}
                 deleteAllTags={this.deleteAllTags}
               />
               : <UserSearch
-                searchFormclassName="mobile-search__form"
-                inputclassName="mobile-search__input"
+                searchFormClass="mobile-search__form"
+                inputClass="mobile-search__input"
                 onResultClick={this.closePopup}
-                resultsWrapperclassName="mobile-search__options"
+                resultsWrapperClass="mobile-search__options"
               />
           }
           {
