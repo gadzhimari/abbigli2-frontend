@@ -33,7 +33,7 @@ class HomeSlider extends React.Component {
     let width;
     let factor;
     let rows;
-    const breakpoints = [305, 480, 730, 900, 970, 1220];
+    const breakpoints = [345, 480, 730, 900, 970, 1220];
 
     for (let i = 0; i <= breakpoints.length; i++) {
       if (screenWidth > breakpoints[i]) {
@@ -43,7 +43,7 @@ class HomeSlider extends React.Component {
 
     if (width < 500) {
       rows = 3;
-      factor = 150;
+      factor = 172;
     } else {
       rows = 2;
       factor = 246;
