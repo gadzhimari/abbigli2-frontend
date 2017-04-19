@@ -10,13 +10,21 @@ class SetPasswordPopup extends Component {
     super(props);
     this.state = {
       password: '',
+      repassword: '',
       errorMessage: '',
     };
   }
 
-  handelePassword = (e) => {
+  handlePassword = (e) => {
     this.setState({
       password: e.target.value,
+      errorMessage: '',
+    });
+  }
+
+  handleRePassword = (e) => {
+    this.setState({
+      repassword: e.target.value,
       errorMessage: '',
     });
   }
@@ -24,15 +32,11 @@ class SetPasswordPopup extends Component {
   handleSend = () => {
     const { handleSet } = this.props;
     const password = this.state.password.trim();
-    const ifCurrrent = localStorage.getItem('currentPass');
+    const repassword = this.state.repassword.trim();
     const formData = new FormData();
 
     formData.append('new_password', password);
-    formData.append('re_new_password', password);
-
-    if (ifCurrrent) {
-      formData.append('current_password', password);
-    }
+    formData.append('re_new_password', repassword);
 
     handleSet(formData);
   }
@@ -61,13 +65,15 @@ class SetPasswordPopup extends Component {
           </div>
           <form>
             <div className="input-wrap phone">
+              <label>
+                {__t('Enter new password')}
+              </label>
               <input
                 className="input"
-                ref={confirm => (this.confirmCode = confirm)}
-                type="text"
-                placeholder={__t('Password')}
+                type="password"
+                placeholder={__t('New password')}
                 value={this.state.password}
-                onChange={this.handelePassword}
+                onChange={this.handlePassword}
               />
             </div>
             {
@@ -79,6 +85,33 @@ class SetPasswordPopup extends Component {
                     .map((error, idx) => <div
                       className="login__form-error"
                       key={idx}
+                    >
+                      {error}
+                    </div>)
+                }
+              </div>
+            }
+            <div className="input-wrap phone">
+              <label>
+                {__t('Re-enter new password')}
+              </label>
+              <input
+                className="input"
+                type="password"
+                placeholder={__t('Re-enter new password')}
+                value={this.state.repassword}
+                onChange={this.handleRePassword}
+              />
+            </div>
+            {
+              errors && errors.re_new_password
+              &&
+              <div>
+                {
+                  errors.re_new_password
+                    .map((error, idx) => <div
+                      className="login__form-error"
+                      key={idx*100}
                     >
                       {error}
                     </div>)
