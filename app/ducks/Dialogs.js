@@ -72,7 +72,7 @@ export default function (state = initialState, action = {}) {
       });
     case SET_MESSAGES:
       return Object.assign({}, state, {
-        messages: action.messages,
+        messages: action.messages.results.reverse(),
         messagesIsFetching: false,
       });
     case MESSAGE_SENDED:
@@ -229,11 +229,7 @@ export function getDialogs() {
     return fetch(`${API_URL}my-profile/dialogs/`, config)
       .then(res => res.json())
       .then((response) => {
-        if (page === 1) {
           dispatch(setData(response));
-        } else {
-          dispatch(appendMessages(response));
-        }
       })
       .catch(err => console.log("Error: ", err));
   };
