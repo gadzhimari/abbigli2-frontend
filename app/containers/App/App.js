@@ -50,8 +50,6 @@ class App extends Component {
   static fetchData = ({ store, token }) => {
     const promises = [
       store.dispatch(seoFetch()),
-      store.dispatch(settingsFetch()),
-      store.dispatch(fetchGeo()),
     ];
 
     if (token) {
@@ -61,6 +59,17 @@ class App extends Component {
     }
 
     return Promise.all(promises);
+  }
+
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount() {
+    const { dispatch } = this.props;
+
+    dispatch(settingsFetch());
+    dispatch(fetchGeo());
   }
 
   componentDidMount() {
@@ -159,12 +168,6 @@ class App extends Component {
       showDeleteMessage || showReset || showMessage || showStatus || showSupport || showSearch ||
       showSetpass || confirmResetShow;
 
-    const searchTemplate = ({ media }) => (media.isDesctop ? <Search /> : null);
-
-    const desctopSearch = mediaHOC({
-      isDesctop: '(min-width: 1000px)',
-    })(searchTemplate);
-
     return (
       <div className="global-wrapper">
         <Helmet
@@ -182,7 +185,7 @@ class App extends Component {
         >
           <Header>
 
-            {desctopSearch}
+            <Search />
 
             <AvatarBlock
               isAuthenticated={isAuthenticated}

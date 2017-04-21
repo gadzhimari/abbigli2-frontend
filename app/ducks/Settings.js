@@ -7,7 +7,9 @@ const SET = 'abbigli/settings/SET';
 const SET_GEO = 'abbigli/settings/SET_GEO';
 
 const initialState = {
-  data: {},
+  data: {
+    CURRENCY: '$ ?',
+  },
   geo: [],
 };
 
