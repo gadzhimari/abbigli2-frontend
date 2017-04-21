@@ -18,6 +18,9 @@ class TagsBar extends Component {
       slideRight: 0,
       sliderWidth: 20000,
       sliderWrapperWidth: 0,
+      factor: window.innerWidth > 500
+        ? 3
+        : 1,
     };
   }
 
@@ -61,14 +64,15 @@ class TagsBar extends Component {
   }
 
   slideRight = () => {
-    const { slideRight, sliderWrapperWidth, sliderWidth } = this.state;
-    let newSliderRight = slideRight + ((186 + 20) * 3);
+    const { slideRight, sliderWrapperWidth, sliderWidth, factor } = this.state;
+    let newSliderRight = slideRight + ((186 + 20) * factor);
 
     if ((newSliderRight + sliderWrapperWidth) > sliderWidth) {
       newSliderRight = sliderWidth - sliderWrapperWidth;
     }
 
     this.sliderContainer.style.transform = `translate3d(-${newSliderRight}px, 0px, 0px);`;
+    this.sliderContainer.style['-webkit-transform'] = `translate3d(-${newSliderRight}px, 0px, 0px);`;
 
     this.setState({
       slideRight: newSliderRight,
@@ -76,14 +80,15 @@ class TagsBar extends Component {
   }
 
   slideLeft = () => {
-    const { slideRight } = this.state;
-    let newSliderRight = slideRight - ((186 + 20) * 3);
+    const { slideRight, factor } = this.state;
+    let newSliderRight = slideRight - ((186 + 20) * factor);
 
     if (newSliderRight < 0) {
       newSliderRight = 0;
     }
 
     this.sliderContainer.style.transform = `translate3d(-${newSliderRight}px, 0px, 0px);`;
+    this.sliderContainer.style['-webkit-transform'] = `translate3d(-${newSliderRight}px, 0px, 0px);`;
 
     this.setState({
       slideRight: newSliderRight,
@@ -118,6 +123,7 @@ class TagsBar extends Component {
               width: `${sliderWidth}px`,
               transitionDuration: '0.5s',
               transform: `translate3d(-${slideRight}px, 0px, 0px)`,
+              WebkitTransform: `translate3d(-${slideRight}px, 0px, 0px)`,
             }}
           >
             <TagsList

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
 
 import { setLike } from 'actions/like';
 import { registerPopup } from 'ducks/Popup';
@@ -16,11 +17,20 @@ class CommentsBox extends Component {
         like: null,
         count: null,
       },
+      showComments: true,
     };
   }
 
-  onUpdate(e){
-    this.setState({comment: e.target.value});
+  onUpdate(e) {
+    this.setState({
+      comment: e.target.value,
+    });
+  }
+
+  toggleShowComments = ({ target }) => {
+    this.setState({
+      showComments: target.checked,
+    });
   }
 
   toggleLike = () => {
@@ -145,13 +155,28 @@ class CommentsBox extends Component {
         }
 
         <div className="comment-wrap">
-          <div className="comment-title">{ __t('Comments') }</div>
-          <input type="checkbox" name="toggle" id="toggle" value="on" />
-          <label htmlFor="toggle" className="comment-show" id="toggle-comment">
+          <div className="comment-title">
+            { __t('Comments') }
+          </div>
+          <input
+            type="checkbox"
+            ref={toggle => (this.toggle = toggle)}
+            name="toggle"
+            id="toggle"
+            value="on"
+            checked={this.state.showComments}
+            onChange={this.toggleShowComments}
+          />
+          <label
+            htmlFor="toggle"
+            className="comment-show"
+            id="toggle-comment"
+          >
             <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 7.001">
               <path d="M12.804,0L7,4.958L1.196,0L0,1.021l7,5.979l7-5.979L12.804,0z"/>
             </svg>
-              { __t('Collapse.comments') }</label>
+              { __t('Collapse.comments') }
+          </label>
           <div className="comment-items">
             { list.length > 0 && list.map((item, i) => (
               <div
@@ -169,7 +194,7 @@ class CommentsBox extends Component {
 
                 </Link>
                 <Link className="comment-author" to={`/profile/${item.user.id}/`}>{item.user.profile_name}</Link>
-                <div className="comment-date">{item.created}</div>
+                <div className="comment-date">{moment(item.created).format('LLL')}</div>
                 <div className="comment-text">{item.comment}</div>
               </div>
             ))}
