@@ -9,33 +9,21 @@
   <%- seo.meta %>
   <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <%- commonCss %>
   <style>
-    .preloader-page {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 10007;
-      background-color: #fff;
+    .slideout-menu {
+      display: none;
     }
   </style>
-  <%- commonCss %>
 </head>
 
 <body>
-  <div class="preloader-page"></div>
-  <div id="swipeMenu"></div>
+  <div id="swipeMenu" class="slideout-menu"></div>
   <div id="app" class="global-wrapper">
     <%- markup %>
   </div>
   <script>
     window.PRELOADED_STATE = '<%= store %>';
-    document.addEventListener('DOMContentLoaded', function() {
-      const preloader = document.querySelector('.preloader-page');
-
-      preloader.style.display = 'none';
-    });
   </script>
   <script>
     (function (i, s, o, g, r, a, m) {
