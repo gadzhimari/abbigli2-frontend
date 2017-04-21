@@ -10,7 +10,7 @@
     "development": "npm run clean && npm-run-all --parallel devserver nodemon",
     "devserver": "webpack-dev-server",
     "nodemon": "nodemon ./server.js",
-    "start": "NODE_ENV=production pm2 start ./server.js"
+    "start": "NODE_ENV=production pm2-docker start ./server.js"
   },
   "keywords": [
     "react",
