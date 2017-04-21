@@ -92,10 +92,15 @@ class CardProduct extends Component {
 
     const location = window.location || {};
 
+    const formatedPrice = Number(price).toFixed(2);
+
     return (
       <div className={`tag-card tag-card--${typesClass[type]} legacy`}>
         <div className="tag-card__img">
-          <Link to={`/${typesUrl[type]}/${slug}`}>
+          <Link
+            to={`/${typesUrl[type]}/${slug}`}
+            className="card-producr__img-link"
+          >
             {
               images
               &&
@@ -223,7 +228,7 @@ class CardProduct extends Component {
               price
               &&
               <div className="tag-card__price">
-                {price}
+                $ {formatedPrice}
               </div>}
           </Link>
         </div>

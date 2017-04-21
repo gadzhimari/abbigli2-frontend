@@ -8,8 +8,8 @@ import { getJsonFromStorage } from 'utils/functions';
 import { Link, SelectInput } from 'components';
 
 class UserProfileMe extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       edit: false,
       sideImageEdit: false,
@@ -19,24 +19,42 @@ class UserProfileMe extends Component {
       coverImageEditRotate: false,
       showMoreText: false,
       cityValue: null,
+      fbAcc: this.props.data.fb_account,
+      pinterestAcc: this.props.data.pinterest_account,
+      googleAcc: this.props.data.google_account,
+      website: this.props.data.website_info,
+      phone: this.props.data.email_info,
+      email: this.props.data.phone_info,
     };
   }
 
-  changeCityValue = value => {
+  changeCityValue = (value) => {
     this.setState({
       cityValue: value,
     });
   }
 
+  changeSociety = ({ target }) => {
+    this.setState({
+      [target.name]: target.value,
+    });
+  }
+
   hideEdit = () => {
-    const { dispatch } = this.props;
+    const { dispatch, data } = this.props;
     this.setState({
       edit: false,
+      fbAcc: data.fb_account,
+      pinterestAcc: data.pinterest_account,
+      googleAcc: data.google_account,
+      website: data.website_info,
+      phone: data.email_info,
+      email: data.phone_info,
     });
     dispatch(setErrors(null));
   }
 
-  upload = e => {
+  upload = (e) => {
     const token = getJsonFromStorage('id_token');
     const { dispatch } = this.props;
 
@@ -85,7 +103,7 @@ class UserProfileMe extends Component {
       .catch(err => console.log("Error: ", err));
   }
 
-  saveData = e => {
+  saveData = (e) => {
     e.preventDefault();
     const { dispatch } = this.props;
     const city = this.state.cityValue
@@ -96,22 +114,23 @@ class UserProfileMe extends Component {
       profile_name: e.target.profile_name.value,
       info: e.target.info.value,
       my_abbigli_name: '',
-      email_info: e.target.email_info.value,
-      website_info: e.target.website_info.value,
-      phone_info: e.target.phone_info.value,
+      email_info: this.state.email,
+      website_info: this.state.website,
+      phone_info: this.state.phone,
       city,
-      fb_account: e.target.fb_account.value,
+      fb_account: this.state.fbAcc,
       vk_account: '',
       ok_account: '',
-      pinterest_account: e.target.pinterest_account.value,
-      google_account: e.target.google_account.value,
+      pinterest_account: this.state.pinterestAcc,
+      google_account: this.state.googleAcc,
     };
+
     const token = getJsonFromStorage('id_token');
     const config = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `JWT ${token}`,
+        Authorization: `JWT ${token}`,
       },
       body: JSON.stringify(payload),
     };
@@ -161,15 +180,13 @@ class UserProfileMe extends Component {
       phone_info,
       email_info,
       city,
-      fb_account,
-      pinterest_account,
       banner_main,
       banner_left,
-      website_info,
       likes_num,
       followers_count,
-      google_account,
     } = this.props.data;
+
+    const { googleAcc, pinterestAcc, fbAcc, website, phone, email } = this.state;
 
     const user = this.props.data;
 
@@ -405,7 +422,7 @@ class UserProfileMe extends Component {
                 </svg>
               </div>
               {
-                (this.state.edit || phone_info)
+                (this.state.edit || phone)
                 &&
                 <div className="input-profile-wrap input-phone">
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.399 14.399">
@@ -417,14 +434,15 @@ class UserProfileMe extends Component {
                     className="input-profile"
                     type="text"
                     placeholder={__t('Phone')}
-                    name="phone_info"
-                    value={phone_info}
+                    name="phone"
+                    value={phone}
                     disabled={!this.state.edit}
+                    onChange={this.changeSociety}
                   />
                 </div>
               }
               {
-                (this.state.edit || email_info)
+                (this.state.edit || email)
                 &&
                 <div className="input-profile-wrap input-email">
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 15.961">
@@ -445,14 +463,15 @@ class UserProfileMe extends Component {
                     className="input-profile"
                     type="text"
                     placeholder="Email"
-                    name="email_info"
-                    value={email_info}
+                    name="email"
+                    value={email}
                     disabled={!this.state.edit}
+                    onChange={this.changeSociety}
                   />
                 </div>
               }
               {
-                (this.state.edit || website_info)
+                (this.state.edit || website)
                 &&
                 <div className="input-profile-wrap input-site">
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -466,9 +485,10 @@ class UserProfileMe extends Component {
                     className="input-profile"
                     type="text"
                     placeholder={__t('Website')}
-                    name="website_info"
-                    value={website_info}
+                    name="website"
+                    value={website}
                     disabled={!this.state.edit}
+                    onChange={this.changeSociety}
                   />
                 </div>
               }
@@ -503,12 +523,27 @@ class UserProfileMe extends Component {
               }
               <div className="user-profile__social-links">
                 {
-                  ((fb_account && fb_account.length > 0)
+                  ((googleAcc && googleAcc.length > 0)
                     ||
-                  (pinterest_account && pinterest_account.length > 0)
+                  (pinterestAcc && pinterestAcc.length > 0)
                     ||
-                  (google_account && google_account.length > 0))
+                  (fbAcc && fbAcc.length > 0))
                     &&
+                  !this.state.edit
+                    &&
+                  <div className="social-links-text">
+                    <svg
+                      className="icon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 8"
+                    >
+                      <path d="M1.52,4c0-1.368,1.112-2.48,2.48-2.48h3.2V0H4C1.792,0,0,1.792,0,4s1.792,4,4,4h3.2V6.479H4 C2.632,6.479,1.52,5.367,1.52,4z M4.8,4.8h6.4V3.2H4.8V4.8z M12,0H8.8v1.52H12c1.368,0,2.479,1.112,2.479,2.48 c0,1.367-1.111,2.479-2.479,2.479H8.8V8H12c2.207,0,4-1.792,4-4S14.207,0,12,0z"/>
+                    </svg>
+                  </div>
+                }
+                {
+                  this.state.edit
+                  &&
                   <div className="social-links-text">
                     <svg
                       className="icon"
@@ -521,10 +556,10 @@ class UserProfileMe extends Component {
                   </div>
                 }
                 {
-                  (this.state.edit || (fb_account && fb_account.length > 1))
+                  (this.state.edit || (fbAcc && fbAcc.length > 1))
                   &&
                   <div className="input-profile-social">
-                    <a className="social-network facebook" href={fb_account}>
+                    <a className="social-network facebook" href={fbAcc}>
                       <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7.419 16.005">
 <path d="M7.419,5.279L4.93,5.284V3.609c0,0-0.053-0.919,0.956-0.919c0-0.01,1.522,0,1.522,0V0.001H4.72
 	c0,0-3.081-0.178-3.081,3.498v1.792L0,5.295v2.662h1.639v8.048H4.93V7.957h2.206L7.419,5.279z"/>
@@ -534,9 +569,10 @@ class UserProfileMe extends Component {
                       className="input-profile"
                       type="text"
                       placeholder="http://www.facebook.com/profile"
-                      name="fb_account"
-                      value={fb_account}
+                      name="fbAcc"
+                      value={fbAcc}
                       disabled={!this.state.edit}
+                      onChange={this.changeSociety}
                     />
                     {
                       (this.state.edit && errors && errors.fb_account)
@@ -548,10 +584,10 @@ class UserProfileMe extends Component {
                   </div>
                 }
                 {
-                  (this.state.edit || (pinterest_account && pinterest_account.length > 1))
+                  (this.state.edit || (pinterestAcc && pinterestAcc.length > 1))
                   &&
                   <div className="input-profile-social">
-                    <a className="social-network pinterest" href={pinterest_account}>
+                    <a className="social-network pinterest" href={pinterestAcc}>
                       <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.912 15.975">
 <path d="M2.34,9.239c0.802-1.365-0.258-1.664-0.425-2.654c-0.679-4.043,4.847-6.806,7.741-3.98
 	c2.002,1.957,0.684,7.975-2.545,7.348C4.02,9.356,8.626,4.567,6.158,3.626c-2.006-0.765-3.071,2.337-2.12,3.878
@@ -565,9 +601,10 @@ class UserProfileMe extends Component {
                       className="input-profile"
                       type="text"
                       placeholder="http://www.pinterest.com/profile"
-                      name="pinterest_account"
-                      value={pinterest_account}
+                      name="pinterestAcc"
+                      value={pinterestAcc}
                       disabled={!this.state.edit}
+                      onChange={this.changeSociety}
                     />
                     {
                       (this.state.edit && errors && errors.pinterest_account)
@@ -579,10 +616,10 @@ class UserProfileMe extends Component {
                   </div>
                 }
                 {
-                  (this.state.edit || (google_account && google_account.length > 1))
+                  (this.state.edit || (googleAcc && googleAcc.length > 1))
                     &&
                   <div className="input-profile-social">
-                    <a className="social-network google-plus" href={google_account}>
+                    <a className="social-network google-plus" href={googleAcc}>
                       <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.146 14">
 	<path d="M7.034,5.998c-0.002,0.795,0,1.591,0.003,2.386c1.343,0.042,2.685,0.022,4.026,0.042
 		c-0.593,2.96-4.639,3.917-6.775,1.986c-2.2-1.693-2.096-5.411,0.19-6.984C6.08,2.157,8.351,2.471,9.952,3.572
@@ -598,9 +635,10 @@ class UserProfileMe extends Component {
                       className="input-profile"
                       type="text"
                       placeholder="http://plus.google.com/profile"
-                      name="google_account"
-                      value={google_account}
+                      name="googleAcc"
+                      value={googleAcc}
                       disabled={!this.state.edit}
+                      onChange={this.changeSociety}
                     />
                     {
                       (this.state.edit && errors && errors.google_account)

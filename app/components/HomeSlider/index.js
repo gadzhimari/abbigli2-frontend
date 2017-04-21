@@ -75,24 +75,59 @@ class HomeSlider extends React.Component {
 
   render() {
     const itemsSections = this.props.itemsSections;
+    const { width, page, rows, factor } = this.state;
+    const leftArrowClass = page === 1
+      ? 'slick-arrow slick-prev slick-disabled'
+      : 'slick-arrow slick-prev';
+    const rightArrowClass = page === 2
+      ? 'slick-arrow slick-next slick-disabled'
+      : 'slick-arrow slick-next';
 
     return (
-      <div className="slider-wrapper" style={{ width: this.state.width + 'px' }}>
+      <div
+        className="slider-wrapper"
+        style={{
+          width: `${width}px`,
+        }}
+      >
         <div className="slider-nav">
-          <div className={"slick-arrow slick-prev" + (this.state.page == 1 ? ' slick-disabled' : '')} onClick={this.goLeft}>LEFT</div>
-          <div className={"slick-arrow slick-next" + (this.state.page == 2 ? ' slick-disabled' : '')} onClick={this.goRight}>RIGHT</div>
+          <div
+            className={leftArrowClass}
+            onClick={this.goLeft}
+          >
+            LEFT
+          </div>
+          <div
+            className={rightArrowClass}
+            onClick={this.goRight}
+          >
+            RIGHT
+          </div>
         </div>
-        <div className="slider" style={{ height: (this.state.factor * this.state.rows) + 'px', width: this.state.width + 'px' }}>
-          <div className="slider-inner" style={{
-            width: (this.state.factor * itemsSections.length / this.state.rows) + 'px',
-            transform: 'translate(-' + ((this.state.page - 1) * this.state.width) + 'px,0)'
-          }}>
-            {itemsSections.length > 0 && itemsSections.map((item) => (
-              <Card
-                data={item}
-                key={`${item.slug}--homeslider`}
-              />
-            ))
+        <div
+          className="slider"
+          style={{
+            height: `${factor * rows}px`,
+            width: `${width}px`,
+          }}
+        >
+          <div
+            className="slider-inner"
+            style={{
+              width: `${(factor * itemsSections.length) / rows}px`,
+              transform: `translate(-${(page - 1) * width}px, 0)`,
+              WebkitTransform: `translate(-${(page - 1) * width}px, 0)`,
+            }}
+          >
+            {
+              itemsSections.length > 0
+              &&
+              itemsSections.map(item => (
+                <Card
+                  data={item}
+                  key={`${item.slug}--homeslider`}
+                />
+              ))
             }
           </div>
         </div>
