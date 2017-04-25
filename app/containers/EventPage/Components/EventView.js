@@ -95,7 +95,7 @@ const EventView = props => {
             {
               data.tags
               &&
-              data.tags.map(tag => (<a className="tag-btn -tag" href={`/tags/${tag}/`}>#{tag}</a>))
+              data.tags.map(tag => (<a className="tag-btn event-tag" href={`/tags/${tag}/`}>#{tag}</a>))
             }
           </div>
           <div className="sidebar__section">
