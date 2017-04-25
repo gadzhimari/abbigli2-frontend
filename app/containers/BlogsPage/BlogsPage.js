@@ -54,6 +54,12 @@ class BlogsPage extends Component {
     dispatch(fetchDataBlogs(this.page++, '', filter));
   }
 
+  handleChange = ({ target }) => {
+    this.setState({
+      searchValue: target.value,
+    });
+  }
+
   search = () => {
     const request = this.searchInput.value;
 
@@ -74,7 +80,7 @@ class BlogsPage extends Component {
     dispatch(fetchDataBlogs(this.page++, searchValue, popular));
   }
 
-  keyDown = e => {
+  keyDown = (e) => {
     const keyCode = e.keyCode;
 
     if (keyCode === 13) {
@@ -97,14 +103,12 @@ class BlogsPage extends Component {
 
     return (
       <div className="container-fluid blogs-page">
-        <CardsWrap legacy={true}>
+        <CardsWrap legacy>
           <CardsSort>
             <div className="cards-sort__icon">
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34.258 36">
-	<path d="M23,6H5v3h18V6z M23,11H5v3h18V11z M5,19h18v-3H5V19z M25,33H3V3h22v16.83l3-3.001V3c0-1.657-1.344-3-3-3H3
-		C1.343,0,0,1.343,0,3v30c0,1.656,1.343,3,3,3h22c1.656,0,3-1.344,3-3v-7.831l-3,2.997V33z M31.515,14.659l-1.634,1.636l2.739,2.74
-		l1.638-1.634L31.515,14.659z M20.168,26.079L19,30l3.92-1.169l8.8-8.793l-2.756-2.759L20.168,26.079z"/>
-</svg>
+	              <path d="M23,6H5v3h18V6z M23,11H5v3h18V11z M5,19h18v-3H5V19z M25,33H3V3h22v16.83l3-3.001V3c0-1.657-1.344-3-3-3H3 C1.343,0,0,1.343,0,3v30c0,1.656,1.343,3,3,3h22c1.656,0,3-1.344,3-3v-7.831l-3,2.997V33z M31.515,14.659l-1.634,1.636l2.739,2.74 l1.638-1.634L31.515,14.659z M20.168,26.079L19,30l3.92-1.169l8.8-8.793l-2.756-2.759L20.168,26.079z"/>
+              </svg>
             </div>
             {__t('Blogs')}
             <a
@@ -146,6 +150,7 @@ class BlogsPage extends Component {
                   placeholder={__t('Blogs search')}
                   ref={input => (this.searchInput = input)}
                   onKeyDown={this.keyDown}
+                  onChange={this.handleChange}
                 />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
