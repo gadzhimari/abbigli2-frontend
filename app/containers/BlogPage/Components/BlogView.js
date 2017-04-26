@@ -97,7 +97,7 @@ const ProductView = props => {
             {
               data.tags
               &&
-              data.tags.map((tag, indx) => (<a className="tag-btn -tag" key={`${indx}--${tag}`} href={`/tags/${tag}/`}>#{tag}</a>))
+              data.tags.map((tag, indx) => (<a className="tag-btn blog-tag" key={`${indx}--${tag}`} href={`/tags/${tag}/`}>#{tag}</a>))
             }
           </div>
           <div className="sidebar__section">

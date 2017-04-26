@@ -25,8 +25,11 @@
 .label-err {
   margin-top: 10px;
 }
-.create-post__photo-wrap {
-  height: 160px;
+
+@media all and (min-width: 501px) {
+  .create-post__photo-wrap {
+    height: 160px;
+  }
 }
 
 .create-post__photo-wrap.ui-sortable-handle img{
@@ -1954,7 +1957,7 @@ input:-ms-input-placeholder {
   display: block;
   left: 50%;
   position: absolute;
-  z-index: 99;
+  z-index: 1;
   -webkit-transform: translate(-50%,0);
   transform: translate(-50%,0);
 }
@@ -1971,7 +1974,7 @@ input:-ms-input-placeholder {
   left: 0;
   padding: 5px 15px;
   position: absolute;
-  z-index: 1500;
+  z-index: 150;
   width: 100%;
   max-width: 250px;
   text-transform: none;

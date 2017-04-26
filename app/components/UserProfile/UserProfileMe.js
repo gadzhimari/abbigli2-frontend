@@ -1,7 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 import './UserProfile.styl';
 import { API_URL } from 'config';
+
 import { setErrors, setProfile, updateBanner } from 'ducks/Profile';
+import { setMe } from 'ducks/Auth';
+
 import { __t } from './../../i18n/translator';
 import { getJsonFromStorage } from 'utils/functions';
 
@@ -73,6 +76,7 @@ class UserProfileMe extends Component {
       .then(res => res.json())
       .then((responseData) => {
         dispatch(setProfile(responseData));
+        dispatch(setMe(responseData));
       })
       .catch(err => console.log("Error: ", err));
   }

@@ -81,7 +81,10 @@ class EventCard extends Component {
 
     return (
       <div className="event-card">
-        <div className="event-card__content" to={`/${typesUrl[data.type]}/${data.slug}`}>
+        <Link
+          className="event-card__content"
+          to={`/${typesUrl[data.type]}/${data.slug}`}
+        >
           <div className="share">
             <div className="share-button">
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.987 20">
@@ -143,7 +146,9 @@ class EventCard extends Component {
               }
             </Link>
           </div>
-          <div className="event-card__name">{data.title}</div>
+          <div className="event-card__name">
+            {data.title}
+          </div>
           <div className="blog-card__text">
             <p>
               {
@@ -153,7 +158,7 @@ class EventCard extends Component {
               }
             </p>
           </div>
-        </div>
+        </Link>
         <div className="like-comment">
           <div className="event-card__date" title={`${date_string}${data.city && `, ${data.city.name}, ${data.city.country.name}`}`}>
             <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 36">

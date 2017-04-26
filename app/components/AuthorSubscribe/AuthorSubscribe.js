@@ -11,7 +11,7 @@ import { __t } from './../../i18n/translator';
 class AuthorSubscribe extends Component {
 
   render() {
-    const {dispatch, isAuthenticated, slug} = this.props;
+    const { dispatch, isAuthenticated, slug } = this.props;
     const {
       avatar,
       profile_name,

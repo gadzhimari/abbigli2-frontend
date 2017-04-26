@@ -6,7 +6,6 @@ import { Link } from 'react-router';
 import {
   Share,
   Like,
-  Subscription,
 } from 'components';
 import { setLike } from 'actions/like';
 

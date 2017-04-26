@@ -1,9 +1,8 @@
 import { API_URL } from 'config';
 
 import { setFollowing } from 'ducks/Profile';
+import { setNewFollowStatus } from 'ducks/BlogPost';
 import { getJsonFromStorage } from 'utils/functions';
-
-const ENDPOINT = API_URL + 'profiles/:profileId/follow/';
 
 // Actions
 
@@ -15,15 +14,18 @@ export function setFollow(profileId) {
       'Content-Type': 'application/json',
     },
   };
-    if(token){config.headers.Authorization = `JWT ${token}`;}
-  return dispatch => {
-    return fetch(ENDPOINT.replace(':profileId', profileId), config)
+
+  if (token) {
+    config.headers.Authorization = `JWT ${token}`;
+  }
+
+  return (dispatch) => {
+    dispatch(setNewFollowStatus());
+
+    return fetch(`${API_URL}profiles/${profileId}/follow/`, config)
       .then(res => res.json())
       .then((response) => {
-        if (response) {
-          dispatch(setFollowing(response));
-        }
-      })
-      .catch(err => console.log("Error: ", err));
+        dispatch(setFollowing(response));
+      });
   };
 }
