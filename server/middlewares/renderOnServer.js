@@ -32,6 +32,27 @@ if (isProd) {
 }
 
 const commonCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/common.html'), 'utf8');
+const aboutCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/about.html'), 'utf8');
+const blogsCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/blogs.html'), 'utf8');
+const eventsCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/events.html'), 'utf8');
+const faqCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/faq.html'), 'utf8');
+const newpostCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/newposts.html'), 'utf8');
+const createCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/create.html'), 'utf8');
+const sectionsCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/sections.html'), 'utf8');
+
+const linksToCss = {
+  blogs: blogsCss,
+  events: eventsCss,
+  'page/faq': faqCss,
+  'page/about': aboutCss,
+  'new-products': newpostCss,
+  'nearest-products': newpostCss,
+  'popular-products': newpostCss,
+  'set-the-mood': newpostCss,
+  'post/new': createCss,
+  'sections/:section': sectionsCss,
+  'sections/:section/:tag': sectionsCss,
+};
 
 module.exports = (req, res) => {
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
@@ -70,6 +91,7 @@ module.exports = (req, res) => {
           store: encodeURI(JSON.stringify(store.getState())),
           seo,
           commonCss,
+          pageCss: linksToCss[renderProps.routes[1].path] || '',
         });
       });
   });
