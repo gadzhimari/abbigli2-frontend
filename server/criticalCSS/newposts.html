@@ -1,0 +1,98 @@
+<style>
+  .main-page__banner-wrap.legacy {
+	background-image: url("/images/banner/banner.png");
+	background-color: #40c4ff;
+	background-position: top center;
+	background-repeat: no-repeat;
+	height: 180px;
+	position: relative;
+	width: 100%;
+	margin-bottom: 0;
+}
+
+.main-page__banner-wrap.legacy .main-page__banner {
+	width: 100%;
+	height: 100%;
+}
+
+.main-page__banner-wrap.legacy .main-page__banner-text {
+	color: #fff;
+	font-size: 24px;
+	line-height: 32px;
+	position: absolute;
+	top: 50%;
+	text-align: center;
+	left: 50%;
+	width: 100%;
+	padding: 0 15%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.main-page__banner-wrap.legacy .button-banner {
+	background-color: #fff;
+	font-family: 'SegoeUIBold', sans-serif;
+	font-size: 26px;
+	line-height: 25px;
+	color: #1076ff;
+	border: 0;
+	padding: 9px 40px 11px;
+	cursor: pointer;
+	margin: 20px auto 0;
+	display: block;
+	text-align: center;
+	text-transform: uppercase;
+	-webkit-border-radius: 30px;
+	border-radius: 30px;
+}
+
+@media all and (max-width: 500px) {
+  .main-page__banner-wrap.legacy {
+    background-image: url(/images/banner/banner-tablet.png)!important;
+    height: 98px!important;
+  }
+
+  .main-page__banner-text {
+    font-size: 12px !important;
+    line-height: 16px !important;
+    padding: 0 10% !important;
+  }
+}
+
+  .cards-wrap {
+	font-size: 0;
+	margin: 0 auto;
+	padding: 20px 1%;
+	text-align: center;
+	max-width: 1200px;
+	opacity: 1;
+}
+
+  .cards-wrap.transparent {
+	opacity: 0;
+	transform: translate(0, -10px);
+}
+
+@media phone {
+	.cards-wrap {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+}
+
+.cards-wrap.legacy {
+	max-width: auto;
+}
+
+.cards-sort {
+  font-size: 22px;
+  line-height: 26px;
+  margin-bottom: 30px;
+  text-align: left;
+  padding: 0 1%;
+}
+
+.cards-sort__item {
+  margin-left: 2%;
+}
+</style>

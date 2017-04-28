@@ -1,0 +1,121 @@
+<style>
+  .blogs-page .cards-sort__icon .icon {
+  fill: #02a511;
+  background-size: 23px 24px;
+  width: 23px;
+  height: 24px;
+  margin-left: 1px;
+}
+
+.cards-wrap {
+	font-size: 0;
+	margin: 0 auto;
+	padding: 20px 1%;
+	text-align: center;
+	max-width: 1200px;
+	opacity: 1;
+}
+
+.cards-wrap.transparent {
+	opacity: 0;
+	transform: translate(0, -10px);
+}
+
+@media phone {
+	.cards-wrap {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+}
+
+.cards-wrap.legacy {
+	max-width: auto;
+}
+
+.cards-wrap__title {
+	border-bottom: 1px solid #90a4ae;
+	color: #90a4ae;
+	font-family: "SegoeUIBold";
+	font-size: 20px;
+	line-height: 24px;
+	margin: 0 30px 20px;
+	padding-bottom: 10px;
+	text-align: left;
+}
+
+.cards-wrap.legacy {
+	max-width: none;
+}
+
+.cards-sort .search-input-wrap {
+  display: inline-block;
+  vertical-align: middle;
+  width: 550px;
+  padding: 0 40px 0 10px;
+  margin: -4px 0 0 13%;
+}
+
+.cards-sort .search-input-wrap .search-input {
+  margin: 0 -40px 0 -10px;
+  padding: 6px 39px 6px 9px;
+}
+
+.cards-wrap__title {
+  border-bottom: 1px solid #90a4ae;
+  color: #90a4ae;
+  font-family: "clear_sansbold";
+  font-size: 20px;
+  line-height: 24px;
+  margin: 0 30px 20px;
+  padding-bottom: 10px;
+  text-align: left;
+}
+
+.cards-sort {
+  font-size: 22px;
+  line-height: 26px;
+  margin-bottom: 30px;
+  text-align: left;
+  padding: 0 1%;
+}
+
+.cards-sort__page {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.cards-sort__icon {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #b2c0c6;
+  margin: -5px 15px 0 0;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.cards-sort__icon .icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.cards-sort__item {
+  margin-left: 2%;
+}
+
+.cards-sort__tag {
+  display: inline-block;
+  vertical-align: top;
+}
+
+@media all and (max-width: 500px) {
+  .cards-sort .search-input-wrap {
+    width: auto;
+  }
+}
+</style>
