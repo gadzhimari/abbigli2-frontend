@@ -76,7 +76,7 @@ const styleLoader = isProd
   })
   : ExtractTextPlugin.extract({
     fallback: 'style-loader',
-    use: ['css-loader', 'postcss-loader', 'stylus-loader?sourceMap'],
+    use: ['css-loader?sourceMap', 'postcss-loader', 'stylus-loader?sourceMap'],
   });
 
 const jsLoader = isProd

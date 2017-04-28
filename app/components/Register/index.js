@@ -46,7 +46,7 @@ export default class Login extends Component {
       onRegisterClick,
     } = this.props;
     const code = this.state.codeValue
-      ? this.state.codeValue.trim()
+      ? this.state.codeValue.split('--')[0]
       : null;
     const number = this.number;
 

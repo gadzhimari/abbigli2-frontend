@@ -24,7 +24,7 @@ export default function (state = initialState, action = {}) {
       return Object.assign({}, state, {
         geo: action.data
           .map(item => ({
-            value: item.phone,
+            value: `${item.phone}--${item.name}`,
             label: `${item.name} (${item.phone})`,
           })),
       });

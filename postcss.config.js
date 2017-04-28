@@ -1,7 +1,7 @@
 module.exports = {
   plugins: [
     require('autoprefixer')({
-      browsers: ['> 5%'],
+      browsers: ['> 1%', 'last 2 versions'],
     }),
   ],
 };
