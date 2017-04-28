@@ -48,9 +48,7 @@ class App extends Component {
   };
 
   static fetchData = ({ store, token }) => {
-    const promises = [
-      store.dispatch(seoFetch()),
-    ];
+    const promises = [];
 
     if (token) {
       promises.push(
