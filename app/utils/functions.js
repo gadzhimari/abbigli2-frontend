@@ -29,7 +29,7 @@ export function deleteFromStorage(key) {
   storage.removeItem(key);
 }
 
-export function getJsonFromStorage() {
+export function getJsonFromStorage(value = 'id_token') {
   if (typeof document === 'undefined') {
     return null;
   }
@@ -45,7 +45,7 @@ export function getJsonFromStorage() {
       return next;
     }, {});
 
-  return Cookies.id_token || null;
+  return Cookies[value] || null;
 }
 
 /**

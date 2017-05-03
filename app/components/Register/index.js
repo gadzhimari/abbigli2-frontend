@@ -16,7 +16,7 @@ export default class Login extends Component {
       phoneNumber: '',
       number: '',
       checkRules: false,
-      codeValue: undefined,
+      codeValue: props.currentCountry || undefined,
       selfErrors: null,
     };
   }
