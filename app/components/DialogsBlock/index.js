@@ -28,11 +28,12 @@ class DialogsBlock extends Component {
       });
     }
   }
-  
+
 
   onClickDialog = (dialogId) => {
     const { dispatch } = this.props;
 
+    this.messagesWrap.classList.add('open');
     dispatch(setActiveDialog(dialogId));
     dispatch(loadMessages(dialogId));
   }
@@ -104,6 +105,10 @@ class DialogsBlock extends Component {
     return groupName;
   }
 
+  closeMobileDialog = () => {
+    this.messagesWrap.classList.remove('open');
+  }
+
   render() {
     const {
       id,
@@ -173,7 +178,9 @@ class DialogsBlock extends Component {
                       />
                     }
                   </div>
-                  <div className="message__content-wrap">
+                  <div
+                    className="message__content-wrap"
+                  >
                     <div
                       dangerouslySetInnerHTML={{ __html: item.body }}
                       className="message__content"
@@ -218,7 +225,20 @@ class DialogsBlock extends Component {
                 deleteDialog={this.deleteDialog}
               />
             </div>
-            <div className="messages__chat-wrap">
+            <div
+              className="messages__chat-wrap"
+              ref={wrap => (this.messagesWrap = wrap)}
+            >
+              {
+                !!activeDialog
+                &&
+                <button
+                  className="messages__back-button"
+                  onClick={this.closeMobileDialog}
+                >
+                  {'Go back to dialogs list'}
+                </button>
+              }
               {
                 !activeDialog && !messagesIsFetching
                   ? <h5
