@@ -1,6 +1,7 @@
 // Sections.js
 import { API_URL } from 'config';
 import fetch from 'isomorphic-fetch';
+import { getJsonFromStorage } from 'utils/functions';
 
 // Actions
 const SET = 'abbigli/settings/SET';
@@ -11,6 +12,7 @@ const initialState = {
     CURRENCY: '$ ?',
   },
   geo: [],
+  currentCountry: null,
 };
 
 // Reducer
@@ -20,14 +22,22 @@ export default function (state = initialState, action = {}) {
       return Object.assign({}, state, {
         data: action.data,
       });
-    case SET_GEO:
-      return Object.assign({}, state, {
-        geo: action.data
+    case SET_GEO: {
+      const code = getJsonFromStorage('countryCode');
+      const data = action.data
           .map(item => ({
             value: `${item.phone}--${item.name}`,
             label: `${item.name} (${item.phone})`,
-          })),
+            code: item.code,
+          }));
+      const currentCountry = data
+        .filter(item => item.code === code)[0];
+
+      return Object.assign({}, state, {
+        geo: data,
+        currentCountry,
       });
+    }
     default:
       return state;
   }

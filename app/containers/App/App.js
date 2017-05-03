@@ -159,6 +159,7 @@ class App extends Component {
       isFetchingSetpass,
       confirmResetShow,
       isFetchingReset,
+      currentCountry,
     } = this.props;
 
     const seoData = seo.data.filter((item) => item.url == location.pathname)[0];
@@ -220,6 +221,7 @@ class App extends Component {
               onRegisterClick={creds => dispatch(registerUser(creds))}
               codes={geo}
               isFetching={isFetchingRegister}
+              currentCountry={currentCountry}
             />
           }
 
@@ -360,6 +362,7 @@ function mapStateToProps(state) {
     sendMessageYourselfError,
     messagesSending: messages.isSending,
     geo: settings.geo,
+    currentCountry: settings.currentCountry,
     isFetchingRegister,
     isFetchingLogin: isFetching,
     isFetchingConfirm,

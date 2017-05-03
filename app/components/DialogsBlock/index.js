@@ -106,7 +106,10 @@ class DialogsBlock extends Component {
   }
 
   closeMobileDialog = () => {
+    const { dispatch } = this.props;
+
     this.messagesWrap.classList.remove('open');
+    dispatch(setActiveDialog(null));
   }
 
   render() {
