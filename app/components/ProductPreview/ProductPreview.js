@@ -100,7 +100,7 @@ class ProductPreview extends Component {
     });
   }
 
-  slideThumbs = index => {
+  slideThumbs = (index) => {
     const { thumbWidth } = this.state;
     const { images } = this.props;
     const lastIndex = (images.length - 1).toString();
@@ -114,9 +114,11 @@ class ProductPreview extends Component {
       numberIndex = Number(index);
     }
 
-    const newScroll = thumbWidth * (numberIndex - 1);
+    const newScroll = (thumbWidth + 10) * (numberIndex - 1);
 
-    this.thumbsContainer.style.transform = `translate3d(-${newScroll}px, 0 , 0)`;
+    this.setState({
+      thumbsScroll: newScroll,
+    });
   }
 
   openGallery = () => {
@@ -139,14 +141,20 @@ class ProductPreview extends Component {
 
     this.setState({
       slideWidth: newWidth,
-      thumbWidth: (newWidth / 3),
+      thumbWidth: (newWidth / 3) - 7,
     });
   }
 
   render() {
-    const { slideWidth, activeIndex, modalOpen } = this.state;
+    const {
+      slideWidth,
+      activeIndex,
+      modalOpen,
+      thumbWidth,
+      thumbsScroll,
+    } = this.state;
     const { images } = this.props;
-    const thumbsWidth = (slideWidth / 3) * images.length;
+    const thumbsWidth = (((slideWidth / 3) + 5) * images.length);
 
     return (
       <div className="product-preview">
@@ -213,7 +221,11 @@ class ProductPreview extends Component {
               <div
                 className="sp-thumbnails sp-grab"
                 ref={container => (this.thumbsContainer = container)}
-                style={{ width: `${thumbsWidth}px` }}
+                style={{
+                  width: `${thumbsWidth}px`,
+                  WebkitTransform: `translate3d(-${thumbsScroll}px, 0 , 0)`,
+                  transform: `translate3d(-${thumbsScroll}px, 0 , 0)`,
+                }}
               >
                 {
                   images.map((item, index) => <SmallPreview
@@ -221,7 +233,7 @@ class ProductPreview extends Component {
                     key={`${item.id.toString()}--small`}
                     active={index.toString() === activeIndex}
                     index={index}
-                    slideWidth={slideWidth}
+                    slideWidth={thumbWidth}
                     onClick={this.selectActive}
                   />)
                 }
