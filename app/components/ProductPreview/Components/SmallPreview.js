@@ -5,14 +5,13 @@ const SmallPreview = (props) => {
   const activeClass = active
     ? ' sp-selected-thumbnail'
     : '';
-  const width = (slideWidth / 3) - 10;
 
   return (
     <div
       className={`sp-thumbnail-container${activeClass}`}
       style={{
-        width: `${width}px!important`,
-        height: `${width}px!important`,
+        width: `${slideWidth}px`,
+        height: `${slideWidth}px`,
       }}
       data-index={index}
       onClick={onClick}
