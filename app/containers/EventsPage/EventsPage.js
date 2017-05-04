@@ -12,6 +12,7 @@ import {
   EventCard,
   Loading,
   SelectInput,
+  MobileEventsSearch,
 } from 'components';
 
 import { fetchData as fetchDataEvents } from 'ducks/Events';
@@ -36,6 +37,7 @@ class EventsPage extends Component {
       start: null,
       end: null,
       popular: false,
+      openMobileSearch: false,
     };
     this.page = 1;
 
@@ -189,6 +191,20 @@ class EventsPage extends Component {
     }
   }
 
+  mobileSearch = (city, start, end) => {
+    const { dispatch } = this.props;
+
+    if (city || start || end) {
+      this.setState({
+        popular: false,
+        openMobileSearch: false,
+      });
+      this.page = 1;
+
+      dispatch(fetchDataEvents(this.page++, false, city, start, end));
+    }
+  }
+
   loadMore = () => {
     const { city, start, end, popular } = this.state;
     const { dispatch, isFetchingMore, next } = this.props;
@@ -198,12 +214,23 @@ class EventsPage extends Component {
     dispatch(fetchDataEvents(this.page++, popular, city, start, end));
   }
 
-  changeCity = city => {
+  changeCity = (city) => {
     this.setState({
       city,
     });
   }
 
+  openMobileModal = () => {
+    this.setState({
+      openMobileSearch: true,
+    });
+  }
+
+  closeMobileModal = () => {
+    this.setState({
+      openMobileSearch: false,
+    });
+  }
 
   render() {
     const {
@@ -217,17 +244,28 @@ class EventsPage extends Component {
 
     const loader = <Loading loading={isFetchingMore} />;
 
+    const wrapperClass = this.state.openMobileSearch
+      ? 'container-fluid events-page modal-open-new'
+      : 'container-fluid events-page';
+
     return (
-      <div className="container-fluid events-page">
-        <CardsWrap legacy={true}>
+      <div className={wrapperClass}>
+        {
+          this.state.openMobileSearch
+          &&
+          <MobileEventsSearch
+            closePopup={this.closeMobileModal}
+            findEvents={this.mobileSearch}
+          />
+        }
+        <CardsWrap legacy>
           <CardsSort>
 
             <div className="cards-sort__page">
               <div className="cards-sort__icon">
                 <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 36">
-<path d="M29,36H3c-1.657,0-3-1.344-3-3V7c0-1.656,1.343-3,3-3h1V0h4v4h16V0h4
-	v4h1c1.657,0,3,1.343,3,3v26C32,34.656,30.657,36,29,36z M29,14H3v19h26V14z M26,30h-8v-8h8V30z"/>
-</svg>
+                  <path d="M29,36H3c-1.657,0-3-1.344-3-3V7c0-1.656,1.343-3,3-3h1V0h4v4h16V0h4 v4h1c1.657,0,3,1.343,3,3v26C32,34.656,30.657,36,29,36z M29,14H3v19h26V14z M26,30h-8v-8h8V30z"/>
+                </svg>
               </div>
               {__t('events')}
             </div>
@@ -245,7 +283,8 @@ class EventsPage extends Component {
             </a>
             <button
               className="search-submit-button"
-              type="submit"
+              type="button"
+              onClick={this.openMobileModal}
             >
               {__t('Find.the.event')}
             </button>
@@ -253,9 +292,8 @@ class EventsPage extends Component {
               <form className="search-event">
                 <div className="selectize-address">
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg"	 viewBox="0 0 12.6 18">
-<path d="M6.3,0C2.817,0,0,2.816,0,6.3C0,11.025,6.3,18,6.3,18s6.3-6.975,6.3-11.7C12.6,2.816,9.785,0,6.3,0z M6.3,8.55
-	c-1.242,0-2.25-1.008-2.25-2.25S5.058,4.05,6.3,4.05c1.241,0,2.25,1.008,2.25,2.25S7.542,8.55,6.3,8.55z"/>
-</svg>
+                    <path d="M6.3,0C2.817,0,0,2.816,0,6.3C0,11.025,6.3,18,6.3,18s6.3-6.975,6.3-11.7C12.6,2.816,9.785,0,6.3,0z M6.3,8.55 c-1.242,0-2.25-1.008-2.25-2.25S5.058,4.05,6.3,4.05c1.241,0,2.25,1.008,2.25,2.25S7.542,8.55,6.3,8.55z"/>
+                  </svg>
                   <div
                     className={`selectize-control single`}
                   >
@@ -275,13 +313,14 @@ class EventsPage extends Component {
                   className="input-wrap input-date"
                   onMouseDown={(e) => this.handleContainerMouseDown(e, 'from')}
                 >
-                  <input id="start-event"
+                  <input
+                    id="start-event"
                     ref={(el) => { this.input = el; }}
                     value={this.state.start || undefined}
                     onChange={(e) => this.handleInputChange(e, 'from')}
                     onFocus={(e) => this.handleInputFocus(e, 'from')}
                     onBlur={(e) => this.handleInputBlur(e, 'from')}
-                    className="input"
+                    className="input events__search-input"
                     type="text"
                     placeholder={__t('Date.from')}
                   />
@@ -310,7 +349,7 @@ class EventsPage extends Component {
                     onChange={(e) => this.handleInputChange(e, 'to')}
                     onFocus={(e) => this.handleInputFocus(e, 'to')}
                     onBlur={(e) => this.handleInputBlur(e, 'to')}
-                    className="input"
+                    className="input input events__search-input"
                     type="text"
                     placeholder={__t('Date.to')}
                   />
