@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 
 import { Loading } from 'components';
 
+import { debounce, getJsonFromStorage } from 'utils/functions';
+
 import './SelectInput.styl';
 
 class SelectInput extends Component {
@@ -110,7 +112,6 @@ class SelectInput extends Component {
   }
 
   findMatchesInApi = ({ target }) => {
-    const { apiPath } = this.props;
     this.setState({
       isFetchingApi: true,
       showResults: true,
@@ -118,15 +119,38 @@ class SelectInput extends Component {
       shouldUpdate: true,
     });
 
-    fetch(`${apiPath}?name=${target.value}`)
+    this.apiCall(target.value);
+  }
+
+  apiCall = debounce((value) => {
+    const { apiPath } = this.props;
+
+    if (value.length === 0) {
+      this.setState({
+        matches: [],
+        isFetchingApi: false,
+        showResults: false,
+      });
+
+      return;
+    }
+
+    fetch(`${apiPath}?name=${value}`)
       .then(result => result.json())
-      .then(result => {
+      .then((result) => {
+        const countryCode = getJsonFromStorage('countryCode');
+
+        const citiesForUserCountry = result.results
+          .filter(item => item.country.code === countryCode);
+        const restCities = result.results
+          .filter(item => item.country.code !== countryCode);
+
         this.setState({
-          matches: result.results,
+          matches: [...citiesForUserCountry, ...restCities],
           isFetchingApi: false,
         });
       });
-  }
+  }, 300, this)
 
   shouldScrollToActive = (wrapper, element, direction) => {
     switch (direction) {
@@ -330,6 +354,8 @@ class SelectInput extends Component {
     const activeClass = active
       ? wrapperActiveClass
       : '';
+
+    // const apiCall = debounce(this.findMatchesInApi, 300, this);
 
     return (<div className={`${inputWrapperClass}${disabledClass} ${activeClass}`}>
       <input
