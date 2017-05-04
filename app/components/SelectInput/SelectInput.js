@@ -150,7 +150,7 @@ class SelectInput extends Component {
           isFetchingApi: false,
         });
       });
-  }, 300, this)
+  }, 500, this)
 
   shouldScrollToActive = (wrapper, element, direction) => {
     switch (direction) {

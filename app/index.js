@@ -3,12 +3,15 @@
 import React from 'react';
 import { render } from 'react-dom';
 import Router from 'react-router/lib/Router';
+import Route from 'react-router/lib/Route';
 import browserHistory from 'react-router/lib/browserHistory';
 import match from 'react-router/lib/match';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import routes from './routes';
 import configureStore from './store';
+
+import { DOMAIN_URL } from './config';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -17,51 +20,37 @@ import 'babel-polyfill';
 
 // Get the DOM Element that will host our React application.
 const container = document.querySelector('#app');
+const urlWithoutProtocol = DOMAIN_URL.split('://')[1];
 
-function routerError(error) {
-  // TODO: Error handling.
-  console.error('==> 😭  React Router match failed.'); // eslint-disable-line no-console
-  if (error) { console.error(error); } // eslint-disable-line no-console
+function handleEnter(next, replace) {
+  if (next.location.pathname === '/search' && next.location.query.q.includes(urlWithoutProtocol)) {
+    const siteUrl = next.location.query.q
+      .split(':')
+      .filter(item => item.includes(urlWithoutProtocol))[0];
+
+    const path = siteUrl.replace(`//${urlWithoutProtocol}`, '/');
+
+    replace(path);
+  }
 }
 
 function renderApp() {
-  // render(appFactory(), container);
-  //
-  // As we are using dynamic react-router routes we have to use the following
-  // asynchronous routing mechanism supported by the `match` function.
-  // @see https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md
-  match({ history: browserHistory, routes }, (error, redirectLocation, renderProps) => {
-    if (error) {
-      routerError(error);
-    } else if (redirectLocation) {
-      return;
-    } else if (!renderProps) {
-      routerError();
-    }
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
 
-    // Preact's default behaviour is to append to the container, rather than
-    // replace existing content like in React.  The Preact Compat is supposed
-    // to emulate React's behaviour however it seems to be having problems
-    // with this dynamic routing configuration, therefore we manually clear
-    // out our container before doing any rendering.
-    while (container.firstChild) {
-      container.removeChild(container.firstChild);
-    }
-    const store = configureStore();
-    const history = syncHistoryWithStore(browserHistory, store);
+  const store = configureStore();
+  const history = syncHistoryWithStore(browserHistory, store);
 
-    render(
-      // We need to explicly render the Router component here instead of have
-      // this embedded within a shared App type of component as we use different
-      // router base components for client vs server rendering.
-      <Provider store={store}>
-        <Router history={history}>
-          {routes}
-        </Router>
-      </Provider>,
-      container
-    );
-  });
+  render(
+    <Provider store={store}>
+      <Router history={history}>
+        {routes}
+        <Route path="*" onEnter={handleEnter} />
+      </Router>
+    </Provider>,
+    container
+  );
 }
 
 window.Mac = /Mac/.test(window.navigator.platform)

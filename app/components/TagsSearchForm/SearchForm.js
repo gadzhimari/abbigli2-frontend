@@ -6,6 +6,7 @@ import equal from 'deep-equal';
 import ScrollBar from '../ScrollBar';
 
 import { __t } from './../../i18n/translator';
+import { debounce } from 'utils/functions';
 
 import './SearchForm.styl';
 
@@ -306,7 +307,7 @@ class SearchForm extends Component {
     }
   }
 
-  loadOptions = (target) => {
+  loadOptions = debounce((target) => {
     const requestString = target.value
       .split(' ')
       .slice(-1)
@@ -315,19 +316,19 @@ class SearchForm extends Component {
     if (requestString.length < 1) return;
 
     fetch(`${API_URL}tags/?search=${requestString}`)
-      .then(response => {
+      .then((response) => {
         if (response.status >= 400) {
           throw new Error('Bad response from server');
         }
 
         return response.json();
       })
-      .then(result => {
+      .then((result) => {
         this.setState({
           options: result.results,
         });
       });
-  }
+  }, 500, this)
 
   render() {
     const { isFocused, options, currentValue, optionsValue } = this.state;
