@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import renderOnServer from './middlewares/renderOnServer';
 import oauthHandler from './middlewares/oauthHandling';
 import geoLocation from './middlewares/geoLocation';
+import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
 
 const app = express();
 
@@ -20,8 +21,9 @@ app.use(express.static('./public'));
 app.use(cookieParser());
 app.use(compression());
 
-app.use(geoLocation);
 app.use(oauthHandler);
+app.use(geoLocation);
+app.use(handleGoogleCahceUrl);
 app.use(renderOnServer);
 
 app.listen(3000, () => {

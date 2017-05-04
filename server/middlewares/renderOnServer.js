@@ -55,7 +55,7 @@ const linksToCss = {
 };
 
 module.exports = (req, res) => {
-  match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+  match({ routes, location: req.newPath || req.url }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       return res.redirect(301, redirectLocation.pathname + redirectLocation.search);
     }
