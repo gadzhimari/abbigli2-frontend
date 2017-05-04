@@ -70,3 +70,4 @@ export { default as FetchingButton } from './FetchingButton';
 export { default as SocialLogin } from './SocialLogin';
 export { default as SetPasswordPopup } from './SetPasswordPopup';
 export { default as ConfirmReset } from './ConfirmReset';
+export { default as MobileEventsSearch } from './MobileEventsSearch';
