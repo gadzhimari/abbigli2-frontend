@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import deepEqual from 'deep-equal';
 
+import { SocialGroups } from 'components';
+
 import { fetchData as fetchDataSections } from 'ducks/Sections';
 import {
   loginPopup,
@@ -254,44 +256,9 @@ class AvatarBlock extends Component {
               >
                 {__t('Support')}
               </a>
-              <div className="social-buttons">
-                <a className="social-btn facebook" target="_blank" href="https://www.facebook.com/AbbigliHandmade/">
-                  <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7.419 16.005">
-                    <path d="M7.419,5.279L4.93,5.284V3.609c0,0-0.053-0.919,0.956-0.919c0-0.01,1.522,0,1.522,0V0.001H4.72
-                      c0,0-3.081-0.178-3.081,3.498v1.792L0,5.295v2.662h1.639v8.048H4.93V7.957h2.206L7.419,5.279z"/>
-</svg>
 
-                </a>
-                <a className="social-btn pinterest" target="_blank" href="https://ru.pinterest.com/abbiglicom/">
-                  <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.912 15.975">
-                    <path d="M2.34,9.239c0.802-1.365-0.258-1.664-0.425-2.654c-0.679-4.043,4.847-6.806,7.741-3.98 c2.002,1.957,0.684,7.975-2.545,7.348C4.02,9.356,8.626,4.567,6.158,3.626c-2.006-0.765-3.071,2.337-2.12,3.878 c-0.559,2.651-1.76,5.147-1.273,8.471c1.577-1.102,2.109-3.211,2.545-5.41c0.793,0.465,1.217,0.946,2.228,1.021 c3.727,0.277,5.81-3.581,5.299-7.145c-0.452-3.157-3.722-4.764-7.21-4.388C2.869,0.352,0.12,2.498,0.006,5.565 C-0.063,7.438,0.488,8.844,2.34,9.239z"/>
-                  </svg>
-                </a>
-                <a className="social-btn google-plus" target="_blank"
-                  href="https://plus.google.com/u/0/110479061425529635009">
-                  <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.146 14">
-                    <path d="M7.034,5.998c-0.002,0.795,0,1.591,0.003,2.386c1.343,0.042,2.685,0.022,4.026,0.042
-                      c-0.593,2.96-4.639,3.917-6.775,1.986c-2.2-1.693-2.096-5.411,0.19-6.984C6.08,2.157,8.351,2.471,9.952,3.572
-		c0.626-0.579,1.215-1.197,1.78-1.839c-1.328-1.056-2.959-1.808-4.698-1.727C3.411-0.115,0.079,3.044,0.019,6.649
-		c-0.231,2.947,1.718,5.839,4.469,6.882c2.741,1.049,6.253,0.335,8.001-2.116c1.157-1.547,1.406-3.539,1.27-5.411
-		C11.516,5.988,9.277,5.991,7.034,5.998z M20.139,5.988c-0.004-0.666-0.007-1.333-0.014-1.999h-1.998
-		c-0.005,0.665-0.014,1.329-0.016,1.999c-0.672,0.003-1.339,0.006-2.01,0.013v1.987c0.671,0.008,1.341,0.015,2.01,0.021
-		c0.009,0.667,0.009,1.331,0.016,1.995h1.998c0.007-0.664,0.01-1.328,0.014-1.997C20.812,8,21.479,7.997,22.146,7.988V6.001
-		C21.479,5.994,20.809,5.994,20.139,5.988z"/>
-</svg>
+              <SocialGroups />
 
-                </a>
-                {/*<a className="social-btn vkontakte" target="_blank" href="https://vk.com/abbigli">
-                <svg className="icon">
-                  <use href="#vkontakte"></use>
-                </svg>
-              </a>
-              <a className="social-btn odnoklassniki" target="_blank" href="https://ok.ru/profile/571557312137">
-                <svg className="icon">
-                  <use href="#odnoklassniki"></use>
-                </svg>
-              </a>*/}
-              </div>
             </div>
           </div>
         </div>
@@ -394,7 +361,7 @@ AvatarBlock.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   dispatch: PropTypes.func,
   toggleMenu: PropTypes.func,
-}
+};
 
 function mapStateToProps(state) {
   const sections = (state.Sections) || { isFetching: true, items: [] };

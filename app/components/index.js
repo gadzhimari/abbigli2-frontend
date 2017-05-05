@@ -71,3 +71,5 @@ export { default as SocialLogin } from './SocialLogin';
 export { default as SetPasswordPopup } from './SetPasswordPopup';
 export { default as ConfirmReset } from './ConfirmReset';
 export { default as MobileEventsSearch } from './MobileEventsSearch';
+export { default as Icons } from './Icons';
+export { default as SocialGroups } from './SocialGroups';
