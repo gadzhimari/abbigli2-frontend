@@ -1,5 +1,10 @@
-import strings from './en_US';
+import en from './en_US';
+import ru from './ru_RU.js';
 
-export function __t(str){
-    return strings[str] || str;
-}
+const location = process.env.LOCATION;
+const langs = {
+  en,
+  ru,
+};
+
+export const __t = str => langs[location][str] || str;
