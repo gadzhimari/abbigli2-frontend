@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 import Router from 'react-router/lib/Router';
 import Route from 'react-router/lib/Route';
 import browserHistory from 'react-router/lib/browserHistory';
-import match from 'react-router/lib/match';
+
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 
