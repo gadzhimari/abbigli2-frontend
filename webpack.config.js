@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const webpack = require('webpack');
 const path = require('path');
 
@@ -28,16 +30,14 @@ const plugins = [
     stylus: {
       import: path.resolve(__dirname, './app/containers/App/variables.styl'),
     },
+  }),
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      LOCATION: JSON.stringify(process.env.LOCATION),
+    },
   })
 ];
-
-if (!isProd) {
-  plugins.push(
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development'),
-    })
-  );
-}
 
 if (isProd) {
   plugins.push(
@@ -46,12 +46,7 @@ if (isProd) {
       filename: 'assets.json',
       path: path.join(__dirname, 'public', 'assets'),
     }),
-    new webpack.optimize.UglifyJsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production'),
-      },
-    })
+    new webpack.optimize.UglifyJsPlugin()
   );
 }
 

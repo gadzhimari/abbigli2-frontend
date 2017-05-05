@@ -11,6 +11,7 @@ import geoLocation from './middlewares/geoLocation';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
 
 const app = express();
+const PORT = process.env.SERVER_PORT;
 
 app.enable('trust proxy');
 
@@ -26,6 +27,6 @@ app.use(geoLocation);
 app.use(handleGoogleCahceUrl);
 app.use(renderOnServer);
 
-app.listen(3000, () => {
-  console.log('server listening on port 3000');
+app.listen(PORT, () => {
+  console.log(`server listening on port ${PORT}`);
 });
