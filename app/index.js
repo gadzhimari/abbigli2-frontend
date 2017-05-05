@@ -5,9 +5,12 @@ import { render } from 'react-dom';
 import Router from 'react-router/lib/Router';
 import Route from 'react-router/lib/Route';
 import browserHistory from 'react-router/lib/browserHistory';
-import match from 'react-router/lib/match';
+
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
+
+import Raven from 'raven-js';
+
 import routes from './routes';
 import configureStore from './store';
 
@@ -17,6 +20,12 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import 'babel-polyfill';
+
+const ravenDNS = process.env.SENTRY_DNS_CLIENT;
+
+Raven
+  .config(ravenDNS)
+  .install();
 
 // Get the DOM Element that will host our React application.
 const container = document.querySelector('#app');

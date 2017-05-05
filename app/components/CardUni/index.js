@@ -98,10 +98,16 @@ class CardUni extends Component {
             liked={this.state.forced.like === null ? liked : this.state.forced.like}
             onClick={this.like}
           />
-
-          <Share
-            postLink={`/${types_url[type]}/${slug}`}
-          />
+          <div className="share">
+            <div className="share__icon" />
+            <div className="dropdown-corner" />
+            <div className="dropdown">
+              <Share
+                postLink={`/${types_url[type]}/${slug}`}
+                buttonClass="social-btn"
+              />
+            </div>
+          </div>
         </div>
         <div className="tile__info">
           <Link
