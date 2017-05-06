@@ -22,10 +22,13 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'babel-polyfill';
 
 const ravenDNS = process.env.SENTRY_DNS_CLIENT;
+const mode = process.env.NODE_ENV;
 
-Raven
-  .config(ravenDNS)
-  .install();
+if (mode === 'production') {
+  Raven
+    .config(ravenDNS)
+    .install();
+}
 
 // Get the DOM Element that will host our React application.
 const container = document.querySelector('#app');
