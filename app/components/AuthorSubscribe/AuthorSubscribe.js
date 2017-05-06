@@ -44,7 +44,7 @@ class AuthorSubscribe extends Component {
 	l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z"/>
 </svg>
 
-                  Edit
+                  {__t('Edit')}
                 </Link>
               )
               : isSubscribed

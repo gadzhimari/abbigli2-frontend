@@ -6,6 +6,8 @@ import { setLike } from 'actions/like';
 import { registerPopup } from 'ducks/Popup';
 import { __t } from './../../i18n/translator';
 
+import { location } from 'config';
+
 import './index.styl';
 
 class CommentsBox extends Component {
@@ -194,7 +196,13 @@ class CommentsBox extends Component {
 
                 </Link>
                 <Link className="comment-author" to={`/profile/${item.user.id}/`}>{item.user.profile_name}</Link>
-                <div className="comment-date">{moment(item.created).format('LLL')}</div>
+                <div className="comment-date">
+                  {
+                    moment(item.created)
+                      .locale(location)
+                      .format('LLL')
+                  }
+                </div>
                 <div className="comment-text">{item.comment}</div>
               </div>
             ))}

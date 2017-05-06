@@ -13,6 +13,8 @@ import {
   CardProduct,
 } from 'components';
 
+import { __t } from './../../i18n/translator';
+
 import { getJsonFromStorage } from 'utils/functions';
 
 import './Tag.styl';
@@ -171,9 +173,9 @@ class Tag extends Component {
         <CardsWrap legacy>
           <CardsSort>
             {tagsSharp}
-            <CardsSortItem to="/new-products">New</CardsSortItem>
-            <CardsSortItem to="/popular-products">Popular</CardsSortItem>
-            <CardsSortItem to="/nearest-products">Beside</CardsSortItem>
+            <CardsSortItem to="/new-products">{__t('New')}</CardsSortItem>
+            <CardsSortItem to="/popular-products">{__t('Popular')}</CardsSortItem>
+            <CardsSortItem to="/nearest-products">{__t('Beside')}</CardsSortItem>
           </CardsSort>
         </CardsWrap>
           {

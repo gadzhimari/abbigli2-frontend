@@ -7,6 +7,10 @@ import MessagesList from './Components/MessagesList';
 import { deleteMessagePopup } from 'ducks/Popup';
 import { sendPrivateMessage, setActiveDialog, loadMessages } from 'ducks/Dialogs';
 
+import { location } from 'config';
+
+import { __t } from '../../i18n/translator';
+
 import './index.styl';
 
 
@@ -127,12 +131,12 @@ class DialogsBlock extends Component {
       const newItem = item;
       const momentData = moment(item.last_message_sent);
       const momentToday = moment();
-      let lastMessageSent = momentData.format('D MMMM YYYY');
+      let lastMessageSent = momentData.format('D MMMM YYYY').locale(location);
 
       if (momentData.format('D MMMM YYYY') === momentToday.format('D MMMM YYYY')) {
-        lastMessageSent = momentData.format('HH:mm');
+        lastMessageSent = momentData.format('HH:mm').locale(location);
       } else if (momentData.format('YYYY') === momentToday.format('YYYY')) {
-        lastMessageSent = momentData.format('D MMMM');
+        lastMessageSent = momentData.format('D MMMM').locale(location);
       }
 
       newItem.last_message_sent_format = lastMessageSent;
@@ -212,7 +216,7 @@ class DialogsBlock extends Component {
                     className="message-search__input"
                     onChange={this.doSearch}
                     type="text"
-                    placeholder="Поиск"
+                    placeholder={__t('Search')}
                     value={query}
                   />
                   <svg className="search-icon">
@@ -239,7 +243,7 @@ class DialogsBlock extends Component {
                   className="messages__back-button"
                   onClick={this.closeMobileDialog}
                 >
-                  {'Go back to dialogs list'}
+                  {__t('Go back to dialogs list')}
                 </button>
               }
               {
@@ -252,7 +256,7 @@ class DialogsBlock extends Component {
                       color: 'rgb(138, 144, 147)',
                     }}
                   >
-                    In this section you see your correspondence with other ABBIGLI members.
+                    {__t('In this section you see your correspondence with other ABBIGLI members.')}
                   </h5>
                   : <MessagesList
                     list={formatedMessages}

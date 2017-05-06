@@ -17,6 +17,8 @@ import { Link } from 'react-router';
 
 import { registerPopup } from 'ducks/Popup';
 
+import { __t } from '../../i18n/translator';
+
 
 class SpecificPostsPage extends Component {
 
@@ -49,10 +51,10 @@ class SpecificPostsPage extends Component {
     } = this.props;
 
     const page_names = {
-      new: 'New',
-      popular: 'Popular',
-      near: 'Beside',
-      mood: 'Create a mood'
+      new: __t('New'),
+      popular: __t('Popular'),
+      near: __t('Beside'),
+      mood: __t('Create a mood'),
     };
 
     const page_name = page_names[this.props.route.slug];
@@ -63,17 +65,37 @@ class SpecificPostsPage extends Component {
           hideJoin={isAuthenticated}
           join={this.showRegister}
         />
-
-
-
         <CardsWrap legacy={true}>
 
           <CardsSort>
             {page_name}
-            {this.props.route.slug != 'new' && <CardsSortItem to="/new-products">New</CardsSortItem>}
-            {this.props.route.slug != 'popular' && <CardsSortItem to="/popular-products">Popular</CardsSortItem>}
-            {this.props.route.slug != 'near' && <CardsSortItem to="/nearest-products">Beside</CardsSortItem>}
-            {this.props.route.slug != 'mood' && <CardsSortItem to="/set-the-mood">Create a mood</CardsSortItem>}
+            {
+              this.props.route.slug !== 'new'
+              &&
+              <CardsSortItem to="/new-products">
+                {__t('New')}
+              </CardsSortItem>
+            }
+            {
+              this.props.route.slug !== 'popular'
+              &&
+              <CardsSortItem to="/popular-products">
+                {__t('Popular')}
+              </CardsSortItem>
+            }
+            {
+              this.props.route.slug !== 'near'
+              &&
+              <CardsSortItem to="/nearest-products">
+                {__t('Beside')}
+              </CardsSortItem>}
+            {
+              this.props.route.slug !== 'mood'
+              &&
+              <CardsSortItem to="/set-the-mood">
+                {__t('Create a mood')}
+              </CardsSortItem>
+            }
           </CardsSort>
 
           <InfiniteScroll

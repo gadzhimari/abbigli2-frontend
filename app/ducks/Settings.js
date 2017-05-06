@@ -3,13 +3,17 @@ import { API_URL } from 'config';
 import fetch from 'isomorphic-fetch';
 import { getJsonFromStorage } from 'utils/functions';
 
+import { location } from 'config';
+
 // Actions
 const SET = 'abbigli/settings/SET';
 const SET_GEO = 'abbigli/settings/SET_GEO';
 
 const initialState = {
   data: {
-    CURRENCY: '$ ?',
+    CURRENCY: location === 'en'
+      ? '$ ?'
+      : '? руб',
   },
   geo: [],
   currentCountry: null,
