@@ -92,11 +92,11 @@ class DialogsBlock extends Component {
     const sentAt = moment(item.sent_at);
     const nowMoment = moment();
     const daysDiff = nowMoment.diff(sentAt, 'days');
-    let groupName = sentAt.format('D MMMM YYYY');
+    let groupName = sentAt.locale(location).format('D MMMM YYYY');
 
     if (daysDiff < 356) {
       if (daysDiff > 1) {
-        groupName = sentAt.format('D MMMM');
+        groupName = sentAt.locale(location).format('D MMMM');
       } else if (daysDiff == 1) {
         groupName = 'Yesterday';
       } else {
@@ -104,7 +104,7 @@ class DialogsBlock extends Component {
       }
     }
 
-    item.tempSentAt = sentAt.format('HH:mm');
+    item.tempSentAt = sentAt.locale(location).format('HH:mm');
 
     return groupName;
   }
@@ -131,12 +131,12 @@ class DialogsBlock extends Component {
       const newItem = item;
       const momentData = moment(item.last_message_sent);
       const momentToday = moment();
-      let lastMessageSent = momentData.format('D MMMM YYYY').locale(location);
+      let lastMessageSent = momentData.locale(location).format('D MMMM YYYY');
 
       if (momentData.format('D MMMM YYYY') === momentToday.format('D MMMM YYYY')) {
-        lastMessageSent = momentData.format('HH:mm').locale(location);
+        lastMessageSent = momentData.locale(location).format('HH:mm');
       } else if (momentData.format('YYYY') === momentToday.format('YYYY')) {
-        lastMessageSent = momentData.format('D MMMM').locale(location);
+        lastMessageSent = momentData.locale(location).format('D MMMM');
       }
 
       newItem.last_message_sent_format = lastMessageSent;
