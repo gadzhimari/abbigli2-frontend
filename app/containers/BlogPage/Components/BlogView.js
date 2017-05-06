@@ -10,6 +10,8 @@ import {
   Share,
 } from 'components';
 
+import { location as lang } from 'config';
+
 import { __t } from '../../../i18n/translator';
 
 const ProductView = (props) => {
@@ -48,6 +50,7 @@ const ProductView = (props) => {
         <div className="detail__date">
           {
             moment(data.created)
+              .locale(lang)
               .format('D MMMM YYYY')
           }
         </div>

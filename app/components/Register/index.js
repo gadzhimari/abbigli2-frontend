@@ -120,7 +120,7 @@ export default class Login extends Component {
                     matchPos="start"
                     options={codes}
                     value={codeValue}
-                    placeholder="Choose your country"
+                    placeholder={__t('Choose your country')}
                     clearable={false}
                   />
                 </div>
@@ -161,7 +161,7 @@ export default class Login extends Component {
                 value={this.state.checkRules}
               />
               <label className="checkbox-label" htmlFor="iAgree">
-                {__t('I agree')}
+                {__t('I agree')} {' '}
                 <a className="checkbox-label__link" href="/page/agreement">
                   {__t('Terms of use of the resource')}
                 </a>

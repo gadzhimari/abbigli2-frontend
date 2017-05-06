@@ -114,9 +114,9 @@ class SectionTag extends Component {
         <CardsWrap legacy>
           <CardsSort>
             {seoTextsObj.title} #{routeParams.tag}
-            <CardsSortItem to="/new-products">New</CardsSortItem>
-            <CardsSortItem to="/popular-products">Popular</CardsSortItem>
-            <CardsSortItem to="/nearest-products">Beside</CardsSortItem>
+            <CardsSortItem to="/new-products">{__t('New')}</CardsSortItem>
+            <CardsSortItem to="/popular-products">{__t('Popular')}</CardsSortItem>
+            <CardsSortItem to="/nearest-products">{__t('Beside')}</CardsSortItem>
           </CardsSort>
 
           {

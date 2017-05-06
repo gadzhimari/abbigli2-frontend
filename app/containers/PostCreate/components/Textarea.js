@@ -3,6 +3,8 @@ import { getJsonFromStorage } from 'utils/functions';
 
 import { API_URL } from 'config';
 
+import { __t } from '../../../i18n/translator';
+
 const propTypes = {
   onChange: PropTypes.func,
   type: PropTypes.number,
@@ -21,7 +23,7 @@ class Textarea extends Component {
     const { onChange } = this.props;
 
     jQuery('#content').redactor({
-      placeholder: 'Description',
+      placeholder: __t('Description'),
       imageUpload: `${API_URL}images/`,
       imageUploadParam: 'file',
       callbacks: {

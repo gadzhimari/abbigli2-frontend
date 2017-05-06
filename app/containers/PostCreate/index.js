@@ -478,7 +478,7 @@ class PostCreate extends Component {
                   &&
                 <div className="post-create__error-images">
                   <div className="post-create__error-images__message">
-                    {'You should load at least one image'}
+                    {__t('You should load at least one image')}
                   </div>
                 </div>
               }
@@ -516,7 +516,7 @@ class PostCreate extends Component {
                   (errors.price && !price.length)
                     &&
                   <div className="post-create__error">
-                    {'Incorrect value, please type a number'}
+                    {__t('Incorrect value, please type a number')}
                   </div>
                 }
               </div>)
@@ -594,7 +594,7 @@ class PostCreate extends Component {
                   (errors.title && !title.length)
                     &&
                   <div className="post-create__error">
-                    {'This field should not be empty'}
+                    {__t('This field should not be empty')}
                   </div>
                 }
             </div>
@@ -640,7 +640,7 @@ class PostCreate extends Component {
                 (errors.sections && !this.state.sections.length)
                   &&
                 <div className="post-create__error">
-                  {'This field should not be empty'}
+                  {__t('This field should not be empty')}
                 </div>
               }
             </div>
@@ -665,7 +665,7 @@ class PostCreate extends Component {
                 (errors.tags && !tags.length)
                   &&
                 <div className="post-create__error">
-                  {'This field should not be empty'}
+                  {__t('This field should not be empty')}
                 </div>
               }
             </div>

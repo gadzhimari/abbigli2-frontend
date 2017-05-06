@@ -81,7 +81,7 @@ export default class Login extends Component {
                   value={message}
                   onChange={this.onUpdate}
                   className="textarea textarea--send-message"
-                  placeholder="Type a message..."
+                  placeholder={__t('Type a message...')}
                 />
                 {
                   messageError && !message.length
