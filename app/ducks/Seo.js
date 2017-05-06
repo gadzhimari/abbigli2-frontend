@@ -1,12 +1,67 @@
 // Sections.js
 import fetch from 'isomorphic-fetch';
-import { API_URL } from 'config';
+import { API_URL, location } from 'config';
 
 // Actions
 const SET = 'abbigli/seo/SET';
-
-const initialState = {
-  data: [
+const seoData = {
+  ru: [
+    {
+      "id": 1,
+      "url": "/",
+      "seo_title": "Покупка и продажа изделий ручной работы,  хендмейд",
+      "seo_description": "Покупайте и продавайте винтажные товары, изделия, сделанные своими руками, а также расходные материалы для рукоделия."
+    },
+    {
+      "id": 2,
+      "url": "/new-products/",
+      "seo_title": "Новые работы пользователей",
+      "seo_description": "Самые последние поступления работ наших пользователей"
+    },
+    {
+      "id": 3,
+      "url": "/popular-products/",
+      "seo_title": "Популярные работы ручной работы",
+      "seo_description": "Популярные работы ручной работы на сайте Abbigli"
+    },
+    {
+      "id": 4,
+      "url": "/set-the-mood/",
+      "seo_title": "Создайте своё настроение!",
+      "seo_description": "Создайте настроение, радость, или просто новость на Abbigli"
+    },
+    {
+      "id": 5,
+      "url": "/blogs/",
+      "seo_title": "Блоги",
+      "seo_description": "Тут вы найдете уроки по ручным композициям, ручной работе и просто уроки о хендмейд"
+    },
+    {
+      "id": 6,
+      "url": "/events/",
+      "seo_title": "События",
+      "seo_description": "Последние события на сайте Abbigli.RU"
+    },
+    {
+      "id": 7,
+      "url": "/nearest-products/",
+      "seo_title": "Последние продукты которые находятся рядом с вами",
+      "seo_description": "Товары, продукты, которые окружают вас рядом!"
+    },
+    {
+      "id": 8,
+      "url": "/page/about",
+      "seo_title": "О нас",
+      "seo_description": "Описание сайта Abbigli.RU"
+    },
+    {
+      "id": 9,
+      "url": "/page/faq",
+      "seo_title": "FAQ",
+      "seo_description": "Правило пользования сайта и то что вы можете тут делать."
+    }
+  ],
+  en: [
     {
       "id": 1,
       "url": "/",
@@ -62,6 +117,11 @@ const initialState = {
       "seo_description": "The rule of using the website and what you can do."
     }
   ],
+};
+
+
+const initialState = {
+  data: seoData[location],
 };
 
 // Reducer
