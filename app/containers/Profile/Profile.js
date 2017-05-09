@@ -142,8 +142,8 @@ class Profile extends Component {
           </a>
 
           <Link
-            to={`/profile/${user.id}/myabbigli`}
-            className={"profile-submenu__item my-abbigli " + (childrenPath === 'myabbigli' ? 'active' : '')}
+            to={`/profile/${user.id}/`}
+            className={"profile-submenu__item my-abbigli " + (!childrenPath ? 'active' : '')}
           >
             <div className="icon-wrap">
               <div className="icon"></div>
