@@ -206,6 +206,9 @@ class UserProfileMe extends Component {
     } = this.state;
 
     const user = this.props.data;
+    const avatarWrapperClass = avatar
+      ? 'user-profile__avatar-wrap no-bg'
+      : 'user-profile__avatar-wrap';
 
     const { errors } = this.props;
     return (
@@ -241,7 +244,7 @@ class UserProfileMe extends Component {
 
         <div className="user-profile__cover-small">
           <div className="user-profile__avatar-container">
-            <div className="user-profile__avatar-wrap">
+            <div className={avatarWrapperClass}>
               {
                 avatar
                 &&

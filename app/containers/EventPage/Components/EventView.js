@@ -74,6 +74,22 @@ const EventView = props => {
             buttonClass="social-btn"
           />
         </div>
+        <div className="sidebar__section mobile-tags">
+          <div className="sidebar__title">
+            {__t('tags')}
+          </div>
+          {
+            data.tags
+            &&
+            data.tags.map((tag, indx) => (<Link
+              className="tag-btn blog-tag"
+              key={`${indx}--${tag}`}
+              to={`/tags/${tag}/`}
+            >
+              #{tag}
+            </Link>))
+          }
+        </div>
       </div>
       <div className="detail__wrap">
         <div className="detail__content">

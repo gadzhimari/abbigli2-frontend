@@ -14,29 +14,6 @@ export default class UserProfile extends Component {
     };
   }
 
-  followToggle() {
-    /**
-     * Request URL:https://abbigli.ru/api/v1/profiles/3535/follow/
-     * Request Method:POST
-     */
-  }
-
-  sendMessage() {
-
-    /**
-     * Request URL:https://abbigli.ru/api/v1/my-profile/dialogs/
-     * Request Method:POST
-     * formData
-     * subject:private message
-     * recipient:34
-     */
-
-    /**
-     * https://abbigli.ru/api/v1/my-profile/dialogs/56/
-     * formData
-     * body:Привет.
-     */
-  }
 
   render() {
     const {
@@ -69,11 +46,15 @@ export default class UserProfile extends Component {
         : dispatch(loginPopup(true));
     }
 
+    const avatarWrapperClass = avatar
+      ? 'user-profile__avatar-wrap no-bg'
+      : 'user-profile__avatar-wrap';
+
     return (
       <div className="user-profile__info ">
         <div className="user-profile__cover-small">
           <div className="user-profile__avatar-container">
-            <div className="user-profile__avatar-wrap">
+            <div className={avatarWrapperClass}>
               {
                 avatar
                 && <img className="user-profile__avatar"
