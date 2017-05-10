@@ -52,6 +52,7 @@ const linksToCss = {
   'post/new': createCss,
   'sections/:section': sectionsCss,
   'sections/:section/:tag': sectionsCss,
+  'tags/:tags(/:page)': sectionsCss,
 };
 
 module.exports = (req, res) => {
