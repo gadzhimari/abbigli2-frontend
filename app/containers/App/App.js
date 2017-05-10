@@ -106,7 +106,7 @@ class App extends Component {
   componentWillUpdate(nextProps) {
     const { isAuthenticated, dispatch } = this.props;
 
-    document.body.scrollTop = 0;
+    // document.body.scrollTop = 0;
 
     if (nextProps.isAuthenticated !== isAuthenticated && nextProps.isAuthenticated) {
       dispatch(fetchMe());

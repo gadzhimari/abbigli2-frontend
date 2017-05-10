@@ -73,10 +73,8 @@ const routes = (
     <Route path="post/new" component={PostCreate}/>
     <Route path="profile/:profile/post/edit/:slug" component={PostEdit}/>
 
-    <Route path="profile/:profile" component={Profile}>
+    <Route path="profile/(:profile)" component={Profile}>
       <IndexRoute component={ProfileMyabbigli} />
-      <IndexRedirect to="myabbigli" />
-      <Route path="myabbigli" component={ProfileMyabbigli}/>
       <Route path="favorites" component={ProfileFavorites}/>
       <Route path="feed" component={ProfileFeed}/>
       <Route path="messages" component={ProfileMessages}/>
