@@ -148,7 +148,7 @@ class Profile extends Component {
             <div className="icon-wrap">
               <div className="icon"></div>
             </div>
-            {__t('My Abbigly')}
+            {__t('My Abbigli')}
           </Link>
 
           <Link
