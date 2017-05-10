@@ -12,7 +12,7 @@
 const isDevelopment = process.env.NODE_ENV === 'development';
 export const location = process.env.LOCATION;
 export const IS_DEVELOPMENT = isDevelopment;
-export const DOMAIN_URL = 'http://beta.abbigli.ru/';
+export const DOMAIN_URL = 'https://abbigli.com/';
 export const API_URL = `${DOMAIN_URL}api/v1/`;
 
 export const IS_HOT_DEVELOPMENT = isDevelopment && module.hot;
