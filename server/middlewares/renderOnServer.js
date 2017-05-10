@@ -56,7 +56,10 @@ const linksToCss = {
 };
 
 module.exports = (req, res) => {
-  match({ routes, location: req.newPath || req.url }, (error, redirectLocation, renderProps) => {
+  const store = configureStore();
+  const renderRoutes = routes(store, req.cookies.id_token);
+
+  match({ routes: renderRoutes, location: req.newPath || req.url }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       return res.redirect(301, redirectLocation.pathname + redirectLocation.search);
     }
@@ -68,32 +71,27 @@ module.exports = (req, res) => {
     if (!renderProps) {
       return res.status(404).sendFile(path.resolve(__dirname, '../templates/404.html'));
     }
-    const store = configureStore();
-    const root = renderProps.routes[0].component.WrappedComponent;
 
-    root.fetchData({ store, token: req.cookies.id_token })
-      .then(() => {
-        const componentHTML = ReactDOM.renderToString(
-          <Provider store={store} >
-            <RouterContext {...renderProps} />
-          </Provider>
-        );
-        const helmetStatic = helmet.renderStatic();
-        const seo = {
-          title: helmetStatic.title.toString(),
-          meta: helmetStatic.meta.toString(),
-        };
+    const componentHTML = ReactDOM.renderToString(
+      <Provider store={store} >
+        <RouterContext {...renderProps} />
+      </Provider>
+    );
+    const helmetStatic = helmet.renderStatic();
+    const seo = {
+      title: helmetStatic.title.toString(),
+      meta: helmetStatic.meta.toString(),
+    };
 
-        res.render('index', {
-          markup: componentHTML,
-          baseUrl: assetsUrl,
-          jsUrl,
-          cssUrl,
-          store: encodeURI(JSON.stringify(store.getState())),
-          seo,
-          commonCss,
-          pageCss: linksToCss[renderProps.routes[1].path] || '',
-        });
-      });
+    res.render('index', {
+      markup: componentHTML,
+      baseUrl: assetsUrl,
+      jsUrl,
+      cssUrl,
+      store: encodeURI(JSON.stringify(store.getState())),
+      seo,
+      commonCss,
+      pageCss: linksToCss[renderProps.routes[1].path] || '',
+    });
   });
 };
