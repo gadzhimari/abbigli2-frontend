@@ -59,7 +59,7 @@ const routes = (store, token) => {
   const handleNoAuth = (nextState, replace) => {
     const state = store.getState();
 
-    if (!state.AuthisAuthenticated) replace('/');
+    if (!state.Auth.isAuthenticated) replace('/');
   };
 
   return (
