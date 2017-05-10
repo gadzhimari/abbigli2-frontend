@@ -53,11 +53,12 @@ function renderApp() {
 
   const store = configureStore();
   const history = syncHistoryWithStore(browserHistory, store);
+  const renderRoutes = routes(store);
 
   render(
     <Provider store={store}>
       <Router history={history}>
-        {routes}
+        {renderRoutes}
         <Route path="*" onEnter={handleEnter} />
       </Router>
     </Provider>,

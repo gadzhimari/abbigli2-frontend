@@ -47,16 +47,13 @@ class App extends Component {
     children: PropTypes.any.isRequired,
   };
 
-  static fetchData = ({ store, token }) => {
-    const promises = [];
-
-    if (token) {
-      promises.push(
-        store.dispatch(fetchMe(token))
-      );
+  static fetchData = ({ store, token }, nextState, replace, callback) => {
+    if (!token) {
+      return callback();
     }
 
-    return Promise.all(promises);
+    return store.dispatch(fetchMe(token))
+      .then(() => callback());
   }
 
   constructor(props) {

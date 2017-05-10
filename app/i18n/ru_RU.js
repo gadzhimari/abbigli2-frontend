@@ -177,7 +177,7 @@ export default {
     'Unsubscribe': 'Отписаться',
     'Subscribe': 'Подписаться',
     'Subscribe': 'Подписаться',
-    'My Abbigly': 'Мой Abbigli',
+    'My Abbigli': 'Мой Abbigli',
     'Favorites': 'Избранное',
     'Nothing here yet': 'Здесь пока ничего нет',
     'Make private': 'Сделать приватным',
