@@ -79,7 +79,15 @@ class App extends Component {
           menu: document.getElementById('swipeMenu'),
           padding: 265,
           tolerance: 70,
-          touch: false,
+        });
+
+        this.slideout.disableTouch();
+
+        this.slideout.on('open', () => {
+          this.slideout.enableTouch();
+        });
+        this.slideout.on('close', () => {
+          this.slideout.disableTouch();
         });
       }, 500);
     }
