@@ -25,14 +25,14 @@ class SectionTag extends Component {
         results: [],
       },
     };
-
-    this.page = 1;
   }
 
   componentWillMount() {
-    const { dispatch, routeParams } = this.props;
+    const { dispatch, routeParams, items, page } = this.props;
 
-    dispatch(fetchData(routeParams.section, routeParams.tag, this.page++));
+    if (items.length === 0) {
+      dispatch(fetchData(routeParams.section, routeParams.tag, page));
+    }
 
     this.fetchSectionTags();
   }
@@ -66,11 +66,11 @@ class SectionTag extends Component {
   }
 
   loadMore = () => {
-    const { dispatch, routeParams, isFetchingMore, next } = this.props;
+    const { dispatch, routeParams, isFetchingMore, next, page } = this.props;
 
     if (isFetchingMore || next === null) return;
 
-    dispatch(fetchData(routeParams.section, routeParams.tag, this.page++));
+    dispatch(fetchData(routeParams.section, routeParams.tag, page));
   }
 
   render() {
@@ -151,6 +151,7 @@ SectionTag.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   isFetchingMore: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  page: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   routeParams: PropTypes.object.isRequired,
   next: PropTypes.any,
@@ -161,6 +162,7 @@ function mapStateToProps(state) {
   const {
     isFetching,
     items,
+    page,
   } = (state.Posts) || {
     isFetching: true,
     items: [],
@@ -186,6 +188,7 @@ function mapStateToProps(state) {
     isFetchingMore: state.Posts.isFetchingMore,
     isAuthenticated: auth.isAuthenticated,
     sections: state.Sections.items,
+    page,
   };
 }
 

@@ -23,13 +23,14 @@ class BlogsPage extends Component {
       searchValue: '',
       popular: false,
     };
-    this.page = 1;
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
+    const { dispatch, page, itemsBlogs } = this.props;
 
-    dispatch(fetchDataBlogs(this.page++));
+    if (itemsBlogs.length === 0) {
+      dispatch(fetchDataBlogs(page));
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -37,12 +38,11 @@ class BlogsPage extends Component {
     const { dispatch } = this.props;
 
     if ((prevState.searchValue !== searchValue) && searchValue.length) {
-      this.page = 1;
-      dispatch(fetchDataBlogs(this.page++, searchValue));
+      dispatch(fetchDataBlogs(1, searchValue));
     }
   }
 
-  setFilter = filter => {
+  setFilter = (filter) => {
     const { dispatch } = this.props;
 
     this.setState({
@@ -50,8 +50,7 @@ class BlogsPage extends Component {
       searchValue: '',
     });
 
-    this.page = 1;
-    dispatch(fetchDataBlogs(this.page++, '', filter));
+    dispatch(fetchDataBlogs(1, '', filter));
   }
 
   handleChange = ({ target }) => {
@@ -73,11 +72,11 @@ class BlogsPage extends Component {
 
   loadMore = () => {
     const { searchValue, popular } = this.state;
-    const { dispatch, isFetchingMore, next } = this.props;
+    const { dispatch, isFetchingMore, next, page } = this.props;
 
     if (isFetchingMore || next === null) return;
 
-    dispatch(fetchDataBlogs(this.page++, searchValue, popular));
+    dispatch(fetchDataBlogs(page, searchValue, popular));
   }
 
   keyDown = (e) => {
@@ -199,6 +198,7 @@ BlogsPage.propTypes = {
   isFetchingBlogs: PropTypes.bool.isRequired,
   isFetchingMore: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
   next: PropTypes.any,
 };
 
@@ -214,6 +214,7 @@ function mapStateToProps(state) {
     isFetchingMore: blogs.isFetchingMore,
     next: blogs.next,
     isAuthenticated: auth.isAuthenticated,
+    page: blogs.page,
   };
 }
 

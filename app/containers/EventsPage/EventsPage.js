@@ -39,7 +39,6 @@ class EventsPage extends Component {
       popular: false,
       openMobileSearch: false,
     };
-    this.page = 1;
 
     this.input = null;
     this.daypickerFrom = null;
@@ -51,9 +50,11 @@ class EventsPage extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, page, itemsEvents } = this.props;
 
-    dispatch(fetchDataEvents(this.page++));
+    if (itemsEvents.length === 0) {
+      dispatch(fetchDataEvents(page));
+    }
   }
 
   handleInputFocus(event, calendar) {
@@ -163,7 +164,7 @@ class EventsPage extends Component {
     }
   }
 
-  setFilter = filter => {
+  setFilter = (filter) => {
     const { dispatch } = this.props;
 
     this.setState({
@@ -173,8 +174,7 @@ class EventsPage extends Component {
       end: null,
     });
 
-    this.page = 1;
-    dispatch(fetchDataEvents(this.page++, filter));
+    dispatch(fetchDataEvents(1, filter));
   }
 
   search = () => {
@@ -185,9 +185,8 @@ class EventsPage extends Component {
       this.setState({
         popular: false,
       });
-      this.page = 1;
 
-      dispatch(fetchDataEvents(this.page++, false, city, start, end));
+      dispatch(fetchDataEvents(1, false, city, start, end));
     }
   }
 
@@ -199,19 +198,18 @@ class EventsPage extends Component {
         popular: false,
         openMobileSearch: false,
       });
-      this.page = 1;
 
-      dispatch(fetchDataEvents(this.page++, false, city, start, end));
+      dispatch(fetchDataEvents(1, false, city, start, end));
     }
   }
 
   loadMore = () => {
     const { city, start, end, popular } = this.state;
-    const { dispatch, isFetchingMore, next } = this.props;
+    const { dispatch, isFetchingMore, next, page } = this.props;
 
     if (isFetchingMore || next === null) return;
 
-    dispatch(fetchDataEvents(this.page++, popular, city, start, end));
+    dispatch(fetchDataEvents(page, popular, city, start, end));
   }
 
   changeCity = (city) => {
@@ -451,6 +449,7 @@ EventsPage.propTypes = {
   isFetchingEvents: PropTypes.bool.isRequired,
   isFetchingMore: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
   next: PropTypes.any,
 };
 
@@ -466,6 +465,7 @@ function mapStateToProps(state) {
     next: events.next,
     isFetchingMore: events.isFetchingMore,
     isAuthenticated: auth.isAuthenticated,
+    page: events.page,
   };
 }
 
