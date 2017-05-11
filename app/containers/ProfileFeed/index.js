@@ -9,6 +9,10 @@ import {
   Loading,
 } from 'components';
 
+import { withRouter } from 'react-router';
+
+import redirectHOC from '../../HOC/redirectHOC';
+
 import { fetchData as fetchDataPosts } from 'ducks/ProfilePosts';
 import { setProfile } from 'ducks/Profile';
 
@@ -232,4 +236,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ProfileFeed);
+export default connect(mapStateToProps)(withRouter(redirectHOC('is_feed_visible')(ProfileFeed)));
