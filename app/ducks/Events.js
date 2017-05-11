@@ -14,6 +14,7 @@ export default function (state = {
   next: null,
   items: [],
   isFetchingMore: false,
+  page: 1,
 }, action = {}) {
   switch (action.type) {
     case SET:
@@ -21,12 +22,14 @@ export default function (state = {
         items: action.data.results,
         next: action.data.next,
         isFetching: false,
+        page: action.page + 1,
       });
     case APPEND:
       return Object.assign({}, state, {
         items: state.items.concat(action.data.results),
         next: action.data.next,
         isFetchingMore: false,
+        page: action.page + 1,
       });
     case REQUEST:
       return Object.assign({}, state, {
@@ -56,12 +59,12 @@ export function requestDataAppend() {
   };
 }
 
-export function setData(responseData) {
-  return { type: SET, data: responseData };
+export function setData(responseData, page) {
+  return { type: SET, data: responseData, page };
 }
 
-export function appendData(responseData) {
-  return { type: APPEND, data: responseData };
+export function appendData(responseData, page) {
+  return { type: APPEND, data: responseData, page };
 }
 
 export function fetchData(page = 1, filter = false, city = null, start = null, end = null) {
@@ -88,7 +91,7 @@ export function fetchData(page = 1, filter = false, city = null, start = null, e
     config.headers.Authorization = `JWT ${token}`;
   }
 
-  return dispatch => {
+  return (dispatch) => {
     if (page === 1) {
       dispatch(requestData());
     } else {
@@ -99,9 +102,9 @@ export function fetchData(page = 1, filter = false, city = null, start = null, e
       .then((responseData) => {
         if (responseData.results) {
           if (page === 1) {
-            dispatch(setData(responseData));
+            dispatch(setData(responseData, page));
           } else {
-            dispatch(appendData(responseData));
+            dispatch(appendData(responseData, page));
           }
         }
         return Promise.resolve();

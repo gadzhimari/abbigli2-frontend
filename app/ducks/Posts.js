@@ -11,6 +11,7 @@ const APPEND = 'abbigli/Posts/APPEND';
 const initialState = {
   isFetching: true,
   isFetchingMore: false,
+  page: 1,
   next: null,
   items: [],
 };
@@ -24,6 +25,7 @@ export default function (state = initialState, action = {}) {
         data: action.data,
         next: action.data.next,
         isFetching: false,
+        page: action.page + 1,
       });
     case APPEND:
       return Object.assign({}, state, {
@@ -31,6 +33,7 @@ export default function (state = initialState, action = {}) {
         data: action.data,
         next: action.data.next,
         isFetchingMore: false,
+        page: action.page + 1,
       });
     case REQUEST:
       return Object.assign({}, state, {
@@ -60,13 +63,13 @@ export function requestDataAppend() {
   };
 }
 
-export function setData(responseData) {
-  return { type: SET, data: responseData };
+export function setData(responseData, page) {
+  return { type: SET, data: responseData, page };
 }
 
 
-export function appendData(responseData) {
-  return { type: APPEND, data: responseData };
+export function appendData(responseData, page) {
+  return { type: APPEND, data: responseData, page };
 }
 
 export function fetchData(section, tag, page = 1) {
@@ -90,9 +93,9 @@ export function fetchData(section, tag, page = 1) {
       .then((responseData) => {
         if (responseData.results) {
           if (page === 1) {
-            dispatch(setData(responseData));
+            dispatch(setData(responseData, page));
           } else {
-            dispatch(appendData(responseData));
+            dispatch(appendData(responseData, page));
           }
         }
       });
