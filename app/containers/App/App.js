@@ -75,10 +75,11 @@ class App extends Component {
 
       setTimeout(() => {
         this.slideout = new Slideout({
-          'panel': document.getElementById('app'),
-          'menu': document.getElementById('swipeMenu'),
-          'padding': 265,
-          'tolerance': 70,
+          panel: document.getElementById('app'),
+          menu: document.getElementById('swipeMenu'),
+          padding: 265,
+          tolerance: 70,
+          touch: false,
         });
       }, 500);
     }
