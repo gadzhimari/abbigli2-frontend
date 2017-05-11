@@ -16,6 +16,10 @@ import { fetchData as fetchDataPosts, setData as setDataPosts, removeFromFavorit
 import { Link } from 'react-router';
 import { getJsonFromStorage } from 'utils/functions';
 
+import { withRouter } from 'react-router';
+
+import redirectHOC from '../../HOC/redirectHOC';
+
 import { setProfile } from 'ducks/Profile';
 
 import { API_URL } from 'config';
@@ -237,4 +241,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ProfileFavorites);
+export default connect(mapStateToProps)(withRouter(redirectHOC('is_favorite_visible')(ProfileFavorites)));
