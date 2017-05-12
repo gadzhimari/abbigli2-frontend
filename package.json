@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run clean && NODE_ENV=production webpack -p",
+    "build": "cp prod.env .env && npm run clean && webpack -p",
+    "build-ru": "cp prod-ru.env .env && npm run clean && webpack -p",
     "clean": "rimraf ./public/assets",
-    "development": "npm run clean && npm-run-all --parallel devserver nodemon",
+    "development": "cp dev.env .env && npm run clean && npm-run-all --parallel devserver nodemon",
     "devserver": "webpack-dev-server",
     "nodemon": "nodemon ./server.js",
-    "start": "NODE_ENV=production pm2-docker start ./server.js"
+    "start": "pm2-docker start ./server.js"
   },
   "keywords": [
     "react",

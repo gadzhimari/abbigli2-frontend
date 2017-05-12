@@ -36,6 +36,7 @@ const plugins = [
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       LOCATION: JSON.stringify(process.env.LOCATION),
       SENTRY_DNS_CLIENT: JSON.stringify(process.env.SENTRY_DNS_CLIENT),
+      DOMAIN_URL: JSON.stringify(process.env.DOMAIN_URL),
     },
   })
 ];
