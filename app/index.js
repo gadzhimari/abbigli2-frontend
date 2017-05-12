@@ -1,10 +1,12 @@
 /* @flow */
 
 import React from 'react';
+import { RouterContext } from 'react-router';
 import { render } from 'react-dom';
 import Router from 'react-router/lib/Router';
 import Route from 'react-router/lib/Route';
 import browserHistory from 'react-router/lib/browserHistory';
+import match from 'react-router/lib/match';
 
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
@@ -34,14 +36,14 @@ if (mode === 'production') {
 const container = document.querySelector('#app');
 const urlWithoutProtocol = DOMAIN_URL.split('://')[1];
 
-function handleEnter(next, replace) {
+function handleEnter(next, replace, go) {
   if (next.location.pathname === '/search' && next.location.query.q.includes(urlWithoutProtocol)) {
     const siteUrl = next.location.query.q
       .split(':')
       .filter(item => item.includes(urlWithoutProtocol))[0];
 
     const path = siteUrl.replace(`//${urlWithoutProtocol}`, '/');
-
+    console.log('WARNING!!', next);
     replace(path);
   }
 }
@@ -54,16 +56,30 @@ function renderApp() {
   const store = configureStore();
   const history = syncHistoryWithStore(browserHistory, store);
   const renderRoutes = routes(store);
+  const routerParams = {
+    routes: renderRoutes,
+    history,
+  };
+  if (location.pathname === '/search') {
+    const siteUrl = location.search
+      .split(':')
+      .filter(item => item.includes(urlWithoutProtocol))[0];
 
-  render(
-    <Provider store={store}>
-      <Router history={history}>
-        {renderRoutes}
-        <Route path="*" onEnter={handleEnter} />
-      </Router>
-    </Provider>,
-    container
-  );
+    const path = siteUrl.replace(`//${urlWithoutProtocol}`, '/');
+
+    routerParams.location = path;
+  } else {
+    routerParams.location = location.pathname;
+  }
+
+  match(routerParams, (err, redirect, renderProps) => {
+    render(
+      <Provider store={store}>
+        <Router history={history} {...renderProps} />
+      </Provider>,
+      container
+    );
+  });
 }
 
 window.Mac = /Mac/.test(window.navigator.platform)
