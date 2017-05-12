@@ -26,7 +26,7 @@ import 'babel-polyfill';
 const ravenDNS = process.env.SENTRY_DNS_CLIENT;
 const mode = process.env.NODE_ENV;
 
-if (mode === 'production') {
+if (mode === 'production' && ravenDNS) {
   Raven
     .config(ravenDNS)
     .install();
@@ -35,18 +35,6 @@ if (mode === 'production') {
 // Get the DOM Element that will host our React application.
 const container = document.querySelector('#app');
 const urlWithoutProtocol = DOMAIN_URL.split('://')[1];
-
-function handleEnter(next, replace, go) {
-  if (next.location.pathname === '/search' && next.location.query.q.includes(urlWithoutProtocol)) {
-    const siteUrl = next.location.query.q
-      .split(':')
-      .filter(item => item.includes(urlWithoutProtocol))[0];
-
-    const path = siteUrl.replace(`//${urlWithoutProtocol}`, '/');
-    console.log('WARNING!!', next);
-    replace(path);
-  }
-}
 
 function renderApp() {
   while (container.firstChild) {

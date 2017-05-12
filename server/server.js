@@ -35,7 +35,7 @@ app.use(geoLocation);
 app.use(handleGoogleCahceUrl);
 app.use(renderOnServer);
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && ravenDSN) {
   app.use(Raven.errorHandler());
 }
 
