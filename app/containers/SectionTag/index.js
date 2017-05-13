@@ -134,6 +134,7 @@ class SectionTag extends Component {
                       data={item}
                       legacy
                       isAuthenticated={isAuthenticated}
+                      priceTemplate={this.props.priceTemplate}
                       dispatch={dispatch}
                     />)
                     : <div className="pages__error-text">{__t('Not results for your request')}</div>
@@ -189,6 +190,7 @@ function mapStateToProps(state) {
     isAuthenticated: auth.isAuthenticated,
     sections: state.Sections.items,
     page,
+    priceTemplate: state.Settings.data.CURRENCY,
   };
 }
 

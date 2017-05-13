@@ -177,6 +177,7 @@ class ProfileFeed extends Component {
                     legacy
                     dispatch={dispatch}
                     isAuthenticated={isAuth}
+                    priceTemplate={this.props.priceTemplate}
                   />
                 ))
               }
@@ -233,6 +234,7 @@ function mapStateToProps(state) {
     user: state.Profile.data,
     isMe: state.Profile.isMe,
     isAuth: state.Auth.isAuthenticated,
+    priceTemplate: state.Settings.data.CURRENCY,
   };
 }
 

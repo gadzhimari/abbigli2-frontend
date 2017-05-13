@@ -185,6 +185,7 @@ class Tag extends Component {
               isAuthenticated={isAuthenticated}
               legacy
               dispatch={dispatch}
+              priceTemplate={this.props.priceTemplate}
             />)
           }
         <Loading loading={this.state.isFetching} />
@@ -209,6 +210,7 @@ function mapStateToProps(state) {
 
   return {
     isAuthenticated: auth.isAuthenticated,
+    priceTemplate: state.Settings.data.CURRENCY,
   };
 }
 

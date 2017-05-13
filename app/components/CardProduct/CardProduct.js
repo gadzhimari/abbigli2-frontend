@@ -82,7 +82,7 @@ class CardProduct extends Component {
       likes_num,
     } = this.props.data;
 
-    const { deleteFromFavorites, editable, delete: deleteItem, me } = this.props;
+    const { priceTemplate, deleteFromFavorites, editable, delete: deleteItem, me } = this.props;
 
     const user = editable == true ? me : this.props.data.user;
 
@@ -203,11 +203,12 @@ class CardProduct extends Component {
               {title}
             </div>
             {
-              price
+              !!price
               &&
               <div className="tag-card__price">
-                $ {formatedPrice}
-              </div>}
+                {priceTemplate && priceTemplate.replace('?', formatedPrice)}
+              </div>
+            }
           </Link>
         </div>
         <div className="tag-card__info">
