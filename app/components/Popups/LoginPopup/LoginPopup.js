@@ -3,7 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import Popup from './CommonPopup';
 import { SocialLogin, FetchingButton } from 'components';
 
-import { __t } from '../../i18n/translator';
+import { loginUser } from 'ducks/Auth';
+import { openPopup } from 'ducks/Popup';
+import { __t } from '../../../i18n/translator';
 
 import './LoginPopup.styl';
 
@@ -13,11 +15,32 @@ class LoginPopup extends Component {
 
     this.state = {
       phone: '',
+      password: '',
     };
   }
 
+  onChangePhone = ({ target }) => this.setState({
+    phone: target.value.trim(),
+  })
+
+  onChangePassword = ({ target }) => this.setState({
+    password: target.value.trim(),
+  })
+
+  onLogIn = () => this.props.dispatch(loginUser({
+    username: this.state.phone,
+    password: this.state.password,
+  }))
+
+  openRegister = () => this.props.dispatch(openPopup('registerPopup'))
+
+  openReset = () => this.props.dispatch(openPopup('resetPopup'))
+
   render() {
-    const { closePopup, isFetching } = this.props;
+    const { closePopup, isFetching, options } = this.props;
+    const {
+      errors,
+    } = options;
 
     return (
       <Popup
@@ -52,7 +75,7 @@ class LoginPopup extends Component {
                 className="input"
                 type="text"
                 placeholder={__t('Example: +10000000000')}
-                ref={phone => (this.phone = phone)}
+                onChange={this.onChangePhone}
               />
             </div>
             {
@@ -75,7 +98,7 @@ class LoginPopup extends Component {
                 id="password"
                 className="input"
                 type="password"
-                ref={password => (this.password = password)}
+                onChange={this.onChangePassword}
               />
             </div>
             {
@@ -90,7 +113,7 @@ class LoginPopup extends Component {
             <FetchingButton
               className="default-button"
               type="button"
-              onClick={this.handleClick}
+              onClick={this.onLogIn}
               isFetching={isFetching}
             >
               {__t('Log In')}
@@ -98,21 +121,18 @@ class LoginPopup extends Component {
             <button
               className="cancel-button"
               type="submit"
-              onClick={() => {
-                dispatch(dispatch(registerPopup(true)), dispatch(loginPopup(false)));
-              }}
+              onClick={this.openRegister}
             >
               {__t('Sign Up')}
             </button>
             <br />
-            <a
+            <button
               className="password-recovery"
-              onClick={() => {
-                dispatch(dispatch(loginPopup(false)), dispatch(resetPopup(true)));
-              }}
+              onClick={this.openReset}
             >
               {__t('Forgot your password?')}
-            </a></div>
+            </button>
+          </div>
         </div>
       </Popup>
     );
@@ -121,7 +141,9 @@ class LoginPopup extends Component {
 
 LoginPopup.propTypes = {
   closePopup: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
+  options: PropTypes.object.isRequired,
 };
 
 export default LoginPopup;

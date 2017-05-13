@@ -13,9 +13,13 @@ const SEARCH = 'abbigli/ui/SEARCH';
 const SET_PASSWORD = 'abbigli/ui/SET_PASSWORD';
 const CONFIRM_RESET = 'abbigli/ui/CONFIRM_RESET';
 const CLOSEALL = 'abbigli/ui/CLOSEALL';
+const OPEN_POPUP = 'abbigli/ui/OPEN_POPUP';
+const CLOSE_POPUP = 'abbigli/ui/CLOSE_POPUP';
 
 // Reducer
 export default function (state = {
+  openedPopup: null,
+  options: {},
   showLogin: false,
   showRegister: false,
   showConfirm: false,
@@ -33,6 +37,16 @@ export default function (state = {
     case LOGIN:
       return Object.assign({}, state, {
         showLogin: action.show
+      });
+    case OPEN_POPUP:
+      return Object.assign({}, state, {
+        openedPopup: action.name,
+        options: action.options,
+      });
+    case CLOSE_POPUP:
+      return Object.assign({}, state, {
+        openedPopup: null,
+        options: {},
       });
     case REGISTER:
       return Object.assign({}, state, {
@@ -104,6 +118,16 @@ export default function (state = {
 }
 
 // Action Creators
+export const openPopup = (name, options = {}) => ({
+  type: OPEN_POPUP,
+  name,
+  options,
+});
+
+export const closePopup = () => ({
+  type: CLOSE_POPUP,
+});
+
 export function loginPopup(show = true) {
   return {
     type: LOGIN,
