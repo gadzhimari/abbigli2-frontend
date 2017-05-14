@@ -1,0 +1,30 @@
+image: docker:latest
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+  - docker build -t frontend-image .
+  only:
+  - master
+
+deploy_prod_com:
+  stage: deploy
+  before_script:
+  - apk add --no-cache openssh-client
+  - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa.pub && chmod 600 ~/.ssh/id_rsa.pub
+  - ssh-add ~/.ssh/id_rsa.pub
+  - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
+  script:
+  - ssh -t abbigli@us2.abbigli.com -p 655 "cd ~/deploy && docker-compose up --no-deps -d app-frontend && docker exec -it app-frontend ash -c 'rm -rf /public/* && cp -r /app/public/* /public/'"
+  environment:
+    name: production_com
+    url: https://abbigli.com
+  when: manual
+  only:
+  - master
