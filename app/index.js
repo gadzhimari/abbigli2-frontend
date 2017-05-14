@@ -53,7 +53,11 @@ function renderApp() {
       .split(':')
       .filter(item => item.includes(urlWithoutProtocol))[0];
 
-    const path = siteUrl.replace(`//${urlWithoutProtocol}`, '/');
+    let path = siteUrl.replace(`//${urlWithoutProtocol}`, '/');
+    if (path.includes('&')) {
+      const index = path.indexOf('&');
+      path = path.slice(0, index);
+    }
 
     routerParams.location = path;
   } else {
