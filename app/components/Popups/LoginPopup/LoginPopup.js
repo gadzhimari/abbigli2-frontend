@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 
 import Popup from './CommonPopup';
 import { SocialLogin, FetchingButton } from 'components';
@@ -37,10 +38,7 @@ class LoginPopup extends Component {
   openReset = () => this.props.dispatch(openPopup('resetPopup'))
 
   render() {
-    const { closePopup, isFetching, options } = this.props;
-    const {
-      errors,
-    } = options;
+    const { closePopup, isFetching, errors } = this.props;
 
     return (
       <Popup
@@ -143,7 +141,12 @@ LoginPopup.propTypes = {
   closePopup: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  options: PropTypes.object.isRequired,
+  errors: PropTypes.oneOf(PropTypes.object, PropTypes.any),
 };
 
-export default LoginPopup;
+const mapStateToProps = ({ Auth }) => ({
+  isFetching: Auth.isFetching,
+  errors: Auth.errors,
+});
+
+export default connect(mapStateToProps)(LoginPopup);

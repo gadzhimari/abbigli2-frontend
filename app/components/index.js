@@ -17,7 +17,6 @@ export { default as BannerBlue } from './BannerBlue/BannerBlue';
 export { default as CardsSort } from './CardsSort/CardsSort';
 export { default as CardsSortItem } from './CardsSort/CardsSortItem';
 export { default as CardsWrap } from './CardsWrap/CardsWrap';
-export { default as SendMessageYourself } from './ErrorModals/SendMessageYourself';
 export { default as TileWrap } from './TileWrap/TileWrap';
 export { default as Card } from './Card/Card';
 export { default as CardShop } from './CardShop/CardShop';

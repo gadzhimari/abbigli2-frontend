@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Select from 'react-select';
 
 import Popup from './CommonPopup';
@@ -74,8 +75,7 @@ class RegisterPopup extends Component {
   openSignIn = () => this.props.dispatch(openPopup('loginPopup'))
 
   render() {
-    const { options, closePopup } = this.props;
-    const { errorMessage, codes, isFetching, errors } = options;
+    const { codes, isFetching, errors, closePopup } = this.props;
     const { codeValue, selfErrors } = this.state;
 
     return (
@@ -177,10 +177,17 @@ class RegisterPopup extends Component {
 }
 
 RegisterPopup.propTypes = {
-  errorMessage: PropTypes.string,
+  errors: PropTypes.object,
   currentCountry: PropTypes.any,
   dispatch: PropTypes.func.isRequired,
   closePopup: PropTypes.func.isRequired,
 };
 
-export default RegisterPopup;
+const mapStateToProps = ({ Auth, Settings }) => ({
+  isFetching: Auth.isFetching,
+  errors: Auth.errors,
+  codes: Settings.geo,
+  currentCountry: Settings.currentCountry,
+});
+
+export default connect(mapStateToProps)(RegisterPopup);
