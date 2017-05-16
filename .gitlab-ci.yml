@@ -21,7 +21,10 @@ deploy_prod_com:
   - ssh-add ~/.ssh/id_rsa.pub
   - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
   script:
+  - ssh -t abbigli@us2.abbigli.com -p 655 "docker cp ~/deploy/nginx/maintenance.en.html nginx:/srv/maintenance.html"
+  - ssh -t abbigli@us2.abbigli.com -p 655 "docker exec -i nginx touch /etc/nginx/maintenance.front"
   - ssh -t abbigli@us2.abbigli.com -p 655 "cd ~/deploy && docker-compose up --no-deps -d app-frontend && docker exec -i app-frontend ash -c 'rm -rf /public/* && cp -r /app/public/* /public/'"
+  - ssh -t abbigli@us2.abbigli.com -p 655 "docker exec -i nginx rm /etc/nginx/maintenance.front"
   environment:
     name: production_com
     url: https://abbigli.com
