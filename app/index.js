@@ -48,10 +48,20 @@ function renderApp() {
     routes: renderRoutes,
     history,
   };
+  const parseQuery = query => query
+    .replace('?', '')
+    .split('&')
+    .map(item => item.split('='))
+    .reduce((a, b) => Object.assign({}, a, {
+      [b[0]]: b[1],
+    })
+    , {});
+
   if (location.pathname === '/search') {
-    const siteUrl = location.search
+    const siteUrl = parseQuery(location.search).q
       .split(':')
-      .filter(item => item.includes(urlWithoutProtocol))[0];
+      .filter(item => item.includes(urlWithoutProtocol))[0]
+      .replace('+', '');
 
     let path = siteUrl.replace(`//${urlWithoutProtocol}`, '/');
     if (path.includes('&')) {
