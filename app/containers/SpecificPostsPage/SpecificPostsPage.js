@@ -12,7 +12,7 @@ import Helmet from 'react-helmet';
 import { connect } from 'preact-redux';
 import InfiniteScroll from 'react-infinite-scroller';
 import { fetchData, setData } from 'ducks/PostsSpecific';
-import { fetchData as fetchDataBlogs, setData as setDataBlogs } from 'ducks/PostsSpecific'
+import { fetchData as fetchDataBlogs, setData as setDataBlogs } from 'ducks/PostsSpecific';
 import { Link } from 'react-router';
 
 import { registerPopup } from 'ducks/Popup';
@@ -117,6 +117,16 @@ class SpecificPostsPage extends Component {
           </InfiniteScroll>
         </CardsWrap>
         <Loading loading={isFetchingPosts} />
+
+        {
+          (!isFetchingPosts && this.props.route.slug === 'near')
+          &&
+          itemsPosts.length === 0
+          &&
+          <div className="pages__error-text">
+            {__t('Nobody is near with You. You can be first')}
+          </div>
+        }
 
 
 
