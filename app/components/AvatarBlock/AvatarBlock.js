@@ -6,18 +6,9 @@ import deepEqual from 'deep-equal';
 import { SocialGroups } from 'components';
 
 import { fetchData as fetchDataSections } from 'ducks/Sections';
-import {
-  loginPopup,
-  registerPopup,
-  supportPopup,
-  confirmPopup,
-  setpassPopup,
-  confirmResetPopup,
-} from 'ducks/Popup';
+import { openPopup } from 'ducks/Popup/actions';
 import './AvatarBlock.styl';
 import { __t } from './../../i18n/translator';
-
-import { searchPopup } from 'ducks/Popup';
 
 class AvatarBlock extends Component {
   constructor(props) {
@@ -132,11 +123,11 @@ class AvatarBlock extends Component {
     }
 
     if (shouldConfirm) {
-      dispatch(confirmPopup(true));
+      dispatch(openPopup('confirmPopup'));
     } else if (shouldSetpass) {
-      dispatch(setpassPopup(true));
+      dispatch(openPopup('passwordPopup'));
     } else {
-      dispatch(registerPopup(true));
+      dispatch(openPopup('registerPopup'));
     }
   }
 
@@ -146,20 +137,22 @@ class AvatarBlock extends Component {
     const shouldSetpass = JSON.parse(localStorage.getItem('openSetpassReset'));
 
     if (shouldConfirm) {
-      dispatch(confirmResetPopup(true));
+      dispatch(openPopup('confirmPopup'));
     } else if (shouldSetpass) {
-      dispatch(setpassPopup(true));
+      dispatch(openPopup('passwordPopup'));
     } else {
-      dispatch(loginPopup(true));
+      dispatch(openPopup('loginPopup'));
     }
   }
+
+  modalButtonClick = ({ currentTarget }) => this.props
+    .dispatch(openPopup(currentTarget.dataset.type || currentTarget.name))
 
   render() {
     const {
       isFetchingSections,
       itemsSections,
       isAuthenticated,
-      dispatch,
       toggleMenu,
     } = this.props;
     const { openMenu } = this.state;
@@ -173,17 +166,27 @@ class AvatarBlock extends Component {
       ? toggleMenu
       : this.openMenuToggle;
 
+    const avatarStyle = {
+      width: '30px',
+      height: '30px',
+      backgroundSize: 'cover',
+      backgroundPosition: '50% 50%',
+      backgroundImage: `url(${this.props.me.avatar})`,
+      marginTop: '14px',
+    };
+
     return (
       <div className="header__menu">
-        <a
+        <div
           className="header__menu-item search-mobile"
-          onClick={() => dispatch(searchPopup())}
+          onClick={this.modalButtonClick}
+          data-type="searchPopup"
         >
           <div className="icon-wrap">
             <div className="icon"></div>
             <div className="menu__item-name">{__t('Search')}</div>
           </div>
-        </a>
+        </div>
 
         <div
           className={dropdownClass}
@@ -252,7 +255,8 @@ class AvatarBlock extends Component {
               <Link className="main-menu__footer-item" to="/page/faq">{__t('FAQ')}</Link>
               <a
                 className="main-menu__footer-item"
-                onClick={() => dispatch(supportPopup(true))}
+                onClick={this.modalButtonClick}
+                data-type="supportPopup"
               >
                 {__t('Support')}
               </a>
@@ -265,7 +269,7 @@ class AvatarBlock extends Component {
 
         <Link
           className="header__menu-item create-post"
-          onClick={() => { !isAuthenticated && dispatch(loginPopup(true)) }}
+          onClick={() => { !isAuthenticated && this.modalButtonClick() }}
           to={(isAuthenticated && this.props.me) ? `/post/new` : ''}
         >
           <div className="icon-wrap">
@@ -276,39 +280,47 @@ class AvatarBlock extends Component {
 
         {
           !isAuthenticated &&
-          <a className="header__menu-item login" onClick={this.openLogin}>
+          <div
+            className="header__menu-item login"
+            onClick={this.modalButtonClick}
+            data-type="loginPopup"
+          >
             <div className="icon-wrap">
               <div className="icon"></div>
               <div className="menu__item-name">{__t('Login')}</div>
             </div>
-          </a>
+          </div>
         }
 
-
-        <div
-          className={"header__menu-item " + (isAuthenticated ? 'you' : 'registration')}
-          onClick={this.openRegister}
-        >
-          {
-            isAuthenticated
-              ?
-              <div className="icon"
+        {
+          isAuthenticated
+            ? (<div
+              className={"header__menu-item you"}
+              onClick={this._openUserMenuToggle}
+            >
+              <div
+                className="icon"
                 style={
-                  this.props.me.id != 0 ?
-                    (
-                      this.props.me.avatar
-                        ? { width: "30px", height: "30px", backgroundSize: 'cover', backgroundPosition: '50% 50%', backgroundImage: `url(${this.props.me.avatar})`, marginTop: "14px" }
-                        : {}
-                    )
-                    :
-                    { backgroundImage: 'none' }
-                } />
-              :
+                  this.props.me.avatar
+                    ? avatarStyle
+                    : {}
+                }
+              />
+              <div className="menu__item-name">
+                {__t('You')}
+              </div>
+            </div>)
+            : (<div
+              className={"header__menu-item registration"}
+              onClick={this.modalButtonClick}
+              data-type="registerPopup"
+            >
               <div className="icon" />
-          }
-
-          <div className="menu__item-name">{(isAuthenticated) ? __t('You') : __t('sign.up')}</div>
-        </div>
+              <div className="menu__item-name">
+                {__t('sign.up')}
+              </div>
+            </div>)
+        }
 
         {(isAuthenticated && this.props.me) &&
           <div className={`user-menu ${this.state.openUserMenu ? 'user-menu--open' : ''}`}>

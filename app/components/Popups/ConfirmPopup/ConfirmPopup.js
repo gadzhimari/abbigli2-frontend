@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import Popup from './CommonPopup';
+import Popup from '../CommonPopup';
 import { SocialLogin, FetchingButton } from 'components';
 
 import { loginUser } from 'ducks/Auth';

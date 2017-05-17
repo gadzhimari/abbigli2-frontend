@@ -7,35 +7,20 @@ import {
   Search,
   Sprites,
   AvatarBlock,
-  Login,
-  Register,
-  Confirm,
-  DeleteMessage,
-  Reset,
-  Support,
-  Message,
-  Status,
-  MobileSearchPopup,
-  mediaHOC,
-  SetPasswordPopup,
-  ConfirmReset,
 } from 'components';
 import { appConfig } from 'config';
 import {
-  loginUser,
   fetchMe,
   logoutUser,
-  registerUser,
-  confirmUser,
-  resetUser,
   setPassword,
   resetConfirm,
 } from 'ducks/Auth';
-import { closeAll } from 'ducks/Popup';
-import { getSupport } from 'ducks/Support';
+import { closePopup } from 'ducks/Popup/actions';
 import { fetchData as settingsFetch, fetchGeo } from 'ducks/Settings';
-import { fetchData as seoFetch } from 'ducks/Seo';
-import { fetchData as fetchDataSections } from 'ducks/Sections';
+
+import Popups from 'components/Popups';
+import getComponentFromObject from 'utils/getComponent';
+
 import './App.styl';
 import './_concat.styl';
 import './main.styl';
@@ -95,7 +80,7 @@ class App extends Component {
     if (window.document) {
       window.addEventListener('click', (e) => {
         if (e.target.className === 'popup-wrap') {
-          this.props.dispatch(closeAll());
+          this.closePopup();
         }
       });
 
@@ -119,42 +104,19 @@ class App extends Component {
     }
   }
 
-  toggleMenu = () => {
-    this.slideout.toggle();
-  }
+  toggleMenu = () => this.slideout.toggle();
 
-  handleSetPassword = (creds) => {
-    const { dispatch } = this.props;
-
-    dispatch(setPassword(creds));
-  }
-
-  sendConfirmReset = (creds) => {
-    const { dispatch } = this.props;
-
-    dispatch(resetConfirm(creds));
-  }
+  closePopup = () => this.props
+    .dispatch(closePopup())
 
   render() {
     const {
       dispatch,
       isAuthenticated,
       errorMessage,
-      showLogin,
-      showRegister,
-      dialogId,
-      recipient,
-      showDeleteMessage,
-      showReset,
-      showMessage,
-      showStatus,
-      userName,
-      showConfirm,
-      showSupport,
-      showSetpass,
+      openedPopup,
+      popupOptions,
       children,
-      showSearch,
-      userId,
       seo,
       location,
       messagesSending,
@@ -163,15 +125,15 @@ class App extends Component {
       isFetchingLogin,
       isFetchingConfirm,
       isFetchingSetpass,
-      confirmResetShow,
       isFetchingReset,
       currentCountry,
     } = this.props;
 
-    const seoData = seo.data.filter((item) => item.url == location.pathname)[0];
-    const shouldOpenModal = showLogin || showRegister || showConfirm ||
-      showDeleteMessage || showReset || showMessage || showStatus || showSupport || showSearch ||
-      showSetpass || confirmResetShow;
+
+    const seoData = seo.data.filter(item => item.url == location.pathname)[0];
+    const shouldOpenModal = openedPopup;
+
+    const Modal = getComponentFromObject(openedPopup, Popups);
 
     return (
       <div className="global-wrapper">
@@ -189,9 +151,7 @@ class App extends Component {
           className={`content-wrapper ${shouldOpenModal && 'modal-open-new'}`}
         >
           <Header>
-
             <Search />
-
             <AvatarBlock
               isAuthenticated={isAuthenticated}
               errorMessage={errorMessage}
@@ -201,9 +161,13 @@ class App extends Component {
             />
           </Header>
           <Sprites />
+          <Modal
+            dispatch={dispatch}
+            closePopup={this.closePopup}
+            options={popupOptions}
+          />
 
-
-          {(showLogin && !isAuthenticated) &&
+          {/*{(showLogin && !isAuthenticated) &&
             <Login
               errors={this.props.loginErrors}
               dispatch={dispatch}
@@ -299,7 +263,7 @@ class App extends Component {
             <Status
               dispatch={dispatch}
             />
-          }
+          }*/}
 
           {children}
 
@@ -336,36 +300,18 @@ function mapStateToProps(state) {
     confirmResetError,
     setpassError,
   } = state.Auth || { isAuthenticated: false, errorMessage: '' };
-  const {
-    showLogin, showRegister, showDeleteMessage, userId, recipient,
-    showReset, showMessage, showStatus, userName,
-    sendMessageYourselfError, showConfirm, showSupport, showSearch, dialogId, showSetpass,
-    confirmResetShow } = state.Popup;
   const messages = state.Dialogs || {};
 
   const seo = (state.Seo) || { isFetching: true,  data: []  };
   const settings = (state.Settings) || { isFetching: true,  data: []  };
 
   return {
+    openedPopup: state.Popup.openedPopup,
+    popupOptions: state.Popup.options,
     seo,
     settings,
     isAuthenticated,
     errorMessage,
-    showLogin,
-    showRegister,
-    showConfirm,
-    showDeleteMessage,
-    userId,
-    recipient,
-    dialogId,
-    showReset,
-    showMessage,
-    showStatus,
-    showSupport,
-    showSearch,
-    showSetpass,
-    userName,
-    sendMessageYourselfError,
     messagesSending: messages.isSending,
     geo: settings.geo,
     currentCountry: settings.currentCountry,
@@ -373,7 +319,6 @@ function mapStateToProps(state) {
     isFetchingLogin: isFetching,
     isFetchingConfirm,
     isFetchingSetpass,
-    confirmResetShow,
     isFetchingReset,
     loginErrors,
     registerErrors,

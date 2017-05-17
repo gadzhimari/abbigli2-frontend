@@ -61,7 +61,6 @@ export { default as CommentsBox } from './CommentsBox';
 export { default as SelectInput } from './SelectInput';
 export { default as MobileSearchPopup } from './MobileSearchPopup';
 export { default as UserSearch } from './UserSearch';
-export { default as MobileMenu } from './MobileMenu';
 export { default as mediaHOC } from './mediaHOC';
 export { default as DialogsBlock } from './DialogsBlock';
 export { default as UploadingImage } from './UploadingImage';

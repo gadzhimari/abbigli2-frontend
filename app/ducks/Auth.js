@@ -1,13 +1,7 @@
 import { API_URL, DOMAIN_URL } from 'config';
 import { setJsonToStorage, getJsonFromStorage, deleteFromStorage } from 'utils/functions';
 
-import {
-  registerPopup,
-  confirmPopup,
-  setpassPopup,
-  resetPopup,
-  confirmResetPopup,
-} from 'ducks/Popup';
+import * as popupActions from 'ducks/Popup';
 
 // Actions
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
