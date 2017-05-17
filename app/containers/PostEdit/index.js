@@ -285,7 +285,7 @@ class PostEdit extends Component {
     let city;
     const files = [...uploadedFiles, ...oldFiles];
 
-    if (this.state.currentCity) {
+    if (this.state.currentCity && !this.state.city) {
       city = this.state.currentCity.id;
     } else if (this.state.city) {
       city = this.state.city.id;
