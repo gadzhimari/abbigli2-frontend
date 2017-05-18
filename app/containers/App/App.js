@@ -18,7 +18,7 @@ import {
 import { closePopup } from 'ducks/Popup/actions';
 import { fetchData as settingsFetch, fetchGeo } from 'ducks/Settings';
 
-import Popups from 'components/Popups';
+import * as Popups from 'components/Popups';
 import getComponentFromObject from 'utils/getComponent';
 
 import './App.styl';
@@ -133,7 +133,7 @@ class App extends Component {
     const seoData = seo.data.filter(item => item.url == location.pathname)[0];
     const shouldOpenModal = openedPopup;
 
-    const Modal = getComponentFromObject(openedPopup, Popups);
+    const Popup = getComponentFromObject(openedPopup, Popups);
 
     return (
       <div className="global-wrapper">
@@ -161,7 +161,7 @@ class App extends Component {
             />
           </Header>
           <Sprites />
-          <Modal
+          <Popup
             dispatch={dispatch}
             closePopup={this.closePopup}
             options={popupOptions}
