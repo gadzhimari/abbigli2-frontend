@@ -230,6 +230,7 @@ export default {
     'Delete dialog': 'Удаление диалога',
     'Are you sure you want to remove dialogue with': 'Вы уверены, что хотите удалить диалог с',
     'Delete': 'Удалить',
+    'Nobody is near with You. You can be first': 'Пока рядом с Вами никого нет. Вы можете стать первым',
 
 
     'You can send a private message to the author of this publication and arrange the purchase details!': 'Вы можете отправить приватное сообщение пользователю который опубликовал этот продукт и обсудить детали покупки!',

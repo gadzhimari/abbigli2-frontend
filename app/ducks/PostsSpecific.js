@@ -12,7 +12,7 @@ const APPEND = 'abbigli/PostsSpecific/APPEND';
 
 // Reducer
 export default function(state = {
-    isFetching: false,
+    isFetching: true,
     next: null,
     items: []
 }, action = {}) {

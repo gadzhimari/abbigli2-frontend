@@ -107,6 +107,7 @@ class ProfileMyabbigli extends Component {
                 editable={this.props.isMe}
                 me={this.props.me}
                 dispatch={dispatch}
+                priceTemplate={this.props.priceTemplate}
                 isAuthenticated={isAuth}
                 delete={() => {
                   dispatch(removePost(item.slug));
@@ -139,6 +140,7 @@ function mapStateToProps(state) {
     itemsPosts: posts.items,
     isFetchingPosts: posts.isFetching,
     isAuth: state.Auth.isAuthenticated,
+    priceTemplate: state.Settings.data.CURRENCY,
   };
 }
 

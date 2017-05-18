@@ -182,6 +182,7 @@ class ProfileFavorites extends Component {
                     legacy
                     isAuthenticated={isAuth}
                     dispatch={dispatch}
+                    priceTemplate={this.props.priceTemplate}
                   />
                 ))
               }
@@ -238,6 +239,7 @@ function mapStateToProps(state) {
     user: state.Profile.data,
     isMe: state.Profile.isMe,
     isAuth: state.Auth.isAuthenticated,
+    priceTemplate: state.Settings.data.CURRENCY,
   };
 }
 
