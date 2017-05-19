@@ -12,9 +12,7 @@ import { appConfig } from 'config';
 import {
   fetchMe,
   logoutUser,
-  setPassword,
-  resetConfirm,
-} from 'ducks/Auth';
+} from 'ducks/Auth/authActions';
 import { closePopup } from 'ducks/Popup/actions';
 import { fetchData as settingsFetch, fetchGeo } from 'ducks/Settings';
 
@@ -109,6 +107,9 @@ class App extends Component {
   closePopup = () => this.props
     .dispatch(closePopup())
 
+  logoutUser = () => this.props
+    .dispatch(logoutUser())
+
   render() {
     const {
       dispatch,
@@ -156,7 +157,7 @@ class App extends Component {
               isAuthenticated={isAuthenticated}
               errorMessage={errorMessage}
               dispatch={dispatch}
-              onLogoutClick={() => dispatch(logoutUser())}
+              onLogoutClick={this.logoutUser}
               toggleMenu={this.toggleMenu}
             />
           </Header>

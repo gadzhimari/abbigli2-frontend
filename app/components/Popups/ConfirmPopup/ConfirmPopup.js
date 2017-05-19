@@ -2,10 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Popup from '../CommonPopup';
-import { SocialLogin, FetchingButton } from 'components';
+import { FetchingButton } from 'components';
 
-import { loginUser } from 'ducks/Auth';
-import { openPopup } from 'ducks/Popup';
+import { openPopup } from 'ducks/Popup/actions';
 import { __t } from '../../../i18n/translator';
 
 import './ConfirmPopup.styl';
@@ -15,38 +14,27 @@ class ConfirmPopup extends Component {
     super();
     this.state = {
       confirmCode: '',
-      confirmError: '',
     };
   }
 
   handleClick = () => {
-    const { errorMessage, dispatch, onConfirmClick, isFetching } = this.props;
-    const confirmCode = this.confirmCode;
+    const { options, number } = this.props;
     const creds = {
-      phone: JSON.parse(localStorage.getItem('phoneNum')),
-      code: confirmCode.value.trim(),
+      phone: number,
+      code: this.state.confirmCode,
     };
 
-    onConfirmClick(creds);
+    options.callback(creds);
   }
 
   confirmChange = ({ target }) => this.setState({
     confirmCode: target.value.trim(),
-    confirmError: '',
   })
 
-  closePopup = () => {
-    const { dispatch } = this.props;
-
-    dispatch(confirmPopup(false));
-  }
-
   goBack = () => {
-    const { dispatch } = this.props;
+    const { dispatch, options } = this.props;
 
-    localStorage.removeItem('openConfirm');
-    localStorage.removeItem('phoneNum');
-    dispatch(dispatch(registerPopup(true)), dispatch(confirmPopup(false)));
+    dispatch(openPopup(options.previousPopup));
   }
 
   render() {
@@ -108,11 +96,17 @@ ConfirmPopup.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   errors: PropTypes.oneOf(PropTypes.object, PropTypes.any),
+  options: PropTypes.shape({
+    callback: PropTypes.func.isRequired,
+    previousPopup: PropTypes.string,
+  }).isRequired,
+  number: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = ({ Auth }) => ({
   isFetching: Auth.isFetching,
   errors: Auth.errors,
+  number: Auth.number,
 });
 
 export default connect(mapStateToProps)(ConfirmPopup);

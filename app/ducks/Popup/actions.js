@@ -1,4 +1,4 @@
-import * as actions from './actonsTypes';
+import * as actions from './actionsTypes';
 
 export const openPopup = (name, options = {}) => ({
   type: actions.OPEN_POPUP,

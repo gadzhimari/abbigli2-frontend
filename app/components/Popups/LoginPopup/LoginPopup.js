@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import Popup from '../CommonPopup';
 import { SocialLogin, FetchingButton } from 'components';
 
-import { loginUser } from 'ducks/Auth';
-import { openPopup } from 'ducks/Popup';
+import { login } from 'ducks/Auth/authActions';
+import { openPopup } from 'ducks/Popup/actions';
 import { __t } from '../../../i18n/translator';
 
 import './LoginPopup.styl';
@@ -28,10 +28,10 @@ class LoginPopup extends Component {
     password: target.value.trim(),
   })
 
-  onLogIn = () => this.props.dispatch(loginUser({
+  onLogIn = () => this.props.dispatch(login({
     username: this.state.phone,
     password: this.state.password,
-  }))
+  }, this.props.closePopup))
 
   openRegister = () => this.props.dispatch(openPopup('registerPopup'))
 
@@ -124,12 +124,12 @@ class LoginPopup extends Component {
               {__t('Sign Up')}
             </button>
             <br />
-            <button
+            <div
               className="password-recovery"
               onClick={this.openReset}
             >
               {__t('Forgot your password?')}
-            </button>
+            </div>
           </div>
         </div>
       </Popup>

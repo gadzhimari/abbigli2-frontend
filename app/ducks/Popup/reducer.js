@@ -1,4 +1,4 @@
-import * as actions from './actonsTypes';
+import * as actions from './actionsTypes';
 
 const initialState = {
   openedPopup: null,

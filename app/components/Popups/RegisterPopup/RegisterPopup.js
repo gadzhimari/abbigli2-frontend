@@ -5,8 +5,8 @@ import Select from 'react-select';
 import Popup from '../CommonPopup';
 import { SocialLogin, FetchingButton } from 'components';
 
-import { registerUser } from 'ducks/Auth';
-import { openPopup } from 'ducks/Popup';
+import { registration } from 'ducks/Auth/authActions';
+import { openPopup } from 'ducks/Popup/actions';
 import { __t } from '../../../i18n/translator';
 
 import './RegisterPopup.styl';
@@ -56,7 +56,7 @@ class RegisterPopup extends Component {
         phoneNumber: `${code}${number}`,
       };
 
-      dispatch(registerUser(creds));
+      dispatch(registration(creds));
     }
   }
 

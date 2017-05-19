@@ -7,6 +7,7 @@ import { SocialGroups } from 'components';
 
 import { fetchData as fetchDataSections } from 'ducks/Sections';
 import { openPopup } from 'ducks/Popup/actions';
+import { stagedPopup } from 'ducks/Auth/authActions';
 import './AvatarBlock.styl';
 import { __t } from './../../i18n/translator';
 
@@ -112,41 +113,20 @@ class AvatarBlock extends Component {
     this.setState({ openNotifications: !this.state.openNotifications });
   }
 
-  openRegister = () => {
-    const { isAuthenticated, dispatch } = this.props;
-    const shouldConfirm = JSON.parse(localStorage.getItem('openConfirm'));
-    const shouldSetpass = JSON.parse(localStorage.getItem('openSetpass'));
-    if (isAuthenticated) {
-      this._openUserMenuToggle();
-
-      return;
-    }
-
-    if (shouldConfirm) {
-      dispatch(openPopup('confirmPopup'));
-    } else if (shouldSetpass) {
-      dispatch(openPopup('passwordPopup'));
-    } else {
-      dispatch(openPopup('registerPopup'));
-    }
-  }
-
-  openLogin = () => {
-    const { dispatch } = this.props;
-    const shouldConfirm = JSON.parse(localStorage.getItem('openResetConfirm'));
-    const shouldSetpass = JSON.parse(localStorage.getItem('openSetpassReset'));
-
-    if (shouldConfirm) {
-      dispatch(openPopup('confirmPopup'));
-    } else if (shouldSetpass) {
-      dispatch(openPopup('passwordPopup'));
-    } else {
-      dispatch(openPopup('loginPopup'));
-    }
-  }
+  stagedPopupOpen = ({ currentTarget }) => this.props
+    .dispatch(stagedPopup(currentTarget.dataset.type))
 
   modalButtonClick = ({ currentTarget }) => this.props
     .dispatch(openPopup(currentTarget.dataset.type || currentTarget.name))
+
+  checkAuth = (e) => {
+    const { isAuthenticated } = this.props;
+    const { currentTarget } = e;
+
+    if (!isAuthenticated) {
+      this[currentTarget.dataset.callback](e);
+    }
+  }
 
   render() {
     const {
@@ -154,6 +134,7 @@ class AvatarBlock extends Component {
       itemsSections,
       isAuthenticated,
       toggleMenu,
+      onLogoutClick,
     } = this.props;
     const { openMenu } = this.state;
 
@@ -269,8 +250,10 @@ class AvatarBlock extends Component {
 
         <Link
           className="header__menu-item create-post"
-          onClick={() => { !isAuthenticated && this.modalButtonClick() }}
+          onClick={this.checkAuth}
           to={(isAuthenticated && this.props.me) ? `/post/new` : ''}
+          data-type="register"
+          data-callback="stagedPopupOpen"
         >
           <div className="icon-wrap">
             <div className="icon"></div>
@@ -282,12 +265,14 @@ class AvatarBlock extends Component {
           !isAuthenticated &&
           <div
             className="header__menu-item login"
-            onClick={this.modalButtonClick}
-            data-type="loginPopup"
+            onClick={this.stagedPopupOpen}
+            data-type="login"
           >
             <div className="icon-wrap">
               <div className="icon"></div>
-              <div className="menu__item-name">{__t('Login')}</div>
+              <div className="menu__item-name">
+                {__t('Login')}
+              </div>
             </div>
           </div>
         }
@@ -312,8 +297,8 @@ class AvatarBlock extends Component {
             </div>)
             : (<div
               className={"header__menu-item registration"}
-              onClick={this.modalButtonClick}
-              data-type="registerPopup"
+              onClick={this.stagedPopupOpen}
+              data-type="register"
             >
               <div className="icon" />
               <div className="menu__item-name">
@@ -351,7 +336,7 @@ class AvatarBlock extends Component {
 
               {__t('Feed')}
             </Link>
-            <a onClick={() => this.props.onLogoutClick()} className="user-menu__item logout">
+            <a onClick={onLogoutClick} className="user-menu__item logout">
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">
                 <path d="M3.938,6.995l0.783,0.783L7.5,5L4.722,2.223L3.938,3.006l1.434,1.438H0v1.111h5.372L3.938,6.995z M8.889,0
                   H1.111C0.494,0,0,0.501,0,1.111v2.223h1.111V1.111h7.777v7.777H1.111V6.667H0v2.222C0,9.5,0.494,10,1.111,10h7.777
@@ -373,6 +358,7 @@ AvatarBlock.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   dispatch: PropTypes.func,
   toggleMenu: PropTypes.func,
+  onLogoutClick: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

@@ -12,7 +12,7 @@ import Products from 'ducks/Products';
 import PostsSpecific from 'ducks/PostsSpecific';
 import ProfilePosts from 'ducks/ProfilePosts';
 import TopAuthors from 'ducks/TopAuthors';
-import Auth from 'ducks/Auth';
+import Auth from 'ducks/Auth/';
 import Popup from 'ducks/Popup';
 import Comments from 'ducks/Comments';
 import Support from 'ducks/Support';

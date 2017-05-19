@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Popup from '../CommonPopup';
 import { FetchingButton } from 'components';
 
-import { setPassword } from 'ducks/Auth';
+import { setPassword } from 'ducks/Auth/authActions';
 import { __t } from '../../../i18n/translator';
 
 import './PasswordPopup.styl';

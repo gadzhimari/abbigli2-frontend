@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import Popup from '../CommonPopup';
 import { FetchingButton } from 'components';
 
-import { resetUser } from 'ducks/Auth';
-import { openPopup } from 'ducks/Popup';
+import { reset } from 'ducks/Auth/authActions';
+import { openPopup } from 'ducks/Popup/actions';
 import { __t } from '../../../i18n/translator';
 
 import './ResetPopup.styl';
@@ -22,7 +22,7 @@ class ResetPopup extends Component {
     username: target.value.trim(),
   })
 
-  handleClick = () => this.props.dispatch(resetUser({
+  handleClick = () => this.props.dispatch(reset({
     username: this.state.username,
   }))
 
