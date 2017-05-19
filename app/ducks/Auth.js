@@ -388,6 +388,8 @@ export function confirmUser(creds) {
 
           return;
         }
+        // facebook pixel emit event
+        fbq('track', 'CompleteRegistration');
 
         document.cookie = `id_token=${user.token}`;
 
