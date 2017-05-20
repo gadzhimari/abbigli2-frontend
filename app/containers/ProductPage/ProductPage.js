@@ -17,7 +17,9 @@ import { connect } from 'preact-redux';
 import Helmet from 'react-helmet';
 import { sendComment } from 'ducks/Comments';
 import { sendPostMessage } from 'ducks/Dialogs';
-import { wantsPopup, registerPopup } from 'ducks/Popup';
+import { wantsPopup } from 'ducks/Popup';
+
+import { stagedPopup } from 'ducks/Auth/authActions';
 
 import { __t } from './../../i18n/translator';
 
@@ -28,6 +30,7 @@ class ProductPage extends Component {
       profileId: null,
       want: false,
       messageError: false,
+      showWants: false,
       result: {
         results: [],
       },
@@ -41,13 +44,13 @@ class ProductPage extends Component {
     });
   }
 
-  sendComment = comment => {
+  sendComment = (comment) => {
     const { dispatch } = this.props;
 
     dispatch(sendComment(comment));
   }
 
-  sendMessage = message => {
+  sendMessage = (message) => {
     const { dispatch, data } = this.props;
     const post = {
       id: data.id,
@@ -57,16 +60,18 @@ class ProductPage extends Component {
       price: data.price,
     };
 
-    dispatch(sendPostMessage(data.user.id, post, message));
+    dispatch(sendPostMessage(data.user.id, post, message, this.showOrHideWants));
   }
 
-  showOrHideWants = show => {
+  showOrHideWants = (show) => {
     const { dispatch, isAuthenticated } = this.props;
 
     if (isAuthenticated) {
-      dispatch(wantsPopup(show));
+      this.setState({
+        showWants: show,
+      });
     } else {
-      dispatch(registerPopup());
+      dispatch(stagedPopup('register'));
     }
   }
 
@@ -100,7 +105,6 @@ class ProductPage extends Component {
 
     const {
       itemsPosts,
-      showWants,
       isDefined,
       wantSending,
       data,
@@ -109,6 +113,8 @@ class ProductPage extends Component {
       me,
       priceTemplate,
     } = this.props;
+
+    const { showWants } = this.state;
 
     const commentsList = this.props.itemsComments;
     const post = { id, title, sections, images, price };

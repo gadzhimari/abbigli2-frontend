@@ -25,7 +25,7 @@ class MessagePopup extends Component {
   });
 
   sendMessage = () => this.props.dispatch(
-    sendPrivateMessage(this.props.userId, {
+    sendPrivateMessage(this.props.options.id, {
       body: this.state.message,
     })
   )
@@ -43,13 +43,13 @@ class MessagePopup extends Component {
   }
 
   render() {
-    const { closePopup, isFetching } = this.props;
+    const { closePopup, isFetching, options } = this.props;
     const { message, messageError } = this.state;
 
     return (
       <Popup
         closePopup={closePopup}
-        title={__t('Log In')}
+        title={`${__t('Message to')} ${options.name}`}
       >
         <form className="popup-form">
           <div className="popup-form__field">

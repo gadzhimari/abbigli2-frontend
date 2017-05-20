@@ -13,7 +13,7 @@ import {
   fetchMe,
   logoutUser,
 } from 'ducks/Auth/authActions';
-import { closePopup } from 'ducks/Popup/actions';
+import { closePopup, openPopup } from 'ducks/Popup/actions';
 import { fetchData as settingsFetch, fetchGeo } from 'ducks/Settings';
 
 import * as Popups from 'components/Popups';
@@ -104,11 +104,14 @@ class App extends Component {
 
   toggleMenu = () => this.slideout.toggle();
 
-  closePopup = () => this.props
-    .dispatch(closePopup())
-
   logoutUser = () => this.props
     .dispatch(logoutUser())
+
+  modalPopupClick = ({ currentTarget }) => this.props
+    .dispatch(openPopup(currentTarget.dataset.type || currentTarget.name))
+
+  closePopup = () => this.props
+    .dispatch(closePopup())
 
   render() {
     const {
@@ -269,10 +272,11 @@ class App extends Component {
           {children}
 
         </div>
-        <Footer dispatch={dispatch}>
+        <Footer
+          openPopup={this.modalPopupClick}
+        >
           Logo
         </Footer>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
       </div>
     );
   }

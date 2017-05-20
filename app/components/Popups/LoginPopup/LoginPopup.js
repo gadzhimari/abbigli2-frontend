@@ -6,6 +6,7 @@ import { SocialLogin, FetchingButton } from 'components';
 
 import { login } from 'ducks/Auth/authActions';
 import { openPopup } from 'ducks/Popup/actions';
+import { stagedPopup } from 'ducks/Auth/authActions';
 import { __t } from '../../../i18n/translator';
 
 import './LoginPopup.styl';
@@ -33,7 +34,7 @@ class LoginPopup extends Component {
     password: this.state.password,
   }, this.props.closePopup))
 
-  openRegister = () => this.props.dispatch(openPopup('registerPopup'))
+  openRegister = () => this.props.dispatch(stagedPopup('register'))
 
   openReset = () => this.props.dispatch(openPopup('resetPopup'))
 

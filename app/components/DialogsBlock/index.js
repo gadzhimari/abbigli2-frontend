@@ -4,7 +4,7 @@ import moment from 'moment';
 import DialogsList from './Components/DialogsList';
 import MessagesList from './Components/MessagesList';
 
-import { deleteMessagePopup } from 'ducks/Popup';
+import { openPopup } from 'ducks/Popup/actions';
 import { sendPrivateMessage, setActiveDialog, loadMessages } from 'ducks/Dialogs';
 
 import { location } from 'config';
@@ -78,7 +78,10 @@ class DialogsBlock extends Component {
   deleteDialog = (id, recipient) => {
     const { dispatch } = this.props;
 
-    dispatch(deleteMessagePopup(true, id, recipient));
+    dispatch(openPopup('deleteMessagePopup', {
+      id,
+      recipient,
+    }));
   }
 
   scrollMessages = () => {

@@ -8,3 +8,4 @@ export { default as messagePopup } from './MessagePopup';
 export { default as loginPopup } from './LoginPopup';
 export { default as deleteMessagePopup } from './DeleteMessagePopup';
 export { default as eventSearch } from './EventSearch';
+export { default as statusPopup } from './StatusPopup';

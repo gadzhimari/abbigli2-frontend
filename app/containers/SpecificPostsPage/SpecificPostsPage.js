@@ -15,7 +15,7 @@ import { fetchData, setData } from 'ducks/PostsSpecific';
 import { fetchData as fetchDataBlogs, setData as setDataBlogs } from 'ducks/PostsSpecific';
 import { Link } from 'react-router';
 
-import { registerPopup } from 'ducks/Popup';
+import { stagedPopup } from 'ducks/Auth/authActions';
 
 import { __t } from '../../i18n/translator';
 
@@ -39,7 +39,7 @@ class SpecificPostsPage extends Component {
   showRegister = () => {
     const { dispatch } = this.props;
 
-    dispatch(registerPopup());
+    dispatch(stagedPopup('register'));
   }
 
   render() {

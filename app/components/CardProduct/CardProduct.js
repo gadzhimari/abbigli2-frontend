@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { Share } from 'components';
 
 import { setLike } from 'actions/like';
-import { registerPopup } from 'ducks/Popup';
+import { stagedPopup } from 'ducks/Auth/authActions';
 
 import './CardProduct.styl';
 
@@ -44,7 +44,7 @@ class CardProduct extends Component {
     const { liked, slug, likes_num } = this.props.data;
 
     if (!isAuthenticated) {
-      dispatch(registerPopup());
+      dispatch(stagedPopup('register'));
 
       return;
     }

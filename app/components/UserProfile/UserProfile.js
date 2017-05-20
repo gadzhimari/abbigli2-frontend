@@ -1,10 +1,11 @@
 import React, { PropTypes, Component } from 'react';
-import './UserProfile.styl';
-import { API_URL } from 'config';
-import { loginPopup, messagePopup } from 'ducks/Popup'
-import { setSenderData } from 'ducks/Dialogs'
+
+import { openPopup } from 'ducks/Popup/actions';
 import { setFollow } from 'actions/follow';
+
 import { __t } from './../../i18n/translator';
+
+import './UserProfile.styl';
 
 export default class UserProfile extends Component {
   constructor() {
@@ -13,7 +14,6 @@ export default class UserProfile extends Component {
       showMoreText: false,
     };
   }
-
 
   render() {
     const {
@@ -42,9 +42,12 @@ export default class UserProfile extends Component {
 
     const sendMessage = () => {
       isAuthenticated
-        ? dispatch(messagePopup(true, id, profile_name))
-        : dispatch(loginPopup(true));
-    }
+        ? dispatch(openPopup('messagePopup', {
+          id,
+          name: profile_name,
+        }))
+        : dispatch(openPopup('loginPopup'));
+    };
 
     const avatarWrapperClass = avatar
       ? 'user-profile__avatar-wrap no-bg'
@@ -295,7 +298,7 @@ export default class UserProfile extends Component {
                   onClick={() => {
                     isAuthenticated
                       ? dispatch(setFollow(id))
-                      : dispatch(loginPopup(true));
+                      : dispatch(openPopup('loginPopup'));
                   }}
                 >
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 2">
@@ -309,7 +312,7 @@ export default class UserProfile extends Component {
                   onClick={() => {
                     isAuthenticated
                       ? dispatch(setFollow(id))
-                      : dispatch(loginPopup(true));
+                      : dispatch(openPopup('loginPopup'));
                   }}
                 >
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">

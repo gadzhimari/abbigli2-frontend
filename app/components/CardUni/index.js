@@ -9,7 +9,7 @@ import {
 } from 'components';
 import { setLike } from 'actions/like';
 
-import { registerPopup } from 'ducks/Popup';
+import { stagedPopup } from 'ducks/Auth/authActions';
 
 import './index.styl';
 
@@ -27,7 +27,7 @@ class CardUni extends Component {
     const { isAuth, item, dispatch } = this.props;
 
     if (!isAuth) {
-      dispatch(registerPopup());
+      dispatch(stagedPopup('register'));
 
       return;
     }

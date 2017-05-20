@@ -5,7 +5,7 @@ import { CardUni, Share } from 'components';
 import {
   Link,
 } from 'components';
-import { registerPopup } from 'ducks/Popup';
+import { stagedPopup } from 'ducks/Auth/authActions';
 import { setLike } from 'actions/like';
 
 import './index.styl';
@@ -32,7 +32,7 @@ class BlogCard extends Component {
     const { liked, slug, likes_num } = data;
 
     if (!isAuthenticated) {
-      dispatch(registerPopup());
+      dispatch(stagedPopup('register'));
 
       return;
     }

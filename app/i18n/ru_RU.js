@@ -130,6 +130,7 @@ export default {
     "edit.profile": "Редактировать профиль",
     "Policy privacy": "Политика конфиденциальности",
     "Sell on Abbigli": "Продавайте на Abbigli",
+    "Message have been successfully sent": "Сообщение было успешно отправлено",
 
     "abbigli.about.header": "Как превратить творчество в бизнес",
     "abbigli.about.p1": "Abbigli – современный ресурс, на котором вы можете продать ручные изделия, поделиться своими наработками и завести новых друзей!",
