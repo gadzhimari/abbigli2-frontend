@@ -12,7 +12,7 @@ import Products from 'ducks/Products';
 import PostsSpecific from 'ducks/PostsSpecific';
 import ProfilePosts from 'ducks/ProfilePosts';
 import TopAuthors from 'ducks/TopAuthors';
-import Auth from 'ducks/Auth/';
+import Auth from 'ducks/Auth';
 import Popup from 'ducks/Popup';
 import Comments from 'ducks/Comments';
 import Support from 'ducks/Support';
@@ -24,7 +24,7 @@ import Seo from 'ducks/Seo';
 import Settings from 'ducks/Settings';
 import Search from 'ducks/Search';
 
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import { routerReducer } from 'react-router-redux';
 
 export default combineReducers({
   Sections,
@@ -49,5 +49,5 @@ export default combineReducers({
   Seo,
   Settings,
   Search,
-  routing: routerReducer
+  routing: routerReducer,
 });

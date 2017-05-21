@@ -165,111 +165,14 @@ class App extends Component {
             />
           </Header>
           <Sprites />
+
           <Popup
             dispatch={dispatch}
             closePopup={this.closePopup}
             options={popupOptions}
           />
 
-          {/*{(showLogin && !isAuthenticated) &&
-            <Login
-              errors={this.props.loginErrors}
-              dispatch={dispatch}
-              onLoginClick={creds => dispatch(loginUser(creds))}
-              isFetching={isFetchingLogin}
-            />
-          }
-
-          {
-            showSearch
-            &&
-            <MobileSearchPopup
-              dispatch={dispatch}
-            />
-          }
-
-          {(showRegister && !isAuthenticated) &&
-            <Register
-              errors={this.props.registerErrors}
-              dispatch={dispatch}
-              onRegisterClick={creds => dispatch(registerUser(creds))}
-              codes={geo}
-              isFetching={isFetchingRegister}
-              currentCountry={currentCountry}
-            />
-          }
-
-          {(showSetpass && !isAuthenticated) &&
-            <SetPasswordPopup
-              errors={this.props.setpassError}
-              dispatch={dispatch}
-              handleSet={this.handleSetPassword}
-              isFetching={isFetchingSetpass}
-            />
-          }
-
-          {(showConfirm && !isAuthenticated) &&
-            <Confirm
-              errors={this.props.confirmSignUpError}
-              dispatch={dispatch}
-              onConfirmClick={creds => dispatch(confirmUser(creds))}
-              isFetching={isFetchingConfirm}
-            />
-          }
-
-          {(showDeleteMessage && isAuthenticated) &&
-            <DeleteMessage
-              errorMessage={errorMessage}
-              dispatch={dispatch}
-              recipient={recipient}
-              id={dialogId}
-            />
-          }
-
-          {(showReset && !isAuthenticated) &&
-            <Reset
-              dispatch={dispatch}
-              onResetClick={creds => dispatch(resetUser(creds))}
-              isFetching={isFetchingReset}
-              errors={this.props.resetError}
-            />
-          }
-
-          {showSupport &&
-            <Support
-              errorMessage={errorMessage}
-              dispatch={dispatch}
-              onSupportClick={creds => dispatch(getSupport(creds))}
-            />
-          }
-
-
-          {(showMessage && isAuthenticated) &&
-            <Message
-              dispatch={dispatch}
-              userName={userName}
-              userId={userId}
-              sending={messagesSending}
-            />
-
-          }
-
-          {(confirmResetShow && !isAuthenticated) &&
-            <ConfirmReset
-              dispatch={dispatch}
-              isFetching={isFetchingConfirm}
-              sendCode={this.sendConfirmReset}
-              errors={this.props.confirmResetError}
-            />
-          }
-
-          {(showStatus && isAuthenticated) &&
-            <Status
-              dispatch={dispatch}
-            />
-          }*/}
-
-          {children}
+          { children }
 
         </div>
         <Footer

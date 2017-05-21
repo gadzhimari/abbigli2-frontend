@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'preact-redux';
 import { bindActionCreators } from 'redux';
 
-import { loginPopup } from 'ducks/Popup';
+import { openPopup } from 'ducks/Popup/actions';
 
 import Banner from './components/Banner';
 import FaqTabs from './components/FaqTabs';
@@ -54,15 +54,16 @@ class Faq extends Component {
     banner.classList.add('flash-out');
   }
 
+  loginPopup = () => this.props.dispatch(openPopup('loginPopup'))
+
   render() {
     const { activeBanner } = this.state;
-    const { loginPopup } = this.props;
 
     return (
       <div className="container-fluid faq-page" id="page-container">
         <Banner
           bannerId={activeBanner}
-          showLoginPopup={loginPopup}
+          showLoginPopup={this.loginPopup}
         />
         <FaqTabs func={this.doChangeActiveBanner} />
       </div>
@@ -72,8 +73,5 @@ class Faq extends Component {
 
 Faq.propTypes = propTypes;
 
-const mapDispatchToProps = dispatch => ({
-  loginPopup: bindActionCreators(loginPopup, dispatch),
-});
 
-export default connect(null, mapDispatchToProps)(Faq);
+export default connect()(Faq);
