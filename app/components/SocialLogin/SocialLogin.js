@@ -13,7 +13,7 @@ import {
 const SocialLogin = () => {
   const fbLink = `https://facebook.com/dialog/oauth?client_id=${FB_ID}&scope=public_profile,email&redirect_uri=`;
   const googleLink = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_ID}&response_type=code&scope=openid%20email&redirect_uri=`;
-  const vkLink = `https://oauth.vk.com/authorize?client_id=${VK_ID}&response_type=code&display=popup&score=email&redirect_uri=`;
+  const vkLink = `https://oauth.vk.com/authorize?client_id=${VK_ID}&response_type=code&display=popup&scope=email&redirect_uri=`;
 
   return (
     <div className="buttons-social">
