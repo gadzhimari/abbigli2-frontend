@@ -680,7 +680,7 @@ class UserProfileMe extends Component {
                     className="social-network vkontakte"
                     href={vkAcc}
                   >
-                    {Icons.SocialIcons.vkontakte()}
+                    {Icons.SocialIcons.vk()}
                   </a>
                   <input
                     className="input-profile"

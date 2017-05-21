@@ -231,6 +231,7 @@ export default {
     'Delete dialog': 'Удаление диалога',
     'Are you sure you want to remove dialogue with': 'Вы уверены, что хотите удалить диалог с',
     'Delete': 'Удалить',
+    'enter.title': 'Введите имя профиля',
     'Nobody is near with You. You can be first': 'Пока рядом с Вами никого нет. Вы можете стать первым',
 
 
