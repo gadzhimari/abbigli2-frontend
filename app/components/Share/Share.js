@@ -27,7 +27,7 @@ export default function Share({ postLink, buttonClass }) {
         &&
         <ShareButton
           className={buttonClass}
-          provider="vkontakte"
+          provider="vk"
           link={`https://vk.com/share.php?url=${location.origin}${postLink}/`}
         />
       }

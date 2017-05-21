@@ -25,8 +25,8 @@ const SocialGroups = () => (
       location === 'ru'
       &&
       <ShareButton
-        className="social-btn"
-        provider="vkontakte"
+        className="social-btn vkontakte"
+        provider="vk"
         link={socialGroupsUrl.vk}
       />
     }

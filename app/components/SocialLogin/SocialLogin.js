@@ -38,7 +38,7 @@ const SocialLogin = () => {
           : <SocialButton
             socialLink={vkLink}
             DOMAIN_URL={DOMAIN_URL}
-            provider="vkontakte"
+            provider="vk"
             className="vkontakte"
           >
             {'ВКонтакте'}
