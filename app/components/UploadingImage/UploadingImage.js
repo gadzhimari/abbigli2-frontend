@@ -72,7 +72,7 @@ class UploadingImage extends Component {
       });
     });
 
-    image.src = `https://abbigli.com/thumbs/unsafe/203x203/${imageSrc}`;
+    image.src = `/thumbs/unsafe/203x203/${imageSrc}`;
   }
 
   deleteImageFromServer = () => {

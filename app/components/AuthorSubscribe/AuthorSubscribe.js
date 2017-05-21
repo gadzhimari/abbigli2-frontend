@@ -4,7 +4,7 @@ import {
 } from 'components';
 import { connect } from 'preact-redux';
 import { setFollow } from 'actions/follow';
-import { loginPopup } from 'ducks/Popup'
+import { stagedPopup } from 'ducks/Auth/authActions';
 
 import { __t } from './../../i18n/translator';
 
@@ -23,7 +23,7 @@ class AuthorSubscribe extends Component {
         <Link className="author-subscribe__ava" to={`/profile/${id}/`}>
           {
             avatar
-              ? <img className="author-ava" src={`https://abbigli.com/thumbs/unsafe/65x65/${avatar}`} alt={profile_name} />
+              ? <img className="author-ava" src={`/thumbs/unsafe/65x65/${avatar}`} alt={profile_name} />
               : <img className="author-ava" src={`/images/svg/avatar.svg`} alt={profile_name} />
           }
         </Link>
@@ -52,7 +52,7 @@ class AuthorSubscribe extends Component {
                   className="subscribe-button"
                   type="button"
                   onClick={() => {
-                    isAuthenticated ? dispatch(setFollow(id)) : dispatch(loginPopup(true))
+                    isAuthenticated ? dispatch(setFollow(id)) : dispatch(stagedPopup('register'));
                   }}
                 >
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 2">
@@ -63,7 +63,7 @@ class AuthorSubscribe extends Component {
                   className="subscribe-button"
                   type="button"
                   onClick={() => {
-                    isAuthenticated ? dispatch(setFollow(id)) : dispatch(loginPopup(true))
+                    isAuthenticated ? dispatch(setFollow(id)) : dispatch(stagedPopup('register'));
                   }}
                 >
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">

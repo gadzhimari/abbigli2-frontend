@@ -12,6 +12,7 @@
 const isDevelopment = process.env.NODE_ENV === 'development';
 export const location = process.env.LOCATION;
 export const IS_DEVELOPMENT = isDevelopment;
+
 export const DOMAIN_URL = process.env.DOMAIN_URL;
 export const API_URL = `${DOMAIN_URL}api/v1/`;
 

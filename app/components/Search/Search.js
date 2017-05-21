@@ -178,7 +178,7 @@ class Search extends Component {
                   <div className="search-result__avatar">
                     {item.avatar
                       ? <img
-                        src={`https://abbigli.com/thumbs/unsafe/70x70/${item.avatar}`}
+                        src={`/thumbs/unsafe/70x70/${item.avatar}`}
                         alt={item.profile_name}
                       />
                       : <img

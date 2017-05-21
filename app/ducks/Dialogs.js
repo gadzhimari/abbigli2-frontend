@@ -1,5 +1,6 @@
 import { API_URL } from 'config';
-import { messagePopup, statusPopup, wantsPopup, deleteMessagePopup } from 'ducks/Popup'
+
+import { openPopup, closePopup } from 'ducks/Popup/actions';
 import { getJsonFromStorage } from 'utils/functions';
 
 const ENDPOINT = API_URL + 'my-profile/dialogs/';
@@ -203,7 +204,7 @@ export function deleteDialog(id) {
 
   return (dispatch) => {
     dispatch(deleteData(id));
-    dispatch(deleteMessagePopup(false));
+    dispatch(closePopup());
 
     return fetch(ENDPOINT + id + '/', config);
   };
@@ -229,7 +230,7 @@ export function getDialogs() {
     return fetch(`${API_URL}my-profile/dialogs/`, config)
       .then(res => res.json())
       .then((response) => {
-          dispatch(setData(response));
+        dispatch(setData(response));
       })
       .catch(err => console.log("Error: ", err));
   };
@@ -267,7 +268,7 @@ export function loadMessages(id, page = 1) {
   };
 }
 
-export function sendPostMessage(sender, post, message) {
+export function sendPostMessage(sender, post, message, showWants) {
   const createFormData = new FormData();
   const sendFormData = new FormData();
 
@@ -304,7 +305,7 @@ export function sendPostMessage(sender, post, message) {
           Price: $${response.post.price}
         </span><br />
           Message: ${message}<br />
-        <img src="https://abbigli.com/thumbs/unsafe/0x196/${response.post.image}" />
+        <img src="/thumbs/unsafe/0x196/${response.post.image}" />
         `;
         sendFormData.append('body', msg);
 
@@ -312,8 +313,8 @@ export function sendPostMessage(sender, post, message) {
           .then((res) => {
             if (res) {
               dispatch(messageSended());
-              dispatch(wantsPopup(false));
-              dispatch(statusPopup(true));
+              showWants(false);
+              dispatch(openPopup('statusPopup'));
             }
           });
       });
@@ -358,8 +359,7 @@ export function sendPrivateMessage(sender, message, dialogID) {
       .then(res => res.json())
       .then(response => fetch(response.url, Object.assign(config, sendData))
         .then(() => {
-          dispatch(messagePopup(false));
-          dispatch(statusPopup(true));
+          dispatch(openPopup('statusPopup'));
           dispatch(messageSended());
         })
       );

@@ -24,7 +24,7 @@ import Seo from 'ducks/Seo';
 import Settings from 'ducks/Settings';
 import Search from 'ducks/Search';
 
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import { routerReducer } from 'react-router-redux';
 
 export default combineReducers({
   Sections,
@@ -49,5 +49,5 @@ export default combineReducers({
   Seo,
   Settings,
   Search,
-  routing: routerReducer
+  routing: routerReducer,
 });

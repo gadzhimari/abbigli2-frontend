@@ -3,7 +3,6 @@
 import React from 'react';
 import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
-import IndexRedirect from 'react-router/lib/IndexRedirect';
 import { IS_HOT_DEVELOPMENT } from '../config';
 import {
   App,
@@ -35,18 +34,6 @@ if (IS_HOT_DEVELOPMENT) {
   // property (i.e. getComponent or getComponents).  As a workaround for any
   // of your components that are resolved dynamically please require them below.
   require('../containers/NotFound/NotFound'); // eslint-disable-line global-require
-}
-
-function handleError(err) {
-  // TODO: Error handling, do we return an Error component here?
-  console.log('==> Error occurred loading dynamic route'); // eslint-disable-line no-console
-  console.log(err); // eslint-disable-line no-console
-}
-
-function resolveNotFoundComponent(nextState, cb) {
-  System.import('containers/NotFound/NotFound')
-    .then(module => cb(null, module.default))
-    .catch(handleError);
 }
 
 

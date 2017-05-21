@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import {
   Header,
@@ -7,35 +7,18 @@ import {
   Search,
   Sprites,
   AvatarBlock,
-  Login,
-  Register,
-  Confirm,
-  DeleteMessage,
-  Reset,
-  Support,
-  Message,
-  Status,
-  MobileSearchPopup,
-  mediaHOC,
-  SetPasswordPopup,
-  ConfirmReset,
 } from 'components';
 import { appConfig } from 'config';
 import {
-  loginUser,
   fetchMe,
   logoutUser,
-  registerUser,
-  confirmUser,
-  resetUser,
-  setPassword,
-  resetConfirm,
-} from 'ducks/Auth';
-import { closeAll } from 'ducks/Popup';
-import { getSupport } from 'ducks/Support';
+} from 'ducks/Auth/authActions';
+import { closePopup, openPopup } from 'ducks/Popup/actions';
 import { fetchData as settingsFetch, fetchGeo } from 'ducks/Settings';
-import { fetchData as seoFetch } from 'ducks/Seo';
-import { fetchData as fetchDataSections } from 'ducks/Sections';
+
+import * as Popups from 'components/Popups';
+import getComponentFromObject from 'utils/getComponent';
+
 import './App.styl';
 import './_concat.styl';
 import './main.styl';
@@ -95,7 +78,7 @@ class App extends Component {
     if (window.document) {
       window.addEventListener('click', (e) => {
         if (e.target.className === 'popup-wrap') {
-          this.props.dispatch(closeAll());
+          this.closePopup();
         }
       });
 
@@ -119,42 +102,25 @@ class App extends Component {
     }
   }
 
-  toggleMenu = () => {
-    this.slideout.toggle();
-  }
+  toggleMenu = () => this.slideout.toggle();
 
-  handleSetPassword = (creds) => {
-    const { dispatch } = this.props;
+  logoutUser = () => this.props
+    .dispatch(logoutUser())
 
-    dispatch(setPassword(creds));
-  }
+  modalPopupClick = ({ currentTarget }) => this.props
+    .dispatch(openPopup(currentTarget.dataset.type || currentTarget.name))
 
-  sendConfirmReset = (creds) => {
-    const { dispatch } = this.props;
-
-    dispatch(resetConfirm(creds));
-  }
+  closePopup = () => this.props
+    .dispatch(closePopup())
 
   render() {
     const {
       dispatch,
       isAuthenticated,
       errorMessage,
-      showLogin,
-      showRegister,
-      dialogId,
-      recipient,
-      showDeleteMessage,
-      showReset,
-      showMessage,
-      showStatus,
-      userName,
-      showConfirm,
-      showSupport,
-      showSetpass,
+      openedPopup,
+      popupOptions,
       children,
-      showSearch,
-      userId,
       seo,
       location,
       messagesSending,
@@ -163,15 +129,15 @@ class App extends Component {
       isFetchingLogin,
       isFetchingConfirm,
       isFetchingSetpass,
-      confirmResetShow,
       isFetchingReset,
       currentCountry,
     } = this.props;
 
-    const seoData = seo.data.filter((item) => item.url == location.pathname)[0];
-    const shouldOpenModal = showLogin || showRegister || showConfirm ||
-      showDeleteMessage || showReset || showMessage || showStatus || showSupport || showSearch ||
-      showSetpass || confirmResetShow;
+
+    const seoData = seo.data.filter(item => item.url == location.pathname)[0];
+    const shouldOpenModal = openedPopup;
+
+    const Popup = getComponentFromObject(openedPopup, Popups);
 
     return (
       <div className="global-wrapper">
@@ -189,125 +155,31 @@ class App extends Component {
           className={`content-wrapper ${shouldOpenModal && 'modal-open-new'}`}
         >
           <Header>
-
             <Search />
-
             <AvatarBlock
               isAuthenticated={isAuthenticated}
               errorMessage={errorMessage}
               dispatch={dispatch}
-              onLogoutClick={() => dispatch(logoutUser())}
+              onLogoutClick={this.logoutUser}
               toggleMenu={this.toggleMenu}
             />
           </Header>
           <Sprites />
 
+          <Popup
+            dispatch={dispatch}
+            closePopup={this.closePopup}
+            options={popupOptions}
+          />
 
-          {(showLogin && !isAuthenticated) &&
-            <Login
-              errors={this.props.loginErrors}
-              dispatch={dispatch}
-              onLoginClick={creds => dispatch(loginUser(creds))}
-              isFetching={isFetchingLogin}
-            />
-          }
-
-          {
-            showSearch
-            &&
-            <MobileSearchPopup
-              dispatch={dispatch}
-            />
-          }
-
-          {(showRegister && !isAuthenticated) &&
-            <Register
-              errors={this.props.registerErrors}
-              dispatch={dispatch}
-              onRegisterClick={creds => dispatch(registerUser(creds))}
-              codes={geo}
-              isFetching={isFetchingRegister}
-              currentCountry={currentCountry}
-            />
-          }
-
-          {(showSetpass && !isAuthenticated) &&
-            <SetPasswordPopup
-              errors={this.props.setpassError}
-              dispatch={dispatch}
-              handleSet={this.handleSetPassword}
-              isFetching={isFetchingSetpass}
-            />
-          }
-
-          {(showConfirm && !isAuthenticated) &&
-            <Confirm
-              errors={this.props.confirmSignUpError}
-              dispatch={dispatch}
-              onConfirmClick={creds => dispatch(confirmUser(creds))}
-              isFetching={isFetchingConfirm}
-            />
-          }
-
-          {(showDeleteMessage && isAuthenticated) &&
-            <DeleteMessage
-              errorMessage={errorMessage}
-              dispatch={dispatch}
-              recipient={recipient}
-              id={dialogId}
-            />
-          }
-
-          {(showReset && !isAuthenticated) &&
-            <Reset
-              dispatch={dispatch}
-              onResetClick={creds => dispatch(resetUser(creds))}
-              isFetching={isFetchingReset}
-              errors={this.props.resetError}
-            />
-          }
-
-          {showSupport &&
-            <Support
-              errorMessage={errorMessage}
-              dispatch={dispatch}
-              onSupportClick={creds => dispatch(getSupport(creds))}
-            />
-          }
-
-
-          {(showMessage && isAuthenticated) &&
-            <Message
-              dispatch={dispatch}
-              userName={userName}
-              userId={userId}
-              sending={messagesSending}
-            />
-
-          }
-
-          {(confirmResetShow && !isAuthenticated) &&
-            <ConfirmReset
-              dispatch={dispatch}
-              isFetching={isFetchingConfirm}
-              sendCode={this.sendConfirmReset}
-              errors={this.props.confirmResetError}
-            />
-          }
-
-          {(showStatus && isAuthenticated) &&
-            <Status
-              dispatch={dispatch}
-            />
-          }
-
-          {children}
+          { children }
 
         </div>
-        <Footer dispatch={dispatch}>
+        <Footer
+          openPopup={this.modalPopupClick}
+        >
           Logo
         </Footer>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
       </div>
     );
   }
@@ -336,36 +208,18 @@ function mapStateToProps(state) {
     confirmResetError,
     setpassError,
   } = state.Auth || { isAuthenticated: false, errorMessage: '' };
-  const {
-    showLogin, showRegister, showDeleteMessage, userId, recipient,
-    showReset, showMessage, showStatus, userName,
-    sendMessageYourselfError, showConfirm, showSupport, showSearch, dialogId, showSetpass,
-    confirmResetShow } = state.Popup;
   const messages = state.Dialogs || {};
 
   const seo = (state.Seo) || { isFetching: true,  data: []  };
   const settings = (state.Settings) || { isFetching: true,  data: []  };
 
   return {
+    openedPopup: state.Popup.openedPopup,
+    popupOptions: state.Popup.options,
     seo,
     settings,
     isAuthenticated,
     errorMessage,
-    showLogin,
-    showRegister,
-    showConfirm,
-    showDeleteMessage,
-    userId,
-    recipient,
-    dialogId,
-    showReset,
-    showMessage,
-    showStatus,
-    showSupport,
-    showSearch,
-    showSetpass,
-    userName,
-    sendMessageYourselfError,
     messagesSending: messages.isSending,
     geo: settings.geo,
     currentCountry: settings.currentCountry,
@@ -373,7 +227,6 @@ function mapStateToProps(state) {
     isFetchingLogin: isFetching,
     isFetchingConfirm,
     isFetchingSetpass,
-    confirmResetShow,
     isFetchingReset,
     loginErrors,
     registerErrors,

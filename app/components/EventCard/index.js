@@ -6,7 +6,7 @@ import {
   Link,
   Share,
 } from 'components';
-import { registerPopup } from 'ducks/Popup';
+import { stagedPopup } from 'ducks/Auth/authActions';
 import { setLike } from 'actions/like';
 
 import './index.styl';
@@ -34,7 +34,7 @@ class EventCard extends Component {
     const { liked, slug, likes_num } = data;
 
     if (!isAuthenticated) {
-      dispatch(registerPopup());
+      dispatch(stagedPopup('register'));
 
       return;
     }
@@ -109,7 +109,7 @@ class EventCard extends Component {
               (<Link to={`/${typesUrl[data.type]}/${data.slug}`}>
                 <img
                   className="card-img"
-                  src={'https://abbigli.com/thumbs/unsafe/360x250/' + data.images[0].file}
+                  src={'/thumbs/unsafe/360x250/' + data.images[0].file}
                   alt={data.images[0].description}
                 />
               </Link>)

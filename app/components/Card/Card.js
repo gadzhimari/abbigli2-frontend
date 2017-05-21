@@ -18,7 +18,7 @@ function Card(props) {
   return (
     <Link className="card" to={"/sections/" + slug}>
       <div className="card-item">
-        <img className="card-img" src={`https://abbigli.com/thumbs/unsafe/${sizes[0]}/${image}`}/>
+        <img className="card-img" src={`/thumbs/unsafe/${sizes[0]}/${image}`}/>
       </div>
       <div className="card-name-wrap">
         <div className="card-name">{title[15] ? title.slice(0,14)+'...' : title}</div>

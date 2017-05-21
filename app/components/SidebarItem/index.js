@@ -14,7 +14,7 @@ export default function SidebarItem(props) {
     return (
         <RouterLink className="sidebar__item-preview" to={'/' + urls[data.type] + '/' + data.slug}>
             <div className="sidebar__item-pic"> {data.images[0] &&  <img
-                src={`https://abbigli.com/thumbs/unsafe/92x92/${data.images[0].file}`}
+                src={`/thumbs/unsafe/92x92/${data.images[0].file}`}
                 alt={data.title}/> } </div>
             <div className="sidebar__item-title">{data.title}</div>
             <div className="sidebar__item-date">{moment(data.created).format('D MMMM YYYY')}</div>

@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { Share } from 'components';
 
 import { setLike } from 'actions/like';
-import { registerPopup } from 'ducks/Popup';
+import { stagedPopup } from 'ducks/Auth/authActions';
 
 import './CardProduct.styl';
 
@@ -44,7 +44,7 @@ class CardProduct extends Component {
     const { liked, slug, likes_num } = this.props.data;
 
     if (!isAuthenticated) {
-      dispatch(registerPopup());
+      dispatch(stagedPopup('register'));
 
       return;
     }
@@ -110,7 +110,7 @@ class CardProduct extends Component {
               <img
                 className="card-img card-image__loaded"
                 alt={title}
-                src={`https://abbigli.com/thumbs/unsafe/350x${editable ? 350 : 290}/` + (images[0] && images[0].file)}
+                src={`/thumbs/unsafe/350x${editable ? 350 : 290}/` + (images[0] && images[0].file)}
               />
             }
             <div className="tag-card__overlay"></div>
@@ -220,7 +220,7 @@ class CardProduct extends Component {
                 {
                   user.avatar
                     ? <img
-                      src={`https://abbigli.com/thumbs/unsafe/30x30/${user.avatar}`}
+                      src={`/thumbs/unsafe/30x30/${user.avatar}`}
                       alt={user.profile_name ? user.profile_name : 'ID' + user.id}
                     />
                     : <img

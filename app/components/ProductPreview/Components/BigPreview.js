@@ -13,7 +13,7 @@ const BigPreview = (props) => {
     >
       <img
         className="sp-image"
-        src={`https://abbigli.com/thumbs/unsafe/460x460/${src}`}
+        src={`/thumbs/unsafe/460x460/${src}`}
       ></img>
     </div>
   );

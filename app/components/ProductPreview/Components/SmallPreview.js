@@ -19,7 +19,7 @@ const SmallPreview = (props) => {
       <img
         className="sp-thumbnail"
         data-index={index}
-        src={`https://abbigli.com/thumbs/unsafe/100x100/${src}`}
+        src={`/thumbs/unsafe/100x100/${src}`}
         style={{ width: '100%' }}
       />
     </div>

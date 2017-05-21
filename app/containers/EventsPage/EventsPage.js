@@ -12,8 +12,9 @@ import {
   EventCard,
   Loading,
   SelectInput,
-  MobileEventsSearch,
 } from 'components';
+
+import { openPopup, closePopup } from 'ducks/Popup/actions';
 
 import { fetchData as fetchDataEvents } from 'ducks/Events';
 import { API_URL } from 'config';
@@ -37,7 +38,6 @@ class EventsPage extends Component {
       start: null,
       end: null,
       popular: false,
-      openMobileSearch: false,
     };
 
     this.input = null;
@@ -199,6 +199,7 @@ class EventsPage extends Component {
         openMobileSearch: false,
       });
 
+      dispatch(closePopup());
       dispatch(fetchDataEvents(1, false, city, start, end));
     }
   }
@@ -218,17 +219,11 @@ class EventsPage extends Component {
     });
   }
 
-  openMobileModal = () => {
-    this.setState({
-      openMobileSearch: true,
-    });
-  }
+  openMobileModal = () => this.props
+    .dispatch(openPopup('eventSearch', {
+      findEvents: this.mobileSearch,
+    }))
 
-  closeMobileModal = () => {
-    this.setState({
-      openMobileSearch: false,
-    });
-  }
 
   render() {
     const {
@@ -248,14 +243,6 @@ class EventsPage extends Component {
 
     return (
       <div className={wrapperClass}>
-        {
-          this.state.openMobileSearch
-          &&
-          <MobileEventsSearch
-            closePopup={this.closeMobileModal}
-            findEvents={this.mobileSearch}
-          />
-        }
         <CardsWrap legacy>
           <CardsSort>
 

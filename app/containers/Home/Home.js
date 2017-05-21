@@ -17,7 +17,7 @@ import {
 import { fetchData as fetchDataBlogs } from 'ducks/Blogs';
 import { fetchData as fetchDataEvents } from 'ducks/Events';
 import { fetchData as fetchDataProducts } from 'ducks/Products';
-import { registerPopup } from 'ducks/Popup';
+import { stagedPopup } from 'ducks/Auth/authActions';
 import { __t } from './../../i18n/translator';
 
 import './Home.styl';
@@ -39,7 +39,7 @@ class Home extends Component {
   showRegister = () => {
     const { dispatch } = this.props;
 
-    dispatch(registerPopup());
+    dispatch(stagedPopup('register'));
   }
 
   render() {
