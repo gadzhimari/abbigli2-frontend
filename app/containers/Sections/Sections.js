@@ -91,7 +91,7 @@ class Sections extends Component {
                   title={item.profile_name}
                   key={`${item.id}-topautors`}
                 >
-                  <img className="best-author__img" src={`https://abbigli.com/thumbs/unsafe/38x38/${item.avatar}`} />
+                  <img className="best-author__img" src={`/thumbs/unsafe/38x38/${item.avatar}`} />
                 </Link>
                ))
             }

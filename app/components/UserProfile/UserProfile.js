@@ -61,7 +61,7 @@ export default class UserProfile extends Component {
               {
                 avatar
                 && <img className="user-profile__avatar"
-                  src={`https://abbigli.com/thumbs/unsafe/140x140/${avatar}`} />
+                  src={`/thumbs/unsafe/140x140/${avatar}`} />
               }
             </div>
           </div>

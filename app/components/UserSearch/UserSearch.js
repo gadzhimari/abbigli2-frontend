@@ -80,7 +80,7 @@ class UserSearch extends Component {
           {
             item.avatar
               ? <img
-                src={`https://abbigli.com/thumbs/unsafe/70x70/${item.avatar}`}
+                src={`/thumbs/unsafe/70x70/${item.avatar}`}
                 alt={item.profile_name}
               />
               : <img

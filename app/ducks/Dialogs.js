@@ -305,7 +305,7 @@ export function sendPostMessage(sender, post, message, showWants) {
           Price: $${response.post.price}
         </span><br />
           Message: ${message}<br />
-        <img src="https://abbigli.com/thumbs/unsafe/0x196/${response.post.image}" />
+        <img src="/thumbs/unsafe/0x196/${response.post.image}" />
         `;
         sendFormData.append('body', msg);
 

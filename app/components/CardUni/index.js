@@ -88,7 +88,7 @@ class CardUni extends Component {
               &&
               <img
                 className="tile__image"
-                src={'https://abbigli.com/thumbs/unsafe/282x203/' + images[0].file}
+                src={'/thumbs/unsafe/282x203/' + images[0].file}
                 alt={images[0].description}
               />
             }

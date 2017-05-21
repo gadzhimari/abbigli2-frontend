@@ -23,7 +23,7 @@ class AuthorSubscribe extends Component {
         <Link className="author-subscribe__ava" to={`/profile/${id}/`}>
           {
             avatar
-              ? <img className="author-ava" src={`https://abbigli.com/thumbs/unsafe/65x65/${avatar}`} alt={profile_name} />
+              ? <img className="author-ava" src={`/thumbs/unsafe/65x65/${avatar}`} alt={profile_name} />
               : <img className="author-ava" src={`/images/svg/avatar.svg`} alt={profile_name} />
           }
         </Link>

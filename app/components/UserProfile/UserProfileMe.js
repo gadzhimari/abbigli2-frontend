@@ -250,7 +250,7 @@ class UserProfileMe extends Component {
                 &&
                 <img
                   className="user-profile__avatar"
-                  src={`https://abbigli.com/thumbs/unsafe/140x140/${avatar}`}
+                  src={`/thumbs/unsafe/140x140/${avatar}`}
                 />
               }
               <div className="user-profile__avatar-overlay"></div>

@@ -98,12 +98,12 @@ class BlogCard extends Component {
               &&
               <img
                 className="card-img"
-                src={'https://abbigli.com/thumbs/unsafe/360x250/' + data.images[0].file}
+                src={'/thumbs/unsafe/360x250/' + data.images[0].file}
                 alt={data.images[0].description}
               />
             }
             <Link className="blog-card__avatar" to={`/profile/` + data.user.id}>
-              <img src={"https://abbigli.com/thumbs/unsafe/36x36/" + data.user.avatar} alt={data.user.profile_name} />
+              <img src={"/thumbs/unsafe/36x36/" + data.user.avatar} alt={data.user.profile_name} />
             </Link>
           </div>
           <div className="blog-card__name">{data.title}</div>

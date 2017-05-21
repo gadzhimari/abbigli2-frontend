@@ -18,7 +18,7 @@ const MyFollowers = props => {
       <div className="popup-subscriber__avatar">
         {item.avatar
           ? <img
-            src={`https://abbigli.com/thumbs/unsafe/60x60/${item.avatar}`}
+            src={`/thumbs/unsafe/60x60/${item.avatar}`}
             alt={item.profile_name} />
           : <img
             src="/images/svg/avatar.svg"
