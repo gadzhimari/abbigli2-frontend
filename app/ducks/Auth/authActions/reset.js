@@ -31,10 +31,10 @@ const reset = (creds) => {
           phone: user.username,
         }));
 
-        dispatch(openPopup('confirmPopup'), {
+        dispatch(openPopup('confirmPopup', {
           callback: data => dispatch(confirmReset(data)),
           previousPopup: 'resetPopup',
-        });
+        }));
       });
   };
 };
