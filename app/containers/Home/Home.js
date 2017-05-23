@@ -152,8 +152,7 @@ class Home extends Component {
 
         <div className="pre-footer">
           <div className="w-inner">
-
-            <h3>{__t('abbigli.about.header')}</h3>
+            <h1>{__t('abbigli.about.header')}</h1>
             <p>
               {__t('abbigli.about.p1')}
             </p>
