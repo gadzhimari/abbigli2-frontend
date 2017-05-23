@@ -68,7 +68,7 @@ const seoData = {
       "url": "/",
       "seo_title": "Your place to buy and sell all things handmade items",
       "seo_keywords": "handmade, marketplace, crafts, gifts, sell, online, buy, sites, artwork, homemade",
-      "seo_description": "Buy and sell handmade or vintage items, art and supplies on Abbigli, the world's most vibrant handmade marketplace. Share stories through mi"
+      "seo_description": "Handmade fair. Buy and sell vintage goods, handicraft, and materials for handmade. All handicraft goods represented in our shop are made in a single copy."
     },
     {
       "id": 2,
