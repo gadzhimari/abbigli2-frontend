@@ -119,7 +119,7 @@ class PostCreate extends Component {
     const body = {
       title,
       content,
-      price,
+      price: price || null,
       tags,
       type,
       city: selectedCity,
