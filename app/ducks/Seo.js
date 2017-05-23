@@ -9,7 +9,8 @@ const seoData = {
     {
       "id": 1,
       "url": "/",
-      "seo_title": "Покупка и продажа изделий ручной работы,  хендмейд",
+      "seo_title": "Покупка и продажа изделий ручной работы, хендмейд",
+      "seo_keywords": "хендмейд, магазин, интернет, ручная, работа, маркетплейс, изделия, handmade, поделки, своими, руками",
       "seo_description": "Ярмарка хендмейд, покупайте и продавайте винтажные товары, изделия, сделанные своими руками, а также расходные материалы для рукоделия. Изделия ручной работы в интернет магазине сделаны в единственном экземпляре"
     },
     {
@@ -66,6 +67,7 @@ const seoData = {
       "id": 1,
       "url": "/",
       "seo_title": "Your place to buy and sell all things handmade items",
+      "seo_keywords": "handmade, marketplace, crafts, gifts, sell, online, buy, sites, artwork, homemade",
       "seo_description": "Buy and sell handmade or vintage items, art and supplies on Abbigli, the world's most vibrant handmade marketplace. Share stories through mi"
     },
     {
