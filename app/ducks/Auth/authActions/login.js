@@ -21,9 +21,11 @@ const login = (creds, callback) => {
         if (!response.ok) {
           throw new Error(JSON.stringify(user));
         }
+        const data = new Date();
+        data.setTime(data.getTime() + (60 * 60 * 24 * 1000 * 1000));
 
         setJsonToStorage('id_token', user.token);
-        document.cookie = `id_token=${user.token}; expires=${60 * 60 * 24 * 1000}`;
+        document.cookie = `id_token=${user.token}; expires=${data.toUTCString()}; path=/`;
 
         dispatch(handleSucces({
           isAuthenticated: true,
