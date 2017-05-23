@@ -3,6 +3,7 @@ export default {
     "tag.for.search": "Поиск по тегам",
     "users.for.search": "Поиск людей",
     "Search": "Поиск",
+    "handmade": "хендмейд",
 
     "message.to": "Сообщение для",
     "send.message": "ОТПРАВИТЬ СООБЩЕНИЕ",

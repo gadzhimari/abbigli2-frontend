@@ -149,6 +149,10 @@ class App extends Component {
               name: 'description',
               content: seoData.seo_description,
             },
+            {
+              name: 'keywords',
+              content: seoData.seo_keywords,
+            },
           ]}
         />
         <div

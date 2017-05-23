@@ -62,7 +62,7 @@ class SearchPopup extends Component {
     return (
       <Popup
         closePopup={closePopup}
-        title={__t('Delete Popup')}
+        title={__t('Search')}
       >
         <div className="mobile-search__switcher">
           <div

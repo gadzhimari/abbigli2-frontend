@@ -18,7 +18,7 @@ class DeleteMessagePopup extends Component {
     return (
       <Popup
         closePopup={closePopup}
-        title={__t('Delete Popup')}
+        title={__t('Delete dialog')}
       >
         <p>
           {__t('Are you sure you want to remove dialogue with')}
