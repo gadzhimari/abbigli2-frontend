@@ -23,7 +23,7 @@ const login = (creds, callback) => {
         }
 
         setJsonToStorage('id_token', user.token);
-        document.cookie = `id_token=${user.token}`;
+        document.cookie = `id_token=${user.token}; expires=${60 * 60 * 24 * 1000}`;
 
         dispatch(handleSucces({
           isAuthenticated: true,

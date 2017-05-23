@@ -14,7 +14,9 @@ router.get('/oauth/:social', (req, res) => {
   fetch(`${DOMAIN_URL}api/social/${req.params.social}/`, config)
     .then(result => result.json())
     .then(response => res
-      .cookie('id_token', response.token)
+      .cookie('id_token', response.token, {
+        maxAge: (1000 * 3600 * 24 * 1000),
+      })
       .redirect('/')
     );
 });
