@@ -23,7 +23,7 @@ const loaderDecorator = WrappedComponent => class extends Component {
     dispatch(fetchDataComments(routeParams.slug));
   }
 
-  componentWillUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     const { routes, dispatch, routeParams } = this.props;
 
     if (prevProps.routes !== routes) {
