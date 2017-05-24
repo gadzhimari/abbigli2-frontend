@@ -8,7 +8,7 @@ COPY package.json /app/
 RUN npm i
 
 COPY . .
-COPY ${APP_ENV}.env .env
+RUN cp ./${APP_ENV}.env ./.env
 RUN npm run build
 
 EXPOSE 3000
