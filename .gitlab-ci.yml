@@ -22,7 +22,7 @@ build_ru:
 build_com:
   stage: build
   script:
-  - docker build --build-arg APP_ENV=prod.env -t $CONTAINER_COM_IMAGE .
+  - docker build --build-arg APP_ENV=prod -t $CONTAINER_COM_IMAGE .
   - docker push $CONTAINER_COM_IMAGE
   only:
   - master
