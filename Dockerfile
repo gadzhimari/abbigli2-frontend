@@ -9,8 +9,7 @@ RUN npm i
 
 COPY . .
 COPY ${APP_ENV}.env .env
-RUN npm run clean
-RUN webpack -p
+RUN npm run build
 
 EXPOSE 3000
 CMD [ "npm", "start" ]
