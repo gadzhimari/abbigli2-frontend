@@ -1,7 +1,7 @@
 FROM node:alpine
 LABEL maintainer chernyakov@decanet.ru
 
-ENV APP_ENV ${APP_ENV}
+ARG APP_ENV
 
 WORKDIR /app
 COPY package.json /app/
