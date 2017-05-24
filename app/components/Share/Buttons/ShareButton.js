@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import { Icons } from 'components';
+import { SocialIcons } from 'components/Icons';
 
 const ShareButton = ({
   link,
@@ -14,7 +14,7 @@ const ShareButton = ({
     rel="noopener noreferrer"
   >
     {
-      Icons.SocialIcons[provider]()
+      SocialIcons[provider]()
     }
   </a>
 );
