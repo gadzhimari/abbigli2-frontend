@@ -115,9 +115,6 @@ class PostCreate extends Component {
     const selectedCity = city
       ? city.id
       : '';
-    const newPrice = price
-      ? price
-      : 0;
 
     if (token) {
       config = {
@@ -129,7 +126,7 @@ class PostCreate extends Component {
         body: JSON.stringify({
           title,
           content,
-          price: newPrice,
+          price,
           tags,
           type,
           city: selectedCity,
