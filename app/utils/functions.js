@@ -90,3 +90,15 @@ export function debounce(callback, wait, context = this) {
     timeout = setTimeout(later, wait);
   };
 }
+
+export const omit = (obj, values) => {
+  const newObj = {};
+
+  Object.keys(obj).forEach((key) => {
+    if (!values.includes(key)) {
+      newObj[key] = obj[key];
+    }
+  });
+
+  return newObj;
+};
