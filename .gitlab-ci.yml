@@ -39,7 +39,7 @@ deploy_prod_ru:
   script:
   - ssh -t abbigli@abbigli.ru -p 811 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/deploy && docker-compose pull --ignore-pull-failures"
   - ssh -t abbigli@abbigli.ru -p 811 "docker exec -i nginx touch /etc/nginx/maintenance.front"
-  - ssh -t abbigli@abbigli.ru -p 811 "cd ~/deploy && docker-compose up --no-deps -d app-frontend && docker exec -i app-frontend ash -c 'rm -rf /public/* && cp -r /app/public/* /public/'"
+  - ssh -t abbigli@abbigli.ru -p 811 "cd ~/deploy && docker-compose up --no-deps -d app-frontend && docker exec -i app-frontend ash -c 'cp -r /app/public/* /public/'"
   - ssh -t abbigli@abbigli.ru -p 811 "docker exec -i nginx rm /etc/nginx/maintenance.front"
   environment:
     name: production_com
@@ -60,7 +60,7 @@ deploy_prod_com:
   script:
   - ssh -t abbigli@us2.abbigli.com -p 655 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/deploy && docker-compose pull --ignore-pull-failures"
   - ssh -t abbigli@us2.abbigli.com -p 655 "docker exec -i nginx touch /etc/nginx/maintenance.front"
-  - ssh -t abbigli@us2.abbigli.com -p 655 "cd ~/deploy && docker-compose up --no-deps -d app-frontend && docker exec -i app-frontend ash -c 'rm -rf /public/* && cp -r /app/public/* /public/'"
+  - ssh -t abbigli@us2.abbigli.com -p 655 "cd ~/deploy && docker-compose up --no-deps -d app-frontend && docker exec -i app-frontend ash -c 'cp -r /app/public/* /public/'"
   - ssh -t abbigli@us2.abbigli.com -p 655 "docker exec -i nginx rm /etc/nginx/maintenance.front"
   environment:
     name: production_com
