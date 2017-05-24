@@ -8,7 +8,9 @@ import { setMe } from 'ducks/Auth';
 import { __t } from './../../i18n/translator';
 import { getJsonFromStorage } from 'utils/functions';
 
-import { Link, SelectInput, Icons } from 'components';
+import { Link, SelectInput } from 'components';
+import { SocialIcons } from 'components/Icons';
+
 
 class UserProfileMe extends Component {
   constructor(props) {
@@ -580,7 +582,7 @@ class UserProfileMe extends Component {
                 &&
                 <div className="input-profile-social">
                   <a className="social-network facebook" href={fbAcc}>
-                    {Icons.SocialIcons.facebook()}
+                    {SocialIcons.facebook()}
                   </a>
                   <input
                     className="input-profile"
@@ -605,7 +607,7 @@ class UserProfileMe extends Component {
                 &&
                 <div className="input-profile-social">
                   <a className="social-network pinterest" href={pinterestAcc}>
-                    {Icons.SocialIcons.pinterest()}
+                    {SocialIcons.pinterest()}
                   </a>
                   <input
                     className="input-profile"
@@ -630,7 +632,7 @@ class UserProfileMe extends Component {
                 &&
                 <div className="input-profile-social">
                   <a className="social-network google-plus" href={googleAcc}>
-                    {Icons.SocialIcons.google()}
+                    {SocialIcons.google()}
                   </a>
                   <input
                     className="input-profile"
@@ -659,7 +661,7 @@ class UserProfileMe extends Component {
                     className="social-network odnoklassniki"
                     href={okAcc}
                   >
-                    {Icons.SocialIcons.odnoklassniki()}
+                    {SocialIcons.odnoklassniki()}
                   </a>
                   <input
                     className="input-profile"
@@ -680,7 +682,7 @@ class UserProfileMe extends Component {
                     className="social-network vkontakte"
                     href={vkAcc}
                   >
-                    {Icons.SocialIcons.vk()}
+                    {SocialIcons.vk()}
                   </a>
                   <input
                     className="input-profile"

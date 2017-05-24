@@ -112,6 +112,7 @@ class ProfileMyabbigli extends Component {
                 delete={() => {
                   dispatch(removePost(item.slug));
                 }}
+                full
               />
             ))
           }

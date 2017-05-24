@@ -5,6 +5,8 @@ import { API_URL } from 'config';
 
 import { __t } from '../../../i18n/translator';
 
+import '../redactor/redactor.css';
+
 const propTypes = {
   onChange: PropTypes.func,
   type: PropTypes.number,
@@ -77,7 +79,13 @@ class Textarea extends Component {
     });
 
     jQuery('#content').on('change.callback.redactor', function () {
-      onChange(this.code.get());
+      const eventProxy = {
+        target: {
+          value: this.code.get(),
+          name: 'content',
+        },
+      };
+      onChange(eventProxy);
     });
   }
 

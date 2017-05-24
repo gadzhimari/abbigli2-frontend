@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import { Icons } from 'components';
+import { SocialIcons } from 'components/Icons';
 
 const SocialButton = ({
   socialLink,
@@ -15,7 +15,7 @@ const SocialButton = ({
   >
     <div className="icon-wrap">
       {
-        Icons.SocialIcons[provider]()
+        SocialIcons[provider]()
       }
     </div>
     { children }
