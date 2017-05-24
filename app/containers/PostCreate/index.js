@@ -116,25 +116,30 @@ class PostCreate extends Component {
       ? city.id
       : '';
 
+    const body = {
+      title,
+      content,
+      price,
+      tags,
+      type,
+      city: selectedCity,
+      sections,
+      images: uploadedFiles.map((item) => (item.id)),
+      date_end: dayTo || null,
+    };
+
+    if (dayFrom) {
+      body.date_start = dayFrom;
+    }
+
     if (token) {
       config = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `JWT ${token}`
+          Authorization: `JWT ${token}`,
         },
-        body: JSON.stringify({
-          title,
-          content,
-          price,
-          tags,
-          type,
-          city: selectedCity,
-          sections,
-          images: uploadedFiles.map((item) => (item.id)),
-          date_start: dayFrom || null,
-          date_end: dayTo || null,
-        }),
+        body: JSON.stringify(body),
       };
     } else {
       return;
