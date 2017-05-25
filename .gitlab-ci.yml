@@ -42,8 +42,8 @@ deploy_prod_ru:
   - ssh -t abbigli@abbigli.ru -p 811 "cd ~/deploy && docker-compose up --no-deps -d app-frontend && docker exec -i app-frontend ash -c 'cp -r /app/public/* /public/'"
   - ssh -t abbigli@abbigli.ru -p 811 "docker exec -i nginx rm /etc/nginx/maintenance.front"
   environment:
-    name: production_com
-    url: https://abbigli.com
+    name: production_ru
+    url: https://abbigli.ru
   when: manual
   only:
   - master
