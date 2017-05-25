@@ -45,8 +45,8 @@ class PostCreate extends Component {
       tags: '',
       title: '',
       city: null,
-      dayFrom: '',
-      dayTo: '',
+      date_start: '',
+      date_end: '',
       value: null,
       firefoxBugStop: false,
       errors: {},
@@ -99,38 +99,24 @@ class PostCreate extends Component {
 
   add = () => {
     const token = getJsonFromStorage('id_token');
+    const keys = {
+      1: ['price', 'title', 'content', 'tags', 'sections'],
+      3: ['title', 'content', 'tags', 'sections', 'date_end', 'date_start', 'city'],
+      4: ['title', 'content', 'tags', 'sections'],
+    };
     let config = {};
-    const {
-      title,
-      content,
-      price,
-      tags,
-      city,
-      type,
-      sections,
-      uploadedFiles,
-      dayFrom,
-      dayTo,
-    } = this.state;
-    const selectedCity = city
-      ? city.id
-      : '';
+    const { type } = this.state;
 
     const body = {
-      title,
-      content,
-      price: price || null,
-      tags,
+      images: this.state.uploadedFiles.map(item => (item.id)),
       type,
-      city: selectedCity,
-      sections,
-      images: uploadedFiles.map((item) => (item.id)),
-      date_end: dayTo || null,
     };
 
-    if (dayFrom) {
-      body.date_start = dayFrom;
-    }
+    keys[type].forEach((key) => {
+      if (this.state[key]) {
+        body[key] = this.state[key];
+      }
+    });
 
     if (token) {
       config = {
@@ -169,7 +155,7 @@ class PostCreate extends Component {
 
   onChangeCity = (value) => {
     this.setState({
-      city: value,
+      city: value.id,
     });
   }
 
@@ -333,9 +319,9 @@ class PostCreate extends Component {
               (<div className="input-group">
                 <ErrorInput
                   wrapperClass="input-wrap input-date"
-                  value={this.state.dayFrom}
+                  value={this.state.date_start}
                   onChange={this.changeValue}
-                  name="dayFrom"
+                  name="date_start"
                   placeholder={__t('Start.date')}
                   errors={errors.date_start}
                   component={DateInput}
@@ -343,9 +329,9 @@ class PostCreate extends Component {
                 />
                 <ErrorInput
                   wrapperClass="input-wrap input-date"
-                  value={this.state.dayTo}
+                  value={this.state.date_end}
                   onChange={this.changeValue}
-                  name="dayTo"
+                  name="date_end"
                   placeholder={__t('End.date')}
                   errors={errors.date_end}
                   component={DateInput}

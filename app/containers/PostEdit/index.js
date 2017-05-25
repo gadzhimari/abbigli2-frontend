@@ -48,8 +48,8 @@ class PostEdit extends Component {
       tags: '',
       title: '',
       city: null,
-      dayFrom: '',
-      dayTo: '',
+      date_start: '',
+      date_end: '',
       value: null,
       firefoxBugStop: false,
       isFetching: true,
@@ -137,21 +137,30 @@ class PostEdit extends Component {
   add = () => {
     const { oldFiles, uploadedFiles } = this.state;
     const token = getJsonFromStorage('id_token');
+    const keys = {
+      1: ['price', 'title', 'content', 'tags', 'sections'],
+      3: ['title', 'content', 'tags', 'sections', 'date_end', 'date_start'],
+      4: ['title', 'content', 'tags', 'sections'],
+    };
     let config = {};
-    let city;
     const files = [...uploadedFiles, ...oldFiles];
+    const { type } = this.state;
+    const body = {
+      images: files.map(item => (item.id)),
+      type,
+    };
 
     if (this.state.currentCity && !this.state.city) {
-      city = this.state.currentCity.id;
+      body.city = this.state.currentCity.id;
     } else if (this.state.city) {
-      city = this.state.city.id;
-    } else {
-      city = '';
+      body.city = this.state.city.id;
     }
 
-    const newPrice = this.state.price
-      ? this.state.price
-      : 0;
+    keys[type].forEach((key) => {
+      if (this.state[key]) {
+        body[key] = this.state[key];
+      }
+    });
 
     if (token) {
       config = {
@@ -160,16 +169,7 @@ class PostEdit extends Component {
           'Content-Type': 'application/json',
           'Authorization': `JWT ${token}`,
         },
-        body: JSON.stringify({
-          title: this.state.title,
-          content: this.state.content,
-          price: newPrice,
-          tags: this.state.tags,
-          type: this.state.type,
-          city,
-          sections: this.state.sections,
-          images: files.map((item) => (item.id)),
-        }),
+        body: JSON.stringify(body),
       };
     } else {
       return;
@@ -377,17 +377,25 @@ class PostEdit extends Component {
               this.state.type === 3
               &&
               (<div className="input-group">
-                <DateInput
-                  value={this.state.dayFrom}
+                <ErrorInput
+                  wrapperClass="input-wrap input-date"
+                  value={this.state.date_start}
                   onChange={this.changeValue}
-                  name="dayFrom"
+                  name="date_start"
                   placeholder={__t('Start.date')}
+                  errors={errors.date_start}
+                  component={DateInput}
+                  className="input"
                 />
-                <DateInput
-                  value={this.state.dayTo}
+                <ErrorInput
+                  wrapperClass="input-wrap input-date"
+                  value={this.state.date_end}
                   onChange={this.changeValue}
-                  name="dayTo"
+                  name="date_end"
                   placeholder={__t('End.date')}
+                  errors={errors.date_end}
+                  component={DateInput}
+                  className="input"
                 />
               </div>)
 
