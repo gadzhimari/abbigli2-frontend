@@ -30,12 +30,21 @@ class App extends Component {
     children: PropTypes.any.isRequired,
   };
 
-  static fetchData = ({ store, token }, nextState, replace, callback) => {
-    if (!token) {
-      return callback();
+  static fetchData = ({ store, token, shouldPreload }, nextState, replace, callback) => {
+    if (!shouldPreload) return callback();
+
+    const promises = [];
+    const child = nextState.routes[nextState.routes.length - 1].component;
+
+    if (token) {
+      promises.push(store.dispatch(fetchMe(token)));
     }
 
-    return store.dispatch(fetchMe(token))
+    if (child.fetchData) {
+      promises.push(child.fetchData(store.dispatch, nextState.params, token));
+    }
+
+    return Promise.all(promises)
       .then(() => callback());
   }
 

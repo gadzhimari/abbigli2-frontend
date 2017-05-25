@@ -2,15 +2,15 @@
 import { API_URL } from 'config';
 import { setJsonToStorage, getJsonFromStorage } from 'utils/functions';
 
-const ENDPOINT = API_URL+'posts/:slug/comments/';
+const ENDPOINT = API_URL + 'posts/:slug/comments/';
 
 // Actions
-const REQUEST   = 'abbigli/Comments/REQUEST';
+const REQUEST = 'abbigli/Comments/REQUEST';
 const SET = 'abbigli/Comments/SET';
 const PREPEND = 'abbigli/Comments/PREPEND';
 
 // Reducer
-export default function(state = {
+export default function (state = {
   isFetching: false,
   items: []
 }, action = {}) {
@@ -51,7 +51,7 @@ export function setData(responseData) {
 }
 
 export function fetchData(slug) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(requestData());
     return fetch(ENDPOINT.replace(':slug', slug))
       .then(res => res.json())
@@ -78,14 +78,12 @@ export function sendComment(data) {
     }),
   };
 
-  return dispatch => {
-    return fetch(ENDPOINT.replace(':slug', data.slug), config)
-      .then(res => res.json())
-      .then((responseData) => {
-        if (responseData) {
-          dispatch(fetchData(data.slug));
-        }
-      }).catch(err => console.log("Error: ", err))
-  }
+  return dispatch => fetch(ENDPOINT.replace(':slug', data.slug), config)
+    .then(res => res.json())
+    .then((responseData) => {
+      if (responseData) {
+        dispatch(fetchData(data.slug));
+      }
+    }).catch(err => console.log("Error: ", err))
 }
 

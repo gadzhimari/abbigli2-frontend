@@ -1,26 +1,31 @@
 import React, { Component, PropTypes } from 'react';
-import {
-  Gallery,
-} from 'components';
-
-import {
-  NotFound,
-} from 'containers';
-
-import ProductView from './Components/BlogView';
-import loaderDecorator from './Components/loaderDecorator';
-
 import Helmet from 'react-helmet';
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
+
+import { NotFound } from 'containers';
+import { Gallery } from 'components';
+import postLoader from 'App/HOC/postLoader';
+import ProductView from './Components/BlogView';
+
 import { sendComment } from 'ducks/Comments';
 import BlogsPopular from './BlogsPopular';
+
+import { fetchData as fetchBlogs } from 'ducks/BlogPost';
+import { fetchData as fetchDataBlogs } from 'ducks/Blogs';
+import { fetchData as fetchDataComments } from 'ducks/Comments';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 
 class BlogPage extends Component {
-  sendComment = comment => {
+  static fetchData = (dispatch, params, token) => Promise.all([
+    dispatch(fetchBlogs(params.slug, 4, token)),
+    dispatch(fetchDataBlogs(1, '', null, token)),
+    dispatch(fetchDataComments(params.slug)),
+  ])
+
+  sendComment = (comment) => {
     const { dispatch } = this.props;
 
     dispatch(sendComment(comment));
@@ -44,13 +49,6 @@ class BlogPage extends Component {
   }
 
   render() {
-    const {
-      title,
-      images,
-      seo_title,
-      seo_description,
-    } = this.props.data;
-
     const commentsList = this.props.itemsComments;
 
     const {
@@ -67,10 +65,13 @@ class BlogPage extends Component {
     return (
       <div className="container-fluid blog-detail-page">
         <Helmet
-          title={seo_title ? seo_title : title}
+          title={data.seo_title ? data.seo_title : data.title}
           meta={[
-            { "name": "description", "content": seo_description },
-            (images && images.length) ? { property: 'og:image', content: images[0].file } : {},
+            { name: 'description', content: data.seo_description },
+            { property: 'og:title', content: data.seo_title || data.title },
+            { property: 'og:description', content: data.seo_description },
+            { property: 'og:', content: data.seo_description },
+            { property: 'og:image', content: data.images[0].file },
           ]}
         />
         {
@@ -116,10 +117,10 @@ function mapStateToProps(state) {
     data,
     isDefined,
   } = (state.BlogPost) || {
-    isFetching: true,
-    data: {},
-    isDefined: true,
-  };
+      isFetching: true,
+      data: {},
+      isDefined: true,
+    };
 
   const blogs = (state.Blogs) || { isFetching: true, items: [] };
   const authors = (state.ProfilePosts) || { isFetching: true, items: [] };
@@ -142,4 +143,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(loaderDecorator(BlogPage));
+export default connect(mapStateToProps)(postLoader(BlogPage));

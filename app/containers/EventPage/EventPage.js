@@ -9,18 +9,25 @@ import {
 } from 'containers';
 
 import EventView from './Components/EventView';
-import loaderDecorator from './Components/loaderDecorator';
+import postLoader from 'App/HOC/postLoader';
 
 import Helmet from 'react-helmet';
 import { connect } from 'preact-redux';
 import { sendComment } from 'ducks/Comments';
 import EventsPopular from './EventsPopular';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { fetchData as fetchEvents } from 'ducks/BlogPost';
+import { fetchData as fetchDataEvents } from 'ducks/Events';
+import { fetchData as fetchDataComments } from 'ducks/Comments';
 
 class EventPage extends Component {
-  sendComment = comment => {
+  static fetchData = (dispatch, params, token) => Promise.all([
+    dispatch(fetchEvents(params.slug, 3, token)),
+    dispatch(fetchDataEvents(1, null, null, null, null, token)),
+    dispatch(fetchDataComments(params.slug)),
+  ])
+
+  sendComment = (comment) => {
     const { dispatch } = this.props;
 
     dispatch(sendComment(comment));
@@ -44,13 +51,6 @@ class EventPage extends Component {
   }
 
   render() {
-    const {
-      title,
-      images,
-      seo_title,
-      seo_description,
-    } = this.props.data;
-
     const commentsList = this.props.itemsComments;
 
     const {
@@ -64,15 +64,16 @@ class EventPage extends Component {
 
     return (
       <div className="container-fluid event-detail-page" id="page-container">
-
         <Helmet
-          title={seo_title ? seo_title : title}
+          title={data.seo_title ? data.seo_title : data.title}
           meta={[
-            { "name": "description", "content": seo_description },
-            (images && images.length) ? { property: 'og:image', content: images[0].file } : {},
+            { name: 'description', content: data.seo_description },
+            { property: 'og:title', content: data.seo_title || data.title },
+            { property: 'og:description', content: data.seo_description },
+            { property: 'og:', content: data.seo_description },
+            { property: 'og:image', content: data.images[0].file },
           ]}
         />
-
         {
           isDefined
             ? (<div>
@@ -131,4 +132,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(loaderDecorator(EventPage));
+export default connect(mapStateToProps)(postLoader(EventPage));

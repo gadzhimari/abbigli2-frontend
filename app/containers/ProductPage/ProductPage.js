@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import Helmet from 'react-helmet';
+import { connect } from 'react-redux';
 
 import {
   CardsWrap,
@@ -10,20 +12,25 @@ import {
   NotFound,
 } from 'containers';
 
-import loaderDecorator from './Components/loaderDecorator';
+import postLoader from 'App/HOC/postLoader';
 import ProductView from './Components/ProductView';
 
-import { connect } from 'preact-redux';
-import Helmet from 'react-helmet';
 import { sendComment } from 'ducks/Comments';
 import { sendPostMessage } from 'ducks/Dialogs';
-import { wantsPopup } from 'ducks/Popup';
+
+import { fetchData as fetchDataComments } from 'ducks/Comments';
+import { fetchData } from 'ducks/BlogPost';
 
 import { stagedPopup } from 'ducks/Auth/authActions';
 
 import { __t } from './../../i18n/translator';
 
 class ProductPage extends Component {
+  static fetchData = (dispatch, params, token) => Promise.all([
+    dispatch(fetchData(params.slug, 1, token)),
+    dispatch(fetchDataComments(params.slug)),
+  ]);
+
   constructor(props) {
     super(props);
     this.state = {
@@ -122,12 +129,13 @@ class ProductPage extends Component {
     return (
       <div className="container-fluid product-page">
         <Helmet
-          title={seo_title ? seo_title : title}
+          title={data.seo_title ? data.seo_title : data.title}
           meta={[
-            { name: 'description', content: seo_description },
-            { property: 'og:title', content: seo_title },
-            { property: 'og:description', content: seo_description },
-            { property: 'og:image', content: images[0].file },
+            { name: 'description', content: data.seo_description },
+            { property: 'og:title', content: data.seo_title || data.title },
+            { property: 'og:description', content: data.seo_description },
+            { property: 'og:', content: data.seo_description },
+            { property: 'og:image', content: data.images[0].file },
           ]}
         />
         {
@@ -183,10 +191,10 @@ function mapStateToProps(state) {
     data,
     isDefined,
   } = (state.BlogPost) || {
-    isFetching: true,
-    data: {},
-    isDefined: true,
-  };
+      isFetching: true,
+      data: {},
+      isDefined: true,
+    };
   const { showWants } = state.Popup;
   const comments = (state.Comments) || { isFetching: true, items: [] };
   const posts = (state.ProfilePosts) || { isFetching: true, items: [] };
@@ -213,4 +221,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(loaderDecorator(ProductPage));
+export default connect(mapStateToProps)(postLoader(ProductPage));
