@@ -16,7 +16,7 @@ import { connect } from 'preact-redux';
 import { sendComment } from 'ducks/Comments';
 import EventsPopular from './EventsPopular';
 
-import { fetchData as fetchEvents } from 'ducks/BlogPost';
+import { fetchData as fetchEvents, resetData } from 'ducks/BlogPost';
 import { fetchData as fetchDataEvents } from 'ducks/Events';
 import { fetchData as fetchDataComments } from 'ducks/Comments';
 
@@ -26,6 +26,10 @@ class EventPage extends Component {
     dispatch(fetchDataEvents(1, null, null, null, null, token)),
     dispatch(fetchDataComments(params.slug)),
   ])
+
+  static onUnmount = (dispatch) => {
+    dispatch(resetData());
+  }
 
   sendComment = (comment) => {
     const { dispatch } = this.props;

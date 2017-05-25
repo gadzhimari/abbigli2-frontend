@@ -10,7 +10,7 @@ import ProductView from './Components/BlogView';
 import { sendComment } from 'ducks/Comments';
 import BlogsPopular from './BlogsPopular';
 
-import { fetchData as fetchBlogs } from 'ducks/BlogPost';
+import { fetchData as fetchBlogs, resetData } from 'ducks/BlogPost';
 import { fetchData as fetchDataBlogs } from 'ducks/Blogs';
 import { fetchData as fetchDataComments } from 'ducks/Comments';
 
@@ -24,6 +24,10 @@ class BlogPage extends Component {
     dispatch(fetchDataBlogs(1, '', null, token)),
     dispatch(fetchDataComments(params.slug)),
   ])
+
+  static onUnmount = (dispatch) => {
+    dispatch(resetData());
+  }
 
   sendComment = (comment) => {
     const { dispatch } = this.props;
