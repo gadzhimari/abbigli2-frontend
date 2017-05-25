@@ -112,6 +112,7 @@ class SpecificPostsPage extends Component {
                 legacy
                 dispatch={dispatch}
                 isAuthenticated={isAuthenticated}
+                priceTemplate={this.props.priceTemplate}
               />
             ))}
           </InfiniteScroll>
@@ -151,6 +152,7 @@ function mapStateToProps(state) {
     itemsPosts: blogs.items,
     isFetchingPosts: blogs.isFetching,
     isAuthenticated: auth.isAuthenticated,
+    priceTemplate: state.Settings.data.CURRENCY,
   };
 }
 
