@@ -83,7 +83,7 @@ const metriks = {
 
 module.exports = (req, res) => {
   const store = configureStore();
-  const renderRoutes = routes(store, req.cookies.id_token);
+  const renderRoutes = routes(store, req.cookies.id_token, true);
 
   match({ routes: renderRoutes, location: req.newPath || req.url }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {

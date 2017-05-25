@@ -67,8 +67,8 @@ export function appendData(responseData, page) {
   return { type: APPEND, data: responseData, page };
 }
 
-export function fetchData(page = 1, filter = false, city = null, start = null, end = null) {
-  const token = getJsonFromStorage('id_token') || null;
+export function fetchData(page = 1, filter = false, city = null, start = null, end = null, tokenID) {
+  const token = tokenID || getJsonFromStorage('id_token') || null;
   const config = { headers: {} };
 
   const cityQuery = city

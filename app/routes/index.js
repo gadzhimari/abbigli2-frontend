@@ -37,10 +37,11 @@ if (IS_HOT_DEVELOPMENT) {
 }
 
 
-const routes = (store, token) => {
+const routes = (store, token, shouldPreload) => {
   const componentFn = (Component, value) => (nextState, replace, callback) => Component[value]({
     store,
     token,
+    shouldPreload,
   }, nextState, replace, callback);
 
   const handleNoAuth = (nextState, replace) => {

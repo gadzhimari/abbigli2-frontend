@@ -29,7 +29,6 @@ export default function (state = initialState, action = {}) {
     case REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
-        data: {},
         isDefined: true,
       });
     case ERROR_404:
@@ -89,8 +88,8 @@ export function setNewFollowStatus() {
   };
 }
 
-export function fetchData(slug, type = 4) {
-  const token = getJsonFromStorage('id_token');
+export function fetchData(slug, type = 4, tokenID) {
+  const token = tokenID || getJsonFromStorage('id_token');
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -101,7 +100,7 @@ export function fetchData(slug, type = 4) {
     config.headers.Authorization = `JWT ${token}`;
   }
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch(requestData());
 
     return fetch(`${API_URL}posts/${slug}/?type=${type}`, config)
@@ -115,14 +114,14 @@ export function fetchData(slug, type = 4) {
       .then((responseData) => {
         if (responseData) {
           dispatch(setData(responseData));
-          dispatch(fetchDataAuthors({
+          return dispatch(fetchDataAuthors({
             type: 'posts',
             excludeId: responseData.id,
             profileId: responseData.user.id,
           }));
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.message === '404') {
           dispatch(setNotFound());
         }

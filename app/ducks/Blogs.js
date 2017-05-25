@@ -71,8 +71,8 @@ export function appendData(responseData, page) {
   return { type: APPEND, data: responseData, page };
 }
 
-export function fetchData(page = 1, request = '', popular = null) {
-  const token = getJsonFromStorage('id_token') || null;
+export function fetchData(page = 1, request = '', popular = null, tokenID) {
+  const token = tokenID || getJsonFromStorage('id_token') || null;
   const config = { headers: {} };
 
   const filter = popular
