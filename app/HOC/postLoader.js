@@ -33,7 +33,7 @@ const postLoader = WrappedComponent => class extends Component {
 
   componentWillUnmount() {
     if (WrappedComponent.onUnmount) {
-      WrappedComponent.onUnmount();
+      WrappedComponent.onUnmount(this.props.dispatch);
     }
   }
 

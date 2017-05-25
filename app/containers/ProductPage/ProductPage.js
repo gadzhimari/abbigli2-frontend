@@ -19,7 +19,7 @@ import { sendComment } from 'ducks/Comments';
 import { sendPostMessage } from 'ducks/Dialogs';
 
 import { fetchData as fetchDataComments } from 'ducks/Comments';
-import { fetchData } from 'ducks/BlogPost';
+import { fetchData, resetData } from 'ducks/BlogPost';
 
 import { stagedPopup } from 'ducks/Auth/authActions';
 
@@ -30,6 +30,10 @@ class ProductPage extends Component {
     dispatch(fetchData(params.slug, 1, token)),
     dispatch(fetchDataComments(params.slug)),
   ]);
+
+  static onUnmount = (dispatch) => {
+    dispatch(resetData());
+  }
 
   constructor(props) {
     super(props);
