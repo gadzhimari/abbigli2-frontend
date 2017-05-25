@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cp prod.env .env && npm run clean && webpack -p",
-    "build-ru": "cp prod-ru.env .env && npm run clean && webpack -p",
+    "build": "npm run clean && webpack -p",
     "clean": "rimraf ./public/assets",
     "development": "cp dev.env .env && npm run clean && npm-run-all --parallel devserver nodemon",
     "devserver": "webpack-dev-server",
