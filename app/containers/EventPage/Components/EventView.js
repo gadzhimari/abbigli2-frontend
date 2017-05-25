@@ -14,7 +14,7 @@ import { location as lang } from 'config';
 
 import { __t } from '../../../i18n/translator';
 
-const EventView = props => {
+const EventView = (props) => {
   const {
     isFetchingEvents,
     itemsEvents,
@@ -123,7 +123,7 @@ const EventView = props => {
             {
               data.tags
               &&
-              data.tags.map(tag => (<a className="tag-btn event-tag" href={`/tags/${tag}/`}>#{tag}</a>))
+              data.tags.map((tag, idx) => (<a key={idx} className="tag-btn event-tag" href={`/tags/${tag}/`}>#{tag}</a>))
             }
           </div>
           <div className="sidebar__section">
@@ -136,7 +136,7 @@ const EventView = props => {
               &&
               itemsEvents
                 .slice(0, 8)
-                .map(item => (<SidebarItem data={item}></SidebarItem>))
+                .map((item, idx) => (<SidebarItem key={idx} data={item}></SidebarItem>))
             }
 
             <Loading loading={isFetchingEvents} />
