@@ -94,6 +94,7 @@ class Textarea extends Component {
       <div>
         <textarea
           id="content"
+          value={this.props.value}
         />
       </div>
     );

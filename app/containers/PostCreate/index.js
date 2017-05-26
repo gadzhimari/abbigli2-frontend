@@ -377,6 +377,7 @@ class PostCreate extends Component {
               <div style={this.state.type === 4 ? {} : { display: 'none' }}>
                 <Textarea
                   onChange={this.changeValue}
+                  value={this.state.content}
                 />
               </div>
             </div>

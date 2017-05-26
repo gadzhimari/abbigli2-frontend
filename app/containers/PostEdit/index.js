@@ -443,7 +443,7 @@ class PostEdit extends Component {
             >
               <Textarea
                 value={this.state.content}
-                onChange={this.onChangeContent}
+                onChange={this.changeValue}
               ></Textarea>
             </div>
             <ErrorInput
