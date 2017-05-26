@@ -72,7 +72,13 @@ class Textarea extends Component {
     });
 
     jQuery('#content').on('change.callback.redactor', function () {
-      onChange(this.code.get());
+      const eventProxy = {
+        target: {
+          value: this.code.get(),
+          name: 'content',
+        },
+      };
+      onChange(eventProxy);
     });
   }
 
