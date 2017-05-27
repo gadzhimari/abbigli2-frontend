@@ -8,7 +8,7 @@ const SET = 'abbigli/SubSections/SET';
 const APPEND = 'abbigli/SubSections/APPEND';
 
 const initialState = {
-  isFetching: false,
+  isFetching: true,
   isFetchingMore: false,
   data: null,
   next: null,
