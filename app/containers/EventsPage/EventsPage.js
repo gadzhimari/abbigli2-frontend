@@ -252,8 +252,8 @@ class EventsPage extends Component {
                   <path d="M29,36H3c-1.657,0-3-1.344-3-3V7c0-1.656,1.343-3,3-3h1V0h4v4h16V0h4 v4h1c1.657,0,3,1.343,3,3v26C32,34.656,30.657,36,29,36z M29,14H3v19h26V14z M26,30h-8v-8h8V30z"/>
                 </svg>
               </div>
-              {__t('events')}
             </div>
+            {__t('events')}
             <a
               className={`cards-sort__item ${popular ? '' : 'cards-sort__item--active'}`}
               onClick={() => this.setFilter(false)}
@@ -353,13 +353,6 @@ class EventsPage extends Component {
                     </div>
                   }
                 </div>
-                <button
-                  className="search-submit-button"
-                  type="button"
-                  onClick={this.search}
-                >
-                  {__t('Find.the.event')}
-                </button>
               </form>
             </div>
             <div className="popup-wrap" id="event-search-popup" style={{ display: 'none' }}>
