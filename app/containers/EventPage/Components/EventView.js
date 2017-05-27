@@ -46,10 +46,26 @@ const EventView = (props) => {
           {data.title}
         </div>
         <div className="detail__date">
+          {__t('Time of the event')}
+          {': '}
           {
-            moment(data.created)
+            data.date_start
+            &&
+            moment(data.date_start)
               .locale(lang)
               .format('D MMMM YYYY')
+          }
+          {
+            data.date_end && (data.date_end !== data.date_start)
+            &&
+            <span>
+              {' - '}
+              {
+                moment(data.date_end)
+                .locale(lang)
+                .format('D MMMM YYYY')
+              }
+            </span>
           }
         </div>
         <div className="detail__stat">

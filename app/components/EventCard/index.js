@@ -9,7 +9,7 @@ import {
 import { stagedPopup } from 'ducks/Auth/authActions';
 import { setLike } from 'actions/like';
 
-import { DOMAIN_URL } from 'config';
+import { DOMAIN_URL, location } from 'config';
 
 import './index.styl';
 
@@ -137,14 +137,19 @@ class EventCard extends Component {
             {
               data.date_start
               &&
-              moment(data.date_start).format('DD.MM.YYYY')
+              moment(data.date_start)
+                .locale(location)
+                .format('D MMMM YYYY')
             }
             {
-              data.date_end
+              data.date_end && (data.date_end !== data.date_start)
               &&
               <span>
                 {' - '}
-                {moment(data.date_end).format('DD.MM.YYYY')}
+                {
+                  moment(data.date_end)
+                    .locale(location)
+                    .format('D MMMM YYYY')}
               </span>
             }
             {data.city && `, ${data.city.name}, ${data.city.country.name}`}
