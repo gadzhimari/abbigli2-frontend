@@ -90,14 +90,6 @@ class App extends Component {
           this.closePopup();
         }
       });
-
-      window.addEventListener('resize', () => {
-        if (window.innerWidth < 500) {
-          window.document.querySelector('body').className = 'isMobile';
-        } else {
-          window.document.querySelector('body').className = '';
-        }
-      });
     }
   }
 
