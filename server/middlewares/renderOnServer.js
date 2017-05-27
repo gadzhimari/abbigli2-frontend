@@ -43,7 +43,9 @@ const sectionsCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/sect
 
 const linksToCss = {
   blogs: blogsCss,
+  'blog/:slug': blogsCss,
   events: eventsCss,
+  'event/:slug': eventsCss,
   'page/faq': faqCss,
   'page/about': aboutCss,
   'new-products': newpostCss,
@@ -78,7 +80,13 @@ const metriks = {
   ga('create', 'UA-78577116-2', 'auto');
   ga('send', 'pageview');
 
-</script>`,
+</script>
+<!--LiveInternet counter--><script type="text/javascript">
+new Image().src = "//counter.yadro.ru/hit?r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random();</script><!--/LiveInternet-->`,
 };
 
 module.exports = (req, res) => {

@@ -4,6 +4,7 @@ import { openPopup } from 'ducks/Popup/actions';
 import { setFollow } from 'actions/follow';
 
 import { __t } from './../../i18n/translator';
+import { DOMAIN_URL } from 'config';
 
 import './UserProfile.styl';
 
@@ -61,7 +62,7 @@ export default class UserProfile extends Component {
               {
                 avatar
                 && <img className="user-profile__avatar"
-                  src={`/thumbs/unsafe/140x140/${avatar}`} />
+                  src={`${DOMAIN_URL}/thumbs/unsafe/140x140/${avatar}`} />
               }
             </div>
           </div>

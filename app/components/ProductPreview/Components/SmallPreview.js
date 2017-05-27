@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import { DOMAIN_URL } from 'config';
+
 const SmallPreview = (props) => {
   const { src, active, index, slideWidth, onClick } = props;
   const activeClass = active
@@ -19,7 +21,7 @@ const SmallPreview = (props) => {
       <img
         className="sp-thumbnail"
         data-index={index}
-        src={`/thumbs/unsafe/100x100/${src}`}
+        src={`${DOMAIN_URL}thumbs/unsafe/100x100/${src}`}
         style={{ width: '100%' }}
       />
     </div>

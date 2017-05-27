@@ -8,6 +8,8 @@ import { ProductsIcons } from 'components/Icons';
 import { setLike } from 'actions/like';
 import { stagedPopup } from 'ducks/Auth/authActions';
 
+import { DOMAIN_URL } from 'config';
+
 import './CardProduct.styl';
 
 const typesUrl = {
@@ -118,7 +120,7 @@ class CardProduct extends Component {
               <img
                 className="card-img card-image__loaded"
                 alt={title}
-                src={`/thumbs/unsafe/350x${full ? 350 : 290}/` + (images[0] && images[0].file)}
+                src={`${DOMAIN_URL}thumbs/unsafe/350x${full ? 350 : 290}/` + (images[0] && images[0].file)}
               />
             }
             <div className="tag-card__overlay"></div>
@@ -210,7 +212,7 @@ class CardProduct extends Component {
                 {
                   user.avatar
                     ? <img
-                      src={`/thumbs/unsafe/30x30/${user.avatar}`}
+                      src={`${DOMAIN_URL}thumbs/unsafe/30x30/${user.avatar}`}
                       alt={user.profile_name ? user.profile_name : 'ID' + user.id}
                     />
                     : <img

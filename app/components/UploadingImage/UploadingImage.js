@@ -4,7 +4,7 @@ import {
   Loading,
 } from 'components';
 
-import { API_URL } from 'config';
+import { API_URL, DOMAIN_URL } from 'config';
 import { getJsonFromStorage } from 'utils/functions';
 
 class UploadingImage extends Component {
@@ -72,7 +72,7 @@ class UploadingImage extends Component {
       });
     });
 
-    image.src = `/thumbs/unsafe/203x203/${imageSrc}`;
+    image.src = `${DOMAIN_URL}thumbs/unsafe/203x203/${imageSrc}`;
   }
 
   deleteImageFromServer = () => {

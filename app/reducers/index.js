@@ -23,6 +23,7 @@ import Profile from 'ducks/Profile';
 import Seo from 'ducks/Seo';
 import Settings from 'ducks/Settings';
 import Search from 'ducks/Search';
+import Menu from 'ducks/Menu';
 
 import { routerReducer } from 'react-router-redux';
 
@@ -49,5 +50,6 @@ export default combineReducers({
   Seo,
   Settings,
   Search,
+  Menu,
   routing: routerReducer,
 });

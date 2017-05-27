@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import { DOMAIN_URL } from 'config';
+
 const BigPreview = (props) => {
   const { src, active, index } = props;
   const activeClass = active
@@ -13,7 +15,7 @@ const BigPreview = (props) => {
     >
       <img
         className="sp-image"
-        src={`/thumbs/unsafe/460x460/${src}`}
+        src={`${DOMAIN_URL}thumbs/unsafe/460x460/${src}`}
       ></img>
     </div>
   );

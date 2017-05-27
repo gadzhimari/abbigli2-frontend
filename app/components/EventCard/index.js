@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import dateFormat from 'dateformat';
+import moment from 'moment';
 import { CardUni } from 'components';
 
 import {
@@ -8,6 +8,8 @@ import {
 } from 'components';
 import { stagedPopup } from 'ducks/Auth/authActions';
 import { setLike } from 'actions/like';
+
+import { DOMAIN_URL, location } from 'config';
 
 import './index.styl';
 
@@ -65,14 +67,6 @@ class EventCard extends Component {
 
     if (!legacy) return <CardUni item={data} />;
 
-    const date_string = (data.date_end
-      ? (
-        dateFormat(data.date_start, 'mmmm yyyy') == dateFormat(data.date_end, 'mmmm yyyy')
-          ? `${dateFormat(data.date_start, 'd')} - ${dateFormat(data.date_end, 'd')} ${dateFormat(data.date_start, 'mmmm yyyy')}`
-          : `${dateFormat(data.date_start, 'd mmmm')} - ${dateFormat(data.date_end, 'd mmmm')} ${dateFormat(data.date_start, 'yyyy')}`
-      )
-      : dateFormat(data.date_start, 'd mmmm yyyy'));
-
     const likeStatus = this.state.forced.like === null
       ? data.liked
       : this.state.forced.like;
@@ -109,7 +103,7 @@ class EventCard extends Component {
               (<Link to={`/${typesUrl[data.type]}/${data.slug}`}>
                 <img
                   className="card-img"
-                  src={'/thumbs/unsafe/360x250/' + data.images[0].file}
+                  src={`${DOMAIN_URL}thumbs/unsafe/360x250/${data.images[0].file}`}
                   alt={data.images[0].description}
                 />
               </Link>)
@@ -136,12 +130,28 @@ class EventCard extends Component {
           </div>
         </Link>
         <div className="like-comment">
-          <div className="event-card__date" title={`${date_string}${data.city && `, ${data.city.name}, ${data.city.country.name}`}`}>
+          <div className="event-card__date" title={`${data.city && `, ${data.city.name}, ${data.city.country.name}`}`}>
             <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 36">
-              <path d="M29,36H3c-1.657,0-3-1.344-3-3V7c0-1.656,1.343-3,3-3h1V0h4v4h16V0h4
-                v4h1c1.657,0,3,1.343,3,3v26C32,34.656,30.657,36,29,36z M29,14H3v19h26V14z M26,30h-8v-8h8V30z" />
-</svg>
-            {data.date_string}
+              <path d="M29,36H3c-1.657,0-3-1.344-3-3V7c0-1.656,1.343-3,3-3h1V0h4v4h16V0h4 v4h1c1.657,0,3,1.343,3,3v26C32,34.656,30.657,36,29,36z M29,14H3v19h26V14z M26,30h-8v-8h8V30z" />
+            </svg>
+            {
+              data.date_start
+              &&
+              moment(data.date_start)
+                .locale(location)
+                .format('D MMMM YYYY')
+            }
+            {
+              data.date_end && (data.date_end !== data.date_start)
+              &&
+              <span>
+                {' - '}
+                {
+                  moment(data.date_end)
+                    .locale(location)
+                    .format('D MMMM YYYY')}
+              </span>
+            }
             {data.city && `, ${data.city.name}, ${data.city.country.name}`}
           </div>
           <div

@@ -106,7 +106,7 @@ class BlogsPage extends Component {
           <CardsSort>
             <div className="cards-sort__icon">
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34.258 36">
-	              <path d="M23,6H5v3h18V6z M23,11H5v3h18V11z M5,19h18v-3H5V19z M25,33H3V3h22v16.83l3-3.001V3c0-1.657-1.344-3-3-3H3 C1.343,0,0,1.343,0,3v30c0,1.656,1.343,3,3,3h22c1.656,0,3-1.344,3-3v-7.831l-3,2.997V33z M31.515,14.659l-1.634,1.636l2.739,2.74 l1.638-1.634L31.515,14.659z M20.168,26.079L19,30l3.92-1.169l8.8-8.793l-2.756-2.759L20.168,26.079z"/>
+                <path d="M23,6H5v3h18V6z M23,11H5v3h18V11z M5,19h18v-3H5V19z M25,33H3V3h22v16.83l3-3.001V3c0-1.657-1.344-3-3-3H3 C1.343,0,0,1.343,0,3v30c0,1.656,1.343,3,3,3h22c1.656,0,3-1.344,3-3v-7.831l-3,2.997V33z M31.515,14.659l-1.634,1.636l2.739,2.74 l1.638-1.634L31.515,14.659z M20.168,26.079L19,30l3.92-1.169l8.8-8.793l-2.756-2.759L20.168,26.079z" />
               </svg>
             </div>
             {__t('Blogs')}
@@ -122,48 +122,38 @@ class BlogsPage extends Component {
             >
               {__t('Popular')}
             </a>
-            {/*<div className={`post-search search ${this.state.results.length > 0 ? 'open-result' : ''}`}>
-              <div className="search-results">
-                {
-                  (this.state.results.length > 0 && this.state.request.length > 0) &&
-                  this.state.results.map((item) => (
-                    <Link
-                      className="search-result-people"
-                      to={'/blog/' + item.slug}
-                      onClick={() => { this.clearRes() }}
-                    >
-                      <div className="search-result__avatar"><img
-                        src={`https://abbigli.com/thumbs/unsafe/70x70/${item.images[0].file}`}
-                        alt={item.profile_name} /></div>
-                      <div className="search-result__name">{item.title}</div>
-                    </Link>
-                  ))
-                }
-              </div>*/}
-
-              <div className="search-input-wrap">
-                <input
-                  className="search-input"
-                  type="text"
-                  value={searchValue}
-                  placeholder={__t('Blogs search')}
-                  ref={input => (this.searchInput = input)}
-                  onKeyDown={this.keyDown}
-                  onChange={this.handleChange}
-                />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12px"
-                  height="12.001px"
-                  viewBox="0 0 12 12.001"
-                  className="search-icon"
-                  onClick={this.search}
-                >
-                  <path d="M4.817,2.142c-1.478,0-2.677,1.199-2.677,2.676c0,1.477,1.199,2.676,2.677,2.676c1.477,0,2.675-1.2,2.675-2.676 C7.492,3.34,6.294,2.142,4.817,2.142z M10.479,12.001L7.364,8.886C6.625,9.356,5.748,9.635,4.807,9.635C2.151,9.635,0,7.483,0,4.817 S2.151,0,4.817,0c2.665,0,4.817,2.151,4.817,4.817c0,0.942-0.279,1.809-0.75,2.56L12,10.48L10.479,12.001z"/>
-                </svg>
-              </div>
           </CardsSort>
-
+          <div
+            className="search-input-wrap"
+            style={{
+              maxWidth: '300px',
+              margin: '0 auto 20px',
+              padding: '0'
+            }}
+          >
+            <input
+              className="search-input"
+              type="text"
+              value={searchValue}
+              placeholder={__t('Blogs search')}
+              ref={input => (this.searchInput = input)}
+              onKeyDown={this.keyDown}
+              onChange={this.handleChange}
+              style={{
+                padding: '4px 10px',
+              }}
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12px"
+              height="12.001px"
+              viewBox="0 0 12 12.001"
+              className="search-icon"
+              onClick={this.search}
+            >
+              <path d="M4.817,2.142c-1.478,0-2.677,1.199-2.677,2.676c0,1.477,1.199,2.676,2.677,2.676c1.477,0,2.675-1.2,2.675-2.676 C7.492,3.34,6.294,2.142,4.817,2.142z M10.479,12.001L7.364,8.886C6.625,9.356,5.748,9.635,4.807,9.635C2.151,9.635,0,7.483,0,4.817 S2.151,0,4.817,0c2.665,0,4.817,2.151,4.817,4.817c0,0.942-0.279,1.809-0.75,2.56L12,10.48L10.479,12.001z" />
+            </svg>
+          </div>
 
           {
             isFetchingBlogs
@@ -176,7 +166,7 @@ class BlogsPage extends Component {
                 {
                   itemsBlogs.length > 0
                     ? itemsBlogs.map(item => <BlogCard
-                      key={'blog'+item.id}
+                      key={'blog' + item.id}
                       data={item}
                       legacy
                       dispatch={dispatch}

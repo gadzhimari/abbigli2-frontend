@@ -10,6 +10,7 @@ import {
 import { setLike } from 'actions/like';
 
 import { stagedPopup } from 'ducks/Auth/authActions';
+import { DOMAIN_URL } from 'config';
 
 import './index.styl';
 
@@ -88,7 +89,7 @@ class CardUni extends Component {
               &&
               <img
                 className="tile__image"
-                src={'/thumbs/unsafe/282x203/' + images[0].file}
+                src={`${DOMAIN_URL}thumbs/unsafe/282x203/${images[0].file}`}
                 alt={images[0].description}
               />
             }
@@ -144,7 +145,7 @@ class CardUni extends Component {
               user.avatar
                 ? <div className="tile__author-avatar">
                   <img
-                    src={`https://abbigli.com/thumbs/unsafe/25x25/${user.avatar}`}
+                    src={`${DOMAIN_URL}thumbs/unsafe/25x25/${user.avatar}`}
                     alt={user.profile_name}
                   />
                 </div>
