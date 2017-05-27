@@ -97,7 +97,7 @@ class SearchPopup extends Component {
             : <UserSearch
               searchFormClass="mobile-search__form"
               inputClass="mobile-search__input"
-              onResultClick={this.closePopup}
+              onResultClick={closePopup}
               resultsWrapperClass="mobile-search__options"
             />
         }

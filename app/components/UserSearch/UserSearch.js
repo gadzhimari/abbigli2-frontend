@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { Link } from 'components';
 
-import { API_URL } from 'config';
+import { API_URL, DOMAIN_URL } from 'config';
 import { __t } from './../../i18n/translator';
 
 class UserSearch extends Component {
@@ -80,7 +80,7 @@ class UserSearch extends Component {
           {
             item.avatar
               ? <img
-                src={`/thumbs/unsafe/70x70/${item.avatar}`}
+                src={`${DOMAIN_URL}thumbs/unsafe/70x70/${item.avatar}`}
                 alt={item.profile_name}
               />
               : <img
