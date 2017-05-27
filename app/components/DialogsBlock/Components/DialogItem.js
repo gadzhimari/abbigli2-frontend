@@ -46,21 +46,14 @@ const DialogItem = (props) => {
                 item.recipient && item.recipient.avatar
                   ? <img className="message__preview-img" alt="" src={item.recipient.avatar} />
                   : <div className="message__preview-img">
-                    <svg className="icon">
+                    <svg className="icon" viewBox="0 0 19.2 22.721">
                       <path fill="#1076ff" d="M9.601,22.721c-4,0-7.536-2.048-9.601-5.151 c0.048-3.185,6.4-4.929,9.601-4.929c3.184,0,9.553,1.744,9.6,4.929C17.136,20.673,13.601,22.721,9.601,22.721z M9.601,9.6 C6.944,9.6,4.8,7.457,4.8,4.801C4.8,2.145,6.944,0,9.601,0s4.8,2.145,4.8,4.801C14.4,7.457,12.257,9.6,9.601,9.6z"/>
                     </svg>
                   </div>
               }
-              <img
-                className="message__preview-img"
-                src={item.recipient && item.recipient.avatar
-                  ? item.recipient.avatar
-                  : 'http://abbigli.ru/static/new_theme/images/svg/avatar.svg'
-                }
-              />
             </div>
             <div className="message__icon">
-              <svg className="icon">
+              <svg className="icon" viewBox="0 0 10 8">
                 <path d="M9,0H1C0.45,0,0.005,0.449,0.005,1L0,7c0,0.55,0.45,1,1,1h8c0.55,0,1-0.45,1-1V1C10,0.449,9.55,0,9,0z M9,2 L5,4.5L1,2V1l4,2.5L9,1V2z"/>
               </svg>
             </div>
