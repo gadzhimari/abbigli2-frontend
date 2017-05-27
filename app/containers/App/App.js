@@ -1,23 +1,30 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+
 import Helmet from 'react-helmet';
+
 import {
   Header,
   Footer,
   Search,
   Sprites,
   AvatarBlock,
+  ContentWrapper,
 } from 'components';
-import { appConfig } from 'config';
+
 import {
   fetchMe,
   logoutUser,
 } from 'ducks/Auth/authActions';
 import { closePopup, openPopup } from 'ducks/Popup/actions';
 import { fetchData as settingsFetch, fetchGeo } from 'ducks/Settings';
+import toggleMobileMenu, { closeMenu } from 'ducks/Menu/actions';
+import { fetchData as fetchDataSections } from 'ducks/Sections';
 
 import * as Popups from 'components/Popups';
 import getComponentFromObject from 'utils/getComponent';
+
+import { appConfig } from 'config';
 
 import './App.styl';
 import './_concat.styl';
@@ -53,7 +60,11 @@ class App extends Component {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
+    const { dispatch, itemsSections } = this.props;
+
+    if (itemsSections.length === 0) {
+      dispatch(fetchDataSections());
+    }
 
     dispatch(settingsFetch());
     dispatch(fetchGeo());
@@ -64,24 +75,6 @@ class App extends Component {
       if (window.innerWidth < 500) {
         window.document.querySelector('body').className = 'isMobile';
       }
-
-      setTimeout(() => {
-        this.slideout = new Slideout({
-          panel: document.getElementById('app'),
-          menu: document.getElementById('swipeMenu'),
-          padding: 265,
-          tolerance: 70,
-        });
-
-        this.slideout.disableTouch();
-
-        this.slideout.on('open', () => {
-          this.slideout.enableTouch();
-        });
-        this.slideout.on('close', () => {
-          this.slideout.disableTouch();
-        });
-      }, 500);
     }
 
     if (window.document) {
@@ -96,19 +89,19 @@ class App extends Component {
   componentWillUpdate(nextProps) {
     const { isAuthenticated, dispatch } = this.props;
 
-    // document.body.scrollTop = 0;
-
     if (nextProps.isAuthenticated !== isAuthenticated && nextProps.isAuthenticated) {
       dispatch(fetchMe());
     }
   }
 
-  toggleMenu = () => this.slideout.toggle();
+  toggleMenu = () => this.props.dispatch(toggleMobileMenu());
+
+  closeMenu = () => this.props.dispatch(closeMenu());
 
   logoutUser = () => this.props
     .dispatch(logoutUser())
 
-  modalPopupClick = ({ currentTarget }) => this.props
+  modalButtonClick = ({ currentTarget }) => this.props
     .dispatch(openPopup(currentTarget.dataset.type || currentTarget.name))
 
   closePopup = () => this.props
@@ -124,14 +117,9 @@ class App extends Component {
       children,
       seo,
       location,
-      messagesSending,
-      geo,
-      isFetchingRegister,
-      isFetchingLogin,
-      isFetchingConfirm,
-      isFetchingSetpass,
-      isFetchingReset,
-      currentCountry,
+      mobileMenuOpened,
+      itemsSections,
+      isFetchingSections,
     } = this.props;
 
 
@@ -156,35 +144,48 @@ class App extends Component {
             },
           ]}
         />
-        <div
-          className={`content-wrapper ${shouldOpenModal && 'modal-open-new'}`}
+
+        <ContentWrapper
+          contentWrapperClass="global-wrapper"
+          modalButtonClick={this.modalButtonClick}
+          itemsSections={itemsSections}
+          isOpenMenu={mobileMenuOpened}
+          closeMenu={this.closeMenu}
+          isFetchingSections={isFetchingSections}
         >
-          <Header>
-            <Search />
-            <AvatarBlock
-              isAuthenticated={isAuthenticated}
-              errorMessage={errorMessage}
+
+          <div
+            className={`content-wrapper ${shouldOpenModal && 'modal-open-new'}`}
+          >
+            <Header>
+              <Search />
+              <AvatarBlock
+                isAuthenticated={isAuthenticated}
+                errorMessage={errorMessage}
+                dispatch={dispatch}
+                onLogoutClick={this.logoutUser}
+                toggleMenu={this.toggleMenu}
+                itemsSections={itemsSections}
+                isFetchingSections={isFetchingSections}
+              />
+            </Header>
+            <Sprites />
+
+            <Popup
               dispatch={dispatch}
-              onLogoutClick={this.logoutUser}
-              toggleMenu={this.toggleMenu}
+              closePopup={this.closePopup}
+              options={popupOptions}
             />
-          </Header>
-          <Sprites />
 
-          <Popup
-            dispatch={dispatch}
-            closePopup={this.closePopup}
-            options={popupOptions}
-          />
+            {children}
 
-          { children }
-
-        </div>
-        <Footer
-          openPopup={this.modalPopupClick}
-        >
-          Logo
+          </div>
+          <Footer
+            openPopup={this.modalButtonClick}
+          >
+            Logo
         </Footer>
+        </ContentWrapper>
       </div>
     );
   }
@@ -201,22 +202,11 @@ function mapStateToProps(state) {
   const {
     isAuthenticated,
     errorMessage,
-    isFetchingRegister,
-    isFetching,
-    isFetchingConfirm,
-    isFetchingSetpass,
-    isFetchingReset,
-    loginErrors,
-    registerErrors,
-    resetError,
-    confirmSignUpError,
-    confirmResetError,
-    setpassError,
   } = state.Auth || { isAuthenticated: false, errorMessage: '' };
   const messages = state.Dialogs || {};
 
-  const seo = (state.Seo) || { isFetching: true,  data: []  };
-  const settings = (state.Settings) || { isFetching: true,  data: []  };
+  const seo = (state.Seo) || { isFetching: true, data: [] };
+  const settings = (state.Settings) || { isFetching: true, data: [] };
 
   return {
     openedPopup: state.Popup.openedPopup,
@@ -228,17 +218,9 @@ function mapStateToProps(state) {
     messagesSending: messages.isSending,
     geo: settings.geo,
     currentCountry: settings.currentCountry,
-    isFetchingRegister,
-    isFetchingLogin: isFetching,
-    isFetchingConfirm,
-    isFetchingSetpass,
-    isFetchingReset,
-    loginErrors,
-    registerErrors,
-    resetError,
-    confirmSignUpError,
-    confirmResetError,
-    setpassError,
+    mobileMenuOpened: state.Menu.open,
+    itemsSections: state.Sections.items,
+    isFetchingSections: state.Sections.isFetching,
   };
 }
 

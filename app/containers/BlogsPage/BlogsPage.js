@@ -126,7 +126,9 @@ class BlogsPage extends Component {
           <div
             className="search-input-wrap"
             style={{
-              marginBottom: '20px',
+              maxWidth: '300px',
+              margin: '0 auto 20px',
+              padding: '0'
             }}
           >
             <input
@@ -137,6 +139,9 @@ class BlogsPage extends Component {
               ref={input => (this.searchInput = input)}
               onKeyDown={this.keyDown}
               onChange={this.handleChange}
+              style={{
+                padding: '4px 10px',
+              }}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"

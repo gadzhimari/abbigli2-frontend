@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import deepEqual from 'deep-equal';
 
-import { SocialGroups } from 'components';
+import { Menu } from 'components';
 
-import { fetchData as fetchDataSections } from 'ducks/Sections';
 import { openPopup } from 'ducks/Popup/actions';
 import { stagedPopup } from 'ducks/Auth/authActions';
 import './AvatarBlock.styl';
@@ -21,14 +20,6 @@ class AvatarBlock extends Component {
       profile: null,
     };
     this.openMenuToggle = this.openMenuToggle.bind(this);
-  }
-
-  componentWillMount() {
-    const { dispatch, itemsSections } = this.props;
-
-    if (itemsSections.length === 0) {
-      dispatch(fetchDataSections());
-    }
   }
 
   componentDidMount() {
@@ -185,67 +176,11 @@ class AvatarBlock extends Component {
               <use href="#menu-mobile"></use>
             </svg>
           </a>
-          <div className="dropdown">
-            <div className="main-menu__items">
-              <Link className="main-menu__item" to="/new-products/">
-                <div className="icon icon-new"></div>
-                <div className="main-menu__item-name">{__t('New')}</div>
-              </Link>
-              <Link className="main-menu__item" to="/blogs/">
-                <div className="icon icon-blog"></div>
-                <div className="main-menu__item-name">{__t('Blogs')}</div>
-              </Link>
-              <Link className="main-menu__item" to="/popular-products/">
-                <div className="icon icon-popular"></div>
-                <div className="main-menu__item-name">{__t('Popular')}</div>
-              </Link>
-              <Link className="main-menu__item" to="/events/">
-                <div className="icon icon-event"></div>
-                <div className="main-menu__item-name">{__t('Events')}</div>
-              </Link>
-              <Link className="main-menu__item" to="/set-the-mood/">
-                <div className="icon icon-mood"></div>
-                <div className="main-menu__item-name">{__t('Create.a.mood')}</div>
-              </Link>
-              <Link className="main-menu__item" to="/nearest-products/">
-                <div className="icon icon-beside"></div>
-                <div className="main-menu__item-name">{__t('Nearby')}</div>
-              </Link>
-              <div className="main-menu__item">
-                <div className="icon icon-sections"></div>
-                <div className="main-menu__item-name">{__t('Sections')}</div>
-                <div className="main-menu__item-corner"></div>
-              </div>
-            </div>
-            <div className="main-menu__sections">
-              {
-                (!isFetchingSections && itemsSections.length > 0)
-                && itemsSections.map(item => (<Link
-                  className="main-menu__section"
-                  to={`/sections/${item.slug}`}
-                  key={`section--${item.slug}`}
-                >
-                  {item.title}
-                </Link>
-                ))
-              }
-
-            </div>
-            <div className="main-menu__footer">
-              <Link className="main-menu__footer-item" to="/page/about">{__t('About')}</Link>
-              <Link className="main-menu__footer-item" to="/page/faq">{__t('FAQ')}</Link>
-              <a
-                className="main-menu__footer-item"
-                onClick={this.modalButtonClick}
-                data-type="supportPopup"
-              >
-                {__t('Support')}
-              </a>
-
-              <SocialGroups />
-
-            </div>
-          </div>
+          <Menu
+            wrapperClass="dropdown"
+            isFetchingSections={isFetchingSections}
+            itemsSections={itemsSections}
+          />
         </div>
 
         <Link
@@ -362,15 +297,10 @@ AvatarBlock.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const sections = (state.Sections) || { isFetching: true, items: [] };
-  const auth = (state.Auth) || { me: null, isAuthenticated: false, };
-
   return {
-    isAuthenticated: auth.isAuthenticated,
-    me: auth.me,
-    itemsSections: sections.items,
-    isFetchingSections: sections.isFetching,
-  }
+    isAuthenticated: state.Auth.isAuthenticated,
+    me: state.Auth.me,
+  };
 }
 
-export default connect(mapStateToProps)(AvatarBlock)
+export default connect(mapStateToProps)(AvatarBlock);

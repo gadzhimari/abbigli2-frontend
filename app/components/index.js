@@ -58,3 +58,5 @@ export { default as FetchingButton } from './FetchingButton';
 export { default as SocialLogin } from './SocialLogin';
 export { default as Icons } from './Icons';
 export { default as SocialGroups } from './SocialGroups';
+export { default as Menu } from './Menu';
+export { default as ContentWrapper } from './ContentWrapper';
