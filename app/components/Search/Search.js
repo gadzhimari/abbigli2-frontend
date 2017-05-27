@@ -13,6 +13,8 @@ import { API_URL } from 'config';
 
 import { __t } from './../../i18n/translator';
 
+import { DOMAIN_URL } from 'config';
+
 import './Search.styl';
 
 const propTypes = {
@@ -178,7 +180,7 @@ class Search extends Component {
                   <div className="search-result__avatar">
                     {item.avatar
                       ? <img
-                        src={`/thumbs/unsafe/70x70/${item.avatar}`}
+                        src={`${DOMAIN_URL}thumbs/unsafe/70x70/${item.avatar}`}
                         alt={item.profile_name}
                       />
                       : <img

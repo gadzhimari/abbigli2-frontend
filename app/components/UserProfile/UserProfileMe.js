@@ -11,6 +11,7 @@ import { getJsonFromStorage } from 'utils/functions';
 import { Link, SelectInput } from 'components';
 import { SocialIcons } from 'components/Icons';
 
+import { DOMAIN_URL } from 'config';
 
 class UserProfileMe extends Component {
   constructor(props) {
@@ -252,7 +253,7 @@ class UserProfileMe extends Component {
                 &&
                 <img
                   className="user-profile__avatar"
-                  src={`/thumbs/unsafe/140x140/${avatar}`}
+                  src={`${DOMAIN_URL}/thumbs/unsafe/140x140/${avatar}`}
                 />
               }
               <div className="user-profile__avatar-overlay"></div>

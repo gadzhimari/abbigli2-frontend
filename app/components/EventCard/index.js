@@ -9,6 +9,8 @@ import {
 import { stagedPopup } from 'ducks/Auth/authActions';
 import { setLike } from 'actions/like';
 
+import { DOMAIN_URL } from 'config';
+
 import './index.styl';
 
 const typesUrl = {
@@ -101,7 +103,7 @@ class EventCard extends Component {
               (<Link to={`/${typesUrl[data.type]}/${data.slug}`}>
                 <img
                   className="card-img"
-                  src={'/thumbs/unsafe/360x250/' + data.images[0].file}
+                  src={`${DOMAIN_URL}thumbs/unsafe/360x250/${data.images[0].file}`}
                   alt={data.images[0].description}
                 />
               </Link>)

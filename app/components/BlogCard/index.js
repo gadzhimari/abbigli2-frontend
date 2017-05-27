@@ -7,6 +7,7 @@ import {
 } from 'components';
 import { stagedPopup } from 'ducks/Auth/authActions';
 import { setLike } from 'actions/like';
+import { DOMAIN_URL } from 'config';
 
 import './index.styl';
 
@@ -98,12 +99,15 @@ class BlogCard extends Component {
               &&
               <img
                 className="card-img"
-                src={'/thumbs/unsafe/360x250/' + data.images[0].file}
+                src={`${DOMAIN_URL}thumbs/unsafe/360x250/${data.images[0].file}`}
                 alt={data.images[0].description}
               />
             }
             <Link className="blog-card__avatar" to={`/profile/` + data.user.id}>
-              <img src={"/thumbs/unsafe/36x36/" + data.user.avatar} alt={data.user.profile_name} />
+              <img
+                src={`${DOMAIN_URL}thumbs/unsafe/36x36/${data.user.avatar}`}
+                alt={data.user.profile_name}
+              />
             </Link>
           </div>
           <div className="blog-card__name">{data.title}</div>

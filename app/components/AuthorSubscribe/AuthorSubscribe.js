@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import {
-  Link
-} from 'components';
+import { Link } from 'components';
 import { connect } from 'preact-redux';
 import { setFollow } from 'actions/follow';
 import { stagedPopup } from 'ducks/Auth/authActions';
 
 import { __t } from './../../i18n/translator';
+import { DOMAIN_URL } from 'config';
 
 class AuthorSubscribe extends Component {
 
@@ -23,7 +22,7 @@ class AuthorSubscribe extends Component {
         <Link className="author-subscribe__ava" to={`/profile/${id}/`}>
           {
             avatar
-              ? <img className="author-ava" src={`/thumbs/unsafe/65x65/${avatar}`} alt={profile_name} />
+              ? <img className="author-ava" src={`${DOMAIN_URL}thumbs/unsafe/65x65/${avatar}`} alt={profile_name} />
               : <img className="author-ava" src={`/images/svg/avatar.svg`} alt={profile_name} />
           }
         </Link>

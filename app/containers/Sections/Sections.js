@@ -15,6 +15,8 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { fetchData } from 'ducks/SubSections';
 import { fetchData as topFetchData } from 'ducks/TopAuthors';
 
+
+import { DOMAIN_URL } from 'config';
 import { __t } from './../../i18n/translator';
 
 class Sections extends Component {
@@ -91,7 +93,7 @@ class Sections extends Component {
                   title={item.profile_name}
                   key={`${item.id}-topautors`}
                 >
-                  <img className="best-author__img" src={`/thumbs/unsafe/38x38/${item.avatar}`} />
+                  <img className="best-author__img" src={`${DOMAIN_URL}/thumbs/unsafe/38x38/${item.avatar}`} />
                 </Link>
                ))
             }

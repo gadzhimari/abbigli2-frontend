@@ -4,6 +4,8 @@ import {
   Loading,
 } from 'components';
 
+import { DOMAIN_URL } from 'config';
+
 class OldImagePrewiew extends Component {
   constructor() {
     super();
@@ -36,7 +38,7 @@ class OldImagePrewiew extends Component {
       });
     });
 
-    image.src = `/thumbs/unsafe/203x203/${imageSrc}`;
+    image.src = `${DOMAIN_URL}thumbs/unsafe/203x203/${imageSrc}`;
   }
 
   deleteImage = () => {

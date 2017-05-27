@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'components';
 
 import { __t } from './../../../i18n/translator';
+import { DOMAIN_URL } from 'config';
 
 const UserFollowers = props => {
   const { followers, hideFollowers } = props;
@@ -40,7 +41,7 @@ const UserFollowers = props => {
                 {
                   item.avatar
                     ? <img
-                      src={`/thumbs/unsafe/60x60/${item.avatar}`}
+                      src={`${DOMAIN_URL}/thumbs/unsafe/60x60/${item.avatar}`}
                       alt={item.profile_name}
                     />
                     : <img
