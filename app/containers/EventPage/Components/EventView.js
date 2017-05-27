@@ -46,7 +46,7 @@ const EventView = (props) => {
           {data.title}
         </div>
         <div className="detail__date">
-          {__t('Time of the event')}
+          {__t('Date')}
           {': '}
           {
             data.date_start

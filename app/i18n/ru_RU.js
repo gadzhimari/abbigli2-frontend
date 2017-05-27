@@ -212,7 +212,7 @@ export default {
     'Sign Up to leave a comment': 'Зарегистрируйтесь, чтобы оставить комментарий',
     'Your comment': 'Ваш комментарий',
     'Want it': 'Хочу!',
-    'Time of the event': 'Время проведения',
+    'Date': 'Дата проведения',
     'Your message to the member who published this product/service': 'Ваше сообщение пользователю, который опубликовал этот продукт',
     'Send': 'Отправить',
     'SMS code': 'Смс код',
