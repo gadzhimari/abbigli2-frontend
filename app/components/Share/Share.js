@@ -26,7 +26,7 @@ export default function Share({ postLink, buttonClass }) {
         lang === 'ru'
         &&
         <ShareButton
-          className={buttonClass}
+          className={`${buttonClass} vkontakte`}
           provider="vk"
           link={`https://vk.com/share.php?url=${location.origin}${postLink}/`}
         />

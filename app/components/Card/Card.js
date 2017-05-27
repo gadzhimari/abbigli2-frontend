@@ -4,6 +4,8 @@ import {
   Link
 } from 'components';
 
+import { DOMAIN_URL } from 'config';
+
 import './Card.styl';
 
 function Card(props) {
@@ -18,7 +20,7 @@ function Card(props) {
   return (
     <Link className="card" to={"/sections/" + slug}>
       <div className="card-item">
-        <img className="card-img" src={`/thumbs/unsafe/${sizes[0]}/${image}`}/>
+        <img className="card-img" src={`${DOMAIN_URL}thumbs/unsafe/${sizes[0]}/${image}`}/>
       </div>
       <div className="card-name-wrap">
         <div className="card-name">{title[15] ? title.slice(0,14)+'...' : title}</div>
