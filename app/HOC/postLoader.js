@@ -15,12 +15,23 @@ const postLoader = WrappedComponent => class extends Component {
 
   static fetchData = (...data) => WrappedComponent.fetchData(...data)
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      pageLoaded: false,
+    };
+  }
+
   componentDidMount() {
     const { data, routeParams, dispatch } = this.props;
 
     if (data.slug !== routeParams.slug) {
       WrappedComponent.fetchData(dispatch, routeParams);
     }
+
+    this.setState({
+      pageLoaded: true,
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -39,11 +50,12 @@ const postLoader = WrappedComponent => class extends Component {
 
   render() {
     const { isFetching } = this.props;
+    const { pageLoaded } = this.state;
 
     return (<div>
       {
-        isFetching
-          ? <div className="container-fluid"><Loading loading={isFetching} /></div>
+        isFetching || !pageLoaded
+          ? <div className="container-fluid"><Loading loading={isFetching || !pageLoaded} /></div>
           : <WrappedComponent {...this.props} />
       }
     </div>);
