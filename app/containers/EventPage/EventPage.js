@@ -11,20 +11,26 @@ import {
 import EventView from './Components/EventView';
 import postLoader from 'App/HOC/postLoader';
 
-import Helmet from 'react-helmet';
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import { sendComment } from 'ducks/Comments';
 import EventsPopular from './EventsPopular';
 
 import { fetchData as fetchEvents, resetData } from 'ducks/BlogPost';
 import { fetchData as fetchDataEvents } from 'ducks/Events';
 import { fetchData as fetchDataComments } from 'ducks/Comments';
+import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
 
 class EventPage extends Component {
-  static fetchData = (dispatch, params, token) => Promise.all([
-    dispatch(fetchEvents(params.slug, 3, token)),
-    dispatch(fetchDataEvents(1, null, null, null, null, token)),
+  static fetchData = (dispatch, params, token) => dispatch(fetchEvents(params.slug, 3, token))
+
+  static fetchSubData = (dispatch, data, params) => Promise.all([
+    dispatch(fetchDataEvents(1)),
     dispatch(fetchDataComments(params.slug)),
+    dispatch(fetchDataAuthors({
+      type: 'posts',
+      excludeId: data.id,
+      profileId: data.user.id,
+    })),
   ])
 
   static onUnmount = (dispatch) => {
@@ -68,16 +74,6 @@ class EventPage extends Component {
 
     return (
       <div className="container-fluid event-detail-page" id="page-container">
-        <Helmet
-          title={data.seo_title ? data.seo_title : data.title}
-          meta={[
-            { name: 'description', content: data.seo_description },
-            { property: 'og:title', content: data.seo_title || data.title },
-            { property: 'og:description', content: data.seo_description },
-            { property: 'og:', content: data.seo_description },
-            { property: 'og:image', content: data.images[0].file },
-          ]}
-        />
         {
           isDefined
             ? (<div>

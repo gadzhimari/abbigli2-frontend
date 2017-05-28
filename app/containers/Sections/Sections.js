@@ -83,23 +83,27 @@ class Sections extends Component {
 
         <div className="best-authors">
           <div className="best-authors__title">Top authors</div>
-            {
-              (!topAuthorsFetching && topAuthors.length > 0)
-              &&
-              topAuthors.map(item => (
-                <Link
-                  className="best-author"
-                  to={`/profile/${item.id}`}
-                  title={item.profile_name}
-                  key={`${item.id}-topautors`}
-                >
-                  <img className="best-author__img" src={`${DOMAIN_URL}/thumbs/unsafe/38x38/${item.avatar}`} />
-                </Link>
-               ))
-            }
+          {
+            (!topAuthorsFetching && topAuthors.length > 0)
+            &&
+            topAuthors.map(item => (
+              <Link
+                className="best-author"
+                to={`/profile/${item.id}`}
+                title={item.profile_name}
+                key={`${item.id}-topautors`}
+              >
+                <img
+                  className="best-author__img"
+                  src={`${DOMAIN_URL}thumbs/unsafe/38x38/${item.avatar}`}
+                  alt={item.profile_name}
+                />
+              </Link>
+            ))
+          }
         </div>
 
-        <CardsWrap legacy={true}>
+        <CardsWrap legacy>
           <CardsSort>
             {section_title}
             <CardsSortItem to="/new-products">{__t('New')}</CardsSortItem>
@@ -129,7 +133,7 @@ class Sections extends Component {
         </CardsWrap>
 
         {
-          seoTextsObj
+          seoTextsObj.seo_title && seoTextsObj.seo_bottom_text
             ? (<div className="pre-footer">
               <div className="w-inner">
                 <h3>{seoTextsObj.seo_title}</h3>
@@ -158,10 +162,10 @@ function mapStateToProps(state) {
     items,
     next,
   } = (state.SubSections) || {
-    isFetching: true,
-    items: [],
-    next: null,
-  };
+      isFetching: true,
+      items: [],
+      next: null,
+    };
 
   const section_title = state.SubSections.data ? state.SubSections.data.section_title : '';
   const seo_title = state.SubSections.data ? state.SubSections.data.seo_title : '';

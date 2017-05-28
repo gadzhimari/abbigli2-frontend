@@ -1,10 +1,12 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 
 import { openPopup } from 'ducks/Popup/actions';
 import { setFollow } from 'actions/follow';
 
 import { __t } from './../../i18n/translator';
 import { DOMAIN_URL } from 'config';
+
+import { debounce } from 'utils/functions';
 
 import './UserProfile.styl';
 
@@ -13,8 +15,39 @@ export default class UserProfile extends Component {
     super();
     this.state = {
       showMoreText: false,
+      leftCoverSize: '500x500',
     };
+
+    this.debouncedUpdateSize = debounce(this.updateLeftConverSize, 200, this);
   }
+
+  componentDidMount() {
+    this.updateLeftConverSize();
+
+    window.addEventListener('resize', this.debouncedUpdateSize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.debouncedUpdateSize);
+  }
+
+  updateLeftConverSize = () => {
+    let leftCoverSize;
+
+    if (window.innerWidth > 1100) {
+      leftCoverSize = '500x500';
+    } else if (window.innerWidth < 1100 && window.innerWidth > 660) {
+      leftCoverSize = '500x900';
+    } else {
+      leftCoverSize = '600x200';
+    }
+
+    this.setState({
+      leftCoverSize,
+    });
+  }
+
+
 
   render() {
     const {
@@ -40,6 +73,7 @@ export default class UserProfile extends Component {
       dispatch,
       isAuthenticated
     } = this.props;
+    const { leftCoverSize } = this.state;
 
     const sendMessage = () => {
       isAuthenticated
@@ -61,21 +95,28 @@ export default class UserProfile extends Component {
             <div className={avatarWrapperClass}>
               {
                 avatar
-                && <img className="user-profile__avatar"
-                  src={`${DOMAIN_URL}/thumbs/unsafe/140x140/${avatar}`} />
+                &&
+                <img
+                  className="user-profile__avatar"
+                  src={`${DOMAIN_URL}thumbs/unsafe/140x140/${avatar}`}
+                  alt={profile_name}
+                />
               }
             </div>
           </div>
           {
             banner_left
-              ? <img className="user-profile__cover" src={`${banner_left}`} />
+              ? <img
+                className="user-profile__cover"
+                src={`${DOMAIN_URL}thumbs/unsafe/${leftCoverSize}/${banner_left}`}
+              />
               : <img className="user-profile__cover" src="/images/def_left.jpg" />
           }
         </div>
         <div
           className="user-profile__cover-big"
           style={banner_main
-            ? { backgroundImage: `url(${banner_main})`, backgroundSize: 'cover' }
+            ? { backgroundImage: `url(${DOMAIN_URL}thumbs/unsafe/1000x400/${banner_main})`, backgroundSize: 'cover' }
             : null
           }
         >
