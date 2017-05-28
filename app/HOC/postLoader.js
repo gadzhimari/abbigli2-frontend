@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Helmet from 'react-helmet';
 
 import {
   Loading,
@@ -29,15 +30,28 @@ const postLoader = WrappedComponent => class extends Component {
       WrappedComponent.fetchData(dispatch, routeParams);
     }
 
-    this.setState({
-      pageLoaded: true,
-    });
+    if (data.id) {
+      WrappedComponent.fetchSubData(dispatch, data, routeParams)
+        .then(() => this.setState({
+          pageLoaded: true,
+        }));
+    }
   }
 
   componentDidUpdate(prevProps) {
-    const { dispatch, routeParams } = this.props;
+    const { dispatch, routeParams, data } = this.props;
+
+    if (prevProps.data.id !== data.id) {
+      WrappedComponent.fetchSubData(dispatch, data, routeParams)
+        .then(() => this.setState({
+          pageLoaded: true,
+        }));
+    }
 
     if (prevProps.routeParams.slug !== routeParams.slug) {
+      this.setState({
+        pageLoaded: false,
+      });
       WrappedComponent.fetchData(dispatch, routeParams);
     }
   }
@@ -49,10 +63,20 @@ const postLoader = WrappedComponent => class extends Component {
   }
 
   render() {
-    const { isFetching } = this.props;
+    const { isFetching, data } = this.props;
     const { pageLoaded } = this.state;
 
     return (<div>
+      <Helmet
+        title={data.seo_title ? data.seo_title : data.title}
+        meta={[
+          { name: 'description', content: data.seo_description },
+          { property: 'og:title', content: data.seo_title || data.title },
+          { property: 'og:description', content: data.seo_description },
+          { property: 'og:', content: data.seo_description },
+          { property: 'og:image', content: data.images[0].file },
+        ]}
+      />
       {
         isFetching || !pageLoaded
           ? <div className="container-fluid"><Loading loading={isFetching || !pageLoaded} /></div>

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 
 import { NotFound } from 'containers';
@@ -13,16 +12,23 @@ import BlogsPopular from './BlogsPopular';
 import { fetchData as fetchBlogs, resetData } from 'ducks/BlogPost';
 import { fetchData as fetchDataBlogs } from 'ducks/Blogs';
 import { fetchData as fetchDataComments } from 'ducks/Comments';
+import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 
 class BlogPage extends Component {
-  static fetchData = (dispatch, params, token) => Promise.all([
-    dispatch(fetchBlogs(params.slug, 4, token)),
-    dispatch(fetchDataBlogs(1, '', null, token)),
+  static fetchData = (dispatch, params, token) => dispatch(fetchBlogs(params.slug, 4, token))
+
+  static fetchSubData = (dispatch, data, params) => Promise.all([
+    dispatch(fetchDataBlogs(1)),
     dispatch(fetchDataComments(params.slug)),
+    dispatch(fetchDataAuthors({
+      type: 'posts',
+      excludeId: data.id,
+      profileId: data.user.id,
+    })),
   ])
 
   static onUnmount = (dispatch) => {
@@ -68,16 +74,6 @@ class BlogPage extends Component {
 
     return (
       <div className="container-fluid blog-detail-page">
-        <Helmet
-          title={data.seo_title ? data.seo_title : data.title}
-          meta={[
-            { name: 'description', content: data.seo_description },
-            { property: 'og:title', content: data.seo_title || data.title },
-            { property: 'og:description', content: data.seo_description },
-            { property: 'og:', content: data.seo_description },
-            { property: 'og:image', content: data.images[0].file },
-          ]}
-        />
         {
           isDefined
             ? (<div>

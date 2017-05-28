@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 
 import {
@@ -8,9 +7,7 @@ import {
   Gallery,
 } from 'components';
 
-import {
-  NotFound,
-} from 'containers';
+import { NotFound } from 'containers';
 
 import postLoader from 'App/HOC/postLoader';
 import ProductView from './Components/ProductView';
@@ -20,16 +17,23 @@ import { sendPostMessage } from 'ducks/Dialogs';
 
 import { fetchData as fetchDataComments } from 'ducks/Comments';
 import { fetchData, resetData } from 'ducks/BlogPost';
+import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
 
 import { stagedPopup } from 'ducks/Auth/authActions';
 
 import { __t } from './../../i18n/translator';
 
 class ProductPage extends Component {
-  static fetchData = (dispatch, params, token) => Promise.all([
-    dispatch(fetchData(params.slug, 1, token)),
-    dispatch(fetchDataComments(params.slug)),
-  ]);
+  static fetchData = (dispatch, params, token) => dispatch(fetchData(params.slug, 1, token));
+
+  static fetchSubData = (dispatch, data) => Promise.all([
+    dispatch(fetchDataComments(data.slug)),
+    dispatch(fetchDataAuthors({
+      type: 'posts',
+      excludeId: data.id,
+      profileId: data.user.id,
+    })),
+  ])
 
   static onUnmount = (dispatch) => {
     dispatch(resetData());
@@ -132,16 +136,6 @@ class ProductPage extends Component {
 
     return (
       <div className="container-fluid product-page">
-        <Helmet
-          title={data.seo_title ? data.seo_title : data.title}
-          meta={[
-            { name: 'description', content: data.seo_description },
-            { property: 'og:title', content: data.seo_title || data.title },
-            { property: 'og:description', content: data.seo_description },
-            { property: 'og:', content: data.seo_description },
-            { property: 'og:image', content: data.images[0].file },
-          ]}
-        />
         {
           isDefined
             ? (<div>
