@@ -1,7 +1,5 @@
 import { API_URL } from 'config';
 
-import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
-
 import { getJsonFromStorage } from 'utils/functions';
 
 // Actions
@@ -114,11 +112,6 @@ export function fetchData(slug, type = 4, tokenID) {
       .then((responseData) => {
         if (responseData) {
           dispatch(setData(responseData));
-          return dispatch(fetchDataAuthors({
-            type: 'posts',
-            excludeId: responseData.id,
-            profileId: responseData.user.id,
-          }));
         }
       })
       .catch((error) => {
