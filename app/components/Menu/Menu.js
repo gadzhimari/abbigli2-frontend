@@ -7,6 +7,10 @@ import { __t } from '../../i18n/translator';
 import './Menu.styl';
 
 class Menu extends Component {
+  static defaultProps = {
+    closeMenu: () => true,
+  };
+
   render() {
     const {
       isFetchingSections,
