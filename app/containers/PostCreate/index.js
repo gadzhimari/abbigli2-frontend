@@ -18,9 +18,8 @@ import {
   UploadingImage,
   FetchingButton,
 } from 'components';
-import { ErrorInput, DateInput } from 'components/Inputs';
+import { ErrorInput, DateInput, Textarea } from 'components/Inputs';
 import SwitchMode from 'components/SwitchModeButton';
-import Textarea from './components/Textarea';
 
 import 'react-select/dist/react-select.css';
 import './index.styl';

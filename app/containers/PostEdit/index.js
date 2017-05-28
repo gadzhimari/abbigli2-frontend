@@ -8,7 +8,6 @@ import Dropzone from 'react-dropzone'
 import browserHistory from 'react-router/lib/browserHistory';
 import { __t } from './../../i18n/translator';
 
-import Textarea from './components/Textarea';
 import OldImagePreview from './components/OldImagePreview';
 
 import { getJsonFromStorage } from 'utils/functions';
@@ -23,7 +22,7 @@ import {
   FetchingButton,
   Loading,
 } from 'components';
-import { ErrorInput, DateInput } from 'components/Inputs';
+import { ErrorInput, DateInput, Textarea } from 'components/Inputs';
 import SwitchMode from 'components/SwitchModeButton';
 
 import './index.styl';
