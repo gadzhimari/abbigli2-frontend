@@ -13,6 +13,8 @@ import { SocialIcons } from 'components/Icons';
 
 import { DOMAIN_URL } from 'config';
 
+import { debounce } from 'utils/functions';
+
 class UserProfileMe extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +35,36 @@ class UserProfileMe extends Component {
       website: props.data.website_info,
       phone: props.data.email_info,
       email: props.data.phone_info,
+      leftCoverSize: '500x500',
     };
+
+    this.debouncedUpdateSize = debounce(this.updateLeftConverSize, 200, this);
+  }
+
+  componentDidMount() {
+    this.updateLeftConverSize();
+
+    window.addEventListener('resize', this.debouncedUpdateSize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.debouncedUpdateSize);
+  }
+
+  updateLeftConverSize = () => {
+    let leftCoverSize;
+
+    if (window.innerWidth > 1100) {
+      leftCoverSize = '500x500';
+    } else if (window.innerWidth < 1100 && window.innerWidth > 660) {
+      leftCoverSize = '500x900';
+    } else {
+      leftCoverSize = '600x200';
+    }
+
+    this.setState({
+      leftCoverSize,
+    });
   }
 
   changeCityValue = (value) => {
@@ -206,6 +237,7 @@ class UserProfileMe extends Component {
       email,
       vkAcc,
       okAcc,
+      leftCoverSize,
     } = this.state;
 
     const user = this.props.data;
@@ -253,7 +285,7 @@ class UserProfileMe extends Component {
                 &&
                 <img
                   className="user-profile__avatar"
-                  src={`${DOMAIN_URL}/thumbs/unsafe/140x140/${avatar}`}
+                  src={`${DOMAIN_URL}thumbs/unsafe/140x140/${avatar}`}
                 />
               }
               <div className="user-profile__avatar-overlay"></div>
@@ -324,7 +356,10 @@ class UserProfileMe extends Component {
           </div>
           {
             banner_left
-              ? <img className="user-profile__cover" src={`${banner_left}`} />
+              ? <img
+                className="user-profile__cover"
+                src={`${DOMAIN_URL}thumbs/unsafe/${leftCoverSize}/${banner_left}`}
+              />
               : <img className="user-profile__cover" src="/images/def_left.jpg" />
           }
           {
@@ -411,7 +446,7 @@ class UserProfileMe extends Component {
         <form
           className="user-profile__cover-big"
           onSubmit={this.saveData}
-          style={banner_main ? { backgroundImage: `url(${banner_main})`, backgroundSize: 'cover' } : null}
+          style={banner_main ? { backgroundImage: `url(${DOMAIN_URL}thumbs/unsafe/1000x400/${banner_main})`, backgroundSize: 'cover' } : null}
         >
           <div className="user-profile__form">
             <div className="user-profile__title-wrap">
