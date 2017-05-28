@@ -180,6 +180,7 @@ class AvatarBlock extends Component {
             wrapperClass="dropdown"
             isFetchingSections={isFetchingSections}
             itemsSections={itemsSections}
+            modalButtonClick={this.modalButtonClick}
           />
         </div>
 
