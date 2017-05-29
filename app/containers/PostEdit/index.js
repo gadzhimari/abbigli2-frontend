@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import fetch from 'isomorphic-fetch';
 import Helmet from 'react-helmet';
-import { API_URL } from 'config'
-import Select from 'react-select'
-import 'react-select/dist/react-select.css'
-import Dropzone from 'react-dropzone'
+import { API_URL } from 'config';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
+import Dropzone from 'react-dropzone';
 import browserHistory from 'react-router/lib/browserHistory';
 import { __t } from './../../i18n/translator';
 
-import OldImagePreview from './components/OldImagePreview';
-
 import { getJsonFromStorage } from 'utils/functions';
 
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 
 import { withRouter } from 'react-router';
 
@@ -222,7 +220,7 @@ class PostEdit extends Component {
     });
   }
 
-  deleteOldFile = (id) => {
+  deleteOldFile = (_, id) => {
     const { oldFiles } = this.state;
     const newOldFiles = oldFiles.filter(item => item.id !== id);
 
@@ -334,11 +332,12 @@ class PostEdit extends Component {
               {
                 this.state.oldFiles.length > 0
                 &&
-                this.state.oldFiles.map(file => <OldImagePreview
+                this.state.oldFiles.map(file => <UploadingImage
                   key={file.id}
                   id={file.id}
-                  imageSrc={file.file}
+                  src={file.file}
                   deleteImage={this.deleteOldFile}
+                  upload={false}
                 />)
               }
               {
