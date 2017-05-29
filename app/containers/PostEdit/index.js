@@ -220,7 +220,7 @@ class PostEdit extends Component {
     });
   }
 
-  deleteOldFile = (id) => {
+  deleteOldFile = (_, id) => {
     const { oldFiles } = this.state;
     const newOldFiles = oldFiles.filter(item => item.id !== id);
 
