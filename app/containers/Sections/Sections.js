@@ -105,7 +105,7 @@ class Sections extends Component {
 
         <CardsWrap legacy>
           <CardsSort>
-            {section_title}
+            {seoTextsObj.title}
             <CardsSortItem to="/new-products">{__t('New')}</CardsSortItem>
             <CardsSortItem to="/popular-products">{__t('Popular')}</CardsSortItem>
             <CardsSortItem to="/nearest-products">{__t('Beside')}</CardsSortItem>
@@ -133,7 +133,7 @@ class Sections extends Component {
         </CardsWrap>
 
         {
-          seoTextsObj.seo_title && seoTextsObj.seo_bottom_text
+          seoTextsObj.seo_title && !isFetching
             ? (<div className="pre-footer">
               <div className="w-inner">
                 <h3>{seoTextsObj.seo_title}</h3>
