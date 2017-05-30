@@ -19,7 +19,11 @@ function CardTag(props) {
   return (
     <Link className="card tag-card legacy" to={"/sections/" + currentSlug + "/" + title}>
       <div className="tag-card__img">
-        <img className="card-img" src={`${DOMAIN_URL}thumbs/unsafe/${sizes[0]}/${preview}`} />
+        <img
+          className="card-img"
+          src={`${DOMAIN_URL}thumbs/unsafe/${sizes[0]}/${preview}`}
+          alt={title}
+        />
       </div>
       <div className="card-name-wrap">
         <div className="card-name">#{title}</div>

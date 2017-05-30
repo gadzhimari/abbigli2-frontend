@@ -100,7 +100,7 @@ class BlogCard extends Component {
               <img
                 className="card-img"
                 src={`${DOMAIN_URL}thumbs/unsafe/360x250/${data.images[0].file}`}
-                alt={data.images[0].description}
+                alt={data.title}
               />
             }
             <Link className="blog-card__avatar" to={`/profile/` + data.user.id}>
