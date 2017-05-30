@@ -37,7 +37,7 @@ const Footer = props => (
           {__t('Policy privacy')}
         </a>
         <div className="footer-copyright">
-          © 2016 Abbigli
+          © 2017 Abbigli
           </div>
       </div>
     </div>

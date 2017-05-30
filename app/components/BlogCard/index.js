@@ -112,9 +112,9 @@ class BlogCard extends Component {
           </div>
           <div className="blog-card__name">{data.title}</div>
           <div className="blog-card__text">
-            <p>
-              {data.content.length < 130 ? data.content.replace(/<(?:.|\n)*?>/gm, '') : data.content.replace(/<(?:.|\n)*?>/gm, '').slice(0, 130) + '...'}
-            </p>
+            <p
+              dangerouslySetInnerHTML={{ __html: data.seo_description }}
+            />
           </div>
         </Link>
         <div className="like-comment">

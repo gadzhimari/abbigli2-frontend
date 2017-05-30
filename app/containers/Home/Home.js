@@ -169,9 +169,6 @@ class Home extends Component {
               {__t('abbigli.about.p5')}
             </p>
           </div>
-          <div className="show-more">
-            { __t('Continue') }
-          </div>
         </div>
       </div>
     );
