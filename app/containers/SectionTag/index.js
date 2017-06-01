@@ -28,10 +28,21 @@ class SectionTag extends Component {
   }
 
   componentWillMount() {
-    const { dispatch, routeParams, items, page } = this.props;
+    const {
+      dispatch,
+      routeParams,
+      items,
+      page,
+      currentTag,
+      currentSection,
+    } = this.props;
 
-    if (items.length === 0) {
-      dispatch(fetchData(routeParams.section, routeParams.tag, page));
+    if (
+      items.length === 0
+      || currentTag !== routeParams.tag
+      || currentSection !== routeParams.section
+    ) {
+      dispatch(fetchData(routeParams.section, routeParams.tag, 1));
     }
 
     this.fetchSectionTags();
@@ -41,9 +52,7 @@ class SectionTag extends Component {
     const { dispatch, routeParams } = this.props;
 
     if (nextProps.routeParams !== routeParams) {
-      this.page = 1;
-
-      dispatch(fetchData(nextProps.routeParams.section, nextProps.routeParams.tag, this.page++));
+      dispatch(fetchData(nextProps.routeParams.section, nextProps.routeParams.tag, 1));
     }
   }
 
@@ -51,14 +60,14 @@ class SectionTag extends Component {
     const { routeParams } = this.props;
 
     fetch(`${API_URL}tags/?section=${routeParams.section}&title=${routeParams.tag}`)
-      .then(response => {
+      .then((response) => {
         if (response.status >= 400) {
           throw new Error("Bad response from server");
         }
 
         return response.json();
       })
-      .then(tags => {
+      .then((tags) => {
         this.setState({
           tags,
         });
@@ -78,8 +87,6 @@ class SectionTag extends Component {
       items,
       isFetching,
       isFetchingMore,
-      section_title,
-      tag_title,
       seo_title,
       seo_description,
       next,
@@ -92,14 +99,20 @@ class SectionTag extends Component {
     const tags = this.state.tags;
     const infiniteScrollLoader = <Loading loading={isFetchingMore} />;
     const seoTextsObj = sections
-    .filter(section => section.slug === routeParams.section)[0] || {};
+      .filter(section => section.slug === routeParams.section)[0] || {};
 
     return (
       <div className="container-fluid tag-page">
         <Helmet
-          title={seo_title ? seo_title : `${routeParams.tag} - ${seoTextsObj.title}`}
+          title={seo_title
+            ? seo_title
+            : `${routeParams.tag} - ${seoTextsObj.title}`
+          }
           meta={[
-            { "name": "description", "content": seo_description }
+            {
+              name: 'description',
+              content: seo_description,
+            },
           ]}
         />
         <EventButtons />
@@ -147,6 +160,11 @@ class SectionTag extends Component {
   }
 }
 
+SectionTag.defaultProps = {
+  currentTag: '',
+  currentSection: '',
+};
+
 SectionTag.propTypes = {
   items: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
@@ -157,6 +175,8 @@ SectionTag.propTypes = {
   routeParams: PropTypes.object.isRequired,
   next: PropTypes.any,
   routes: PropTypes.array.isRequired,
+  currentTag: PropTypes.string,
+  currentSection: PropTypes.string,
 };
 
 function mapStateToProps(state) {
@@ -191,6 +211,8 @@ function mapStateToProps(state) {
     sections: state.Sections.items,
     page,
     priceTemplate: state.Settings.data.CURRENCY,
+    currentTag: state.Posts.currentTag,
+    currentSection: state.Posts.currentSection,
   };
 }
 

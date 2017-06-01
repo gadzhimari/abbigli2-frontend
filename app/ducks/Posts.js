@@ -14,6 +14,8 @@ const initialState = {
   page: 1,
   next: null,
   items: [],
+  currentTag: null,
+  currentSection: null,
 };
 
 // Reducer
@@ -26,6 +28,8 @@ export default function (state = initialState, action = {}) {
         next: action.data.next,
         isFetching: false,
         page: action.page + 1,
+        currentTag: action.tag,
+        currentSection: action.section,
       });
     case APPEND:
       return Object.assign({}, state, {
@@ -63,8 +67,14 @@ export function requestDataAppend() {
   };
 }
 
-export function setData(responseData, page) {
-  return { type: SET, data: responseData, page };
+export function setData(responseData, page, section, tag) {
+  return {
+    type: SET,
+    data: responseData,
+    page,
+    section,
+    tag,
+  };
 }
 
 
@@ -82,7 +92,7 @@ export function fetchData(section, tag, page = 1) {
   if (token) {
     config.headers.Authorization = `JWT ${token}`;
   }
-  return dispatch => {
+  return (dispatch) => {
     if (page === 1) {
       dispatch(requestData());
     } else {
@@ -93,7 +103,7 @@ export function fetchData(section, tag, page = 1) {
       .then((responseData) => {
         if (responseData.results) {
           if (page === 1) {
-            dispatch(setData(responseData, page));
+            dispatch(setData(responseData, page, section, tag));
           } else {
             dispatch(appendData(responseData, page));
           }
