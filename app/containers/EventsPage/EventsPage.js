@@ -237,19 +237,15 @@ class EventsPage extends Component {
 
     const loader = <Loading loading={isFetchingMore} />;
 
-    const wrapperClass = this.state.openMobileSearch
-      ? 'container-fluid events-page modal-open-new'
-      : 'container-fluid events-page';
-
     return (
-      <div className={wrapperClass}>
+      <div className="container-fluid events-page">
         <CardsWrap legacy>
           <CardsSort>
 
             <div className="cards-sort__page">
               <div className="cards-sort__icon">
                 <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 36">
-                  <path d="M29,36H3c-1.657,0-3-1.344-3-3V7c0-1.656,1.343-3,3-3h1V0h4v4h16V0h4 v4h1c1.657,0,3,1.343,3,3v26C32,34.656,30.657,36,29,36z M29,14H3v19h26V14z M26,30h-8v-8h8V30z"/>
+                  <path d="M29,36H3c-1.657,0-3-1.344-3-3V7c0-1.656,1.343-3,3-3h1V0h4v4h16V0h4 v4h1c1.657,0,3,1.343,3,3v26C32,34.656,30.657,36,29,36z M29,14H3v19h26V14z M26,30h-8v-8h8V30z" />
                 </svg>
               </div>
             </div>
@@ -266,18 +262,11 @@ class EventsPage extends Component {
             >
               {__t('Popular')}
             </a>
-            <button
-              className="search-submit-button"
-              type="button"
-              onClick={this.openMobileModal}
-            >
-              {__t('Find.the.event')}
-            </button>
             <div className="search-event-wrap">
               <form className="search-event">
                 <div className="selectize-address">
-                  <svg className="icon" xmlns="http://www.w3.org/2000/svg"	 viewBox="0 0 12.6 18">
-                    <path d="M6.3,0C2.817,0,0,2.816,0,6.3C0,11.025,6.3,18,6.3,18s6.3-6.975,6.3-11.7C12.6,2.816,9.785,0,6.3,0z M6.3,8.55 c-1.242,0-2.25-1.008-2.25-2.25S5.058,4.05,6.3,4.05c1.241,0,2.25,1.008,2.25,2.25S7.542,8.55,6.3,8.55z"/>
+                  <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.6 18">
+                    <path d="M6.3,0C2.817,0,0,2.816,0,6.3C0,11.025,6.3,18,6.3,18s6.3-6.975,6.3-11.7C12.6,2.816,9.785,0,6.3,0z M6.3,8.55 c-1.242,0-2.25-1.008-2.25-2.25S5.058,4.05,6.3,4.05c1.241,0,2.25,1.008,2.25,2.25S7.542,8.55,6.3,8.55z" />
                   </svg>
                   <div
                     className={`selectize-control single`}
@@ -311,7 +300,7 @@ class EventsPage extends Component {
                   />
                   {
                     this.state.showDayFromOverlay
-                      &&
+                    &&
                     <div style={{ position: 'relative' }}>
                       <div style={overlayStyle}>
                         <DayPicker
@@ -328,7 +317,8 @@ class EventsPage extends Component {
                   className="input-wrap input-date"
                   onMouseDown={(e) => this.handleContainerMouseDown(e, 'to')}
                 >
-                  <input id="end-event"
+                  <input
+                    id="end-event"
                     ref={(el) => { this.input = el; }}
                     value={this.state.end || undefined}
                     onChange={(e) => this.handleInputChange(e, 'to')}
@@ -353,50 +343,23 @@ class EventsPage extends Component {
                     </div>
                   }
                 </div>
+                <button
+                  className="search-submit-button"
+                  type="button"
+                  onClick={this.search}
+                >
+                  {__t('Find.the.event')}
+                </button>
               </form>
             </div>
-            <div className="popup-wrap" id="event-search-popup" style={{ display: 'none' }}>
-              <div className="popup">
-                <svg className="popup-close icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14.031">
-<path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618
-	L8.409,7.016L14,1.414z"/>
-</svg>
-
-                <div className="popup-title">{__t('Search.in.the.section')}</div>
-                <form className="popup-form">
-                  <div className="selectize-address">
-                    <svg className="icon" xmlns="http://www.w3.org/2000/svg"	 viewBox="0 0 12.6 18">
-<path d="M6.3,0C2.817,0,0,2.816,0,6.3C0,11.025,6.3,18,6.3,18s6.3-6.975,6.3-11.7C12.6,2.816,9.785,0,6.3,0z M6.3,8.55
-	c-1.242,0-2.25-1.008-2.25-2.25S5.058,4.05,6.3,4.05c1.241,0,2.25,1.008,2.25,2.25S7.542,8.55,6.3,8.55z"/>
-</svg>
-                    <select id="eventSearch" placeholder={__t('city')}></select></div>
-                  <div className="input-wrap input-date">
-                    <input
-                      id="start-event"
-                      className="input"
-                      type="text"
-                      placeholder={__t('Date.from')}
-                    />
-                  </div>
-                  <div className="input-wrap input-date">
-                    <input
-                      id="end-event"
-                      className="input"
-                      type="text"
-                      placeholder={__t('Date.to')}
-                    />
-                  </div>
-                  <button
-                    className="search-submit-button"
-                    type="submit"
-                  >
-                    {__t('Find.the.event')}
-                  </button>
-                </form>
-              </div>
-            </div>
-
           </CardsSort>
+          <button
+            className="search-submit-button event-search__button--mobile"
+            type="button"
+            onClick={this.openMobileModal}
+          >
+            {__t('Find.the.event')}
+          </button>
           {
             isFetchingEvents
               ? <Loading loading={isFetchingEvents} />
@@ -408,7 +371,7 @@ class EventsPage extends Component {
                 {
                   itemsEvents.length > 0
                     ? itemsEvents.map(item => <EventCard
-                      key={'event'+item.id}
+                      key={'event' + item.id}
                       data={item}
                       legacy
                       dispatch={dispatch}
