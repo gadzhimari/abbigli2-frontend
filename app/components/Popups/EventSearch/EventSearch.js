@@ -37,13 +37,13 @@ class EventSearch extends Component {
     options.findEvents(city, startDay, endDay);
   }
 
-  focusDate = (e) => {
-    e.preventDefault();
-    document.getElementById(e.currentTarget.name).focus();
+  focusDate = ({ currentTarget }) => {
+    console.log(document.getElementById(currentTarget.dataset.name));
+    document.getElementById(currentTarget.dataset.name).focus();
   }
 
   changeDate = ({ target }) => this.setState({
-    [target.id]: moment(target.value)
+    [target.dataset.name]: moment(target.value)
       .locale(location)
       .format(formate),
   });
@@ -58,19 +58,16 @@ class EventSearch extends Component {
         title={__t('Find events')}
       >
         <form className="popup-form">
-          <input type="date" id="start" className="hidden" onChange={this.changeDate} />
-          <input type="date" id="end" className="hidden" onChange={this.changeDate} />
-
           <div className="popup-form__field">
             <div
               className="input-wrap input-date"
             >
               <input
-                name="start"
-                onClick={this.focusDate}
+                data-name="start"
+                onChange={this.changeDate}
                 value={start || undefined}
                 className="input events__search-input"
-                type="text"
+                type="date"
                 placeholder={__t('Date.from')}
               />
             </div>
@@ -80,11 +77,11 @@ class EventSearch extends Component {
               className="input-wrap input-date"
             >
               <input
-                name="end"
+                data-name="end"
                 value={end || undefined}
-                onClick={this.focusDate}
+                onChange={this.changeDate}
                 className="input input events__search-input"
-                type="text"
+                type="date"
                 placeholder={__t('Date.to')}
               />
             </div>
