@@ -74,7 +74,7 @@ class Home extends Component {
         <HR color={'blue'} />
 
         <TileWrap>
-          <h3>
+          <h3 className="home__section-text">
             { __t('Display.for.sale.their.works') }
           </h3>
 
@@ -99,7 +99,7 @@ class Home extends Component {
 
         <HR color={'green'} />
         <TileWrap>
-          <h3>
+          <h3 className="home__section-text">
             { __t('Share.with.the.world.the.thoughts.and.ideas.of.his.work') }
           </h3>
           {
@@ -123,7 +123,7 @@ class Home extends Component {
         <HR color={'purple'} />
 
         <TileWrap>
-          <h3>
+          <h3 className="home__section-text">
             { __t('Share.information.about.your.master.class.creative.event.exhibition') }
           </h3>
           {

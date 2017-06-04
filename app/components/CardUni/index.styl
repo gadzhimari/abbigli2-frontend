@@ -6,7 +6,7 @@
   border-radius: 3px;
   height: 337px;
   margin: 8px;
-  width: 337px;
+  width: 23%;
   border: 1px solid #8f8e8e;
   @media phone
     display: block
@@ -73,6 +73,7 @@
   &__city
     padding-left: 20px
   &__author
+    width: 100%
     display: block
     position: absolute
     bottom: 7px
@@ -121,3 +122,21 @@
     &:hover
       color: #1d1c1c
       text-decoration: underline
+
+@media all and (max-width: 1179px) {
+  .tile {
+    width: 31%;
+  }
+}
+
+@media all and (max-width: 875px) {
+  .tile {
+    width: 40%;
+  }
+}
+
+@media all and (max-width: 500px) {
+  .tile {
+    width: 90%;
+  }
+}
