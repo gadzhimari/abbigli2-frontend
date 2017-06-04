@@ -314,7 +314,9 @@ export function sendPostMessage(sender, post, message, showWants) {
             if (res) {
               dispatch(messageSended());
               showWants(false);
-              dispatch(openPopup('statusPopup'));
+              dispatch(openPopup('statusPopup', {
+                title: 'Message have been successfully sent',
+              }));
             }
           });
       });
@@ -359,7 +361,9 @@ export function sendPrivateMessage(sender, message, dialogID) {
       .then(res => res.json())
       .then(response => fetch(response.url, Object.assign(config, sendData))
         .then(() => {
-          dispatch(openPopup('statusPopup'));
+          dispatch(openPopup('statusPopup', {
+            title: 'Message have been successfully sent',
+          }));
           dispatch(messageSended());
         })
       );

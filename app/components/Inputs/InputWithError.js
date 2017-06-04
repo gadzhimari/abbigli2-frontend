@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Input from './Input';
 
 import { omit } from 'utils/functions';
@@ -74,6 +74,17 @@ class InputWithError extends Component {
 InputWithError.defaultProps = {
   component: Input,
   type: 'text',
+};
+
+InputWithError.propTypes = {
+  wrapperClass: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
+  component: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+    PropTypes.element,
+  ]),
+  errors: PropTypes.any,
 };
 
 
