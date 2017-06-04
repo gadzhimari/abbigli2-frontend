@@ -6,13 +6,11 @@ import {
   Banner,
   Loading,
   HR,
-  BlogCard,
-  EventCard,
   CardUni,
   BannerBlue,
   HomeSlider,
   Link,
-} from 'components'
+} from 'components';
 
 import { fetchData as fetchDataBlogs } from 'ducks/Blogs';
 import { fetchData as fetchDataEvents } from 'ducks/Events';
@@ -61,7 +59,7 @@ class Home extends Component {
         <Banner />
         {
           (!isFetchingSections && itemsSections.length > 0)
-            &&
+          &&
           <HomeSlider itemsSections={itemsSections} />
         }
         <Loading loading={isFetchingSections} />
@@ -74,13 +72,15 @@ class Home extends Component {
         <HR color={'blue'} />
 
         <TileWrap>
-          <h3 className="home__section-text">
-            { __t('Display.for.sale.their.works') }
-          </h3>
+          <div className="home__title-wrapper">
+            <h3 className="home__section-text">
+              {__t('Display.for.sale.their.works')}
+            </h3>
+          </div>
 
           {
             (!isFetchingProducts && itemsProducts.length > 0)
-              &&
+            &&
             itemsProducts
               .slice(0, 8)
               .map(item => <CardUni
@@ -94,17 +94,19 @@ class Home extends Component {
         <Loading loading={isFetchingProducts} />
 
         <Link to="/new-products/" className="show-more">
-          { __t('Explore') }
+          {__t('Explore')}
         </Link>
 
         <HR color={'green'} />
         <TileWrap>
-          <h3 className="home__section-text">
-            { __t('Share.with.the.world.the.thoughts.and.ideas.of.his.work') }
-          </h3>
+          <div className="home__title-wrapper">
+            <h3 className="home__section-text">
+              {__t('Share.with.the.world.the.thoughts.and.ideas.of.his.work')}
+            </h3>
+          </div>
           {
             (!isFetchingBlogs && itemsBlogs.length > 0)
-              &&
+            &&
             itemsBlogs
               .slice(0, 8)
               .map(item => <CardUni
@@ -117,18 +119,20 @@ class Home extends Component {
         <Loading loading={isFetchingBlogs} />
 
         <Link to="/blogs" className="show-more">
-          { __t('read more') }
+          {__t('read more')}
         </Link>
 
         <HR color={'purple'} />
 
         <TileWrap>
-          <h3 className="home__section-text">
-            { __t('Share.information.about.your.master.class.creative.event.exhibition') }
-          </h3>
+          <div className="home__title-wrapper">
+            <h3 className="home__section-text">
+              {__t('Share.information.about.your.master.class.creative.event.exhibition')}
+            </h3>
+          </div>
           {
             (!isFetchingEvents && itemsEvents.length > 0)
-              &&
+            &&
             itemsEvents
               .slice(0, 8)
               .map(item => <CardUni
@@ -141,7 +145,7 @@ class Home extends Component {
         <Loading loading={isFetchingEvents} />
 
         <Link to="/events" className="show-more">
-          { __t('Continue') }
+          {__t('Continue')}
         </Link>
 
         <HR color={'orange'} />
