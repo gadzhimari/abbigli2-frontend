@@ -103,11 +103,18 @@ class BlogCard extends Component {
                 alt={data.title}
               />
             }
-            <Link className="blog-card__avatar" to={`/profile/` + data.user.id}>
-              <img
-                src={`${DOMAIN_URL}thumbs/unsafe/36x36/${data.user.avatar}`}
-                alt={data.user.profile_name}
-              />
+            <Link className="blog-card__avatar" to={`/profile/${data.user.id}`}>
+              {
+                data.user.avatar
+                  ? <img
+                    src={`${DOMAIN_URL}thumbs/unsafe/36x36/${data.user.avatar}`}
+                    alt={data.user.profile_name}
+                  />
+                  : <img
+                    src={'/images/svg/avatar.svg'}
+                    alt={data.user.profile_name}
+                  />
+              }
             </Link>
           </div>
           <div className="blog-card__name">{data.title}</div>

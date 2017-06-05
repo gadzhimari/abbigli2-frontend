@@ -17,7 +17,7 @@ const MessageItem = (props) => {
             {item.sender.id != id &&
               <img className="message__ava-img"
                 src={!item.sender.avatar
-                ? 'http://abbigli.ru/static/new_theme/images/svg/avatar.svg'
+                ? '/images/svg/avatar.svg'
                 : `${DOMAIN_URL}thumbs/unsafe/60x60/${item.sender.avatar}`
               }
               />
