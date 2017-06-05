@@ -34,6 +34,7 @@ const reset = (creds) => {
         dispatch(openPopup('confirmPopup', {
           callback: data => dispatch(resetConfirm(data)),
           previousPopup: 'resetPopup',
+          username: user.username,
         }));
       });
   };
