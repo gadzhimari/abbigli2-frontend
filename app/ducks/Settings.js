@@ -36,10 +36,13 @@ export default function (state = initialState, action = {}) {
           }));
       const currentCountry = data
         .filter(item => item.code === code)[0];
+      const value = currentCountry
+        ? currentCountry.value
+        : null;
 
       return Object.assign({}, state, {
         geo: data,
-        currentCountry,
+        currentCountry: value,
       });
     }
     default:
