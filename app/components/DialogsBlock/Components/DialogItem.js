@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import { DOMAIN_URL } from 'config';
+
 const DialogItem = (props) => {
   const {
     item,
@@ -44,12 +46,16 @@ const DialogItem = (props) => {
             <div className="message__preview img-round">
               {
                 item.recipient && item.recipient.avatar
-                  ? <img className="message__preview-img" alt="" src={item.recipient.avatar} />
-                  : <div className="message__preview-img">
-                    <svg className="icon" viewBox="0 0 19.2 22.721">
-                      <path fill="#1076ff" d="M9.601,22.721c-4,0-7.536-2.048-9.601-5.151 c0.048-3.185,6.4-4.929,9.601-4.929c3.184,0,9.553,1.744,9.6,4.929C17.136,20.673,13.601,22.721,9.601,22.721z M9.601,9.6 C6.944,9.6,4.8,7.457,4.8,4.801C4.8,2.145,6.944,0,9.601,0s4.8,2.145,4.8,4.801C14.4,7.457,12.257,9.6,9.601,9.6z"/>
-                    </svg>
-                  </div>
+                  ? <img
+                    className="message__preview-img"
+                    alt={item.recipient.profile_name}
+                    src={`${DOMAIN_URL}thumbs/unsafe/100x100/${item.recipient.avatar}`}
+                  />
+                  : <img
+                    className="message__preview-img"
+                    src={'/images/svg/avatar.svg'}
+                    alt={item.recipient.profile_name}
+                  />
               }
             </div>
             <div className="message__icon">

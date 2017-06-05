@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import { DOMAIN_URL } from 'config';
+
 const MessageItem = (props) => {
   const { item } = props;
 
@@ -14,10 +16,10 @@ const MessageItem = (props) => {
           <div className="message__ava">
             {item.sender.id != id &&
               <img className="message__ava-img"
-                src={!item.sender.avatar ?
-                  'http://abbigli.ru/static/new_theme/images/svg/avatar.svg'
-                  :
-                  item.sender.avatar}
+                src={!item.sender.avatar
+                ? '/images/svg/avatar.svg'
+                : `${DOMAIN_URL}thumbs/unsafe/60x60/${item.sender.avatar}`
+              }
               />
             }
           </div>
