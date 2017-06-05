@@ -1,8 +1,7 @@
-import { setJsonToStorage } from 'utils/functions';
 import { setFetchingStatus, setError, handleSucces } from './common';
 
 import { openPopup } from 'ducks/Popup/actions';
-import { confirmRegistration } from './';
+import { registerConfirm } from './';
 
 import { API_URL } from 'config';
 
@@ -32,7 +31,7 @@ const registration = (creds) => {
         }));
 
         dispatch(openPopup('confirmPopup', {
-          callback: data => dispatch(confirmRegistration(data)),
+          callback: data => dispatch(registerConfirm(data)),
           previousPopup: 'registerPopup',
         }));
       })

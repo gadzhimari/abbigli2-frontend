@@ -1,4 +1,3 @@
-import { setJsonToStorage, deleteFromStorage } from 'utils/functions';
 import { setFetchingStatus, setError, handleSucces } from './common';
 
 import { openPopup } from 'ducks/Popup/actions';
