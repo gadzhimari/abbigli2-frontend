@@ -1,7 +1,7 @@
 import { setFetchingStatus, setError, handleSucces } from './common';
 
 import { openPopup } from 'ducks/Popup/actions';
-import { confirmReset } from './';
+import { resetConfirm } from './';
 
 import { API_URL } from 'config';
 
@@ -32,7 +32,7 @@ const reset = (creds) => {
         }));
 
         dispatch(openPopup('confirmPopup', {
-          callback: data => dispatch(confirmReset(data)),
+          callback: data => dispatch(resetConfirm(data)),
           previousPopup: 'resetPopup',
         }));
       });
