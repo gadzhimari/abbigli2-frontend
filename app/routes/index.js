@@ -58,8 +58,8 @@ const routes = (store, token, shouldPreload) => {
       <Route path="page/agreement" component={Agreement} />
       <Route path="questions" component={Questions} />
       <Route path="sections/:section" component={Sections} />
-      <Route path="sections/:section/:tag" component={SectionTag} />
-      <Route path="tags/:tags(/:page)" component={Tag} />
+      <Route path="sections/:section/:tags(/:filter)" component={SectionTag} />
+      <Route path="tags/:tags/:filter(/:page)" component={Tag} />
 
       <Route path="post/new" component={PostCreate} onEnter={handleNoAuth} />
       <Route path="profile/:profile/post/edit/:slug" component={PostEdit} />
@@ -81,6 +81,10 @@ const routes = (store, token, shouldPreload) => {
       <Route path="popular-products" component={SpecificPostsPage} slug="popular" />
       <Route path="set-the-mood" component={SpecificPostsPage} slug="mood" />
       <Route path="nearest-products" component={SpecificPostsPage} slug="near" />
+
+      <Route path="new-products/:section" component={SectionTag} slug="new" />
+      <Route path="popular-products/:section" component={SectionTag} slug="popular" />
+      <Route path="nearest-products/:section" component={SectionTag} slug="nearest" />
     </Route>
   );
 };

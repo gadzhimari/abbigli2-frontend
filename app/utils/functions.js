@@ -102,3 +102,11 @@ export const omit = (obj, values) => {
 
   return newObj;
 };
+
+export const createQuery = (queryObj) => {
+  const keys = Object.keys(queryObj);
+
+  if (keys.length === 0) return '';
+
+  return keys.reduce((a, b) => `${a}${a.length > 1 ? '&' : ''}${b}=${queryObj[b]}`, '?');
+};

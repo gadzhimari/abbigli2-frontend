@@ -109,7 +109,7 @@ class ProductView extends Component {
                 data.tags.map(tag => (<a
                   className="tag-btn product-tag"
                   key={`${tag}--tags`}
-                  href={`/tags/${tag}/`}
+                  href={`/tags/${tag}/new`}
                 >
                   #{tag}
                 </a>))

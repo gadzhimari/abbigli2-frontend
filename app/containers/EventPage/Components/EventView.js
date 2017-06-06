@@ -100,7 +100,7 @@ const EventView = (props) => {
             data.tags.map((tag, indx) => (<Link
               className="tag-btn blog-tag"
               key={`${indx}--${tag}`}
-              to={`/tags/${tag}/`}
+              to={`/tags/${tag}/new`}
             >
               #{tag}
             </Link>))
@@ -139,7 +139,7 @@ const EventView = (props) => {
             {
               data.tags
               &&
-              data.tags.map((tag, idx) => (<a key={idx} className="tag-btn event-tag" href={`/tags/${tag}/`}>#{tag}</a>))
+              data.tags.map((tag, idx) => (<a key={idx} className="tag-btn event-tag" href={`/tags/${tag}/new`}>#{tag}</a>))
             }
           </div>
           <div className="sidebar__section">

@@ -9,13 +9,22 @@ import {
   Loading,
 } from 'components';
 import Helmet from 'react-helmet';
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
-import './index.styl';
 import { fetchData } from 'ducks/Posts';
 import { API_URL } from 'config';
 
 import { __t } from './../../i18n/translator';
+
+import './index.styl';
+
+const getSectionUrl = (slug, section, tag) => {
+  if (tag) {
+    return `/sections/${section}/${tag}/${slug}`;
+  }
+
+  return `/${slug}-products/${section}`;
+};
 
 class SectionTag extends Component {
   constructor(props) {
@@ -32,27 +41,47 @@ class SectionTag extends Component {
       dispatch,
       routeParams,
       items,
-      page,
       currentTag,
       currentSection,
+      route,
     } = this.props;
+
+    this.fetchSectionTags();
 
     if (
       items.length === 0
       || currentTag !== routeParams.tag
       || currentSection !== routeParams.section
     ) {
-      dispatch(fetchData(routeParams.section, routeParams.tag, 1));
-    }
+      const options = Object.assign({}, routeParams);
 
-    this.fetchSectionTags();
+      if (route.slug) {
+        options[route.slug] = true;
+      }
+
+      if (routeParams.filter) {
+        options[routeParams.filter] = true;
+      }
+
+      dispatch(fetchData(options));
+    }
   }
 
   componentWillUpdate(nextProps) {
     const { dispatch, routeParams } = this.props;
 
     if (nextProps.routeParams !== routeParams) {
-      dispatch(fetchData(nextProps.routeParams.section, nextProps.routeParams.tag, 1));
+      const options = Object.assign({}, nextProps.routeParams);
+
+      if (nextProps.route.slug) {
+        options[nextProps.route.slug] = true;
+      }
+
+      if (nextProps.routeParams.filter) {
+        options[nextProps.routeParams.filter] = true;
+      }
+
+      dispatch(fetchData(options));
     }
   }
 
@@ -75,11 +104,30 @@ class SectionTag extends Component {
   }
 
   loadMore = () => {
-    const { dispatch, routeParams, isFetchingMore, next, page } = this.props;
+    const {
+      dispatch,
+      routeParams,
+      isFetchingMore,
+      next,
+      page,
+      route,
+    } = this.props;
 
     if (isFetchingMore || next === null) return;
 
-    dispatch(fetchData(routeParams.section, routeParams.tag, page));
+    const options = Object.assign({}, routeParams, {
+      page,
+    });
+
+    if (route.slug) {
+      options[route.slug] = true;
+    }
+
+    if (routeParams.filter) {
+      options[routeParams.filter] = true;
+    }
+
+    dispatch(fetchData(options));
   }
 
   render() {
@@ -94,19 +142,23 @@ class SectionTag extends Component {
       isAuthenticated,
       routeParams,
       sections,
+      route,
     } = this.props;
 
     const tags = this.state.tags;
     const infiniteScrollLoader = <Loading loading={isFetchingMore} />;
     const seoTextsObj = sections
       .filter(section => section.slug === routeParams.section)[0] || {};
+    const alternativeTitle = routeParams.tags
+      ? `${routeParams.tags} - ${seoTextsObj.title}`
+      : seoTextsObj.title;
 
     return (
       <div className="container-fluid tag-page">
         <Helmet
           title={seo_title
             ? seo_title
-            : `${routeParams.tag} - ${seoTextsObj.title}`
+            : alternativeTitle
           }
           meta={[
             {
@@ -118,7 +170,7 @@ class SectionTag extends Component {
         <EventButtons />
         {
           tags.results.length > 1
-            &&
+          &&
           <TagsBar
             tags={tags.results}
             link={`/sections/${routeParams.section}/`}
@@ -126,10 +178,25 @@ class SectionTag extends Component {
         }
         <CardsWrap legacy>
           <CardsSort>
-            {seoTextsObj.title} #{routeParams.tag}
-            <CardsSortItem to="/new-products">{__t('New')}</CardsSortItem>
-            <CardsSortItem to="/popular-products">{__t('Popular')}</CardsSortItem>
-            <CardsSortItem to="/nearest-products">{__t('Beside')}</CardsSortItem>
+            {seoTextsObj.title} {routeParams.tags ? ` #${routeParams.tags}` : null}
+            <CardsSortItem
+              to={getSectionUrl('new', routeParams.section, routeParams.tags)}
+              isActive={route.slug === 'new' || (!routeParams.filter && !route.slug) || routeParams.filter === 'new'}
+            >
+              {__t('New')}
+            </CardsSortItem>
+            <CardsSortItem
+              to={getSectionUrl('popular', routeParams.section, routeParams.tags)}
+              isActive={route.slug === 'popular' || routeParams.filter === 'popular'}
+            >
+              {__t('Popular')}
+            </CardsSortItem>
+            <CardsSortItem
+              to={getSectionUrl('nearest', routeParams.section, routeParams.tags)}
+              isActive={route.slug === 'nearest' || routeParams.filter === 'nearest'}
+            >
+              {__t('Beside')}
+            </CardsSortItem>
           </CardsSort>
 
           {
@@ -185,9 +252,9 @@ function mapStateToProps(state) {
     items,
     page,
   } = (state.Posts) || {
-    isFetching: true,
-    items: [],
-  };
+      isFetching: true,
+      items: [],
+    };
   const auth = state.Auth || {
     isAuthenticated: false,
   };

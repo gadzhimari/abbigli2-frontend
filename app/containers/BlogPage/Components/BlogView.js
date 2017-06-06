@@ -86,7 +86,7 @@ const ProductView = (props) => {
             data.tags.map((tag, indx) => (<Link
               className="tag-btn blog-tag"
               key={`${indx}--${tag}`} 
-              to={`/tags/${tag}/`}
+              to={`/tags/${tag}/new`}
             >
               #{tag}
             </Link>))
@@ -125,7 +125,7 @@ const ProductView = (props) => {
             {
               data.tags
               &&
-              data.tags.map((tag, indx) => (<a className="tag-btn blog-tag" key={`${indx}--${tag}`} href={`/tags/${tag}/`}>#{tag}</a>))
+              data.tags.map((tag, indx) => (<a className="tag-btn blog-tag" key={`${indx}--${tag}`} href={`/tags/${tag}/new`}>#{tag}</a>))
             }
           </div>
           <div className="sidebar__section">

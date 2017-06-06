@@ -63,16 +63,16 @@ class Search extends Component {
     }
   }
 
-  onTagsCreated = tags => {
+  onTagsCreated = (tags) => {
     const { dispatch } = this.props;
 
     dispatch(setTags(tags));
   }
 
   checkLoadedWithTags = () => {
-    const { dispatch, params } = this.props;
+    const { dispatch, params, location } = this.props;
 
-    if (params.tags) {
+    if (location.pathname.includes('/tags/') && params.tags) {
       const tags = params.tags
         .split(',')
         .map((tag, id) => ({
@@ -84,7 +84,7 @@ class Search extends Component {
     }
   }
 
-  deleteTag = tagId => {
+  deleteTag = (tagId) => {
     const { dispatch } = this.props;
 
     dispatch(deleteTag(tagId));
@@ -97,9 +97,11 @@ class Search extends Component {
   }
 
   searchByTags = () => {
-    const { router, tagList } = this.props;
-    if (!tagList.length) {
+    const { router, tagList, location } = this.props;
+    if (location.pathname.includes('/tags/') && !tagList.length) {
       router.push('/');
+      return;
+    } else if (!tagList.length) {
       return;
     }
 
@@ -107,7 +109,7 @@ class Search extends Component {
       .map(tag => tag.text)
       .join(',');
 
-    router.push(`/tags/${link}`);
+    router.push(`/tags/${link}/new`);
   }
 
   clearRes = () => {
@@ -118,7 +120,7 @@ class Search extends Component {
     });
   }
 
-  changeMode = mode => {
+  changeMode = (mode) => {
     this.setState({
       mode,
     });

@@ -106,8 +106,16 @@ class Sections extends Component {
         <CardsWrap legacy>
           <CardsSort>
             {seoTextsObj.title}
-            <CardsSortItem to="/new-products">{__t('New')}</CardsSortItem>
-            <CardsSortItem to="/popular-products">{__t('Popular')}</CardsSortItem>
+            <CardsSortItem
+              to={`/new-products/${routeParams.section}`}
+            >
+              {__t('New')}
+            </CardsSortItem>
+            <CardsSortItem
+              to={`/popular-products/${routeParams.section}`}
+            >
+              {__t('Popular')}
+            </CardsSortItem>
             <CardsSortItem to="/nearest-products">{__t('Beside')}</CardsSortItem>
           </CardsSort>
 
