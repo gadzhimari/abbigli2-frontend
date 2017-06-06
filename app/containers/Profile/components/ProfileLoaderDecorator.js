@@ -55,17 +55,7 @@ const ProfileLoaderDecorator = Profile => class extends Component {
   render() {
     const {
       isFetching,
-      isMe,
-      user,
-      errorMessage,
-      followers,
-      following,
-      me,
-      dispatch,
       routes,
-      isAuthenticated,
-      errors,
-      children,
     } = this.props;
 
     const childrenPath = routes[2].path;
@@ -78,19 +68,7 @@ const ProfileLoaderDecorator = Profile => class extends Component {
             <Loading loading={isFetching} />
           </div>
           )
-          : (<Profile
-            isMe={isMe}
-            me={me}
-            user={user}
-            errorMessage={errorMessage}
-            following={following}
-            followers={followers}
-            dispatch={dispatch}
-            childrenPath={childrenPath}
-            isAuthenticated={isAuthenticated}
-            errors={errors}
-            children={children}
-          />)}
+          : (<Profile {...this.props} childrenPath={childrenPath} />)}
     </div>);
   }
 };

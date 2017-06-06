@@ -24,6 +24,7 @@ import Seo from 'ducks/Seo';
 import Settings from 'ducks/Settings';
 import Search from 'ducks/Search';
 import Menu from 'ducks/Menu';
+import Follow from 'actions/follow';
 
 import { routerReducer } from 'react-router-redux';
 
@@ -52,4 +53,5 @@ export default combineReducers({
   Search,
   Menu,
   routing: routerReducer,
+  Follow,
 });

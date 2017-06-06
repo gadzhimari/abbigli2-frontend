@@ -44,7 +44,7 @@ class Profile extends Component {
   }
 
 
-  showFollowing = show => {
+  showFollowing = (show) => {
     this.setState({
       showSubscribersFollowing: show,
     });
@@ -58,7 +58,6 @@ class Profile extends Component {
   }
 
   render() {
-
     const {
       dispatch,
       isAuthenticated,
@@ -69,6 +68,7 @@ class Profile extends Component {
       followers,
       me,
       childrenPath,
+      followFetching,
     } = this.props;
 
     const { showSubscribersFollowing } = this.state;
@@ -82,8 +82,7 @@ class Profile extends Component {
       .map(this.props.children, child => React.cloneElement(child, {
         isMe,
         me,
-      })
-      );
+      }));
 
     const title = isMe
       ? 'My profile'
@@ -124,6 +123,7 @@ class Profile extends Component {
               isAuthenticated={isAuthenticated}
               me={me}
               data={user}
+              followFetching={followFetching}
               dispatch={dispatch}
               errors={errors}
               showFollowers={() => this.setState({ showSubscribersFollowing: false, showSubscribers: true })}
@@ -214,6 +214,7 @@ Profile.propTypes = {
   followers: PropTypes.array.isRequired,
   isMe: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  followFetching: PropTypes.bool.isRequired,
   children: PropTypes.any,
   me: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
@@ -252,6 +253,7 @@ function mapStateToProps(state) {
     isMe,
     followers,
     following,
+    followFetching: state.Follow.isFetching,
   };
 }
 
