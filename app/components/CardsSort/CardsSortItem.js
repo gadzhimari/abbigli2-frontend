@@ -1,15 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-function CardSortItem(props) {
-  return (
+const className = 'cards-sort__item';
+const activeClass = `${className} cards-sort__item--active`;
+
+const CardSortItem = ({
+  to,
+  children,
+  isActive,
+}) => (
     <Link
-      to={props.to}
-      className="cards-sort__item"
+      to={to}
+      className={isActive ? activeClass : className}
     >
-      {props.children}
+      {children}
     </Link>
   );
-}
 
 export default CardSortItem;

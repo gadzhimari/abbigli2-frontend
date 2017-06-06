@@ -15,7 +15,7 @@ import {
 
 import { __t } from './../../i18n/translator';
 
-import { getJsonFromStorage } from 'utils/functions';
+import { getJsonFromStorage, createQuery } from 'utils/functions';
 
 import './Tag.styl';
 import { API_URL } from 'config';
@@ -69,24 +69,31 @@ class Tag extends Component {
     const { routeParams } = this.props;
 
     fetch(`${API_URL}tags/?related_with=${routeParams.tags}`)
-      .then(response => {
+      .then((response) => {
         if (response.status >= 400) {
           throw new Error('Bad response from server');
         }
 
         return response.json();
       })
-      .then(tags => {
+      .then((tags) => {
         this.setState({ tags });
       });
   }
 
   loadItems = () => {
     const { routeParams } = this.props;
-    const { result } = this.state;
     const page = routeParams.page || 1;
     const token = getJsonFromStorage('id_token') || null;
     const config = { headers: {} };
+    const options = {
+      tags: routeParams.tags,
+      [routeParams.filter]: true,
+    };
+
+    if (page !== 1) {
+      options.page = page;
+    }
 
     this.setState({
       pageCount: 0,
@@ -96,8 +103,8 @@ class Tag extends Component {
       config.headers.Authorization = `JWT ${token}`;
     }
 
-    fetch(`${API_URL}posts/?page=${page}&tags=${routeParams.tags}`, config)
-      .then(response => {
+    fetch(`${API_URL}posts/${createQuery(options)}`, config)
+      .then((response) => {
         if (response.status >= 400) {
           throw new Error('Bad response from server');
         }
@@ -130,7 +137,7 @@ class Tag extends Component {
         const activeLink = routeParams.page || '1';
         const template = (
           <Link
-            to={`/tags/${routeParams.tags}/${i}`}
+            to={`/tags/${routeParams.tags}/${routeParams.filter}/${i}`}
             key={`${i}-pagelink`}
             className={`page__link ${activeLink === i.toString() ? 'page__link--active' : ''}`}
           >
@@ -166,9 +173,24 @@ class Tag extends Component {
         <CardsWrap legacy>
           <CardsSort>
             {tagsSharp}
-            <CardsSortItem to="/new-products">{__t('New')}</CardsSortItem>
-            <CardsSortItem to="/popular-products">{__t('Popular')}</CardsSortItem>
-            <CardsSortItem to="/nearest-products">{__t('Beside')}</CardsSortItem>
+            <CardsSortItem
+              to={`/tags/${routeParams.tags}/new`}
+              isActive={routeParams.filter === 'new'}
+            >
+              {__t('New')}
+            </CardsSortItem>
+            <CardsSortItem
+              to={`/tags/${routeParams.tags}/popular`}
+              isActive={routeParams.filter === 'popular'}
+            >
+              {__t('Popular')}
+            </CardsSortItem>
+            <CardsSortItem
+              to={`/tags/${routeParams.tags}/nearest`}
+              isActive={routeParams.filter === 'nearest'}
+            >
+              {__t('Beside')}
+            </CardsSortItem>
           </CardsSort>
         </CardsWrap>
           {

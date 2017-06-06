@@ -1,6 +1,6 @@
 // Sections.js
 import { API_URL } from 'config';
-import { getJsonFromStorage } from 'utils/functions';
+import { getJsonFromStorage, createQuery } from 'utils/functions';
 
 // Actions
 const REQUEST = 'abbigli/Posts/REQUEST';
@@ -67,7 +67,7 @@ export function requestDataAppend() {
   };
 }
 
-export function setData(responseData, page, section, tag) {
+export function setData(responseData, page = 1, section, tag) {
   return {
     type: SET,
     data: responseData,
@@ -77,35 +77,32 @@ export function setData(responseData, page, section, tag) {
   };
 }
 
-
 export function appendData(responseData, page) {
   return { type: APPEND, data: responseData, page };
 }
 
-export function fetchData(section, tag, page = 1) {
+export function fetchData(options) {
   const token = getJsonFromStorage('id_token') || null;
   const config = { headers: {} };
-  const pageQuery = page === 1
-    ? ''
-    : `&page=${page}`;
+  const query = createQuery(options);
 
   if (token) {
     config.headers.Authorization = `JWT ${token}`;
   }
   return (dispatch) => {
-    if (page === 1) {
+    if (!options.page || options.page === 1) {
       dispatch(requestData());
     } else {
       dispatch(requestDataAppend());
     }
-    return fetch(`${API_URL}posts/?section=${section}&tags=${tag}${pageQuery}`, config)
+    return fetch(`${API_URL}posts/${query}`, config)
       .then(res => res.json())
       .then((responseData) => {
         if (responseData.results) {
-          if (page === 1) {
-            dispatch(setData(responseData, page, section, tag));
+          if (!options.page || options.page === 1) {
+            dispatch(setData(responseData, options.page, options.section, options.tag));
           } else {
-            dispatch(appendData(responseData, page));
+            dispatch(appendData(responseData, options.page));
           }
         }
       });

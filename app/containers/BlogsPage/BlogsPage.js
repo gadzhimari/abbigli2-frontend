@@ -33,6 +33,10 @@ class BlogsPage extends Component {
     }
   }
 
+  componentDidMount() {
+    document.body.scrollTop = 0;
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { searchValue } = this.state;
     const { dispatch } = this.props;

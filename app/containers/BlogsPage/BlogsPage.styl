@@ -1,10 +1,14 @@
-.cards-sort__item:hover {
+.cards-sort__item:not(.cards-sort__item--active):hover {
     color: #1076ff;
 }
 
 .cards-sort__item--active {
     pointer-events: none;
     color: #263238;
+    text-decoration: underline;
+}
+
+.cards-sort__item--active:hover {
     text-decoration: underline;
 }
 
