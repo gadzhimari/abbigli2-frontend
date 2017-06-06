@@ -4,9 +4,38 @@ import { setFollowing } from 'ducks/Profile';
 import { setNewFollowStatus } from 'ducks/BlogPost';
 import { getJsonFromStorage } from 'utils/functions';
 
+const FOLLOW_REQUEST = 'FOLLOW_REQUEST';
+const FOLLOW_RESPONSE = 'FOLLOW_RESPONSE';
+
 // Actions
 
-export function setFollow(profileId) {
+const followReducer = (state = { isFetching: false }, action) => {
+  switch (action.type) {
+    case (FOLLOW_REQUEST): {
+      return Object.assign({}, state, {
+        isFetching: true,
+      });
+    }
+    case (FOLLOW_RESPONSE): {
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+const followRequest = () => ({
+  type: FOLLOW_REQUEST,
+});
+
+const followResponse = () => ({
+  type: FOLLOW_RESPONSE,
+});
+
+export function setFollow(profileId, fromPost = true) {
   const token = getJsonFromStorage('id_token');
   const config = {
     method: 'POST',
@@ -20,12 +49,18 @@ export function setFollow(profileId) {
   }
 
   return (dispatch) => {
-    dispatch(setNewFollowStatus());
+    if (fromPost) {
+      dispatch(setNewFollowStatus());
+    }
+    dispatch(followRequest());
 
     return fetch(`${API_URL}profiles/${profileId}/follow/`, config)
       .then(res => res.json())
       .then((response) => {
         dispatch(setFollowing(response));
+        dispatch(followResponse());
       });
   };
 }
+
+export default followReducer;

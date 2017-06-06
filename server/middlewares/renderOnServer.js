@@ -80,13 +80,7 @@ const metriks = {
   ga('create', 'UA-78577116-2', 'auto');
   ga('send', 'pageview');
 
-</script>
-<!--LiveInternet counter--><script type="text/javascript">
-new Image().src = "//counter.yadro.ru/hit?r"+
-escape(document.referrer)+((typeof(screen)=="undefined")?"":
-";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
-screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
-";"+Math.random();</script><!--/LiveInternet-->`,
+</script>`,
 };
 
 module.exports = (req, res) => {
