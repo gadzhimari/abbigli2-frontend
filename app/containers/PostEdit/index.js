@@ -431,9 +431,10 @@ class PostEdit extends Component {
                 id="content-post"
                 placeholder={__t('Description')}
                 value={this.state.content}
-                onChange={e => (this.onChangeContent(e.target.value))}
+                onChange={this.changeValue}
+                name="content"
                 style={this.state.type === 4 ? { display: 'none' } : {}}
-              ></textarea>
+              />
             </div>
             <div
               className="textarea-wrap"
@@ -442,7 +443,7 @@ class PostEdit extends Component {
               <Textarea
                 value={this.state.content}
                 onChange={this.changeValue}
-              ></Textarea>
+              />
             </div>
             <ErrorInput
               className="select-sections-add"
