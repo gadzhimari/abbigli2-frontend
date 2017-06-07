@@ -1,10 +1,65 @@
 import React, { Component, PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
+import { DragSource, DropTarget } from 'react-dnd';
+import ItemTypes from './ItemTypes';
 
 import { Loading } from 'components';
 
 import { API_URL, DOMAIN_URL } from 'config';
 import { getJsonFromStorage } from 'utils/functions';
 
+
+
+const cardSource = {
+  beginDrag(props) {
+    return {
+      id: props.id,
+      index: props.index,
+    };
+  },
+  endDrag(props, monitor) {
+    console.log(props);
+  },
+};
+
+const cardTarget = {
+  hover(props, monitor, component) {
+    const dragIndex = monitor.getItem().index;
+    const hoverIndex = props.index;
+
+    if (dragIndex === hoverIndex) {
+      return;
+    }
+
+    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+
+    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
+    const clientOffset = monitor.getClientOffset();
+
+    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      return;
+    }
+
+    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      return;
+    }
+
+    props.moveImage(dragIndex, hoverIndex);
+
+    monitor.getItem().index = hoverIndex;
+  },
+};
+
+@DropTarget(ItemTypes.IMAGE, cardTarget, connect => ({
+  connectDropTarget: connect.dropTarget(),
+}))
+@DragSource(ItemTypes.IMAGE, cardSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging(),
+}))
 class UploadingImage extends Component {
   constructor(props) {
     super(props);
@@ -135,9 +190,14 @@ class UploadingImage extends Component {
 
   render() {
     const { isFetching } = this.state;
+    const { connectDragSource, connectDropTarget, isDragging } = this.props;
+    const opacity = isDragging ? 0 : 1;
 
-    return (
-      <div className="create-post__photo-wrap ui-sortable-handle">
+    return connectDragSource(connectDropTarget(
+      <div
+        className="create-post__photo-wrap ui-sortable-handle"
+        style={{ opacity }}
+      >
         {
           isFetching
             ? <Loading loading={isFetching} />
@@ -174,7 +234,7 @@ class UploadingImage extends Component {
             </div>)
         }
       </div>
-    );
+    ));
   }
 }
 
