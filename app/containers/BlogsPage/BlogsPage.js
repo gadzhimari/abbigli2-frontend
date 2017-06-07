@@ -1,17 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 
-import Helmet from 'react-helmet';
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import {
   CardsWrap,
   CardsSort,
+  CardsSortItem,
   BlogCard,
   Loading,
 } from 'components';
 
-import { fetchData as fetchDataBlogs } from 'ducks/Blogs';
+import { fetchData as fetchDataBlogs, changeSearchValue } from 'ducks/Blogs';
 import { __t } from './../../i18n/translator';
 
 import './BlogsPage.styl';
@@ -19,17 +19,13 @@ import './BlogsPage.styl';
 class BlogsPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      searchValue: '',
-      popular: false,
-    };
   }
 
   componentWillMount() {
-    const { dispatch, page, itemsBlogs } = this.props;
+    const { dispatch, page, itemsBlogs, searchValue } = this.props;
 
     if (itemsBlogs.length === 0) {
-      dispatch(fetchDataBlogs(page));
+      dispatch(fetchDataBlogs(page, searchValue));
     }
   }
 
@@ -37,31 +33,23 @@ class BlogsPage extends Component {
     document.body.scrollTop = 0;
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { searchValue } = this.state;
-    const { dispatch } = this.props;
+  componentDidUpdate(prevProps) {
+    const { dispatch, searchValue, params } = this.props;
 
-    if ((prevState.searchValue !== searchValue) && searchValue.length) {
-      dispatch(fetchDataBlogs(1, searchValue));
+    if ((prevProps.searchValue !== searchValue) && searchValue.length) {
+      dispatch(fetchDataBlogs(1, searchValue, params.filter === 'popular'));
+    }
+
+    if (prevProps.params.filter !== params.filter) {
+      dispatch(
+        dispatch(changeSearchValue('')),
+        dispatch(fetchDataBlogs(1, '', params.filter === 'popular'))
+      );
     }
   }
 
-  setFilter = (filter) => {
-    const { dispatch } = this.props;
-
-    this.setState({
-      popular: filter,
-      searchValue: '',
-    });
-
-    dispatch(fetchDataBlogs(1, '', filter));
-  }
-
-  handleChange = ({ target }) => {
-    this.setState({
-      searchValue: target.value,
-    });
-  }
+  handleChange = ({ target }) => this.props
+    .dispatch(changeSearchValue(target.value));
 
   search = () => {
     const request = this.searchInput.value;
@@ -99,8 +87,9 @@ class BlogsPage extends Component {
       itemsBlogs,
       dispatch,
       isAuthenticated,
+      searchValue,
+      params,
     } = this.props;
-    const { searchValue, popular } = this.state;
 
     const loader = <Loading loading={isFetchingMore} />;
 
@@ -114,25 +103,25 @@ class BlogsPage extends Component {
               </svg>
             </div>
             {__t('Blogs')}
-            <a
-              className={`cards-sort__item ${popular ? '' : 'cards-sort__item--active'}`}
-              onClick={() => this.setFilter(false)}
+            <CardsSortItem
+              to="/blogs"
+              isActive={!params.filter}
             >
               {__t('New')}
-            </a>
-            <a
-              className={`cards-sort__item ${popular ? 'cards-sort__item--active' : ''}`}
-              onClick={() => this.setFilter(true)}
+            </CardsSortItem>
+            <CardsSortItem
+              to="/blogs/popular"
+              isActive={params.filter === 'popular'}
             >
               {__t('Popular')}
-            </a>
+            </CardsSortItem>
           </CardsSort>
           <div
             className="search-input-wrap"
             style={{
               maxWidth: '300px',
               margin: '0 auto 20px',
-              padding: '0'
+              padding: '0',
             }}
           >
             <input
@@ -194,6 +183,7 @@ BlogsPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   next: PropTypes.any,
+  searchValue: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -209,6 +199,7 @@ function mapStateToProps(state) {
     next: blogs.next,
     isAuthenticated: auth.isAuthenticated,
     page: blogs.page,
+    searchValue: state.Blogs.searchValue,
   };
 }
 
