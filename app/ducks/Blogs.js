@@ -7,6 +7,7 @@ const REQUEST   = 'abbigli/Blogs/REQUEST';
 const REQUEST_APPEND   = 'abbigli/Blogs/REQUEST_APPEND';
 const SET = 'abbigli/Blogs/SET';
 const APPEND = 'abbigli/Blogs/APPEND';
+const SEARCH_VALUE_CHANGE = 'abbigli/Blogs/SEARCH_VALUE_CHANGE';
 
 // Reducer
 export default (state = {
@@ -15,6 +16,7 @@ export default (state = {
   items: [],
   isFetchingMore: false,
   page: 1,
+  searchValue: '',
 }, action = {}) => {
   switch (action.type) {
     case SET:
@@ -39,6 +41,10 @@ export default (state = {
     case REQUEST_APPEND:
       return Object.assign({}, state, {
         isFetchingMore: true,
+      });
+    case SEARCH_VALUE_CHANGE:
+      return Object.assign({}, state, {
+        searchValue: action.value,
       });
     default:
       return state;
@@ -70,6 +76,11 @@ export function setData(responseData, page) {
 export function appendData(responseData, page) {
   return { type: APPEND, data: responseData, page };
 }
+
+export const changeSearchValue = value => ({
+  type: SEARCH_VALUE_CHANGE,
+  value,
+});
 
 export function fetchData(page = 1, request = '', popular = null, tokenID) {
   const token = tokenID || getJsonFromStorage('id_token') || null;

@@ -68,6 +68,13 @@ const EventView = (props) => {
             </span>
           }
         </div>
+        <div className="detail__city">
+          {
+            data.city
+            &&
+            `${data.city.name}, ${data.city.country.name}`
+          }
+        </div>
         <div className="detail__stat">
           <div className="detail__comments">
             <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
