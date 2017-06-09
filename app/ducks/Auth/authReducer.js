@@ -5,7 +5,7 @@ const initialState = {
   confirm: false,
   me: {},
   isAuthenticated: false,
-  errors: null,
+  errors: {},
   registerStage: 'register', // one of register, confirm, password
   loginStage: 'login', // one of login, reset, confirm, password
 };
