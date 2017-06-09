@@ -1,46 +1,25 @@
-import React, { Component } from 'react';
-import update from 'react/lib/update';
+import React, { Component, PropTypes } from 'react';
 import Dropzone from 'react-dropzone';
 
-import { UploadingImage, Loading } from 'components';
+import { DragableImage, Loading } from 'components';
 import { __t } from './../../i18n/translator';
 
 class ImageUploadZone extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      images: props.images,
-    };
-  }
+  onDrop = (images) => {
+    const { imageFetching, uploadImages } = this.props;
 
-  componentDidUpdate() {
-    const { images } = this.props;
+    if (imageFetching) return;
 
-    if (images.length !== this.state.images.length) {
-      this.setState({
-        images,
-      });
-    }
-  }
-
-  moveImage = (dragIndex, hoverIndex) => {
-    const dragImage = images[dragIndex];
-
-    this.setState(update(this.state, {
-      images: {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, dragImage],
-        ],
-      },
-    }));
+    uploadImages(images);
   }
 
   render() {
     const {
-      onImageUploaded,
       deleteImage,
       imageFetching,
+      images,
+      onMove,
+      rotateImage,
     } = this.props;
 
     return (
@@ -52,7 +31,7 @@ class ImageUploadZone extends Component {
             multiple
           >
             {
-              imageFetching
+              !imageFetching
                 ? (<div className="photo-add dz-clickable">
                   <div className="photo-add__icon">
                     <svg className="icon-camera" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 27">
@@ -76,14 +55,29 @@ class ImageUploadZone extends Component {
             </div>
           </div>
         }*/}
-        {/*<DragImages
-          onImageUploaded={this.onImageUploaded}
-          deleteImage={this.deleteFile}
-          images={this.state.filesForUpload}
-        />*/}
+        {
+          images.map((image, idx) => <DragableImage
+            index={idx}
+            key={image.id}
+            id={image.id}
+            moveImage={onMove}
+            deleteImage={deleteImage}
+            src={image.file}
+            rotateImage={rotateImage}
+          />)
+        }
       </div>
     );
   }
 }
+
+ImageUploadZone.propTypes = {
+  images: PropTypes.array.isRequired,
+  imageFetching: PropTypes.bool.isRequired,
+  deleteImage: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
+  uploadImages: PropTypes.func.isRequired,
+  rotateImage: PropTypes.func.isRequired,
+};
 
 export default ImageUploadZone;

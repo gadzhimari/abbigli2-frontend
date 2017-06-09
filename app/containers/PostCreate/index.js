@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
-import fetch from 'isomorphic-fetch';
+import update from 'react/lib/update';
+
 import { API_URL } from 'config';
 import Select from 'react-select';
 
-import Dropzone from 'react-dropzone';
-import browserHistory from 'react-router/lib/browserHistory';
 import { __t } from './../../i18n/translator';
 
 import { withRouter } from 'react-router';
 
-import { connect } from 'preact-redux';
-import { getJsonFromStorage } from 'utils/functions';
+import { connect } from 'react-redux';
 
 import {
   SelectInput,
   FetchingButton,
 } from 'components';
-
-import DragImages from 'components/DragImages';
-
+import ImageUploadZone from 'components/ImageUploadZone';
 import { ErrorInput, DateInput, Textarea } from 'components/Inputs';
 import SwitchMode from 'components/SwitchModeButton';
+
+import { savePost, uploadImages, rotateImage, deleteImage } from 'ducks/PostCreate/actions';
 
 import 'react-select/dist/react-select.css';
 import './index.styl';
@@ -39,8 +37,7 @@ class PostCreate extends Component {
     this.state = {
       type: 1,
       content: '',
-      filesForUpload: [],
-      uploadedFiles: [],
+      images: [],
       price: '',
       sections: [],
       tags: '',
@@ -49,62 +46,45 @@ class PostCreate extends Component {
       date_start: '',
       date_end: '',
       value: null,
-      firefoxBugStop: false,
-      errors: {},
-      isSaving: false,
     };
-
-    this.filesId = 0;
   }
 
-  onImageUploaded = (image) => {
-    const { uploadedFiles } = this.state;
-    const newUploadedFiles = [...uploadedFiles];
+  onImagesUploaded = images => this.setState({
+    images: [...this.state.images, ...images],
+  });
 
-    newUploadedFiles.push(image);
-    this.setState({
-      uploadedFiles: newUploadedFiles,
-    });
+  onChangeCity = value => this.setState({
+    city: value.id,
+  });
+
+  onMoveImage = (dragIndex, hoverIndex) => {
+    const { images } = this.state;
+    const dragImage = images[dragIndex];
+
+    this.setState(update(this.state, {
+      images: {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, dragImage],
+        ],
+      },
+    }));
   }
 
-  onDrop = (files) => {
-    const { firefoxBugStop, filesForUpload } = this.state;
-    const newfilesForUpload = [...filesForUpload];
+  uploadImages = images => this.props
+    .dispatch(uploadImages(images, this.onImagesUploaded));
 
-    if (firefoxBugStop) return;
-
-    if (files.length) {
-      for (let i = 0; i < files.length; i++) {
-        files[i].id = this.filesId++;
-        newfilesForUpload.push(files[i]);
-      }
-    }
-
-    this.setState({
-      firefoxBugStop: true,
-      filesForUpload: newfilesForUpload,
-    });
-
-    setTimeout(() => {
-      this.setState({
-        firefoxBugStop: false,
-      });
-    }, 500);
-  }
-
-
-  add = () => {
-    const token = getJsonFromStorage('id_token');
+  save = () => {
+    const { type, images } = this.state;
+    const { dispatch } = this.props;
     const keys = {
       1: ['price', 'title', 'content', 'tags', 'sections'],
       3: ['title', 'content', 'tags', 'sections', 'date_end', 'date_start', 'city'],
       4: ['title', 'content', 'tags', 'sections'],
     };
-    let config = {};
-    const { type } = this.state;
 
     const body = {
-      images: this.state.uploadedFiles.map(item => (item.id)),
+      images: images.map(item => item.id),
       type,
     };
 
@@ -114,46 +94,12 @@ class PostCreate extends Component {
       }
     });
 
-    if (token) {
-      config = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `JWT ${token}`,
-        },
-        body: JSON.stringify(body),
-      };
-    } else {
-      return;
-    }
-
-    this.setState({
-      isSaving: true,
-    });
-
-    fetch(`${API_URL}posts/`, config)
-      .then(response => response.json())
-      .then((result) => {
-        if (result.id) {
-          browserHistory.push(`/${typesUrl[result.type]}/${result.slug}`);
-        } else {
-          this.setState({
-            errors: result,
-            isSaving: false,
-          });
-        }
-      });
+    dispatch(savePost(body, typesUrl, 'POST'));
   }
 
   changeValue = ({ target }) => this.setState({
     [target.name]: target.value,
   });
-
-  onChangeCity = (value) => {
-    this.setState({
-      city: value.id,
-    });
-  }
 
   sectionsChange = (sections) => {
     if (sections.length <= 5) {
@@ -165,18 +111,12 @@ class PostCreate extends Component {
     type: Number(currentTarget.dataset.type),
   });
 
-  deleteFile = (file, id) => {
-    const { uploadedFiles, filesForUpload } = this.state;
-    const newUploadedFiles = uploadedFiles.filter(item => item.id !== id);
-    const newFilesForUpload = [...filesForUpload];
-    const index = newFilesForUpload.indexOf(file);
-
-    newFilesForUpload.splice(index, 1);
-
+  deleteImage = (id) => {
     this.setState({
-      uploadedFiles: newUploadedFiles,
-      filesForUpload: newFilesForUpload,
+      images: this.state.images
+        .filter(img => img.id !== id),
     });
+    deleteImage(id);
   }
 
   handleClose = () => {
@@ -191,15 +131,19 @@ class PostCreate extends Component {
 
   render() {
     const {
-      errors,
-      filesForUpload,
       price,
       title,
       tags,
-      isSaving,
+      images,
     } = this.state;
 
-    const { sections } = this.props;
+    const {
+      sections,
+      isSaving,
+      isFetchingImage,
+      errors,
+    } = this.props;
+
     const add_types = {
       1: __t('Create product or service'),
       4: __t('Create blog'),
@@ -248,7 +192,14 @@ class PostCreate extends Component {
         </div>
         <div className="create-post__form-wrap">
           <div className="create-post__photo-load">
-            
+            <ImageUploadZone
+              onMove={this.onMoveImage}
+              images={images}
+              deleteImage={this.deleteImage}
+              uploadImages={this.uploadImages}
+              imageFetching={isFetchingImage}
+              rotateImage={rotateImage}
+            />
           </div>
 
           <div className="create-post__form">
@@ -361,7 +312,7 @@ class PostCreate extends Component {
 
             <div className="buttons-wrap">
               <FetchingButton
-                onClick={this.add}
+                onClick={this.save}
                 className="default-button"
                 isFetching={isSaving}
               >
@@ -382,8 +333,11 @@ class PostCreate extends Component {
   }
 }
 
-const mapStateToProps = ({ Sections }) => ({
-  sections: Sections.items,
+const mapStateToProps = state => ({
+  sections: state.Sections.items,
+  isSaving: state.PostCreate.isSaving,
+  isFetchingImage: state.PostCreate.isFetchingImage,
+  errors: state.PostCreate.errors,
 });
 
 export default withRouter(connect(mapStateToProps)(PostCreate));

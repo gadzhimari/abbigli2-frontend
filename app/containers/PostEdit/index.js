@@ -1,29 +1,28 @@
 import React, { Component } from 'react';
-import fetch from 'isomorphic-fetch';
+
 import Helmet from 'react-helmet';
-import { API_URL } from 'config';
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
-import Dropzone from 'react-dropzone';
-import browserHistory from 'react-router/lib/browserHistory';
-import { __t } from './../../i18n/translator';
-
-import { getJsonFromStorage } from 'utils/functions';
-
 import { connect } from 'react-redux';
-
 import { withRouter } from 'react-router';
+import Select from 'react-select';
+import update from 'react/lib/update';
 
 import {
   SelectInput,
-  UploadingImage,
   FetchingButton,
   Loading,
 } from 'components';
+import ImageUploadZone from 'components/ImageUploadZone';
 import { ErrorInput, DateInput, Textarea } from 'components/Inputs';
 import SwitchMode from 'components/SwitchModeButton';
+import loader from './loader';
+
+import { savePost, uploadImages, rotateImage, deleteImage, fetchPost, clearData } from 'ducks/PostCreate/actions';
+
+import { API_URL } from 'config';
+import { __t } from './../../i18n/translator';
 
 import './index.styl';
+import 'react-select/dist/react-select.css';
 
 const typesUrl = {
   1: 'post',
@@ -32,56 +31,46 @@ const typesUrl = {
 };
 
 class PostEdit extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      type: 1,
-      content: '',
-      oldFiles: [],
-      filesForUpload: [],
-      uploadedFiles: [],
-      price: 0,
-      sections: [],
-      tags: '',
-      title: '',
+      ...props.data,
       city: null,
-      date_start: '',
-      date_end: '',
-      value: null,
-      firefoxBugStop: false,
-      isFetching: true,
-      currentCity: null,
-      isSaving: false,
-      errors: {},
     };
-
-    this.fileId = 0;
   }
 
   componentDidMount() {
-    fetch(API_URL + 'posts/:slug/'.replace(':slug', this.props.routeParams.slug))
-      .then(res => res.json())
-      .then((responseData) => {
-        if (responseData) {
-          this.setState({
-            type: responseData.type,
-            content: responseData.content,
-            oldFiles: responseData.images,
-            price: responseData.price,
-            sections: responseData.sections.map(item => (item.id)),
-            tags: responseData.tags.join(' '),
-            title: responseData.title,
-            slug: responseData.slug,
-            currentCity: responseData.city,
-            isFetching: false,
-          });
-        }
-      });
+    const { dispatch, params } = this.props;
+
+    dispatch(fetchPost(params.slug, this.onLoadData));
   }
 
   componentWillUnmount() {
-    clearTimeout(this.clickFromTimeout);
-    clearTimeout(this.clickToTimeout);
+    const { dispatch } = this.props;
+
+    dispatch(clearData());
+  }
+
+  onLoadData = data => this.setState({
+    ...data,
+  });
+
+  onImagesUploaded = images => this.setState({
+    images: [...this.state.images, ...images],
+  });
+
+  onMoveImage = (dragIndex, hoverIndex) => {
+    const { images } = this.state;
+    const dragImage = images[dragIndex];
+
+    this.setState(update(this.state, {
+      images: {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, dragImage],
+        ],
+      },
+    }));
   }
 
   handleClose = () => {
@@ -94,56 +83,17 @@ class PostEdit extends Component {
     }
   }
 
-  onImageUploaded = (image) => {
-    const { uploadedFiles } = this.state;
-    const newFiles = [...uploadedFiles];
-
-    newFiles.push(image);
-
-    this.setState({
-      uploadedFiles: newFiles,
-    });
-  }
-
-  onDrop(files) {
-    const { firefoxBugStop, filesForUpload } = this.state;
-    const newFilesForUpload = [...filesForUpload];
-
-    if (firefoxBugStop) return;
-
-    if (files.length) {
-      for (let i = 0; i < files.length; i++) {
-        files[i].id = this.fileId++;
-        newFilesForUpload.push(files[i]);
-      }
-    }
-
-    this.setState({
-      firefoxBugStop: true,
-      filesForUpload: newFilesForUpload,
-    });
-
-    setTimeout(() => {
-      this.setState({
-        firefoxBugStop: false,
-      });
-    }, 500);
-  }
-
-
-  add = () => {
-    const { oldFiles, uploadedFiles } = this.state;
-    const token = getJsonFromStorage('id_token');
+  save = () => {
+    const { images, type, slug } = this.state;
+    const { dispatch } = this.props;
     const keys = {
       1: ['price', 'title', 'content', 'tags', 'sections'],
       3: ['title', 'content', 'tags', 'sections', 'date_end', 'date_start'],
       4: ['title', 'content', 'tags', 'sections'],
     };
-    let config = {};
-    const files = [...uploadedFiles, ...oldFiles];
-    const { type } = this.state;
+
     const body = {
-      images: files.map(item => (item.id)),
+      images: images.map(item => item.id),
       type,
     };
 
@@ -159,42 +109,17 @@ class PostEdit extends Component {
       }
     });
 
-    if (token) {
-      config = {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `JWT ${token}`,
-        },
-        body: JSON.stringify(body),
-      };
-    } else {
-      return;
-    }
-
-    this.setState({
-      isSaving: true,
-    });
-
-    fetch(API_URL + 'posts/:slug/'.replace(':slug', this.state.slug), config)
-      .then(response => response.json())
-      .then(result => {
-        if (result.id) {
-          browserHistory.push(`/${typesUrl[result.type]}/${result.slug}`);
-        } else {
-          this.setState({
-            errors: result,
-            isSaving: false,
-          });
-        }
-      });
+    dispatch(savePost(body, typesUrl, 'PATCH', slug));
   }
+
+  uploadImages = images => this.props
+    .dispatch(uploadImages(images, this.onImagesUploaded));
 
   changeValue = ({ target }) => this.setState({
     [target.name]: target.value,
   });
 
-  onChangeCity = (value) => {
+  сhangeCity = (value) => {
     this.setState({
       city: value,
     });
@@ -206,42 +131,31 @@ class PostEdit extends Component {
     }
   }
 
-  deleteNewFile = (file, id) => {
-    const { uploadedFiles, filesForUpload } = this.state;
-    const newUploadedFiles = uploadedFiles.filter(item => item.id !== id);
-    const newFilesForUpload = [...filesForUpload];
-    const index = newFilesForUpload.indexOf(file);
-
-    newFilesForUpload.splice(index, 1);
-
+  deleteImage = (id) => {
     this.setState({
-      uploadedFiles: newUploadedFiles,
-      filesForUpload: newFilesForUpload,
+      images: this.state.images
+        .filter(img => img.id !== id),
     });
-  }
-
-  deleteOldFile = (_, id) => {
-    const { oldFiles } = this.state;
-    const newOldFiles = oldFiles.filter(item => item.id !== id);
-
-    this.setState({
-      oldFiles: newOldFiles,
-    });
+    deleteImage(id);
   }
 
   render() {
     const {
-      isSaving,
-      errors,
-      filesForUpload,
+      images,
       tags,
       title,
       price,
-      isFetching,
     } = this.state;
 
-    const { sections } = this.props;
-    const add_types = {
+    const {
+      sections,
+      isFetchingImage,
+      isSaving,
+      isFetching,
+      errors,
+    } = this.props;
+
+    const addTypes = {
       1: __t('Save product or service'),
       4: __t('Save blog'),
       3: __t('Save event'),
@@ -304,55 +218,14 @@ class PostEdit extends Component {
         <div className="create-post__form-wrap">
 
           <div className="create-post__photo-load">
-            <div className="create-post__photos ui-sortable">
-
-              <div className="create-post__photo-wrap create-post__photo-add dz-clickable">
-                <Dropzone className="add-dropzone" onDrop={files => this.onDrop(files)} multiple>
-                  <div className="photo-add dz-clickable">
-                    <div className="photo-add__icon">
-                      <svg className="icon-camera" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 27">
-                        <path d="M27,27H3c-1.651,0-3-1.351-3-2.997V6c0-1.65,1.349-3,3-3h4.756L10.5,0 h9.002l2.743,3H27c1.649,0,3,1.35,3,3v18.003C30,25.65,28.65,27,27,27z M15,7.501c-4.14,0-7.5,3.36-7.5,7.5 c0,4.141,3.359,7.5,7.5,7.5c4.139,0,7.501-3.359,7.501-7.5C22.501,10.861,19.139,7.501,15,7.501z M15,19.799 c-2.65,0-4.8-2.147-4.8-4.799c0-2.65,2.15-4.801,4.8-4.801c2.653,0,4.801,2.15,4.801,4.801C19.801,17.652,17.654,19.799,15,19.799z" />
-                      </svg>
-                    </div>
-                    <div className="text">
-                      {__t('Photo.by.nbsp.clicking.or.dragging')}
-                    </div>
-                  </div>
-                </Dropzone>
-              </div>
-              {
-                errors.images && !filesForUpload.length > 0
-                &&
-                <div className="post-create__error-images">
-                  <div className="post-create__error-images__message">
-                    {'You should load at least one image'}
-                  </div>
-                </div>
-              }
-              {
-                this.state.oldFiles.length > 0
-                &&
-                this.state.oldFiles.map(file => <UploadingImage
-                  key={file.id}
-                  id={file.id}
-                  src={file.file}
-                  deleteImage={this.deleteOldFile}
-                  upload={false}
-                />)
-              }
-              {
-                this.state.filesForUpload.length > 0
-                &&
-                this.state.filesForUpload.map(file => <UploadingImage
-                  key={file.id}
-                  file={file}
-                  onImageUploaded={this.onImageUploaded}
-                  deleteImage={this.deleteNewFile}
-                />)
-              }
-
-            </div>
-
+            <ImageUploadZone
+              onMove={this.onMoveImage}
+              images={images}
+              deleteImage={this.deleteImage}
+              uploadImages={this.uploadImages}
+              imageFetching={isFetchingImage}
+              rotateImage={rotateImage}
+            />
           </div>
 
           <div className="create-post__form">
@@ -418,7 +291,7 @@ class PostEdit extends Component {
                 inputWrapperClass="input-wrap"
                 inputClass="input"
                 placeholder={__t('City')}
-                onSelectValue={this.onChangeCity}
+                onSelectValue={this.сhangeCity}
                 currentValue={this.state.currentCity}
               />)
             }
@@ -471,11 +344,11 @@ class PostEdit extends Component {
 
             <div className="buttons-wrap">
               <FetchingButton
-                onClick={this.add}
+                onClick={this.save}
                 className="default-button"
                 isFetching={isSaving}
               >
-                {add_types[this.state.type]}
+                {addTypes[this.state.type]}
               </FetchingButton>
               <button
                 className="cancel-button"
@@ -492,8 +365,13 @@ class PostEdit extends Component {
   }
 }
 
-const mapStateToProps = ({ Sections }) => ({
-  sections: Sections.items,
+const mapStateToProps = state => ({
+  sections: state.Sections.items,
+  isSaving: state.PostCreate.isSaving,
+  isFetchingImage: state.PostCreate.isFetchingImage,
+  errors: state.PostCreate.errors,
+  isFetching: state.PostCreate.isPostFetching,
+  data: state.PostCreate.data,
 });
 
-export default withRouter(connect(mapStateToProps)(PostEdit));
+export default withRouter(connect(mapStateToProps)(loader(PostEdit)));

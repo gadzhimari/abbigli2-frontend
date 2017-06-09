@@ -53,7 +53,7 @@ export { default as CommentsBox } from './CommentsBox';
 export { default as SelectInput } from './SelectInput';
 export { default as UserSearch } from './UserSearch';
 export { default as DialogsBlock } from './DialogsBlock';
-export { default as UploadingImage } from './UploadingImage';
+export { default as DragableImage } from './DragableImage';
 export { default as FetchingButton } from './FetchingButton';
 export { default as SocialLogin } from './SocialLogin';
 export { default as Icons } from './Icons';
