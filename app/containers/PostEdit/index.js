@@ -153,6 +153,7 @@ class PostEdit extends Component {
       isSaving,
       isFetching,
       errors,
+      loadImageErrors,
     } = this.props;
 
     const addTypes = {
@@ -216,7 +217,6 @@ class PostEdit extends Component {
             />
           }</div>
         <div className="create-post__form-wrap">
-
           <div className="create-post__photo-load">
             <ImageUploadZone
               onMove={this.onMoveImage}
@@ -225,6 +225,8 @@ class PostEdit extends Component {
               uploadImages={this.uploadImages}
               imageFetching={isFetchingImage}
               rotateImage={rotateImage}
+              errors={errors.images}
+              loadImageErrors={loadImageErrors}
             />
           </div>
 
@@ -372,6 +374,7 @@ const mapStateToProps = state => ({
   errors: state.PostCreate.errors,
   isFetching: state.PostCreate.isPostFetching,
   data: state.PostCreate.data,
+  loadImageErrors: state.PostCreate.imageError,
 });
 
 export default withRouter(connect(mapStateToProps)(loader(PostEdit)));

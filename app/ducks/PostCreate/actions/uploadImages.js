@@ -7,7 +7,7 @@ const imageUploadReq = () => ({
   type: actions.LOAD_IMAGE_REQ,
 });
 
-const imageUploadRes = (imageError = {}) => ({
+const imageUploadRes = (imageError = []) => ({
   type: actions.LOAD_IMAGE_RES,
   imageError,
 });
@@ -41,8 +41,18 @@ const uploadImages = (files, callback) => {
 
     return Promise.all(promises)
       .then((responseData) => {
-        callback(responseData);
-        dispatch(imageUploadRes());
+        const errors = [];
+        const images = [];
+
+        responseData.forEach((img) => {
+          if (img.id) {
+            images.push(img);
+          } else {
+            errors.push(img.file[0]);
+          }
+        });
+        callback(images);
+        dispatch(imageUploadRes(errors));
       })
       .catch(err => console.log("Error: ", err));
   };

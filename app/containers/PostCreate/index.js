@@ -19,7 +19,7 @@ import ImageUploadZone from 'components/ImageUploadZone';
 import { ErrorInput, DateInput, Textarea } from 'components/Inputs';
 import SwitchMode from 'components/SwitchModeButton';
 
-import { savePost, uploadImages, rotateImage, deleteImage } from 'ducks/PostCreate/actions';
+import { savePost, uploadImages, rotateImage, deleteImage, clearData } from 'ducks/PostCreate/actions';
 
 import 'react-select/dist/react-select.css';
 import './index.styl';
@@ -47,6 +47,12 @@ class PostCreate extends Component {
       date_end: '',
       value: null,
     };
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+
+    dispatch(clearData());
   }
 
   onImagesUploaded = images => this.setState({
@@ -142,6 +148,7 @@ class PostCreate extends Component {
       isSaving,
       isFetchingImage,
       errors,
+      loadImageErrors,
     } = this.props;
 
     const add_types = {
@@ -199,6 +206,8 @@ class PostCreate extends Component {
               uploadImages={this.uploadImages}
               imageFetching={isFetchingImage}
               rotateImage={rotateImage}
+              errors={errors.images}
+              loadImageErrors={loadImageErrors}
             />
           </div>
 
@@ -338,6 +347,7 @@ const mapStateToProps = state => ({
   isSaving: state.PostCreate.isSaving,
   isFetchingImage: state.PostCreate.isFetchingImage,
   errors: state.PostCreate.errors,
+  loadImageErrors: state.PostCreate.imageError,
 });
 
 export default withRouter(connect(mapStateToProps)(PostCreate));

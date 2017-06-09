@@ -20,6 +20,8 @@ class ImageUploadZone extends Component {
       images,
       onMove,
       rotateImage,
+      errors,
+      loadImageErrors,
     } = this.props;
 
     return (
@@ -46,15 +48,6 @@ class ImageUploadZone extends Component {
             }
           </Dropzone>
         </div>
-        {/*{
-          errors.images && !filesForUpload.length > 0
-          &&
-          <div className="post-create__error-images">
-            <div className="post-create__error-images__message">
-              {__t('You should load at least one image')}
-            </div>
-          </div>
-        }*/}
         {
           images.map((image, idx) => <DragableImage
             index={idx}
@@ -65,6 +58,35 @@ class ImageUploadZone extends Component {
             src={image.file}
             rotateImage={rotateImage}
           />)
+        }
+        {
+          errors
+          &&
+          errors.length
+          &&
+          <div>
+            {
+              errors.map((error, key) => (<div key={key} className="post-create__error-images">
+                <div className="post-create__error-images__message">
+                  {error}
+                </div>
+              </div>))
+            }
+          </div>
+        }
+        {
+
+          loadImageErrors.length !== 0
+          &&
+          <div>
+            {
+              loadImageErrors.map((error, key) => (<div key={key} className="post-create__error-images">
+                <div className="post-create__error-images__message">
+                  {error}
+                </div>
+              </div>))
+            }
+          </div>
         }
       </div>
     );

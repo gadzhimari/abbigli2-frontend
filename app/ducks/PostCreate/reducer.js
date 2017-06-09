@@ -6,7 +6,7 @@ const initialState = {
   isPostFetching: true,
   data: {},
   errors: {},
-  imageError: {},
+  imageError: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -48,6 +48,8 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         isPostFetching: true,
         data: {},
+        imageError: [],
+        errors: {},
       });
     }
     default: {
