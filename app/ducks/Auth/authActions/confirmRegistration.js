@@ -8,7 +8,7 @@ const confirmRegistration = (creds) => {
   const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone: creds.username, code: creds.code }),
+    body: JSON.stringify(creds),
   };
 
   return (dispatch) => {

@@ -20,7 +20,7 @@ class ConfirmPopup extends Component {
   handleClick = () => {
     const { options } = this.props;
     const creds = {
-      username: options.username,
+      [options.mode]: options[options.mode],
       code: this.state.confirmCode,
     };
 

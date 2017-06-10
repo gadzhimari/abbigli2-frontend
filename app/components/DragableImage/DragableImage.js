@@ -1,11 +1,60 @@
 import React, { Component, PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
+import { DragSource, DropTarget } from 'react-dnd';
+import ItemTypes from './ItemTypes';
 
 import { Loading } from 'components';
 
-import { API_URL, DOMAIN_URL } from 'config';
-import { getJsonFromStorage } from 'utils/functions';
+import { DOMAIN_URL } from 'config';
 
-class UploadingImage extends Component {
+const cardSource = {
+  beginDrag(props) {
+    return {
+      id: props.id,
+      index: props.index,
+    };
+  },
+};
+
+const cardTarget = {
+  hover(props, monitor, component) {
+    const dragIndex = monitor.getItem().index;
+    const hoverIndex = props.index;
+
+    if (dragIndex === hoverIndex) {
+      return;
+    }
+
+    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+
+    const hoverMiddleX = (hoverBoundingRect.left - hoverBoundingRect.rigth) / 2;
+
+    const clientOffset = monitor.getClientOffset();
+
+    const hoverClientX = clientOffset.x - hoverBoundingRect.left;
+
+    if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
+      return;
+    }
+
+    if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
+      return;
+    }
+
+    props.moveImage(dragIndex, hoverIndex);
+
+    monitor.getItem().index = hoverIndex;
+  },
+};
+
+@DropTarget(ItemTypes.IMAGE, cardTarget, connect => ({
+  connectDropTarget: connect.dropTarget(),
+}))
+@DragSource(ItemTypes.IMAGE, cardSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging(),
+}))
+class DragableImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,13 +65,9 @@ class UploadingImage extends Component {
   }
 
   componentDidMount() {
-    const { upload, src } = this.props;
+    const { src } = this.props;
 
-    if (upload) {
-      this.uploadImage();
-    } else {
-      this.loadImageSrc(src);
-    }
+    this.loadImageSrc(src);
   }
 
   componentDidUpdate() {
@@ -33,38 +78,9 @@ class UploadingImage extends Component {
     }
   }
 
-  uploadImage = () => {
-    const { file, onImageUploaded } = this.props;
-    const token = getJsonFromStorage('id_token');
-    const formData = new FormData();
-
-    formData.append('file', file);
-
-    let config = {};
-
-    if (token) {
-      config = {
-        method: 'POST',
-        headers: {
-          Authorization: `JWT ${token}`,
-        },
-        body: formData,
-      };
-    } else {
-      return;
-    }
-
-    fetch(`${API_URL}images/`, config)
-      .then(res => res.json())
-      .then((responseData) => {
-        onImageUploaded(responseData);
-        this.loadImageSrc(responseData.file);
-        this.setState({
-          imageId: responseData.id,
-        });
-      })
-      .catch(err => console.log("Error: ", err));
-  }
+  setFetchingStatus = status => this.setState({
+    isFetching: status,
+  });
 
   loadImageSrc = (imageSrc) => {
     const image = document.createElement('img');
@@ -79,65 +95,29 @@ class UploadingImage extends Component {
     image.src = `${DOMAIN_URL}thumbs/unsafe/203x203/${imageSrc}`;
   }
 
-  deleteImageFromServer = () => {
-    const { imageId } = this.state;
-    const token = getJsonFromStorage('id_token');
-    let config = {};
-
-    if (token) {
-      config = {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `JWT ${token}`,
-        },
-      };
-    } else {
-      return;
-    }
-
-    fetch(`${API_URL}images/${imageId}/`, config)
-      .catch(err => console.log("Error: ", err));
-  }
-
-  rotateImage = ({ currentTarget }) => {
-    const token = getJsonFromStorage('id_token');
-    const { imageId } = this.state;
-    const { direction } = currentTarget.dataset;
-    let config = {};
-
-    if (token) {
-      config = {
-        method: 'POST',
-        headers: {
-          Authorization: `JWT ${token}`,
-        },
-      };
-    } else {
-      return;
-    }
-
-    this.setState({
-      isFetching: true,
-    });
-
-    fetch(`${API_URL}images/${imageId}/rotate-${direction}/`, config)
-      .then(res => res.json())
-      .then(({ url }) => this.loadImageSrc(url));
-  }
+  rotateImage = ({ currentTarget }) => this.props
+    .rotateImage(this.state.imageId, currentTarget.dataset.direction, {
+      res: this.loadImageSrc,
+      req: () => this.setFetchingStatus(true),
+    })
 
   deleteImage = () => {
-    const { deleteImage, file } = this.props;
+    const { deleteImage } = this.props;
     const { imageId } = this.state;
 
-    deleteImage(file, imageId);
-    this.deleteImageFromServer();
+    deleteImage(imageId);
   }
 
   render() {
     const { isFetching } = this.state;
+    const { connectDragSource, connectDropTarget, isDragging } = this.props;
+    const opacity = isDragging ? 0 : 1;
 
-    return (
-      <div className="create-post__photo-wrap ui-sortable-handle">
+    return connectDragSource(connectDropTarget(
+      <div
+        className="create-post__photo-wrap ui-sortable-handle"
+        style={{ opacity }}
+      >
         {
           isFetching
             ? <Loading loading={isFetching} />
@@ -174,25 +154,27 @@ class UploadingImage extends Component {
             </div>)
         }
       </div>
-    );
+    ));
   }
 }
 
-UploadingImage.defaultProps = {
+DragableImage.defaultProps = {
   id: null,
   upload: true,
   file: null,
   src: null,
   onImageUploaded: null,
+  isDragging: false,
 };
 
-UploadingImage.propTypes = {
-  upload: PropTypes.bool,
+DragableImage.propTypes = {
   id: PropTypes.number,
-  file: PropTypes.any,
   src: PropTypes.string,
   deleteImage: PropTypes.func.isRequired,
-  onImageUploaded: PropTypes.func,
+  rotateImage: PropTypes.func.isRequired,
+  connectDragSource: PropTypes.func,
+  connectDropTarget: PropTypes.func,
+  isDragging: PropTypes.bool,
 };
 
-export default UploadingImage;
+export default DragableImage;

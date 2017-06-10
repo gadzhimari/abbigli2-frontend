@@ -8,7 +8,7 @@ const confirmReset = (creds) => {
   const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: creds.username, code: creds.code }),
+    body: JSON.stringify(creds),
   };
 
   return (dispatch) => {
