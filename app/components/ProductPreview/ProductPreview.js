@@ -165,6 +165,7 @@ class ProductPreview extends Component {
             images={images}
             activeImage={activeIndex}
             closeGallery={this.closeGallery}
+            isOpen={modalOpen}
           />
         }
         <div
