@@ -34,7 +34,7 @@ router.get('/oauth/:social', (req, res) => {
       res
         .cookie('oauth_error', err.message)
         .redirect('/');
-    }));
+    });
 });
 
 export default router;
