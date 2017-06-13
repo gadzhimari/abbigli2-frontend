@@ -1,5 +1,4 @@
 import express from 'express';
-import fetch from 'isomorphic-fetch';
 import { DOMAIN_URL } from '../../app/config';
 
 const router = express();
