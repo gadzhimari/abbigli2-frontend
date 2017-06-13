@@ -3,7 +3,7 @@ import { getJsonFromStorage } from 'utils/functions';
 import { ME_STORE } from '../actionsTypes';
 import { API_URL } from 'config';
 
-const setMe = data => ({
+export const setMe = data => ({
   type: ME_STORE,
   data,
 });
