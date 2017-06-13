@@ -14,13 +14,13 @@ router.get('/oauth/:social', (req, res) => {
   fetch(`${DOMAIN_URL}api/social/${req.params.social}/`, config)
     .then(response => response.json(data => ({
       data,
-      status: response,
-    }))
+      response,
+    })))
     .then(({
       data,
-      status,
+      response,
     }) => {
-      if (!status.ok) {
+      if (!response.ok) {
         throw new Error(JSON.stringify(data));
       }
 
