@@ -14,13 +14,13 @@ router.get('/oauth/:social', (req, res) => {
   fetch(`${DOMAIN_URL}api/social/${req.params.social}/`, config)
     .then(response => response.json(data => ({
       data,
-      response,
-    })
+      status: response,
+    }))
     .then(({
       data,
-      response,
+      status,
     }) => {
-      if (!response.ok) {
+      if (!status.ok) {
         throw new Error(JSON.stringify(data));
       }
 
@@ -34,7 +34,7 @@ router.get('/oauth/:social', (req, res) => {
       res
         .cookie('oauth_error', err.message)
         .redirect('/');
-    })));
+    }));
 });
 
 export default router;
