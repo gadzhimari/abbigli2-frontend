@@ -12,13 +12,29 @@ router.get('/oauth/:social', (req, res) => {
   };
 
   fetch(`${DOMAIN_URL}api/social/${req.params.social}/`, config)
-    .then(result => result.json())
-    .then(response => res
-      .cookie('id_token', response.token, {
-        maxAge: (1000 * 3600 * 24 * 1000),
-      })
-      .redirect('/')
-    );
+    .then(response => response.json(data => ({
+      data,
+      response,
+    })
+    .then(({
+      data,
+      response,
+    }) => {
+      if (!response.ok) {
+        throw new Error(JSON.stringify(data));
+      }
+
+      res
+        .cookie('id_token', response.token, {
+          maxAge: (1000 * 3600 * 24 * 1000),
+        })
+        .redirect('/');
+    })
+    .catch((err) => {
+      res
+        .cookie('oauth_error', err.message)
+        .redirect('/');
+    })));
 });
 
 export default router;
