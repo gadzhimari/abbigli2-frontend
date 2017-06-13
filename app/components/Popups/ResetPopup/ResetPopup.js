@@ -15,40 +15,20 @@ class ResetPopup extends Component {
   constructor() {
     super();
     this.state = {
-      phone: '',
-      email: '',
-      mode: 'phone',
+      contact: '',
     };
   }
 
   handleChange = ({ target }) => this.setState({
-    [this.state.mode]: target.value.trim(),
+    contact: target.value.trim(),
   })
 
-  handleClick = () => this.props.dispatch(reset({
-    [this.state.mode]: this.state[this.state.mode],
-  }, this.state.mode))
-
-  switchMode = () => this.setState({
-    mode: this.state.mode === 'phone'
-      ? 'email'
-      : 'phone',
-  });
+  handleClick = () => this.props.dispatch(reset(this.state))
 
   signUpOpen = () => this.props.dispatch(openPopup('registerPopup'))
 
   render() {
-    const { mode } = this.state;
     const { isFetching, errors, closePopup } = this.props;
-    const placeholder = mode === 'phone'
-      ? 'phone.number.with.country'
-      : 'Your email';
-    const switchText = mode === 'phone'
-      ? 'Recover via Email'
-      : 'Recover via phone number';
-    const value = mode === 'phone'
-      ? this.state.phone
-      : this.state.email;
 
     return (
       <Popup
@@ -56,27 +36,20 @@ class ResetPopup extends Component {
         title={__t('recover.your.password')}
       >
         <div className="popup-notice">
-          {__t(`Via your ${mode}`)}
+          {__t('Via your email or phone')}
         </div>
         <form className="popup-form">
           <div className="popup-form__field">
             <ErrorInput
               className="input"
-              value={value}
+              value={this.state.contact}
               onChange={this.handleChange}
               disabled={isFetching}
-              placeholder={__t(placeholder)}
-              errors={errors.non_field_errors || errors[mode]}
+              placeholder={__t('Your email or phone number')}
+              errors={errors.contact}
               wrapperClass="input-wrap"
             />
           </div>
-          <button
-            className="reset__switch-mode"
-            type="button"
-            onClick={this.switchMode}
-          >
-            {__t(switchText)}
-          </button>
           <div className="buttons-wrap">
             <FetchingButton
               className="default-button"

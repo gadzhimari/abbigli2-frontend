@@ -5,9 +5,9 @@ import { resetConfirm } from './';
 
 import { API_URL } from 'config';
 
-const reset = (creds, mode) => {
+const reset = (creds) => {
   const formData = new FormData();
-  formData.append(mode, creds[mode]);
+  formData.append('contact', creds.contact);
 
   const config = {
     method: 'POST',
@@ -28,14 +28,12 @@ const reset = (creds, mode) => {
 
         dispatch(handleSucces({
           loginStage: 'confirm',
-          [mode]: user[mode],
         }));
 
         dispatch(openPopup('confirmPopup', {
           callback: data => dispatch(resetConfirm(data)),
           previousPopup: 'resetPopup',
-          [mode]: user[mode],
-          mode,
+          contact: user.contact,
         }));
       });
   };

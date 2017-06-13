@@ -33,8 +33,7 @@ const registration = (creds) => {
         dispatch(openPopup('confirmPopup', {
           callback: data => dispatch(registerConfirm(data)),
           previousPopup: 'registerPopup',
-          phone: user.phone,
-          mode: 'phone',
+          contact: user.phone,
         }));
       })
       .catch((error) => {
