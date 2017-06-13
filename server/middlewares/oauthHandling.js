@@ -1,4 +1,5 @@
 import express from 'express';
+import fetch from 'isomorphic-fetch';
 import { DOMAIN_URL } from '../../app/config';
 
 const router = express();
@@ -11,20 +12,14 @@ router.get('/oauth/:social', (req, res) => {
   };
 
   fetch(`${DOMAIN_URL}api/social/${req.params.social}/`, config)
-    .then(response => response.json(data => ({
-      data,
-      response,
-    })))
-    .then(({
-      data,
-      response,
-    }) => {
-      if (!response.ok) {
+    .then(response => response.json())
+    .then((data) => {
+      if (!data.token) {
         throw new Error(JSON.stringify(data));
       }
 
       res
-        .cookie('id_token', response.token, {
+        .cookie('id_token', data.token, {
           maxAge: (1000 * 3600 * 24 * 1000),
         })
         .redirect('/');
