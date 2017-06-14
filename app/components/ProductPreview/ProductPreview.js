@@ -130,7 +130,7 @@ class ProductPreview extends Component {
   }
 
   closeGallery = () => {
-    document.body.style = {};
+    document.body.style.overflow = 'auto';
     this.setState({
       modalOpen: false,
     });
