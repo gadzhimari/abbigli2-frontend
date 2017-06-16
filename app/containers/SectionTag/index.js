@@ -38,51 +38,44 @@ class SectionTag extends Component {
 
   componentWillMount() {
     const {
-      dispatch,
-      routeParams,
       items,
-      currentTag,
-      currentSection,
+      location,
       route,
+      routeParams,
     } = this.props;
 
     this.fetchSectionTags();
 
-    if (
-      items.length === 0
-      || currentTag !== routeParams.tag
-      || currentSection !== routeParams.section
-    ) {
-      const options = Object.assign({}, routeParams);
+    if (location.action === 'POP' && items.length === 0) {
+      this.fetchPosts(route, routeParams);
+    }
 
-      if (route.slug) {
-        options[route.slug] = true;
-      }
-
-      if (routeParams.filter) {
-        options[routeParams.filter] = true;
-      }
-
-      dispatch(fetchData(options));
+    if (location.action === 'PUSH') {
+      this.fetchPosts(route, routeParams);
     }
   }
 
   componentWillUpdate(nextProps) {
-    const { dispatch, routeParams } = this.props;
+    const { routeParams } = this.props;
 
     if (nextProps.routeParams !== routeParams) {
-      const options = Object.assign({}, nextProps.routeParams);
-
-      if (nextProps.route.slug) {
-        options[nextProps.route.slug] = true;
-      }
-
-      if (nextProps.routeParams.filter) {
-        options[nextProps.routeParams.filter] = true;
-      }
-
-      dispatch(fetchData(options));
+      this.fetchPosts(nextProps.route, nextProps.routeParams);
     }
+  }
+
+  fetchPosts = (route, params, config = {}) => {
+    const { dispatch } = this.props;
+    const options = Object.assign({}, params, config);
+
+    if (route.slug) {
+      options[route.slug] = true;
+    }
+
+    if (params.filter) {
+      options[params.filter] = true;
+    }
+
+    dispatch(fetchData(options));
   }
 
   fetchSectionTags() {
@@ -104,30 +97,15 @@ class SectionTag extends Component {
   }
 
   loadMore = () => {
-    const {
-      dispatch,
-      routeParams,
-      isFetchingMore,
-      next,
-      page,
-      route,
-    } = this.props;
+    const { isFetchingMore, next, page } = this.props;
 
     if (isFetchingMore || next === null) return;
 
-    const options = Object.assign({}, routeParams, {
+    const options = {
       page,
-    });
+    };
 
-    if (route.slug) {
-      options[route.slug] = true;
-    }
-
-    if (routeParams.filter) {
-      options[routeParams.filter] = true;
-    }
-
-    dispatch(fetchData(options));
+    this.fetchPosts(this.props.route, this.props.routeParams, options);
   }
 
   render() {
@@ -251,10 +229,7 @@ function mapStateToProps(state) {
     isFetching,
     items,
     page,
-  } = (state.Posts) || {
-      isFetching: true,
-      items: [],
-    };
+  } = state.Posts;
   const auth = state.Auth || {
     isAuthenticated: false,
   };

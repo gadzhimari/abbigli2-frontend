@@ -21,7 +21,7 @@ class ContentWrapper extends Component {
       ? 'mobile-menu mobile-menu--active'
       : 'mobile-menu';
     const contentClass = isOpenMenu
-      ? `${contentWrapperClass} mobile-menu__current menu-opened`
+      ? `${contentWrapperClass} mobile-menu__current`
       : `${contentWrapperClass} mobile-menu__current`;
     const overlayClass = isOpenMenu
       ? 'mobile-menu__overlay mobile-menu__overlay--active'

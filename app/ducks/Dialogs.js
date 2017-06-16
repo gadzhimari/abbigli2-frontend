@@ -295,19 +295,7 @@ export function sendPostMessage(sender, post, message, showWants) {
     return fetch(ENDPOINT, Object.assign(config, createData))
       .then(res => res.json())
       .then((response) => {
-        const msg = `<span class="title-message"><a href="${response.post.url}">
-          Link to product: ${response.post.title}
-        </a></span><br />
-        <span class="price">
-          Title: ${response.post.title}
-        </a></span><br />
-        <span class="price">
-          Price: $${response.post.price}
-        </span><br />
-          Message: ${message}<br />
-        <img src="/thumbs/unsafe/0x196/${response.post.image}" />
-        `;
-        sendFormData.append('body', msg);
+        sendFormData.append('body', message);
 
         return fetch(response.url, Object.assign(config, { body: sendFormData }))
           .then((res) => {

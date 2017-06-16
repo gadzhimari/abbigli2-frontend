@@ -8,6 +8,7 @@ import { openPopup } from 'ducks/Popup/actions';
 import { sendPrivateMessage, setActiveDialog, loadMessages } from 'ducks/Dialogs';
 
 import { location } from 'config';
+import { DOMAIN_URL } from 'config';
 
 import { __t } from '../../i18n/translator';
 
@@ -129,6 +130,8 @@ class DialogsBlock extends Component {
     } = this.props;
 
     const { query, messageValue } = this.state;
+    const dialog = dialogs.filter(item => item.id === activeDialog)[0];
+    const post = dialog && dialog.post;
 
     const datedDialogs = dialogs.map((item) => {
       const newItem = item;
@@ -153,6 +156,10 @@ class DialogsBlock extends Component {
       item.name = this.generateNameGroup(item);
       item.id = idx;
 
+      if (post && idx === 0) {
+        item.post = post;
+      }
+
       if (groupsTemp.includes(item.name)) return;
 
       groupsTemp.push(item.name);
@@ -167,7 +174,7 @@ class DialogsBlock extends Component {
           {group}
         </div>
         {
-          messages.map((item) => {
+          messages.map((item, indx) => {
             if (item.name === group) {
               return (
                 <div
@@ -192,9 +199,32 @@ class DialogsBlock extends Component {
                     className="message__content-wrap"
                   >
                     <div
-                      dangerouslySetInnerHTML={{ __html: item.body }}
                       className="message__content"
-                    />
+                    >
+                      {
+                        post && indx === 0
+                        &&
+                        <div>
+                          <span className="title-message">
+                            {post.title}
+                          </span>
+                          <br />
+                          <span className="price">
+                            {
+                              location === 'en'
+                                ? `$ ${post.price}`
+                                : `${post.price} рублей`
+                            }
+                          </span>
+                          <br />
+                          <img
+                            src={`${DOMAIN_URL}thumbs/unsafe/350x196/${post.image}`}
+                            alt={post.title}
+                          />
+                        </div>
+                      }
+                      {item.body}
+                    </div>
                   </div>
                   <div className="message__time">
                     {item.tempSentAt}

@@ -49,11 +49,15 @@ class EventsPage extends Component {
     this.clicktToTimeout = null;
   }
 
-  componentDidMount() {
-    const { dispatch, page, itemsEvents } = this.props;
+  componentWillMount() {
+    const { dispatch, itemsEvents, location } = this.props;
 
-    if (itemsEvents.length === 0) {
-      dispatch(fetchDataEvents(page));
+    if (location.action === 'POP' && itemsEvents.length === 0) {
+      dispatch(fetchDataEvents(1));
+    }
+
+    if (location.action === 'PUSH') {
+      dispatch(fetchDataEvents(1));
     }
   }
 

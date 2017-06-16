@@ -9,8 +9,7 @@ import ProductView from './Components/BlogView';
 import { sendComment } from 'ducks/Comments';
 import BlogsPopular from './BlogsPopular';
 
-import { fetchData as fetchBlogs, resetData } from 'ducks/BlogPost';
-import { fetchData as fetchDataBlogs } from 'ducks/Blogs';
+import { fetchPost, fetchNew, resetPost } from 'ducks/PostPage/actions';
 import { fetchData as fetchDataComments } from 'ducks/Comments';
 import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
 
@@ -19,10 +18,10 @@ import 'slick-carousel/slick/slick-theme.css';
 
 
 class BlogPage extends Component {
-  static fetchData = (dispatch, params, token) => dispatch(fetchBlogs(params.slug, 4, token))
+  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, 4, token))
 
   static fetchSubData = (dispatch, data, params) => Promise.all([
-    dispatch(fetchDataBlogs(1)),
+    dispatch(fetchNew(4)),
     dispatch(fetchDataComments(params.slug)),
     dispatch(fetchDataAuthors({
       type: 'posts',
@@ -32,7 +31,7 @@ class BlogPage extends Component {
   ])
 
   static onUnmount = (dispatch) => {
-    dispatch(resetData());
+    dispatch(resetPost());
   }
 
   sendComment = (comment) => {
@@ -112,29 +111,16 @@ BlogPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const {
-    isFetching,
-    data,
-    isDefined,
-  } = (state.BlogPost) || {
-      isFetching: true,
-      data: {},
-      isDefined: true,
-    };
-
-  const blogs = (state.Blogs) || { isFetching: true, items: [] };
-  const authors = (state.ProfilePosts) || { isFetching: true, items: [] };
-  const comments = (state.Comments) || { isFetching: true, items: [] };
-  const auth = state.Auth || {
-    isAuthenticated: false,
-  };
+  const authors = (state.ProfilePosts);
+  const comments = (state.Comments);
+  const auth = state.Auth;
 
   return {
-    data,
-    isFetching,
-    isDefined,
-    itemsBlogs: blogs.items,
-    isFetchingBlogs: blogs.isFetching,
+    data: state.PostPage.post,
+    isFetching: state.PostPage.isFetchingPost,
+    isDefined: state.PostPage.isDefined,
+    itemsBlogs: state.PostPage.newPosts,
+    isFetchingBlogs: state.PostPage.isFetchingNew,
     itemsAuthors: authors.items,
     isFetchingAuthors: authors.isFetching,
     itemsComments: comments.items,
