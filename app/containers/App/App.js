@@ -133,7 +133,14 @@ class App extends Component {
     const Popup = getComponentFromObject(openedPopup, Popups);
 
     return (
-      <div className="global-wrapper">
+      <ContentWrapper
+        contentWrapperClass="global-wrapper"
+        modalButtonClick={this.modalButtonClick}
+        itemsSections={itemsSections}
+        isOpenMenu={mobileMenuOpened}
+        closeMenu={this.closeMenu}
+        isFetchingSections={isFetchingSections}
+      >
         <Helmet
           {...appConfig.head}
           title={seoData && seoData.seo_title}
@@ -148,49 +155,38 @@ class App extends Component {
             },
           ]}
         />
-
-        <ContentWrapper
-          contentWrapperClass="global-wrapper"
-          modalButtonClick={this.modalButtonClick}
-          itemsSections={itemsSections}
-          isOpenMenu={mobileMenuOpened}
-          closeMenu={this.closeMenu}
-          isFetchingSections={isFetchingSections}
+        <div
+          className={`content-wrapper ${shouldOpenModal && 'modal-open-new'}`}
         >
-
-          <div
-            className={`content-wrapper ${shouldOpenModal && 'modal-open-new'}`}
-          >
-            <Header>
-              <Search />
-              <AvatarBlock
-                isAuthenticated={isAuthenticated}
-                errorMessage={errorMessage}
-                dispatch={dispatch}
-                onLogoutClick={this.logoutUser}
-                toggleMenu={this.toggleMenu}
-                itemsSections={itemsSections}
-                isFetchingSections={isFetchingSections}
-              />
-            </Header>
-            <Sprites />
-
-            <Popup
+          <Header>
+            <Search />
+            <AvatarBlock
+              isAuthenticated={isAuthenticated}
+              errorMessage={errorMessage}
               dispatch={dispatch}
-              closePopup={this.closePopup}
-              options={popupOptions}
+              onLogoutClick={this.logoutUser}
+              toggleMenu={this.toggleMenu}
+              itemsSections={itemsSections}
+              isFetchingSections={isFetchingSections}
             />
+          </Header>
+          <Sprites />
 
-            {children}
+          <Popup
+            dispatch={dispatch}
+            closePopup={this.closePopup}
+            options={popupOptions}
+          />
 
-          </div>
-          <Footer
-            openPopup={this.modalButtonClick}
-          >
-            Logo
+          {children}
+
+        </div>
+        <Footer
+          openPopup={this.modalButtonClick}
+        >
+          Logo
         </Footer>
-        </ContentWrapper>
-      </div>
+      </ContentWrapper>
     );
   }
 }
