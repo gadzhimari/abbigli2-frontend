@@ -15,16 +15,16 @@ import { connect } from 'react-redux';
 import { sendComment } from 'ducks/Comments';
 import EventsPopular from './EventsPopular';
 
-import { fetchData as fetchEvents, resetData } from 'ducks/BlogPost';
-import { fetchData as fetchDataEvents } from 'ducks/Events';
+import { fetchPost, fetchNew, resetPost } from 'ducks/PostPage/actions';
+
 import { fetchData as fetchDataComments } from 'ducks/Comments';
 import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
 
 class EventPage extends Component {
-  static fetchData = (dispatch, params, token) => dispatch(fetchEvents(params.slug, 3, token))
+  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, 3, token))
 
   static fetchSubData = (dispatch, data, params) => Promise.all([
-    dispatch(fetchDataEvents(1)),
+    dispatch(fetchNew(3)),
     dispatch(fetchDataComments(params.slug)),
     dispatch(fetchDataAuthors({
       type: 'posts',
@@ -34,7 +34,7 @@ class EventPage extends Component {
   ])
 
   static onUnmount = (dispatch) => {
-    dispatch(resetData());
+    dispatch(resetPost());
   }
 
   sendComment = (comment) => {
@@ -105,15 +105,6 @@ EventPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const {
-    isFetching,
-    data,
-    isDefined,
-  } = (state.BlogPost) || {
-    isFetching: true,
-    data: {},
-    isDefined: true,
-  };
   const events = (state.Events) || { isFetching: true, items: [] };
   const comments = (state.Comments) || { isFetching: true, items: [] };
   const auth = state.Auth || {
@@ -121,11 +112,11 @@ function mapStateToProps(state) {
   };
 
   return {
-    data,
-    isFetching,
-    isDefined,
-    itemsEvents: events.items,
-    isFetchingEvents: events.isFetching,
+    data: state.PostPage.post,
+    isFetching: state.PostPage.isFetchingPost,
+    isDefined: state.PostPage.isDefined,
+    itemsEvents: state.PostPage.newPosts,
+    isFetchingEvents: state.PostPage.isFetchingNew,
     itemsComments: comments.items,
     isFetchingComments: comments.isFetching,
     isAuthenticated: auth.isAuthenticated,

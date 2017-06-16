@@ -13,13 +13,11 @@ import {
   CardProduct,
 } from 'components';
 
+import { fetchPosts, fetchTags } from 'ducks/TagSearch/actions';
+
 import { __t } from './../../i18n/translator';
 
-import { getJsonFromStorage, createQuery } from 'utils/functions';
-
 import './Tag.styl';
-import { API_URL } from 'config';
-
 
 const propTypes = {
   routeParams: PropTypes.object,
@@ -28,64 +26,42 @@ const propTypes = {
 };
 
 class Tag extends Component {
-  constructor() {
-    super();
-    this.state = {
-      isFetching: true,
-      result: [],
-      tags: {
-        results: [],
-      },
-      pageCount: 0,
-      hasMoreItems: true,
-      nextHref: null,
-    };
+  constructor(props) {
+    super(props);
   }
 
-  componentDidMount() {
-    this.loadItems();
-    this.loadRelativeTags();
+  componentWillMount() {
+    const { location, items } = this.props;
+
+    if (location.action === 'POP' && items.length === 0) {
+      this.loadItems();
+      this.loadRelativeTags();
+    }
+
+    if (location.action === 'PUSH') {
+      this.loadItems();
+      this.loadRelativeTags();
+    }
   }
 
   componentDidUpdate(prevProps) {
     const { routeParams } = this.props;
 
     if (prevProps.routeParams !== routeParams) {
-      this.setState({
-        result: [],
-        tags: {
-          results: [],
-        },
-        isFetching: true,
-        hasMoreItems: true,
-      });
-
       this.loadItems();
       this.loadRelativeTags();
     }
   }
 
   loadRelativeTags = () => {
-    const { routeParams } = this.props;
+    const { routeParams, dispatch } = this.props;
 
-    fetch(`${API_URL}tags/?related_with=${routeParams.tags}`)
-      .then((response) => {
-        if (response.status >= 400) {
-          throw new Error('Bad response from server');
-        }
-
-        return response.json();
-      })
-      .then((tags) => {
-        this.setState({ tags });
-      });
+    dispatch(fetchTags(routeParams.tags));
   }
 
   loadItems = () => {
-    const { routeParams } = this.props;
+    const { routeParams, dispatch } = this.props;
     const page = routeParams.page || 1;
-    const token = getJsonFromStorage('id_token') || null;
-    const config = { headers: {} };
     const options = {
       tags: routeParams.tags,
       [routeParams.filter]: true,
@@ -95,39 +71,19 @@ class Tag extends Component {
       options.page = page;
     }
 
-    this.setState({
-      pageCount: 0,
-    });
-
-    if (token) {
-      config.headers.Authorization = `JWT ${token}`;
-    }
-
-    fetch(`${API_URL}posts/${createQuery(options)}`, config)
-      .then((response) => {
-        if (response.status >= 400) {
-          throw new Error('Bad response from server');
-        }
-
-        return response.json();
-      })
-      .then((results) => {
-        const pageCount = Math.ceil(results.count / 30);
-
-        this.setState({
-          result: results.results,
-          isFetching: false,
-          pageCount,
-        });
-      });
+    dispatch(fetchPosts(options));
   }
 
   render() {
-    const { tags, pageCount } = this.state;
     const {
       routeParams,
       dispatch,
       isAuthenticated,
+      tags,
+      pageCount,
+      items,
+      isFetching,
+      priceTemplate,
     } = this.props;
 
     const pageButtons = () => {
@@ -163,10 +119,10 @@ class Tag extends Component {
         />
         <EventButtons />
         {
-          tags.results.length > 0
-            &&
+          tags.length > 0
+          &&
           <TagsBar
-            tags={tags.results}
+            tags={tags}
             previousTags={routeParams.tags}
           />
         }
@@ -193,20 +149,24 @@ class Tag extends Component {
             </CardsSortItem>
           </CardsSort>
         </CardsWrap>
-          {
-            this.state.result.map(item => <CardProduct
-              key={`${item.slug}--tag`}
-              data={item}
-              isAuthenticated={isAuthenticated}
-              legacy
-              dispatch={dispatch}
-              priceTemplate={this.props.priceTemplate}
-            />)
-          }
-        <Loading loading={this.state.isFetching} />
+        {
+          !isFetching
+          &&
+          items.map(item => <CardProduct
+            key={`${item.slug}--tag`}
+            data={item}
+            isAuthenticated={isAuthenticated}
+            legacy
+            dispatch={dispatch}
+            priceTemplate={priceTemplate}
+          />)
+        }
+        <Loading loading={isFetching} />
         <div className="page__links">
           {
-            pageCount
+            !isFetching
+            &&
+            pageCount > 1
               ? pageButtons()
               : null
           }
@@ -218,15 +178,17 @@ class Tag extends Component {
 
 Tag.propTypes = propTypes;
 
-function mapStateToProps(state) {
-  const auth = state.Auth || {
-    isAuthenticated: false,
-  };
-
-  return {
-    isAuthenticated: auth.isAuthenticated,
-    priceTemplate: state.Settings.data.CURRENCY,
-  };
-}
+const mapStateToProps = ({
+  Auth,
+  Settings,
+  TagSearch,
+}) => ({
+  isAuthenticated: Auth.isAuthenticated,
+  priceTemplate: Settings.data.CURRENCY,
+  items: TagSearch.items,
+  tags: TagSearch.tags,
+  isFetching: TagSearch.isFetching,
+  pageCount: TagSearch.pageCount,
+});
 
 export default connect(mapStateToProps)(Tag);

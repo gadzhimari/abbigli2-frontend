@@ -14,6 +14,8 @@ import {
   ContentWrapper,
 } from 'components';
 
+import scrollOnRoute from 'App/HOC/scrollOnRoute';
+
 import {
   fetchMe,
   logoutUser,
@@ -226,4 +228,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(DragDropContext(HTML5Backend)(App));
+export default connect(mapStateToProps)(DragDropContext(HTML5Backend)(scrollOnRoute(App)));

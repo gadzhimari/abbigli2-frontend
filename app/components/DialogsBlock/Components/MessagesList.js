@@ -3,6 +3,8 @@ import {
   Loading,
 } from 'components';
 
+import { location, DOMAIN_URL } from 'config';
+
 class MessagesList extends Component {
   componentDidUpdate(prevProps) {
     if (this.messages && !prevProps.loadMore) {
@@ -10,11 +12,7 @@ class MessagesList extends Component {
     }
   }
 
-  scrollHandler = () => {
-    if (this.messages.scrollTop === 0) {
-      console.log('load more!');
-    }
-  }
+  // TODO: scroll to previous messages
 
   render() {
     const {
@@ -23,6 +21,7 @@ class MessagesList extends Component {
       onChangeMessage,
       messageValue,
       onSendMessage,
+      post,
     } = this.props;
 
     return (
@@ -70,7 +69,7 @@ class MessagesList extends Component {
             </button>
           </div>
         </form>
-      </div>
+      </div >
     );
   }
 }
