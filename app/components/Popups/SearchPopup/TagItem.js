@@ -5,8 +5,9 @@ const TagItem = ({
   searchQuery,
   onClick,
 }) => {
+  const regex = new RegExp(searchQuery.currentRequest, 'i');
   const formatedTitle = data.title
-      .replace(searchQuery.currentRequest, `<strong>${searchQuery.value}</strong>`);
+      .replace(regex, `<strong>${searchQuery.value}</strong>`);
   const value = searchQuery.latestRequest.length > 0
     ? `${searchQuery.latestRequest} ${data.title}`
     : data.title;

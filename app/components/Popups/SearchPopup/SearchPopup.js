@@ -5,6 +5,8 @@ import { withRouter } from 'react-router';
 import ResultsTags from './ResultsTags';
 import ResultsUsers from './ResultsUsers';
 
+import { changeValue, clearValue } from 'ducks/Search';
+
 import { API_URL } from 'config';
 import { debounce } from 'utils/functions';
 import { __t } from '../../../i18n/translator';
@@ -37,7 +39,6 @@ class SearchPopup extends Component {
       showSwitcherDropdown: false,
       results: [],
       requestQuery: {},
-      tagsValue: '',
       usersValue: '',
       isFetching: true,
       isFetchingUsers: true,
@@ -66,8 +67,7 @@ class SearchPopup extends Component {
   }
 
   searchByTags = () => {
-    const { router } = this.props;
-    const { tagsValue } = this.state;
+    const { router, tagsValue } = this.props;
 
     if (!tagsValue.length) {
       router.push('/');
@@ -87,8 +87,9 @@ class SearchPopup extends Component {
 
     this.setState({
       requestQuery,
-      tagsValue: target.value,
     });
+
+    this.props.dispatch(changeValue(target.value));
 
     this.fetchTags(requestQuery.currentRequest);
   }
@@ -157,14 +158,36 @@ class SearchPopup extends Component {
     });
   }
 
+  handleKeydown = ({ keyCode }) => {
+    if (keyCode !== 13) return;
+
+    if (this.state.mode === 'users') {
+      this[this.state.mode].blur();
+      return;
+    }
+
+    this.searchByTags();
+  }
+
+  clearValue = () => {
+    this.props.dispatch(clearValue());
+    this.setState({
+      requestQuery: {
+        currentRequest: '',
+        latestRequest: '',
+        value: '',
+      },
+      results: [],
+    });
+  }
+
   render() {
-    const { closePopup } = this.props;
+    const { closePopup, tagsValue } = this.props;
     const {
       mode,
       showSwitcherDropdown,
       results,
       requestQuery,
-      tagsValue,
       isFetching,
       usersValue,
       isFetchingUsers,
@@ -200,9 +223,21 @@ class SearchPopup extends Component {
                     onChange={this.changeInput}
                     placeholder={__t('Search')}
                     ref={tags => (this.tags = tags)}
+                    onKeyDown={this.handleKeydown}
                     type="text"
                     value={tagsValue}
                   />
+                  {
+                    tagsValue.length !== 0
+                    &&
+                    <div
+                      className="form__clear"
+                      onClick={this.clearValue}
+                      onTouchEnd={this.clearValue}
+                    >
+                      ×
+                    </div>
+                  }
                 </div>
                 : <div className="mobile-search__form">
                   <input
@@ -211,6 +246,7 @@ class SearchPopup extends Component {
                     placeholder={__t('Search')}
                     type="text"
                     value={usersValue}
+                    onKeyDown={this.handleKeydown}
                     ref={users => (this.users = users)}
                   />
                 </div>
@@ -294,11 +330,11 @@ class SearchPopup extends Component {
 SearchPopup.propTypes = {
   closePopup: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
-  tagList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tagsValue: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = ({ Search }) => ({
-  tagList: Search.tagList,
+  tagsValue: Search.tagsValue,
 });
 
 export default withRouter(connect(mapStateToProps)(SearchPopup));
