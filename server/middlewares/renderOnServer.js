@@ -116,6 +116,7 @@ module.exports = (req, res) => {
       baseUrl: assetsUrl,
       jsUrl,
       cssUrl,
+      lang,
       store: encodeURI(JSON.stringify(store.getState())),
       seo,
       commonCss,
