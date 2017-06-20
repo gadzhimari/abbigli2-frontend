@@ -45,7 +45,7 @@ const ProductView = (props) => {
               />
             </svg>
           </Link>
-          <h1 className="blog-title">{data.title}</h1>
+          {data.title}
         </div>
         <div className="detail__date">
           {

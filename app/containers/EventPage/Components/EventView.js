@@ -43,7 +43,7 @@ const EventView = (props) => {
 		            l1.638-1.634L31.515,14.659z M20.168,26.079L19,30l3.92-1.169l8.8-8.793l-2.756-2.759L20.168,26.079z"/>
               </svg>
           </Link>
-          <h1 className="blog-title">{data.title}</h1>
+          {data.title}
         </div>
         <div className="detail__date">
           {__t('Date')}
