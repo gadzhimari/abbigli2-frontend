@@ -8,16 +8,12 @@ const Footer = props => (
     <div className="footer-content">
       <a className="footer-logo" href="#"></a>
       <div className="footer-menu">
-        <noindex>
-          <a className="footer-menu__item" href="/page/about">
-            {__t('About')}
-          </a>
-        </noindex>
-        <noindex>
-          <a className="footer-menu__item" href="/page/faq">
-            {__t('FAQ')}
-          </a>
-        </noindex>
+        <a className="footer-menu__item" href="/page/about">
+          {__t('About')}
+        </a>
+        <a className="footer-menu__item" href="/page/faq">
+          {__t('FAQ')}
+        </a>
         <span
           className="footer-menu__item"
           data-type="supportPopup"
@@ -25,11 +21,23 @@ const Footer = props => (
         >
           {__t('Support')}
         </span>
+        <a
+          className="footer-menu__item"
+          href="#"
+        >
+          {__t('Sell on Abbigli')}
+        </a>
       </div>
 
       <div className="footer-rightcol">
+        <a
+          className="footer-rightcol_item"
+          href="#"
+        >
+          {__t('Policy privacy')}
+        </a>
         <div className="footer-copyright">
-          © Abbigli, 2017
+          © 2017 Abbigli
           </div>
       </div>
     </div>

@@ -156,11 +156,7 @@ class SectionTag extends Component {
         }
         <CardsWrap legacy>
           <CardsSort>
-            <h1 className="section-title">
-              {seoTextsObj.title}
-            </h1>
-
-            {routeParams.tags ? ` #${routeParams.tags}` : null}
+            {seoTextsObj.title} {routeParams.tags ? ` #${routeParams.tags}` : null}
             <CardsSortItem
               to={getSectionUrl('new', routeParams.section, routeParams.tags)}
               isActive={route.slug === 'new' || (!routeParams.filter && !route.slug) || routeParams.filter === 'new'}

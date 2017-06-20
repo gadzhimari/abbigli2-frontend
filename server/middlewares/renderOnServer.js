@@ -15,7 +15,6 @@ import routes from '../../app/routes';
 
 const isProd = process.env.NODE_ENV === 'production';
 const lang = process.env.LOCATION;
-const domain = process.env.DOMAIN_URL.slice(0, -1);
 
 const assetsUrl = isProd ? '' : 'http://localhost:8080';
 let jsUrl;
@@ -43,7 +42,7 @@ const createCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/create
 const sectionsCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/sections.html'), 'utf8');
 
 const linksToCss = {
-  'blogs(/:filter)': blogsCss,
+  blogs: blogsCss,
   'blog/:slug': blogsCss,
   events: eventsCss,
   'event/:slug': eventsCss,
@@ -55,8 +54,8 @@ const linksToCss = {
   'set-the-mood': newpostCss,
   'post/new': createCss,
   'sections/:section': sectionsCss,
-  'sections/:section/:tags(/:filter)': sectionsCss,
-  'tags/:tags/:filter(/:page)': sectionsCss,
+  'sections/:section/:tag': sectionsCss,
+  'tags/:tags(/:page)': sectionsCss,
 };
 
 const metriks = {
@@ -71,37 +70,8 @@ const metriks = {
     ga('create', 'UA-78577116-1', 'auto');
     ga('send', 'pageview');
   </script>`,
-  ru: `
-  <!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function (d, w, c) {
-        (w[c] = w[c] || []).push(function() {
-            try {
-                w.yaCounter39079715 = new Ya.Metrika({
-                    id:39079715,
-                    clickmap:true,
-                    trackLinks:true,
-                    accurateTrackBounce:true,
-                    webvisor:true
-                });
-            } catch(e) { }
-        });
-
-        var n = d.getElementsByTagName("script")[0],
-            s = d.createElement("script"),
-            f = function () { n.parentNode.insertBefore(s, n); };
-        s.type = "text/javascript";
-        s.async = true;
-        s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-        if (w.opera == "[object Opera]") {
-            d.addEventListener("DOMContentLoaded", f, false);
-        } else { f(); }
-    })(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/39079715" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-  <script>
+  ru: `<!-- Yandex.Metrika counter --> <script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter39079715 = new Ya.Metrika({ id:39079715, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/39079715" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
+<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -146,11 +116,9 @@ module.exports = (req, res) => {
       baseUrl: assetsUrl,
       jsUrl,
       cssUrl,
-      lang,
       store: encodeURI(JSON.stringify(store.getState())),
       seo,
       commonCss,
-      canonical: `${domain}${req.path}`,
       pageCss: linksToCss[renderProps.routes[1].path] || '',
       metriks: metriks[lang],
     });
