@@ -10,7 +10,7 @@ import {
 } from 'components'
 import Helmet from 'react-helmet';
 import './Sections.styl';
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
 import { fetchData } from 'ducks/SubSections';
 import { fetchData as topFetchData } from 'ducks/TopAuthors';
@@ -105,7 +105,9 @@ class Sections extends Component {
 
         <CardsWrap legacy>
           <CardsSort>
-            {seoTextsObj.title}
+            <h1 className="section-title">
+              {seoTextsObj.title}
+            </h1>
             <CardsSortItem
               to={`/new-products/${routeParams.section}`}
             >
