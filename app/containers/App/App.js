@@ -44,7 +44,7 @@ class App extends Component {
   static fetchData = ({ store, token, shouldPreload }, nextState, replace, callback) => {
     if (!shouldPreload) return callback();
 
-    const promises = [];
+    const promises = [store.dispatch(fetchDataSections())];
     const child = nextState.routes[nextState.routes.length - 1].component;
 
     if (token) {
@@ -64,11 +64,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    const { dispatch, itemsSections } = this.props;
-
-    if (itemsSections.length === 0) {
-      dispatch(fetchDataSections());
-    }
+    const { dispatch } = this.props;
 
     dispatch(settingsFetch());
     dispatch(fetchGeo());
