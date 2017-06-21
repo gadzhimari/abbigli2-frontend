@@ -46,6 +46,8 @@ class EventPage extends Component {
   renderSlider = () => {
     const {
       images,
+      tags,
+      title,
     } = this.props.data;
 
     const defaultImages = images
@@ -55,6 +57,8 @@ class EventPage extends Component {
         .map(image => ({
           original: image.file,
           thumbnail: image.file,
+          originalAlt: tags.join(' '),
+          originalTitle: title,
         }));
 
     return defaultImages && <Gallery images={defaultImages} />;
