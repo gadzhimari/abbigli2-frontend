@@ -5,39 +5,39 @@ import { socialGroupsUrl, location } from 'config';
 
 const SocialGroups = () => (
   <div className="social-buttons">
-    <ShareButton
+    <noindex><nofollow><ShareButton
       className="social-btn"
       provider="facebook"
       link={socialGroupsUrl.fb}
-    />
-    <ShareButton
+    /></nofollow></noindex>
+    <noindex><nofollow><ShareButton
       className="social-btn"
       provider="pinterest"
       link={socialGroupsUrl.pinterest}
-    />
-    <ShareButton
+    /></nofollow></noindex>
+    <noindex><nofollow><ShareButton
       className="social-btn google-plus"
       provider="google"
       link={socialGroupsUrl.google}
-    />
+    /></nofollow></noindex>
 
     {
       location === 'ru'
       &&
-      <ShareButton
+      <noindex><nofollow><ShareButton
         className="social-btn vkontakte"
         provider="vk"
         link={socialGroupsUrl.vk}
-      />
+      /></nofollow></noindex>
     }
     {
       location === 'ru'
       &&
-      <ShareButton
+      <noindex><nofollow><ShareButton
         className="social-btn"
         provider="odnoklassniki"
         link={socialGroupsUrl.ok}
-      />
+      /></nofollow></noindex>
     }
   </div>
 );
