@@ -63,7 +63,13 @@ class ProductView extends Component {
       <div className="product-card">
         <div className="product-container">
           {
-            data.images && <ProductPreview images={data.images} />
+            data.images
+            &&
+            <ProductPreview
+              images={data.images}
+              tags={data.tags}
+              title={data.title}
+            />
           }
           <ProductInfo>
             <AuthorSubscribe user={data.user} slug={data.slug} />

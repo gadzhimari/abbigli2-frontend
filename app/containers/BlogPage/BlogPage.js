@@ -43,6 +43,8 @@ class BlogPage extends Component {
   renderSlider = () => {
     const {
       images,
+      title,
+      tags,
     } = this.props.data;
 
     const defaultImages = images
@@ -52,6 +54,8 @@ class BlogPage extends Component {
         .map(image => ({
           original: image.file,
           thumbnail: image.file,
+          originalAlt: tags.join(' '),
+          originalTitle: title,
         }));
 
     return defaultImages && <Gallery images={defaultImages} />;

@@ -3,15 +3,20 @@ import React, { PropTypes } from 'react';
 import { DOMAIN_URL } from 'config';
 
 const BigPreview = (props) => {
-  const { src, active, index } = props;
+  const { src, active, index, title, tags } = props;
   const activeClass = active
     ? ' selected'
     : '';
+  const alt = tags.length > 0
+    ? tags.join(' ')
+    : tags;
 
   return (
     <div
       className={`sp-slide${activeClass}`}
       data-index={index}
+      alt={alt}
+      title={title}
     >
       <img
         className="sp-image"

@@ -153,7 +153,7 @@ class ProductPreview extends Component {
       thumbWidth,
       thumbsScroll,
     } = this.state;
-    const { images } = this.props;
+    const { images, tags, title } = this.props;
     const thumbsWidth = (((slideWidth / 3) + 5) * images.length);
 
     return (
@@ -203,6 +203,8 @@ class ProductPreview extends Component {
                   src={item.file}
                   active={index.toString() === activeIndex}
                   index={index}
+                  tags={tags}
+                  title={title}
                 />)
               }
             </div>

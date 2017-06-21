@@ -23,6 +23,8 @@ const SmallPreview = (props) => {
         data-index={index}
         src={`${DOMAIN_URL}thumbs/unsafe/100x100/${src}`}
         style={{ width: '100%' }}
+        alt=""
+        title=""
       />
     </div>
   );
