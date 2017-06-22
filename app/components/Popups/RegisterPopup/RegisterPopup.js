@@ -4,6 +4,7 @@ import Select from 'react-select';
 
 import Popup from '../CommonPopup';
 import { SocialLogin, FetchingButton } from 'components';
+import CountryItem from './CountryItem';
 
 import { registration } from 'ducks/Auth/authActions';
 import { openPopup } from 'ducks/Popup/actions';
@@ -17,7 +18,7 @@ class RegisterPopup extends Component {
     this.state = {
       number: '',
       checkRules: false,
-      codeValue: props.currentCountry || undefined,
+      country: props.options.country || props.currentCountry || props.countres[0],
       selfErrors: null,
     };
   }
@@ -72,11 +73,24 @@ class RegisterPopup extends Component {
     }
   }
 
+  openChoseCountry = () => this.props
+    .dispatch(openPopup('selectPopup', {
+      title: 'Country',
+      items: this.props.countres,
+      filterField: 'name',
+      ItemComponent: CountryItem,
+      onClose: (options = {}) => this.props
+        .dispatch(openPopup('registerPopup', options)),
+    }));
+
   openSignIn = () => this.props.dispatch(openPopup('loginPopup'))
 
   render() {
     const { codes, isFetching, errors, closePopup } = this.props;
-    const { codeValue, selfErrors } = this.state;
+    const { selfErrors, country } = this.state;
+    const value = country
+      ? country.name
+      : '';
 
     return (
       <Popup
@@ -94,22 +108,24 @@ class RegisterPopup extends Component {
         </div>
         <form className="popup-form">
           <div className="popup-form__field">
-            <div className="select-code-phone">
-              <label className="popup-form__label">
-                {__t('Telephone')}
+            <div className="input-wrap">
+              <label htmlFor="country" className="popup-form__label">
+                {__t('Country')}
               </label>
-              <div>
-                <Select
-                  onChange={this.handleOptions}
-                  matchPos="start"
-                  options={codes}
-                  value={codeValue}
-                  placeholder="Choose your country"
-                  clearable={false}
-                />
-              </div>
+              <input
+                className="input"
+                onClick={this.openChoseCountry}
+                placeholder="Choose your country"
+                value={value}
+                id="country"
+              />
             </div>
-            <div className="input-wrap phone">
+          </div>
+          <div className="popup-form__field">
+            <label htmlFor="phone" className="popup-form__label">
+              {__t('Telephone')}
+            </label>
+            <div className="input-wrap">
               <input
                 className="input"
                 id="phone"
@@ -186,7 +202,7 @@ RegisterPopup.propTypes = {
 const mapStateToProps = ({ Auth, Settings }) => ({
   isFetching: Auth.isFetching,
   errors: Auth.errors,
-  codes: Settings.geo,
+  countres: Settings.geo,
   currentCountry: Settings.currentCountry,
 });
 
