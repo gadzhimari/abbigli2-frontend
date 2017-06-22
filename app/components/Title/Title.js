@@ -3,7 +3,7 @@ import './Title.styl';
 
 export default function Title(props) {
   return (
-    <h1 className="title-with-icon">
+    <div className="title-with-icon">
       <div
         className="title-icon"
         onClick={props.iconClick}
@@ -16,8 +16,8 @@ export default function Title(props) {
           />
         </svg>
       </div>
-      {props.children}
-    </h1>
+      <h1 className="product-title">{props.children}</h1>
+    </div>
   );
 }
 
