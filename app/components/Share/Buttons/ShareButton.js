@@ -11,7 +11,7 @@ const ShareButton = ({
     className={`${className} ${provider}`}
     href={link}
     target="_blank"
-    rel="noopener noreferrer nofollow"
+    rel="nofollow noopener noreferrer"
   >
     {
       SocialIcons[provider]()
