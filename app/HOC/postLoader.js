@@ -18,9 +18,6 @@ const postLoader = WrappedComponent => class extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      pageLoaded: false,
-    };
   }
 
   componentDidMount() {
@@ -31,10 +28,7 @@ const postLoader = WrappedComponent => class extends Component {
     }
 
     if (data.id) {
-      WrappedComponent.fetchSubData(dispatch, data, routeParams)
-        .then(() => this.setState({
-          pageLoaded: true,
-        }));
+      WrappedComponent.fetchSubData(dispatch, data, routeParams);
     }
   }
 
@@ -42,16 +36,10 @@ const postLoader = WrappedComponent => class extends Component {
     const { dispatch, routeParams, data } = this.props;
 
     if (prevProps.data.id !== data.id) {
-      WrappedComponent.fetchSubData(dispatch, data, routeParams)
-        .then(() => this.setState({
-          pageLoaded: true,
-        }));
+      WrappedComponent.fetchSubData(dispatch, data, routeParams);
     }
 
     if (prevProps.routeParams.slug !== routeParams.slug) {
-      this.setState({
-        pageLoaded: false,
-      });
       WrappedComponent.fetchData(dispatch, routeParams);
     }
   }
@@ -64,7 +52,6 @@ const postLoader = WrappedComponent => class extends Component {
 
   render() {
     const { isFetching, data } = this.props;
-    const { pageLoaded } = this.state;
 
     return (<div>
       <Helmet
@@ -78,8 +65,8 @@ const postLoader = WrappedComponent => class extends Component {
         ]}
       />
       {
-        isFetching || !pageLoaded
-          ? <div className="container-fluid"><Loading loading={isFetching || !pageLoaded} /></div>
+        isFetching
+          ? <div className="container-fluid"><Loading loading={isFetching} /></div>
           : <WrappedComponent {...this.props} />
       }
     </div>);

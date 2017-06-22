@@ -101,7 +101,7 @@ export function fetchData(slug, type = 4, tokenID) {
   return (dispatch) => {
     dispatch(requestData());
 
-    return fetch(`${API_URL}posts/${slug}/?type=${type}`, config)
+    return fetch(`${API_URL}posts/${slug}/`, config)
       .then(res => {
         if (res.ok) {
           return res.json();
