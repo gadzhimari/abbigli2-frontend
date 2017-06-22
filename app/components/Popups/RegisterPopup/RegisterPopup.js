@@ -17,7 +17,7 @@ class RegisterPopup extends Component {
     super(props);
     this.state = {
       number: '',
-      checkRules: false,
+      checkRules: true,
       country: props.options.country || props.currentCountry || props.countres[0],
       selfErrors: null,
     };
@@ -38,27 +38,14 @@ class RegisterPopup extends Component {
   });
 
   handleClick = () => {
-    const {
-      dispatch,
-    } = this.props;
-    const code = this.state.codeValue
-      ? this.state.codeValue.split('--')[0]
-      : null;
-    const number = this.state.number;
+    const { dispatch } = this.props;
+    const { country, number } = this.state;
 
-    if (!code) {
-      this.setState({
-        selfErrors: {
-          country: 'You must choose your country',
-        },
-      });
-    } else {
-      const creds = {
-        phoneNumber: `${code}${number}`,
-      };
+    const creds = {
+      phoneNumber: `${country.phone}${number}`,
+    };
 
-      dispatch(registration(creds));
-    }
+    dispatch(registration(creds));
   }
 
   handleRegister = () => {
@@ -93,101 +80,108 @@ class RegisterPopup extends Component {
       : '';
 
     return (
-      <Popup
-        title={__t('Sign Up')}
-        closePopup={closePopup}
-      >
-        <div className="popup-notice">
-          {__t('with social networks')}
-        </div>
+      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
+        <div
+          className="popup mobile-search__popup register-popup"
+        >
+          <header className="mobile-search__header">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 14 14.031"
+              className="popup-close icon"
+              onClick={closePopup}
+            >
+              <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
+            </svg>
+            <div className="popup-title">
+              {__t('Sign Up')}
+            </div>
+          </header>
 
-        <SocialLogin />
-
-        <div className="popup-notice">
-          {__t('or add your phone number')}
-        </div>
-        <form className="popup-form">
-          <div className="popup-form__field">
-            <div className="input-wrap">
-              <label htmlFor="country" className="popup-form__label">
+          <form className="register-popup__form">
+            <div className="register-popup__field">
+              <label
+                htmlFor="country"
+                className="register-popup__label"
+              >
                 {__t('Country')}
               </label>
               <input
-                className="input"
+                className="register-popup__input"
                 onClick={this.openChoseCountry}
                 placeholder="Choose your country"
                 value={value}
                 id="country"
               />
             </div>
-          </div>
-          <div className="popup-form__field">
-            <label htmlFor="phone" className="popup-form__label">
-              {__t('Telephone')}
-            </label>
-            <div className="input-wrap">
-              <input
-                className="input"
-                id="phone"
-                type="text"
-                value={this.state.number}
-                onChange={this.numberChange}
-                placeholder={__t('Phone number without a country code')}
-              />
+            <div className="register-popup__field">
+              <label htmlFor="phone" className="register-popup__label">
+                {__t('Telephone')}
+              </label>
+              <div className="register-popup__phone-wrap">
+                <div className="register-popup__code">
+                  {country && country.phone}
+                </div>
+                <input
+                  className="register-popup__input register-popup__input--phone"
+                  id="phone"
+                  type="text"
+                  value={this.state.number}
+                  onChange={this.numberChange}
+                  placeholder={__t('9099090900')}
+                />
+              </div>
+              {
+                selfErrors && selfErrors.country
+                &&
+                <div className="login__form-error">
+                  {selfErrors.country}
+                </div>
+              }
+              {
+                errors && errors.phone
+                &&
+                <div className="login__form-error">
+                  {errors.phone}
+                </div>
+              }
             </div>
-            {
-              selfErrors && selfErrors.country
-              &&
-              <div className="login__form-error">
-                {selfErrors.country}
-              </div>
-            }
-            {
-              errors && errors.phone
-              &&
-              <div className="login__form-error">
-                {errors.phone}
-              </div>
-            }
-          </div>
-          <div className="checkbox-wrap">
-            <input
-              className="checkbox"
-              onChange={this.checkRules}
-              id="iAgree"
-              type="checkbox"
-              name="check"
-              value={this.state.checkRules}
-            />
-            <label className="checkbox-label" htmlFor="iAgree">
-              {__t('I agree')}
-              <a className="checkbox-label__link" href="/page/agreement">
-                {__t('Terms of use of the resource')}
+            <div className="register-popup__terms">
+              {__t('By registration you agree to the')}
+              <a
+                className="register-popup__link"
+                href="/page/agreement"
+              >
+                {__t('terms of use of the resource')}
               </a>
-            </label>
-            <div className="login__form-error">
-              {this.state.errorText}
             </div>
-          </div>
-          <div className="buttons-wrap">
+
             <FetchingButton
-              className="default-button"
+              className="register-popup__fetch-button"
               type="button"
               onClick={this.handleRegister}
               isFetching={isFetching}
             >
               {__t('Sign Up')}
             </FetchingButton>
-            <button
-              className="cancel-button"
-              type="button"
+
+            <div className="register-popup__notice">
+              {__t('Or with social networks')}
+            </div>
+
+            <SocialLogin
+              className="register-popup__social"
+            />
+
+            <a
+              className="register-popup__link register-popup__link--big"
               onClick={this.openSignIn}
             >
               {__t('Sign In')}
-            </button>
-          </div>
-        </form>
-      </Popup>
+            </a>
+          </form>
+        </div>
+      </div>
     );
   }
 }
