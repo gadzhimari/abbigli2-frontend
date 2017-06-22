@@ -21,6 +21,7 @@ class Textarea extends Component {
     const token = getJsonFromStorage('id_token');
 
     window.jQuery('#content').redactor({
+      linkNofollow: true,
       placeholder: __t('Description'),
       imageUpload: `${API_URL}images/`,
       imageUploadParam: 'file',
