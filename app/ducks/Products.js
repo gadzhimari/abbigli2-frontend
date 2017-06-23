@@ -1,7 +1,7 @@
 import { API_URL } from 'config';
-import { setJsonToStorage, getJsonFromStorage } from 'utils/functions';
+import { getJsonFromStorage } from 'utils/functions';
 
-const ENDPOINT = API_URL + 'posts/?type=1';
+const ENDPOINT = API_URL + 'posts/?main=true&type=1';
 
 // Actions
 const REQUEST = 'abbigli/Products/REQUEST';
