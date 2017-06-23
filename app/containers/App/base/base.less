@@ -1,0 +1,219 @@
+@font-face {
+  font-family: 'ClearSans';
+  src: url('/fonts/ClearSans/ClearSans-Regular.eot');
+  src: url('/fonts/ClearSans/ClearSans-Regular?#iefix') format('embedded-opentype'),
+  url('/fonts/ClearSans/ClearSans-Regular.woff') format('woff'),
+  url('/fonts/ClearSans/ClearSans-Regular.woff2') format('woff2'),
+  url('/fonts/ClearSans/ClearSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ClearSansBold';
+  src: url('/fonts/ClearSansBold/ClearSans-Bold.eot');
+  src: url('/fonts/ClearSansBold/ClearSans-Bold?#iefix') format('embedded-opentype'),
+  url('/fonts/ClearSansBold/ClearSans-Bold.woff') format('woff'),
+  url('/fonts/ClearSansBold/ClearSans-Bold.woff2') format('woff2'),
+  url('/fonts/ClearSansBold/ClearSans-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('/fonts/FontAwesome/fontawesome-webfont.eot?v=4.3.0');
+  src: url('/fonts/FontAwesome/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'),
+  url('/fonts/FontAwesome/fontawesome-webfont.woff2?v=4.3.0') format('woff2'),
+  url('/fonts/FontAwesome/fontawesome-webfont.woff?v=4.3.0') format('woff'),
+  url('/fonts/FontAwesome/fontawesome-webfont.ttf?v=4.3.0') format('truetype'),
+  url('/fonts/FontAwesome/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal
+}
+
+* {
+  -webkit-appearance: none;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: "ClearSans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+  padding: 0;
+  color: #4e4d4d;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+a {
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+button, input, textarea {
+  outline: none;
+}
+
+input, textarea {
+  &:-webkit-input-placeholder {
+    color: @grayText;
+  }
+  &::-moz-placeholder {
+    color: @grayText;
+  }
+  &:-ms-input-placeholder {
+    color: @grayText;
+  }
+  &:-moz-placeholder {
+    color: @grayText;
+  }
+}
+
+.section {
+  padding-top: 30px;
+  border-top: 1px solid #dcdcdc;
+  margin-top: 40px;
+  clear: both;
+
+  &__name {
+    font-family: 'ClearSansBold';
+    font-size: 30px;
+    line-height: 34px;
+    color: @hoverText;
+    margin-bottom: 30px;
+
+    span {
+      font-family: 'ClearSansBold';
+      font-size: 16px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .default-button {
+    .button(transparent);
+    margin: 30px auto;
+    display: block;
+  }
+}
+
+.section-title {
+  font-size: 26px;
+  line-height: 30px;
+  color: @hoverText;
+  font-weight: normal;
+  margin: 0 0 15px 0;
+  position: relative;
+
+  span {
+    color: @grayText;
+  }
+
+  &__subscribe {
+    position: absolute;
+    right: 0;
+    top: -5px;
+    text-align: left;
+  }
+
+  .default-button {
+    .button(default);
+  }
+
+  .icon-blog {
+    background-size: 32px 33px;
+    width: 32px;
+    height: 33px;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.filter-open {
+  font-size: 16px;
+  line-height: 20px;
+  color: #0091e1;
+  display: none;
+}
+
+.global-wrapper {
+  min-height: 100%;
+  position: relative;
+  margin-bottom: -@footerHeight;
+
+  &:after {
+    content: '';
+    display: block;
+    height: @footerHeight;
+  }
+}
+
+.main {
+  max-width: 1250px;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+  padding: 25px 25px 40px 25px;
+}
+
+.cards-wrap {
+  font-size: 0;
+  margin: 0 -1.5%;
+  padding: 0 1%;
+}
+
+.logo-gray {
+  background: url("/img/logo-gray.svg") no-repeat;
+}
+
+.show-more {
+  .show-more();
+}
+
+@media only screen and (max-width: 760px) {
+  .global-wrapper {
+    margin-bottom: -200px;
+    &:after {
+      height: 200px;
+    }
+  }
+  .section-title {
+    &__subscribe {
+      position: relative;
+      right: auto;
+      top: auto;
+      margin-top: 15px;
+    }
+    .filter-open {
+      position: absolute;
+      right: 0;
+      top: 10px;
+    }
+  }
+  .filter-open {
+    display: block;
+    text-align: right;
+    margin-bottom: 15px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .main {
+    padding: 25px 10px 40px 10px;
+  }
+  .cards-wrap {
+    margin: 0;
+    padding: 0;
+  }
+  .section {
+    margin-top: 20px;
+    &-title {
+      text-align: center;
+    }
+  }
+}

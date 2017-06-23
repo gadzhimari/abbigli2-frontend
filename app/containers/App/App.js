@@ -31,6 +31,7 @@ import getComponentFromObject from 'utils/getComponent';
 import { appConfig } from 'config';
 
 import './App.styl';
+import './app.less';
 import './_concat.styl';
 import './main.styl';
 import './responsive.styl';
