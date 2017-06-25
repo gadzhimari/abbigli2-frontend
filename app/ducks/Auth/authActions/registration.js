@@ -5,6 +5,19 @@ import { registerConfirm } from './';
 
 import { API_URL } from 'config';
 
+const regWithoutSideEffects = (creds) => {
+  const config = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ phone: creds.contact }),
+  };
+
+  return fetch(`${API_URL}signup/`, config)
+      .then(response => response.json().then(user => ({ user, response })));
+};
+
 const registration = (creds) => {
   const config = {
     method: 'POST',
@@ -34,6 +47,7 @@ const registration = (creds) => {
           callback: data => dispatch(registerConfirm(data)),
           previousPopup: 'registerPopup',
           contact: user.phone,
+          againRequest: regWithoutSideEffects,
         }));
       })
       .catch((error) => {

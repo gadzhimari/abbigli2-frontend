@@ -48,7 +48,7 @@ class DateInput extends Component {
     this.props.onChange({
       target: {
         name: this.props.name,
-        value: moment(day).format('YYYY-MM-DDThh:mm'),
+        value: moment(day).format(this.props.format),
       },
     });
   }
@@ -65,12 +65,13 @@ class DateInput extends Component {
       value,
       placeholder,
       className,
+      mustFormat,
     } = this.props;
 
     const formate = location === 'en'
       ? 'dddd, MMMM Do YYYY'
       : 'dddd, Do MMMM YYYY';
-    const formatedValue = value
+    const formatedValue = value && mustFormat
       ? moment(value)
         .locale(location)
         .format(formate)
@@ -111,6 +112,8 @@ class DateInput extends Component {
 
 DateInput.defaultProps = {
   onFocus: () => true,
+  mustFormat: true,
+  format: 'YYYY-MM-DDThh:mm',
 };
 
 DateInput.propTypes = {
@@ -120,6 +123,8 @@ DateInput.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
+  format: PropTypes.string.isRequired,
+  mustFormat: PropTypes.bool,
 };
 
 export default DateInput;

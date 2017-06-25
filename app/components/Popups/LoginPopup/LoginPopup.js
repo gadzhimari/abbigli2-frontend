@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import Popup from '../CommonPopup';
+import { ErrorInput } from 'components/Inputs';
 import { SocialLogin, FetchingButton } from 'components';
 
 import { login } from 'ducks/Auth/authActions';
@@ -74,21 +74,20 @@ class LoginPopup extends Component {
                 className="register-popup__label"
               >
                 {__t('Telephone')}
+                <span className="register-popup__label-require">
+                  {' - '}
+                  {__t('required')}
+                </span>
               </label>
-              <input
+              <ErrorInput
                 id="phone"
                 className="register-popup__input"
                 type="text"
                 placeholder={__t('Example: +10000000000')}
                 onChange={this.onChangePhone}
+                errors={errors.username}
+                errorClass="login__form-error"
               />
-              {
-                errors && errors.username
-                &&
-                <div className="login__form-error">
-                  {errors.username}
-                </div>
-              }
             </div>
             <div className="register-popup__field">
               <label
@@ -96,13 +95,19 @@ class LoginPopup extends Component {
                 className="register-popup__label"
               >
                 {__t('Password')}
+                <span className="register-popup__label-require">
+                  {' - '}
+                  {__t('required')}
+                </span>
               </label>
-              <input
+              <ErrorInput
                 id="password"
                 className="register-popup__input"
                 type="password"
                 onChange={this.onChangePassword}
                 placeholder={__t('Type password')}
+                errors={errors.password}
+                errorClass="login__form-error"
               />
             </div>
             <div className="register-popup__terms">

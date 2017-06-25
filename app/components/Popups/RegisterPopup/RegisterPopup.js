@@ -16,7 +16,7 @@ class RegisterPopup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      number: '',
+      number: (props.options.contact && props.options.contact.slice(2)) || '',
       checkRules: true,
       country: props.options.country || props.currentCountry || props.countres[0],
       selfErrors: null,
@@ -68,6 +68,8 @@ class RegisterPopup extends Component {
       ItemComponent: CountryItem,
       onClose: (options = {}) => this.props
         .dispatch(openPopup('registerPopup', options)),
+      onClickItem: (options = {}) => this.props
+        .dispatch(openPopup('registerPopup', options)),
     }));
 
   openSignIn = () => this.props.dispatch(openPopup('loginPopup'))
@@ -105,6 +107,10 @@ class RegisterPopup extends Component {
                 className="register-popup__label"
               >
                 {__t('Country')}
+                <span className="register-popup__label-require">
+                  {' - '}
+                  {__t('required')}
+                </span>
               </label>
               <input
                 className="register-popup__input"
@@ -117,6 +123,10 @@ class RegisterPopup extends Component {
             <div className="register-popup__field">
               <label htmlFor="phone" className="register-popup__label">
                 {__t('Telephone')}
+                <span className="register-popup__label-require">
+                  {' - '}
+                  {__t('required')}
+                </span>
               </label>
               <div className="register-popup__phone-wrap">
                 <div className="register-popup__code">

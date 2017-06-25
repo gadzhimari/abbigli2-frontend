@@ -1,12 +1,14 @@
 // Sections.js
 import { API_URL } from 'config';
 import { getJsonFromStorage } from 'utils/functions';
+import moment from 'moment';
 
 // Actions
 const REQUEST = 'abbigli/Events/REQUEST';
 const REQUEST_APPEND = 'abbigli/Events/REQUEST_APPEND';
 const SET = 'abbigli/Events/SET';
 const APPEND = 'abbigli/Events/APPEND';
+const CHANGE_SEARCH_FIELD = 'abbigli/Events/CHANGE_SEARCH_FIELD';
 
 // Reducer
 export default function (state = {
@@ -15,6 +17,11 @@ export default function (state = {
   items: [],
   isFetchingMore: false,
   page: 1,
+  searchFields: {
+    start: moment(new Date()).format('YYYY-MM-DD'),
+    end: moment(new Date()).format('YYYY-MM-DD'),
+    city: null,
+  },
 }, action = {}) {
   switch (action.type) {
     case SET:
@@ -39,6 +46,12 @@ export default function (state = {
     case REQUEST_APPEND:
       return Object.assign({}, state, {
         isFetchingMore: true,
+      });
+    case CHANGE_SEARCH_FIELD:
+      return Object.assign({}, state, {
+        searchFields: Object.assign(state.searchFields, {
+          [action.field]: action.value,
+        }),
       });
     default:
       return state;
@@ -67,6 +80,12 @@ export function appendData(responseData, page) {
   return { type: APPEND, data: responseData, page };
 }
 
+export const changeSearchField = (field, value) => ({
+  type: CHANGE_SEARCH_FIELD,
+  field,
+  value,
+});
+
 export function fetchData(page = 1, filter = false, city = null, start = null, end = null, tokenID) {
   const token = tokenID || getJsonFromStorage('id_token') || null;
   const config = { headers: {} };
@@ -75,10 +94,10 @@ export function fetchData(page = 1, filter = false, city = null, start = null, e
     ? `&city=${city.id}`
     : '';
   const startQuery = start
-    ? `&period_start=${start}`
+    ? `&date_start=${start}`
     : '';
   const endQuery = end
-    ? `&period_end=${end}`
+    ? `&date_end=${end}`
     : '';
   const filterQuery = filter
     ? '&popular=1'
