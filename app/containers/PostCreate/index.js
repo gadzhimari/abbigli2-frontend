@@ -12,7 +12,6 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import {
-  SelectInput,
   FetchingButton,
 } from 'components';
 import ImageUploadZone from 'components/ImageUploadZone';
@@ -20,6 +19,7 @@ import { ErrorInput, DateInput, Textarea } from 'components/Inputs';
 import SwitchMode from 'components/SwitchModeButton';
 
 import { savePost, uploadImages, rotateImage, deleteImage, clearData } from 'ducks/PostCreate/actions';
+import { openPopup } from 'ducks/Popup/actions';
 
 import 'react-select/dist/react-select.css';
 import './index.styl';
@@ -59,8 +59,8 @@ class PostCreate extends Component {
     images: [...this.state.images, ...images],
   });
 
-  onChangeCity = value => this.setState({
-    city: value.id,
+  onChangeCity = city => this.setState({
+    city,
   });
 
   onMoveImage = (dragIndex, hoverIndex) => {
@@ -81,11 +81,11 @@ class PostCreate extends Component {
     .dispatch(uploadImages(images, this.onImagesUploaded));
 
   save = () => {
-    const { type, images } = this.state;
+    const { type, images, city } = this.state;
     const { dispatch } = this.props;
     const keys = {
       1: ['price', 'title', 'content', 'tags', 'sections'],
-      3: ['title', 'content', 'tags', 'sections', 'date_end', 'date_start', 'city'],
+      3: ['title', 'content', 'tags', 'sections', 'date_end', 'date_start'],
       4: ['title', 'content', 'tags', 'sections'],
     };
 
@@ -93,6 +93,10 @@ class PostCreate extends Component {
       images: images.map(item => item.id),
       type,
     };
+
+    if (city && type === 3) {
+      body.city = city.id;
+    }
 
     keys[type].forEach((key) => {
       if (this.state[key]) {
@@ -125,6 +129,14 @@ class PostCreate extends Component {
     deleteImage(id);
   }
 
+  openSelectPopup = () => this.props
+    .dispatch(openPopup('selectPopup', {
+      onClickItem: this.onChangeCity,
+      title: 'city',
+      async: true,
+      apiUrl: `${API_URL}geo/cities/`,
+    }));
+
   handleClose = () => {
     const { router } = this.props;
 
@@ -141,6 +153,7 @@ class PostCreate extends Component {
       title,
       tags,
       images,
+      city,
     } = this.state;
 
     const {
@@ -269,13 +282,14 @@ class PostCreate extends Component {
             {
               this.state.type === 3
               &&
-              (<SelectInput
-                apiPath={`${API_URL}geo/cities/`}
-                inputWrapperClass="input-wrap"
-                inputClass="input"
-                placeholder={__t('City')}
-                onSelectValue={this.onChangeCity}
-              />)
+              (<div className="input-wrap">
+                <input
+                  placeholder={__t('City')}
+                  className="input"
+                  onClick={this.openSelectPopup}
+                  value={(city && city.name) || ''}
+                />
+              </div>)
             }
 
             <div className="textarea-wrap">

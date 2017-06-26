@@ -21,7 +21,7 @@ const LOAD_MORE = 'abbigli/Dialogs/LOAD_MORE';
 const PRIVATE_MESSAGE = 'private message';
 
 const initialState = {
-  isFetching: true,
+  isFetching: false,
   isSending: false,
   dialogs: [],
   isDelete: false,

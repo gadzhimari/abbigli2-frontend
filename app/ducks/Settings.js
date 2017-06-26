@@ -28,21 +28,13 @@ export default function (state = initialState, action = {}) {
       });
     case SET_GEO: {
       const code = getJsonFromStorage('countryCode');
-      const data = action.data
-          .map(item => ({
-            value: `${item.phone}--${item.name}`,
-            label: `${item.name} (${item.phone})`,
-            code: item.code,
-          }));
+      const data = action.data;
       const currentCountry = data
         .filter(item => item.code === code)[0];
-      const value = currentCountry
-        ? currentCountry.value
-        : null;
 
       return Object.assign({}, state, {
         geo: data,
-        currentCountry: value,
+        currentCountry,
       });
     }
     default:
