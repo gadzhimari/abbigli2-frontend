@@ -1,0 +1,77 @@
+.popup.mobile-search__popup.select-popup {
+  width: 450px;
+}
+
+.select-popup__input-wrap {
+  width: 100%;
+  height: 41px;
+  flex-shrink: 0;
+  position: relative;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.select-popup__input {
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  padding: 0 46px 0 19px;
+  border: none;
+}
+
+.select-popup__results-wrap {
+  width: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.select-popup__search-icon {
+  width: 18px;
+  height: 20px;
+  fill: #686868;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+}
+
+.city-item {
+  width: 100%;
+  height: 41px;
+  display: flex;
+  padding: 0 19px;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-bottom: 1px solid #e2e2e2;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #e2e2e2;
+  }
+}
+
+.loader02__wrapper {
+  height: 17px;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+}
+
+.loader02 {
+  width: 17px;
+  height: 17px;
+  border: 2px solid #686868;
+  border-right-color: transparent;
+  border-radius: 50%;
+  position: relative;
+  animation: loader-rotate 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes loader-rotate {
+  0% {
+    transform: rotate(0); }
+  100% {
+    transform: rotate(360deg); }
+  }
