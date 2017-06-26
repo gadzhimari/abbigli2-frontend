@@ -58,102 +58,75 @@ class SupportPopup extends Component {
     );
 
     return (
-      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
-        <div
-          className="popup mobile-search__popup register-popup"
-        >
-          <header className="mobile-search__header">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 14.031"
-              className="popup-close icon"
-              onClick={closePopup}
-            >
-              <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
-            </svg>
-            <div className="popup-title">
-              {__t('Send a ticket')}
-            </div>
-          </header>
-
-          <form className="register-popup__form">
-            <div className="register-popup__field">
-              <label className="register-popup__label" htmlFor="theme">
-                {__t('Title')}
-                <span className="register-popup__label-require">
-                  {' - '}
-                  {__t('required')}
-                </span>
-              </label>
-              <ErrorInput
-                id="theme"
-                className="register-popup__input"
-                value={this.state.title}
-                onChange={this.onChangeInput}
-                type="text"
-                name="title"
-                errors={errors.title}
-                placeholder={__t("Can't log in")}
-              />
-            </div>
-            <div className="register-popup__field">
-              <label className="register-popup__label" htmlFor="email">
-                Email
-                <span className="register-popup__label-require">
-                  {' - '}
-                  {__t('required')}
-                </span>
-              </label>
-              <ErrorInput
-                id="email"
-                className="register-popup__input"
-                value={this.state.email}
-                onChange={this.onChangeInput}
-                type="text"
-                name="email"
-                errors={errors.email}
-                placeholder={__t('myname@host.com')}
-              />
-            </div>
-            <div className="register-popup__field">
-              <label className="register-popup__label" htmlFor="description">
-                {__t('Description of problem')}
-                <span className="register-popup__label-require">
-                  {' - '}
-                  {__t('required')}
-                </span>
-              </label>
-              <ErrorInput
-                id="description"
-                className="register-popup__textarea"
-                value={this.state.text}
-                onChange={this.onChangeInput}
-                name="text"
-                component="textarea"
-                errors={errors.description}
-                placeholder={__t('Descrption of problem...')}
-              />
-            </div>
+      <Popup
+        closePopup={closePopup}
+        title={__t('Send a ticket')}
+      >
+        <form className="popup-form">
+          <div className="popup-form__field">
+            <label className="popup-form__label" htmlFor="theme">
+              {__t('Title')}
+            </label>
             <ErrorInput
-              onDrop={this.onDrop}
-              file={this.state.file}
-              component={dropZone}
+              id="theme"
+              className="input"
+              value={this.state.title}
+              onChange={this.onChangeInput}
+              wrapperClass="input-wrap"
+              type="text"
+              name="title"
+              errors={errors.title}
+            />
+          </div>
+          <div className="popup-form__field">
+            <label className="popup-form__label" htmlFor="email">
+              Email
+            </label>
+            <ErrorInput
+              id="email"
+              className="input"
+              value={this.state.email}
+              onChange={this.onChangeInput}
+              wrapperClass="input-wrap"
+              type="text"
+              name="email"
+              errors={errors.email}
+            />
+          </div>
+          <div className="popup-form__field">
+            <label className="popup-form__label" htmlFor="description">
+              {__t('Description of problem')}
+            </label>
+            <ErrorInput
+              id="description"
+              className="textarea__popup-ticket"
+              value={this.state.text}
+              onChange={this.onChangeInput}
+              wrapperClass="textarea-wrap"
+              name="text"
+              component="textarea"
               errors={errors.description}
             />
+          </div>
+          <ErrorInput
+            onDrop={this.onDrop}
+            file={this.state.file}
+            component={dropZone}
+            errors={errors.description}
+          />
 
-            <div className="buttons-wrap">
-              <FetchingButton
-                className="register-popup__fetch-button"
-                type="button"
-                onClick={this.handleClick}
-                isFetching={isFetching}
-              >
-                {__t('Send!')}
-              </FetchingButton>
-            </div>
-          </form>
-        </div>
-      </div>
+          <div className="buttons-wrap">
+            <FetchingButton
+              className="default-button"
+              type="button"
+              onClick={this.handleClick}
+              isFetching={isFetching}
+            >
+              {__t('Send!')}
+            </FetchingButton>
+          </div>
+        </form>
+      </Popup>
     );
   }
 }

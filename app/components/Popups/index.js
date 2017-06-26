@@ -9,4 +9,3 @@ export { default as loginPopup } from './LoginPopup';
 export { default as deleteMessagePopup } from './DeleteMessagePopup';
 export { default as eventSearch } from './EventSearch';
 export { default as statusPopup } from './StatusPopup';
-export { default as selectPopup } from './SelectPopup';

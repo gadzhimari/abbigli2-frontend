@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { ErrorInput } from 'components/Inputs';
+import Popup from '../CommonPopup';
 import { SocialLogin, FetchingButton } from 'components';
 
 import { login } from 'ducks/Auth/authActions';
@@ -42,101 +42,98 @@ class LoginPopup extends Component {
     const { closePopup, isFetching, errors } = this.props;
 
     return (
-      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
-        <div
-          className="popup mobile-search__popup register-popup"
-        >
-          <header className="mobile-search__header">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 14.031"
-              className="popup-close icon"
-              onClick={closePopup}
-            >
-              <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
-            </svg>
-            <div className="popup-title">
-              {__t('Log In')}
+      <Popup
+        closePopup={closePopup}
+        title={__t('Log In')}
+      >
+        <div className="popup-notice">
+          {__t('with social networks')}
+        </div>
+        <SocialLogin />
+        <div className="popup-notice">
+          {__t('or autorize')}
+        </div>
+        <div className="popup-form">
+          {
+            errors && errors.non_field_errors
+            &&
+            <div className="login__form-error login__form-error--top">
+              {errors.non_field_errors}
             </div>
-          </header>
-
-          <form className="register-popup__form">
-            {
-              errors && errors.non_field_errors
-              &&
-              <div className="login__form-error login__form-error--top">
-                {errors.non_field_errors}
-              </div>
-            }
-            <div className="register-popup__field">
-              <label
-                htmlFor="phone"
-                className="register-popup__label"
-              >
-                {__t('Telephone')}
-              </label>
-              <ErrorInput
+          }
+          <div className="popup-form__field">
+            <label
+              className="popup-form__label"
+              htmlFor="phone"
+            >
+              {__t('Telephone')}
+            </label>
+            <div className="input-wrap">
+              <input
                 id="phone"
-                className="register-popup__input"
+                className="input"
                 type="text"
                 placeholder={__t('Example: +10000000000')}
                 onChange={this.onChangePhone}
-                errors={errors.username}
-                errorClass="login__form-error"
               />
             </div>
-            <div className="register-popup__field">
-              <label
-                htmlFor="password"
-                className="register-popup__label"
-              >
-                {__t('Password')}
-              </label>
-              <ErrorInput
+            {
+              errors && errors.username
+              &&
+              <div className="login__form-error">
+                {errors.username}
+              </div>
+            }
+          </div>
+          <div className="popup-form__field">
+            <label
+              className="popup-form__label"
+              htmlFor="password"
+            >
+              {__t('Password')}
+            </label>
+            <div className="input-wrap">
+              <input
                 id="password"
-                className="register-popup__input"
+                className="input"
                 type="password"
                 onChange={this.onChangePassword}
-                placeholder={__t('Type password')}
-                errors={errors.password}
-                errorClass="login__form-error"
               />
             </div>
-            <div className="register-popup__terms">
-              <a
-                className="register-popup__link register-popup__link--big"
-                onClick={this.openReset}
-              >
-                {__t('Forgot your password?')}
-              </a>
-            </div>
-
+            {
+              errors && errors.password
+              &&
+              <div className="login__form-error">
+                {errors.password}
+              </div>
+            }
+          </div>
+          <div className="buttons-wrap">
             <FetchingButton
-              className="register-popup__fetch-button"
+              className="default-button"
               type="button"
               onClick={this.onLogIn}
               isFetching={isFetching}
             >
               {__t('Log In')}
             </FetchingButton>
-
-            <div className="register-popup__notice">
-              {__t('Or with social networks')}
-            </div>
-
-            <SocialLogin
-              className="register-popup__social"
-            />
-
-            <a
-              className="register-popup__link register-popup__link--big"
+            <button
+              className="cancel-button"
+              type="submit"
               onClick={this.openRegister}
             >
               {__t('Sign Up')}
-            </a>
-          </form>
+            </button>
+            <br />
+            <div
+              className="password-recovery"
+              onClick={this.openReset}
+            >
+              {__t('Forgot your password?')}
+            </div>
+          </div>
         </div>
-      </div>
+      </Popup>
     );
   }
 }

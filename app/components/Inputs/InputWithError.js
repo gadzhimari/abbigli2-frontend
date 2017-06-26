@@ -33,14 +33,13 @@ class InputWithError extends Component {
       wrapperClass,
       className,
       errors,
-      errorClass,
     } = this.props;
 
     const inputClass = this.state.showError
       ? `${className} post-create__error-input`
       : className;
 
-    const omitedProps = omit(this.props, ['className', 'component', 'wrapperClass', 'errors', 'errorClass']);
+    const omitedProps = omit(this.props, ['className', 'component', 'wrapperClass', 'errors']);
 
     return (
       <div className={wrapperClass}>
@@ -59,7 +58,7 @@ class InputWithError extends Component {
           <div>
               {
                 errors.map((error, key) => (<div
-                  className={errorClass}
+                  className="post-create__error"
                   key={key}
                 >
                   {error}
@@ -75,14 +74,11 @@ class InputWithError extends Component {
 InputWithError.defaultProps = {
   component: Input,
   type: 'text',
-  errorClass: 'post-create__error',
-  wrapperClass: '',
 };
 
 InputWithError.propTypes = {
-  wrapperClass: PropTypes.string,
+  wrapperClass: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
-  errorClass: PropTypes.string,
   component: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,

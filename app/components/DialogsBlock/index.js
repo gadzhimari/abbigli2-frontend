@@ -76,14 +76,12 @@ class DialogsBlock extends Component {
     });
   }
 
-  deleteDialog = (id, name, avatar, city) => {
+  deleteDialog = (id, recipient) => {
     const { dispatch } = this.props;
 
     dispatch(openPopup('deleteMessagePopup', {
       id,
-      name: name || `User ID: ${id}`,
-      avatar,
-      city,
+      recipient,
     }));
   }
 

@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
-import { connect } from 'react-redux';
+import { SelectInput } from 'components';
 
-import { changeSearchField } from 'ducks/Events';
-import { openPopup } from 'ducks/Popup/actions';
+import moment from 'moment';
+
+import Popup from '../CommonPopup';
 
 import { API_URL } from 'config';
 import { __t } from '../../../i18n/translator';
@@ -11,10 +12,23 @@ import { __t } from '../../../i18n/translator';
 import './EventSearch.styl';
 
 class EventSearch extends Component {
-  changeCity = city => this.props.changeField('city', city);
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      city: null,
+      start: moment(new Date()).format('YYYY-MM-DD'),
+      end: null,
+    };
+  }
+
+  changeCity = city => this.setState({
+    city,
+  });
 
   doSearch = () => {
-    const { city, start, end, options } = this.props;
+    const { options } = this.props;
+    const { city, start, end } = this.state;
 
     options.findEvents(city, start, end);
   }
@@ -23,48 +37,25 @@ class EventSearch extends Component {
     document.getElementById(currentTarget.dataset.name).focus();
   }
 
-  changeDate = ({ target }) => this.props
-    .changeField(target.dataset.name, target.value);
-
-  openSelectPopup = () => this.props
-    .dispatch(openPopup('selectPopup', {
-      onClickItem: this.changeCity,
-      title: 'city',
-      async: true,
-      apiUrl: `${API_URL}geo/cities/`,
-      onClose: () => this.props.dispatch(openPopup('eventSearch', {
-        findEvents: this.props.options.findEvents,
-      })),
-    }));
+  changeDate = ({ target }) => this.setState({
+    [target.dataset.name]: target.value,
+  });
 
   render() {
     const { closePopup } = this.props;
-    const { start, end, city } = this.props;
+    const { start, end } = this.state;
 
     return (
-      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
-        <div
-          className="popup mobile-search__popup reset-popup"
-        >
-          <header className="mobile-search__header">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 14.031"
-              className="popup-close icon"
-              onClick={closePopup}
+      <Popup
+        closePopup={closePopup}
+        title={__t('Find events')}
+      >
+        <form className="popup-form">
+          <div className="popup-form__field">
+            <div
+              className="input-wrap input-date"
             >
-              <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
-            </svg>
-            <div className="popup-title">
-              {__t('Find events')}
-            </div>
-          </header>
-          <form className="register-popup__form">
-            <div className="register-popup__field">
-              <label
-                className="register-popup__label"
-                htmlFor="start"
-              >
+              <label className="popup-form__label" htmlFor="start">
                 {__t('Date.from')}
               </label>
               <input
@@ -72,15 +63,16 @@ class EventSearch extends Component {
                 id="start"
                 onChange={this.changeDate}
                 value={start}
-                className="register-popup__input"
+                className="input events__search-input"
                 type="date"
               />
             </div>
-            <div className="register-popup__field">
-              <label
-                className="register-popup__label"
-                htmlFor="end"
-              >
+          </div>
+          <div className="popup-form__field">
+            <div
+              className="input-wrap input-date"
+            >
+              <label className="popup-form__label" htmlFor="end">
                 {__t('Date.to')}
               </label>
               <input
@@ -88,36 +80,44 @@ class EventSearch extends Component {
                 id="end"
                 value={end}
                 onChange={this.changeDate}
-                className="register-popup__input"
+                className="input input events__search-input"
                 type="date"
               />
             </div>
-            <div className="register-popup__field">
-              <label
-                className="register-popup__label"
-                htmlFor="city"
-              >
-                {__t('city')}
-              </label>
-              <input
-                id="city"
-                value={(city && city.name) || ''}
-                className="register-popup__input"
-                type="text"
-                placeholder={__t('Select city')}
-                onClick={this.openSelectPopup}
-              />
+          </div>
+          <div className="popup-form__field">
+            <label className="popup-form__label">
+              {__t('city')}
+            </label>
+            <div className="selectize-address">
+              <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.6 18">
+                <path d="M6.3,0C2.817,0,0,2.816,0,6.3C0,11.025,6.3,18,6.3,18s6.3-6.975,6.3-11.7C12.6,2.816,9.785,0,6.3,0z M6.3,8.55 c-1.242,0-2.25-1.008-2.25-2.25S5.058,4.05,6.3,4.05c1.241,0,2.25,1.008,2.25,2.25S7.542,8.55,6.3,8.55z" />
+              </svg>
+              <div className="selectize-control single" >
+                <SelectInput
+                  apiPath={`${API_URL}geo/cities/`}
+                  inputWrapperClass="selectize-input selectize-input--search items not-full"
+                  wrapperActiveClass="selectize-input"
+                  inputClass="event-search__city-input"
+                  resultsFieldWrapperClass="event-search__city-results"
+                  placeholder={__t('city')}
+                  onSelectValue={this.changeCity}
+                  currentValue={this.state.city}
+                />
+              </div>
             </div>
+          </div>
+          <div className="buttons-wrap">
             <button
-              className="register-popup__fetch-button"
+              className="default-button"
               onClick={this.doSearch}
               type="button"
             >
               {__t('Find events')}
             </button>
-          </form>
-        </div>
-      </div>
+          </div>
+        </form>
+      </Popup>
     );
   }
 }
@@ -129,14 +129,4 @@ EventSearch.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = ({ Events }) => ({
-  city: Events.searchFields.city,
-  start: Events.searchFields.start,
-  end: Events.searchFields.end,
-});
-
-const mapDispatchToProps = dispatch => ({
-  changeField: (field, value) => dispatch(changeSearchField(field, value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(EventSearch);
+export default EventSearch;
