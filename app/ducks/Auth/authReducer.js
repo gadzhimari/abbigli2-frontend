@@ -19,6 +19,7 @@ const authReducer = (state = initialState, action) => {
     case actionsTypes.AUTH_SUCCESS:
       return Object.assign({}, state, action.payload, {
         isFetching: false,
+        errors: {},
       });
     case actionsTypes.AUTH_FAILURE:
       return Object.assign({}, state, {
