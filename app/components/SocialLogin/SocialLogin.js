@@ -10,7 +10,9 @@ import {
   location,
 } from 'config';
 
-const SocialLogin = () => {
+const SocialLogin = ({
+  className,
+}) => {
   const fbLink = `https://facebook.com/dialog/oauth?client_id=${FB_ID}&redirect_uri=`;
   const googleLink = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_ID}&response_type=code&scope=openid&redirect_uri=`;
   const vkLink = `https://oauth.vk.com/authorize?client_id=${VK_ID}&response_type=code&display=popup&redirect_uri=`;
@@ -21,7 +23,7 @@ const SocialLogin = () => {
         socialLink={fbLink}
         DOMAIN_URL={DOMAIN_URL}
         provider="facebook"
-        className="facebook"
+        className={`facebook ${className}`}
       >
         {'Facebook'}
       </SocialButton>
@@ -31,7 +33,7 @@ const SocialLogin = () => {
             socialLink={googleLink}
             DOMAIN_URL={DOMAIN_URL}
             provider="google"
-            className="google-plus"
+            className={`google-plus ${className}`}
           >
             {'Google Plus'}
           </SocialButton>
@@ -39,7 +41,7 @@ const SocialLogin = () => {
             socialLink={vkLink}
             DOMAIN_URL={DOMAIN_URL}
             provider="vk"
-            className="vkontakte"
+            className={`vkontakte ${className}`}
           >
             {'ВКонтакте'}
           </SocialButton>

@@ -23,7 +23,7 @@ const DialogItem = (props) => {
     clickHandler(item.id);
   };
   const removeDialog = () => {
-    deleteDialog(item.id, item.recipient.profile_name);
+    deleteDialog(item.id, item.recipient.profile_name, item.recipient.avatar, item.recipient.city);
   };
 
   const userName = item.recipient && item.recipient.profile_name

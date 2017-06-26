@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import Popup from '../CommonPopup';
+import { ErrorInput } from 'components/Inputs';
 import { FetchingButton } from 'components';
 
 import { setPassword } from 'ducks/Auth/authActions';
@@ -40,79 +40,59 @@ class PasswordPopup extends Component {
     const { closePopup, isFetching, errors } = this.props;
 
     return (
-      <Popup
-        closePopup={closePopup}
-        title={__t('Set up your password')}
-      >
-        <form>
-          <div className="input-wrap phone">
-            <label>
-              {__t('Enter new password')}
-            </label>
-            <input
-              className="input"
-              type="password"
-              placeholder={__t('New password')}
-              value={this.state.password}
-              onChange={this.handlePassword}
-              disabled={isFetching}
-            />
-          </div>
-          {
-            errors && errors.new_password
-            &&
-            <div>
-              {
-                errors.new_password
-                  .map((error, idx) => <div
-                    className="login__form-error"
-                    key={idx}
-                  >
-                    {error}
-                  </div>)
-              }
+      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
+        <div
+          className="popup mobile-search__popup reset-popup"
+        >
+          <header className="mobile-search__header">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 14 14.031"
+              className="popup-close icon"
+              onClick={closePopup}
+            >
+              <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
+            </svg>
+            <div className="popup-title">
+              {__t('Set up your password')}
             </div>
-          }
-          <div className="input-wrap phone">
-            <label>
-              {__t('Re-enter new password')}
-            </label>
-            <input
-              className="input"
-              type="password"
-              placeholder={__t('Re-enter new password')}
-              value={this.state.repassword}
-              onChange={this.handleRePassword}
-              disabled={isFetching}
-            />
-          </div>
-          {
-            errors && errors.re_new_password
-            &&
-            <div>
-              {
-                errors.re_new_password
-                  .map((error, idx) => <div
-                    className="login__form-error"
-                    key={idx * 100}
-                  >
-                    {error}
-                  </div>)
-              }
+          </header>
+          <form className="register-popup__form">
+            <div className="register-popup__field">
+              <ErrorInput
+                className="register-popup__input"
+                value={this.state.password}
+                onChange={this.handlePassword}
+                disabled={isFetching}
+                placeholder={__t('New password')}
+                errors={errors.new_password}
+                errorClass="login__form-error"
+                type="password"
+              />
             </div>
-          }
-          <div className="buttons-wrap">
+            <div className="register-popup__field">
+              <ErrorInput
+                className="register-popup__input"
+                value={this.state.repassword}
+                onChange={this.handleRePassword}
+                disabled={isFetching}
+                placeholder={__t('Re-enter new password')}
+                errors={errors.re_new_password}
+                errorClass="login__form-error"
+                type="password"
+              />
+            </div>
             <FetchingButton
-              className="default-button"
+              className="register-popup__fetch-button"
               type="button"
               onClick={this.handleSend}
               isFetching={isFetching}
             >
               {__t('Set password')}
             </FetchingButton>
-          </div>
-        </form>
-      </Popup>
+          </form>
+        </div>
+      </div>
     );
   }
 }

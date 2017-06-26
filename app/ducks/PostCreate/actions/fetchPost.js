@@ -25,7 +25,10 @@ const fetchPost = slug => (dispatch) => {
         tags: responseData.tags.join(' '),
         title: responseData.title,
         slug: responseData.slug,
-        currentCity: responseData.city,
+        city: responseData.city && {
+          name: `${responseData.city.name}, ${responseData.city.country.name}`,
+          id: responseData.city.id,
+        },
         date_start: responseData.date_start || '',
         date_end: responseData.date_end || '',
       }));
