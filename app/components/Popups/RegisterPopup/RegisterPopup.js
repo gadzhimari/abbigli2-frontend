@@ -123,10 +123,6 @@ class RegisterPopup extends Component {
             <div className="register-popup__field">
               <label htmlFor="phone" className="register-popup__label">
                 {__t('Telephone')}
-                <span className="register-popup__label-require">
-                  {' - '}
-                  {__t('required')}
-                </span>
               </label>
               <div className="register-popup__phone-wrap">
                 <div className="register-popup__code">

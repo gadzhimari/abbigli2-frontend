@@ -77,10 +77,6 @@ class MessagePopup extends Component {
                 {__t('Your message to')}
                 {' '}
                 {options.name}
-                <span className="register-popup__label-require">
-                  {' - '}
-                  {__t('required')}
-                </span>
               </label>
               <textarea
                 id="message"

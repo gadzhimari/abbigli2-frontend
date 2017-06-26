@@ -25,13 +25,15 @@ const Recipient = ({
             />
         }
       </div>
-      <div
-        className="recipient__name"
-      >
-        {data.name}
-      </div>
-      <div className="mobile-search__people-city">
-        {(data.city && data.city.name)}
+      <div className="recipient__info">
+        <div
+          className="recipient__name"
+        >
+          {data.name}
+        </div>
+        <div className="mobile-search__people-city recipient__city">
+          {(data.city && data.city.name)}
+        </div>
       </div>
     </Link>);
 

@@ -74,10 +74,6 @@ class LoginPopup extends Component {
                 className="register-popup__label"
               >
                 {__t('Telephone')}
-                <span className="register-popup__label-require">
-                  {' - '}
-                  {__t('required')}
-                </span>
               </label>
               <ErrorInput
                 id="phone"
@@ -95,10 +91,6 @@ class LoginPopup extends Component {
                 className="register-popup__label"
               >
                 {__t('Password')}
-                <span className="register-popup__label-require">
-                  {' - '}
-                  {__t('required')}
-                </span>
               </label>
               <ErrorInput
                 id="password"
