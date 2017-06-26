@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import Recipient from './Recipient';
+import Popup from '../CommonPopup';
 import { FetchingButton } from 'components';
 
 import { sendPrivateMessage } from 'ducks/Dialogs';
@@ -20,7 +20,7 @@ class MessagePopup extends Component {
   }
 
   onUpdate = ({ target }) => this.setState({
-    message: target.value,
+    message: target.value.trim(),
     messageError: false,
   });
 
@@ -35,7 +35,7 @@ class MessagePopup extends Component {
   });
 
   validateMessage = () => {
-    if (this.state.message.trim().length > 0) {
+    if (this.state.message.length > 0) {
       this.sendMessage();
     } else {
       this.showError();
@@ -47,64 +47,40 @@ class MessagePopup extends Component {
     const { message, messageError } = this.state;
 
     return (
-      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
-        <div
-          className="popup mobile-search__popup reset-popup"
-        >
-          <header className="mobile-search__header">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 14.031"
-              className="popup-close icon"
-              onClick={closePopup}
-            >
-              <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
-            </svg>
-            <div className="popup-title">
-              {__t('Send message')}
-            </div>
-          </header>
-          <form className="register-popup__form">
-            <Recipient
-              data={options}
-              closePopup={closePopup}
-            />
-            <div className="register-popup__field">
-              <label
-                htmlFor="message"
-                className="register-popup__label"
-              >
-                {__t('Your message to')}
-                {' '}
-                {options.name}
-              </label>
+      <Popup
+        closePopup={closePopup}
+        title={`${__t('Message to')} ${options.name}`}
+      >
+        <form className="popup-form">
+          <div className="popup-form__field">
+            <div className="textarea-wrap">
               <textarea
                 id="message"
                 value={message}
                 onChange={this.onUpdate}
-                className="register-popup__textarea"
+                className="textarea textarea--send-message"
                 placeholder="Type a message..."
               />
               {
                 messageError && !message.length
                 &&
-                <div className="login__form-error">
+                <div className="popup__send-error">
                   {'This field should not be empty!'}
                 </div>
               }
             </div>
-            <div className="buttons-wrap">
-              <FetchingButton
-                className="register-popup__fetch-button"
-                onClick={this.validateMessage}
-                isFetching={isFetching}
-              >
-                {__t('send.message')}
-              </FetchingButton>
-            </div>
-          </form>
-        </div>
-      </div>
+          </div>
+          <div className="buttons-wrap">
+            <FetchingButton
+              className="default-button"
+              onClick={this.validateMessage}
+              isFetching={isFetching}
+            >
+              {__t('send.message')}
+            </FetchingButton>
+          </div>
+        </form>
+      </Popup>
     );
   }
 }

@@ -83,9 +83,6 @@ class UserProfile extends Component {
         ? dispatch(openPopup('messagePopup', {
           id,
           name: profile_name,
-          avatar,
-          city,
-          id,
         }))
         : dispatch(openPopup('loginPopup'));
     };

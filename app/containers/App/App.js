@@ -129,14 +129,7 @@ class App extends Component {
     const Popup = getComponentFromObject(openedPopup, Popups);
 
     return (
-      <ContentWrapper
-        contentWrapperClass="global-wrapper"
-        modalButtonClick={this.modalButtonClick}
-        itemsSections={itemsSections}
-        isOpenMenu={mobileMenuOpened}
-        closeMenu={this.closeMenu}
-        isFetchingSections={isFetchingSections}
-      >
+      <div className="global-wrapper">
         <Helmet
           {...appConfig.head}
           title={seoData && seoData.seo_title}
@@ -151,38 +144,49 @@ class App extends Component {
             },
           ]}
         />
-        <div
-          className={`content-wrapper ${shouldOpenModal && 'modal-open-new'}`}
+
+        <ContentWrapper
+          contentWrapperClass="global-wrapper"
+          modalButtonClick={this.modalButtonClick}
+          itemsSections={itemsSections}
+          isOpenMenu={mobileMenuOpened}
+          closeMenu={this.closeMenu}
+          isFetchingSections={isFetchingSections}
         >
-          <Header>
-            <Search />
-            <AvatarBlock
-              isAuthenticated={isAuthenticated}
-              errorMessage={errorMessage}
+
+          <div
+            className={`content-wrapper ${shouldOpenModal && 'modal-open-new'}`}
+          >
+            <Header>
+              <Search />
+              <AvatarBlock
+                isAuthenticated={isAuthenticated}
+                errorMessage={errorMessage}
+                dispatch={dispatch}
+                onLogoutClick={this.logoutUser}
+                toggleMenu={this.toggleMenu}
+                itemsSections={itemsSections}
+                isFetchingSections={isFetchingSections}
+              />
+            </Header>
+            <Sprites />
+
+            <Popup
               dispatch={dispatch}
-              onLogoutClick={this.logoutUser}
-              toggleMenu={this.toggleMenu}
-              itemsSections={itemsSections}
-              isFetchingSections={isFetchingSections}
+              closePopup={this.closePopup}
+              options={popupOptions}
             />
-          </Header>
-          <Sprites />
 
-          <Popup
-            dispatch={dispatch}
-            closePopup={this.closePopup}
-            options={popupOptions}
-          />
+            {children}
 
-          {children}
-
-        </div>
-        <Footer
-          openPopup={this.modalButtonClick}
-        >
-          Logo
+          </div>
+          <Footer
+            openPopup={this.modalButtonClick}
+          >
+            Logo
         </Footer>
-      </ContentWrapper>
+        </ContentWrapper>
+      </div>
     );
   }
 }

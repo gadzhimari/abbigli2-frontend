@@ -8,9 +8,8 @@ import { setMe } from 'ducks/Auth/authActions/fetchMe';
 import { __t } from './../../i18n/translator';
 import { getJsonFromStorage } from 'utils/functions';
 
-import { Link } from 'components';
+import { Link, SelectInput } from 'components';
 import { SocialIcons } from 'components/Icons';
-import { openPopup } from 'ducks/Popup/actions';
 
 import { DOMAIN_URL } from 'config';
 
@@ -27,10 +26,7 @@ class UserProfileMe extends Component {
       coverImageEdit: false,
       coverImageEditRotate: false,
       showMoreText: false,
-      city: props.data.city && {
-        name: `${props.data.city.name}, ${props.data.city.country.name}`,
-        id: props.data.id,
-      },
+      cityValue: null,
       fbAcc: props.data.fb_account,
       pinterestAcc: props.data.pinterest_account || '',
       googleAcc: props.data.google_account || '',
@@ -71,9 +67,9 @@ class UserProfileMe extends Component {
     });
   }
 
-  changeCity = (city) => {
+  changeCityValue = (value) => {
     this.setState({
-      city,
+      cityValue: value,
     });
   }
 
@@ -95,10 +91,6 @@ class UserProfileMe extends Component {
       website: data.website_info,
       phone: data.email_info,
       email: data.phone_info,
-      city: data.city && {
-        name: `${data.city.name}, ${data.city.country.name}`,
-        id: data.id,
-      },
     });
     dispatch(setErrors(null));
   }
@@ -110,8 +102,8 @@ class UserProfileMe extends Component {
     const formData = new FormData();
     formData.append(e.target.name, e.target.files[0]);
     const headers = {
-      Accept: 'application/json, */*',
-      Authorization: `JWT ${token}`,
+      'Accept': 'application/json, */*',
+      'Authorization': `JWT ${token}`,
     };
     const init = {
       headers,
@@ -156,8 +148,8 @@ class UserProfileMe extends Component {
   saveData = (e) => {
     e.preventDefault();
     const { dispatch } = this.props;
-    const city = this.state.city
-      ? this.state.city.id
+    const city = this.state.cityValue
+      ? this.state.cityValue.id
       : '';
 
     const payload = {
@@ -222,14 +214,6 @@ class UserProfileMe extends Component {
       .catch(err => console.log("Error: ", err));
   }
 
-  openSelectInput = () => this.props
-    .dispatch(openPopup('selectPopup', {
-      onClickItem: this.changeCity,
-      title: 'city',
-      async: true,
-      apiUrl: `${API_URL}geo/cities/`,
-    }));
-
   render() {
     const {
       profile_name,
@@ -237,6 +221,7 @@ class UserProfileMe extends Component {
       info,
       phone_info,
       email_info,
+      city,
       banner_main,
       banner_left,
       likes_num,
@@ -253,7 +238,6 @@ class UserProfileMe extends Component {
       vkAcc,
       okAcc,
       leftCoverSize,
-      city,
     } = this.state;
 
     const user = this.props.data;
@@ -578,19 +562,18 @@ class UserProfileMe extends Component {
                 <div className="selectize-control demo-default single">
                   {
                     this.state.edit
-                      ? (<div className="select-input">
-                        <input
-                          className="select-input__field"
-                          placeholder={__t('Adress')}
-                          onClick={this.openSelectInput}
-                          ref={cityInput => (this.cityInput = cityInput)}
-                          disabled={!this.state.edit}
-                          value={(city && city.name) || ''}
-                        />
-                      </div>
-                      )
+                      ? <SelectInput
+                        placeholder={__t('Adress')}
+                        apiPath={`${API_URL}geo/cities/`}
+                        currentValue={city}
+                        onSelectValue={this.changeCityValue}
+                        ref={cityInput => (this.cityInput = cityInput)}
+                        disabled={!this.state.edit}
+                      />
                       : (<div className="selectize-input items not-full">
                         {city.name}
+                        {', '}
+                        {city.country.name}
                       </div>)
                   }
                 </div>

@@ -64,6 +64,10 @@ class AvatarBlock extends Component {
 
         this.setState({ openNotifications: false });
       });
+
+      if (itemsSections.length > 0) {
+        this.loadSideMenu();
+      }
     }
   }
 
@@ -71,6 +75,21 @@ class AvatarBlock extends Component {
     if (nextProps.isAuthenticated !== this.props.isAuthenticated) {
       this.forceUpdate();
     }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { itemsSections } = this.props;
+
+    if (!deepEqual(itemsSections, prevProps.itemsSections)) {
+      this.loadSideMenu();
+    }
+  }
+
+
+  loadSideMenu = () => {
+    const menuHTML = window.document.querySelector('.dropdown').innerHTML;
+
+    window.document.getElementById('swipeMenu').innerHTML = menuHTML;
   }
 
   openMenuToggle = () => {

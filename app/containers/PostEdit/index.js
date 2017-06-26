@@ -7,6 +7,7 @@ import Select from 'react-select';
 import update from 'react/lib/update';
 
 import {
+  SelectInput,
   FetchingButton,
   Loading,
 } from 'components';
@@ -16,7 +17,6 @@ import SwitchMode from 'components/SwitchModeButton';
 import loader from './loader';
 
 import { savePost, uploadImages, rotateImage, deleteImage, fetchPost, clearData } from 'ducks/PostCreate/actions';
-import { openPopup } from 'ducks/Popup/actions';
 
 import { API_URL } from 'config';
 import { __t } from './../../i18n/translator';
@@ -35,6 +35,7 @@ class PostEdit extends Component {
     super(props);
     this.state = {
       ...props.data,
+      city: null,
     };
   }
 
@@ -96,7 +97,9 @@ class PostEdit extends Component {
       type,
     };
 
-    if (this.state.city) {
+    if (this.state.currentCity && !this.state.city) {
+      body.city = this.state.currentCity.id;
+    } else if (this.state.city) {
       body.city = this.state.city.id;
     }
 
@@ -116,9 +119,9 @@ class PostEdit extends Component {
     [target.name]: target.value,
   });
 
-  сhangeCity = (city) => {
+  сhangeCity = (value) => {
     this.setState({
-      city,
+      city: value,
     });
   }
 
@@ -127,14 +130,6 @@ class PostEdit extends Component {
       this.setState({ sections: sections.map(item => (item.value)) })
     }
   }
-
-  openSelectPopup = () => this.props
-    .dispatch(openPopup('selectPopup', {
-      onClickItem: this.сhangeCity,
-      title: 'city',
-      async: true,
-      apiUrl: `${API_URL}geo/cities/`,
-    }));
 
   deleteImage = (id) => {
     this.setState({
@@ -150,7 +145,6 @@ class PostEdit extends Component {
       tags,
       title,
       price,
-      city,
     } = this.state;
 
     const {
@@ -294,14 +288,14 @@ class PostEdit extends Component {
             {
               this.state.type === 3
               &&
-              (<div className="input-wrap">
-                <input
-                  placeholder={__t('City')}
-                  className="input"
-                  onClick={this.openSelectPopup}
-                  value={(city && city.name) || ''}
-                />
-              </div>)
+              (<SelectInput
+                apiPath={`${API_URL}geo/cities/`}
+                inputWrapperClass="input-wrap"
+                inputClass="input"
+                placeholder={__t('City')}
+                onSelectValue={this.сhangeCity}
+                currentValue={this.state.currentCity}
+              />)
             }
 
             <div

@@ -5,19 +5,6 @@ import { resetConfirm } from './';
 
 import { API_URL } from 'config';
 
-const resetWithoutSideEffects = (creds) => {
-  const formData = new FormData();
-  formData.append('contact', creds.contact);
-
-  const config = {
-    method: 'POST',
-    body: formData,
-  };
-
-  return fetch(`${API_URL}reset-password/`, config)
-      .then(response => response.json().then(user => ({ user, response })));
-};
-
 const reset = (creds) => {
   const formData = new FormData();
   formData.append('contact', creds.contact);
@@ -47,7 +34,6 @@ const reset = (creds) => {
           callback: data => dispatch(resetConfirm(data)),
           previousPopup: 'resetPopup',
           contact: user.contact,
-          againRequest: resetWithoutSideEffects,
         }));
       });
   };
