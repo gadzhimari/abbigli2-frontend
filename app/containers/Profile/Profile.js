@@ -126,6 +126,7 @@ class Profile extends Component {
               followFetching={followFetching}
               dispatch={dispatch}
               errors={errors}
+              geoCity={this.props.geoCity}
               showFollowers={() => this.setState({ showSubscribersFollowing: false, showSubscribers: true })}
             />
             : null
@@ -228,11 +229,7 @@ function mapStateToProps(state) {
     isAuthenticated,
     errorMessage,
     isFetching: authFetching,
-  } = state.Auth || {
-      isAuthenticated: false,
-      isFetching: true,
-      me: {},
-    };
+  } = state.Auth;
   const {
     data,
     isFetching,
@@ -254,6 +251,7 @@ function mapStateToProps(state) {
     followers,
     following,
     followFetching: state.Follow.isFetching,
+    geoCity: state.Geo.city,
   };
 }
 

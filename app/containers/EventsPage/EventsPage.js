@@ -31,7 +31,7 @@ class EventsPage extends Component {
   }
 
   componentWillMount() {
-    const { dispatch, itemsEvents, location } = this.props;
+    const { dispatch, itemsEvents, location, geoCity, city } = this.props;
 
     if (location.action === 'POP' && itemsEvents.length === 0) {
       dispatch(fetchDataEvents(1));
@@ -39,6 +39,24 @@ class EventsPage extends Component {
 
     if (location.action === 'PUSH') {
       dispatch(fetchDataEvents(1));
+    }
+
+    if (!city && geoCity) {
+      dispatch(changeSearchField('city', {
+        name: `${geoCity.name}, ${geoCity.country.name}`,
+        id: geoCity.id,
+      }));
+    }
+  }
+
+  componentDidUpdate() {
+    const { dispatch, geoCity, city } = this.props;
+
+    if (!city && geoCity) {
+      dispatch(changeSearchField('city', {
+        name: `${geoCity.name}, ${geoCity.country.name}`,
+        id: geoCity.id,
+      }));
     }
   }
 
@@ -241,6 +259,10 @@ EventsPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   next: PropTypes.any,
+  geoCity: PropTypes.shape({
+    name: PropTypes.string,
+    country: PropTypes.object,
+  }),
 };
 
 function mapStateToProps(state) {
@@ -257,6 +279,7 @@ function mapStateToProps(state) {
     city: events.searchFields.city,
     start: events.searchFields.start,
     end: events.searchFields.end,
+    geoCity: state.Geo.city,
   };
 }
 

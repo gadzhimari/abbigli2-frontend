@@ -3,6 +3,7 @@ import * as actions from './actionsTypes';
 const initialState = {
   openedPopup: null,
   options: {},
+  showOverlay: false,
 };
 
 const popupReducer = (state = initialState, action = {}) => {
@@ -12,6 +13,7 @@ const popupReducer = (state = initialState, action = {}) => {
       return Object.assign({}, state, {
         openedPopup: action.name,
         options: action.options,
+        showOverlay: action.showOverlay,
       });
     }
     case actions.CLOSE_POPUP:
@@ -19,6 +21,7 @@ const popupReducer = (state = initialState, action = {}) => {
       return Object.assign({}, state, {
         openedPopup: null,
         options: {},
+        showOverlay: false,
       });
     default: return state;
   }

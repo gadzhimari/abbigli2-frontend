@@ -10,6 +10,7 @@ import Raven from 'raven';
 import renderOnServer from './middlewares/renderOnServer';
 import oauthHandler from './middlewares/oauthHandling';
 import geoLocation from './middlewares/geoLocation';
+import configureRedux from './middlewares/configureRedux';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
 
 const app = express();
@@ -31,6 +32,7 @@ app.use(compression());
 app.use(Raven.requestHandler());
 
 app.use(oauthHandler);
+app.use(configureRedux);
 app.use(geoLocation);
 app.use(handleGoogleCahceUrl);
 app.use(renderOnServer);

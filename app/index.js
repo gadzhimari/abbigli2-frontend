@@ -1,10 +1,8 @@
 /* @flow */
 
 import React from 'react';
-import { RouterContext } from 'react-router';
 import { render } from 'react-dom';
 import Router from 'react-router/lib/Router';
-import Route from 'react-router/lib/Route';
 import browserHistory from 'react-router/lib/browserHistory';
 import match from 'react-router/lib/match';
 
@@ -12,6 +10,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 
 import Raven from 'raven-js';
+import Geolocation from './HOC/Geolocation';
 
 import routes from './routes';
 import configureStore from './store';
@@ -77,7 +76,9 @@ function renderApp() {
   match(routerParams, (err, redirect, renderProps) => {
     render(
       <Provider store={store}>
-        <Router history={history} {...renderProps} />
+        <Geolocation>
+          <Router history={history} {...renderProps} />
+        </Geolocation>
       </Provider>,
       container
     );
@@ -93,9 +94,9 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
   // Accept changes to this file for hot reloading.
   module.hot.accept('./index.js');
   // Any changes to our routes will cause a hotload re-render.
-  module.hot.accept('../shared/routes', renderApp);
+  module.hot.accept('./routes', renderApp);
   // Any changes to reducers will cause to re-render
-  module.hot.accept('../shared/reducers', renderApp);
+  module.hot.accept('./reducers', renderApp);
 }
 
 Event.prototype.persist = () => { }
