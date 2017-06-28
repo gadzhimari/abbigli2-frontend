@@ -118,7 +118,11 @@ class Sections extends Component {
             >
               {__t('Popular')}
             </CardsSortItem>
-            <CardsSortItem to="/nearest-products">{__t('Beside')}</CardsSortItem>
+            <CardsSortItem
+              to={`/nearest-products/${routeParams.section}`}
+            >
+              {__t('Beside')}
+            </CardsSortItem>
           </CardsSort>
 
           {

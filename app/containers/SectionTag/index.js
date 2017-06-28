@@ -65,14 +65,16 @@ class SectionTag extends Component {
 
   fetchPosts = (route, params, config = {}) => {
     const { dispatch } = this.props;
-    const options = Object.assign({}, params, config);
+    const options = Object.assign({}, config, {
+      section: params.section,
+    });
 
-    if (route.slug) {
-      options[route.slug] = true;
+    if (route.filter) {
+      options[route.filter] = true;
     }
 
-    if (params.filter) {
-      options[params.filter] = true;
+    if (params.tags) {
+      options.tags = params.tags;
     }
 
     dispatch(fetchData(options));
@@ -163,19 +165,19 @@ class SectionTag extends Component {
             {routeParams.tags ? ` #${routeParams.tags}` : null}
             <CardsSortItem
               to={getSectionUrl('new', routeParams.section, routeParams.tags)}
-              isActive={route.slug === 'new' || (!routeParams.filter && !route.slug) || routeParams.filter === 'new'}
+              isActive={route.slug === 'new'}
             >
               {__t('New')}
             </CardsSortItem>
             <CardsSortItem
               to={getSectionUrl('popular', routeParams.section, routeParams.tags)}
-              isActive={route.slug === 'popular' || routeParams.filter === 'popular'}
+              isActive={route.slug === 'popular' || route.filter === 'popular'}
             >
               {__t('Popular')}
             </CardsSortItem>
             <CardsSortItem
               to={getSectionUrl('nearest', routeParams.section, routeParams.tags)}
-              isActive={route.slug === 'nearest' || routeParams.filter === 'nearest'}
+              isActive={route.slug === 'near' || route.filter === 'near'}
             >
               {__t('Beside')}
             </CardsSortItem>
