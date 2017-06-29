@@ -2,18 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import {
   CardsWrap,
   CardProduct,
-  SidebarItem,
   Loading,
   BannerOld,
   CardsSort,
-  CardsSortItem
-} from 'components'
-import Helmet from 'react-helmet';
-import { connect } from 'preact-redux';
+  CardsSortItem,
+} from 'components';
+import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
-import { fetchData, setData } from 'ducks/PostsSpecific';
-import { fetchData as fetchDataBlogs, setData as setDataBlogs } from 'ducks/PostsSpecific';
-import { Link } from 'react-router';
+import { fetchData as fetchDataBlogs } from 'ducks/PostsSpecific';
 
 import { stagedPopup } from 'ducks/Auth/authActions';
 
@@ -21,19 +17,29 @@ import { __t } from '../../i18n/translator';
 
 
 class SpecificPostsPage extends Component {
-
-
   componentWillMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchDataBlogs(this.props.route.slug));
-  };
+    this.fetchData(this.props.route);
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.route !== this.props.route) {
-
-      const { dispatch } = this.props;
-      dispatch(fetchDataBlogs(nextProps.route.slug));
+      this.fetchData(nextProps.route);
     }
+  }
+
+  fetchData = (route, page) => {
+    const { dispatch } = this.props;
+    const options = {};
+
+    if (route.filter) {
+      options[route.filter] = true;
+    }
+
+    if (page) {
+      options.page = page;
+    }
+
+    dispatch(fetchDataBlogs(route.slug, options));
   }
 
   showRegister = () => {
@@ -77,14 +83,14 @@ class SpecificPostsPage extends Component {
               </CardsSortItem>
             }
             {
-              this.props.route.slug !== 'popular'
+              this.props.route.filter !== 'popular'
               &&
               <CardsSortItem to="/popular-products">
                 {__t('Popular')}
               </CardsSortItem>
             }
             {
-              this.props.route.slug !== 'near'
+              this.props.route.filter !== 'near'
               &&
               <CardsSortItem to="/nearest-products">
                 {__t('Beside')}
@@ -100,21 +106,21 @@ class SpecificPostsPage extends Component {
 
           <InfiniteScroll
             pageStart={1}
-            loadMore={(page) => { dispatch(fetchDataBlogs(this.props.route.slug, page)) }}
+            loadMore={(page) => { this.fetchData(this.props.route, page); }}
             hasMore={this.props.next != null}
           >
             {(!isFetchingPosts || itemsPosts.length > 0)
               &&
-            itemsPosts.map((item) => (
-              <CardProduct
-                data={item}
-                key={`${item.slug}--specific`}
-                legacy
-                dispatch={dispatch}
-                isAuthenticated={isAuthenticated}
-                priceTemplate={this.props.priceTemplate}
-              />
-            ))}
+              itemsPosts.map((item) => (
+                <CardProduct
+                  data={item}
+                  key={`${item.slug}--specific`}
+                  legacy
+                  dispatch={dispatch}
+                  isAuthenticated={isAuthenticated}
+                  priceTemplate={this.props.priceTemplate}
+                />
+              ))}
           </InfiniteScroll>
         </CardsWrap>
         <Loading loading={isFetchingPosts} />

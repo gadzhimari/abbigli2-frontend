@@ -10,6 +10,7 @@ import {
   BannerBlue,
   HomeSlider,
   Link,
+  GoodsCard,
 } from 'components';
 
 import { fetchData as fetchDataBlogs } from 'ducks/Blogs';
@@ -71,26 +72,27 @@ class Home extends Component {
 
         <HR color={'blue'} />
 
-        <TileWrap>
-          <div className="home__title-wrapper">
-            <h3 className="home__section-text">
-              {__t('Display.for.sale.their.works')}
-            </h3>
+        <div className="home__title-wrapper">
+          <h3 className="home__section-text">
+            {__t('Display.for.sale.their.works')}
+          </h3>
+        </div>
+        <div className="main">
+          <div className="cards-wrap">
+            {
+              (!isFetchingProducts && itemsProducts.length > 0)
+              &&
+              itemsProducts
+                .slice(0, 8)
+                .map(item => <GoodsCard
+                  item={item}
+                  key={`${item.slug}--top`}
+                  priceTemplate={priceTemplate}
+                  isAuth={isAuthenticated}
+                />)
+            }
           </div>
-
-          {
-            (!isFetchingProducts && itemsProducts.length > 0)
-            &&
-            itemsProducts
-              .slice(0, 8)
-              .map(item => <CardUni
-                item={item}
-                key={`${item.slug}--top`}
-                priceTemplate={priceTemplate}
-                isAuth={isAuthenticated}
-              />)
-          }
-        </TileWrap>
+        </div>
         <Loading loading={isFetchingProducts} />
 
         <Link to="/new-products/" className="show-more">

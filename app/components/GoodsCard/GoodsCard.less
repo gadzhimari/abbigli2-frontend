@@ -1,0 +1,147 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.goods-card {
+  background-color: #fff;
+  display: inline-block;
+  vertical-align: top;
+  width: 24%;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid @border;
+  padding: 15px 10px;
+  margin: 0 0.5% 1% 0.5%;
+  text-align: left;
+
+  &__author {
+    position: relative;
+    padding-left: 70px;
+    margin-bottom: 15px;
+    min-height: 60px;
+
+    .avatar {
+      width: 60px;
+      height: 60px;
+      left: 0;
+      border-radius: 50%;
+      overflow: hidden;
+
+      .align-vertical;
+
+      &__img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+  }
+
+  &__name {
+    font-family: 'ClearSansBold';
+    font-size: 16px;
+    line-height: 60px;
+    color: @hoverText;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  &__count {
+    font-size: 12px;
+    line-height: 16px;
+    color: @grayText;
+    margin-bottom: 5px;
+  }
+
+  &__voice {
+    font-size: 12px;
+    line-height: 16px;
+    color: @grayText;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  &__img-wrap {
+    height: 185px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 15px;
+  }
+
+  &__img {
+    min-height: 100%;
+    width: 100%;
+    .align-full;
+  }
+
+  &__info {
+    position: relative;
+  }
+
+  &__price {
+    font-size: 14px;
+    line-height: 18px;
+    color: @hoverText;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &__title {
+    font-size: 14px;
+    line-height: 18px;
+    color: @grayText;
+    position: relative;
+    padding: 0 60px 0 25px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    .icon {
+      left: 0;
+      position: absolute;
+
+      &-bag {
+        width: 19px;
+        height: 15px;
+        top: 1px;
+        background-image: none;
+        fill: #1076ff;
+      }
+    }
+  }
+
+  .star-rating {
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+}
+
+@media only screen and (min-width: 761px) and (max-width: 980px) {
+  .goods-card {
+    width: 32.3%;
+
+    &:nth-child(3n) {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 760px) {
+  .goods-card {
+    width: 49%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .goods-card {
+    width: 100%;
+    margin: 0 0 10px;
+  }
+}

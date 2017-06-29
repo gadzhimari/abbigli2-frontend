@@ -104,6 +104,20 @@ module.exports = {
         loader: styleLoader,
       },
       {
+        test: /\.less$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'postcss-loader', {
+            loader: 'less-loader',
+            options: {
+              paths: [
+                path.resolve(__dirname, 'app/containers/App/base'),
+              ],
+            },
+          }],
+        }),
+      },
+      {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',

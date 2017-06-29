@@ -58,7 +58,9 @@ const routes = (store, token, shouldPreload) => {
       <Route path="page/agreement" component={Agreement} />
       <Route path="questions" component={Questions} />
       <Route path="sections/:section" component={Sections} />
-      <Route path="sections/:section/:tags(/:filter)" component={SectionTag} />
+      <Route path="sections/:section/:tags/new" component={SectionTag} slug="new" />
+      <Route path="sections/:section/:tags/popular" component={SectionTag} filter="popular" />
+      <Route path="sections/:section/:tags/nearest" component={SectionTag} filter="near" />
       <Route path="tags/:tags/:filter(/:page)" component={Tag} />
 
       <Route path="post/new" component={PostCreate} onEnter={handleNoAuth} />
@@ -78,13 +80,13 @@ const routes = (store, token, shouldPreload) => {
       <Route path="post/:slug" component={ProductPage} />
 
       <Route path="new-products" component={SpecificPostsPage} slug="new" />
-      <Route path="popular-products" component={SpecificPostsPage} slug="popular" />
+      <Route path="popular-products" component={SpecificPostsPage} filter="popular" />
       <Route path="set-the-mood" component={SpecificPostsPage} slug="mood" />
-      <Route path="nearest-products" component={SpecificPostsPage} slug="near" />
+      <Route path="nearest-products" component={SpecificPostsPage} filter="near" />
 
-      <Route path="new-products/:section" component={SectionTag} slug="new" />
-      <Route path="popular-products/:section" component={SectionTag} slug="popular" />
-      <Route path="nearest-products/:section" component={SectionTag} slug="nearest" />
+      <Route path="new-products/:section" component={SectionTag} />
+      <Route path="popular-products/:section" component={SectionTag} filter="popular" />
+      <Route path="nearest-products/:section" component={SectionTag} filter="near" />
     </Route>
   );
 };

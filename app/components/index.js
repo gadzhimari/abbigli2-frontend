@@ -60,3 +60,4 @@ export { default as Icons } from './Icons';
 export { default as SocialGroups } from './SocialGroups';
 export { default as Menu } from './Menu';
 export { default as ContentWrapper } from './ContentWrapper';
+export { default as GoodsCard } from './GoodsCard';
