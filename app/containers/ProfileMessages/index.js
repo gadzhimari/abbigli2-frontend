@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes, Children } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -29,20 +29,16 @@ class ProfileMessages extends Component {
       messagesIsFetching,
     } = this.props;
 
-    return (<div>
-      {
-        isFetchingDialogs
-          ? <Loading loading={isFetchingDialogs} />
-          : <DialogsBlock
-            id={params.profile}
-            dispatch={dispatch}
-            dialogs={dialogs}
-            activeDialog={activeDialog}
-            messages={messages}
-            messagesIsFetching={messagesIsFetching}
-          />
-      }
-    </div>);
+    return isFetchingDialogs
+      ? Children.only(<Loading loading={isFetchingDialogs} />)
+      : Children.only(<DialogsBlock
+        id={params.profile}
+        dispatch={dispatch}
+        dialogs={dialogs}
+        activeDialog={activeDialog}
+        messages={messages}
+        messagesIsFetching={messagesIsFetching}
+      />);
   }
 }
 

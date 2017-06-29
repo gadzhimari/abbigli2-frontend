@@ -89,7 +89,7 @@ class CardUni extends Component {
               &&
               <img
                 className="tile__image"
-                src={`${DOMAIN_URL}thumbs/unsafe/282x256/${images[0].file}`}
+                src={`${DOMAIN_URL}thumbs/unsafe/400x300/${images[0].file}`}
                 alt={title}
               />
             }

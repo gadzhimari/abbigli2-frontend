@@ -60,19 +60,12 @@ const ProfileLoaderDecorator = Profile => class extends Component {
 
     const childrenPath = routes[2].path;
 
-    return (<div>
-      {
-        isFetching
-          ? (
-          <div className="container-fluid">
-            <Loading loading={isFetching} />
-          </div>
-          )
-          : (<Profile {...this.props} childrenPath={childrenPath} />)}
-    </div>);
+    return isFetching
+      ? (<div className="container-fluid">
+        <Loading loading={isFetching} />
+      </div>)
+      : <Profile {...this.props} childrenPath={childrenPath} />;
   }
 };
-
-
 
 export default ProfileLoaderDecorator;
