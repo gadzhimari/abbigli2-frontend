@@ -25,10 +25,13 @@ class Avatar extends Component {
       isFetching: true,
     });
 
-    uploadImage(e)
-      .then(() => this.setState({
-        isFetching: false,
-      }));
+    uploadImage(e);
+  }
+
+  loaded = () => {
+    this.setState({
+      isFetching: false,
+    });
   }
 
   removeImage = ({ target }) => {
@@ -74,6 +77,7 @@ class Avatar extends Component {
             <img
               className="user-profile__avatar"
               src={`${DOMAIN_URL}thumbs/unsafe/140x140/${avatar}`}
+              onLoad={this.loaded}
             />
           }
           <div className="user-profile__avatar-overlay"></div>
