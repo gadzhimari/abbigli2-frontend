@@ -9,6 +9,7 @@ const SET_ERRORS = 'abbigli/Profile/SET_ERRORS';
 const SET_PROFILE = 'abbigli/Profile/SET_PROFILE';
 const SET_FOLLOWING = 'abbigli/Profile/SET_FOLLOWING';
 const UPDATE_BANNER = 'abbigli/Profile/UPDATE_BANNER';
+const UPDATE_PROFILE_FIELD = 'abbigli/Profile/UPDATE_PROFILE_FIELD';
 
 // Initial state
 
@@ -58,6 +59,12 @@ export default function (state = initialState, action = {}) {
         data: newData,
       });
     }
+    case UPDATE_PROFILE_FIELD: {
+      const data = Object.assign({}, state.data, action.data);
+      return Object.assign({}, state, {
+        data,
+      });
+    }
     default:
       return state;
   }
@@ -101,6 +108,13 @@ export function updateBanner(image) {
   return {
     type: UPDATE_BANNER,
     image,
+  };
+}
+
+export function updateProfile(data) {
+  return {
+    type: UPDATE_PROFILE_FIELD,
+    data,
   };
 }
 

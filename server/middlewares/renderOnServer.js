@@ -10,7 +10,6 @@ import helmet from 'react-helmet';
 import path from 'path';
 import fs from 'fs';
 
-import configureStore from '../../app/store';
 import routes from '../../app/routes';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -90,7 +89,7 @@ const metriks = {
 };
 
 module.exports = (req, res) => {
-  const store = configureStore();
+  const store = req.redux;
   const renderRoutes = routes(store, req.cookies.id_token, true);
 
   match({ routes: renderRoutes, location: req.newPath || req.url }, (error, redirectLocation, renderProps) => {

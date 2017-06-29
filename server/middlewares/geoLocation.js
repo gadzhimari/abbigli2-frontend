@@ -1,14 +1,30 @@
-import geoLite from 'node-geolite2';
+import maxmind from 'maxmind';
+import path from 'path';
 
-geoLite.init();
+const cityLookup = maxmind.openSync(path.resolve(__dirname, '../geo-base/GeoLite2-City.mmdb'));
 
 const geoLocation = (req, res, next) => {
-  const location = geoLite.getGeoDataSync(req.ip.replace('::ffff:', ''));
-  const country = location && location.country
-    ? location.country.iso_code
-    : null;
+  let ip;
 
-  res.cookie('countryCode', country);
+  if (process.env.NODE_ENV === 'production') {
+    ip = req.ip.replace('::ffff:', '');
+  } else {
+    ip = '85.140.76.178';
+  }
+
+  const city = cityLookup.get(ip);
+
+  req.redux.dispatch({
+    type: 'SET_COUNTRY',
+    code: city.country.iso_code,
+  });
+
+  req.redux.dispatch({
+    type: 'SET_COORDINATES',
+    coordinates: city.location,
+  });
+
+  res.cookie('countryCode', city.country.iso_code);
 
   next();
 };

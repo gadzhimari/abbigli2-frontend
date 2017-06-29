@@ -32,8 +32,8 @@ const typesUrl = {
 };
 
 class PostCreate extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       type: 1,
       content: '',
@@ -42,7 +42,10 @@ class PostCreate extends Component {
       sections: [],
       tags: '',
       title: '',
-      city: null,
+      city: (props.geoCity && {
+        name: `${props.geoCity.name}, ${props.geoCity.country.name}`,
+        id: props.geoCity.id,
+      }) || null,
       date_start: '',
       date_end: '',
       value: null,
@@ -53,6 +56,20 @@ class PostCreate extends Component {
     const { dispatch } = this.props;
 
     dispatch(clearData());
+  }
+
+  componentDidUpdate() {
+    const { city } = this.state;
+    const { geoCity } = this.props;
+
+    if (!city && geoCity) {
+      this.setState({
+        city: {
+          name: `${geoCity.name}, ${geoCity.country.name}`,
+          id: geoCity.id,
+        },
+      });
+    }
   }
 
   onImagesUploaded = images => this.setState({
@@ -362,6 +379,7 @@ const mapStateToProps = state => ({
   isFetchingImage: state.PostCreate.isFetchingImage,
   errors: state.PostCreate.errors,
   loadImageErrors: state.PostCreate.imageError,
+  geoCity: state.Geo.city,
 });
 
 export default withRouter(connect(mapStateToProps)(PostCreate));
