@@ -241,67 +241,65 @@ class DialogsBlock extends Component {
     ));
 
     return (
-      <div>
-        <div id="profile_content">
-          <div className="messages-container">
-            <div className="messages__search-bar">
-              <div className="message-search__wrap">
-                <div className="message-search">
-                  <input
-                    className="message-search__input"
-                    onChange={this.doSearch}
-                    type="text"
-                    placeholder={__t('Search')}
-                    value={query}
-                  />
-                  <svg className="search-icon">
-                    <use href="#search"></use>
-                  </svg>
-                </div>
+      <div id="profile_content">
+        <div className="messages-container">
+          <div className="messages__search-bar">
+            <div className="message-search__wrap">
+              <div className="message-search">
+                <input
+                  className="message-search__input"
+                  onChange={this.doSearch}
+                  type="text"
+                  placeholder={__t('Search')}
+                  value={query}
+                />
+                <svg className="search-icon">
+                  <use href="#search"></use>
+                </svg>
               </div>
-              <DialogsList
-                list={datedDialogs}
-                filter={query}
-                dialogClickHandler={this.onClickDialog}
-                activeDialog={activeDialog}
-                deleteDialog={this.deleteDialog}
-              />
             </div>
-            <div
-              className="messages__chat-wrap"
-              ref={wrap => (this.messagesWrap = wrap)}
-            >
-              {
-                !!activeDialog
-                &&
-                <button
-                  className="messages__back-button"
-                  onClick={this.closeMobileDialog}
+            <DialogsList
+              list={datedDialogs}
+              filter={query}
+              dialogClickHandler={this.onClickDialog}
+              activeDialog={activeDialog}
+              deleteDialog={this.deleteDialog}
+            />
+          </div>
+          <div
+            className="messages__chat-wrap"
+            ref={wrap => (this.messagesWrap = wrap)}
+          >
+            {
+              !!activeDialog
+              &&
+              <button
+                className="messages__back-button"
+                onClick={this.closeMobileDialog}
+              >
+                {__t('Go back to dialogs list')}
+              </button>
+            }
+            {
+              !activeDialog && !messagesIsFetching
+                ? <h5
+                  style={{
+                    margin: '35px 0px',
+                    width: '100%',
+                    textAlign: 'center',
+                    color: 'rgb(138, 144, 147)',
+                  }}
                 >
-                  {__t('Go back to dialogs list')}
-                </button>
-              }
-              {
-                !activeDialog && !messagesIsFetching
-                  ? <h5
-                    style={{
-                      margin: '35px 0px',
-                      width: '100%',
-                      textAlign: 'center',
-                      color: 'rgb(138, 144, 147)',
-                    }}
-                  >
-                    {__t('In this section you see your correspondence with other ABBIGLI members.')}
-                  </h5>
-                  : <MessagesList
-                    list={formatedMessages}
-                    fetchingStatus={messagesIsFetching}
-                    onChangeMessage={this.onChangeMessage}
-                    messageValue={messageValue}
-                    onSendMessage={this.onSendMessage}
-                  />
-              }
-            </div>
+                  {__t('In this section you see your correspondence with other ABBIGLI members.')}
+                </h5>
+                : <MessagesList
+                  list={formatedMessages}
+                  fetchingStatus={messagesIsFetching}
+                  onChangeMessage={this.onChangeMessage}
+                  messageValue={messageValue}
+                  onSendMessage={this.onSendMessage}
+                />
+            }
           </div>
         </div>
       </div>
