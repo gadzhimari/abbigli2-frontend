@@ -17,7 +17,10 @@ function CardTag(props) {
   const sizes = ['242x190'];
 
   return (
-    <Link className="card tag-card legacy" to={"/sections/" + currentSlug + "/" + title}>
+    <Link
+      className="card tag-card legacy"
+      to={`/sections/${currentSlug}/${title}/new`}
+    >
       <div className="tag-card__img">
         <img
           className="card-img"
