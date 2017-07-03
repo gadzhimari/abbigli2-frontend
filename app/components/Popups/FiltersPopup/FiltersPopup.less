@@ -1,0 +1,73 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.filter-mobile {
+  display: none;
+  margin-bottom: 15px;
+  background-color: @grayBg;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10000;
+  padding: 0 10px 20px 10px;
+  text-align: left;
+  overflow: auto;
+  height: 100%;
+
+  &__header {
+    font-size: 14px;
+    line-height: 18px;
+    background-color: #fff;
+    position: relative;
+    padding: 10px;
+    margin: 0 -10px 30px -10px;
+  }
+  .icon-close {
+    fill: #000;
+    background-size: 10px 10px;
+    width: 10px;
+    height: 10px;
+    right: 15px;
+    .align-vertical;
+  }
+  .choice-section {
+    margin-bottom: 20px;
+  }
+  .price-range {
+    margin-bottom: 20px;
+    &__from, &__to {
+      width: 48%;
+    }
+    &__from {
+      margin-right: 4%;
+    }
+  }
+  .select,
+  .color-choice,
+  .checkbox-wrap {
+    margin-bottom: 20px;
+  }
+  .default-button {
+    .button(default);
+    width: 100%;
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .filter-mobile {
+    display: block;
+  }
+  
+  .select-wrap .label, .price-range .label, .choice-section .label {
+    margin-bottom: 10px;
+  }
+
+  .filter-mobile__header .popup-close {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

@@ -1,0 +1,136 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+@colors-array:
+        red @red,
+        orange @orange,
+        yellow @yellow,
+        green @green,
+        skiey @skiey,
+        blue @blue,
+        violet @violet,
+        pink @pink,
+        white @white,
+        gray @gray,
+        black @black,
+        brown @brown;
+
+.color-bg-generator(@iterator: 1) when (@iterator <= length(@colors-array)) {
+  @item: extract(@colors-array, @iterator);
+  @class: extract(@item, 1);
+  @color: extract(@item, 2);
+
+  .color_@{class} {
+    background-color: @color;
+  }
+
+  .color-bg-generator((@iterator + 1));
+}
+
+.color-bg-generator();
+
+.color-choice {
+  position: relative;
+
+  &__wrap {
+    margin: 0 -10px;
+    font-size: 0;
+  }
+
+  &__label {
+    font-size: 16px;
+    line-height: 20px;
+    position: relative;
+    cursor: pointer;
+
+    .icon {
+      fill: #b0b0b0;
+      display: inline-block;
+      vertical-align: top;
+      background-size: 6px 12px;
+      width: 6px;
+      height: 12px;
+      margin: 8px 0 0 10px;
+      transform: rotate(90deg);
+    }
+  }
+
+  &__dropdown {
+    background-color: #fff;
+    position: absolute;
+    top: 35px;
+    padding: 10px 15px;
+    width: 100%;
+    left: -15px;
+    border: 1px solid #c2c2c2;
+    border-radius: 4px;
+    display: none;
+    z-index: 10;
+
+    &:before {
+      top: -8px;
+      .triangle(top, 8px, 8px, #c2c2c2);
+      .align-horizontal;
+
+    }
+    &:after {
+      content: '';
+      display: block;
+      top: -7px;
+      .triangle(top, 7px, 7px, #fff);
+      .align-horizontal;
+    }
+  }
+
+  &__color {
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+    border-radius: 2px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #acacac;
+    position: relative;
+    margin: 10px;
+
+    &.active {
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        border: 2px solid #ff0808;
+        border-radius: 3px;
+      }
+    }
+  }
+
+  &.open {
+    .color-choice__dropdown {
+      display: block;
+    }
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .color-choice {
+    &__wrap {
+      text-align: center;
+      margin: 0 -13px;
+    }
+    &__label {
+      .icon {
+        display: none;
+      }
+    }
+    &__color {
+      width: 28px;
+      height: 28px;
+      margin: 10px 13px;
+    }
+  }
+}

@@ -1,35 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import {
-  Link
-} from 'components';
-
+import { Link } from 'components';
 import { DOMAIN_URL } from 'config';
 
-import './CardTag.styl';
+import './CardTag.less';
 
-function CardTag(props) {
+const CardTag = ({
+  slug,
+  title,
+  preview,
+}) => (
+  <Link
+    className="tag-card"
+    to={`/sections/${slug}/${title}`}
+  >
+    <div className="tag-card__img-wrap">
+      <img
+        className="tag-card__img"
+        src={`${DOMAIN_URL}thumbs/unsafe/251x207/${preview}`}
+        alt={title}
+      />
+    </div>
+    <div className="tag-card__name">#{title}</div>
+  </Link>
+);
 
-  let { title, preview } = props.data;
-
-  let currentSlug = props.currentSlug;
-
-  const sizes = ['242x190'];
-
-  return (
-    <Link className="card tag-card legacy" to={"/sections/" + currentSlug + "/" + title}>
-      <div className="tag-card__img">
-        <img
-          className="card-img"
-          src={`${DOMAIN_URL}thumbs/unsafe/${sizes[0]}/${preview}`}
-          alt={title}
-        />
-      </div>
-      <div className="card-name-wrap">
-        <div className="card-name">#{title}</div>
-      </div>
-    </Link>
-  );
-}
+CardTag.propTypes = {
+  slug: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  preview: PropTypes.string.isRequired,
+};
 
 export default CardTag;

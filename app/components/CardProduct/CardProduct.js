@@ -180,7 +180,7 @@ class CardProduct extends Component {
             className="tag-card__name-wrap"
             to={`/${typesUrl[type]}/${slug}`}
           >
-            <div className="tag-card__name">
+            <div className="tag-card__name legacy">
               <div className="icon-wrap">
                 {
                   type === 1 && <ProductsIcons.service />

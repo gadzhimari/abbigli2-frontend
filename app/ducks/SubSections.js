@@ -13,6 +13,7 @@ const initialState = {
   data: null,
   next: null,
   items: [],
+  pagesCount: 0,
 };
 
 // Reducer
@@ -21,7 +22,7 @@ export default function (state = initialState, action = {}) {
     case SET:
       return Object.assign({}, state, {
         items: action.data.results,
-        data: action.data,
+        pagesCount: Math.ceil(action.count / 50),
         next: action.data.next,
         isFetching: false,
       });

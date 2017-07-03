@@ -57,7 +57,7 @@ const routes = (store, token, shouldPreload) => {
       <Route path="page/faq" component={Faq} />
       <Route path="page/agreement" component={Agreement} />
       <Route path="questions" component={Questions} />
-      <Route path="sections/:section" component={Sections} />
+      <Route path="sections/:section(/:page)" component={Sections} />
       <Route path="sections/:section/:tags/new" component={SectionTag} slug="new" />
       <Route path="sections/:section/:tags/popular" component={SectionTag} filter="popular" />
       <Route path="sections/:section/:tags/nearest" component={SectionTag} filter="near" />

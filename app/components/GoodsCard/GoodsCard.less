@@ -12,35 +12,25 @@
   border: 1px solid @border;
   padding: 15px 10px;
   margin: 0 0.5% 1% 0.5%;
-  text-align: left;
 
   &__author {
     position: relative;
     padding-left: 70px;
     margin-bottom: 15px;
-    min-height: 60px;
 
     .avatar {
       width: 60px;
       height: 60px;
       left: 0;
-      border-radius: 50%;
-      overflow: hidden;
-
       .align-vertical;
-
-      &__img {
-        max-width: 100%;
-        max-height: 100%;
-      }
     }
   }
 
   &__name {
     font-family: 'ClearSansBold';
     font-size: 16px;
-    line-height: 60px;
-    color: @hoverText;
+    line-height: 20px;
+    color: #000;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -82,7 +72,7 @@
   &__price {
     font-size: 14px;
     line-height: 18px;
-    color: @hoverText;
+    color: #000;
     position: absolute;
     right: 0;
     top: 0;
@@ -108,11 +98,11 @@
       position: absolute;
 
       &-bag {
+        fill: @goods;
+        background-size: 19px 15px;
         width: 19px;
         height: 15px;
         top: 1px;
-        background-image: none;
-        fill: #1076ff;
       }
     }
   }

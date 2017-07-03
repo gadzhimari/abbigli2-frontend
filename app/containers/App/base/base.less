@@ -1,3 +1,7 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
 @font-face {
   font-family: 'ClearSans';
   src: url('/fonts/ClearSans/ClearSans-Regular.eot');
@@ -43,7 +47,7 @@ html, body {
   line-height: 24px;
   margin: 0;
   padding: 0;
-  color: #4e4d4d;
+  color: #000;
   overflow-x: hidden;
   height: 100%;
 }
@@ -74,6 +78,12 @@ input, textarea {
   }
 }
 
+h2 {
+  font-family: 'ClearSansBold';
+  font-size: 30px;
+  line-height: 34px;
+}
+
 .section {
   padding-top: 30px;
   border-top: 1px solid #dcdcdc;
@@ -81,13 +91,9 @@ input, textarea {
   clear: both;
 
   &__name {
-    font-family: 'ClearSansBold';
-    font-size: 30px;
-    line-height: 34px;
-    color: @hoverText;
-    margin-bottom: 30px;
+    margin: 0 0 30px 0;
 
-    span {
+    &-note {
       font-family: 'ClearSansBold';
       font-size: 16px;
       display: inline-block;
@@ -105,10 +111,11 @@ input, textarea {
 .section-title {
   font-size: 26px;
   line-height: 30px;
-  color: @hoverText;
   font-weight: normal;
   margin: 0 0 15px 0;
   position: relative;
+  width: auto;
+  text-align: left;
 
   span {
     color: @grayText;
@@ -126,6 +133,7 @@ input, textarea {
   }
 
   .icon-blog {
+    fill: @blog;
     background-size: 32px 33px;
     width: 32px;
     height: 33px;
@@ -144,6 +152,7 @@ input, textarea {
 .global-wrapper {
   min-height: 100%;
   position: relative;
+  padding-top: 80px;
   margin-bottom: -@footerHeight;
 
   &:after {
@@ -168,7 +177,7 @@ input, textarea {
 }
 
 .logo-gray {
-  background: url("/img/logo-gray.svg") no-repeat;
+  background: url("/images/logo-gray.svg") no-repeat;
 }
 
 .show-more {

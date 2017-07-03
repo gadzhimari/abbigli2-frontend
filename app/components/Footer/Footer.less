@@ -1,0 +1,124 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.footer {
+  height: @footerHeight;
+  background-color: #e0e0e0;
+  position: relative;
+  clear: both;
+
+  &__content {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 20px 25px;
+    position: relative;
+  }
+
+  .logo-gray {
+    background-size: 136px 35px;
+    position: absolute;
+    left: 25px;
+    width: 136px;
+    height: 35px;
+    top: 25px;
+  }
+
+  &__links {
+    margin-top: 8px;
+    text-align: center;
+    padding: 0 280px 0 155px;
+  }
+  &__copyright {
+    font-size: 14px;
+    line-height: 18px;
+    color: @grayText;
+    margin-right: 15px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  &__link {
+    color: #4e4d4d;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 30px;
+  }
+  &__youtube {
+    background: url("/images/icons/youtube.png") no-repeat;
+    background-size: 55px 23px;
+    width: 55px;
+    height: 23px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .social-networks {
+    position: absolute;
+    right: 25px;
+    top: 20px;
+  }
+
+  .social-btn {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+@media only screen and (min-width: 761px) and (max-width: 1100px) {
+  .footer {
+    &__link {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .footer {
+    height: 200px;
+    &__links {
+      padding: 0;
+    }
+    &__copyright {
+      display: block;
+      margin: 0 0 10px 0;
+    }
+
+    .logo-gray {
+      position: relative;
+      margin: 0 auto;
+      left: auto;
+      top: auto;
+      display: block;
+    }
+    .social-networks {
+      text-align: center;
+      position: relative;
+      right: auto;
+      top: auto;
+      margin-top: 15px;
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .footer {
+    &__youtube {
+      display: none;
+    }
+    &__link {
+      &_blog {
+        display: none;
+      }
+      &_help {
+        margin-right: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.tag-card {
+  display: inline-block;
+  vertical-align: top;
+  width: 19%;
+  border: 1px solid @border;
+  background-color: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 0 0.5% 1% 0.5%;
+  transition: box-shadow 0.3s linear;
+  color: #4e4d4d;
+
+  &__img-wrap {
+    overflow: hidden;
+    height: 174px;
+    position: relative;
+  }
+
+  &__img {
+    min-height: 100%;
+    width: 100%;
+    .align-full;
+  }
+
+  &__name {
+    font-family: 'ClearSansBold';
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 10px 10px 15px 10px;
+  }
+
+  &:hover {
+    box-shadow: 0 0 4px @grayText;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+  .tag-card {
+    width: 24%;
+
+    &__img-wrap {
+      height: 130px;
+    }
+    &__img {
+      width: 100%;
+    }
+
+    &:nth-child(5n) {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 760px) {
+  .tag-card {
+    width: 49%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .tag-card {
+    width: 100%;
+    margin: 0 0 10px;
+  }
+}

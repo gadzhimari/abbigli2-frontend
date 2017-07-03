@@ -1,0 +1,47 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.breadcrumbs {
+  margin-bottom: 15px;
+
+  &__item {
+    font-size: 14px;
+    line-height: 18px;
+    color: @grayText;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 10px;
+    margin-right: 5px;
+
+    &:after {
+      content: '';
+      display: block;
+      width: 3px;
+      height: 7px;
+      background: url("/images/icons/breadcrumbs-arrow.svg") no-repeat;
+      background-size: 3px 7px;
+      position: absolute;
+      right: 0;
+      top: 7px;
+    }
+
+    &:last-child {
+      padding: 0;
+      &:after {
+        display: none;
+      }
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .breadcrumbs {
+    text-align: center;
+  }
+}

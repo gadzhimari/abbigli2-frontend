@@ -1,0 +1,201 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.user {
+  font-size: 15px;
+  line-height: 19px;
+  color: @grayText;
+
+  .avatar {
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  &:hover {
+    color: #000;
+    text-decoration: underline;
+  }
+}
+
+.avatar {
+  border-radius: 50%;
+  overflow: hidden;
+
+  &__img {
+    max-width: 100%;
+  }
+}
+
+.new-post {
+  border: 1px solid @border;
+  background-color: @grayBg;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 49%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0.5% 1% 0.5%;
+
+  &__img-wrap {
+    height: 140px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+  }
+  &__img {
+    min-height: 100%;
+    .align-full;
+  }
+  &__info {
+    color: #000;
+    min-height: 90px;
+    position: relative;
+    padding: 10px 20px 5px 210px;
+  }
+  &__rubric {
+    font-family: 'ClearSansBold';
+    font-size: 36px;
+    line-height: 36px;
+    color: #aeaeae;
+    left: 20px;
+    text-transform: uppercase;
+    max-width: 170px;
+    .align-vertical;
+
+  }
+  &__title {
+    font-family: 'ClearSansBold';
+    font-size: 18px;
+    line-height: 22px;
+    color: #000;
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &__date {
+    font-size: 13px;
+    line-height: 18px;
+    min-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left: 30px;
+    text-overflow: ellipsis;
+  }
+  &__city {
+    font-size: 14px;
+    line-height: 18px;
+    padding-left: 10px;
+  }
+  &__price {
+    font-size: 16px;
+    line-height: 20px;
+    color: #000;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .user-wrap {
+    margin-top: 5px;
+    position: relative;
+  }
+  .avatar {
+    width: 25px;
+    height: 25px;
+  }
+
+  .icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    &-blog {
+      fill: @blog;
+      background-size: 23px 23px;
+      width: 23px;
+      height: 23px;
+    }
+    &-event {
+      fill: @event;
+      background-size: 25px 26px;
+      width: 25px;
+      height: 26px;
+    }
+    &-bag {
+      fill: @goods;
+      background-size: 27px 23px;
+      width: 27px;
+      height: 23px;
+    }
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+  .new-post {
+    &__rubric {
+      font-size: 28px;
+      line-height: 30px;
+    }
+    &__info {
+      min-height: 70px;
+      padding-left: 170px;
+    }
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 980px) {
+  .new-post {
+    .user {
+      font-size: 12px;
+      line-height: 16px;
+    }
+    &__price {
+      font-size: 14px;
+      line-height: 18px;
+      top: 2px;
+    }
+    &__info {
+      padding-right: 10px;
+    }
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .new-post {
+    &__rubric {
+      font-size: 16px;
+      line-height: 20px;
+      position: relative;
+      left: 0;
+      top: 0;
+      transform: none;
+      margin-bottom: 5px;
+    }
+    &__info {
+      min-height: 50px;
+      padding: 10px
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .new-post {
+    display: block;
+    width: 100%;
+    margin: 0 0 10px 0;
+    &__title {
+      white-space: normal;
+    }
+    &__date {
+      min-height: auto;
+    }
+  }
+}

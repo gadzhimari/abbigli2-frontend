@@ -1,0 +1,92 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.choice-section {
+  position: relative;
+
+  .input-wrap {
+    position: relative;
+    padding: 0;
+
+    &:before {
+      .arrow-dropdown;
+    }
+  }
+
+  .input {
+    padding-right: 30px;
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: 55px;
+    left: -20px;
+    background-color: #f5f5f5;
+    border-radius: 3px;
+    border: 1px solid @border;
+    width: 400px;
+    padding: 15px;
+    z-index: 10;
+
+    &:before {
+      position: absolute;
+      top: -8px;
+      left: 70px;
+      .triangle(top, 8px, 8px, @border);
+
+    }
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 71px;
+      top: -7px;
+      .triangle(top, 7px, 7px, #f5f5f5);
+    }
+  }
+
+  &__item {
+    font-size: 14px;
+    line-height: 18px;
+    display: inline-block;
+    vertical-align: top;
+    color: @grayText;
+
+    &:nth-child(odd) {
+      margin-right: 20px;
+      width: 180px;
+    }
+    &:nth-child(even) {
+      width: 160px;
+    }
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  &.open {
+    .choice-section__dropdown {
+      display: block;
+    }
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .choice-section {
+    &__dropdown {
+      left: 0;
+      width: 100%;
+    }
+    &__item {
+      &:nth-child(odd) {
+        width: 48%;
+        margin-right: 2%;
+      }
+      &:nth-child(even) {
+        width: 48%;
+      }
+    }
+  }
+}

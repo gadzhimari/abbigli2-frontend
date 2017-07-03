@@ -1,10 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ShareButton from '../Share/Buttons/ShareButton';
 import { socialGroupsUrl, location } from 'config';
 
-const SocialGroups = () => (
-  <div className="social-buttons">
+const SocialGroups = ({
+  wrapperClassName,
+}) => (
+  <div className={wrapperClassName}>
     <ShareButton
       className="social-btn"
       provider="facebook"
@@ -41,5 +44,13 @@ const SocialGroups = () => (
     }
   </div>
 );
+
+SocialGroups.defaultProps = {
+  wrapperClassName: 'social-buttons',
+};
+
+SocialGroups.propTypes = {
+  wrapperClassName: PropTypes.string,
+};
 
 export default SocialGroups;
