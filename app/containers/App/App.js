@@ -173,9 +173,7 @@ class App extends Component {
             options={popupOptions}
           />
 
-          <main className="main">
-            {children}
-          </main>
+          {children}
         </ContentWrapper>
         <Footer
           openPopup={this.modalButtonClick}
