@@ -9,6 +9,7 @@ import {
   Loading,
   PageSwitcher,
   NewPost,
+  ListWithNew,
 } from 'components';
 
 import { fetchData } from 'ducks/SubSections';
@@ -32,66 +33,56 @@ class Sections extends Component {
       url: `/sections/${params.section}`,
     }];
 
+    const newData = [{
+      id: 0,
+      type: 4,
+      title: 'Blog title',
+      author: {
+        name: 'Mike',
+      },
+    },
+    {
+      id: 1,
+      type: 3,
+      title: 'Event title',
+      date: '22.07.2017',
+      author: {
+        name: 'Mike',
+      },
+    }];
+
     return (
-      <div className="content">
-        <BreadCrumbs
-          crumbs={crumbs}
-        />
-        <h1 className="section-title">{activeSections.title}</h1>
-        <a
-          className="filter-open"
-          onClick={openMobileFilters}
-        >
-          {__t('Filters')}
-        </a>
-        <Filters />
-        {
-          isFetching
-            ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
-            : <div className="cards-wrap">
-              {
-                items.slice(0, 10).map(item => <CardTag
-                  key={item.id}
-                  title={item.title}
-                  preview={item.preview}
-                  slug={params.section}
-                />)
-              }
-              <NewPost
-                data={{
-                  type: 4,
-                  title: 'Blog title',
-                  author: {
-                    name: 'Mike',
-                  },
-                }}
+      <main className="main">
+        <div className="content">
+          <BreadCrumbs
+            crumbs={crumbs}
+          />
+          <h1 className="section-title">{activeSections.title}</h1>
+          <a
+            className="filter-open"
+            onClick={openMobileFilters}
+          >
+            {__t('Filters')}
+          </a>
+          <Filters />
+          {
+            isFetching
+              ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
+              : <ListWithNew
+                ItemComponent={CardTag}
+                items={items}
+                newItems={newData}
+                itemProps={{ slug: params.section }}
+                count={10}
               />
-              <NewPost
-                data={{
-                  type: 3,
-                  title: 'Event title',
-                  date: '22.07.2017',
-                  author: {
-                    name: 'Mike',
-                  },
-                }}
-              />
-              {
-                items.slice(10).map(item => <CardTag
-                  key={item.id}
-                  title={item.title}
-                  preview={item.preview}
-                  slug={params.section}
-                />)
-              }
-            </div>
-        }
-        {
-          !isFetching
-          &&
-          <PageSwitcher />
-        }
-      </div >
+          }
+          {
+            !isFetching
+            &&
+            <PageSwitcher />
+          }
+        </div>
+      </main>
     );
   }
 }

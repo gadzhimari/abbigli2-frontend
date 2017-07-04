@@ -69,3 +69,4 @@ export { default as ChoiceColor } from './ChoiceColor';
 export { default as PageSwitcher } from './PageSwitcher';
 export { default as NewPost } from './NewPost';
 export { default as ChoiceRadius } from './ChoiceRadius';
+export { default as ListWithNew } from './ListWithNew';

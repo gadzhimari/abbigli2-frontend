@@ -1,0 +1,33 @@
+@import 'base';
+@import 'variables';
+@import 'mixin';
+
+.blog {
+  .pagination__nav:not(.disabled) {
+    background-color: @blog;
+  }
+  .filter {
+    padding-left: 200px;
+    .select-wrap {
+      padding: 20px 30px 20px 20px;
+      border-right: 1px solid #dcdcdc;
+      margin: 0;
+      width: 200px;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .select {
+      width: 100%;
+    }
+    &:after {
+      display: none;
+    }
+  }
+
+  .content {
+    .default-button {
+      .button(blog);
+    }
+  }
+}

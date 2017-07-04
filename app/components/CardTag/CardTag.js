@@ -8,28 +8,29 @@ import './CardTag.less';
 
 const CardTag = ({
   slug,
-  title,
-  preview,
+  data,
 }) => (
   <Link
     className="tag-card"
-    to={`/sections/${slug}/${title}`}
+    to={`/sections/${slug}/${data.title}`}
   >
     <div className="tag-card__img-wrap">
       <img
         className="tag-card__img"
-        src={`${DOMAIN_URL}thumbs/unsafe/251x207/${preview}`}
-        alt={title}
+        src={`${DOMAIN_URL}thumbs/unsafe/251x207/${data.preview}`}
+        alt={data.title}
       />
     </div>
-    <div className="tag-card__name">#{title}</div>
+    <div className="tag-card__name">#{data.title}</div>
   </Link>
 );
 
 CardTag.propTypes = {
   slug: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  preview: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    title: PropTypes.string,
+    preview: PropTypes.string,
+  }).isRequired,
 };
 
 export default CardTag;

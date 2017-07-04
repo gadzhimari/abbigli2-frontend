@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import TagsList from './components/TagsList';
 import SliderButtons from './components/SliderButtons';
 
-import './index.styl';
+import './index.less';
 
 const propTypes = {
   tags: PropTypes.array.isRequired,
@@ -15,9 +15,8 @@ class TagsBar extends Component {
   constructor() {
     super();
     this.state = {
-      slideRight: 0,
-      sliderWidth: 20000,
-      sliderWrapperWidth: 0,
+      slidedRight: 0,
+      maxSlided: 0,
       factor: window.innerWidth > 500
         ? 3
         : 1,
@@ -25,127 +24,103 @@ class TagsBar extends Component {
   }
 
   componentDidMount() {
-    this.setContainerWidth();
-
-    window.addEventListener('resize', this.updateWrapperWidth);
+    this.calculateMaxSlided();
   }
 
   componentDidUpdate(prevProps) {
-    const { tags } = this.props;
+    // const { tags } = this.props;
 
-    if (
-      prevProps.tags !== tags
-        &&
-      this.state.slideRight !== 0
-    ) {
-      this.updateWrapperWidth();
-    }
-  }
-
-  setContainerWidth = () => {
-    const { tags } = this.props;
-
-    this.setState({
-      sliderWidth: tags.length * (186 + 20),
-      sliderWrapperWidth: this.sliderWrapper.offsetWidth,
-    });
-  }
-
-  updateWrapperWidth = () => {
-    if (!this.sliderWrapper) return;
-
-    this.setState({
-      sliderWrapperWidth: this.sliderWrapper.offsetWidth,
-    });
+    // if (
+    //   prevProps.tags !== tags
+    //   &&
+    //   this.state.slideRight !== 0
+    // ) {
+    //   this.updateWrapperWidth();
+    // }
   }
 
   сomponentWillUnmount() {
     window.removeEventListener('resize', this.updateWrapperWidth);
   }
 
-  slideRight = () => {
-    const { slideRight, sliderWrapperWidth, sliderWidth, factor } = this.state;
-    let newSliderRight = slideRight + ((186 + 20) * factor);
+  calculateMaxSlided = () => {
+    const wContainer = this.container.offsetWidth;
+    const wTags = 175 * this.props.tags.length;
+    const difference = wTags - wContainer;
 
-    if ((newSliderRight + sliderWrapperWidth) > sliderWidth) {
-      newSliderRight = sliderWidth - sliderWrapperWidth;
-    }
+    if (difference < 0) return;
 
-    this.sliderContainer.style.transform = `translate3d(-${newSliderRight}px, 0px, 0px);`;
-    this.sliderContainer.style['-webkit-transform'] = `translate3d(-${newSliderRight}px, 0px, 0px);`;
+    console.log(wContainer, wTags);
 
     this.setState({
-      slideRight: newSliderRight,
+      maxSlided: difference / 175,
+    });
+  }
+
+  slideRight = () => {
+    const { slidedRight, factor, maxSlided } = this.state;
+
+    if (slidedRight === maxSlided) return;
+
+    let newSlidedRight;
+
+    if ((slidedRight + factor) > maxSlided) {
+      newSlidedRight = maxSlided;
+    } else {
+      newSlidedRight = slidedRight + factor;
+    }
+
+    this.setState({
+      slidedRight: newSlidedRight,
     });
   }
 
   slideLeft = () => {
-    const { slideRight, factor } = this.state;
-    let newSliderRight = slideRight - ((186 + 20) * factor);
+    const { slidedRight, factor } = this.state;
 
-    if (newSliderRight < 0) {
-      newSliderRight = 0;
+    if (slidedRight === 0) return;
+
+    let newSlidedRight;
+
+    if ((slidedRight - factor) < 0) {
+      newSlidedRight = 0;
+    } else {
+      newSlidedRight = slidedRight - factor;
     }
 
-    this.sliderContainer.style.transform = `translate3d(-${newSliderRight}px, 0px, 0px);`;
-    this.sliderContainer.style['-webkit-transform'] = `translate3d(-${newSliderRight}px, 0px, 0px);`;
-
     this.setState({
-      slideRight: newSliderRight,
+      slidedRight: newSlidedRight,
     });
   }
 
   resetSliderPosition = () => {
     this.setState({
-      slideRight: 0,
+      slidedRigth: 0,
     });
   }
 
 
   render() {
     const { tags, previousTags, link } = this.props;
-    const { slideRight, sliderWidth, sliderWrapperWidth } = this.state;
-
-    const shouldRightButtonShow = (slideRight + sliderWrapperWidth) < sliderWidth;
-    const shouldLeftButtonShow = slideRight !== 0;
+    const { maxSlided, slidedRight } = this.state;
 
     return (
-      <div className="flexslider carousel">
+      <div className="slider-tags">
         <div
-          className="flex-viewport"
-          style={{ overflow: 'hidden', position: 'relative' }}
-          ref={wrapper => (this.sliderWrapper = wrapper)}
+          className="slider-tags__viewport"
+          ref={container => (this.container = container)}
         >
-          <div
-            className="slides"
-            ref={slider => (this.sliderContainer = slider)}
-            style={{
-              width: `${sliderWidth}px`,
-              transitionDuration: '0.5s',
-              transform: `translate3d(-${slideRight}px, 0px, 0px)`,
-              WebkitTransform: `translate3d(-${slideRight}px, 0px, 0px)`,
-            }}
-          >
-            <TagsList
-              tags={tags}
-              previousTags={previousTags}
-              onClick={this.resetSliderPosition}
-              link={link}
-            />
-          </div>
+          <TagsList
+            tags={tags}
+            slidedRight={this.state.slidedRight}
+          />
+          <SliderButtons
+            slideRight={this.slideRight}
+            slideLeft={this.slideLeft}
+            showLeft={slidedRight !== 0}
+            showRight={maxSlided !== slidedRight}
+          />
         </div>
-        {
-          sliderWidth > sliderWrapperWidth
-            ? (
-              <SliderButtons
-                slideLeft={this.slideLeft}
-                slideRight={this.slideRight}
-                shouldRightButtonShow={shouldRightButtonShow}
-                shouldLeftButtonShow={shouldLeftButtonShow}
-              />
-            )
-            : null
-        }
       </div>
     );
   }
