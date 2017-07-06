@@ -1,0 +1,109 @@
+@import 'base';
+@import 'variables';
+@import 'mixin';
+
+.subscription-article {
+  background-color: #f2f2f2;
+  padding: 15px 25px;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  &__wrap {
+    padding: 0 64% 0 130px;
+    position: relative;
+  }
+
+  &__avatar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 115px;
+    height: 115px;
+    overflow: hidden;
+    border-radius: 3px;
+    border: 1px solid #afafaf;
+
+    img {
+      max-width: 100%;
+      .align-full;
+    }
+  }
+
+  &__author {
+    &-name {
+      font-family: 'ClearSansBold';
+      font-size: 24px;
+      line-height: 28px;
+      color: #000;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+    &-city {
+      color: @grayText;
+      margin: 10px 0;
+      position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-left: 20px;
+      .icon {
+        fill: #C2C2C2;
+        background-size: 14px 20px;
+        width: 14px;
+        height: 20px;
+        left: 0;
+        top: 2px;
+        position: absolute;
+      }
+    }
+  }
+
+  .other-articles {
+    position: absolute;
+    right: 0;
+    top: 11px;
+  }
+
+  .default-button {
+    .button(transparent);
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 1023px) {
+  .subscription-article__wrap {
+    padding-right: 51%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .subscription-article {
+    padding: 10px;
+    &__wrap {
+      padding: 0 0 0 110px;
+    }
+    &__avatar {
+      width: 95px;
+      height: 95px;
+    }
+    &__author-name {
+      font-size: 18px;
+      line-height: 22px;
+    }
+    &__author-city {
+      margin: 5px 0 7px;
+    }
+
+    .default-button {
+      display: block;
+      padding: 5px 0 7px;
+      width: 100%;
+      max-width: 200px;
+    }
+  }
+}

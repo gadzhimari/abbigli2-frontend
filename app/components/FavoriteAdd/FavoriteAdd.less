@@ -1,0 +1,205 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.favourite-add {
+  .subscription {
+    &__icon {
+      width: 55px;
+      height: 38px;
+      border-radius: 3px;
+      .icon {
+        background-size: 22px 16px;
+        width: 22px;
+        height: 16px;
+        margin: 9px 0 0 8px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      &:after {
+        content: '';
+        .triangle(bottom, 6px, 6px, #b9b9b9);
+        display: inline-block;
+        vertical-align: middle;
+        margin: 10px 0 0 2px;
+      }
+    }
+    &__dropdown {
+      top: 52px;
+    }
+  }
+
+  .favourite-button {
+    margin-right: 8px;
+  }
+}
+
+@media only screen and (min-width: 761px) {
+  .content {
+    .favourite-add {
+      display: none;
+    }
+  }
+}
+
+.favourite-button {
+  background-color: #fff;
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid #c2c2c2;
+  cursor: pointer;
+  padding: 6px 15px 6px 40px;
+  border-radius: 3px;
+  position: relative;
+  white-space: nowrap;
+
+  .icon {
+    fill: #DB0E16;
+    background-size: 20px 18px;
+    width: 20px;
+    height: 18px;
+    position: absolute;
+    left: 12px;
+    top: 10px;
+  }
+
+  &:hover {
+    background-color: #eeeeee;
+  }
+}
+
+.subscription {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+
+  &__icon {
+    background-color: #fff;
+    position: relative;
+    border: 1px solid #b9b9b9;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    .icon {
+      display: block;
+      fill: #b9b9b9;
+      background-size: 14px 10px;
+      width: 14px;
+      height: 10px;
+      margin: 8px auto 0;
+    }
+
+    &:hover {
+      border-color: #c7c7c7;
+      .icon {
+        fill: #c7c7c7;
+      }
+    }
+  }
+
+  &__dropdown {
+    font-size: 0;
+    background-color: #fff;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    width: 180px;
+    display: none;
+    border-radius: 3px;
+    padding: 10px;
+    border: 1px solid @border;
+    z-index: 10;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -8px;
+      right: 5px;
+      .triangle(top, 8px, 8px, @border);
+
+    }
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      right: 6px;
+      top: -7px;
+      .triangle(top, 7px, 7px, #fff);
+    }
+  }
+
+  &.active {
+    .subscription__dropdown {
+      display: block;
+    }
+    .subscription__icon {
+      .icon {
+        fill: #f54e4e;
+      }
+    }
+  }
+
+  &__item {
+    font-size: 14px;
+    color: #747474;
+    cursor: pointer;
+    margin-bottom: 5px;
+    padding-left: 5px;
+    &:hover {
+      text-decoration: underline;
+    }
+    .icon {
+      fill: #f54e4e;
+      display: inline-block;
+      vertical-align: middle;
+      width: 8px;
+      height: 6px;
+      margin-left: 3px;
+    }
+  }
+
+  &__input {
+    font-family: 'ClearSans';
+    font-size: 14px;
+    color: #747474;
+    line-height: 18px;
+    padding: 5px 9px;
+    border: 1px solid #bab9b8;
+    border-radius: 3px;
+    width: 125px;
+    margin-right: 3px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  &__button {
+    background-color: #f22222;
+    border-radius: 3px;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    border: none;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+
+    .icon {
+      fill: #fff;
+      background-size: 15px 11px;
+      width: 15px;
+      height: 11px;
+      margin-left: 1px;
+    }
+
+    &:hover {
+      background-color: #e70303;
+    }
+    &:active {
+      background-color: #cf0000;
+      box-shadow: 0 0 2px #b10000 inset;
+    }
+  }
+}

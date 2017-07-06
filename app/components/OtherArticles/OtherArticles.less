@@ -1,0 +1,58 @@
+@import 'base';
+@import 'variables';
+@import 'mixin';
+
+.other-articles {
+  &__item {
+    display: inline-block;
+    vertical-align: top;
+    width: 110px;
+    height: 94px;
+    overflow: hidden;
+    border-radius: 3px;
+    border: 1px solid #afafaf;
+    margin-left: 10px;
+    position: relative;
+    background-color: #fff;
+
+    img {
+      width: 100%;
+      .align-full;
+    }
+
+    &:first-child {
+      margin: 0;
+    }
+
+    &-text {
+      line-height: 20px;
+      color: @grayText;
+      text-align: center;
+      .align-full;
+    }
+
+    &:hover {
+      box-shadow: 0 0 3px #c1c2c2;
+      .other-articles__item-text {
+        color: #464646;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .other-articles {
+    &__item {
+      &:nth-child(4),
+      &:nth-child(5) {
+        display: none;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .other-articles {
+    display: none;
+  }
+}

@@ -12,7 +12,7 @@ const PREPEND = 'abbigli/Comments/PREPEND';
 // Reducer
 export default function (state = {
   isFetching: false,
-  items: []
+  items: [],
 }, action = {}) {
   switch (action.type) {
     case SET:
@@ -70,7 +70,7 @@ export function sendComment(data) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`
+      Authorization: `JWT ${token}`,
     },
     body: JSON.stringify({
       comment: (data.comment),
@@ -78,12 +78,16 @@ export function sendComment(data) {
     }),
   };
 
-  return dispatch => fetch(ENDPOINT.replace(':slug', data.slug), config)
-    .then(res => res.json())
-    .then((responseData) => {
-      if (responseData) {
-        dispatch(fetchData(data.slug));
-      }
-    }).catch(err => console.log("Error: ", err))
+  return (dispatch) => {
+    dispatch(requestData());
+
+    fetch(ENDPOINT.replace(':slug', data.slug), config)
+      .then(res => res.json())
+      .then((responseData) => {
+        if (responseData) {
+          dispatch(fetchData(data.slug));
+        }
+      }).catch(err => console.log("Error: ", err))
+  };
 }
 

@@ -1,15 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import Hummer from 'react-hammerjs';
 
 import TagsList from './components/TagsList';
 import SliderButtons from './components/SliderButtons';
 
-import './index.less';
+import { debounce } from 'utils/functions';
 
-const propTypes = {
-  tags: PropTypes.array.isRequired,
-  previousTags: PropTypes.string,
-  link: PropTypes.string,
-};
+import './index.less';
 
 class TagsBar extends Component {
   constructor() {
@@ -21,26 +18,25 @@ class TagsBar extends Component {
         ? 3
         : 1,
     };
+
+    this.calculateOnResize = debounce(this.calculateMaxSlided, 300, this);
   }
 
   componentDidMount() {
     this.calculateMaxSlided();
+    window.addEventListener('resize', this.calculateOnResize);
   }
 
   componentDidUpdate(prevProps) {
-    // const { tags } = this.props;
+    const { tags } = this.props;
 
-    // if (
-    //   prevProps.tags !== tags
-    //   &&
-    //   this.state.slideRight !== 0
-    // ) {
-    //   this.updateWrapperWidth();
-    // }
+    if (prevProps.tags !== tags) {
+      this.calculateMaxSlided();
+    }
   }
 
   сomponentWillUnmount() {
-    window.removeEventListener('resize', this.updateWrapperWidth);
+    window.removeEventListener('resize', this.calculateOnResize);
   }
 
   calculateMaxSlided = () => {
@@ -48,12 +44,18 @@ class TagsBar extends Component {
     const wTags = 175 * this.props.tags.length;
     const difference = wTags - wContainer;
 
-    if (difference < 0) return;
-
-    console.log(wContainer, wTags);
+    if (difference < 0) {
+      return this.setState({
+        maxSlided: 0,
+        slidedRight: 0,
+        factor: window.innerWidth > 500 ? 3 : 1,
+      });
+    }
 
     this.setState({
       maxSlided: difference / 175,
+      slidedRight: 0,
+      factor: window.innerWidth > 500 ? 3 : 1,
     });
   }
 
@@ -99,6 +101,20 @@ class TagsBar extends Component {
     });
   }
 
+  onSwipeHandler = (e) => {
+    switch (e.direction) {
+      case (2): {
+        return this.slideRight();
+      }
+      case (4): {
+        return this.slideLeft();
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
 
   render() {
     const { tags, previousTags, link } = this.props;
@@ -106,26 +122,41 @@ class TagsBar extends Component {
 
     return (
       <div className="slider-tags">
-        <div
-          className="slider-tags__viewport"
-          ref={container => (this.container = container)}
+        <Hummer
+          onSwipe={this.onSwipeHandler}
+          direction="DIRECTION_HORIZONTAL"
         >
-          <TagsList
-            tags={tags}
-            slidedRight={this.state.slidedRight}
-          />
-          <SliderButtons
-            slideRight={this.slideRight}
-            slideLeft={this.slideLeft}
-            showLeft={slidedRight !== 0}
-            showRight={maxSlided !== slidedRight}
-          />
-        </div>
+          <div
+            className="slider-tags__viewport"
+            ref={container => (this.container = container)}
+          >
+            <TagsList
+              tags={tags}
+              link={link}
+              previousTags={previousTags}
+              slidedRight={this.state.slidedRight}
+            />
+            <SliderButtons
+              slideRight={this.slideRight}
+              slideLeft={this.slideLeft}
+              showLeft={slidedRight !== 0}
+              showRight={maxSlided !== slidedRight}
+            />
+          </div>
+        </Hummer>
       </div>
     );
   }
 }
 
-TagsBar.propTypes = propTypes;
+TagsBar.defaultProps = {
+  link: '',
+};
+
+TagsBar.propTypes = {
+  tags: PropTypes.array.isRequired,
+  previousTags: PropTypes.string,
+  link: PropTypes.string,
+};
 
 export default TagsBar;

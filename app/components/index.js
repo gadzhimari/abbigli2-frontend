@@ -70,3 +70,7 @@ export { default as PageSwitcher } from './PageSwitcher';
 export { default as NewPost } from './NewPost';
 export { default as ChoiceRadius } from './ChoiceRadius';
 export { default as ListWithNew } from './ListWithNew';
+export { default as AuthorInfo } from './AuthorInfo';
+export { default as OtherArticles } from './OtherArticles';
+export { default as Sidebar } from './Sidebar';
+export { default as FavoriteAdd } from './FavoriteAdd';

@@ -1,0 +1,54 @@
+@import 'base';
+@import 'variables';
+@import 'mixin';
+
+.article {
+  .content {
+    max-width: 850px;
+    margin: 0 310px 40px 0;
+    float: left;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .textarea-wrap {
+    margin-top: 40px;
+  }
+}
+
+@media only screen and (min-width: 761px) {
+  .article {
+    .section-title {
+      font-family: 'ClearSansBold';
+      font-size: 40px;
+      line-height: 48px;
+      .icon-blog {
+        background-size: 43px 45px;
+        width: 43px;
+        height: 45px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .article {
+    .content {
+      float: none;
+      margin: 0;
+    }
+    .section-title {
+      text-align: left;
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .article {
+    .breadcrumbs {
+      display: none;
+    }
+  }
+}

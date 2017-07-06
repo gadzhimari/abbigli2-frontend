@@ -26,11 +26,15 @@ const BreadCrumbs = ({
     </div>
   );
 
+BreadCrumbs.defaultProps = {
+  crumbs: [],
+};
+
 BreadCrumbs.propTypes = {
   crumbs: PropTypes.arrayOf(PropTypes.shape({
     url: PropTypes.string,
     title: PropTypes.string,
-  })).isRequired,
+  })),
 };
 
 export default BreadCrumbs;

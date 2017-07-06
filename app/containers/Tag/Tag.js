@@ -3,27 +3,21 @@ import { connect } from 'preact-redux';
 import Helmet from 'react-helmet';
 
 import {
-  CardsWrap,
-  CardsSort,
-  CardsSortItem,
+  BreadCrumbs,
   TagsBar,
-  EventButtons,
+  Filters,
   Loading,
-  Link,
-  CardProduct,
+  ListWithNew,
+  PageSwitcher,
 } from 'components';
+
+import { Product } from 'components/Cards';
 
 import { fetchPosts, fetchTags } from 'ducks/TagSearch/actions';
 
 import { __t } from './../../i18n/translator';
 
 import './Tag.styl';
-
-const propTypes = {
-  routeParams: PropTypes.object,
-  dispatch: PropTypes.func,
-  isAuthenticated: PropTypes.bool,
-};
 
 class Tag extends Component {
   constructor(props) {
@@ -86,6 +80,24 @@ class Tag extends Component {
       priceTemplate,
     } = this.props;
 
+    const newData = [{
+      id: 0,
+      type: 4,
+      title: 'Blog title',
+      author: {
+        name: 'Mike',
+      },
+    },
+    {
+      id: 1,
+      type: 3,
+      title: 'Event title',
+      date: '22.07.2017',
+      author: {
+        name: 'Mike',
+      },
+    }];
+
     return (
       <div>
         {
@@ -93,20 +105,59 @@ class Tag extends Component {
           &&
           <TagsBar
             tags={tags}
+            previousTags={routeParams.tags}
           />
         }
+        <main className="main">
+          <BreadCrumbs />
+          <div className="content">
+            <h1 className="section-title">
+              <span>Результаты поиска</span>
+              {' '}
+              {`"${routeParams.tags.split(',').join(' ')}"`}
+              <div className="section-title__subscribe">
+                <button className="default-button" type="button">
+                  + Подписаться
+                </button>
+                <a className="filter-open">
+                  Фильтры
+                </a>
+              </div>
+            </h1>
+            <Filters />
+            {
+              isFetching
+                ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
+                : <ListWithNew
+                  ItemComponent={Product}
+                  items={items}
+                  newItems={newData}
+                  count={4}
+                  itemProps={{ priceTemplate }}
+                />
+            }
+            {
+              !isFetching
+              &&
+              <PageSwitcher />
+            }
+          </div>
+        </main>
       </div>
     );
   }
 }
 
-Tag.propTypes = propTypes;
+Tag.propTypes = {
+  routeParams: PropTypes.object,
+  dispatch: PropTypes.func,
+  isAuthenticated: PropTypes.bool,
+};
 
 const mapStateToProps = ({
   Auth,
   Settings,
-  TagSearch,
-}) => ({
+  TagSearch }) => ({
     isAuthenticated: Auth.isAuthenticated,
     priceTemplate: Settings.data.CURRENCY,
     items: TagSearch.items,

@@ -1,0 +1,138 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.comment {
+  margin-bottom: 30px;
+  position: relative;
+  padding-left: 250px;
+
+  &__text {
+    position: relative;
+    padding: 20px;
+    border: 1px solid @border;
+    border-radius: 5px;
+    background-color: #fff;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 21px;
+      left: -9px;
+      .triangle(left, 9px, 9px, #fff);
+    }
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 20px;
+      left: -10px;
+      .triangle(left, 10px, 10px, @border);
+    }
+  }
+  &__user {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    padding-left: 70px;
+  }
+  &__date {
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 5px;
+  }
+  &__author {
+    font-family: 'ClearSansBold';
+    color: #000;
+    &:hover {
+      color: #007bbd;
+    }
+  }
+
+  .avatar {
+    width: 56px;
+    height: 56px;
+    left: 0;
+    .align-vertical;
+  }
+}
+
+@media only screen and (min-width: 981px) {
+  .comments {
+    .show-more {
+      .show-more(down);
+      left: 270px;
+    }
+  }
+}
+
+@media only screen and (max-width: 980px) {
+  .comment {
+    padding: 0;
+    margin-bottom: 20px;
+    &__user {
+      position: relative;
+      margin-bottom: 20px;
+      top: 0;
+    }
+    &__text {
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -9px;
+        left: 17px;
+        .triangle(top, 9px, 9px, #fff);
+      }
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -10px;
+        left: 16px;
+        .triangle(top, 10px, 10px, @border);
+      }
+    }
+  }
+}
+
+.textarea {
+  font-family: 'ClearSans';
+  font-size: 16px;
+  line-height: 20px;
+  border: 1px solid @border;
+  width: 100%;
+  border-radius: 3px;
+  padding: 15px 20px;
+  color: #000;
+  min-height: 110px;
+  resize: none;
+  display: block;
+
+  &-wrap {
+    position: relative;
+  }
+
+  &_comment {
+    .textarea {
+      margin-bottom: 25px;
+    }
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -8px;
+      left: 36px;
+      .triangle(bottom, 9px, 9px, #fff);
+    }
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -9px;
+      left: 35px;
+      .triangle(bottom, 10px, 10px, @border);
+    }
+  }
+}

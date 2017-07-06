@@ -5,6 +5,8 @@ import Tag from './Tag';
 const TagsList = ({
   tags,
   slidedRight,
+  link,
+  previousTags,
 }) => {
   const containerStyles = {
     transform: `translateX(-${175 * slidedRight}px)`,
@@ -16,7 +18,12 @@ const TagsList = ({
       style={containerStyles}
     >
       {
-        tags.map(tag => <Tag tag={tag} key={tag.id} />)
+        tags.map(tag => <Tag
+          tag={tag}
+          key={tag.id}
+          link={link}
+          previousTags={previousTags}
+        />)
       }
     </div>
   );

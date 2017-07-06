@@ -2,7 +2,20 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { NotFound } from 'containers';
-import { Gallery } from 'components';
+
+import {
+  Gallery,
+  AuthorInfo,
+  OtherArticles,
+  BreadCrumbs,
+  Sidebar,
+  FavoriteAdd,
+  NewPost,
+  BlogCard,
+} from 'components';
+
+import { CommentsField, CommentsList } from 'components/Comments';
+
 import postLoader from 'App/HOC/postLoader';
 import ProductView from './Components/BlogView';
 
@@ -13,9 +26,30 @@ import { fetchPost, fetchNew, resetPost } from 'ducks/PostPage/actions';
 import { fetchData as fetchDataComments } from 'ducks/Comments';
 import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
 
+import { __t } from '../../i18n/translator';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import './BlogPage.less';
 
+
+const newData = [{
+  id: 0,
+  type: 4,
+  title: 'Blog title',
+  author: {
+    name: 'Mike',
+  },
+},
+{
+  id: 1,
+  type: 3,
+  title: 'Event title',
+  date: '22.07.2017',
+  author: {
+    name: 'Mike',
+  },
+}];
 
 class BlogPage extends Component {
   static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, 4, token))
@@ -34,10 +68,23 @@ class BlogPage extends Component {
     dispatch(resetPost());
   }
 
-  sendComment = (comment) => {
-    const { dispatch } = this.props;
+  componentDidMount() {
+    this.globalWrapper = document.querySelector('.global-wrapper');
 
-    dispatch(sendComment(comment));
+    this.globalWrapper.classList.add('blog', 'article');
+  }
+
+  componentWillUnmount() {
+    this.globalWrapper.classList.remove('blog', 'article');
+  }
+
+  sendComment = (comment) => {
+    const { dispatch, params } = this.props;
+
+    dispatch(sendComment({
+      comment,
+      slug: params.slug,
+    }));
   }
 
   renderSlider = () => {
@@ -73,30 +120,84 @@ class BlogPage extends Component {
       isDefined,
       isAuthenticated,
       dispatch,
+      isFetchingComments,
     } = this.props;
 
+    const crumbs = [{
+      title: __t('Blogs'),
+      url: '/blogs',
+    },
+    {
+      title: data.user.profile_name || `User ID: ${data.user.id}`,
+      url: `/profile/${data.user.id}`,
+    },
+    {
+      title: data.title,
+      url: `/blog/${data.slug}`,
+    }];
+
     return (
-      <div className="container-fluid blog-detail-page">
-        {
-          isDefined
-            ? (<div>
-              <ProductView
-                isFetchingBlogs={isFetchingBlogs}
-                isFetchingAuthors={isFetchingAuthors}
-                itemsAuthors={itemsAuthors}
-                itemsBlogs={itemsBlogs}
-                sendComment={this.sendComment}
-                commentsList={commentsList}
-                data={data}
-                renderSlider={this.renderSlider}
-                isAuthenticated={isAuthenticated}
-                dispatch={dispatch}
-              />
-              <BlogsPopular />
-            </div>)
-            : <NotFound />
-        }
-      </div>
+      <main>
+        <div className="subscription-article">
+          <div className="subscription-article__container">
+            <AuthorInfo data={data.user} />
+            <OtherArticles articles={itemsAuthors} />
+          </div>
+        </div>
+        <main className="main">
+          <BreadCrumbs crumbs={crumbs} />
+          <div className="content">
+            <h1 className="section-title">
+              <svg className="icon icon-blog" viewBox="0 0 51 52.7">
+                <path d="M51,9.4L41.5,0L31,10.4H4.1c-2.3,0-4.1,1.8-4.1,4.1v27.8c0,2.3,1.8,4.1,4.1,4.1h1.4l0.7,6.3 l8.3-6.3H38c2.3,0,4.1-1.8,4.1-4.1V18.1L51,9.4z M16.2,34.4l1-6.3l5.3,5.4L16.2,34.4z M47.2,9.4L24,32.2l-5.6-5.6l23-22.8L47.2,9.4z " />
+              </svg>
+              {data.title}
+            </h1>
+            {this.renderSlider()}
+            <div
+              dangerouslySetInnerHTML={{ __html: data.content }}
+            />
+            <FavoriteAdd />
+            <CommentsField
+              onSend={this.sendComment}
+            />
+            <CommentsList
+              comments={commentsList}
+            />
+          </div>
+          <Sidebar
+            data={data}
+            newPosts={itemsBlogs}
+          />
+          <div className="section">
+            <h2 className="section__name">Похожие статьи</h2>
+            <div className="cards-wrap">
+              {
+                itemsBlogs
+                  .slice(0, 4)
+                  .map(post => <BlogCard
+                    data={post}
+                    legacy
+                    key={`${post.id}--blog`}
+                  />)
+              }
+              <button className="default-button" type="button">
+                Показать еще
+              </button>
+            </div>
+          </div>
+          <div className="section">
+            <div className="cards-wrap">
+              {
+                newData.map(item => <NewPost
+                  data={item}
+                  key={item.id}
+                />)
+              }
+            </div>
+          </div>
+        </main>
+      </main>
     );
   }
 }
