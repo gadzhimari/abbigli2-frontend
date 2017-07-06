@@ -132,7 +132,7 @@ class App extends Component {
     return (
       <div className="app-wrapper">
         <ContentWrapper
-          contentWrapperClass=""
+          contentWrapperClass={openedPopup ? 'modal-open-new' : ''}
           modalButtonClick={this.modalButtonClick}
           itemsSections={itemsSections}
           isOpenMenu={mobileMenuOpened}
