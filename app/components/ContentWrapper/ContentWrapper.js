@@ -42,7 +42,7 @@ class ContentWrapper extends Component {
             wrapperClass={menuWrapperClass}
             closeMenu={closeMenu}
           />
-          <div className="global-wrapper">
+          <div className={contentWrapperClass}>
             {children}
           </div>
           <Footer
