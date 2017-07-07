@@ -7,7 +7,6 @@ import { DragDropContext } from 'react-dnd';
 
 import {
   Header,
-  Footer,
   Search,
   Sprites,
   AvatarBlock,
@@ -125,62 +124,54 @@ class App extends Component {
 
 
     const seoData = seo.data.filter(item => item.url == location.pathname)[0];
-    const shouldOpenModal = openedPopup;
 
     const Popup = getComponentFromObject(openedPopup, Popups);
 
     return (
-      <div className="app-wrapper">
-        <ContentWrapper
-          contentWrapperClass={openedPopup ? 'modal-open-new' : ''}
-          modalButtonClick={this.modalButtonClick}
-          itemsSections={itemsSections}
-          isOpenMenu={mobileMenuOpened}
-          closeMenu={this.closeMenu}
-          isFetchingSections={isFetchingSections}
-        >
-          <Helmet
-            {...appConfig.head}
-            title={seoData && seoData.seo_title}
-            meta={seoData && [
-              {
-                name: 'description',
-                content: seoData.seo_description,
-              },
-              {
-                name: 'keywords',
-                content: seoData.seo_keywords,
-              },
-            ]}
-          />
-          <Header>
-            <Search />
-            <AvatarBlock
-              isAuthenticated={isAuthenticated}
-              errorMessage={errorMessage}
-              dispatch={dispatch}
-              onLogoutClick={this.logoutUser}
-              toggleMenu={this.toggleMenu}
-              itemsSections={itemsSections}
-              isFetchingSections={isFetchingSections}
-            />
-          </Header>
-          <Sprites />
-
-          <Popup
+      <ContentWrapper
+        contentWrapperClass={openedPopup ? 'modal-open-new' : ''}
+        modalButtonClick={this.modalButtonClick}
+        itemsSections={itemsSections}
+        isOpenMenu={mobileMenuOpened}
+        closeMenu={this.closeMenu}
+        isFetchingSections={isFetchingSections}
+        openPopup={this.modalButtonClick}
+      >
+        <Helmet
+          {...appConfig.head}
+          title={seoData && seoData.seo_title}
+          meta={seoData && [
+            {
+              name: 'description',
+              content: seoData.seo_description,
+            },
+            {
+              name: 'keywords',
+              content: seoData.seo_keywords,
+            },
+          ]}
+        />
+        <Header>
+          <Search />
+          <AvatarBlock
+            isAuthenticated={isAuthenticated}
+            errorMessage={errorMessage}
             dispatch={dispatch}
-            closePopup={this.closePopup}
-            options={popupOptions}
+            onLogoutClick={this.logoutUser}
+            toggleMenu={this.toggleMenu}
+            itemsSections={itemsSections}
+            isFetchingSections={isFetchingSections}
           />
+        </Header>
 
-          {children}
-        </ContentWrapper>
-        <Footer
-          openPopup={this.modalButtonClick}
-        >
-          Logo
-        </Footer>
-      </div>
+        <Popup
+          dispatch={dispatch}
+          closePopup={this.closePopup}
+          options={popupOptions}
+        />
+
+        {children}
+      </ContentWrapper>
     );
   }
 }

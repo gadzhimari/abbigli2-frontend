@@ -13,6 +13,12 @@ import { __t } from '../../i18n/translator';
 import './Chat.less';
 
 class Chat extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: '',
+    };
+  }
   componentDidMount() {
     this.props.getDialogs();
 
@@ -41,25 +47,61 @@ class Chat extends Component {
     sendMessage(recipient.id, message, activeDialog);
   }
 
+  changeSearch = ({ target }) => this.setState({
+    search: target.value,
+  })
+
+  openDialog = (id) => {
+    this.props.setActive(id);
+    this.container.classList.add('open');
+  }
+
+  closeDialog = () => {
+    this.container.classList.remove('open');
+    this.props.closeDialog();
+  };
+
   render() {
     const {
       dialogs,
-      setActive,
       activeDialog,
       messages,
       isFetchingMessages,
       userId,
       deleteDialog,
+      user,
     } = this.props;
+    const { search } = this.state;
+
+    let dialog;
+    let filtredDialogs;
+
+    if (activeDialog) {
+      dialog = dialogs.filter(item => item.id === activeDialog)[0];
+    }
+
+    if (this.state.search.length > 0) {
+      filtredDialogs = dialogs.filter(item => (
+        item.recipient.profile_name.toLowerCase().includes(search.toLowerCase())
+        || (item.post && item.post.title.toLowerCase().includes(search.toLowerCase()))
+      ));
+    } else {
+      filtredDialogs = dialogs;
+    }
 
     return (
       <main className="main">
-        <div className="messages__container">
+        <div
+          className="messages__container"
+          ref={container => (this.container = container)}
+        >
           <DialogsList
-            dialogs={dialogs}
-            setActive={setActive}
+            dialogs={filtredDialogs}
+            setActive={this.openDialog}
             activeDialog={activeDialog}
             deleteDialog={deleteDialog}
+            changeSearch={this.changeSearch}
+            user={user}
           />
           {
             activeDialog
@@ -69,6 +111,9 @@ class Chat extends Component {
                 isFetching={isFetchingMessages}
                 userId={userId}
                 sendMessage={this.sendMessage}
+                post={dialog.post}
+                recipient={dialog.recipient}
+                closeDialog={this.closeDialog}
               />
               : <div className="messages__content">
                 <h5
@@ -91,6 +136,7 @@ const mapStateToProps = ({ Dialogs, Auth }) => ({
   messages: Dialogs.messages,
   isFetchingMessages: Dialogs.messagesIsFetching,
   userId: Auth.me.id,
+  user: Auth.me,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -104,6 +150,7 @@ const mapDispatchToProps = dispatch => ({
     avatar,
     city,
   })),
+  closeDialog: () => dispatch(setActiveDialog(null)),
   sendMessage: (sender, message, dialogID) => dispatch(sendPrivateMessage(sender, message, dialogID)),
 });
 

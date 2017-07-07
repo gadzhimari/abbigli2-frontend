@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import AvatarPost from './AvatarPost';
+import Avatar from './Avatar';
+
 import { location, DOMAIN_URL } from 'config';
 
 const DialogItem = ({
@@ -36,13 +39,19 @@ const DialogItem = ({
         <path d="M15.4,11.5l6.8-6.8c1.1-1.1,1.1-2.8,0-3.9s-2.8-1.1-3.9,0l-6.8,6.8L4.7,0.8 c-1.1-1.1-2.8-1.1-3.9,0s-1.1,2.8,0,3.9l6.8,6.8l-6.8,6.8c-1.1,1.1-1.1,2.8,0,3.9c1.1,1.1,2.8,1.1,3.9,0l6.8-6.8l6.8,6.8 c1.1,1.1,2.8,1.1,3.9,0c1.1-1.1,1.1-2.8,0-3.9L15.4,11.5z" />
       </svg>
       <div className="dialog__avatar dialog__avatar_goods">
-        <div className="avatar">
-          {
-            data.recipient.avatar
-              ? <img className="avatar__img" src={`${DOMAIN_URL}thumbs/unsafe/113x113/${data.recipient.avatar}`} alt={data.recipient.profile_name} />
-              : <img className="avatar__img" src="/images/svg/avatar.svg" alt={data.recipient.profile_name} />
-          }
-        </div>
+        {
+          data.post
+            ? <AvatarPost
+              avatar={data.recipient.avatar}
+              alt={data.recipient.profile_name || `User ID: ${data.recipient.id}`}
+              postImg={data.post.image}
+              postAlt={data.post.title}
+            />
+            : <Avatar
+              avatar={data.recipient.avatar}
+              alt={data.recipient.profile_name || `User ID: ${data.recipient.id}`}
+            />
+        }
       </div>
       <div className="dialog__author">
         {

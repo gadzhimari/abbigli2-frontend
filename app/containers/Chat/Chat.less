@@ -162,13 +162,6 @@
     vertical-align: top;
     position: relative;
     border-radius: 4px;
-
-    &-text {
-      color: #000;
-      font-size: 15px;
-      text-align: center;
-      font-weight: 500;
-    }
   }
   &__header {
     position: relative;
@@ -422,6 +415,11 @@
       display: none;
     }
 
+    &.global-wrapper {
+      margin-bottom: 0;
+      height: 100%;
+    }
+
     &__container {
       bottom: 0;
       padding: 0;
@@ -430,6 +428,11 @@
         padding-left: 90px;
         &__avatar {
           left: 10px;
+        }
+      }
+      &.open {
+        .messages__content {
+          animation: slide-in .5s forwards;
         }
       }
       .dialog__search {
@@ -459,9 +462,9 @@
     &__content {
       position: absolute;
       top: 0;
-      right: -100%;
+      left: 0;
+      transform: translateX(100%);
       width: 100%;
-      transition: right .5s ease-out;
     }
     &__chat {
       bottom: 70px;
@@ -496,4 +499,16 @@
       }
     }
   }
+}
+
+@keyframes slide-in {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0); }
+}
+
+.messages__preloader-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
