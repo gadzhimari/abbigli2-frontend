@@ -51,6 +51,15 @@ const reducer = (state = initialState, action) => {
         isDefined: false,
       });
     }
+    case (actions.CHANGE_FOLLOW): {
+      return Object.assign({}, state, {
+        post: Object.assign({}, state.post, {
+          user: Object.assign({}, state.post.user, {
+            is_subscribed: !state.post.user.is_subscribed,
+          }),
+        }),
+      });
+    }
     case (actions.RESET_POST): {
       return Object.assign({}, state, initialState);
     }

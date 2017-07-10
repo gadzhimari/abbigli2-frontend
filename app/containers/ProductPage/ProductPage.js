@@ -16,7 +16,7 @@ import { sendComment } from 'ducks/Comments';
 import { sendPostMessage } from 'ducks/Dialogs';
 
 import { fetchData as fetchDataComments } from 'ducks/Comments';
-import { fetchData, resetData } from 'ducks/BlogPost';
+import { fetchPost, resetPost } from 'ducks/PostPage/actions';
 import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
 
 import { stagedPopup } from 'ducks/Auth/authActions';
@@ -24,7 +24,7 @@ import { stagedPopup } from 'ducks/Auth/authActions';
 import { __t } from './../../i18n/translator';
 
 class ProductPage extends Component {
-  static fetchData = (dispatch, params, token) => dispatch(fetchData(params.slug, 1, token));
+  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, 1, token));
 
   static fetchSubData = (dispatch, data) => Promise.all([
     dispatch(fetchDataComments(data.slug)),
@@ -36,7 +36,7 @@ class ProductPage extends Component {
   ])
 
   static onUnmount = (dispatch) => {
-    dispatch(resetData());
+    dispatch(resetPost());
   }
 
   constructor(props) {
@@ -184,38 +184,19 @@ ProductPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const {
-    isFetching,
-    data,
-    isDefined,
-  } = (state.BlogPost) || {
-      isFetching: true,
-      data: {},
-      isDefined: true,
-    };
-  const { showWants } = state.Popup;
-  const comments = (state.Comments) || { isFetching: true, items: [] };
-  const posts = (state.ProfilePosts) || { isFetching: true, items: [] };
-  const auth = state.Auth || {
-    isAuthenticated: false,
-    me: {},
-  };
-  const dialogs = state.Dialogs || {};
-  const settings = state.Settings || {};
-
   return {
-    data,
-    isFetching,
-    isDefined,
-    itemsPosts: posts.items,
-    isFetchingPosts: posts.isFetching,
-    itemsComments: comments.items,
-    isFetchingComments: comments.isFetching,
-    showWants,
-    isAuthenticated: auth.isAuthenticated,
-    me: auth.me,
-    wantSending: dialogs.isSending,
-    priceTemplate: settings.data.CURRENCY,
+    data: state.PostPage.post,
+    isFetching: state.PostPage.isFetchingPost,
+    isDefined: state.PostPage.isDefined,
+    itemsPosts: state.ProfilePosts.items,
+    isFetchingPosts: state.ProfilePosts.isFetching,
+    itemsComments: state.Comments.items,
+    isFetchingComments: state.Comments.isFetching,
+    showWants: state.Popup.showWants,
+    isAuthenticated: state.Auth.isAuthenticated,
+    me: state.Auth.me,
+    wantSending: state.Dialogs.isSending,
+    priceTemplate: state.Settings.data.CURRENCY,
   };
 }
 

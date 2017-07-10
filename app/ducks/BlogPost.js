@@ -40,18 +40,6 @@ export default function (state = initialState, action = {}) {
         isDefined: true,
         data: {},
       });
-    case CHANGE_FOLLOW: {
-      const newUser = Object.assign({}, state.data.user, {
-        is_subscribed: !state.data.user.is_subscribed,
-      });
-      const newData = Object.assign({}, state.data, {
-        user: newUser,
-      });
-
-      return Object.assign({}, state, {
-        data: newData,
-      });
-    }
     default:
       return state;
   }
@@ -77,12 +65,6 @@ export function resetData() {
 export function setNotFound() {
   return {
     type: ERROR_404,
-  };
-}
-
-export function setNewFollowStatus() {
-  return {
-    type: CHANGE_FOLLOW,
   };
 }
 
