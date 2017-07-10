@@ -9,3 +9,5 @@ export const RESPONSE_NEW = 'RESPONSE_NEW';
 
 export const ERROR_404 = 'ERROR_404';
 export const RESET_POST = 'RESET_POST';
+
+export const CHANGE_FOLLOW = 'CHANGE_FOLLOW';
