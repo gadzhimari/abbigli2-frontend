@@ -12,7 +12,7 @@ const CardTag = ({
 }) => (
   <Link
     className="tag-card"
-    to={`/sections/${slug}/${data.title}`}
+    to={`/sections/${slug}/${data.title}/new`}
   >
     <div className="tag-card__img-wrap">
       <img

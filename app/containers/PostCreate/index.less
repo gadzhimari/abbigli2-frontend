@@ -1,0 +1,211 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.add {
+  background-color: #f6f6f6;
+
+  h2 {
+    text-align: center;
+  }
+
+  &-tabs {
+    max-width: 900px;
+    margin: 50px auto;
+    text-align: center;
+    position: relative;
+
+    &__input {
+      display: none;
+    }
+    &__label {
+      display: inline-block;
+      vertical-align: top;
+      cursor: pointer;
+      width: 140px;
+      color: @disabled;
+      position: relative;
+      padding-top: 60px;
+      background: none;
+      border: none;
+      font-family: ClearSans,"Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-size: 16px;
+
+      .icon {
+        display: block;
+        fill: @disabled;
+        top: 0;
+        .align-horizontal;
+
+        &-bag {
+          background-size: 46px 40px;
+          width: 46px;
+          height: 40px;
+        }
+        &-blog {
+          width: 43px;
+          height: 45px;
+          top: -2px;
+          background-size: 43px 45px;
+        }
+        &-event {
+          width: 40px;
+          height: 40px;
+          background-size: 40px 40px;
+        }
+      }
+
+    }
+
+    &__label.active {
+      color: #1d1c1c;
+      .icon-bag {
+        fill: @goods;
+      }
+      .icon-blog {
+        fill: @blog;
+      }
+      .icon-event {
+        fill: @event;
+      }
+    }
+
+    &__content {
+      text-align: left;
+      margin-top: 30px;
+      min-height: 1100px;
+      &-tab {
+        width: 100%;
+        position: absolute;
+        opacity: 1;
+        transition: opacity .3s;
+      }
+      &_goods {
+        .add-tabs__buttons {
+          .default-button {
+            &:first-child {
+              .button(default);
+            }
+            &:last-child {
+              .button(cancelgoods);
+            }
+          }
+        }
+        .photo-upload__item {
+          &:before {
+            border-color: @goods;
+          }
+        }
+      }
+      &_blog {
+        .add-tabs__buttons {
+          .default-button {
+            &:first-child {
+              .button(blog);
+            }
+            &:last-child {
+              .button(cancelblog);
+            }
+          }
+        }
+        .photo-upload__item {
+          &:before {
+            border-color: @blog;
+          }
+        }
+      }
+      &_event {
+        .add-tabs__buttons {
+          .default-button {
+            &:first-child {
+              .button(event);
+            }
+            &:last-child {
+              .button(cancelevent);
+            }
+          }
+        }
+        .photo-upload__item {
+          &:before {
+            border-color: @event;
+          }
+        }
+      }
+    }
+
+    &__form {
+      background-color: #fff;
+      padding: 25px;
+      margin-bottom: 20px;
+      &-field {
+        margin-bottom: 15px;
+        font-size: 0;
+      }
+      &-price {
+        display: inline-block;
+        vertical-align: top;
+        width: 25%;
+        margin-right: 5%;
+      }
+      &-calendar {
+        display: inline-block;
+        vertical-align: top;
+        width: 46%;
+        &:first-child {
+          margin-right: 8%;
+        }
+      }
+      .color-choice {
+        display: inline-block;
+        vertical-align: top;
+        width: 70%;
+        &__label {
+          margin-bottom: 7px;
+        }
+      }
+      .textarea {
+        min-height: 200px;
+      }
+    }
+
+    &__buttons {
+      font-size: 0;
+      padding-left: 25px;
+      .default-button {
+        &:first-child {
+          width: 172px;
+          margin-right: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .add-tabs {
+    &__form {
+      background: none;
+      padding: 0;
+      &-price {
+        display: block;
+        width: 100%;
+        margin: 0 0 15px 0;
+      }
+      .color-choice, &-calendar {
+        width: 100%;
+        display: block;
+      }
+      &-calendar {
+        &:first-child {
+          margin: 0 0 15px 0;
+        }
+      }
+    }
+    &__label {
+      width: 90px;
+    }
+    &__buttons {
+      padding: 0;
+    }
+  }
+}

@@ -1,20 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import {
-  CardsWrap,
-  CardProduct,
-  CardsSort,
-  CardsSortItem,
+  BreadCrumbs,
   TagsBar,
-  EventButtons,
+  Filters,
   Loading,
+  ListWithNew,
+  PageSwitcher,
 } from 'components';
-import Helmet from 'react-helmet';
+import { Product } from 'components/Cards';
+
 import { connect } from 'react-redux';
-import InfiniteScroll from 'react-infinite-scroller';
 import { fetchData } from 'ducks/Posts';
 import { API_URL } from 'config';
 
-import { __t } from './../../i18n/translator';
 
 import './index.styl';
 
@@ -26,13 +24,29 @@ const getSectionUrl = (slug, section, tag) => {
   return `/${slug}-products/${section}`;
 };
 
+const newData = [{
+  id: 0,
+  type: 4,
+  title: 'Blog title',
+  author: {
+    name: 'Mike',
+  },
+},
+{
+  id: 1,
+  type: 3,
+  title: 'Event title',
+  date: '22.07.2017',
+  author: {
+    name: 'Mike',
+  },
+}];
+
 class SectionTag extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tags: {
-        results: [],
-      },
+      tags: [],
     };
   }
 
@@ -93,7 +107,7 @@ class SectionTag extends Component {
       })
       .then((tags) => {
         this.setState({
-          tags,
+          tags: tags.results,
         });
       });
   }
@@ -114,98 +128,67 @@ class SectionTag extends Component {
     const {
       items,
       isFetching,
-      isFetchingMore,
-      seo_title,
-      seo_description,
-      next,
-      dispatch,
-      isAuthenticated,
       routeParams,
       sections,
       route,
+      priceTemplate,
     } = this.props;
 
-    const tags = this.state.tags;
-    const infiniteScrollLoader = <Loading loading={isFetchingMore} />;
     const seoTextsObj = sections
       .filter(section => section.slug === routeParams.section)[0] || {};
-    const alternativeTitle = routeParams.tags
-      ? `${routeParams.tags} - ${seoTextsObj.title}`
-      : seoTextsObj.title;
+
+    const crumbs = [{
+      title: seoTextsObj.title,
+      url: `/sections/${routeParams.section}`,
+    }];
 
     return (
-      <div className="container-fluid tag-page">
-        <Helmet
-          title={seo_title
-            ? seo_title
-            : alternativeTitle
-          }
-          meta={[
-            {
-              name: 'description',
-              content: seo_description,
-            },
-          ]}
-        />
-        <EventButtons />
+      <div>
         {
-          tags.results.length > 1
+          this.state.tags.length > 0
           &&
           <TagsBar
-            tags={tags.results}
-            link={`/sections/${routeParams.section}/`}
+            tags={this.state.tags}
+            link={`/sections/${seoTextsObj.slug}/`}
           />
         }
-        <CardsWrap legacy>
-          <CardsSort>
+        <main className="main">
+          <BreadCrumbs
+            crumbs={crumbs}
+          />
+          <div className="content">
             <h1 className="section-title">
               {seoTextsObj.title}
+              {' '}
+              {`#${routeParams.tags}`}
+              <div className="section-title__subscribe">
+                <button className="default-button" type="button">
+                  + Подписаться
+                </button>
+                <a className="filter-open">
+                  Фильтры
+                </a>
+              </div>
             </h1>
-
-            {routeParams.tags ? ` #${routeParams.tags}` : null}
-            <CardsSortItem
-              to={getSectionUrl('new', routeParams.section, routeParams.tags)}
-              isActive={route.slug === 'new'}
-            >
-              {__t('New')}
-            </CardsSortItem>
-            <CardsSortItem
-              to={getSectionUrl('popular', routeParams.section, routeParams.tags)}
-              isActive={route.slug === 'popular' || route.filter === 'popular'}
-            >
-              {__t('Popular')}
-            </CardsSortItem>
-            <CardsSortItem
-              to={getSectionUrl('nearest', routeParams.section, routeParams.tags)}
-              isActive={route.slug === 'near' || route.filter === 'near'}
-            >
-              {__t('Beside')}
-            </CardsSortItem>
-          </CardsSort>
-
-          {
-            isFetching
-              ? <Loading loading={isFetching} />
-              : (<InfiniteScroll
-                loadMore={this.loadMore}
-                hasMore={next !== null}
-                loader={infiniteScrollLoader}
-              >
-                {
-                  items.length > 0
-                    ? items.map(item => <CardProduct
-                      key={`${item.id}`}
-                      data={item}
-                      legacy
-                      isAuthenticated={isAuthenticated}
-                      priceTemplate={this.props.priceTemplate}
-                      dispatch={dispatch}
-                    />)
-                    : <div className="pages__error-text">{__t('Not results for your request')}</div>
-                }
-              </InfiniteScroll>)
-          }
-        </CardsWrap>
+            <Filters />
+            {
+              isFetching
+                ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
+                : <ListWithNew
+                  ItemComponent={Product}
+                  items={items}
+                  newItems={newData}
+                  count={8}
+                  itemProps={{ priceTemplate }}
+                />
+            }
+            {
+              !isFetching
+              &&
+              <PageSwitcher />
+            }
+          </div>
+        </main>
       </div>
     );
   }

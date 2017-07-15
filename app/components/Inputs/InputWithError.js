@@ -34,16 +34,39 @@ class InputWithError extends Component {
       className,
       errors,
       errorClass,
+      label,
+      id,
+      labelRequired,
+      wrapperErrorClass,
     } = this.props;
 
     const inputClass = this.state.showError
       ? `${className} post-create__error-input`
       : className;
 
-    const omitedProps = omit(this.props, ['className', 'component', 'wrapperClass', 'errors', 'errorClass']);
+    const wrapper = this.state.showError
+      ? `${wrapperClass} ${wrapperErrorClass}`
+      : wrapperClass;
+
+    const omitedProps = omit(
+      this.props,
+      ['className', 'component', 'wrapperClass', 'errors', 'errorClass', 'label']
+    );
 
     return (
-      <div className={wrapperClass}>
+      <div className={wrapper}>
+        {
+          label
+          &&
+          <label className="label" htmlFor={id}>
+            {label}
+            {
+              labelRequired
+              &&
+              <span className="label__required">*</span>
+            }
+          </label>
+        }
         <RenderInput
           onFocus={this.hideError}
           className={inputClass}
@@ -57,14 +80,14 @@ class InputWithError extends Component {
           errors.length
           &&
           <div>
-              {
-                errors.map((error, key) => (<div
-                  className={errorClass}
-                  key={key}
-                >
-                  {error}
-                </div>))
-              }
+            {
+              errors.map((error, key) => (<div
+                className={errorClass}
+                key={key}
+              >
+                {error}
+              </div>))
+            }
           </div>
         }
       </div>
@@ -77,12 +100,20 @@ InputWithError.defaultProps = {
   type: 'text',
   errorClass: 'post-create__error',
   wrapperClass: '',
+  wrapperErrorClass: '',
+  label: null,
+  id: '',
+  labelRequired: false,
 };
 
 InputWithError.propTypes = {
   wrapperClass: PropTypes.string,
   className: PropTypes.string.isRequired,
   errorClass: PropTypes.string,
+  wrapperErrorClass: PropTypes.string,
+  label: PropTypes.string,
+  id: PropTypes.string,
+  labelRequired: PropTypes.bool,
   component: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,

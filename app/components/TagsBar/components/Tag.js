@@ -14,7 +14,7 @@ const Tag = ({
     : `${tag.title}`;
 
   const linkTo = link
-    ? `${link}${tag.title}`
+    ? `${link}${tag.title}/new`
     : `/tags/${prevTagsLink}/new`;
 
   return (<Link

@@ -5,24 +5,27 @@ import update from 'react/lib/update';
 import { API_URL } from 'config';
 import Select from 'react-select';
 
-import { __t } from './../../i18n/translator';
-
 import { withRouter } from 'react-router';
 
 import { connect } from 'react-redux';
 
-import {
-  FetchingButton,
-} from 'components';
+import SwitchType from './Components/SwitchType';
+import ProductSpecific from './Components/ProductSpecific';
+import EventSpecific from './Components/EventSpecific';
+import ContentFields from './Components/ContentFields';
+
+import { FetchingButton } from 'components';
 import ImageUploadZone from 'components/ImageUploadZone';
-import { ErrorInput, DateInput, Textarea } from 'components/Inputs';
+import { ErrorInput, Textarea } from 'components/Inputs';
 import SwitchMode from 'components/SwitchModeButton';
 
 import { savePost, uploadImages, rotateImage, deleteImage, clearData } from 'ducks/PostCreate/actions';
 import { openPopup } from 'ducks/Popup/actions';
 
+import { __t } from './../../i18n/translator';
+
 import 'react-select/dist/react-select.css';
-import './index.styl';
+import './index.less';
 
 
 const typesUrl = {
@@ -52,10 +55,9 @@ class PostCreate extends Component {
     };
   }
 
-  componentWillUnmount() {
-    const { dispatch } = this.props;
-
-    dispatch(clearData());
+  componentDidMount() {
+    this.globalWrapper = document.querySelector('.global-wrapper');
+    this.globalWrapper.classList.add('add');
   }
 
   componentDidUpdate() {
@@ -70,6 +72,13 @@ class PostCreate extends Component {
         },
       });
     }
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+
+    dispatch(clearData());
+    this.globalWrapper.classList.remove('add');
   }
 
   onImagesUploaded = images => this.setState({
@@ -171,6 +180,7 @@ class PostCreate extends Component {
       tags,
       images,
       city,
+      type,
     } = this.state;
 
     const {
@@ -181,12 +191,6 @@ class PostCreate extends Component {
       loadImageErrors,
     } = this.props;
 
-    const add_types = {
-      1: __t('Create product or service'),
-      4: __t('Create blog'),
-      3: __t('Create event'),
-    };
-
     const sectionsOptions = sections
       .map(item => ({
         value: item.id,
@@ -194,181 +198,68 @@ class PostCreate extends Component {
       }));
 
     return (
-      <div className="container-fluid create-post-page" id="page-container">
-        <Helmet
-          title="Create post"
-        />
-        <div className="create-post__title">
-          {__t('Add on Abbigli')}
-        </div>
-        <div className="create-post__tabs">
-          <SwitchMode
-            tooltip={__t('You.added.the.Product.and.or.service.and.put.up.for.sale')}
-            typeId={1}
-            isActive={this.state.type === 1}
-            title={__t('Product.Service')}
-            iconType="service"
-            onChangeMode={this.changeType}
+      <main className="main">
+        <h2>{__t('Add on Abbigli')}</h2>
+        <div className="add-tabs">
+          <SwitchType
+            onClick={this.changeType}
+            activeType={type}
           />
-          <SwitchMode
-            tooltip={__t('You.publish.your.own.Blog.the.story.of.creation')}
-            typeId={4}
-            isActive={this.state.type === 4}
-            title={__t('Blog')}
-            iconType="blog"
-            onChangeMode={this.changeType}
-          />
-          <SwitchMode
-            tooltip={__t('You.publish.information.about.creative.Event')}
-            typeId={3}
-            isActive={this.state.type === 3}
-            title={__t('event')}
-            iconType="event"
-            onChangeMode={this.changeType}
-          />
-        </div>
-        <div className="create-post__form-wrap">
-          <div className="create-post__photo-load">
-            <ImageUploadZone
-              onMove={this.onMoveImage}
-              images={images}
-              deleteImage={this.deleteImage}
-              uploadImages={this.uploadImages}
-              imageFetching={isFetchingImage}
-              rotateImage={rotateImage}
-              errors={errors.images}
-              loadImageErrors={loadImageErrors}
-            />
-          </div>
-
-          <div className="create-post__form">
-            {
-              this.state.type === 1
-              &&
-              <ErrorInput
-                className="input"
-                id="price"
-                name="price"
-                value={price}
-                onChange={this.changeValue}
-                placeholder={__t('Price')}
-                errors={errors.price}
-                wrapperClass="input-wrap input-price"
-              />
-            }
-
-            {
-              this.state.type === 3
-              &&
-              (<div className="input-group">
+          <div className="add-tabs__content">
+            <div className="add-tabs__content-tab add-tabs__content_goods">
+              <div className="add-tabs__form">
                 <ErrorInput
-                  wrapperClass="input-wrap input-date"
-                  value={this.state.date_start}
-                  onChange={this.changeValue}
-                  name="date_start"
-                  placeholder={__t('Start.date')}
-                  errors={errors.date_start}
-                  component={DateInput}
                   className="input"
-                />
-                <ErrorInput
-                  wrapperClass="input-wrap input-date"
-                  value={this.state.date_end}
+                  id="nameGoods"
+                  name="title"
+                  value={title}
                   onChange={this.changeValue}
-                  name="date_end"
-                  placeholder={__t('End.date')}
-                  errors={errors.date_end}
-                  component={DateInput}
-                  className="input"
+                  placeholder=""
+                  errors={errors.title}
+                  wrapperClass="add-tabs__form-field input-wrap"
+                  wrapperErrorClass="error"
+                  labelRequired
+                  label={__t('Title')}
                 />
-              </div>)
-
-            }
-
-            <ErrorInput
-              className="input"
-              id="service-name"
-              name="title"
-              value={title}
-              onChange={this.changeValue}
-              placeholder={__t('Title')}
-              errors={errors.title}
-              wrapperClass="input-wrap"
-            />
-
-            {
-              this.state.type === 3
-              &&
-              (<div className="input-wrap">
-                <input
-                  placeholder={__t('City')}
-                  className="input"
-                  onClick={this.openSelectPopup}
-                  value={(city && city.name) || ''}
+                <EventSpecific
+                  shouldShow={type === 3}
                 />
-              </div>)
-            }
+                <div className="add-tabs__form-field">
+                  <div className="choice-section input-wrap error">
+                    <ErrorInput
+                      className="input"
+                      name="form-field-name"
+                      value={this.state.sections}
+                      id="sectionGoods"
+                      options={sectionsOptions}
+                      placeholder={__t('Choise the sections')}
+                      multi
+                      onChange={this.sectionsChange}
+                      errors={errors.sections}
+                      wrapperClass="choice-section__input"
+                      component={Select}
+                      labelRequired
+                      label={__t('Section')}
+                    />
 
-            <div className="textarea-wrap">
-              <textarea
-                className="textarea textarea-post"
-                id="content-post"
-                name="content"
-                placeholder={__t('Description')}
-                onChange={this.changeValue}
-                style={this.state.type === 4 ? { display: 'none' } : {}}
-              />
-
-              <div style={this.state.type === 4 ? {} : { display: 'none' }}>
-                <Textarea
+                  </div>
+                </div>
+                <ProductSpecific
+                  shouldShow={type === 1}
                   onChange={this.changeValue}
-                  value={this.state.content}
+                  priceValue={price}
+                  errors={errors}
                 />
               </div>
-            </div>
-            <ErrorInput
-              className="select-sections-add"
-              name="form-field-name"
-              value={this.state.sections}
-              options={sectionsOptions}
-              placeholder={__t('Choise the sections')}
-              multi
-              onChange={this.sectionsChange}
-              errors={errors.sections}
-              wrapperClass="select-wrap"
-              component={Select}
-            />
-
-            <ErrorInput
-              className="input"
-              id="tags"
-              name="tags"
-              placeholder={__t('Tags')}
-              value={tags}
-              onChange={this.changeValue}
-              errors={errors.tags}
-              wrapperClass="input-wrap"
-            />
-
-            <div className="buttons-wrap">
-              <FetchingButton
-                onClick={this.save}
-                className="default-button"
-                isFetching={isSaving}
-              >
-                {add_types[this.state.type]}
-              </FetchingButton>
-              <button
-                className="cancel-button"
-                type="submit"
-                onClick={this.handleClose}
-              >
-                {__t('Cancel')}
-              </button>
+              <ImageUploadZone
+                images={[]}
+                errors={[]}
+              />
+              <ContentFields />
             </div>
           </div>
-        </div>
-      </div>
+        </div >
+      </main >
     );
   }
 }

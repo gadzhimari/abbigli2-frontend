@@ -114,16 +114,17 @@ DateInput.defaultProps = {
   onFocus: () => true,
   mustFormat: true,
   format: 'YYYY-MM-DDThh:mm',
+  placeholder: '',
 };
 
 DateInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
-  format: PropTypes.string.isRequired,
+  format: PropTypes.string,
   mustFormat: PropTypes.bool,
 };
 
