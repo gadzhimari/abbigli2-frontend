@@ -12,12 +12,12 @@ function Banner() {
             {__t('banner.header')}
           </h2>
           {__t('banner.text')}
-          <br/>
+          <br />
           <button className="button-banner">
             {__t('banner.button.create')}
           </button>
         </div>
-        <a className="main-page__banner-author">{__t('banner.from.blog')} <b>{__t('banner.name')}</b></a>
+        {/* <a className="main-page__banner-author">{__t('banner.from.blog')} <b>{__t('banner.name')}</b></a> */}
       </div>
     </div>
   );
