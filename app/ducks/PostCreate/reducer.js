@@ -1,10 +1,25 @@
 import * as actions from './actionTypes';
 
+const defaultData = {
+  type: 1,
+  content: '',
+  images: [],
+  price: '',
+  sections: [],
+  tags: '',
+  title: '',
+  city: null,
+  date_start: '',
+  date_end: '',
+  value: null,
+  color: 'red',
+};
+
 const initialState = {
   isSaving: false,
   isFetchingImage: false,
   isPostFetching: true,
-  data: {},
+  data: defaultData,
   errors: {},
   imageError: [],
 };
@@ -47,7 +62,7 @@ const reducer = (state = initialState, action) => {
     case (actions.CLEAR_DATA): {
       return Object.assign({}, state, {
         isPostFetching: true,
-        data: {},
+        data: defaultData,
         imageError: [],
         errors: {},
       });

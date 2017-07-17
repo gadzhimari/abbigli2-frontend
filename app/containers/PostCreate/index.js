@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import Helmet from 'react-helmet';
 import update from 'react/lib/update';
+import classNames from 'classnames';
 
 import { API_URL } from 'config';
 import Select from 'react-select';
 
 import { withRouter } from 'react-router';
+import { compose } from 'recompose';
 
 import { connect } from 'react-redux';
 
@@ -13,13 +17,13 @@ import SwitchType from './Components/SwitchType';
 import ProductSpecific from './Components/ProductSpecific';
 import EventSpecific from './Components/EventSpecific';
 import ContentFields from './Components/ContentFields';
+import postLoader from './postLoader';
 
 import { FetchingButton } from 'components';
 import ImageUploadZone from 'components/ImageUploadZone';
-import { ErrorInput, Textarea } from 'components/Inputs';
-import SwitchMode from 'components/SwitchModeButton';
+import { ErrorInput } from 'components/Inputs';
 
-import { savePost, uploadImages, rotateImage, deleteImage, clearData } from 'ducks/PostCreate/actions';
+import * as actions from 'ducks/PostCreate/actions';
 import { openPopup } from 'ducks/Popup/actions';
 
 import { __t } from './../../i18n/translator';
@@ -38,26 +42,9 @@ class PostCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: 1,
-      content: '',
-      images: [],
-      price: '',
-      sections: [],
-      tags: '',
-      title: '',
-      city: (props.geoCity && {
-        name: `${props.geoCity.name}, ${props.geoCity.country.name}`,
-        id: props.geoCity.id,
-      }) || null,
-      date_start: '',
-      date_end: '',
-      value: null,
+      ...props.data,
+      contentBlog: props.data.content,
     };
-  }
-
-  componentDidMount() {
-    this.globalWrapper = document.querySelector('.global-wrapper');
-    this.globalWrapper.classList.add('add');
   }
 
   componentDidUpdate() {
@@ -72,13 +59,6 @@ class PostCreate extends Component {
         },
       });
     }
-  }
-
-  componentWillUnmount() {
-    const { dispatch } = this.props;
-
-    dispatch(clearData());
-    this.globalWrapper.classList.remove('add');
   }
 
   onImagesUploaded = images => this.setState({
@@ -103,35 +83,7 @@ class PostCreate extends Component {
     }));
   }
 
-  uploadImages = images => this.props
-    .dispatch(uploadImages(images, this.onImagesUploaded));
-
-  save = () => {
-    const { type, images, city } = this.state;
-    const { dispatch } = this.props;
-    const keys = {
-      1: ['price', 'title', 'content', 'tags', 'sections'],
-      3: ['title', 'content', 'tags', 'sections', 'date_end', 'date_start'],
-      4: ['title', 'content', 'tags', 'sections'],
-    };
-
-    const body = {
-      images: images.map(item => item.id),
-      type,
-    };
-
-    if (city && type === 3) {
-      body.city = city.id;
-    }
-
-    keys[type].forEach((key) => {
-      if (this.state[key]) {
-        body[key] = this.state[key];
-      }
-    });
-
-    dispatch(savePost(body, typesUrl, 'POST'));
-  }
+  uploadImages = images => this.props.uploadImages(images, this.onImagesUploaded);
 
   changeValue = ({ target }) => this.setState({
     [target.name]: target.value,
@@ -152,16 +104,50 @@ class PostCreate extends Component {
       images: this.state.images
         .filter(img => img.id !== id),
     });
-    deleteImage(id);
+    actions.deleteImage(id);
+  }
+
+  save = () => {
+    const { type, images, city, contentBlog } = this.state;
+    const { savePost, params } = this.props;
+    const keys = {
+      1: ['price', 'title', 'content', 'tags', 'sections'],
+      3: ['title', 'content', 'tags', 'sections', 'date_end', 'date_start'],
+      4: ['title', 'tags', 'sections'],
+    };
+    const body = {
+      images: images.map(item => item.id),
+      type,
+    };
+
+    if (city && type === 3) {
+      body.city = city.id;
+    }
+
+    keys[type].forEach((key) => {
+      if (this.state[key]) {
+        body[key] = this.state[key];
+      }
+    });
+
+    if (type === 4) {
+      body.content = contentBlog;
+    }
+
+    if (params.slug) {
+      savePost(body, typesUrl, 'PATCH', params.slug);
+    } else {
+      savePost(body, typesUrl, 'POST');
+    }
   }
 
   openSelectPopup = () => this.props
-    .dispatch(openPopup('selectPopup', {
+    .openPopup('selectPopup', {
       onClickItem: this.onChangeCity,
       title: 'city',
       async: true,
       apiUrl: `${API_URL}geo/cities/`,
-    }));
+    });
 
   handleClose = () => {
     const { router } = this.props;
@@ -181,6 +167,9 @@ class PostCreate extends Component {
       images,
       city,
       type,
+      content,
+      color,
+      contentBlog,
     } = this.state;
 
     const {
@@ -189,6 +178,7 @@ class PostCreate extends Component {
       isFetchingImage,
       errors,
       loadImageErrors,
+      params,
     } = this.props;
 
     const sectionsOptions = sections
@@ -197,6 +187,11 @@ class PostCreate extends Component {
         label: item.title,
       }));
 
+    const containerClassName = classNames('add-tabs__content', {
+      'add-tabs__content_blog': type === 4,
+      'add-tabs__content_event': type === 3,
+    });
+
     return (
       <main className="main">
         <h2>{__t('Add on Abbigli')}</h2>
@@ -204,8 +199,9 @@ class PostCreate extends Component {
           <SwitchType
             onClick={this.changeType}
             activeType={type}
+            onlyType={params.slug ? type : null}
           />
-          <div className="add-tabs__content">
+          <div className={containerClassName}>
             <div className="add-tabs__content-tab add-tabs__content_goods">
               <div className="add-tabs__form">
                 <ErrorInput
@@ -223,39 +219,71 @@ class PostCreate extends Component {
                 />
                 <EventSpecific
                   shouldShow={type === 3}
+                  dateStart={this.state.date_start}
+                  dateEnd={this.state.date_end}
+                  city={city}
+                  errors={errors}
+                  onChange={this.changeValue}
+                  openCityPopup={this.openSelectPopup}
                 />
                 <div className="add-tabs__form-field">
-                  <div className="choice-section input-wrap error">
-                    <ErrorInput
-                      className="input"
-                      name="form-field-name"
-                      value={this.state.sections}
-                      id="sectionGoods"
-                      options={sectionsOptions}
-                      placeholder={__t('Choise the sections')}
-                      multi
-                      onChange={this.sectionsChange}
-                      errors={errors.sections}
-                      wrapperClass="choice-section__input"
-                      component={Select}
-                      labelRequired
-                      label={__t('Section')}
-                    />
-
-                  </div>
+                  <ErrorInput
+                    className="add-tabs__select"
+                    name="form-field-name"
+                    value={this.state.sections}
+                    id="sectionGoods"
+                    options={sectionsOptions}
+                    placeholder=""
+                    multi
+                    onChange={this.sectionsChange}
+                    errors={errors.sections}
+                    wrapperClass=""
+                    component={Select}
+                    labelRequired
+                    label={__t('Section')}
+                  />
                 </div>
                 <ProductSpecific
                   shouldShow={type === 1}
                   onChange={this.changeValue}
                   priceValue={price}
+                  colorValue={color}
                   errors={errors}
                 />
               </div>
               <ImageUploadZone
-                images={[]}
-                errors={[]}
+                onMove={this.onMoveImage}
+                images={images}
+                deleteImage={this.deleteImage}
+                uploadImages={this.uploadImages}
+                imageFetching={isFetchingImage}
+                rotateImage={actions.rotateImage}
+                loadImageErrors={loadImageErrors}
+                errors={errors.images}
               />
-              <ContentFields />
+              <ContentFields
+                isBlog={type === 4}
+                onChange={this.changeValue}
+                contentValue={content}
+                blogValue={contentBlog}
+                tagsValue={tags}
+                errors={errors}
+              />
+              <div className="add-tabs__buttons">
+                <FetchingButton
+                  className="default-button"
+                  isFetching={isSaving}
+                  onClick={this.save}
+                >
+                  {__t('Publish')}
+                </FetchingButton>
+                <button
+                  className="default-button"
+                  onClick={this.handleClose}
+                >
+                  {__t('Cancel')}
+                </button>
+              </div>
             </div>
           </div>
         </div >
@@ -264,6 +292,41 @@ class PostCreate extends Component {
   }
 }
 
+PostCreate.propTypes = {
+  data: PropTypes.shape({
+    title: PropTypes.string,
+    type: PropTypes.number,
+    content: PropTypes.string,
+  }).isRequired,
+  uploadImages: PropTypes.func.isRequired,
+  openPopup: PropTypes.func.isRequired,
+  savePost: PropTypes.func.isRequired,
+  isSaving: PropTypes.bool.isRequired,
+  isFetchingImage: PropTypes.bool.isRequired,
+  sections: PropTypes.arrayOf(PropTypes.object).isRequired,
+  errors: PropTypes.shape({
+    title: PropTypes.array,
+    tags: PropTypes.array,
+    sections: PropTypes.array,
+    images: PropTypes.array,
+    city: PropTypes.array,
+    price: PropTypes.array,
+    date_start: PropTypes.array,
+  }).isRequired,
+  loadImageErrors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  params: PropTypes.shape({
+    slug: PropTypes.string,
+  }).isRequired,
+  router: PropTypes.shape({
+    goBack: PropTypes.func,
+    push: PropTypes.func,
+  }).isRequired,
+  geoCity: PropTypes.shape({
+    name: PropTypes.string,
+    id: PropTypes.number,
+  }).isRequired,
+};
+
 const mapStateToProps = state => ({
   sections: state.Sections.items,
   isSaving: state.PostCreate.isSaving,
@@ -271,6 +334,18 @@ const mapStateToProps = state => ({
   errors: state.PostCreate.errors,
   loadImageErrors: state.PostCreate.imageError,
   geoCity: state.Geo.city,
+  isFetching: state.PostCreate.isPostFetching,
+  data: state.PostCreate.data,
 });
 
-export default withRouter(connect(mapStateToProps)(PostCreate));
+const mapDispatchToProps = dispatch => ({
+  fetchPost: slug => dispatch(actions.fetchPost(slug)),
+  clearData: () => dispatch(actions.clearData()),
+  uploadImages: (images, callback) => dispatch(actions.uploadImages(images, callback)),
+  savePost: (body, types, method, slug) => dispatch(actions.savePost(body, types, method, slug)),
+  openPopup: (popup, options) => dispatch(openPopup(popup, options)),
+});
+
+const enhance = compose(withRouter, connect(mapStateToProps, mapDispatchToProps), postLoader);
+
+export default enhance(PostCreate);

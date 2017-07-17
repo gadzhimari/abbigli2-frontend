@@ -50,7 +50,7 @@ class InputWithError extends Component {
 
     const omitedProps = omit(
       this.props,
-      ['className', 'component', 'wrapperClass', 'errors', 'errorClass', 'label']
+      ['className', 'component', 'wrapperClass', 'wrapperErrorClass', 'errors', 'errorClass', 'label', 'labelRequired']
     );
 
     return (

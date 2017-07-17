@@ -64,7 +64,7 @@ const routes = (store, token, shouldPreload) => {
       <Route path="tags/:tags/:filter(/:page)" component={Tag} />
 
       <Route path="post/new" component={PostCreate} onEnter={handleNoAuth} />
-      <Route path="profile/:profile/post/edit/:slug" component={PostEdit} />
+      <Route path="profile/:profile/post/edit/:slug" component={PostCreate} onEnter={handleNoAuth} />
 
       <Route path="profile/(:profile)" component={Profile} >
         <IndexRoute component={ProfileMyabbigli} />

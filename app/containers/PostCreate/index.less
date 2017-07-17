@@ -76,7 +76,6 @@
       min-height: 1100px;
       &-tab {
         width: 100%;
-        position: absolute;
         opacity: 1;
         transition: opacity .3s;
       }
@@ -139,7 +138,7 @@
       margin-bottom: 20px;
       &-field {
         margin-bottom: 15px;
-        font-size: 0;
+        font-size: 16px;
       }
       &-price {
         display: inline-block;
@@ -172,6 +171,7 @@
       font-size: 0;
       padding-left: 25px;
       .default-button {
+        position: relative;
         &:first-child {
           width: 172px;
           margin-right: 20px;
@@ -179,6 +179,35 @@
       }
     }
   }
+}
+
+.redactor-layer {
+  min-height: 180px!important;
+}
+
+.add-tabs__select.Select {
+  font-size: 16px;
+  font-family: 'ClearSans';
+  padding: 2px 0;
+  border: 1px solid #acacac;
+  border-radius: 3px;
+
+  & .Select-control {
+    border: none!important;
+    padding: 0 6px;
+  }
+
+  & .Select-placeholder {
+    padding-left: 15px;
+  }
+}
+
+.post-create__error-input.add-tabs__select.Select {
+  border-color: #d10e0e;
+}
+
+.post-create__error {
+  color: #d10e0e;
 }
 
 @media only screen and (max-width: 760px) {

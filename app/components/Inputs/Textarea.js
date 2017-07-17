@@ -37,7 +37,7 @@ class Textarea extends Component {
           const eventProxy = {
             target: {
               value: this.code.get(),
-              name: 'content',
+              name: 'contentBlog',
             },
           };
           onChange(eventProxy);
@@ -51,6 +51,7 @@ class Textarea extends Component {
       <div>
         <textarea
           id="content"
+          className="textarea"
           value={this.props.value}
         />
       </div>

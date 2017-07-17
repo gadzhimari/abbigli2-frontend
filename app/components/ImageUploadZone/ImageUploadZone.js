@@ -28,9 +28,22 @@ class ImageUploadZone extends Component {
 
     return (
       <div className="add-tabs__form">
-        Вы можете загрузить не более хх изображений в формате JPEG, PNG, не привышающих размер 4mpх.
+        <div>
+          Вы можете загрузить не более хх изображений в формате JPEG, PNG, не привышающих размер 4mpх.
+        </div>
+        {
+          images.map((image, idx) => <DragableImage
+            index={idx}
+            key={image.id}
+            id={image.id}
+            moveImage={onMove}
+            deleteImage={deleteImage}
+            src={image.file}
+            rotateImage={rotateImage}
+          />)
+        }
         <Dropzone
-          className="photo-upload__item"
+          className="photo-upload__item photo-upload__item-loader"
           onDrop={this.onDrop}
           multiple
         >
@@ -46,45 +59,26 @@ class ImageUploadZone extends Component {
           }
         </Dropzone>
         {
-          images.map((image, idx) => <DragableImage
-            index={idx}
-            key={image.id}
-            id={image.id}
-            moveImage={onMove}
-            deleteImage={deleteImage}
-            src={image.file}
-            rotateImage={rotateImage}
-          />)
-        }
-        {
           errors
           &&
           errors.length !== 0
           &&
-          <div>
-            {
-              errors.map((error, key) => (<div key={key} className="post-create__error-images">
-                <div className="post-create__error-images__message">
-                  {error}
-                </div>
-              </div>))
-            }
-          </div>
+          errors.map((error, key) => (<div key={key} className="photo-upload__error">
+            <div className="photo-upload__error-message">
+              {error}
+            </div>
+          </div>))
         }
         {
           loadImageErrors
           &&
           loadImageErrors.length !== 0
           &&
-          <div>
-            {
-              loadImageErrors.map((error, key) => (<div key={key} className="post-create__error-images">
-                <div className="post-create__error-images__message">
-                  {error}
-                </div>
-              </div>))
-            }
-          </div>
+          loadImageErrors.map((error, key) => (<div key={key} className="photo-upload__error">
+            <div className="photo-upload__error-message">
+              {error}
+            </div>
+          </div>))
         }
       </div>
     );
