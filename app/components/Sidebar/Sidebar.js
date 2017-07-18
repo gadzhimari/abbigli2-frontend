@@ -4,6 +4,8 @@ import { FavoriteAdd, Share } from 'components';
 import TagsList from './TagsList';
 import SidebarList from './SidebarList';
 
+import { __t } from '../../i18n/translator';
+
 import './Sidebar.less';
 
 const urls = {
@@ -14,8 +16,8 @@ const urls = {
 const Sidebar = ({
   data,
   newPosts,
-}) => {
-  return (
+  popularPosts,
+}) => (
     <div className="sidebar">
       <div className="sidebar__group sidebar__group_favourite">
         <FavoriteAdd />
@@ -29,14 +31,15 @@ const Sidebar = ({
       </div>
       <SidebarList
         items={newPosts}
-        title="Новое в блогах"
+        title={__t('New in blogs')}
+        seeAllUrl="/blogs"
       />
       <SidebarList
-        items={newPosts.slice(4)}
-        title="Популярное в блогах"
+        items={popularPosts}
+        title={__t('Popular in blogs')}
+        seeAllUrl="/blogs?popular=true"
       />
     </div>
   );
-};
 
 export default Sidebar;

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Hummer from 'react-hammerjs';
 
-import TagsList from './components/TagsList';
+import ComponentsList from './components/ComponentsList';
 import SliderButtons from './components/SliderButtons';
 
 import { debounce } from 'utils/functions';
@@ -28,9 +28,9 @@ class TagsBar extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { tags } = this.props;
+    const { items } = this.props;
 
-    if (prevProps.tags !== tags) {
+    if (prevProps.items !== items) {
       this.calculateMaxSlided();
     }
   }
@@ -41,7 +41,7 @@ class TagsBar extends Component {
 
   calculateMaxSlided = () => {
     const wContainer = this.container.offsetWidth;
-    const wTags = 175 * this.props.tags.length;
+    const wTags = this.props.itemWidth * this.props.items.length;
     const difference = wTags - wContainer;
 
     if (difference < 0) {
@@ -53,7 +53,7 @@ class TagsBar extends Component {
     }
 
     this.setState({
-      maxSlided: difference / 175,
+      maxSlided: difference / this.props.itemWidth,
       slidedRight: 0,
       factor: window.innerWidth > 500 ? 3 : 1,
     });
@@ -101,7 +101,7 @@ class TagsBar extends Component {
     });
   }
 
-  onSwipeHandler = (e) => {
+  swipeHandler = (e) => {
     switch (e.direction) {
       case (2): {
         return this.slideRight();
@@ -117,30 +117,33 @@ class TagsBar extends Component {
 
 
   render() {
-    const { tags, previousTags, link } = this.props;
+    const { items, itemProps, ItemComponent, sliderName, itemWidth } = this.props;
     const { maxSlided, slidedRight } = this.state;
 
     return (
-      <div className="slider-tags">
+      <div className={sliderName}>
         <Hummer
-          onSwipe={this.onSwipeHandler}
+          onSwipe={this.swipeHandler}
           direction="DIRECTION_HORIZONTAL"
         >
           <div
-            className="slider-tags__viewport"
+            className={`${sliderName}__viewport`}
             ref={container => (this.container = container)}
           >
-            <TagsList
-              tags={tags}
-              link={link}
-              previousTags={previousTags}
+            <ComponentsList
+              items={items}
+              itemProps={itemProps}
               slidedRight={this.state.slidedRight}
+              ItemComponent={ItemComponent}
+              sliderName={sliderName}
+              itemWidth={itemWidth}
             />
             <SliderButtons
               slideRight={this.slideRight}
               slideLeft={this.slideLeft}
               showLeft={slidedRight !== 0}
               showRight={maxSlided !== slidedRight}
+              sliderName={sliderName}
             />
           </div>
         </Hummer>
@@ -151,12 +154,14 @@ class TagsBar extends Component {
 
 TagsBar.defaultProps = {
   link: '',
+  itemProps: {},
 };
 
 TagsBar.propTypes = {
-  tags: PropTypes.array.isRequired,
-  previousTags: PropTypes.string,
-  link: PropTypes.string,
+  items: PropTypes.array.isRequired,
+  sliderName: PropTypes.string.isRequired,
+  itemWidth: PropTypes.number.isRequired,
+  itemProps: PropTypes.object,
 };
 
 export default TagsBar;

@@ -5,13 +5,14 @@ const SliderButtons = ({
   slideLeft,
   showLeft,
   showRight,
+  sliderName,
 }) => (
-    <div className="slider-tags__nav-wrap">
+    <div className={`${sliderName}__nav-wrap`}>
       {
         showLeft
         &&
         <div
-          className="slider-tags__nav slider-tags__nav_prev"
+          className={`${sliderName}__nav ${sliderName}__nav_prev`}
           onClick={slideLeft}
         >
           <svg className="icon icon-arrow" viewBox="0 0 11.3 19.6">
@@ -23,7 +24,7 @@ const SliderButtons = ({
         showRight
         &&
         <div
-          className="slider-tags__nav slider-tags__nav_next"
+          className={`${sliderName}__nav ${sliderName}__nav_next`}
           onClick={slideRight}
         >
           <svg className="icon icon-arrow" viewBox="0 0 11.3 19.6">
@@ -40,6 +41,7 @@ SliderButtons.propTypes = {
   slideLeft: PropTypes.func.isRequired,
   showLeft: PropTypes.bool.isRequired,
   showRight: PropTypes.bool.isRequired,
+  sliderName: PropTypes.string.isRequired,
 };
 
 export default SliderButtons;

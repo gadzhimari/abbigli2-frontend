@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { NotFound } from 'containers';
-
 import {
   Gallery,
   AuthorInfo,
@@ -17,12 +15,10 @@ import {
 import { CommentsField, CommentsList } from 'components/Comments';
 
 import postLoader from 'App/HOC/postLoader';
-import ProductView from './Components/BlogView';
 
 import { sendComment } from 'ducks/Comments';
-import BlogsPopular from './BlogsPopular';
 
-import { fetchPost, fetchNew, resetPost } from 'ducks/PostPage/actions';
+import { fetchPost, fetchNew, resetPost, fetchPopular } from 'ducks/PostPage/actions';
 import { fetchData as fetchDataComments } from 'ducks/Comments';
 import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
 
@@ -55,13 +51,16 @@ class BlogPage extends Component {
   static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, 4, token))
 
   static fetchSubData = (dispatch, data, params) => Promise.all([
-    dispatch(fetchNew(4)),
+    dispatch(fetchNew({
+      type: 4,
+    })),
     dispatch(fetchDataComments(params.slug)),
     dispatch(fetchDataAuthors({
       type: 'posts',
       excludeId: data.id,
       profileId: data.user.id,
     })),
+    dispatch(fetchPopular(4)),
   ])
 
   static onUnmount = (dispatch) => {
@@ -121,6 +120,8 @@ class BlogPage extends Component {
       isAuthenticated,
       dispatch,
       isFetchingComments,
+      popularPosts,
+      author,
     } = this.props;
 
     const crumbs = [{
@@ -140,7 +141,10 @@ class BlogPage extends Component {
       <main>
         <div className="subscription-article">
           <div className="subscription-article__container">
-            <AuthorInfo data={data.user} />
+            <AuthorInfo
+              data={author}
+              dispatch={dispatch}
+            />
             <OtherArticles articles={itemsAuthors} />
           </div>
         </div>
@@ -168,9 +172,12 @@ class BlogPage extends Component {
           <Sidebar
             data={data}
             newPosts={itemsBlogs}
+            popularPosts={popularPosts}
           />
           <div className="section">
-            <h2 className="section__name">Похожие статьи</h2>
+            <h2 className="section__name">
+              Похожие статьи
+            </h2>
             <div className="cards-wrap">
               {
                 itemsBlogs
@@ -182,7 +189,7 @@ class BlogPage extends Component {
                   />)
               }
               <button className="default-button" type="button">
-                Показать еще
+                {__t('Show more')}
               </button>
             </div>
           </div>
@@ -215,23 +222,19 @@ BlogPage.propTypes = {
   itemsAuthors: PropTypes.array,
 };
 
-function mapStateToProps(state) {
-  const authors = (state.ProfilePosts);
-  const comments = (state.Comments);
-  const auth = state.Auth;
-
-  return {
-    data: state.PostPage.post,
-    isFetching: state.PostPage.isFetchingPost,
-    isDefined: state.PostPage.isDefined,
-    itemsBlogs: state.PostPage.newPosts,
-    isFetchingBlogs: state.PostPage.isFetchingNew,
-    itemsAuthors: authors.items,
-    isFetchingAuthors: authors.isFetching,
-    itemsComments: comments.items,
-    isFetchingComments: comments.isFetching,
-    isAuthenticated: auth.isAuthenticated,
-  };
-}
+const mapStateToProps = state => ({
+  data: state.PostPage.post,
+  author: state.PostPage.author,
+  isFetching: state.PostPage.isFetchingPost,
+  isDefined: state.PostPage.isDefined,
+  itemsBlogs: state.PostPage.newPosts,
+  popularPosts: state.PostPage.popularPosts,
+  isFetchingBlogs: state.PostPage.isFetchingNew,
+  itemsAuthors: state.ProfilePosts.items,
+  isFetchingAuthors: state.ProfilePosts.isFetching,
+  itemsComments: state.Comments.items,
+  isFetchingComments: state.Comments.isFetching,
+  isAuthenticated: state.Auth.isAuthenticated,
+});
 
 export default connect(mapStateToProps)(postLoader(BlogPage));

@@ -1,29 +1,39 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 
 import { Link } from 'components';
 
 const Tag = ({
-  tag,
+  item,
   previousTags,
   link,
 }) => {
   const random = Math.floor(Math.random() * (9 - 1)) + 1;
   const prevTagsLink = previousTags
-    ? `${previousTags},${tag.title}`
-    : `${tag.title}`;
+    ? `${previousTags},${item.title}`
+    : `${item.title}`;
 
   const linkTo = link
-    ? `${link}${tag.title}/new`
+    ? `${link}${item.title}/new`
     : `/tags/${prevTagsLink}/new`;
 
   return (<Link
     className={`slider-tags__item tag_${random}`}
-    key={tag.id}
+    key={item.id}
     to={linkTo}
   >
-    #{tag.title}
+    #{item.title}
   </Link>);
+};
+
+Tag.propTypes = {
+  item: PropTypes.shape({
+    title: PropTypes.string,
+    id: PropTypes.number,
+  }).isRequired,
+  previousTags: PropTypes.string,
+  link: PropTypes.string,
 };
 
 export default pure(Tag);

@@ -73,7 +73,7 @@ const routes = (store, token, shouldPreload) => {
         <Route path="messages" component={ProfileMessages} />
       </Route>
 
-      <Route path="blogs(/:filter)" component={BlogsPage} />
+      <Route path="blogs" component={BlogsPage} />
       <Route path="events" component={EventsPage} />
       <Route path="event/:slug" component={EventPage} />
       <Route path="blog/:slug" component={BlogPage} />

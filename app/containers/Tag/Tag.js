@@ -4,12 +4,13 @@ import Helmet from 'react-helmet';
 
 import {
   BreadCrumbs,
-  TagsBar,
+  SliderBar,
   Filters,
   Loading,
   ListWithNew,
   PageSwitcher,
 } from 'components';
+import Tag from 'components/SliderBar/components/Tag';
 
 import { Product } from 'components/Cards';
 
@@ -19,7 +20,7 @@ import { __t } from './../../i18n/translator';
 
 import './Tag.styl';
 
-class Tag extends Component {
+class TagSearchResults extends Component {
   constructor(props) {
     super(props);
   }
@@ -103,9 +104,12 @@ class Tag extends Component {
         {
           tags.length > 0
           &&
-          <TagsBar
-            tags={tags}
-            previousTags={routeParams.tags}
+          <SliderBar
+            sliderName="slider-tags"
+            items={tags}
+            ItemComponent={Tag}
+            itemWidth={175}
+            itemProps={{ previousTags: routeParams.tags }}
           />
         }
         <main className="main">
@@ -148,7 +152,7 @@ class Tag extends Component {
   }
 }
 
-Tag.propTypes = {
+TagSearchResults.propTypes = {
   routeParams: PropTypes.object,
   dispatch: PropTypes.func,
   isAuthenticated: PropTypes.bool,
@@ -166,4 +170,4 @@ const mapStateToProps = ({
     pageCount: TagSearch.pageCount,
   });
 
-export default connect(mapStateToProps)(Tag);
+export default connect(mapStateToProps)(TagSearchResults);

@@ -9,25 +9,105 @@ import {
   Loading,
   ListWithNew,
   PageSwitcher,
+  SliderBar,
+  ChoiseFilter,
 } from 'components';
+import BlogSection from 'components/SliderBar/components/BlogSection';
 
-import { fetchData } from 'ducks/blogs';
+import * as actions from 'ducks/blogs';
 import { __t } from '../../i18n/translator';
 
 import './BlogsPage.less';
 
 class BlogsPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchValue: (props.routing && props.routing.query.search) || '',
+    };
+  }
+
   componentDidMount() {
-    this.props.fetchBlogs();
+    this.fetchData();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { location } = this.props;
+
+    if (prevProps.location.query !== location.query) {
+      this.fetchData();
+    }
+  }
+
+  fetchData = () => {
+    const { routing, fetchBlogs } = this.props;
+
+    const options = {
+      popular: routing.query.popular === 'true',
+      section: routing.query.section,
+      type: 4,
+      search: routing.query.search,
+    };
+
+    fetchBlogs(options);
+  }
+
+  changeFilter = ({ target }) => {
+    const { router, routing } = this.props;
+    const query = Object.assign({}, routing.query, {
+      popular: target.dataset.popular === 'true',
+    });
+
+    router.push({
+      pathname: '/blogs',
+      query,
+    });
+  }
+
+  changeSearch = ({ target }) => this.setState({
+    searchValue: target.value,
+  })
+
+  doSearch = () => {
+    const { router, routing } = this.props;
+    const { searchValue } = this.state;
+
+    if (searchValue.trim().length === 0) return;
+
+    const query = Object.assign({}, routing.query, {
+      search: searchValue.trim(),
+    });
+
+    router.push({
+      pathname: '/blogs',
+      query,
+    });
+  }
+
+  handleSearchKeyDown = ({ keyCode, target }) => {
+    if (target.value.trim().length === 0) return;
+
+    if (keyCode === 13) {
+      this.doSearch();
+    }
   }
 
   render() {
-    const { isFetching, items } = this.props;
+    const { isFetching, items, sections, params, routing } = this.props;
+
+    const section = sections.filter(item => routing && item.slug === routing.query.section)[0];
 
     const crumbs = [{
       title: __t('Blogs'),
       url: '/blogs',
     }];
+
+    if (section) {
+      crumbs.push({
+        title: section.title,
+        url: `/blogs?section=${section.slug}`,
+      });
+    }
 
     const newData = [{
       id: 0,
@@ -47,6 +127,8 @@ class BlogsPage extends Component {
       },
     }];
 
+    const isActivePopular = routing && routing.query.popular === 'true';
+
     return (
       <main className="main blog">
         <BreadCrumbs
@@ -59,18 +141,40 @@ class BlogsPage extends Component {
             </svg>
             {__t('Blogs')}
           </h1>
+          {
+            sections.length > 0
+            &&
+            <SliderBar
+              sliderName="slider-category"
+              items={sections}
+              ItemComponent={BlogSection}
+              itemWidth={120}
+            />
+          }
           <div className="filter">
-            <div className="select-wrap">
-              <div className="select">
-                <input className="input" type="text" />
-                <div className="select__dropdown">
-                  <div className="select__item">Любое</div>
-                </div>
-              </div>
-            </div>
+            <ChoiseFilter
+              choiseList={[
+                { title: __t('New'), active: !isActivePopular, popular: false },
+                { title: __t('Popular'), active: isActivePopular, popular: true },
+              ]}
+              onChange={this.changeFilter}
+            />
             <div className="filter__search">
-              <input className="input" type="text" />
-              <button className="default-button" type="button">Найти</button>
+              <input
+                className="input"
+                type="text"
+                placeholder={__t('Blog search')}
+                onChange={this.changeSearch}
+                onKeyDown={this.handleSearchKeyDown}
+                value={this.state.searchValue}
+              />
+              <button
+                className="default-button"
+                type="button"
+                onClick={this.doSearch}
+              >
+                {__t('Search')}
+              </button>
             </div>
           </div>
           {
@@ -95,14 +199,22 @@ class BlogsPage extends Component {
   }
 }
 
-const mapStateToProps = ({ Blogs }) => ({
+BlogsPage.propTypes = {
+  changeSearchValue: PropTypes.func.isRequired,
+  fetchBlogs: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = ({ Blogs, Sections, routing }) => ({
   isFetching: Blogs.isFetching,
   items: Blogs.items,
   searchValue: Blogs.searchValue,
+  sections: Sections.items,
+  routing: routing.locationBeforeTransitions,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchBlogs: (page, searchValue, popular) => dispatch(fetchData(page, searchValue, popular)),
+  fetchBlogs: (page, searchValue, popular) => dispatch(actions.fetchData(page, searchValue, popular)),
+  changeSearchValue: value => dispatch(actions.changeSearchValue(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlogsPage);

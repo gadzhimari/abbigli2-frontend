@@ -66,7 +66,7 @@ const postLoader = WrappedComponent => class extends Component {
       />
       {
         isFetching
-          ? <div className="container-fluid"><Loading loading={isFetching} /></div>
+          ? <div><Loading loading={isFetching} /></div>
           : <WrappedComponent {...this.props} />
       }
     </div>);

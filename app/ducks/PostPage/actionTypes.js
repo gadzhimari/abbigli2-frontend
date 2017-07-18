@@ -6,6 +6,7 @@ export const RESPONSE_POPULAR = 'RESPONSE_POPULAR';
 
 export const REQUEST_NEW = 'REQUEST_NEW';
 export const RESPONSE_NEW = 'RESPONSE_NEW';
+export const SET_FOLLOWING = 'POST_PAGE/SET_FOLLOWING';
 
 export const ERROR_404 = 'ERROR_404';
 export const RESET_POST = 'RESET_POST';

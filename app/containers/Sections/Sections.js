@@ -8,7 +8,6 @@ import {
   CardTag,
   Loading,
   PageSwitcher,
-  NewPost,
   ListWithNew,
 } from 'components';
 

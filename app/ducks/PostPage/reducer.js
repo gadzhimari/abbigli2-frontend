@@ -5,6 +5,7 @@ const initialState = {
   isFetchingPopular: true,
   isFetchingNew: true,
   post: {},
+  author: {},
   popularPosts: [],
   newPosts: [],
   isDefined: true,
@@ -21,6 +22,7 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         isFetchingPost: false,
         post: action.post,
+        author: action.post.user,
       });
     }
     case (actions.REQUEST_POPULAR): {
@@ -43,6 +45,13 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         isFetchingNew: false,
         newPosts: action.newPosts,
+      });
+    }
+    case (actions.SET_FOLLOWING): {
+      return Object.assign({}, state, {
+        author: Object.assign({}, state.author, {
+          is_subscribed: !state.author.is_subscribed,
+        }),
       });
     }
     case (actions.ERROR_404): {

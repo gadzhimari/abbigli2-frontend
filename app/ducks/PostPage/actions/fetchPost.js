@@ -30,7 +30,7 @@ const fetchPost = (slug, type, tokenID) => {
   return (dispatch) => {
     dispatch(requestPost());
 
-    return fetch(`${API_URL}posts/${slug}/`)
+    return fetch(`${API_URL}posts/${slug}/`, config)
       .then((res) => {
         if (res.ok) {
           return res.json();

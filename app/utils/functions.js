@@ -108,5 +108,13 @@ export const createQuery = (queryObj) => {
 
   if (keys.length === 0) return '';
 
-  return keys.reduce((a, b) => `${a}${a.length > 1 ? '&' : ''}${b}=${queryObj[b]}`, '?');
+  return keys.reduce((a, b) => {
+    let next = a;
+
+    if (queryObj[b]) {
+      next = `${next}${a.length > 1 ? '&' : ''}${b}=${queryObj[b]}`;
+    }
+
+    return next;
+  }, '?');
 };

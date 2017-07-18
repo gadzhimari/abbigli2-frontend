@@ -3,11 +3,16 @@ import React from 'react';
 import { Link } from 'react-router';
 import { DOMAIN_URL } from 'config';
 
+import { setFollow } from 'ducks/PostPage/actions';
+
+import { __t } from '../../i18n/translator';
 import './AuthorInfo.less';
 
 const AuthorInfo = ({
   data,
+  dispatch,
 }) => {
+  const subscribe = () => dispatch(setFollow(data.id));
 
   return (
     <div className="subscription-article__wrap">
@@ -45,8 +50,13 @@ const AuthorInfo = ({
         <button
           className="default-button"
           type="button"
+          onClick={subscribe}
         >
-          Подписаться
+          {
+            data.is_subscribed
+              ? __t('Unsubscribe')
+              : __t('Subscribe')
+          }
         </button>
       </div>
     </div >

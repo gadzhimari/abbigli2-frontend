@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import {
   BreadCrumbs,
-  TagsBar,
+  SliderBar,
   Filters,
   Loading,
   ListWithNew,
   PageSwitcher,
 } from 'components';
 import { Product } from 'components/Cards';
+import Tag from 'components/SliderBar/components/Tag';
 
 import { connect } from 'react-redux';
 import { fetchData } from 'ducks/Posts';
@@ -147,9 +148,12 @@ class SectionTag extends Component {
         {
           this.state.tags.length > 0
           &&
-          <TagsBar
-            tags={this.state.tags}
-            link={`/sections/${seoTextsObj.slug}/`}
+          <SliderBar
+            sliderName="slider-tags"
+            items={this.state.tags}
+            ItemComponent={Tag}
+            itemWidth={175}
+            itemProps={{ link: `/sections/${seoTextsObj.slug}/` }}
           />
         }
         <main className="main">

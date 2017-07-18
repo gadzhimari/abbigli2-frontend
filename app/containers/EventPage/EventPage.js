@@ -24,7 +24,9 @@ class EventPage extends Component {
   static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, 3, token))
 
   static fetchSubData = (dispatch, data, params) => Promise.all([
-    dispatch(fetchNew(3)),
+    dispatch(fetchNew({
+      type: 3,
+    })),
     dispatch(fetchDataComments(params.slug)),
     dispatch(fetchDataAuthors({
       type: 'posts',
