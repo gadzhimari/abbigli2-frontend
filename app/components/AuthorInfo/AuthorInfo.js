@@ -43,7 +43,7 @@ const AuthorInfo = ({
           </svg>
           {
             data.city
-              ? data.city
+              ? `${data.city.name}, ${data.city.country.name}`
               : 'Город не указан'
           }
         </div>

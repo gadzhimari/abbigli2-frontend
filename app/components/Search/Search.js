@@ -2,12 +2,9 @@ import React, { Component, PropTypes } from 'react';
 
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import equal from 'deep-equal';
 
 import { Link } from 'components';
 import TagsSearchForm from '../TagsSearchForm';
-
-import { setTags, deleteTag, deleteAllTags } from 'ducks/Search';
 
 import { API_URL } from 'config';
 
@@ -37,8 +34,6 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    this.checkLoadedWithTags();
-
     document.addEventListener('click', ({ target }) => {
       const search = document.querySelector('.search');
       const { usersOpen } = this.state;
@@ -51,49 +46,40 @@ class Search extends Component {
     });
   }
 
-  componentDidUpdate(prevProps) {
-    const { tagList, params } = this.props;
-
-    if (!equal(prevProps.tagList, tagList)) {
-      this.searchByTags();
-    }
-
-    if (prevProps.params.tags !== params.tags) {
-      this.checkLoadedWithTags();
-    }
-  }
-
   onTagsCreated = (tags) => {
-    const { dispatch } = this.props;
+    const { router, routing } = this.props;
 
-    dispatch(setTags(tags));
+    router.push({
+      pathname: '/find',
+      query: Object.assign({}, routing.query, {
+        tags,
+        type: 1,
+      }),
+    });
   }
 
-  checkLoadedWithTags = () => {
-    const { dispatch, params, location } = this.props;
+  deleteTag = (index) => {
+    const { routing, router } = this.props;
 
-    if (location.pathname.includes('/tags/') && params.tags) {
-      const tags = params.tags
-        .split(',')
-        .map((tag, id) => ({
-          text: tag,
-          id,
-        }));
+    const tags = routing.query.tags.split(',');
+    const newTags = [...tags.slice(0, index), ...tags.slice(index + 1)];
 
-      dispatch(setTags(tags));
+    if (newTags.length === 0) {
+      router.push('/');
+    } else {
+      router.push({
+        pathname: '/find',
+        query: Object.assign({}, routing.query, {
+          tags: newTags.join(','),
+        }),
+      });
     }
-  }
-
-  deleteTag = (tagId) => {
-    const { dispatch } = this.props;
-
-    dispatch(deleteTag(tagId));
   }
 
   deleteAllTags = () => {
-    const { dispatch } = this.props;
+    const { router } = this.props;
 
-    dispatch(deleteAllTags());
+    router.push('/');
   }
 
   searchByTags = () => {
@@ -163,9 +149,10 @@ class Search extends Component {
 
   render() {
     const { mode, userRequest, results, usersOpen } = this.state;
-    const { tagList } = this.props;
+    const { routing } = this.props;
 
     const shouldResultsOpen = usersOpen && results.length > 0 && userRequest.length > 0;
+    const tagList = (routing && routing.query.tags) || '';
 
     return (
       <div className={`search ${shouldResultsOpen ? 'open-result' : ''}`}>
@@ -229,10 +216,8 @@ class Search extends Component {
               className={"search-tags " + (this.state.mode === 'tags' ? 'active' : '')}
               onClick={() => this.changeMode('tags')}
             >
-                <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13.99 16">
-                  <path d="M13.99,4.698l-0.384,1.71h-2.794l-0.714,3.368h3.053l-0.432,1.709H9.74L8.731,16H6.772l0.985-4.516H4.777
-                    L3.817,16H1.858l0.962-4.516H0l0.344-1.709h2.858L3.88,6.408H0.875l0.356-1.71h3.006L5.221,0h1.984L6.23,4.698h2.981L10.222,0h1.942
-	l-0.983,4.698H13.99z M8.865,6.408H5.861L5.124,9.775H8.14L8.865,6.408z"/>
+              <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13.99 16">
+                <path d="M13.99,4.698l-0.384,1.71h-2.794l-0.714,3.368h3.053l-0.432,1.709H9.74L8.731,16H6.772l0.985-4.516H4.777 L3.817,16H1.858l0.962-4.516H0l0.344-1.709h2.858L3.88,6.408H0.875l0.356-1.71h3.006L5.221,0h1.984L6.23,4.698h2.981L10.222,0h1.942 l-0.983,4.698H13.99z M8.865,6.408H5.861L5.124,9.775H8.14L8.865,6.408z" />
               </svg>
             </div>
             <div
@@ -264,10 +249,9 @@ class Search extends Component {
 
 Search.propTypes = propTypes;
 
-function mapStateToProps(state) {
-  return ({
-    tagList: state.Search.tagList,
-  });
-}
+const mapStateToProps = state => ({
+  tagList: state.Search.tagList,
+  routing: state.routing.locationBeforeTransitions,
+});
 
 export default withRouter(connect(mapStateToProps)(Search));

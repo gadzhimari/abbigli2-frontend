@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import {
   ChoiceSection,
@@ -9,7 +8,6 @@ import {
   ChoiceRadius,
 } from 'components';
 
-import { updateField } from 'ducks/Filters/actions';
 import { __t } from '../../i18n/translator';
 
 import './Filters.less';
@@ -71,28 +69,11 @@ Filters.propTypes = {
   updateColor: PropTypes.func.isRequired,
   radius: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  section: PropTypes.oneOfType([PropTypes.any, PropTypes.object]),
-  sections: PropTypes.oneOfType([PropTypes.any, PropTypes.object]),
+  section: PropTypes.oneOfType([PropTypes.any, PropTypes.object]).isRequired,
+  sections: PropTypes.oneOfType([PropTypes.any, PropTypes.object]).isRequired,
   priceFrom: PropTypes.string.isRequired,
   priceTo: PropTypes.string.isRequired,
   anyPrice: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = ({ Filters: filter, Sections }) => ({
-  section: filter.section,
-  priceFrom: filter.priceFrom,
-  priceTo: filter.priceTo,
-  anyPrice: filter.anyPrice,
-  color: filter.color,
-  radius: filter.radius,
-  sections: Sections.items,
-});
-
-const mapDispatchToProps = dispatch => ({
-  updateInput: ({ target }) => dispatch(updateField(target.dataset.field, target.value)),
-  updateSelect: (field, value) => dispatch(updateField(field, value)),
-  updateCheckbox: ({ target }) => dispatch(updateField(target.dataset.field, target.checked)),
-  updateColor: ({ target }) => dispatch(updateField('color', target.dataset.color)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filters);
+export default Filters;

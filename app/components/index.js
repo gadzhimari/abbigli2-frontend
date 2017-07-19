@@ -75,3 +75,4 @@ export { default as OtherArticles } from './OtherArticles';
 export { default as Sidebar } from './Sidebar';
 export { default as FavoriteAdd } from './FavoriteAdd';
 export { default as ChoiseFilter } from './ChoiseFilter';
+export { default as RelativePosts } from './RelativePosts';

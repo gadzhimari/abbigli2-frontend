@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import uniqid from 'uniqid';
 import { API_URL } from 'config';
-import equal from 'deep-equal';
 
 import ScrollBar from '../ScrollBar';
 
@@ -14,7 +14,7 @@ const propTypes = {
   onChange: PropTypes.func,
   deleteTag: PropTypes.func,
   deleteAllTags: PropTypes.func,
-  tags: PropTypes.array,
+  tags: PropTypes.string,
   inputClass: PropTypes.string,
   inputWrapperClass: PropTypes.string,
   optionsWrapperClass: PropTypes.string,
@@ -35,8 +35,8 @@ class SearchForm extends Component {
     searchFormClass: 'search-form',
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       currentValue: '',
       optionsValue: '',
@@ -44,6 +44,7 @@ class SearchForm extends Component {
       options: [],
       mustFocus: false,
       mouseOvered: false,
+      tags: [],
     };
 
     this.nextTagId = 0;
@@ -53,13 +54,7 @@ class SearchForm extends Component {
     const { tags } = this.props;
 
     if (tags.length) {
-      const newValue = tags
-        .map(tag => tag.text)
-        .join(' ');
-
-      this.setState({
-        currentValue: newValue,
-      });
+      this.getTagsFromProps();
     }
   }
 
@@ -67,23 +62,24 @@ class SearchForm extends Component {
     const { mustFocus } = this.state;
     const { tags } = this.props;
 
-    if (
-    mustFocus
-      &&
-    prevProps.tags === tags
-    ) {
+    if (mustFocus && prevProps.tags === tags) {
       this.input.focus();
     }
 
-    if (!equal(prevProps.tags, tags)) {
-      const newValue = tags
-        .map(tag => tag.text)
-        .join(' ');
-
-      this.setState({
-        currentValue: newValue,
-      });
+    if (prevProps.tags !== tags) {
+      this.getTagsFromProps();
     }
+  }
+
+  getTagsFromProps = () => {
+    const { tags } = this.props;
+
+    this.setState({
+      currentValue: tags.replace(new RegExp(',', 'g'), ' '),
+      tags: tags.length > 0
+        ? tags.split(',').map(tag => ({ text: tag, id: uniqid() }))
+        : [],
+    });
   }
 
   getActiveOption = (direction) => {
@@ -273,12 +269,7 @@ class SearchForm extends Component {
 
     if (trimedValue.length < 1) return;
 
-    const tags = trimedValue
-      .split(' ')
-      .map(tagText => ({
-        text: tagText,
-        id: this.nextTagId++,
-      }));
+    const tags = trimedValue.replace(new RegExp(' ', 'g'), ',');
 
     onChange(tags);
   }
@@ -288,7 +279,7 @@ class SearchForm extends Component {
 
     if (
       target.classList.contains('tag__delete')
-        ||
+      ||
       target.classList.contains('loader__logo')
     ) return;
 
@@ -331,9 +322,8 @@ class SearchForm extends Component {
   }, 500, this)
 
   render() {
-    const { isFocused, options, currentValue, optionsValue } = this.state;
+    const { isFocused, options, currentValue, optionsValue, tags } = this.state;
     const {
-      tags,
       inputClass,
       inputWrapperClass,
       optionListClass,
@@ -369,7 +359,7 @@ class SearchForm extends Component {
         onClick={this.focusedOnInput}
       >
         {
-          tags.map(tag => (
+          tags.map((tag, idx) => (
             <div key={`${tag.id}--tagsearch`} className="form__tag tag">
               <div
                 className="tag__text"
@@ -378,14 +368,14 @@ class SearchForm extends Component {
               </div>
               <div
                 className="tag__delete"
-                onClick={() => this.props.deleteTag(tag.id)}
+                onClick={() => this.props.deleteTag(idx)}
               >
                 ×
               </div>
             </div>
           ))
         }
-        { clearInputButton() }
+        {clearInputButton()}
       </ScrollBar>
     );
     const inputTemplate = () => (

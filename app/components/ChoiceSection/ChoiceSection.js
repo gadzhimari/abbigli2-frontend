@@ -21,10 +21,12 @@ class ChoiceSection extends Component {
   });
 
   changeValue = ({ target }) => this.props
-    .onChange('section', target.innerText);
+    .onChange('section', target.dataset.slug);
 
   render() {
     const { sections, activeSection } = this.props;
+
+    const section = sections.filter(item => item.slug === activeSection)[0] || {};
 
     return (
       <div className="choice-section">
@@ -36,7 +38,7 @@ class ChoiceSection extends Component {
             onChange={this.onChangeInput}
             onFocus={this.toggleOpenDropdown}
             onBlur={this.toggleOpenDropdown}
-            value={activeSection}
+            value={section.title}
           />
         </div>
         {
@@ -49,6 +51,7 @@ class ChoiceSection extends Component {
                 key={item.id}
                 onMouseDown={this.changeValue}
                 onTouchEnd={this.changeValue}
+                data-slug={item.slug}
               >
                 {item.title}
               </a>)

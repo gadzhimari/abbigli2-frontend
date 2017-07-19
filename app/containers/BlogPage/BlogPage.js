@@ -10,6 +10,7 @@ import {
   FavoriteAdd,
   NewPost,
   BlogCard,
+  RelativePosts,
 } from 'components';
 
 import { CommentsField, CommentsList } from 'components/Comments';
@@ -18,7 +19,7 @@ import postLoader from 'App/HOC/postLoader';
 
 import { sendComment } from 'ducks/Comments';
 
-import { fetchPost, fetchNew, resetPost, fetchPopular } from 'ducks/PostPage/actions';
+import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative } from 'ducks/PostPage/actions';
 import { fetchData as fetchDataComments } from 'ducks/Comments';
 import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
 
@@ -61,6 +62,7 @@ class BlogPage extends Component {
       profileId: data.user.id,
     })),
     dispatch(fetchPopular(4)),
+    dispatch(fetchRelative(params.slug)),
   ])
 
   static onUnmount = (dispatch) => {
@@ -107,6 +109,18 @@ class BlogPage extends Component {
     return defaultImages && <Gallery images={defaultImages} />;
   }
 
+  showMoreRelative = () => {
+    const { data, router } = this.props;
+
+    router.push({
+      pathname: '/find',
+      query: {
+        tags: data.tags.splice(0, 1).join(','),
+        type: 4,
+      },
+    });
+  }
+
   render() {
     const commentsList = this.props.itemsComments;
 
@@ -122,6 +136,7 @@ class BlogPage extends Component {
       isFetchingComments,
       popularPosts,
       author,
+      relativePosts,
     } = this.props;
 
     const crumbs = [{
@@ -174,25 +189,15 @@ class BlogPage extends Component {
             newPosts={itemsBlogs}
             popularPosts={popularPosts}
           />
-          <div className="section">
-            <h2 className="section__name">
-              Похожие статьи
-            </h2>
-            <div className="cards-wrap">
-              {
-                itemsBlogs
-                  .slice(0, 4)
-                  .map(post => <BlogCard
-                    data={post}
-                    legacy
-                    key={`${post.id}--blog`}
-                  />)
-              }
-              <button className="default-button" type="button">
-                {__t('Show more')}
-              </button>
-            </div>
-          </div>
+          {
+            relativePosts.length > 0
+            &&
+            <RelativePosts
+              items={relativePosts}
+              Component={BlogCard}
+              showMoreRelative={this.showMoreRelative}
+            />
+          }
           <div className="section">
             <div className="cards-wrap">
               {
@@ -229,7 +234,9 @@ const mapStateToProps = state => ({
   isDefined: state.PostPage.isDefined,
   itemsBlogs: state.PostPage.newPosts,
   popularPosts: state.PostPage.popularPosts,
+  relativePosts: state.PostPage.relativePosts,
   isFetchingBlogs: state.PostPage.isFetchingNew,
+  isFetchingRelative: state.PostPage.isFetchingRelative,
   itemsAuthors: state.ProfilePosts.items,
   isFetchingAuthors: state.ProfilePosts.isFetching,
   itemsComments: state.Comments.items,

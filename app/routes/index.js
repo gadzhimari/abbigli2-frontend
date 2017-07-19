@@ -62,6 +62,7 @@ const routes = (store, token, shouldPreload) => {
       <Route path="sections/:section/:tags/popular" component={SectionTag} filter="popular" />
       <Route path="sections/:section/:tags/nearest" component={SectionTag} filter="near" />
       <Route path="tags/:tags/:filter(/:page)" component={Tag} />
+      <Route path="find" component={Tag} />
 
       <Route path="post/new" component={PostCreate} onEnter={handleNoAuth} />
       <Route path="profile/:profile/post/edit/:slug" component={PostCreate} onEnter={handleNoAuth} />

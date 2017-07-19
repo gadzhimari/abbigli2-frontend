@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 import { Link } from 'react-router';
 
-const TagsList = ({ tags }) => (
+const TagsList = ({ tags, type }) => (
   <div className="sidebar__group">
     {
       tags
@@ -11,7 +11,7 @@ const TagsList = ({ tags }) => (
       tags.map((tag, idx) => <Link
         key={idx}
         className="legacy tag"
-        to={`/tags/${tag}/new`}
+        to={`/find?tags=${tag}&type=${type}`}
       >
         #{tag}
       </Link>)
@@ -20,6 +20,7 @@ const TagsList = ({ tags }) => (
 
 TagsList.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default pure(TagsList);

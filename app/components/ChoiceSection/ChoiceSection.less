@@ -19,19 +19,18 @@
   &__dropdown {
     position: absolute;
     top: 55px;
-    right: 0;
+    left: 0;
     background-color: #fff;
     border-radius: 3px;
     border: 1px solid @border;
     width: 400px;
     padding: 15px;
     z-index: 10;
-    display: none;
 
     &:before {
       position: absolute;
       top: -8px;
-      right: 9px;
+      left: 9px;
       .triangle(top, 8px, 8px, @border);
 
     }
@@ -39,7 +38,7 @@
       content: '';
       display: block;
       position: absolute;
-      right: 10px;
+      left: 10px;
       top: -7px;
       .triangle(top, 7px, 7px, #fff);
     }

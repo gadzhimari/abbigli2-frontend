@@ -1,23 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { NewPost } from 'components';
+import { NewPost, BlogCard } from 'components';
+import { Product } from 'components/Cards';
+
+const cardsByType = {
+  1: Product,
+  4: BlogCard,
+};
 
 const ListWithNew = ({
   items,
   newItems,
-  ItemComponent,
   itemProps,
   count,
+  ItemComponent,
 }) => (
     <div>
       <div className="cards-wrap">
         {
-          items.slice(0, count).map(item => <ItemComponent
-            key={item.id}
-            data={item}
-            {...itemProps}
-          />)
+          items.slice(0, count).map((item) => {
+            const Component = ItemComponent || cardsByType[item.type];
+
+            return (<Component
+              key={item.id}
+              data={item}
+              {...itemProps}
+            />);
+          })
         }
       </div>
       <div className="cards-wrap">
@@ -30,11 +40,15 @@ const ListWithNew = ({
       </div>
       <div className="cards-wrap">
         {
-          items.slice(count).map(item => <ItemComponent
-            key={item.id}
-            data={item}
-            {...itemProps}
-          />)
+          items.slice(count).map((item) => {
+            const Component = ItemComponent || cardsByType[item.type];
+
+            return (<Component
+              key={item.id}
+              data={item}
+              {...itemProps}
+            />);
+          })
         }
       </div>
     </div>

@@ -22,7 +22,10 @@ const Sidebar = ({
       <div className="sidebar__group sidebar__group_favourite">
         <FavoriteAdd />
       </div>
-      <TagsList tags={data.tags} />
+      <TagsList
+        tags={data.tags}
+        type={data.type}
+      />
       <div className="sidebar__group sidebar__group_social">
         <Share
           buttonClass="social-btn"

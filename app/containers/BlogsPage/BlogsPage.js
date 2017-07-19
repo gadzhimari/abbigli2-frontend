@@ -181,11 +181,11 @@ class BlogsPage extends Component {
             isFetching
               ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
               : <ListWithNew
-                ItemComponent={BlogCard}
                 items={items}
                 newItems={newData}
                 itemProps={{ legacy: true }}
                 count={8}
+                ItemComponent={BlogCard}
               />
           }
           {

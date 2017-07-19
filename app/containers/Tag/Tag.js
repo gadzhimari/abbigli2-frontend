@@ -12,8 +12,6 @@ import {
 } from 'components';
 import Tag from 'components/SliderBar/components/Tag';
 
-import { Product } from 'components/Cards';
-
 import { fetchPosts, fetchTags } from 'ducks/TagSearch/actions';
 
 import { __t } from './../../i18n/translator';
@@ -25,7 +23,7 @@ class TagSearchResults extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { location, items } = this.props;
 
     if (location.action === 'POP' && items.length === 0) {
@@ -49,24 +47,40 @@ class TagSearchResults extends Component {
   }
 
   loadRelativeTags = () => {
-    const { routeParams, dispatch } = this.props;
+    const { routing, dispatch } = this.props;
 
-    dispatch(fetchTags(routeParams.tags));
+    dispatch(fetchTags(routing.query.tags));
   }
 
   loadItems = () => {
-    const { routeParams, dispatch } = this.props;
-    const page = routeParams.page || 1;
-    const options = {
-      tags: routeParams.tags,
-      [routeParams.filter]: true,
-    };
-
-    if (page !== 1) {
-      options.page = page;
-    }
+    const { routing, dispatch } = this.props;
+    const options = routing.query;
 
     dispatch(fetchPosts(options));
+  }
+
+  clickOnTag = (tag) => {
+    const { router, routing } = this.props;
+    const newTags = routing.query.tags.split(',');
+    newTags.push(tag);
+
+    router.push({
+      pathname: '/find',
+      query: Object.assign({}, routing.query, {
+        tags: newTags.join(','),
+      }),
+    });
+  }
+
+  updateSection = (_, slug) => {
+    const { routing, router } = this.props;
+
+    router.push({
+      pathname: '/find',
+      query: Object.assign({}, routing.query, {
+        section: slug,
+      }),
+    });
   }
 
   render() {
@@ -79,6 +93,8 @@ class TagSearchResults extends Component {
       items,
       isFetching,
       priceTemplate,
+      routing,
+      sections,
     } = this.props;
 
     const newData = [{
@@ -99,6 +115,8 @@ class TagSearchResults extends Component {
       },
     }];
 
+    const route = routing || { query: {} };
+
     return (
       <div>
         {
@@ -109,35 +127,50 @@ class TagSearchResults extends Component {
             items={tags}
             ItemComponent={Tag}
             itemWidth={175}
-            itemProps={{ previousTags: routeParams.tags }}
+            itemProps={{ onClick: this.clickOnTag }}
           />
         }
         <main className="main">
           <BreadCrumbs />
           <div className="content">
             <h1 className="section-title">
-              <span>Результаты поиска</span>
+              <span>{__t('Search results')}</span>
               {' '}
-              {`"${routeParams.tags.split(',').join(' ')}"`}
+              {
+                routing
+                &&
+                `"${routing.query.tags.split(',').join(' ')}"`
+              }
               <div className="section-title__subscribe">
                 <button className="default-button" type="button">
                   + Подписаться
                 </button>
                 <a className="filter-open">
-                  Фильтры
+                  {__t('Filters')}
                 </a>
               </div>
             </h1>
-            <Filters />
+            <Filters
+              section={route.query.section}
+              sections={sections}
+              anyPrice
+              updateInput={(e) => console.log(e)}
+              priceFrom={'0'}
+              priceTo={'1500'}
+              color={route.query.color}
+              radius={'1000'}
+              updateCheckbox={(e) => console.log(e)}
+              updateSelect={this.updateSection}
+              updateColor={(e) => console.log(e)}
+            />
             {
               isFetching
                 ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
                 : <ListWithNew
-                  ItemComponent={Product}
                   items={items}
                   newItems={newData}
                   count={4}
-                  itemProps={{ priceTemplate }}
+                  itemProps={{ priceTemplate, legacy: true }}
                 />
             }
             {
@@ -161,13 +194,18 @@ TagSearchResults.propTypes = {
 const mapStateToProps = ({
   Auth,
   Settings,
-  TagSearch }) => ({
+  TagSearch,
+  routing,
+  Sections,
+}) => ({
     isAuthenticated: Auth.isAuthenticated,
     priceTemplate: Settings.data.CURRENCY,
     items: TagSearch.items,
     tags: TagSearch.tags,
     isFetching: TagSearch.isFetching,
     pageCount: TagSearch.pageCount,
+    routing: routing.locationBeforeTransitions,
+    sections: Sections.items,
   });
 
 export default connect(mapStateToProps)(TagSearchResults);

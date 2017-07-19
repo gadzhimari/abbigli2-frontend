@@ -57,13 +57,6 @@ class Sections extends Component {
             crumbs={crumbs}
           />
           <h1 className="section-title">{activeSections.title}</h1>
-          <a
-            className="filter-open"
-            onClick={openMobileFilters}
-          >
-            {__t('Filters')}
-          </a>
-          <Filters />
           {
             isFetching
               ? <div className="cards-wrap"><Loading loading={isFetching} /></div>

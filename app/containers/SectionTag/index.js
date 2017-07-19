@@ -145,7 +145,7 @@ class SectionTag extends Component {
 
     return (
       <div>
-        {
+        {/* {
           this.state.tags.length > 0
           &&
           <SliderBar
@@ -155,7 +155,7 @@ class SectionTag extends Component {
             itemWidth={175}
             itemProps={{ link: `/sections/${seoTextsObj.slug}/` }}
           />
-        }
+        } */}
         <main className="main">
           <BreadCrumbs
             crumbs={crumbs}
@@ -174,7 +174,7 @@ class SectionTag extends Component {
                 </a>
               </div>
             </h1>
-            <Filters />
+            {/* <Filters /> */}
             {
               isFetching
                 ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
