@@ -100,7 +100,7 @@ class UserProfileMe extends Component {
       email: data.phone_info,
       city: data.city && {
         name: `${data.city.name}, ${data.city.country.name}`,
-        id: data.id,
+        id: data.city.id,
       },
     });
     dispatch(setErrors(null));
