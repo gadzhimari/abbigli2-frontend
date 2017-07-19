@@ -26,7 +26,7 @@ class TagsList extends Component {
               : `${tag.title}`;
             
             const linkTo = link
-              ? `${link}${tag.title}`
+              ? `${link}${tag.title}/new`
               : `/tags/${prevTagsLink}/new`;
 
             return (
