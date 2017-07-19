@@ -32,7 +32,7 @@ class UserProfileMe extends Component {
       showMoreText: false,
       city: props.data.city && {
         name: `${props.data.city.name}, ${props.data.city.country.name}`,
-        id: props.data.id,
+        id: props.data.city.id,
       },
       fbAcc: props.data.fb_account,
       pinterestAcc: props.data.pinterest_account || '',
