@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 import { __t } from '../../i18n/translator';
 
-const RelativePosts = ({ items, Component, showMoreRelative }) => (
+const RelativePosts = ({ items, Component, slug }) => (
   <div className="section">
     <h2 className="section__name">
       {__t('Relative posts')}
@@ -21,13 +22,13 @@ const RelativePosts = ({ items, Component, showMoreRelative }) => (
       {
         items.length > 4
         &&
-        <button
+        <Link
           className="default-button"
           type="button"
-          onClick={showMoreRelative}
+          to={`/relative/${slug}`}
         >
           {__t('Show more')}
-        </button>
+        </Link>
       }
     </div>
   </div>
@@ -36,7 +37,7 @@ const RelativePosts = ({ items, Component, showMoreRelative }) => (
 RelativePosts.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   Component: PropTypes.element.isRequired,
-  showMoreRelative: PropTypes.func.isRequired,
+  slug: PropTypes.string.isRequired,
 };
 
 export default RelativePosts;

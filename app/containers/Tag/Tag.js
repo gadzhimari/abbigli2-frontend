@@ -13,6 +13,7 @@ import {
 import Tag from 'components/SliderBar/components/Tag';
 
 import { fetchPosts, fetchTags } from 'ducks/TagSearch/actions';
+import { omit } from 'utils/functions';
 
 import { __t } from './../../i18n/translator';
 
@@ -21,6 +22,10 @@ import './Tag.styl';
 class TagSearchResults extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      price_from: (props.routing && props.routing.query.price_from) || '0',
+      price_to: (props.routing && props.routing.query.price_to) || '1000',
+    };
   }
 
   componentDidMount() {
@@ -72,13 +77,49 @@ class TagSearchResults extends Component {
     });
   }
 
-  updateSection = (_, slug) => {
+  updateSelect = (field, value) => {
     const { routing, router } = this.props;
 
     router.push({
       pathname: '/find',
       query: Object.assign({}, routing.query, {
-        section: slug,
+        [field]: value,
+      }),
+    });
+  }
+
+  updateAnyPrice = ({ target }) => {
+    const { routing, router } = this.props;
+    let query;
+
+    if (target.checked) {
+      query = omit(routing.query, ['price_from', 'price_to']);
+    } else {
+      query = Object.assign({}, routing.query, {
+        price_from: this.state.price_from,
+        price_to: this.state.price_to,
+      });
+    }
+
+    router.push({
+      pathname: '/find',
+      query: Object.assign({}, query),
+    });
+  }
+
+  upadatePriceRange = ({ target }) => {
+    const { routing, router } = this.props;
+
+    this.setState({
+      [target.dataset.field]: target.value,
+    });
+
+    if (target.value.trim().length === 0) return;
+
+    router.push({
+      pathname: '/find',
+      query: Object.assign({}, routing.query, {
+        [target.dataset.field]: target.value,
       }),
     });
   }
@@ -153,14 +194,14 @@ class TagSearchResults extends Component {
             <Filters
               section={route.query.section}
               sections={sections}
-              anyPrice
-              updateInput={(e) => console.log(e)}
-              priceFrom={'0'}
-              priceTo={'1500'}
+              anyPrice={!route.query.price_from && !route.query.price_to}
+              updateInput={this.upadatePriceRange}
+              priceFrom={this.state.price_from}
+              priceTo={this.state.price_to}
               color={route.query.color}
-              radius={'1000'}
-              updateCheckbox={(e) => console.log(e)}
-              updateSelect={this.updateSection}
+              radius={route.query.distance}
+              updateCheckbox={this.updateAnyPrice}
+              updateSelect={this.updateSelect}
               updateColor={(e) => console.log(e)}
             />
             {
@@ -196,8 +237,7 @@ const mapStateToProps = ({
   Settings,
   TagSearch,
   routing,
-  Sections,
-}) => ({
+  Sections }) => ({
     isAuthenticated: Auth.isAuthenticated,
     priceTemplate: Settings.data.CURRENCY,
     items: TagSearch.items,

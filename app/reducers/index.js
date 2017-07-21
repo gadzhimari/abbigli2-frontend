@@ -29,6 +29,7 @@ import Follow from 'actions/follow';
 import PostPage from 'ducks/PostPage';
 import TagSearch from 'ducks/TagSearch';
 import Filters from 'ducks/Filters';
+import RelativePage from 'ducks/Relative';
 
 import { routerReducer } from 'react-router-redux';
 
@@ -62,4 +63,5 @@ export default combineReducers({
   PostPage,
   TagSearch,
   Filters,
+  RelativePage,
 });

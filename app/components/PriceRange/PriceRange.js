@@ -21,7 +21,7 @@ const PriceRange = ({
           type="tel"
           disabled={disabled}
           onChange={onChange}
-          data-field="priceFrom"
+          data-field="price_from"
           value={priceFrom}
         />
       </div>
@@ -35,7 +35,7 @@ const PriceRange = ({
           type="tel"
           disabled={disabled}
           onChange={onChange}
-          data-field="priceTo"
+          data-field="price_to"
           value={priceTo}
         />
       </div>

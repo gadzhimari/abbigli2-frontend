@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { FavoriteAdd, Share } from 'components';
 import TagsList from './TagsList';
@@ -17,10 +18,15 @@ const Sidebar = ({
   data,
   newPosts,
   popularPosts,
+  isFavorited,
+  toggleFavorite,
 }) => (
     <div className="sidebar">
       <div className="sidebar__group sidebar__group_favourite">
-        <FavoriteAdd />
+        <FavoriteAdd
+          toggleFavorite={toggleFavorite}
+          isFavorited={isFavorited}
+        />
       </div>
       <TagsList
         tags={data.tags}
@@ -44,5 +50,10 @@ const Sidebar = ({
       />
     </div>
   );
+
+Sidebar.propTypes = {
+  isFavorited: PropTypes.bool.isRequired,
+  toggleFavorite: PropTypes.func.isRequired,
+};
 
 export default Sidebar;

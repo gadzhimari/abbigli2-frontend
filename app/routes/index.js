@@ -24,7 +24,7 @@ import {
   SectionTag,
   SpecificPostsPage,
   PostCreate,
-  PostEdit,
+  RelativePage,
   Faq,
   Agreement,
 } from 'containers';
@@ -79,6 +79,7 @@ const routes = (store, token, shouldPreload) => {
       <Route path="event/:slug" component={EventPage} />
       <Route path="blog/:slug" component={BlogPage} />
       <Route path="post/:slug" component={ProductPage} />
+      <Route path="relative/:slug" component={RelativePage} />
 
       <Route path="new-products" component={SpecificPostsPage} slug="new" />
       <Route path="popular-products" component={SpecificPostsPage} filter="popular" />

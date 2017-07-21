@@ -45,6 +45,7 @@ const Filters = ({
           type="checkbox"
           onChange={updateCheckbox}
           data-field="anyPrice"
+          checked={anyPrice}
         />
         <label className="label" htmlFor="anyPrice">
           {__t('Any price')}

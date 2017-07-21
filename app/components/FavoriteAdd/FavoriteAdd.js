@@ -1,16 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { __t } from '../../i18n/translator';
+
 import './FavoriteAdd.less';
 
-const FavoriteAdd = () => {
+const FavoriteAdd = ({ toggleFavorite, isFavorited }) => {
   return (
     <div className="favourite-add">
-      <div className="favourite-button">
+      <div
+        className="favourite-button"
+        onClick={toggleFavorite}
+      >
         <svg className="icon icon-like" viewBox="0 0 20.1 18">
           <path d="M10.1,3.2C10.9,1.3,12.8,0,14.9,0c2.9,0,5,2.4,5.2,5.3c0,0,0.1,0.7-0.2,2c-0.4,1.8-1.4,3.3-2.8,4.5L10,18 l-7-6.2c-1.3-1.2-2.3-2.7-2.8-4.5C-0.1,6,0,5.3,0,5.3C0.3,2.4,2.3,0,5.2,0C7.5,0,9.3,1.3,10.1,3.2z" />
         </svg>
-        Добавить в избранное
+        {
+          isFavorited
+            ? __t('Post is in favorites')
+            : __t('Add to favorites')
+        }
       </div>
       <div className="subscription">
         <div className="subscription__icon">
@@ -41,6 +50,11 @@ const FavoriteAdd = () => {
       </div >
     </div >
   );
+};
+
+FavoriteAdd.propTypes = {
+  isFavorited: PropTypes.bool.isRequired,
+  toggleFavorite: PropTypes.func.isRequired,
 };
 
 export default FavoriteAdd;

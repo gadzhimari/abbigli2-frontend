@@ -67,6 +67,13 @@ const reducer = (state = initialState, action) => {
         }),
       });
     }
+    case (actions.TOGGLE_FAVORITE): {
+      return Object.assign({}, state, {
+        post: Object.assign({}, state.post, {
+          favorite: !state.post.favorite,
+        }),
+      });
+    }
     case (actions.ERROR_404): {
       return Object.assign({}, state, {
         isFetchingPost: false,

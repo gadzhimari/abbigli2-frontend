@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import {
   BreadCrumbs,
-  Filters,
   CardTag,
   Loading,
   PageSwitcher,

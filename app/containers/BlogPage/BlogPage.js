@@ -19,7 +19,7 @@ import postLoader from 'App/HOC/postLoader';
 
 import { sendComment } from 'ducks/Comments';
 
-import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative } from 'ducks/PostPage/actions';
+import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite } from 'ducks/PostPage/actions';
 import { fetchData as fetchDataComments } from 'ducks/Comments';
 import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
 
@@ -71,7 +71,6 @@ class BlogPage extends Component {
 
   componentDidMount() {
     this.globalWrapper = document.querySelector('.global-wrapper');
-
     this.globalWrapper.classList.add('blog', 'article');
   }
 
@@ -109,17 +108,7 @@ class BlogPage extends Component {
     return defaultImages && <Gallery images={defaultImages} />;
   }
 
-  showMoreRelative = () => {
-    const { data, router } = this.props;
-
-    router.push({
-      pathname: '/find',
-      query: {
-        tags: data.tags.splice(0, 1).join(','),
-        type: 4,
-      },
-    });
-  }
+  handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
 
   render() {
     const commentsList = this.props.itemsComments;
@@ -176,7 +165,10 @@ class BlogPage extends Component {
             <div
               dangerouslySetInnerHTML={{ __html: data.content }}
             />
-            <FavoriteAdd />
+            <FavoriteAdd
+              toggleFavorite={this.handleFavorite}
+              isFavorited={data.favorite}
+            />
             <CommentsField
               onSend={this.sendComment}
             />
@@ -188,6 +180,8 @@ class BlogPage extends Component {
             data={data}
             newPosts={itemsBlogs}
             popularPosts={popularPosts}
+            toggleFavorite={this.handleFavorite}
+            isFavorited={data.favorite}
           />
           {
             relativePosts.length > 0
@@ -195,7 +189,7 @@ class BlogPage extends Component {
             <RelativePosts
               items={relativePosts}
               Component={BlogCard}
-              showMoreRelative={this.showMoreRelative}
+              slug={data.slug}
             />
           }
           <div className="section">

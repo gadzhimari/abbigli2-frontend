@@ -21,7 +21,7 @@ class ChoiceRadius extends Component {
   });
 
   changeValue = ({ target }) => this.props
-    .onChange('radius', target.innerText);
+    .onChange('distance', target.innerText);
 
   render() {
     const { activeRadius } = this.props;
