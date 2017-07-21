@@ -143,12 +143,6 @@
         }
       }
     }
-
-    &.open {
-      .messages__content {
-        animation: slide-in .5s forwards;
-      }
-    }
   }
   &__dialogs {
     width: 34%;
@@ -425,6 +419,12 @@
       bottom: 0;
       padding: 0;
       top: 55px;
+
+      &.open {
+        .messages__content {
+          animation: slide-in .5s forwards;
+        }
+      }
       .dialog {
         padding-left: 90px;
         &__avatar {
