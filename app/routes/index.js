@@ -16,7 +16,6 @@ import {
   ProfileMyabbigli,
   ProfileFavorites,
   ProfileFeed,
-  ProfileMessages,
   EventsPage,
   EventPage,
   BlogPage,
@@ -26,6 +25,7 @@ import {
   PostCreate,
   PostEdit,
   Faq,
+  Chat,
   Agreement,
 } from 'containers';
 
@@ -70,8 +70,8 @@ const routes = (store, token, shouldPreload) => {
         <IndexRoute component={ProfileMyabbigli} />
         <Route path="favorites" component={ProfileFavorites} />
         <Route path="feed" component={ProfileFeed} />
-        <Route path="messages" component={ProfileMessages} />
       </Route>
+      <Route path="chat" component={Chat} />
 
       <Route path="blogs(/:filter)" component={BlogsPage} />
       <Route path="events" component={EventsPage} />
