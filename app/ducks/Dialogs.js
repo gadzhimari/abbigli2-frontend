@@ -340,9 +340,7 @@ export function sendPrivateMessage(sender, message, dialogID) {
     if (dialogID) {
       dispatch(pushMessage(message, dialogID));
 
-      return fetch(`${API_URL}my-profile/dialogs/${dialogID}/`, Object.assign(config, sendData))
-        .then(res => res.json())
-        .then(res => console.log(res));
+      return fetch(`${API_URL}my-profile/dialogs/${dialogID}/`, Object.assign(config, sendData));
     }
 
     dispatch(messageSending());
