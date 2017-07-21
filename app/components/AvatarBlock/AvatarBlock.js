@@ -237,13 +237,12 @@ class AvatarBlock extends Component {
             </Link>
             <Link
               className="user-menu__item messages"
-              to={`/profile/${this.props.me.id}/messages`}
+              to="/chat"
               onClick={() => this.setState({ openUserMenu: false })}
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">
-                <path d="M9,0H1C0.45,0,0.005,0.449,0.005,1L0,7c0,0.55,0.45,1,1,1h8c0.55,0,1-0.45,1-1V1C10,0.449,9.55,0,9,0z M9,2
-                  L5,4.5L1,2V1l4,2.5L9,1V2z"/>
-</svg>
+                <path d="M9,0H1C0.45,0,0.005,0.449,0.005,1L0,7c0,0.55,0.45,1,1,1h8c0.55,0,1-0.45,1-1V1C10,0.449,9.55,0,9,0z M9,2 L5,4.5L1,2V1l4,2.5L9,1V2z"/>
+              </svg>
               {__t('Messages')}
             </Link>
             <Link className="user-menu__item feed" to={`/profile/${this.props.me.id}/feed`} onClick={() => this.setState({ openUserMenu: false })}>

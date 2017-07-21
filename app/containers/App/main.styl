@@ -124,14 +124,8 @@ ul li {
   overflow-x: hidden;
 }
 
-.content-wrapper::after {
-  content: "";
-  display: block;
-  height: 87px;
-}
 .content-wrapper {
   background-color: #f6f6f6;
-  margin-bottom: -87px;
   min-height: 100%;
   user-select: auto;
 }
@@ -451,11 +445,5 @@ ul li {
 @media only screen and (max-width: 670px) {
   .container-fluid {
     padding-top: 55px;
-  }
-  .content-wrapper {
-    margin-bottom: -55px;
-    &:after {
-      height: 55px;
-    }
   }
 }

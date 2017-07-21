@@ -185,7 +185,7 @@ class Profile extends Component {
             isMe
             &&
             (<Link
-              to={`/profile/${user.id}/messages`}
+              to="/chat"
               className={"profile-submenu__item feed " + (childrenPath === 'messages' ? 'active' : '')}
             >
 
