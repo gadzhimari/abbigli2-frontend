@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import DialogItem from './Components/DialogItem';
 import ProfileBlock from './Components/ProfileBlock';
 
+import { __t } from '../../i18n/translator';
+
 const DialogList = ({
   dialogs,
   setActive,
@@ -20,7 +22,7 @@ const DialogList = ({
         <input
           className="input"
           type="text"
-          placeholder="Поиск сообщений"
+          placeholder={__t('Search messages')}
           onChange={changeSearch}
         />
         <svg className="icon icon-search" viewBox="0 0 57.9 58">

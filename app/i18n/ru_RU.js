@@ -224,6 +224,8 @@ export default {
     'This field should not be empty': 'Это поле не может быть пустым',
     'Create product or service': 'Создать продукт или сервис',
     'Create blog': 'Создать блог',
+    'Search messages': 'Поиск сообщений',
+    'Write a message': 'Написать сообщение',
     'Create event': 'Создать событие',
     'Save product or service': 'Сохранить продукт или сервис',
     'Save blog': 'Сохранить блог',

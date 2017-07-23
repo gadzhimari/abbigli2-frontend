@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router';
+
 import AvatarPost from './AvatarPost';
 import Avatar from './Avatar';
 
@@ -21,23 +23,27 @@ const RecipientInfo = ({
       <div className="dialog__avatar dialog__avatar_goods">
         {
           post
-            ? <AvatarPost
-              avatar={user.avatar}
-              alt={user.profile_name || `User ID: ${user.id}`}
-              postImg={post.image}
-              postAlt={post.title}
-            />
-            : <Avatar
-              avatar={user.avatar}
-              alt={user.profile_name || `User ID: ${user.id}`}
-            />
+            ? <Link to={`/post/${post.slug}`}>
+              <AvatarPost
+                avatar={user.avatar}
+                alt={user.profile_name || `User ID: ${user.id}`}
+                postImg={post.image}
+                postAlt={post.title}
+              />
+            </Link>
+            : <Link to={`/profile/${user.id}`}>
+              <Avatar
+                avatar={user.avatar}
+                alt={user.profile_name || `User ID: ${user.id}`}
+              />
+            </Link>
         }
       </div>
       <div className="dialog__author">
         {
           post
-            ? post.title
-            : user.profile_name || `User ID: ${user.id}`
+            ? <Link to={`/post/${post.slug}`}>{post.title}</Link>
+            : <Link to={`/profile/${user.id}`}>{user.profile_name || `User ID: ${user.id}`}</Link>
         }
         {
           post
@@ -56,5 +62,24 @@ const RecipientInfo = ({
       </div>
     </div>
   );
+
+RecipientInfo.defaultProps = {
+  post: null,
+};
+
+RecipientInfo.propTypes = {
+  closeDialog: PropTypes.func.isRequired,
+  post: PropTypes.shape({
+    price: PropTypes.number,
+    slug: PropTypes.string,
+    image: PropTypes.string,
+    title: PropTypes.string,
+  }),
+  user: PropTypes.shape({
+    avatar: PropTypes.string,
+    profile_name: PropTypes.string,
+    id: PropTypes.number,
+  }).isRequired,
+};
 
 export default RecipientInfo;
