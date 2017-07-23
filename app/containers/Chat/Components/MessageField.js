@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { __t } from '../../../i18n/translator';
+
 class MessageField extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +22,12 @@ class MessageField extends Component {
     });
   }
 
+  checkPressEnter = ({ keyCode }) => {
+    if (keyCode === 13) {
+      this.sendMessage();
+    }
+  }
+
   render() {
     return (
       <div className="messages__answer">
@@ -27,9 +35,10 @@ class MessageField extends Component {
           <input
             className="input"
             type="text"
-            placeholder="Напишите сообщение"
+            placeholder={__t('Write a message')}
             value={this.state.message}
             onChange={this.changeMessage}
+            onKeyDown={this.checkPressEnter}
           />
           <svg className="icon icon-smile" viewBox="0 0 41.4 41.4">
             <path d="M20.7,0C9.3,0,0,9.3,0,20.7s9.3,20.7,20.7,20.7c11.4,0,20.7-9.3,20.7-20.7S32.1,0,20.7,0z M20.7,38.1c-9.6,0-17.4-7.8-17.4-17.4S11.1,3.3,20.7,3.3c9.6,0,17.4,7.8,17.4,17.4S30.3,38.1,20.7,38.1z" />
