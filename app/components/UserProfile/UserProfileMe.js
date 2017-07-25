@@ -141,7 +141,6 @@ class UserProfileMe extends Component {
     formData.append(name, emptyBlob, '');
 
     const headers = {
-      'Accept': 'application/json, */*',
       'Authorization': `JWT ${token}`,
     };
     const config = {
