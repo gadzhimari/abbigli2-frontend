@@ -105,6 +105,7 @@ export function fetchData(options) {
             dispatch(appendData(responseData, options.page));
           }
         }
+        return Promise.resolve();
       });
   };
 }
