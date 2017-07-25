@@ -14,7 +14,7 @@ import {
 } from 'components';
 import BlogSection from 'components/SliderBar/components/BlogSection';
 
-import * as actions from 'ducks/blogs';
+import * as actions from 'ducks/Blogs';
 import { __t } from '../../i18n/translator';
 
 import './BlogsPage.less';
