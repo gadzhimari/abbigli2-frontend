@@ -19,15 +19,19 @@ class MenuDropdown extends PureComponent {
 
       if (!openMenuContainer || !dropdown) return;
 
-      if (!openMenuContainer.contains(e.target)) {
+      if (!openMenuContainer.contains(e.target) || dropdown.contains(e.target)) {
         this.closeDropdownHandler();
       }
     });
   }
 
-  openDropdownHandler = () => this.setState({
-    openDropdown: true,
-  });
+  openDropdownHandler = ({ target, currentTarget }) => {
+    if (this.state.openDropdown && target !== currentTarget) return;
+
+    this.setState({
+      openDropdown: true,
+    });
+  }
 
   closeDropdownHandler = () => this.setState({
     openDropdown: false,

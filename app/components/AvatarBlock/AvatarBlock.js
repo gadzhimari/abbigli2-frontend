@@ -8,7 +8,6 @@ import UserMenu from './UserMenu';
 import { openPopup } from 'ducks/Popup/actions';
 import { stagedPopup } from 'ducks/Auth/authActions';
 import './AvatarBlock.styl';
-import { __t } from './../../i18n/translator';
 
 class AvatarBlock extends Component {
   constructor(props) {
@@ -20,24 +19,6 @@ class AvatarBlock extends Component {
       profile: null,
     };
     this.openMenuToggle = this.openMenuToggle.bind(this);
-  }
-
-  componentDidMount() {
-    const { itemsSections } = this.props;
-
-    if (window.document) {
-      window.addEventListener('click', (e) => {
-        if (document.querySelector('.header__menu-item.notice')) {
-          if (
-            document.querySelector('.header__menu-item.notice').contains(e.target)
-          ) {
-            return;
-          }
-        }
-
-        this.setState({ openNotifications: false });
-      });
-    }
   }
 
   componentWillReceiveProps(nextProps) {

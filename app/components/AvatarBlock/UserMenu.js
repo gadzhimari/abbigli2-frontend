@@ -30,9 +30,13 @@ class UserMenu extends PureComponent {
     });
   }
 
-  openUserMenuHandler = () => this.setState({
-    openUserMenu: true,
-  });
+  openUserMenuHandler = ({ target, currentTarget }) => {
+    if (this.state.openUserMenu && target !== currentTarget) return;
+
+    this.setState({
+      openUserMenu: true,
+    });
+  }
 
   closeUserMenuHandler = () => this.setState({
     openUserMenu: false,
@@ -108,5 +112,14 @@ class UserMenu extends PureComponent {
     );
   }
 }
+
+UserMenu.propTypes = {
+  onLogoutClick: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    profile_name: PropTypes.string,
+    avatar: PropTypes.string,
+  }).isRequired,
+};
 
 export default UserMenu;
