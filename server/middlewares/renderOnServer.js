@@ -105,11 +105,11 @@ module.exports = (req, res) => {
       return res.status(404).sendFile(path.resolve(__dirname, '../templates/404.html'));
     }
 
-    const Component = renderProps.router.routes[renderProps.router.routes.length - 1];
-    const promises = [];
+    const Component = renderProps.router.routes[renderProps.router.routes.length - 1].component;
+    let promises = [];
 
     if (req.isGoogleBot && Component.fetchData) {
-      promises.concat(Component.fetchData(store.dispatch));
+      promises = Component.WrappedComponent.fetchData(store.dispatch);
     }
 
     Promise.all(promises)
