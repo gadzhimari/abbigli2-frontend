@@ -6,6 +6,7 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 
 import Raven from 'raven';
+import prerender from 'prerender-node';
 
 import renderOnServer from './middlewares/renderOnServer';
 import oauthHandler from './middlewares/oauthHandling';
@@ -14,6 +15,8 @@ import configureRedux from './middlewares/configureRedux';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
 
 const app = express();
+const Prerender = prerender
+  .set('prerenderToken', 'otIfenJMBVrQnzGJpBjf');
 const PORT = process.env.SERVER_PORT;
 const ravenDSN = process.env.SENTRY_DNS;
 
@@ -30,7 +33,7 @@ app.use(cookieParser());
 app.use(compression());
 // Middlewares
 app.use(Raven.requestHandler());
-
+app.use(Prerender);
 app.use(oauthHandler);
 app.use(configureRedux);
 app.use(geoLocation);

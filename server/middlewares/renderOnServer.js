@@ -105,28 +105,38 @@ module.exports = (req, res) => {
       return res.status(404).sendFile(path.resolve(__dirname, '../templates/404.html'));
     }
 
-    const componentHTML = ReactDOM.renderToString(
-      <Provider store={store} >
-        <RouterContext {...renderProps} />
-      </Provider>
-    );
-    const helmetStatic = helmet.renderStatic();
-    const seo = {
-      title: helmetStatic.title.toString(),
-      meta: helmetStatic.meta.toString(),
-    };
+    const Component = renderProps.router.routes[renderProps.router.routes.length - 1].component;
+    let promises = [];
 
-    res.render('index', {
-      markup: componentHTML,
-      baseUrl: assetsUrl,
-      jsUrl,
-      cssUrl,
-      lang,
-      store: encodeURI(JSON.stringify(store.getState())),
-      seo,
-      commonCss,
-      canonical: `${domain}${req.path}`,
-      metriks: metriks[lang],
-    });
+    if (req.isGoogleBot && Component.fetchData) {
+      promises = Component.WrappedComponent.fetchData(store.dispatch);
+    }
+
+    Promise.all(promises)
+      .then(() => {
+        const componentHTML = ReactDOM.renderToString(
+          <Provider store={store} >
+            <RouterContext {...renderProps} />
+          </Provider>
+        );
+        const helmetStatic = helmet.renderStatic();
+        const seo = {
+          title: helmetStatic.title.toString(),
+          meta: helmetStatic.meta.toString(),
+        };
+
+        res.render('index', {
+          markup: componentHTML,
+          baseUrl: assetsUrl,
+          jsUrl,
+          cssUrl,
+          lang,
+          store: encodeURI(JSON.stringify(store.getState())),
+          seo,
+          commonCss: req.isGoogleBot ? '' : commonCss,
+          canonical: `${domain}${req.path}`,
+          metriks: metriks[lang],
+        });
+      });
   });
 };

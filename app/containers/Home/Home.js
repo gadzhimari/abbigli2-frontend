@@ -23,6 +23,12 @@ import './Home.styl';
 
 
 class Home extends Component {
+  static fetchData = dispatch => ([
+    dispatch(fetchDataBlogs()),
+    dispatch(fetchDataEvents()),
+    dispatch(fetchDataProducts()),
+  ]);
+
   constructor(props) {
     super(props);
   }
