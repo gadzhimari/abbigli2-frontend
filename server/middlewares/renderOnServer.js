@@ -133,7 +133,7 @@ module.exports = (req, res) => {
           lang,
           store: encodeURI(JSON.stringify(store.getState())),
           seo,
-          commonCss,
+          commonCss: req.isGoogleBot ? '' : commonCss,
           canonical: `${domain}${req.path}`,
           metriks: metriks[lang],
         });
