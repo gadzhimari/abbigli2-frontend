@@ -34,10 +34,10 @@ class Avatar extends Component {
     });
   }
 
-  removeImage = ({ target }) => {
+  removeImage = ({ currentTarget }) => {
     const { deleteImage } = this.props;
 
-    deleteImage(target.dataset.name);
+    deleteImage(currentTarget.dataset.name);
   }
 
   openDownloadDialog = () => {
