@@ -91,8 +91,28 @@ const metriks = {
 module.exports = (req, res) => {
   const store = req.redux;
   const renderRoutes = routes(store, req.cookies.id_token, true, req.isBot);
+  let microFormat = '';
 
   match({ routes: renderRoutes, location: req.newPath || req.url }, (error, redirectLocation, renderProps) => {
+    const state = store.getState();
+    if (req.url.indexOf('/post/') !== -1) {
+      const post = state.PostPage.post;
+      microFormat = `<script type="application/ld+json">
+        {
+          "@context" : "http://schema.org",
+          "@type" : "Product",
+          "name" : "${post.title}",
+          "image" : "${domain}/thumbs/unsafe/460x460/${post.images[0].file}",
+          "description" : "${post.seo_description}",
+          "offers" : {
+          "@type" : "Offer",
+          "price" : "${post.price}"
+        }
+      }
+      </script>
+      `;
+    }
+
     if (redirectLocation) {
       return res.redirect(301, redirectLocation.pathname + redirectLocation.search);
     }
@@ -104,6 +124,7 @@ module.exports = (req, res) => {
     if (!renderProps) {
       return res.status(404).sendFile(path.resolve(__dirname, '../templates/404.html'));
     }
+
     const componentHTML = ReactDOM.renderToString(
       <Provider store={store} >
         <RouterContext {...renderProps} />
@@ -126,6 +147,7 @@ module.exports = (req, res) => {
       commonCss: req.isBot ? '' : commonCss,
       canonical: `${domain}${req.path}`,
       metriks: metriks[lang],
+      microFormat,
     });
   });
 };
