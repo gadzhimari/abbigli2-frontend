@@ -20,6 +20,13 @@ import { DOMAIN_URL } from 'config';
 import { __t } from './../../i18n/translator';
 
 class Sections extends Component {
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    Promise.all([
+      store.dispatch(topFetchData()),
+      store.dispatch(fetchData(nextState.params.section, 1)),
+    ]).then(() => callback());
+  }
+
   constructor() {
     super();
 

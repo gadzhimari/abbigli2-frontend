@@ -39,6 +39,12 @@ class ProductPage extends Component {
     dispatch(resetPost());
   }
 
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    Promise.all([
+      store.dispatch(fetchPost(nextState.params.slug, 1)),
+    ]).then(() => callback());
+  }
+
   constructor(props) {
     super(props);
     this.state = {

@@ -7,6 +7,8 @@ const redirectHOC = type => BaseComponent => class extends Component {
     isMe: PropTypes.bool.isRequired,
   };
 
+  static prerenderData = BaseComponent.prerenderData
+
   componentDidMount() {
     const { router, isMe, user } = this.props;
 

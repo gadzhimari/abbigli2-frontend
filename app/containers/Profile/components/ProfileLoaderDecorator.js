@@ -22,6 +22,8 @@ const ProfileLoaderDecorator = Profile => class extends Component {
     children: PropTypes.any,
   };
 
+  static prerenderData = Profile.prerenderData
+
   componentDidMount() {
     const { authFetching } = this.props;
     if (!authFetching) {

@@ -19,6 +19,12 @@ import { debounce } from 'utils/functions';
 import './BlogsPage.styl';
 
 class BlogsPage extends Component {
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    Promise.all([
+      store.dispatch(fetchDataBlogs(1, '')),
+    ]).then(() => callback());
+  }
+
   constructor(props) {
     super(props);
   }

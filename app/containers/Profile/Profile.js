@@ -13,10 +13,17 @@ import './Profile.styl';
 
 import { __t } from './../../i18n/translator';
 
+import { fetchData } from 'ducks/Profile';
+
 import FollowersPopup from './components/FollowersPopup';
 import ProfileLoader from './components/ProfileLoaderDecorator';
 
 class Profile extends Component {
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    Promise.all([
+      store.dispatch(fetchData(false, nextState.params.profile, false)),
+    ]).then(() => callback());
+  }
 
   constructor(props) {
     super(props);

@@ -23,11 +23,13 @@ import './Home.styl';
 
 
 class Home extends Component {
-  static fetchData = dispatch => ([
-    dispatch(fetchDataBlogs()),
-    dispatch(fetchDataEvents()),
-    dispatch(fetchDataProducts()),
-  ]);
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    Promise.all([
+      store.dispatch(fetchDataBlogs()),
+      store.dispatch(fetchDataEvents()),
+      store.dispatch(fetchDataProducts()),
+    ]).then(() => callback());
+  };
 
   constructor(props) {
     super(props);

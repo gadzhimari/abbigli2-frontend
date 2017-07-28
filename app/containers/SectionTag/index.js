@@ -27,6 +27,20 @@ const getSectionUrl = (slug, section, tag) => {
 };
 
 class SectionTag extends Component {
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    const options = {
+      section: nextState.params.section,
+    };
+
+    if (nextState.params.tags) {
+      options.tags = nextState.params.tags;
+    }
+
+    Promise.all([
+      store.dispatch(fetchData(options)),
+    ]).then(() => callback());
+  }
+
   constructor(props) {
     super(props);
     this.state = {
