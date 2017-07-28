@@ -34,6 +34,13 @@ class BlogPage extends Component {
     dispatch(resetPost());
   }
 
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    Promise.all([
+      store.dispatch(fetchPost(nextState.params.slug, 4)),
+      store.dispatch(fetchNew(4)),
+    ]).then(() => callback());
+  }
+
   sendComment = (comment) => {
     const { dispatch } = this.props;
 

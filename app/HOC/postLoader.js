@@ -16,6 +16,8 @@ const postLoader = WrappedComponent => class extends Component {
 
   static fetchData = (...data) => WrappedComponent.fetchData(...data)
 
+  static prerenderData = WrappedComponent.prerenderData
+
   constructor(props) {
     super(props);
   }

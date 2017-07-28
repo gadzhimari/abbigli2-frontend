@@ -30,6 +30,12 @@ class EventsPage extends Component {
     };
   }
 
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    Promise.all([
+      store.dispatch(fetchDataEvents(1)),
+    ]).then(() => callback());
+  }
+
   componentWillMount() {
     const { dispatch, itemsEvents, location, geoCity, city } = this.props;
 

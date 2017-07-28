@@ -27,6 +27,24 @@ import { API_URL } from 'config';
 import { __t } from './../../i18n/translator';
 
 class ProfileFavorites extends Component {
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    const state = store.getState();
+
+    if (!state.Profile.data.is_favorite_visible) {
+      callback();
+    }
+
+    Promise.all([
+      store.dispatch(fetchDataPosts({
+        isMe: false,
+        profileId: nextState.params.profile,
+        type: 'favorites',
+        page: 1,
+        isAuth: false,
+      })),
+    ]).then(() => callback());
+  }
+
   constructor(props) {
     super(props);
     this.page = 1;

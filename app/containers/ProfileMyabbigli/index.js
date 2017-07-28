@@ -13,6 +13,18 @@ import './index.styl';
 
 
 class ProfileMyabbigli extends Component {
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    Promise.all([
+      store.dispatch(fetchDataPosts({
+        isMe: false,
+        profileId: nextState.params.profile,
+        type: 'posts',
+        page: 1,
+        isAuth: false,
+      })),
+    ]).then(() => callback());
+  }
+
   constructor(props) {
     super(props);
   }

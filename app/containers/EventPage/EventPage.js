@@ -37,6 +37,13 @@ class EventPage extends Component {
     dispatch(resetPost());
   }
 
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    Promise.all([
+      store.dispatch(fetchPost(nextState.params.slug, 3)),
+      store.dispatch(fetchNew(3)),
+    ]).then(() => callback());
+  }
+
   sendComment = (comment) => {
     const { dispatch } = this.props;
 

@@ -26,6 +26,15 @@ const propTypes = {
 };
 
 class Tag extends Component {
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    Promise.all([
+      store.dispatch(fetchTags(nextState.params.tags)),
+      store.dispatch(fetchPosts({
+        tags: nextState.params.tags,
+      })),
+    ]).then(() => callback());
+  }
+
   constructor(props) {
     super(props);
   }

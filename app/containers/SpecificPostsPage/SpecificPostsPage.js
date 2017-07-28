@@ -17,6 +17,14 @@ import { __t } from '../../i18n/translator';
 
 
 class SpecificPostsPage extends Component {
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    console.log(nextState);
+
+    Promise.all([
+      store.dispatch(fetchDataBlogs(nextState.route, {})),
+    ]).then(() => callback());
+  }
+
   componentWillMount() {
     this.fetchData(this.props.route);
   }
