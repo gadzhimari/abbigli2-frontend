@@ -29,12 +29,13 @@ const crawlers = [
   'Discordbot',
   'Google Page Speed',
   'Qwantify',
-	'pinterestbot',
+  'pinterestbot',
 ];
 
 module.exports = (req, res, next) => {
   req.redux = configureStore();
-  req.isBot = crawlers.some(crawler => req.headers['user-agent'].match(new RegExp(crawler, 'i')));
+  req.isBot = crawlers.some(crawler => req.headers['user-agent']
+    .match(new RegExp(crawler, 'i')));
 
   next();
 };
