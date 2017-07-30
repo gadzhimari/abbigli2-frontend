@@ -34,8 +34,10 @@ const crawlers = [
 
 module.exports = (req, res, next) => {
   req.redux = configureStore();
-  req.isBot = crawlers.some(crawler => req.headers['user-agent']
-    .match(new RegExp(crawler, 'i')));
+  if (req.headers && req.headers['user-agent']) {
+    req.isBot = crawlers.some(crawler => req.headers['user-agent']
+      .match(new RegExp(crawler, 'i')));
+  }
 
   next();
 };
