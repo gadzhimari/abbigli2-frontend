@@ -142,7 +142,7 @@ module.exports = (req, res) => {
       jsUrl,
       cssUrl,
       lang,
-      store: encodeURI(JSON.stringify(store.getState())),
+      store: req.isBot ? '' : encodeURI(JSON.stringify(store.getState())),
       seo,
       commonCss: req.isBot ? '' : commonCss,
       canonical: `${domain}${req.path}`,
