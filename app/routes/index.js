@@ -27,6 +27,7 @@ import {
   Faq,
   Chat,
   Agreement,
+  NotFound,
 } from 'containers';
 
 if (IS_HOT_DEVELOPMENT) {
@@ -91,6 +92,7 @@ const routes = (store, token, shouldPreload, isBot) => {
       <Route path="new-products/:section" onEnter={botDataFetching(SectionTag)} component={SectionTag} />
       <Route path="popular-products/:section" component={SectionTag} onEnter={botDataFetching(SectionTag)} filter="popular" />
       <Route path="nearest-products/:section" component={SectionTag} onEnter={botDataFetching(SectionTag)} filter="near" />
+      <Route path="*" component={NotFound} error404 />
     </Route>
   );
 };

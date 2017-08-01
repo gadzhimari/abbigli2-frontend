@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
 
-import {
-  Loading,
-} from 'components';
+import { Loading } from 'components';
+import { NotFound } from 'containers';
 
 const postLoader = WrappedComponent => class extends Component {
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
+    isDefined: PropTypes.bool.isRequired,
     data: PropTypes.object.isRequired,
     routeParams: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
@@ -18,14 +18,10 @@ const postLoader = WrappedComponent => class extends Component {
 
   static prerenderData = WrappedComponent.prerenderData
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const { data, routeParams, dispatch } = this.props;
 
-    if (data.slug !== routeParams.slug) {
+    if (data.slug && data.slug !== routeParams.slug) {
       WrappedComponent.fetchData(dispatch, routeParams);
     }
 
@@ -53,7 +49,15 @@ const postLoader = WrappedComponent => class extends Component {
   }
 
   render() {
-    const { isFetching, data } = this.props;
+    const { isFetching, data, isDefined } = this.props;
+
+    if (isFetching) {
+      return <div className="container-fluid"><Loading loading={isFetching} /></div>;
+    }
+
+    if (!isDefined) {
+      return <NotFound />;
+    }
 
     return (<div>
       <Helmet
@@ -66,11 +70,7 @@ const postLoader = WrappedComponent => class extends Component {
           { property: 'og:image', content: data.images && data.images[0].file },
         ]}
       />
-      {
-        isFetching
-          ? <div className="container-fluid"><Loading loading={isFetching} /></div>
-          : <WrappedComponent {...this.props} />
-      }
+      <WrappedComponent {...this.props} />
     </div>);
   }
 };

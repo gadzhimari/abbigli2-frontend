@@ -95,9 +95,11 @@ module.exports = (req, res) => {
 
   match({ routes: renderRoutes, location: req.newPath || req.url }, (error, redirectLocation, renderProps) => {
     const state = store.getState();
+    const post = state.PostPage.post;
+
     if (req.url.indexOf('/post/') !== -1) {
-      const post = state.PostPage.post;
-      microFormat = `<script type="application/ld+json">
+      if (post.id) {
+        microFormat = `<script type="application/ld+json">
         {
           "@context" : "http://schema.org",
           "@type" : "Product",
@@ -111,6 +113,7 @@ module.exports = (req, res) => {
       }
       </script>
       `;
+      }
     }
 
     if (redirectLocation) {
@@ -121,8 +124,12 @@ module.exports = (req, res) => {
       return res.status(500).send(error.message);
     }
 
-    if (!renderProps) {
-      return res.status(404).sendFile(path.resolve(__dirname, '../templates/404.html'));
+    if (renderProps.routes[renderProps.routes.length - 1].error404) {
+      res.status(404);
+    }
+
+    if (!post.isDefined) {
+      res.status(404);
     }
 
     const componentHTML = ReactDOM.renderToString(
