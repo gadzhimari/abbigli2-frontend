@@ -128,7 +128,7 @@ module.exports = (req, res) => {
       res.status(404);
     }
 
-    if (!post.isDefined) {
+    if (!state.PostPage.isDefined) {
       res.status(404);
     }
 
