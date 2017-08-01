@@ -38,38 +38,32 @@
     font-size: 0;
   }
 
-  &__label {
-    font-size: 16px;
-    line-height: 20px;
-    position: relative;
+  .icon {
+    fill: #b0b0b0;
+    right: 15px;
+    width: 6px;
+    height: 12px;
     cursor: pointer;
-
-    .icon {
-      fill: #b0b0b0;
-      display: inline-block;
-      vertical-align: top;
-      background-size: 6px 12px;
-      width: 6px;
-      height: 12px;
-      margin: 8px 0 0 10px;
-      transform: rotate(90deg);
-    }
+    position: absolute;
+    top: 50%;
+    transform: translate(0,-50%) rotate(90deg);
   }
 
   &__dropdown {
     background-color: #fff;
     position: absolute;
-    top: 35px;
+    top: 55px;
     padding: 10px 15px;
     width: 100%;
-    left: -15px;
-    border: 1px solid #c2c2c2;
+    left: 0;
+    border: 1px solid @border;
     border-radius: 4px;
     z-index: 10;
+    text-align: center;
 
     &:before {
       top: -8px;
-      .triangle(top, 8px, 8px, #c2c2c2);
+      .triangle(top, 8px, 8px, @border);
       .align-horizontal;
 
     }
@@ -119,7 +113,6 @@
   .color-choice {
     &__wrap {
       text-align: center;
-      margin: 0 -13px;
     }
     &__label {
       .icon {
@@ -129,7 +122,7 @@
     &__color {
       width: 28px;
       height: 28px;
-      margin: 10px 13px;
+      margin: 10px 12px;
     }
   }
 }

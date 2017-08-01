@@ -1,0 +1,151 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.select {
+  position: relative;
+
+  .icon {
+    .arrow-dropdown;
+  }
+
+  &__dropdown {
+    background-color: #fff;
+    position: absolute;
+    top: 55px;
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    border-radius: 3px;
+    padding: 10px 0;
+    border: 1px solid @border;
+    z-index: 10;
+    text-align: left;
+
+    &:before {
+      position: absolute;
+      top: -8px;
+      left: 70px;
+      .triangle(top, 8px, 8px, @border);
+
+    }
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 71px;
+      top: -7px;
+      .triangle(top, 7px, 7px, #fff);
+    }
+  }
+
+  &__item {
+    font-size: 14px;
+    line-height: 18px;
+    color: @grayText;
+    cursor: pointer;
+    padding: 3px 15px;
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  .input {
+    padding-right: 30px;
+  }
+
+  &.open {
+    .select__dropdown {
+      display: block;
+    }
+  }
+}
+
+.choice-section {
+  position: relative;
+
+  &__input {
+    position: relative;
+  }
+
+  .input {
+    padding-right: 30px;
+  }
+
+  .icon {
+    .arrow-dropdown;
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: 55px;
+    right: 0;
+    background-color: #fff;
+    border-radius: 3px;
+    border: 1px solid @border;
+    width: 400px;
+    padding: 15px;
+    z-index: 10;
+    text-align: left;
+
+    &:before {
+      position: absolute;
+      top: -8px;
+      right: 9px;
+      .triangle(top, 8px, 8px, @border);
+
+    }
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      right: 10px;
+      top: -7px;
+      .triangle(top, 7px, 7px, #fff);
+    }
+  }
+
+  &__item {
+    font-size: 14px;
+    line-height: 18px;
+    display: inline-block;
+    vertical-align: top;
+    color: @grayText;
+
+    &:nth-child(odd) {
+      margin-right: 20px;
+      width: 180px;
+    }
+    &:nth-child(even) {
+      width: 160px;
+    }
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  &.open {
+    .choice-section__dropdown {
+      display: block;
+    }
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .choice-section {
+    &__dropdown {
+      width: 100%;
+    }
+    &__item {
+      &:nth-child(odd) {
+        width: 48%;
+        margin-right: 2%;
+      }
+      &:nth-child(even) {
+        width: 48%;
+      }
+    }
+  }
+}

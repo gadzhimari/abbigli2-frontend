@@ -64,8 +64,6 @@ export { default as GoodsCard } from './GoodsCard';
 export { default as BreadCrumbs } from './BreadCrumbs';
 export { default as Filters } from './Filters';
 export { default as ChoiceSection } from './ChoiceSection';
-export { default as PriceRange } from './PriceRange';
-export { default as ChoiceColor } from './ChoiceColor';
 export { default as PageSwitcher } from './PageSwitcher';
 export { default as NewPost } from './NewPost';
 export { default as ChoiceRadius } from './ChoiceRadius';

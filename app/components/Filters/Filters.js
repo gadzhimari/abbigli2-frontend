@@ -1,12 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  ChoiceSection,
-  PriceRange,
-  ChoiceColor,
-  ChoiceRadius,
-} from 'components';
+import { Select, ChoiceColor, PriceRange } from 'components/FiltersSelects';
+import TextSelect from 'components/FiltersSelects/Select/TextSelect';
+import SectionSelect from 'components/FiltersSelects/Select/SectionSelect';
 
 import { __t } from '../../i18n/translator';
 
@@ -15,66 +12,57 @@ import './Filters.less';
 const Filters = ({
   section,
   sections,
-  anyPrice,
-  updateInput,
   priceFrom,
   priceTo,
   color,
   radius,
-  updateCheckbox,
-  updateSelect,
-  updateColor,
-}) => {
-  return (
+  updateFilter,
+}) => (
     <div className="filter">
-      <ChoiceSection
-        sections={sections}
-        activeSection={section || ''}
-        onChange={updateSelect}
+      <Select
+        name="select_new"
+        activeItem={__t('New')}
+        listItems={[__t('New'), __t('Popular')]}
+        ItemComponent={TextSelect}
+        onChange={updateFilter}
+      />
+      <Select
+        placeholder={__t('Choice a section')}
+        listItems={sections}
+        className="choice-section"
+        activeItem={section}
+        ItemComponent={SectionSelect}
+        onChange={updateFilter}
+      />
+      <ChoiceColor
+        activeColor={color}
+        onChange={updateFilter}
+      />
+      <Select
+        name="select_distance"
+        listItems={['1000', '500', '100', '50']}
+        placeholder={__t('Being in the radius (km)')}
+        activeItem={radius}
+        ItemComponent={TextSelect}
+        onChange={updateFilter}
       />
       <PriceRange
-        disabled={anyPrice}
-        onChange={updateInput}
         priceFrom={priceFrom}
         priceTo={priceTo}
+        onChange={updateFilter}
       />
-      <div className="checkbox-wrap">
-        <input
-          id="anyPrice"
-          className="checkbox"
-          type="checkbox"
-          onChange={updateCheckbox}
-          data-field="anyPrice"
-          checked={anyPrice}
-        />
-        <label className="label" htmlFor="anyPrice">
-          {__t('Any price')}
-        </label>
-      </div>
-      <ChoiceColor
-        onChange={updateColor}
-        activeColor={color}
-      />
-      <ChoiceRadius
-        activeRadius={radius}
-        onChange={updateSelect}
-      />
-    </div>
+      <button className="default-button" type="button">Применить</button>
+    </div >
   );
-};
 
 Filters.propTypes = {
-  updateInput: PropTypes.func.isRequired,
-  updateSelect: PropTypes.func.isRequired,
-  updateCheckbox: PropTypes.func.isRequired,
-  updateColor: PropTypes.func.isRequired,
+  updateFilter: PropTypes.func.isRequired,
   radius: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   section: PropTypes.oneOfType([PropTypes.any, PropTypes.object]).isRequired,
   sections: PropTypes.oneOfType([PropTypes.any, PropTypes.object]).isRequired,
   priceFrom: PropTypes.string.isRequired,
   priceTo: PropTypes.string.isRequired,
-  anyPrice: PropTypes.bool.isRequired,
 };
 
 export default Filters;

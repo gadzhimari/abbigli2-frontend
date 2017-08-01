@@ -7,8 +7,10 @@ const Color = ({
 }) => (
   <div
     className={`color-choice__color color_${color}${isActive ? ' active' : ''}`}
-    data-color={color}
-    onClick={onClick}
+    data-value={color}
+    data-field="color"
+    onMouseDown={onClick}
+    onTouchStart={onClick}
   />
 );
 

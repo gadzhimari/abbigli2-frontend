@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { __t } from '../../i18n/translator';
-import './ChoiceSection.less';
 
 class ChoiceSection extends Component {
   constructor(props) {

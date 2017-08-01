@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 
 import {
@@ -11,20 +11,42 @@ import {
   PageSwitcher,
 } from 'components';
 import Tag from 'components/SliderBar/components/Tag';
-
 import { fetchPosts, fetchTags } from 'ducks/TagSearch/actions';
-import { omit } from 'utils/functions';
+
+import mapFiltersToProps from '../../HOC/mapFiltersToProps';
+
 
 import { __t } from './../../i18n/translator';
 
 import './Tag.styl';
 
+const newData = [{
+  id: 0,
+  type: 4,
+  title: 'Blog title',
+  author: {
+    name: 'Mike',
+  },
+},
+{
+  id: 1,
+  type: 3,
+  title: 'Event title',
+  date: '22.07.2017',
+  author: {
+    name: 'Mike',
+  },
+}];
+
 class TagSearchResults extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      price_from: (props.routing && props.routing.query.price_from) || '0',
-      price_to: (props.routing && props.routing.query.price_to) || '1000',
+      price_from: props.filters.price_from,
+      price_to: props.filters.price_from,
+      color: props.filters.color,
+      distance: props.filters.distance,
+      section: props.filters.section,
     };
   }
 
@@ -77,50 +99,9 @@ class TagSearchResults extends Component {
     });
   }
 
-  updateSelect = (field, value) => {
-    const { routing, router } = this.props;
-
-    router.push({
-      pathname: '/find',
-      query: Object.assign({}, routing.query, {
-        [field]: value,
-      }),
-    });
-  }
-
-  updateAnyPrice = ({ target }) => {
-    const { routing, router } = this.props;
-    let query;
-
-    if (target.checked) {
-      query = omit(routing.query, ['price_from', 'price_to']);
-    } else {
-      query = Object.assign({}, routing.query, {
-        price_from: this.state.price_from,
-        price_to: this.state.price_to,
-      });
-    }
-
-    router.push({
-      pathname: '/find',
-      query: Object.assign({}, query),
-    });
-  }
-
-  upadatePriceRange = ({ target }) => {
-    const { routing, router } = this.props;
-
+  updateFilter = ({ target }) => {
     this.setState({
-      [target.dataset.field]: target.value,
-    });
-
-    if (target.value.trim().length === 0) return;
-
-    router.push({
-      pathname: '/find',
-      query: Object.assign({}, routing.query, {
-        [target.dataset.field]: target.value,
-      }),
+      [target.dataset.field]: target.value || target.dataset.value,
     });
   }
 
@@ -137,26 +118,6 @@ class TagSearchResults extends Component {
       routing,
       sections,
     } = this.props;
-
-    const newData = [{
-      id: 0,
-      type: 4,
-      title: 'Blog title',
-      author: {
-        name: 'Mike',
-      },
-    },
-    {
-      id: 1,
-      type: 3,
-      title: 'Event title',
-      date: '22.07.2017',
-      author: {
-        name: 'Mike',
-      },
-    }];
-
-    const route = routing || { query: {} };
 
     return (
       <div>
@@ -184,7 +145,7 @@ class TagSearchResults extends Component {
               }
               <div className="section-title__subscribe">
                 <button className="default-button" type="button">
-                  + Подписаться
+                  + {__t('Subscribe')}
                 </button>
                 <a className="filter-open">
                   {__t('Filters')}
@@ -192,17 +153,13 @@ class TagSearchResults extends Component {
               </div>
             </h1>
             <Filters
-              section={route.query.section}
+              section={this.state.section}
               sections={sections}
-              anyPrice={!route.query.price_from && !route.query.price_to}
-              updateInput={this.upadatePriceRange}
               priceFrom={this.state.price_from}
               priceTo={this.state.price_to}
-              color={route.query.color}
-              radius={route.query.distance}
-              updateCheckbox={this.updateAnyPrice}
-              updateSelect={this.updateSelect}
-              updateColor={(e) => console.log(e)}
+              color={this.state.color}
+              radius={this.state.distance}
+              updateFilter={this.updateFilter}
             />
             {
               isFetching
@@ -227,9 +184,16 @@ class TagSearchResults extends Component {
 }
 
 TagSearchResults.propTypes = {
-  routeParams: PropTypes.object,
-  dispatch: PropTypes.func,
-  isAuthenticated: PropTypes.bool,
+  routeParams: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  filters: PropTypes.shape({
+    price_from: PropTypes.string,
+    price_to: PropTypes.string,
+    section: PropTypes.string,
+    color: PropTypes.string,
+    distance: PropTypes.string,
+  }).isRequired,
 };
 
 const mapStateToProps = ({
@@ -248,4 +212,4 @@ const mapStateToProps = ({
     sections: Sections.items,
   });
 
-export default connect(mapStateToProps)(TagSearchResults);
+export default connect(mapStateToProps)(mapFiltersToProps(TagSearchResults));
