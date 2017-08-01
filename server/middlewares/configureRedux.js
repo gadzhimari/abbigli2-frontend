@@ -27,7 +27,6 @@ const crawlers = [
   'SkypeUriPreview',
   'nuzzel',
   'Discordbot',
-  'Google Page Speed',
   'Qwantify',
   'pinterestbot',
 ];
