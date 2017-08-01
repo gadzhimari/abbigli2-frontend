@@ -12,6 +12,7 @@ import oauthHandler from './middlewares/oauthHandling';
 import geoLocation from './middlewares/geoLocation';
 import configureRedux from './middlewares/configureRedux';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
+import trailingSlash from './middlewares/trailingSlash';
 
 const app = express();
 const PORT = process.env.SERVER_PORT;
@@ -28,6 +29,7 @@ app.use(express.static('./public'));
 // Parsers and compressors
 app.use(cookieParser());
 app.use(compression());
+app.use(trailingSlash);
 // Middlewares
 app.use(Raven.requestHandler());
 app.use(oauthHandler);
