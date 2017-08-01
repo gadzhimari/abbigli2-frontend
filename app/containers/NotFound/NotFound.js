@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router';
 
-export default function NotFound() {
-  return (
-    <div className="container">
-      <h1>Doh! 404!</h1>
-      <p>These are <em>not</em> the droids you are looking for!</p>
-    </div>
-  );
+import { __t } from '../../i18n/translator';
+
+import './NotFound.less';
+
+class NotFound extends Component {
+  render() {
+    return (
+      <div className="error-page">
+        <div className="error-page__back">
+          <div className="error-page__text">
+            {__t('Sorry, this page not found!')}
+          </div>
+          <Link
+            className="default-button"
+            to="/"
+          >
+            {__t('Go back to home page')}
+          </Link>
+        </div>
+      </div>
+    );
+  }
 }
+
+export default NotFound;

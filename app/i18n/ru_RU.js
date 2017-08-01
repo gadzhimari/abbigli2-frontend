@@ -233,6 +233,8 @@ export default {
     'Blogs search': 'Поиск по блогам',
     'My followers': 'Мои подписчики',
     'I following': 'Я подписан',
+    'Sorry, this page not found!': 'Извините, страница не найдена!',
+    'Go back to home page': 'Вернуться на главную',
     'Followers': 'Подписчики',
     'Type a message...': 'Ваше сообщение...',
     'Send a ticket': 'Отправить заявку',
