@@ -1,6 +1,6 @@
 import { createQuery } from '../../app/utils/functions';
 
-const mustTrailing = path => path.charAt(path.length - 1) === '/';
+const mustTrailing = path => path.length > 1 && path.charAt(path.length - 1) === '/';
 
 const getFullPath = req => `${req.path.slice(0, -1)}${createQuery(req.query)}`;
 
