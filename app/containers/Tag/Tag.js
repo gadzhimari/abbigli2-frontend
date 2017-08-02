@@ -41,14 +41,10 @@ const newData = [{
 class TagSearchResults extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      price_from: props.filters.price_from,
-      price_to: props.filters.price_from,
-      color: props.filters.color,
-      distance: props.filters.distance,
-      section: props.filters.section,
-    };
+    this.state = props.filters;
 
+    // It's need for access this.state in applyFilters
+    // check the implementation in HOC/mapFiltersToProps
     this.applyFilters = props.applyFilters.bind(this);
   }
 
