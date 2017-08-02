@@ -1,18 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
-import InfiniteScroll from 'react-infinite-scroller';
-
-import { DateInput } from 'components/Inputs';
 
 import moment from 'moment';
 
-import {
-  CardsWrap,
-  CardsSort,
-  EventCard,
-  Loading,
-} from 'components';
+import { BreadCrumbs } from 'components';
 
 import { openPopup, closePopup } from 'ducks/Popup/actions';
 
@@ -20,7 +12,7 @@ import { fetchData as fetchDataEvents, changeSearchField } from 'ducks/Events';
 import { API_URL } from 'config';
 import { __t } from './../../i18n/translator';
 
-import './EventPage.styl';
+import './EventPage.less';
 
 class EventsPage extends Component {
   constructor(props) {
@@ -40,24 +32,15 @@ class EventsPage extends Component {
     if (location.action === 'PUSH') {
       dispatch(fetchDataEvents(1));
     }
-
-    if (!city && geoCity) {
-      dispatch(changeSearchField('city', {
-        name: `${geoCity.name}, ${geoCity.country.name}`,
-        id: geoCity.id,
-      }));
-    }
   }
 
-  componentDidUpdate() {
-    const { dispatch, geoCity, city } = this.props;
+  componentDidMount() {
+    this.globalWrapper = document.querySelector('.global-wrapper');
+    this.globalWrapper.classList.add('event');
+  }
 
-    if (!city && geoCity) {
-      dispatch(changeSearchField('city', {
-        name: `${geoCity.name}, ${geoCity.country.name}`,
-        id: geoCity.id,
-      }));
-    }
+  componentWillUnmount() {
+    this.globalWrapper.classList.remove('event');
   }
 
   setFilter = (filter) => {
@@ -126,128 +109,27 @@ class EventsPage extends Component {
     }));
 
   render() {
-    const {
-      isFetchingEvents,
-      itemsEvents,
-      isFetchingMore,
-      dispatch,
-      isAuthenticated,
-      city,
-      start,
-      end,
-    } = this.props;
-    const { popular } = this.state;
-
-    const loader = <Loading loading={isFetchingMore} />;
+    const crumbs = [{
+      title: __t('Events'),
+      url: '/events',
+    }];
 
     return (
-      <div className="container-fluid events-page">
-        <CardsWrap legacy>
-          <CardsSort>
-
-            <div className="cards-sort__page">
-              <div className="cards-sort__icon">
-                <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 36">
-                  <path d="M29,36H3c-1.657,0-3-1.344-3-3V7c0-1.656,1.343-3,3-3h1V0h4v4h16V0h4 v4h1c1.657,0,3,1.343,3,3v26C32,34.656,30.657,36,29,36z M29,14H3v19h26V14z M26,30h-8v-8h8V30z" />
-                </svg>
-              </div>
-            </div>
-            {__t('events')}
-            <a
-              className={`cards-sort__item ${popular ? '' : 'cards-sort__item--active'}`}
-              onClick={() => this.setFilter(false)}
-            >
-              {__t('New')}
-            </a>
-            <a
-              className={`cards-sort__item ${popular ? 'cards-sort__item--active' : ''}`}
-              onClick={() => this.setFilter(true)}
-            >
-              {__t('Popular')}
-            </a>
-            <div className="search-event-wrap">
-              <form className="search-event">
-                <div className="selectize-address">
-                  <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.6 18">
-                    <path d="M6.3,0C2.817,0,0,2.816,0,6.3C0,11.025,6.3,18,6.3,18s6.3-6.975,6.3-11.7C12.6,2.816,9.785,0,6.3,0z M6.3,8.55 c-1.242,0-2.25-1.008-2.25-2.25S5.058,4.05,6.3,4.05c1.241,0,2.25,1.008,2.25,2.25S7.542,8.55,6.3,8.55z" />
-                  </svg>
-                  <div className="selectize-control single">
-                    <div className="selectize-input items not-full">
-                      <input
-                        name="city"
-                        placeholder={__t('city')}
-                        value={(city && city.name) || ''}
-                        onClick={this.openSelectPopup}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="input-wrap input-date"
-                >
-                  <DateInput
-                    name="start"
-                    onChange={this.handleChangeField}
-                    placeholder={__t('Date.from')}
-                    className="input events__search-input"
-                    value={start}
-                    mustFormat={false}
-                    format="YYYY-MM-DD"
-                  />
-                </div>
-                <div
-                  className="input-wrap input-date"
-                >
-                  <DateInput
-                    name="end"
-                    onChange={this.handleChangeField}
-                    placeholder={__t('Date.to')}
-                    className="input events__search-input"
-                    value={end}
-                    mustFormat={false}
-                    format="YYYY-MM-DD"
-                  />
-                </div>
-                <button
-                  className="search-submit-button"
-                  type="button"
-                  onClick={this.search}
-                >
-                  {__t('Find.the.event')}
-                </button>
-              </form>
-            </div>
-          </CardsSort>
-          <button
-            className="search-submit-button event-search__button--mobile"
-            type="button"
-            onClick={this.openMobileModal}
-          >
-            {__t('Find.the.event')}
-          </button>
-          {
-            isFetchingEvents
-              ? <Loading loading={isFetchingEvents} />
-              : <InfiniteScroll
-                loadMore={this.loadMore}
-                loader={loader}
-                hasMore={!!this.props.next}
-              >
-                {
-                  itemsEvents.length > 0
-                    ? itemsEvents.map(item => <EventCard
-                      key={'event' + item.id}
-                      data={item}
-                      legacy
-                      dispatch={dispatch}
-                      isAuthenticated={isAuthenticated}
-                    />)
-                    : <div className="pages__error-text">{__t('Not results for your request')}</div>
-                }
-              </InfiniteScroll>
-          }
-        </CardsWrap>
-      </div>
+      <main className="main">
+        <BreadCrumbs
+          crumbs={crumbs}
+        />
+        <div className="content">
+          <h1 className="section-title">
+            <svg className="icon icon-event" viewBox="0 0 27 26">
+              <path d="M22.2,3v2.1c0,2-1.6,3.5-3.5,3.5S15.1,7,15.1,5.1V3h-2.9v2.1c0,2-1.6,3.5-3.5,3.5 S5.1,7,5.1,5.1V3H0V26h27V3H22.2z M8.8,22.8H4.2v-4h4.5V22.8z M8.8,15.7H4.2v-4h4.5V15.7z M15.8,22.8h-4.5v-4h4.5V22.8z M15.8,15.7 h-4.5v-4h4.5V15.7z M18.2,22.8v-4h4.5L18.2,22.8z M22.8,15.7h-4.5v-4h4.5V15.7z"/>
+              <path d="M8.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8S6.8,0.8,6.8,1.8v3.3 C6.8,6.1,7.6,6.9,8.6,6.9z"/>
+              <path d="M18.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8s-1.8,0.8-1.8,1.8v3.3 C16.8,6.1,17.6,6.9,18.6,6.9z"/>
+            </svg>
+            {__t('Events')}
+          </h1>
+        </div>
+      </main>
     );
   }
 }

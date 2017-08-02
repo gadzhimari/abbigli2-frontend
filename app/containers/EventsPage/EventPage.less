@@ -1,0 +1,22 @@
+@import 'base';
+@import 'variables';
+@import 'mixin';
+
+.event {
+  .pagination__item {
+    &.active {
+      background-color: @event;
+      border-color: @event;
+    }
+  }
+  .content {
+    .default-button {
+      .button(event);
+    }
+  }
+  .section-title {
+    .icon-event {
+      margin-right: 10px;
+    }
+  }
+}

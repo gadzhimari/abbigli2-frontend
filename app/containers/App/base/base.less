@@ -1,4 +1,4 @@
-@import 'icons';
+
 @import 'mixin';
 @import 'variables';
 
@@ -63,7 +63,7 @@ button, input, textarea {
 }
 
 input, textarea {
-  &:-webkit-input-placeholder {
+  &::-webkit-input-placeholder {
     color: @grayText;
   }
   &::-moz-placeholder {
@@ -113,8 +113,8 @@ h2 {
   font-weight: normal;
   margin: 0 0 15px 0;
   position: relative;
-  width: auto;
   text-align: left;
+  width: auto;
 
   span {
     color: @grayText;
@@ -140,6 +140,14 @@ h2 {
     vertical-align: top;
     margin-right: 5px;
   }
+  .icon-event {
+    fill: @event;
+    background-size: 29px 28px;
+    width: 29px;
+    height: 28px;
+    display: inline-block;
+    vertical-align: top;
+  }
 }
 
 .filter-open {
@@ -152,8 +160,8 @@ h2 {
 .global-wrapper {
   min-height: 100%;
   position: relative;
-  padding-top: 80px;
   margin-bottom: -@footerHeight;
+  padding-top: 70px;
 
   &:after {
     content: '';
@@ -166,7 +174,6 @@ h2 {
   max-width: 1250px;
   margin: 0 auto;
   display: block;
-  position: relative;
   padding: 25px 25px 40px 25px;
 }
 
@@ -177,7 +184,7 @@ h2 {
 }
 
 .logo-gray {
-  background: url("/images/logo-gray.svg") no-repeat;
+  background: url("/img/logo-gray.svg") no-repeat;
 }
 
 .show-more {
@@ -187,6 +194,7 @@ h2 {
 @media only screen and (max-width: 760px) {
   .global-wrapper {
     margin-bottom: -200px;
+    padding-top: 55px;
     &:after {
       height: 200px;
     }
@@ -218,6 +226,9 @@ h2 {
   .cards-wrap {
     margin: 0;
     padding: 0;
+    &_tag {
+      margin: 0 -1% 20px -1%;
+    }
   }
   .section {
     margin-top: 20px;
