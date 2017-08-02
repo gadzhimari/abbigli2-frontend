@@ -21,7 +21,7 @@ const postLoader = WrappedComponent => class extends Component {
   componentDidMount() {
     const { data, routeParams, dispatch } = this.props;
 
-    if (data.slug && data.slug !== routeParams.slug) {
+    if (data.slug !== routeParams.slug) {
       WrappedComponent.fetchData(dispatch, routeParams);
     }
 
