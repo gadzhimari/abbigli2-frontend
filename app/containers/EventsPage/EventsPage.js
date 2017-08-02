@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import { BreadCrumbs, SliderBar, ListWithNew, Loading } from 'components';
 import { Event } from 'components/Cards';
+import { EventsFilters } from 'components/Filters';
 import BlogSection from 'components/SliderBar/components/BlogSection';
 
 import { openPopup, closePopup } from 'ducks/Popup/actions';
@@ -169,6 +170,7 @@ class EventsPage extends Component {
               itemProps={{ baseUrl: '/events' }}
             />
           }
+          <EventsFilters />
           {
             isFetching
               ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
