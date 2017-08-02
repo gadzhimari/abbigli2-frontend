@@ -19,17 +19,18 @@ class Select extends PureComponent {
 
   render() {
     const {
-      name,
+      subClass,
       placeholder,
       activeItem,
       listItems,
       className,
       ItemComponent,
       onChange,
+      name,
     } = this.props;
 
     return (
-      <div className={`${className} ${name}`}>
+      <div className={`${className} ${subClass}`}>
         <input
           className="input"
           type="text"
@@ -52,6 +53,7 @@ class Select extends PureComponent {
                   key={idx}
                   onClick={onChange}
                   className={className}
+                  name={name}
                 />
               ))
             }
@@ -66,11 +68,12 @@ Select.defaultProps = {
   placeholder: '',
   activeItem: '',
   className: 'select',
-  name: '',
+  subClass: '',
 };
 
 Select.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  subClass: PropTypes.string,
   placeholder: PropTypes.string,
   activeItem: PropTypes.string,
   listItems: PropTypes.arrayOf(PropTypes.oneOfType(PropTypes.string, PropTypes.object)).isRequired,

@@ -48,6 +48,8 @@ class TagSearchResults extends Component {
       distance: props.filters.distance,
       section: props.filters.section,
     };
+
+    this.applyFilters = props.applyFilters.bind(this);
   }
 
   componentDidMount() {
@@ -160,6 +162,7 @@ class TagSearchResults extends Component {
               color={this.state.color}
               radius={this.state.distance}
               updateFilter={this.updateFilter}
+              applyFilters={this.applyFilters}
             />
             {
               isFetching
@@ -186,6 +189,7 @@ class TagSearchResults extends Component {
 TagSearchResults.propTypes = {
   routeParams: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  applyFilters: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   filters: PropTypes.shape({
     price_from: PropTypes.string,

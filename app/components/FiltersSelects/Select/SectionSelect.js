@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 
-const SectionSelect = ({ data, onClick, className }) => (
+const SectionSelect = ({ data, onClick, className, name }) => (
   <div
     className={`${className}__item`}
-    data-field="section"
+    data-field={name}
     data-value={data.slug}
     onMouseDown={onClick}
     onTouchStart={onClick}
@@ -21,6 +21,7 @@ SectionSelect.propTypes = {
   }).isRequired,
   onClick: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default pure(SectionSelect);

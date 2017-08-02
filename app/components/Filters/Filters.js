@@ -17,46 +17,62 @@ const Filters = ({
   color,
   radius,
   updateFilter,
-}) => (
+  applyFilters,
+}) => {
+  const activeSection = sections.filter(item => item.slug === section)[0];
+  const activeSectionTitle = activeSection ? activeSection.title : '';
+
+  return (
     <div className="filter">
       <Select
-        name="select_new"
+        subClass="select_new"
         activeItem={__t('New')}
         listItems={[__t('New'), __t('Popular')]}
         ItemComponent={TextSelect}
         onChange={updateFilter}
+        name="filter"
       />
       <Select
         placeholder={__t('Choice a section')}
         listItems={sections}
         className="choice-section"
-        activeItem={section}
+        activeItem={activeSectionTitle}
         ItemComponent={SectionSelect}
         onChange={updateFilter}
+        name="section"
       />
       <ChoiceColor
         activeColor={color}
         onChange={updateFilter}
       />
       <Select
-        name="select_distance"
+        subClass="select_distance"
         listItems={['1000', '500', '100', '50']}
         placeholder={__t('Being in the radius (km)')}
         activeItem={radius}
         ItemComponent={TextSelect}
         onChange={updateFilter}
+        name="distance"
       />
       <PriceRange
         priceFrom={priceFrom}
         priceTo={priceTo}
         onChange={updateFilter}
       />
-      <button className="default-button" type="button">Применить</button>
+      <button
+        className="default-button"
+        type="button"
+        onClick={applyFilters}
+      >
+        Применить
+      </button>
     </div >
   );
+};
 
 Filters.propTypes = {
   updateFilter: PropTypes.func.isRequired,
+  applyFilters: PropTypes.func.isRequired,
   radius: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   section: PropTypes.oneOfType([PropTypes.any, PropTypes.object]).isRequired,
