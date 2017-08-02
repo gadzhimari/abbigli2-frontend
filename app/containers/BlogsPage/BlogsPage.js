@@ -149,6 +149,7 @@ class BlogsPage extends Component {
               items={sections}
               ItemComponent={BlogSection}
               itemWidth={120}
+              itemProps={{ baseUrl: '/blogs' }}
             />
           }
           <div className="filter">

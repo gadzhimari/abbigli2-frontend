@@ -39,7 +39,6 @@ export { default as Gallery } from './Gallery/Gallery';
 export { default as GalleryProduct } from './GalleryProduct/GalleryProduct';
 export { default as EventButtons } from './EventButtons/EventButtons';
 export { default as BlogCard } from './BlogCard';
-export { default as EventCard } from './EventCard';
 export { default as Loading } from './Loading';
 export { default as HR } from './HR';
 export { default as CardUni } from './CardUni';

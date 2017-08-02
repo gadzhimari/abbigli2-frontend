@@ -1,12 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import dateFormat from 'dateformat';
-import { CardUni, Share } from 'components';
+import { CardUni, Share, Link } from 'components';
 
-import {
-  Link,
-} from 'components';
-import { stagedPopup } from 'ducks/Auth/authActions';
-import { setLike } from 'actions/like';
 import { DOMAIN_URL } from 'config';
 
 import './index.less';

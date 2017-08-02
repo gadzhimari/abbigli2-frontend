@@ -5,10 +5,10 @@ import { Link } from 'react-router';
 
 import { DOMAIN_URL } from 'config';
 
-const BlogSection = ({ item }) => (
+const BlogSection = ({ item, baseUrl }) => (
   <Link
     className="slider-category__item"
-    to={`/blogs?section=${item.slug}`}
+    to={`${baseUrl}?section=${item.slug}`}
   >
     <img
       src={`${DOMAIN_URL}thumbs/unsafe/120x103/${item.images[0]}`}
@@ -24,6 +24,7 @@ BlogSection.propTypes = {
     title: PropTypes.string,
     images: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  baseUrl: PropTypes.string.isRequired,
 };
 
 export default BlogSection;

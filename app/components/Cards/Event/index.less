@@ -1,0 +1,122 @@
+@import 'base';
+@import 'variables';
+@import 'mixin';
+
+.event-card {
+  background-color: #fff;
+  display: inline-block;
+  vertical-align: top;
+  width: 24%;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid @border;
+  margin: 0 0.5% 1% 0.5%;
+  min-height: 375px;
+
+  &__img-wrap {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__img {
+    min-height: 100%;
+    width: 100%;
+    .align-full;
+  }
+
+  &__info {
+    position: relative;
+    padding: 10px;
+  }
+
+  .user {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: top;
+    .avatar {
+      width: 26px;
+      height: 26px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  &__title {
+    font-family: 'ClearSansBold';
+    font-size: 16px;
+    line-height: 20px;
+    color: #000;
+    position: relative;
+    display: block;
+    margin-bottom: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    .icon {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 5px;
+
+      &-event {
+        fill: @event;
+        background-size: 17px 17px;
+        width: 17px;
+        height: 17px;
+      }
+    }
+  }
+
+  &__text {
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 10px;
+    height: 70px;
+    overflow: hidden;
+  }
+  &__date {
+    font-family: 'ClearSansBold';
+    font-size: 13px;
+    line-height: 17px;
+    margin-bottom: 5px;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+  &__city {
+    font-family: 'ClearSans';
+    padding-left: 10px;
+  }
+}
+
+@media only screen and (min-width: 761px) and (max-width: 980px) {
+  .event-card {
+    width: 32.3%;
+
+    &:nth-child(3n) {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 760px) {
+  .event-card {
+    width: 49%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .event-card {
+    width: 100%;
+    margin: 0 0 10px;
+  }
+}
