@@ -31,11 +31,28 @@ const mapFiltersToProps = WrappedComponent => class MapFilters extends PureCompo
     },
   }
 
-  // This function must be bind in the target class
-  // for access to its state
-  applyFilters() {
+  constructor(props) {
+    super(props);
+
+    const { routing } = props;
+    let filters = {};
+
+    if (routing && routing.query) {
+      filters = Object.assign(filters, routing.query);
+    }
+
+    this.state = filters;
+  }
+
+  updateFilter = ({ target }) => {
+    this.setState({
+      [target.dataset.field]: target.value || target.dataset.value,
+    });
+  }
+
+  applyFilters = () => {
     const { routing, router } = this.props;
-    const query = Object.assign({}, routing.query, omitInvalidData(this.state));
+    const query = Object.assign({}, omitInvalidData(this.state));
 
     router.push({
       pathname: routing.pathname,
@@ -43,18 +60,20 @@ const mapFiltersToProps = WrappedComponent => class MapFilters extends PureCompo
     });
   }
 
+  reversePriceRange = () => {
+    this.setState({
+      price_from: this.state.price_to,
+      price_to: this.state.price_from,
+    });
+  }
+
   render() {
-    const { routing } = this.props;
-    let filters = {};
-
-    if (routing && routing.query) {
-      filters = Object.assign(filters, routing.query);
-    }
-
     return (<WrappedComponent
       {...this.props}
-      filters={filters}
+      filters={this.state}
       applyFilters={this.applyFilters}
+      updateFilter={this.updateFilter}
+      reversePriceRange={this.reversePriceRange}
     />);
   }
 };

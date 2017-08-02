@@ -1,11 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import PriceInput from './PriceInput';
+
 import { __t } from '../../../i18n/translator';
 import './PriceRange.less';
 
 const isNumberKey = key => ((key >= 48 && key <= 57) || (key >= 96 && key <= 105));
 const isDeleteKey = key => key === 8;
+
+const mustReverseRange = (priceFrom, priceTo) => Number(priceFrom) > Number(priceTo);
 
 class PriceRange extends PureComponent {
   validateInput = (e) => {
@@ -14,28 +18,37 @@ class PriceRange extends PureComponent {
     }
   }
 
+  validateRange = () => {
+    const { priceFrom, priceTo, reversePriceRange } = this.props;
+
+    if (priceTo.length > 0 && mustReverseRange(priceFrom, priceTo)) {
+      reversePriceRange();
+    }
+  }
+
   render() {
     const { priceFrom, priceTo, onChange } = this.props;
 
     return (
       <div className="price-range">
-        <input
+        <PriceInput
           className="input price-range__from"
-          type="text"
           placeholder={__t('Price from')}
-          onKeyDown={this.validateInput}
+          validator={this.validateInput}
           onChange={onChange}
           value={priceFrom}
-          data-field="price_from"
+          field="price_from"
+          pricePrefix={__t('From')}
         />
-        <input
+        <PriceInput
           className="input price-range__to"
-          type="text"
           placeholder={__t('Price to')}
-          onKeyDown={this.validateInput}
+          validator={this.validateInput}
           onChange={onChange}
           value={priceTo}
-          data-field="price_to"
+          field="price_to"
+          pricePrefix={__t('to')}
+          onBlur={this.validateRange}
         />
       </div>
     );
@@ -49,6 +62,7 @@ PriceRange.defaultProps = {
 
 PriceRange.propTypes = {
   onChange: PropTypes.func.isRequired,
+  reversePriceRange: PropTypes.func.isRequired,
   priceTo: PropTypes.string,
   priceFrom: PropTypes.string,
 };

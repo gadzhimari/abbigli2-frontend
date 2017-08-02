@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { NewPost, BlogCard } from 'components';
 import { Product } from 'components/Cards';
 
+import { __t } from './../../i18n/translator';
+
 const cardsByType = {
   1: Product,
   4: BlogCard,
@@ -15,7 +17,26 @@ const ListWithNew = ({
   itemProps,
   count,
   ItemComponent,
-}) => (
+}) => {
+  if (items.length === 0) {
+    return (
+      <div>
+        <div className="cards-wrap">
+          {__t('Nothing here yet')}
+        </div>
+        <div className="cards-wrap">
+          {
+            newItems.map(item => <NewPost
+              data={item}
+              key={item.id}
+            />)
+          }
+        </div>
+      </div>
+    );
+  }
+
+  return (
     <div>
       <div className="cards-wrap">
         {
@@ -53,5 +74,18 @@ const ListWithNew = ({
       </div>
     </div>
   );
+};
+
+ListWithNew.defaultProps = {
+  itemProps: {},
+};
+
+ListWithNew.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  newItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  itemProps: PropTypes.shape(),
+  count: PropTypes.number.isRequired,
+  ItemComponent: PropTypes.oneOfType(PropTypes.node, PropTypes.array, PropTypes.string).isRequired,
+};
 
 export default ListWithNew;

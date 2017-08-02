@@ -39,15 +39,6 @@ const newData = [{
 }];
 
 class TagSearchResults extends Component {
-  constructor(props) {
-    super(props);
-    this.state = props.filters;
-
-    // It's need for access this.state in applyFilters
-    // check the implementation in HOC/mapFiltersToProps
-    this.applyFilters = props.applyFilters.bind(this);
-  }
-
   componentDidMount() {
     const { location, items } = this.props;
 
@@ -85,21 +76,15 @@ class TagSearchResults extends Component {
   }
 
   clickOnTag = (tag) => {
-    const { router, routing } = this.props;
-    const newTags = routing.query.tags.split(',');
+    const { router, filters } = this.props;
+    const newTags = filters.tags.split(',');
     newTags.push(tag);
 
     router.push({
       pathname: '/find',
-      query: Object.assign({}, routing.query, {
+      query: Object.assign({}, filters, {
         tags: newTags.join(','),
       }),
-    });
-  }
-
-  updateFilter = ({ target }) => {
-    this.setState({
-      [target.dataset.field]: target.value || target.dataset.value,
     });
   }
 
@@ -115,6 +100,10 @@ class TagSearchResults extends Component {
       priceTemplate,
       routing,
       sections,
+      filters,
+      updateFilter,
+      applyFilters,
+      reversePriceRange,
     } = this.props;
 
     return (
@@ -151,14 +140,11 @@ class TagSearchResults extends Component {
               </div>
             </h1>
             <Filters
-              section={this.state.section}
               sections={sections}
-              priceFrom={this.state.price_from}
-              priceTo={this.state.price_to}
-              color={this.state.color}
-              radius={this.state.distance}
-              updateFilter={this.updateFilter}
-              applyFilters={this.applyFilters}
+              activeFilters={filters}
+              updateFilter={updateFilter}
+              applyFilters={applyFilters}
+              reversePriceRange={reversePriceRange}
             />
             {
               isFetching
@@ -186,6 +172,8 @@ TagSearchResults.propTypes = {
   routeParams: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   applyFilters: PropTypes.func.isRequired,
+  updateFilter: PropTypes.func.isRequired,
+  reversePriceRange: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   filters: PropTypes.shape({
     price_from: PropTypes.string,

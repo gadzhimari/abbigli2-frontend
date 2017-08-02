@@ -10,16 +10,13 @@ import { __t } from '../../i18n/translator';
 import './Filters.less';
 
 const Filters = ({
-  section,
   sections,
-  priceFrom,
-  priceTo,
-  color,
-  radius,
   updateFilter,
   applyFilters,
+  activeFilters,
+  reversePriceRange,
 }) => {
-  const activeSection = sections.filter(item => item.slug === section)[0];
+  const activeSection = sections.filter(item => item.slug === activeFilters.section)[0];
   const activeSectionTitle = activeSection ? activeSection.title : '';
 
   return (
@@ -40,24 +37,27 @@ const Filters = ({
         ItemComponent={SectionSelect}
         onChange={updateFilter}
         name="section"
+        canReset
       />
       <ChoiceColor
-        activeColor={color}
+        activeColor={activeFilters.color}
         onChange={updateFilter}
       />
       <Select
         subClass="select_distance"
         listItems={['1000', '500', '100', '50']}
         placeholder={__t('Being in the radius (km)')}
-        activeItem={radius}
+        activeItem={activeFilters.distance}
         ItemComponent={TextSelect}
         onChange={updateFilter}
         name="distance"
+        canReset
       />
       <PriceRange
-        priceFrom={priceFrom}
-        priceTo={priceTo}
+        priceFrom={activeFilters.price_from}
+        priceTo={activeFilters.price_to}
         onChange={updateFilter}
+        reversePriceRange={reversePriceRange}
       />
       <button
         className="default-button"
@@ -73,12 +73,15 @@ const Filters = ({
 Filters.propTypes = {
   updateFilter: PropTypes.func.isRequired,
   applyFilters: PropTypes.func.isRequired,
-  radius: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  section: PropTypes.oneOfType([PropTypes.any, PropTypes.object]).isRequired,
+  reversePriceRange: PropTypes.func.isRequired,
   sections: PropTypes.oneOfType([PropTypes.any, PropTypes.object]).isRequired,
-  priceFrom: PropTypes.string.isRequired,
-  priceTo: PropTypes.string.isRequired,
+  activeFilters: PropTypes.shape({
+    price_from: PropTypes.string,
+    price_to: PropTypes.string,
+    section: PropTypes.string,
+    color: PropTypes.string,
+    distance: PropTypes.string,
+  }).isRequired,
 };
 
 export default Filters;

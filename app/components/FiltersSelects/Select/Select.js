@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { __t } from '../../../i18n/translator';
 
 import './Select.less';
 
@@ -27,6 +28,7 @@ class Select extends PureComponent {
       ItemComponent,
       onChange,
       name,
+      canReset,
     } = this.props;
 
     return (
@@ -57,6 +59,19 @@ class Select extends PureComponent {
                 />
               ))
             }
+            {
+              canReset && activeItem
+              &&
+              <a
+                className="filter__reset select__item"
+                onMouseDown={onChange}
+                onTouchStart={onChange}
+                data-value=""
+                data-field={name}
+              >
+                {__t('Reset')}
+              </a>
+            }
           </div>
         }
       </div>
@@ -69,6 +84,7 @@ Select.defaultProps = {
   activeItem: '',
   className: 'select',
   subClass: '',
+  canReset: false,
 };
 
 Select.propTypes = {
@@ -80,6 +96,7 @@ Select.propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   ItemComponent: PropTypes.node.isRequired,
+  canReset: PropTypes.bool,
 };
 
 export default Select;
