@@ -687,20 +687,9 @@ class UserProfileMe extends Component {
                 <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 31.193">
                   <path d="M17,31.193l-2.467-2.242C5.778,21.011,0,15.774,0,9.35C0,4.113,4.113,0,9.351,0C12.308,0,15.147,1.377,17,3.552
                     C18.853,1.377,21.691,0,24.649,0C29.886,0,34,4.113,34,9.35c0,6.425-5.781,11.661-14.537,19.618L17,31.193z"/>
-</svg>
+                </svg>
                 0
                 </div>
-              <div className="user-profile__characteristic-item messages">
-                <Link
-                  to={`/profile/${user.id}/messages`}
-                >
-                  <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">
-                    <path d="M9,0H1C0.45,0,0.005,0.449,0.005,1L0,7c0,0.55,0.45,1,1,1h8c0.55,0,1-0.45,1-1V1C10,0.449,9.55,0,9,0z M9,2
-                      L5,4.5L1,2V1l4,2.5L9,1V2z"/>
-</svg>
-                  {this.props.data.unread_messages_num}
-                </Link>
-              </div>
             </div>
 
             {
