@@ -1,10 +1,16 @@
-html, body, .app-wrapper, .global-wrapper {
+html {
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
-body, .global-wrapper, .app-wrapper {
-  flex-grow: 1;
+body {
+  flex: 1 0 auto;
+  display: flex;
+}
+
+.app {
+  display: flex;
 }
 
 .disable-scroll {
