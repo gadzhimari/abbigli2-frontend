@@ -10,6 +10,7 @@ const SET_PROFILE = 'abbigli/Profile/SET_PROFILE';
 const SET_FOLLOWING = 'abbigli/Profile/SET_FOLLOWING';
 const UPDATE_BANNER = 'abbigli/Profile/UPDATE_BANNER';
 const UPDATE_PROFILE_FIELD = 'abbigli/Profile/UPDATE_PROFILE_FIELD';
+const SET_ERROR_404 = 'abbigli/Profile/SET_ERROR_404';
 
 // Initial state
 
@@ -20,6 +21,7 @@ const initialState = {
   isMe: false,
   followers: [],
   following: null,
+  isDefined: true,
 };
 
 // Reducer
@@ -38,6 +40,7 @@ export default function (state = initialState, action = {}) {
       return Object.assign({}, state, {
         isFetching: true,
         data: {},
+        isDefined: true,
       });
     case SET_ERRORS:
       return Object.assign({}, state, {
@@ -46,6 +49,7 @@ export default function (state = initialState, action = {}) {
     case SET_PROFILE:
       return Object.assign({}, state, {
         data: action.profile,
+        isDefined: true,
       });
     case SET_FOLLOWING: {
       const newData = Object.assign({}, state.data, action.followed);
@@ -63,6 +67,12 @@ export default function (state = initialState, action = {}) {
       const data = Object.assign({}, state.data, action.data);
       return Object.assign({}, state, {
         data,
+      });
+    }
+    case SET_ERROR_404: {
+      return Object.assign({}, state, {
+        isDefined: false,
+        isFetching: false,
       });
     }
     default:
@@ -132,7 +142,13 @@ export const fetchProfile = (isMe, id, isAuth) => {
     : `${API_URL}profiles/${id}/`;
 
   return fetch(endpoint, config)
-    .then(res => res.json());
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      throw new Error(res.status);
+    });
 };
 
 export const fetchFollowers = (isMe, id, isAuth) => {
@@ -176,6 +192,10 @@ export const fetchFollowing = () => {
     });
 };
 
+const setNotFound = () => ({
+  type: SET_ERROR_404,
+});
+
 export function fetchData(isMe, id, isAuth) {
   const promises = [];
 
@@ -185,12 +205,11 @@ export function fetchData(isMe, id, isAuth) {
     promises.push(fetchFollowing());
   }
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch(requestData());
 
     return Promise.all(promises)
-      .then(data => {
-        const [profile, followers, following] = data;
+      .then(([profile, followers, following]) => {
         const result = {
           data: profile,
           isMe,
@@ -201,6 +220,11 @@ export function fetchData(isMe, id, isAuth) {
         };
 
         dispatch(setData(result));
+      })
+      .catch((error) => {
+        if (error.message === '404') {
+          dispatch(setNotFound());
+        }
       });
   };
 }
