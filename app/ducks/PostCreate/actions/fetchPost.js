@@ -13,7 +13,7 @@ const fetchPostRes = data => ({
 const fetchPost = slug => (dispatch) => {
   dispatch(fetchPostReq);
 
-  return fetch(`${API_URL}posts/${slug}`)
+  return fetch(`${API_URL}posts/${slug}/`)
     .then(res => res.json())
     .then((responseData) => {
       dispatch(fetchPostRes({
