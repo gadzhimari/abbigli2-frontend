@@ -34,7 +34,7 @@ const savePost = (data, typesUrl, method, slug = '') => {
   return (dispatch) => {
     dispatch(savePostReq());
 
-    return fetch(`${API_URL}posts/${slug}/`, config)
+    return fetch(`${API_URL}posts/${slug ? `${slug}/` : ''}`, config)
       .then(response => response.json())
       .then((result) => {
         if (result.id) {
