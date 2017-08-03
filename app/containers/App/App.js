@@ -130,31 +130,29 @@ class App extends Component {
     const Popup = getComponentFromObject(openedPopup, Popups);
 
     return (
-      <ContentWrapper
-        contentWrapperClass="global-wrapper"
-        modalButtonClick={this.modalButtonClick}
-        itemsSections={itemsSections}
-        isOpenMenu={mobileMenuOpened}
-        closeMenu={this.closeMenu}
-        isFetchingSections={isFetchingSections}
-      >
-        <Helmet
-          {...appConfig.head}
-          title={seoData && seoData.seo_title}
-          meta={seoData && [
-            {
-              name: 'description',
-              content: seoData.seo_description,
-            },
-            {
-              name: 'keywords',
-              content: seoData.seo_keywords,
-            },
-          ]}
-        />
-        <div
-          className={`content-wrapper ${shouldOpenModal && 'modal-open-new'}`}
+      <div className="app-wrapper">
+        <ContentWrapper
+          contentWrapperClass={`${shouldOpenModal ? 'modal-open-new' : ''}`}
+          modalButtonClick={this.modalButtonClick}
+          itemsSections={itemsSections}
+          isOpenMenu={mobileMenuOpened}
+          closeMenu={this.closeMenu}
+          isFetchingSections={isFetchingSections}
         >
+          <Helmet
+            {...appConfig.head}
+            title={seoData && seoData.seo_title}
+            meta={seoData && [
+              {
+                name: 'description',
+                content: seoData.seo_description,
+              },
+              {
+                name: 'keywords',
+                content: seoData.seo_keywords,
+              },
+            ]}
+          />
           <Header>
             <Search />
             <AvatarBlock
@@ -176,14 +174,9 @@ class App extends Component {
           />
 
           {children}
-
-        </div>
-        <Footer
-          openPopup={this.modalButtonClick}
-        >
-          Logo
-        </Footer>
-      </ContentWrapper>
+        </ContentWrapper>
+        <Footer openPopup={this.modalButtonClick} />
+      </div>
     );
   }
 }

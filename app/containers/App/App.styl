@@ -1,14 +1,24 @@
-html, body, .global-wrapper {
+html, body, .app-wrapper, .global-wrapper {
   display: flex;
   flex-direction: column;
 }
 
-body, .global-wrapper, .content-wrapper {
+body, .global-wrapper, .app-wrapper {
   flex-grow: 1;
 }
 
 .disable-scroll {
   overflow: hidden;
+}
+
+.global-wrapper {
+  padding-bottom: 87px;
+}
+
+@media only screen and (max-width: 670px) {
+  .global-wrapper {
+    padding-bottom: 55px;
+  }
 }
 
 @media (max-width: 767px) {

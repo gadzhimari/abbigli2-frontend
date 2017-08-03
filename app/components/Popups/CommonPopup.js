@@ -26,7 +26,7 @@ const Popup = ({
 Popup.propTypes = {
   title: PropTypes.string.isRequired,
   closePopup: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([
+  children: PropTypes.oneOf([
     PropTypes.children,
     PropTypes.array,
     PropTypes.string,
