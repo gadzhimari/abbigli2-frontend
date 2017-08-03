@@ -244,6 +244,7 @@ function mapStateToProps(state) {
     isMe,
     followers,
     following,
+    isDefined,
   } = state.Profile;
 
   return {
@@ -259,6 +260,7 @@ function mapStateToProps(state) {
     following,
     followFetching: state.Follow.isFetching,
     geoCity: state.Geo.city,
+    isDefined,
   };
 }
 

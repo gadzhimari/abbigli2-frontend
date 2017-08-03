@@ -41,7 +41,7 @@ const UserFollowers = props => {
                 {
                   item.avatar
                     ? <img
-                      src={`${DOMAIN_URL}/thumbs/unsafe/60x60/${item.avatar}`}
+                      src={`${DOMAIN_URL}thumbs/unsafe/60x60/${item.avatar}`}
                       alt={item.profile_name}
                     />
                     : <img

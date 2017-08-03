@@ -44,7 +44,7 @@ const fetchPost = (slug, type, tokenID) => {
         }
       })
       .catch((error) => {
-        if (error.message === '404') {
+        if (error.message === '404' || error.message === '400') {
           dispatch(setNotFound());
         }
       });

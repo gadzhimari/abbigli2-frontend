@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 
 import { Loading } from 'components';
+import { NotFound } from 'containers';
 
 import { fetchData } from 'ducks/Profile';
 
 const ProfileLoaderDecorator = Profile => class extends Component {
   static propTypes = {
     authFetching: PropTypes.bool.isRequired,
+    isDefined: PropTypes.bool.isRequired,
     isFetching: PropTypes.bool.isRequired,
     isMe: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
@@ -58,15 +60,20 @@ const ProfileLoaderDecorator = Profile => class extends Component {
     const {
       isFetching,
       routes,
+      isDefined,
     } = this.props;
 
     const childrenPath = routes[2].path;
 
-    return isFetching
-      ? (<div className="container-fluid">
-        <Loading loading={isFetching} />
-      </div>)
-      : <Profile {...this.props} childrenPath={childrenPath} />;
+    if (isFetching) {
+      return (<div className="container-fluid"><Loading loading={isFetching} /></div>);
+    }
+
+    if (!isDefined) {
+      return <NotFound />;
+    }
+
+    return <Profile {...this.props} childrenPath={childrenPath} />;
   }
 };
 
