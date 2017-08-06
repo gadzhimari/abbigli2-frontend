@@ -71,7 +71,7 @@ class SpecificPostsPage extends Component {
       mood: __t('Create a mood'),
     };
 
-    const page_name = page_names[this.props.route.slug];
+    const page_name = page_names[this.props.route.slug] || page_names[this.props.route.filter];
 
     return (
       <div className="container-fluid tag-page">
@@ -134,7 +134,7 @@ class SpecificPostsPage extends Component {
         <Loading loading={isFetchingPosts} />
 
         {
-          (!isFetchingPosts && this.props.route.slug === 'near')
+          (!isFetchingPosts && this.props.route.filter === 'near')
           &&
           itemsPosts.length === 0
           &&
