@@ -9,8 +9,10 @@ import { Event } from 'components/Cards';
 import { EventsFilters } from 'components/Filters';
 import BlogSection from 'components/SliderBar/components/BlogSection';
 
-import { openPopup, closePopup } from 'ducks/Popup/actions';
+import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 
+
+import { openPopup, closePopup } from 'ducks/Popup/actions';
 import { fetchData as fetchDataEvents, changeSearchField } from 'ducks/Events';
 import { API_URL } from 'config';
 import { __t } from './../../i18n/translator';
@@ -113,8 +115,7 @@ class EventsPage extends Component {
     dispatch(fetchDataEvents(page, popular, city, start, end));
   }
 
-  changeCity = city => this.props.dispatch(changeSearchField('city', city));
-
+  changeCity = city => this.props.updateFieldByName('city', city.name);
 
   openMobileModal = () => this.props
     .dispatch(openPopup('eventSearch', {
@@ -130,7 +131,15 @@ class EventsPage extends Component {
     }));
 
   render() {
-    const { sections, routing, isFetching, items } = this.props;
+    const {
+      sections,
+      routing,
+      isFetching,
+      items,
+      filters,
+      applyFilters,
+      updateFilter,
+    } = this.props;
     const section = sections.filter(item => routing && item.slug === routing.query.section)[0];
 
     const crumbs = [{
@@ -170,7 +179,12 @@ class EventsPage extends Component {
               itemProps={{ baseUrl: '/events' }}
             />
           }
-          <EventsFilters />
+          <EventsFilters
+            filters={filters}
+            applyFilters={applyFilters}
+            updateFilter={updateFilter}
+            openCityPopup={this.openSelectPopup}
+          />
           {
             isFetching
               ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
@@ -221,4 +235,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(EventsPage);
+export default connect(mapStateToProps)(mapFiltersToProps(EventsPage));

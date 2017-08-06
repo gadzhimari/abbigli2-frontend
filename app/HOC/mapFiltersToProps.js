@@ -44,9 +44,17 @@ const mapFiltersToProps = WrappedComponent => class MapFilters extends PureCompo
     this.state = filters;
   }
 
+  componentDidMount() {
+    console.log('mount');
+  }
+
   updateFilter = ({ target }) => {
+    this.updateFieldByName(target.dataset.field, target.value || target.dataset.value);
+  }
+
+  updateFieldByName = (name, value) => {
     this.setState({
-      [target.dataset.field]: target.value || target.dataset.value,
+      [name]: value,
     });
   }
 
@@ -73,6 +81,7 @@ const mapFiltersToProps = WrappedComponent => class MapFilters extends PureCompo
       filters={this.state}
       applyFilters={this.applyFilters}
       updateFilter={this.updateFilter}
+      updateFieldByName={this.updateFieldByName}
       reversePriceRange={this.reversePriceRange}
     />);
   }

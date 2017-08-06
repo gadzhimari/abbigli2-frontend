@@ -48,10 +48,15 @@ class Search extends Component {
 
   onTagsCreated = (tags) => {
     const { router, routing } = this.props;
+    let lastQuery = {};
+
+    if (routing.pathname.includes('/find')) {
+      lastQuery = routing.query;
+    }
 
     router.push({
       pathname: '/find',
-      query: Object.assign({}, routing.query, {
+      query: Object.assign({}, lastQuery, {
         tags,
         type: 1,
       }),

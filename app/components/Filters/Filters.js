@@ -64,7 +64,7 @@ const Filters = ({
         type="button"
         onClick={applyFilters}
       >
-        Применить
+        {__t('Apply filters')}
       </button>
     </div >
   );
