@@ -134,7 +134,7 @@ class SpecificPostsPage extends Component {
         <Loading loading={isFetchingPosts} />
 
         {
-          (!isFetchingPosts && this.props.route.slug === 'near')
+          (!isFetchingPosts && this.props.route.filter === 'near')
           &&
           itemsPosts.length === 0
           &&
