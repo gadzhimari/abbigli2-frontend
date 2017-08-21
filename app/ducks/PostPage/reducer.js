@@ -5,11 +5,13 @@ const initialState = {
   isFetchingPopular: true,
   isFetchingNew: true,
   isFetchingRelative: true,
+  isFetchingUsersPosts: true,
   post: {},
   author: {},
   popularPosts: [],
   newPosts: [],
   relativePosts: [],
+  usersPosts: [],
   isDefined: true,
 };
 
@@ -58,6 +60,17 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         isFetchingRelative: false,
         relativePosts: action.relativePosts,
+      });
+    }
+    case (actions.REQUEST_USER_POST): {
+      return Object.assign({}, state, {
+        isFetchingUsersPosts: true,
+      });
+    }
+    case (actions.RESPONSE_USER_POST): {
+      return Object.assign({}, state, {
+        isFetchingUsersPosts: false,
+        usersPosts: action.usersPosts,
       });
     }
     case (actions.SET_FOLLOWING): {
