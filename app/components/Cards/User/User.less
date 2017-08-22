@@ -1,0 +1,133 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.user-card {
+  background-color: #fff;
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 3px;
+  border: 1px solid @border;
+  margin: 1.5%;
+  min-height: 230px;
+  position: relative;
+  padding: 20px;
+  text-align: center;
+  width: 13.5%;
+  min-width: 168px;
+
+  &__avatar {
+    width: 86px;
+    height: 86px;
+    margin: 0 auto 10px auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    &-img {
+      max-width: 100%;
+    }
+  }
+
+  &__name {
+    font-size: 14px;
+    line-height: 18px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__city {
+    font-size: 12px;
+    line-height: 16px;
+    color: @grayText;
+    margin-top: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .default-button {
+    background-color: @goods;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 7px 15px 8px;
+    margin-top: 10px;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 0;
+    text-align: center;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: #0091e1;
+      color: #fff;
+    }
+    &:active {
+      background-color: #006fac;
+      border-color: #006fac;
+      box-shadow: 0 0 2px #006fac inset;
+      color: #fff;
+    }
+  }
+
+  .icon-add {
+    display: none;
+    background-size: 17px 17px;
+    width: 17px;
+    height: 17px;
+    fill: #fff;
+  }
+}
+
+@media only screen and (min-width: 761px) and (max-width: 980px) {
+  .user-card {
+    margin: 1%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .user-card {
+    margin: 0;
+    display: block;
+    width: 100%;
+    border-radius: 0;
+    background: none;
+    border-width: 1px 0 0 0;
+    padding: 10px 55px 10px 85px;
+    min-height: 80px;
+    text-align: left;
+
+    &:last-child {
+      border-bottom: 1px solid @border;
+    }
+
+    &__avatar {
+      width: 54px;
+      height: 54px;
+      left: 10px;
+      margin: 0;
+      .align-vertical;
+    }
+
+    &__name {
+      margin-top: 10px;
+      word-spacing: normal;
+    }
+
+    .default-button {
+      width: 34px;
+      height: 34px;
+      font-size: 0;
+      right: 10px;
+      margin: 0;
+      padding: 0;
+      .align-vertical;
+    }
+
+    .icon-add {
+      display: block;
+      margin: 9px auto 0 auto;
+    }
+  }
+}

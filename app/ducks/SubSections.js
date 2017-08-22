@@ -1,11 +1,15 @@
 // SubSections.js
 import { API_URL } from 'config';
+import { createQuery } from 'utils/functions';
+
 
 // Actions
 const REQUEST = 'abbigli/SubSections/REQUEST';
 const REQUEST_APPEND = 'abbigli/SubSections/REQUEST_APPEND';
 const SET = 'abbigli/SubSections/SET';
 const APPEND = 'abbigli/SubSections/APPEND';
+const LOAD_POSTS = 'abbigli/SubSections/LOAD_POSTS';
+const LOADED_POSTS = 'abbigli/SubSections/LOADED_POSTS';
 
 const initialState = {
   isFetching: true,
@@ -14,6 +18,8 @@ const initialState = {
   next: null,
   items: [],
   pagesCount: 0,
+  isFethingPosts: true,
+  posts: [],
 };
 
 // Reducer
@@ -41,6 +47,15 @@ export default function (state = initialState, action = {}) {
     case REQUEST_APPEND:
       return Object.assign({}, state, {
         isFetchingMore: true,
+      });
+    case LOAD_POSTS:
+      return Object.assign({}, state, {
+        isFetchingPosts: true,
+      });
+    case LOADED_POSTS:
+      return Object.assign({}, state, {
+        isFetchingPosts: false,
+        posts: action.posts,
       });
     default:
       return state;
@@ -92,6 +107,26 @@ export function fetchData(section, page = 1) {
             dispatch(appendData(responseData));
           }
         }
+
+        return Promise.resolve();
       });
-  }
+  };
 }
+
+const fetchingPosts = () => ({
+  type: LOAD_POSTS,
+});
+
+const fetchedPosts = posts => ({
+  type: LOADED_POSTS,
+  posts,
+});
+
+export const fetchSectionPosts = options => (dispatch) => {
+  dispatch(fetchingPosts());
+  const query = createQuery(options);
+
+  return fetch(`${API_URL}posts/${query}`)
+    .then(res => res.json())
+    .then(result => dispatch(fetchedPosts(result.results)));
+};
