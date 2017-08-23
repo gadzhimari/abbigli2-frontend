@@ -85,7 +85,7 @@ export function fetchData(specific = '', options) {
       .then(res => res.json())
       .then((responseData) => {
         if (responseData.results) {
-          if (!options.page == 1) {
+          if (!options.page) {
             dispatch(setData(responseData));
           } else {
             dispatch(appendData(responseData));

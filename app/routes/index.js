@@ -81,14 +81,10 @@ const routes = (store, token, shouldPreload) => {
       <Route path="post/:slug" component={ProductPage} />
       <Route path="relative/:slug" component={RelativePage} />
 
-      <Route path="new-products" component={SpecificPostsPage} slug="new" />
-      <Route path="popular-products" component={SpecificPostsPage} filter="popular" />
-      <Route path="set-the-mood" component={SpecificPostsPage} slug="mood" />
-      <Route path="nearest-products" component={SpecificPostsPage} filter="near" />
-
-      <Route path="new-products/:section" component={SectionTag} />
-      <Route path="popular-products/:section" component={SectionTag} filter="popular" />
-      <Route path="nearest-products/:section" component={SectionTag} filter="near" />
+      <Route path="new-products" component={SpecificPostsPage} filter="New" />
+      <Route path="popular-products" component={SpecificPostsPage} filter="Popular" />
+      <Route path="set-the-mood" component={SpecificPostsPage} filter="Mood" />
+      <Route path="nearest-products" component={SpecificPostsPage} filter="Near" />
     </Route>
   );
 };

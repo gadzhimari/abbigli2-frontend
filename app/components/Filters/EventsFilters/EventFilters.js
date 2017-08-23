@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { CitySelect, DateRange } from 'components/FiltersSelects';
+import { CitySelect, DateRange, Sort } from 'components/FiltersSelects';
+
 
 import { __t } from '../../../i18n/translator';
 import './EventFilters.less';
@@ -18,10 +19,12 @@ const EventFilters = ({ openCityPopup, filters, updateFilter, applyFilters }) =>
         dateStart={filters.date_start}
         dateEnd={filters.date_end}
       />
-      <div className="select select_new">
-        <input className="input" type="text" placeholder="Новое" />
-        <svg className="icon icon-arrow"></svg>
-      </div >
+      <Sort
+        name="sort"
+        activeItem={filters.sort || 'New'}
+        listItems={['New', 'Popular']}
+        onChange={updateFilter}
+      />
       <button
         className="default-button"
         type="button"

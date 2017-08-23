@@ -3,58 +3,71 @@
 @import 'variables';
 
 .pagination {
+  font-size: 0;
   text-align: center;
   margin: 30px 0;
 
   &__item {
-    font-family: 'ClearSansBold';
-    font-size: 12px;
-    line-height: 17px;
+    font-size: 16px;
+    line-height: 28px;
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
     margin: 0 5px;
-    color: #a5a5a5;
+    height: 30px;
+    min-width: 30px;
+    color: #1d1c1c;
+    background-color: #fff;
+    border: 1px solid #b8b8b8;
+    border-radius: 3px;
+    padding: 0 5px;
 
     &.active {
-      color: #000;
-      text-decoration: underline;
+      color: #fff;
+      background-color: @goods;
+      border-color: @goods;
     }
   }
   &__nav {
+    font-size: 16px;
+    line-height: 26px;
+    height: 30px;
     display: inline-block;
     vertical-align: middle;
-    width: 18px;
-    height: 18px;
-    background-color: #4f90ff;
-    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid #b8b8b8;
+    border-radius: 3px;
+    padding: 0 10px;
+    min-width: 30px;
     cursor: pointer;
     position: relative;
 
     &.disabled {
-      background-color: #b9b9b9;
+      opacity: 0.3;
       cursor: default;
     }
 
     .icon {
-      fill: #fff;
-      width: 5px;
-      height: 8px;
-      background-size: 5px 8px;
-      top: 50%;
-      left: 50%;
-      position: absolute;
+      fill: #d0d0d0;
+      width: 9px;
+      height: 14px;
+      background-size: 9px 14px;
+      display: inline-block;
+      vertical-align: top;
+      margin-top: 8px;
     }
 
     &:first-child {
+      margin-right: 10px;
       .icon {
-        transform: translate(-50%,-50%) rotate(-180deg);
-        margin-left: -1px;
+        margin-right: 5px;
+        transform: rotate(-180deg);
       }
     }
     &:last-child {
+      margin-left: 10px;
       .icon {
-        transform: translate(-50%,-50%);
+        margin-left: 5px;
       }
     }
   }
@@ -62,24 +75,19 @@
 
 @media only screen and (max-width: 480px) {
   .pagination {
-    &__item {
-      font-size: 16px;
-      line-height: 20px;
-    }
     &__nav {
-      width: 30px;
-      height: 30px;
-      &:after {
-        background-size: 9px 14px;
-        width: 9px;
-        height: 14px;
-      }
-
+      font-size: 0;
       &:first-child {
-        margin-right: 20px;
+        margin-right: 5px;
+        .icon {
+          margin-right: 0;
+        }
       }
       &:last-child {
-        margin-left: 20px;
+        margin-left: 5px;
+        .icon {
+          margin-left: 0;
+        }
       }
     }
   }
