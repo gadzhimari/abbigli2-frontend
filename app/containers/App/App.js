@@ -126,6 +126,7 @@ class App extends Component {
     const seoData = seo.data.filter(item => item.url == location.pathname)[0];
 
     const Popup = getComponentFromObject(openedPopup, Popups);
+    const shouldOpenModal = openedPopup;
 
     return (
       <ContentWrapper
