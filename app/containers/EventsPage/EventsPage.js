@@ -13,7 +13,7 @@ import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 
 
 import { openPopup, closePopup } from 'ducks/Popup/actions';
-import { fetchData as fetchDataEvents, changeSearchField } from 'ducks/Events';
+import { fetchData, changeSearchField } from 'ducks/Events';
 import { API_URL } from 'config';
 import { __t } from './../../i18n/translator';
 
@@ -38,89 +38,35 @@ const newData = [{
 }];
 
 class EventsPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      popular: false,
-    };
-  }
-
-  componentWillMount() {
-    const { dispatch, items, location, geoCity, city } = this.props;
+  componentDidMount() {
+    const { items, location } = this.props;
+    this.globalWrapper = document.querySelector('.global-wrapper');
+    this.globalWrapper.classList.add('event');
 
     if (location.action === 'POP' && items.length === 0) {
-      dispatch(fetchDataEvents(1));
+      this.loadItems();
     }
 
     if (location.action === 'PUSH') {
-      dispatch(fetchDataEvents(1));
+      this.loadItems();
     }
-  }
-
-  componentDidMount() {
-    this.globalWrapper = document.querySelector('.global-wrapper');
-    this.globalWrapper.classList.add('event');
   }
 
   componentWillUnmount() {
     this.globalWrapper.classList.remove('event');
   }
 
-  setFilter = (filter) => {
-    const { dispatch } = this.props;
+  loadItems = () => {
+    const { routing, dispatch } = this.props;
+    const options = routing.query;
 
-    this.setState({
-      popular: filter,
-      city: null,
-      start: null,
-      end: null,
-    });
-
-    dispatch(fetchDataEvents(1, filter));
+    dispatch(fetchData(options));
   }
 
   handleChangeField = ({ target }) => this.props
     .dispatch(changeSearchField(target.name, target.value));
 
-  search = () => {
-    const { city, start, end, dispatch } = this.props;
-
-    if (city || start || end) {
-      this.setState({
-        popular: false,
-      });
-
-      dispatch(closePopup());
-      dispatch(fetchDataEvents(1, false, city,
-        moment(start).format('YYYY-MM-DDThh:mm'),
-        moment(end).format('YYYY-MM-DDThh:mm')
-      ));
-    }
-  }
-
-  loadMore = () => {
-    const { popular } = this.state;
-    const {
-      dispatch,
-      isFetchingMore,
-      next,
-      page,
-      city,
-      start,
-      end,
-    } = this.props;
-
-    if (isFetchingMore || next === null) return;
-
-    dispatch(fetchDataEvents(page, popular, city, start, end));
-  }
-
   changeCity = city => this.props.updateFieldByName('city', city.name);
-
-  openMobileModal = () => this.props
-    .dispatch(openPopup('eventSearch', {
-      findEvents: this.search,
-    }));
 
   openSelectPopup = () => this.props
     .dispatch(openPopup('selectPopup', {
@@ -203,16 +149,10 @@ class EventsPage extends Component {
 }
 
 EventsPage.propTypes = {
-  itemsEvents: PropTypes.array.isRequired,
-  isFetchingEvents: PropTypes.bool.isRequired,
-  isFetchingMore: PropTypes.bool.isRequired,
+  items: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  next: PropTypes.any,
-  geoCity: PropTypes.shape({
-    name: PropTypes.string,
-    country: PropTypes.object,
-  }),
+  updateFieldByName: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
