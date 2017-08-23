@@ -23,3 +23,4 @@ export { default as SocialAuth } from './SocialAuth';
 export { default as Faq } from './Faq';
 export { default as Agreement } from './Agreement';
 export { default as RelativePage } from './RelativePage';
+export { default as PeopleSearch } from './PeopleSearch';
