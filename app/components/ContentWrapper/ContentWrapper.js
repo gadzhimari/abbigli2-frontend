@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Hammer from 'react-hammerjs';
 
-import { Menu } from 'components';
+import { Menu, Footer } from 'components';
 
 class ContentWrapper extends Component {
   onSwipeHandler = () => this.props.closeMenu();
@@ -15,14 +15,12 @@ class ContentWrapper extends Component {
       isFetchingSections,
       isOpenMenu,
       closeMenu,
+      openPopup,
     } = this.props;
 
     const menuWrapperClass = isOpenMenu
       ? 'mobile-menu mobile-menu--active'
       : 'mobile-menu';
-    const contentClass = isOpenMenu
-      ? `${contentWrapperClass} mobile-menu__current`
-      : `${contentWrapperClass} mobile-menu__current`;
     const overlayClass = isOpenMenu
       ? 'mobile-menu__overlay mobile-menu__overlay--active'
       : 'mobile-menu__overlay';
@@ -32,7 +30,7 @@ class ContentWrapper extends Component {
         onSwipe={this.onSwipeHandler}
         direction="DIRECTION_LEFT"
       >
-        <div className="global-wrapper">
+        <div className="mobile-menu__current">
           <div
             className={overlayClass}
             onClick={closeMenu}
@@ -44,12 +42,14 @@ class ContentWrapper extends Component {
             wrapperClass={menuWrapperClass}
             closeMenu={closeMenu}
           />
-          <div
-            className={contentClass}
-            ref={(content => (this.content = content))}
-          >
+          <div className={contentWrapperClass}>
             {children}
           </div>
+          <Footer
+            openPopup={openPopup}
+          >
+            Logo
+        </Footer>
         </div>
       </Hammer>
     );

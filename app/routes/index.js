@@ -30,6 +30,8 @@ import {
   PeopleSearch,
 } from 'containers';
 
+import Chat from 'containers/Chat';
+
 if (IS_HOT_DEVELOPMENT) {
   // HMR falls over when a Route uses a dynamic component resolution
   // property (i.e. getComponent or getComponents).  As a workaround for any
@@ -65,6 +67,7 @@ const routes = (store, token, shouldPreload) => {
       <Route path="tags/:tags/:filter(/:page)" component={Tag} />
       <Route path="find" component={Tag} />
       <Route path="people" component={PeopleSearch} />
+      <Route path="chat" component={Chat} />
 
       <Route path="post/new" component={PostCreate} onEnter={handleNoAuth} />
       <Route path="profile/:profile/post/edit/:slug" component={PostCreate} onEnter={handleNoAuth} />

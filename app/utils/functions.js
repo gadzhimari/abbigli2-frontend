@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 let storage;
 
 class storagePolyfill {
@@ -117,4 +119,39 @@ export const createQuery = (queryObj) => {
 
     return next;
   }, '?');
+};
+
+export const getMessagesGroups = (messages) => {
+  const groups = [];
+  let currentGroup;
+
+  messages.forEach((message) => {
+    const messageDate = moment(message.sent_at).format('LL');
+
+    if (!currentGroup) {
+      currentGroup = {
+        date: messageDate,
+        messages: [],
+      };
+    }
+
+    if (currentGroup.date === messageDate) {
+      currentGroup.messages.push(message);
+    }
+
+    if (currentGroup.date !== messageDate) {
+      groups.push(currentGroup);
+
+      currentGroup = {
+        date: messageDate,
+        messages: [message],
+      };
+    }
+  });
+
+  if (currentGroup) {
+    groups.push(currentGroup);
+  }
+
+  return groups;
 };
