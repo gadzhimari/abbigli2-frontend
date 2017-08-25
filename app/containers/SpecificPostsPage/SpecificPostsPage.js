@@ -11,6 +11,7 @@ import {
 import { Product } from 'components/Cards';
 import { fetchData } from 'ducks/PostsSpecific';
 
+import paginateHOC from '../../HOC/paginate';
 import preloader from './preloader';
 
 const newData = [{
@@ -33,7 +34,7 @@ const newData = [{
 
 class SpecificPostsPage extends PureComponent {
   render() {
-    const { page, priceTemplate, items } = this.props;
+    const { page, priceTemplate, items, pages, paginate, routing } = this.props;
     const crumbs = [page];
 
     return (
@@ -52,26 +53,29 @@ class SpecificPostsPage extends PureComponent {
           itemProps={{ priceTemplate }}
         />
         <PageSwitcher
-          count={25}
-          active={5}
+          count={pages}
+          active={(routing && Number(routing.query.page || 1)) || 1}
+          paginate={paginate}
         />
       </main>
     );
   }
 }
 
-const mapStateToProps = ({ PostsSpecific, Settings, Auth }) => ({
+const mapStateToProps = ({ PostsSpecific, Settings, Auth, routing }) => ({
   next: PostsSpecific.next,
   items: PostsSpecific.items,
   isFetching: PostsSpecific.isFetching,
   isAuthenticated: Auth.isAuthenticated,
   priceTemplate: Settings.data.CURRENCY,
+  routing: routing.locationBeforeTransitions,
+  pages: PostsSpecific.pages,
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchPosts: (specific, options) => dispatch(fetchData(specific, options)),
 });
 
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps), preloader);
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps), paginateHOC, preloader);
 
 export default enhance(SpecificPostsPage);

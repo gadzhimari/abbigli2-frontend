@@ -1,15 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
 
-import moment from 'moment';
-
-import { BreadCrumbs, SliderBar, ListWithNew, Loading } from 'components';
+import { BreadCrumbs, SliderBar, ListWithNew, Loading, PageSwitcher } from 'components';
 import { Event } from 'components/Cards';
 import { EventsFilters } from 'components/Filters';
 import BlogSection from 'components/SliderBar/components/BlogSection';
 
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
+import paginateHOC from '../../HOC/paginate';
 
 
 import { openPopup, closePopup } from 'ducks/Popup/actions';
@@ -52,13 +52,23 @@ class EventsPage extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { routing } = this.props;
+
+    if (prevProps.routing !== routing) {
+      this.loadItems();
+    }
+  }
+
   componentWillUnmount() {
     this.globalWrapper.classList.remove('event');
   }
 
   loadItems = () => {
     const { routing, dispatch } = this.props;
-    const options = routing.query;
+    const options = Object.assign({}, routing.query, {
+      type: 3,
+    });
 
     dispatch(fetchData(options));
   }
@@ -85,6 +95,8 @@ class EventsPage extends Component {
       filters,
       applyFilters,
       updateFilter,
+      pages,
+      paginate,
     } = this.props;
     const section = sections.filter(item => routing && item.slug === routing.query.section)[0];
 
@@ -142,6 +154,15 @@ class EventsPage extends Component {
                 ItemComponent={Event}
               />
           }
+          {
+            !isFetching
+            &&
+            <PageSwitcher
+              active={(routing && Number(routing.query.page || 1)) || 1}
+              count={pages}
+              paginate={paginate}
+            />
+          }
         </div>
       </main>
     );
@@ -153,6 +174,8 @@ EventsPage.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   updateFieldByName: PropTypes.func.isRequired,
+  paginate: PropTypes.func.isRequired,
+  pages: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -172,7 +195,10 @@ function mapStateToProps(state) {
     geoCity: state.Geo.city,
     sections: state.Sections.items,
     routing: state.routing.locationBeforeTransitions,
+    pages: events.pages,
   };
 }
 
-export default connect(mapStateToProps)(mapFiltersToProps(EventsPage));
+const enhance = compose(connect(mapStateToProps), mapFiltersToProps, paginateHOC);
+
+export default enhance(EventsPage);

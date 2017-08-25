@@ -3,9 +3,15 @@
 @import 'mixin';
 
 .blog {
-  .pagination__nav:not(.disabled) {
-    background-color: @blog;
+  .pagination__item {
+    &.active {
+      background-color: @blog;
+      border-color: @blog;
+    }
   }
+}
+
+.blog {
   .filter {
     padding-left: 200px;
     .select-wrap {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
 
 import {
   BreadCrumbs,
@@ -12,12 +13,32 @@ import {
   SliderBar,
   ChoiseFilter,
 } from 'components';
+
+import paginateHOC from '../../HOC/paginate';
 import BlogSection from 'components/SliderBar/components/BlogSection';
 
 import * as actions from 'ducks/Blogs';
 import { __t } from '../../i18n/translator';
 
 import './BlogsPage.less';
+
+const newData = [{
+  id: 0,
+  type: 4,
+  title: 'Blog title',
+  author: {
+    name: 'Mike',
+  },
+},
+{
+  id: 1,
+  type: 3,
+  title: 'Event title',
+  date: '22.07.2017',
+  author: {
+    name: 'Mike',
+  },
+}];
 
 class BlogsPage extends Component {
   constructor(props) {
@@ -49,6 +70,10 @@ class BlogsPage extends Component {
       search: routing.query.search,
     };
 
+    if (routing.query.page && routing.query.page !== '1') {
+      options.page = routing.query.page;
+    }
+
     fetchBlogs(options);
   }
 
@@ -56,6 +81,7 @@ class BlogsPage extends Component {
     const { router, routing } = this.props;
     const query = Object.assign({}, routing.query, {
       popular: target.dataset.popular === 'true',
+      page: 1,
     });
 
     router.push({
@@ -93,7 +119,7 @@ class BlogsPage extends Component {
   }
 
   render() {
-    const { isFetching, items, sections, params, routing } = this.props;
+    const { isFetching, items, sections, params, routing, router, pages, paginate } = this.props;
 
     const section = sections.filter(item => routing && item.slug === routing.query.section)[0];
 
@@ -108,24 +134,6 @@ class BlogsPage extends Component {
         url: `/blogs?section=${section.slug}`,
       });
     }
-
-    const newData = [{
-      id: 0,
-      type: 4,
-      title: 'Blog title',
-      author: {
-        name: 'Mike',
-      },
-    },
-    {
-      id: 1,
-      type: 3,
-      title: 'Event title',
-      date: '22.07.2017',
-      author: {
-        name: 'Mike',
-      },
-    }];
 
     const isActivePopular = routing && routing.query.popular === 'true';
 
@@ -192,7 +200,11 @@ class BlogsPage extends Component {
           {
             !isFetching
             &&
-            <PageSwitcher />
+            <PageSwitcher
+              active={(routing && Number(routing.query.page)) || 1}
+              count={pages}
+              paginate={paginate}
+            />
           }
         </div>
       </main >
@@ -203,6 +215,8 @@ class BlogsPage extends Component {
 BlogsPage.propTypes = {
   changeSearchValue: PropTypes.func.isRequired,
   fetchBlogs: PropTypes.func.isRequired,
+  pages: PropTypes.number.isRequired,
+  paginate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ Blogs, Sections, routing }) => ({
@@ -211,6 +225,7 @@ const mapStateToProps = ({ Blogs, Sections, routing }) => ({
   searchValue: Blogs.searchValue,
   sections: Sections.items,
   routing: routing.locationBeforeTransitions,
+  pages: Blogs.pages,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -218,4 +233,6 @@ const mapDispatchToProps = dispatch => ({
   changeSearchValue: value => dispatch(actions.changeSearchValue(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlogsPage);
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps), paginateHOC);
+
+export default enhance(BlogsPage);

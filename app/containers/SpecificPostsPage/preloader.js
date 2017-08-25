@@ -10,24 +10,32 @@ const preloader = WrappedComponent => class extends PureComponent {
     this.fetchData();
   }
 
+  componentDidUpdate(prevProps) {
+    const { routing } = this.props;
+
+    if (prevProps.routing !== routing) {
+      this.fetchData();
+    }
+  }
+
   fetchData = () => {
-    const { route, fetchPosts } = this.props;
+    const { route, fetchPosts, routing } = this.props;
+
+    const options = Object.assign({}, routing.query, {
+      type: 1,
+    });
 
     if (route.filter === 'Mood') {
-      fetchPosts('mood', {
-        type: 1,
-      });
+      fetchPosts('mood', options);
     }
 
     if (route.filter === 'New') {
-      fetchPosts('new', {
-        type: 1,
-      });
+      fetchPosts('new', options);
     }
 
     if (route.filter === 'Popular' || route.filter === 'Near') {
       fetchPosts('', {
-        type: 1,
+        ...options,
         [route.filter]: true,
       });
     }

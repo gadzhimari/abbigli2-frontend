@@ -4,15 +4,14 @@ import { getJsonFromStorage, createQuery } from 'utils/functions';
 
 // Actions
 const REQUEST = 'abbigli/PostsSpecific/REQUEST';
-const REQUEST_APPEND = 'abbigli/PostsSpecific/REQUEST_APPEND';
 const SET = 'abbigli/PostsSpecific/SET';
-const APPEND = 'abbigli/PostsSpecific/APPEND';
 
 // Reducer
 export default function (state = {
   isFetching: true,
   next: null,
   items: [],
+  pages: 0,
 }, action = {}) {
   switch (action.type) {
     case SET:
@@ -20,23 +19,13 @@ export default function (state = {
         items: action.data.results,
         data: action.data,
         next: action.data.next,
-        isFetching: false,
-      });
-    case APPEND:
-      return Object.assign({}, state, {
-        items: state.items.concat(action.data.results),
-        data: action.data,
-        next: action.data.next,
+        pages: Math.ceil(action.data.count / 30),
         isFetching: false,
       });
     case REQUEST:
-      return Object.assign({}, {
-        isFetching: true,
-        items: [],
-      });
-    case REQUEST_APPEND:
       return Object.assign({}, state, {
         isFetching: true,
+        items: [],
       });
     default:
       return state;
@@ -50,22 +39,11 @@ export function requestData() {
   };
 }
 
-// Action Creators
-export function requestDataAppend() {
-  return {
-    type: REQUEST_APPEND,
-  };
-}
-
 export function setData(responseData) {
   return { type: SET, data: responseData };
 }
 
-export function appendData(responseData) {
-  return { type: APPEND, data: responseData };
-}
-
-export function fetchData(specific = '', options) {
+export function fetchData(specific = '', options = {}) {
   const token = getJsonFromStorage('id_token') || null;
   const config = { headers: {} };
   const query = createQuery(options);
@@ -75,21 +53,13 @@ export function fetchData(specific = '', options) {
   }
 
   return (dispatch) => {
-    if (!options.page) {
-      dispatch(requestData());
-    } else {
-      dispatch(requestDataAppend());
-    }
+    dispatch(requestData());
 
     return fetch(`${API_URL}posts/${specific}${query}`, config)
       .then(res => res.json())
       .then((responseData) => {
         if (responseData.results) {
-          if (!options.page) {
-            dispatch(setData(responseData));
-          } else {
-            dispatch(appendData(responseData));
-          }
+          dispatch(setData(responseData));
         }
       });
   };
