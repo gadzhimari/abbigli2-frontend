@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { Link } from 'components';
+import SubMenu from './SubMenu';
+
 import { __t } from '../../i18n/translator';
 
 import './Header.styl';
@@ -20,6 +22,7 @@ function Header(props) {
         </Link>
         {props.children}
       </div>
+      <SubMenu />
     </header>
   );
 }
