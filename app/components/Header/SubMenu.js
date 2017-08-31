@@ -19,10 +19,14 @@ const SubMenuItem = ({ item, isHidden }) => {
     >
       {item.title}
       <div className="header-submenu__category">
-        <a className="header-submenu__category-name">Сувенир</a>
-        <a className="header-submenu__category-name">Сувенир</a>
-        <a className="header-submenu__category-name">Сувенир</a>
-        <a className="header-submenu__category-name">Сувенир</a>
+        {
+          item.children.map(child => <a
+            key={child.id}
+            className="header-submenu__category-name"
+          >
+            {child.title}
+          </a>)
+        }
       </div>
     </div>
   );
@@ -34,10 +38,14 @@ const SubMenuDropdownItem = ({ item }) => (
       {item.title}
     </div>
     <div className="header-submenu__subdropdown">
-      <a className="header-submenu__subdropdown-item">Сувенир</a>
-      <a className="header-submenu__subdropdown-item">Сувенир</a>
-      <a className="header-submenu__subdropdown-item">Сувенир</a>
-      <a className="header-submenu__subdropdown-item">Сувенир</a>
+      {
+        item.children.map(child => <a
+          key={child.id}
+          className="header-submenu__subdropdown-item"
+        >
+          {child.title}
+        </a>)
+      }
     </div>
   </div>
 );

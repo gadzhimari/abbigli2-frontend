@@ -1,7 +1,7 @@
 // Sections.js
 import { API_URL } from 'config';
 
-const ENDPOINT = API_URL+'sections/';
+const ENDPOINT = API_URL+'categories/';
 
 // Actions
 const REQUEST   = 'abbigli/Sections/REQUEST';

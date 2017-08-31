@@ -58,11 +58,11 @@ class Home extends Component {
     return (
       <div className="container-fluid main-page">
         <Banner />
-        {
+        {/* {
           (!isFetchingSections && itemsSections.length > 0)
           &&
           <HomeSlider itemsSections={itemsSections} />
-        }
+        } */}
         <Loading loading={isFetchingSections} />
 
         <BannerBlue

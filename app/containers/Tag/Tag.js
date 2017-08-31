@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Helmet from 'react-helmet';
+import { compose } from 'recompose';
 
 import {
   BreadCrumbs,
@@ -13,6 +13,7 @@ import {
 import Tag from 'components/SliderBar/components/Tag';
 import { fetchPosts, fetchTags } from 'ducks/TagSearch/actions';
 
+import paginateHOC from '../../HOC/paginate';
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 
 
@@ -104,6 +105,7 @@ class TagSearchResults extends Component {
       updateFilter,
       applyFilters,
       reversePriceRange,
+      paginate,
     } = this.props;
 
     return (
@@ -159,7 +161,11 @@ class TagSearchResults extends Component {
             {
               !isFetching
               &&
-              <PageSwitcher />
+              <PageSwitcher
+                count={pageCount}
+                paginate={paginate}
+                active={(routing && Number(routing.query.page)) || 1}
+              />
             }
           </div>
         </main>
@@ -173,6 +179,7 @@ TagSearchResults.propTypes = {
   dispatch: PropTypes.func.isRequired,
   applyFilters: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
+  paginate: PropTypes.func.isRequired,
   reversePriceRange: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   filters: PropTypes.shape({
@@ -200,4 +207,6 @@ const mapStateToProps = ({
     sections: Sections.items,
   });
 
-export default connect(mapStateToProps)(mapFiltersToProps(TagSearchResults));
+const enhance = compose(connect(mapStateToProps), mapFiltersToProps, paginateHOC);
+
+export default enhance(TagSearchResults);
