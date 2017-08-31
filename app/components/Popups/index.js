@@ -11,3 +11,4 @@ export { default as eventSearch } from './EventSearch';
 export { default as statusPopup } from './StatusPopup';
 export { default as selectPopup } from './SelectPopup';
 export { default as filtersPopup } from './FiltersPopup';
+export { default as sendPost } from './SendPost';
