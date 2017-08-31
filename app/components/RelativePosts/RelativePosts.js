@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 import { __t } from '../../i18n/translator';
 
-const RelativePosts = ({ items, Component, slug }) => (
+const RelativePosts = ({ items, Component, slug, itemProps }) => (
   <div className="section">
     <h2 className="section__name">
       {__t('Relative posts')}
@@ -17,13 +17,14 @@ const RelativePosts = ({ items, Component, slug }) => (
             data={post}
             legacy
             key={`${post.id}--blog`}
+            {...itemProps}
           />)
       }
       {
         items.length > 4
         &&
         <Link
-          className="default-button"
+          className="default-button showmore-button"
           type="button"
           to={`/relative/${slug}`}
         >
@@ -34,10 +35,17 @@ const RelativePosts = ({ items, Component, slug }) => (
   </div>
 );
 
+RelativePosts.defaultProps = {
+  itemProps: {},
+};
+
 RelativePosts.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   Component: PropTypes.element.isRequired,
   slug: PropTypes.string.isRequired,
+  itemProps: PropTypes.shape({
+    priceTemplate: PropTypes.string,
+  }),
 };
 
 export default RelativePosts;
