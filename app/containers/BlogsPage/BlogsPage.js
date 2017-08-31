@@ -160,7 +160,7 @@ class BlogsPage extends Component {
               itemProps={{ baseUrl: '/blogs' }}
             />
           }
-          <div className="filter">
+          <div className="filter filter-search">
             <ChoiseFilter
               choiseList={[
                 { title: __t('New'), active: !isActivePopular, popular: false },
@@ -168,23 +168,21 @@ class BlogsPage extends Component {
               ]}
               onChange={this.changeFilter}
             />
-            <div className="filter__search">
-              <input
-                className="input"
-                type="text"
-                placeholder={__t('Blog search')}
-                onChange={this.changeSearch}
-                onKeyDown={this.handleSearchKeyDown}
-                value={this.state.searchValue}
-              />
-              <button
-                className="default-button"
-                type="button"
-                onClick={this.doSearch}
-              >
-                {__t('Search')}
-              </button>
-            </div>
+            <input
+              className="input"
+              type="text"
+              placeholder={__t('Blog search')}
+              onChange={this.changeSearch}
+              onKeyDown={this.handleSearchKeyDown}
+              value={this.state.searchValue}
+            />
+            <button
+              className="default-button"
+              type="button"
+              onClick={this.doSearch}
+            >
+              {__t('Search')}
+            </button>
           </div>
           {
             isFetching

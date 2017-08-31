@@ -8,18 +8,37 @@
   position: relative;
   text-align: right;
 
-  & > div:not(:first-child) {
-    margin-left: 15px;
+  &-search {
+    text-align: left;
+    padding: 0 185px 0 170px;
+
+    & > .input {
+      margin-top: 15px;
+    }
+
+    .select {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .default-button {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
   }
 
-  & > div {
-    margin-top: 15px;
+  .input {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .select-group {
     display: inline-block;
     vertical-align: top;
-    &.color-choice,
-    &.select_distance {
-      margin-left: 0;
-    }
+    white-space: nowrap;
+    margin: 15px 0 0 15px;
   }
 
   .default-button {
@@ -29,6 +48,9 @@
   }
 
   .price-range {
+    display: inline-block;
+    vertical-align: top;
+    margin: 15px 0 0 15px;
     &__from {
       border-radius: 3px 0 0 3px;
     }
@@ -37,16 +59,36 @@
       border-left: 0;
     }
     .input {
-      width: 100px;
+      width: 115px;
     }
   }
 
-  .calendar {
-    width: 220px;
+  .period {
+    display: inline-block;
+    vertical-align: top;
+    margin: 15px 0 0 15px;
+    .calendar {
+      width: 125px;
+      display: inline-block;
+      vertical-align: top;
+      &:first-child {
+        .input {
+          border-radius: 3px 0 0 3px;
+        }
+      }
+      &:last-child {
+        .input {
+          border-radius: 0 3px 3px 0;
+          border-left: 0;
+        }
+      }
+    }
   }
 
   .color-choice {
-    width: 165px;
+    display: inline-block;
+    vertical-align: top;
+    width: 180px;
     &__color {
       margin: 6px;
     }
@@ -64,6 +106,8 @@
 
   .choice-section {
     width: 190px;
+    display: inline-block;
+    vertical-align: top;
     .input {
       border-radius: 3px 0 0 3px;
     }
@@ -80,19 +124,30 @@
     }
   }
 
+  & > .choice-section {
+    margin: 15px 0 0 15px;
+  }
+
   .select {
+    width: 155px;
+    display: inline-block;
+    vertical-align: top;
+    &:first-child {
+      margin-top: 15px;
+    }
     &_distance {
-      width: 255px;
-      margin-left: 0;
+      width: 230px;
       .input {
         border-radius: 0 3px 3px 0;
       }
     }
-    &_new {
-      width: 175px;
-    }
-    &_place {
-      width: 260px;
+    &_city {
+      width: 160px;
+      .input {
+        border-radius: 0;
+        border-right: 0;
+        border-left: 0;
+      }
     }
   }
 
@@ -109,87 +164,8 @@
   }
 }
 
-@media only screen and (min-width: 761px) and (max-width: 860px) {
-  .filter {
-    .select {
-      &_new {
-        width: 145px;
-      }
-      &_distance {
-        width: 235px;
-      }
-    }
-    .choice-section {
-      width: 170px;
-    }
-    .color-choice {
-      width: 150px;
-    }
-    .input {
-      &::-webkit-input-placeholder {
-        font-size: 14px;
-      }
-      &::-moz-placeholder {
-        font-size: 14px;
-      }
-      &:-ms-input-placeholder {
-        font-size: 14px;
-      }
-      &:-moz-placeholder {
-        font-size: 14px;
-      }
-    }
-  }
-}
-
 @media only screen and (max-width: 760px) {
   .filter {
     display: none;
-  }
-}
-
-.checkbox-wrap {
-  position: relative;
-}
-
-.checkbox {
-  position: absolute;
-  left: -9999px;
-
-  & + .label {
-    padding-left: 30px;
-    cursor: pointer;
-
-    &:before {
-      content: '';
-      display: block;
-      position: absolute;
-      left: 0;
-      top: 1px;
-      width: 18px;
-      height: 18px;
-      border: 1px solid #b9b9b9;
-      background: #fff;
-      border-radius: 2px;
-    }
-
-    .icon {
-      fill: #ff0303;
-      position: absolute;
-      background-size: 11px 8px;
-      top: 7px;
-      left: 5px;
-      transition: opacity .2s;
-      width: 11px;
-      height: 8px;
-    }
-  }
-
-  &:not(:checked) + .label .icon {
-    opacity: 0;
-  }
-
-  &:checked + .label .icon {
-    opacity: 1;
   }
 }
