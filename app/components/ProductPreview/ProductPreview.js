@@ -157,7 +157,7 @@ class ProductPreview extends Component {
     const thumbsWidth = (((slideWidth / 3) + 5) * images.length);
 
     return (
-      <div className="product-preview">
+      <div className="product-preview slider-goods">
         {
           modalOpen
             &&
