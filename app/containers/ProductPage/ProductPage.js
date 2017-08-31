@@ -1,42 +1,66 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
-  CardsWrap,
-  CardProduct,
   Gallery,
+  AuthorInfo,
+  OtherArticles,
+  BreadCrumbs,
+  FavoriteAdd,
+  NewPost,
+  RelativePosts,
+  ProductPreview,
+  Share,
 } from 'components';
 
-import { NotFound } from 'containers';
+import { Product } from 'components/Cards';
+import { CommentsField, CommentsList } from 'components/Comments';
 
 import postLoader from 'App/HOC/postLoader';
-import ProductView from './Components/ProductView';
 
 import { sendComment } from 'ducks/Comments';
 import { sendPostMessage } from 'ducks/Dialogs';
 
 import { fetchData as fetchDataComments } from 'ducks/Comments';
-import { fetchData, resetData } from 'ducks/BlogPost';
-import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
+import { fetchPost, resetPost, fetchRelative, fetchUsersPosts } from 'ducks/PostPage/actions';
 
 import { stagedPopup } from 'ducks/Auth/authActions';
+import { openPopup } from 'ducks/Popup/actions';
+
 
 import { __t } from './../../i18n/translator';
+import './ProductPage.less';
+
+const newData = [{
+  id: 0,
+  type: 4,
+  title: 'Blog title',
+  author: {
+    name: 'Mike',
+  },
+},
+{
+  id: 1,
+  type: 3,
+  title: 'Event title',
+  date: '22.07.2017',
+  author: {
+    name: 'Mike',
+  },
+}];
 
 class ProductPage extends Component {
-  static fetchData = (dispatch, params, token) => dispatch(fetchData(params.slug, 1, token));
+  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, 1, token));
 
   static fetchSubData = (dispatch, data) => Promise.all([
     dispatch(fetchDataComments(data.slug)),
-    dispatch(fetchDataAuthors({
-      type: 'posts',
-      excludeId: data.id,
-      profileId: data.user.id,
-    })),
+    dispatch(fetchUsersPosts(1, data.user.id)),
+    dispatch(fetchRelative(data.slug)),
   ])
 
   static onUnmount = (dispatch) => {
-    dispatch(resetData());
+    dispatch(resetPost());
   }
 
   constructor(props) {
@@ -52,11 +76,13 @@ class ProductPage extends Component {
     };
   }
 
-  onUpdate(e) {
-    this.setState({
-      message: e.target.value,
-      messageError: false,
-    });
+  componentDidMount() {
+    this.globalWrapper = document.querySelector('.global-wrapper');
+    this.globalWrapper.classList.add('goods-post');
+  }
+
+  componentWillUnmount() {
+    this.globalWrapper.classList.remove('goods-post');
   }
 
   sendComment = (comment) => {
@@ -78,13 +104,14 @@ class ProductPage extends Component {
     dispatch(sendPostMessage(data.user.id, post, message, this.showOrHideWants));
   }
 
-  showOrHideWants = (show) => {
-    const { dispatch, isAuthenticated } = this.props;
+  showOrHideWants = () => {
+    const { dispatch, isAuthenticated, author } = this.props;
 
     if (isAuthenticated) {
-      this.setState({
-        showWants: show,
-      });
+      dispatch(openPopup('sendPost', {
+        name: author.profile_name,
+        sendMessage: this.sendMessage,
+      }));
     } else {
       dispatch(stagedPopup('register'));
     }
@@ -108,68 +135,127 @@ class ProductPage extends Component {
   }
 
   render() {
-    const {
-      id,
-      images,
-      title,
-      price,
-      sections,
-      seo_title,
-      seo_description,
-    } = this.props.data;
+    const commentsList = this.props.itemsComments;
+    const location = window.location || {};
 
     const {
-      itemsPosts,
-      isDefined,
-      wantSending,
+      isFetchingBlogs,
+      itemsBlogs,
+      isFetchingAuthors,
+      itemsAuthors,
       data,
       dispatch,
-      isAuthenticated,
-      me,
+      author,
+      relativePosts,
       priceTemplate,
     } = this.props;
-
-    const { showWants } = this.state;
-
-    const commentsList = this.props.itemsComments;
-    const post = { id, title, sections, images, price };
+    const crumbs = [{
+      title: __t('Blogs'),
+      url: '/blogs',
+    },
+    {
+      title: data.user.profile_name || `User ID: ${data.user.id}`,
+      url: `/profile/${data.user.id}`,
+    },
+    {
+      title: data.title,
+      url: `/blog/${data.slug}`,
+    }];
 
     return (
-      <div className="container-fluid product-page">
-        {
-          isDefined
-            ? (<div>
-              <ProductView
-                data={data}
-                sendComment={this.sendComment}
-                commentsList={commentsList}
-                renderSlider={this.renderSlider}
-                showWants={showWants}
-                showWantsPopup={this.showOrHideWants}
-                sendMessage={this.sendMessage}
-                isAuthenticated={isAuthenticated}
-                dispatch={dispatch}
-                myId={me.id}
-                wantSending={wantSending}
-                priceTemplate={priceTemplate}
+      <main>
+        <div className="subscription-article">
+          <div className="subscription-article__container">
+            <AuthorInfo
+              data={author}
+              dispatch={dispatch}
+            />
+            <OtherArticles articles={itemsAuthors} />
+          </div>
+        </div>
+        <main className="main">
+          <BreadCrumbs crumbs={crumbs} />
+          <div className="content">
+            {
+              data.images
+              &&
+              <ProductPreview
+                images={data.images}
+                tags={data.tags}
+                title={data.title}
               />
-              <CardsWrap title={__t('More from author')}>
+            }
+            <div className="goods-post__info">
+              <h1 className="section-title">
+                <FavoriteAdd
+                  toggleFavorite={this.handleFavorite}
+                  isFavorited={data.favorite}
+                />
+                <svg className="icon icon-bag" viewBox="0 0 53.3 45.9">
+                  <path d="M51.3,17H39.1c-0.1-0.2-0.1-0.5-0.3-0.7L28.3,0.8c-0.1-0.2-0.3-0.3-0.5-0.5c0,0,0,0-0.1-0.1 c0,0,0,0,0,0C27.5,0.2,27.3,0.1,27,0c0,0,0,0,0,0c-0.1,0-0.3,0-0.4,0s-0.3,0-0.4,0c0,0,0,0,0,0c-0.2,0.1-0.5,0.1-0.7,0.3 c0,0,0,0,0,0c0,0,0,0-0.1,0.1c-0.2,0.1-0.3,0.3-0.5,0.5L14.5,16.3c-0.1,0.2-0.2,0.5-0.3,0.7H2c-1.3,0-2.3,1.3-1.9,2.5l7.4,25 c0.2,0.8,1,1.4,1.9,1.4h34.5c0.9,0,1.6-0.6,1.9-1.4l7.4-25C53.6,18.3,52.6,17,51.3,17z M26.6,5.5L34.4,17H18.8L26.6,5.5z M26.6,37.6 c-3.5,0-6.3-2.8-6.3-6.3c0-3.5,2.8-6.3,6.3-6.3s6.3,2.8,6.3,6.3C32.9,34.8,30.1,37.6,26.6,37.6z" />
+                </svg>
+                {data.title}
+              </h1>
+              <p>
+                {data.content}
+              </p>
+              <div className="goods-post__buttons">
+                <div className="goods-post__price">950 руб.</div>
+                <button
+                  className="want-button"
+                  onClick={this.showOrHideWants}
+                >
+                  <svg className="icon icon-bag" viewBox="0 0 53.3 45.9">
+                    <path d="M51.3,17H39.1c-0.1-0.2-0.1-0.5-0.3-0.7L28.3,0.8c-0.1-0.2-0.3-0.3-0.5-0.5c0,0,0,0-0.1-0.1 c0,0,0,0,0,0C27.5,0.2,27.3,0.1,27,0c0,0,0,0,0,0c-0.1,0-0.3,0-0.4,0s-0.3,0-0.4,0c0,0,0,0,0,0c-0.2,0.1-0.5,0.1-0.7,0.3 c0,0,0,0,0,0c0,0,0,0-0.1,0.1c-0.2,0.1-0.3,0.3-0.5,0.5L14.5,16.3c-0.1,0.2-0.2,0.5-0.3,0.7H2c-1.3,0-2.3,1.3-1.9,2.5l7.4,25 c0.2,0.8,1,1.4,1.9,1.4h34.5c0.9,0,1.6-0.6,1.9-1.4l7.4-25C53.6,18.3,52.6,17,51.3,17z M26.6,5.5L34.4,17H18.8L26.6,5.5z M26.6,37.6 c-3.5,0-6.3-2.8-6.3-6.3c0-3.5,2.8-6.3,6.3-6.3s6.3,2.8,6.3,6.3C32.9,34.8,30.1,37.6,26.6,37.6z" />
+                  </svg>
+                  {__t('Want it')}
+                </button>
+                <div className="social-networks">
+                  <Share
+                    buttonClass="social-btn"
+                    postLink={location.pathname}
+                  />
+                </div>
+              </div>
+              <div className="goods-post__tags">
                 {
-                  itemsPosts.length > 0
-                  &&
-                  itemsPosts.map(item => <CardProduct
-                    data={item}
-                    key={item.slug}
-                    legacy
-                    dispatch={dispatch}
-                    isAuthenticated={isAuthenticated}
-                  />)
+                  data
+                    .tags
+                    .map((item, idx) => <a className="tag" key={idx}>{item}</a>)
                 }
-              </CardsWrap>
-            </div>)
-            : <NotFound />
-        }
-      </div>
+              </div>
+            </div>
+          </div>
+          <div className="section">
+            <CommentsField
+              onSend={this.sendComment}
+            />
+            <CommentsList
+              comments={commentsList}
+            />
+          </div>
+          {
+            relativePosts.length > 0
+            &&
+            <RelativePosts
+              items={relativePosts}
+              Component={Product}
+              slug={data.slug}
+              itemProps={{ priceTemplate }}
+            />
+          }
+          <div className="section">
+            <div className="cards-wrap">
+              {
+                newData.map(item => <NewPost
+                  data={item}
+                  key={item.id}
+                />)
+              }
+            </div>
+          </div>
+        </main>
+      </main>
     );
   }
 }
@@ -180,43 +266,25 @@ ProductPage.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
-  priceTemplate: PropTypes.string,
+  priceTemplate: PropTypes.string.isRequired,
 };
 
-function mapStateToProps(state) {
-  const {
-    isFetching,
-    data,
-    isDefined,
-  } = (state.BlogPost) || {
-      isFetching: true,
-      data: {},
-      isDefined: true,
-    };
-  const { showWants } = state.Popup;
-  const comments = (state.Comments) || { isFetching: true, items: [] };
-  const posts = (state.ProfilePosts) || { isFetching: true, items: [] };
-  const auth = state.Auth || {
-    isAuthenticated: false,
-    me: {},
-  };
-  const dialogs = state.Dialogs || {};
-  const settings = state.Settings || {};
-
-  return {
-    data,
-    isFetching,
-    isDefined,
-    itemsPosts: posts.items,
-    isFetchingPosts: posts.isFetching,
-    itemsComments: comments.items,
-    isFetchingComments: comments.isFetching,
-    showWants,
-    isAuthenticated: auth.isAuthenticated,
-    me: auth.me,
-    wantSending: dialogs.isSending,
-    priceTemplate: settings.data.CURRENCY,
-  };
-}
+const mapStateToProps = state => ({
+  data: state.PostPage.post,
+  author: state.PostPage.author,
+  isFetching: state.PostPage.isFetchingPost,
+  isDefined: state.PostPage.isDefined,
+  itemsBlogs: state.PostPage.newPosts,
+  popularPosts: state.PostPage.popularPosts,
+  relativePosts: state.PostPage.relativePosts,
+  isFetchingBlogs: state.PostPage.isFetchingNew,
+  isFetchingRelative: state.PostPage.isFetchingRelative,
+  itemsAuthors: state.ProfilePosts.items,
+  isFetchingAuthors: state.ProfilePosts.isFetching,
+  itemsComments: state.Comments.items,
+  isFetchingComments: state.Comments.isFetching,
+  isAuthenticated: state.Auth.isAuthenticated,
+  priceTemplate: state.Settings.data.CURRENCY,
+});
 
 export default connect(mapStateToProps)(postLoader(ProductPage));
