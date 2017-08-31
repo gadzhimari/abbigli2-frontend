@@ -13,10 +13,6 @@ import {
 import { CommentsField, CommentsList } from 'components/Comments';
 import { Event } from 'components/Cards';
 
-import {
-  NotFound,
-} from 'containers';
-
 import postLoader from 'App/HOC/postLoader';
 
 import { connect } from 'react-redux';
