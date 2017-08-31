@@ -360,7 +360,7 @@ class SearchForm extends Component {
       >
         {
           tags.map((tag, idx) => (
-            <div key={`${tag.id}--tagsearch`} className="form__tag tag">
+            <div key={`${tag.id}--tagsearch`} className="form__tag tag-search">
               <div
                 className="tag__text"
               >
