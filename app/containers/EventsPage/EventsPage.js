@@ -12,7 +12,7 @@ import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 import paginateHOC from '../../HOC/paginate';
 
 
-import { openPopup, closePopup } from 'ducks/Popup/actions';
+import { openPopup } from 'ducks/Popup/actions';
 import { fetchData, changeSearchField } from 'ducks/Events';
 import { API_URL } from 'config';
 import { __t } from './../../i18n/translator';
@@ -126,7 +126,7 @@ class EventsPage extends Component {
             </svg>
             {__t('Events')}
           </h1>
-          {
+          {/* {
             sections.length > 0
             &&
             <SliderBar
@@ -136,7 +136,7 @@ class EventsPage extends Component {
               itemWidth={120}
               itemProps={{ baseUrl: '/events' }}
             />
-          }
+          } */}
           <EventsFilters
             filters={filters}
             applyFilters={applyFilters}

@@ -18,10 +18,10 @@ class DateRange extends PureComponent {
   }
 
   render() {
-    const { dateStart, dateEnd } = this.props;
+    const { dateStart, dateEnd, wrapperClass } = this.props;
 
     return (
-      <div className="date-range">
+      <div className={wrapperClass}>
         <div className="calendar input-wrap">
           <div className="calendar__input">
             <DateInput
@@ -52,12 +52,14 @@ class DateRange extends PureComponent {
 DateRange.defaultProps = {
   dateStart: '',
   dateEnd: '',
+  wrapperClass: 'date-range',
 };
 
 DateRange.propTypes = {
   updateDate: PropTypes.func.isRequired,
   dateStart: PropTypes.string,
   dateEnd: PropTypes.string,
+  wrapperClass: PropTypes.string,
 };
 
 export default DateRange;

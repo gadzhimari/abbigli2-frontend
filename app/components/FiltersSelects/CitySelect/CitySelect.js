@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 import { __t } from '../../../i18n/translator';
 
-const CitySelect = ({ openCityPopup, value }) => (
-  <div className="select select_place">
+const CitySelect = ({ openCityPopup, value, className }) => (
+  <div className={`select ${className}`}>
     <input
       className="input"
       type="text"
@@ -21,11 +21,13 @@ const CitySelect = ({ openCityPopup, value }) => (
 
 CitySelect.defaultProps = {
   value: '',
+  className: 'select_place',
 };
 
 CitySelect.propTypes = {
   openCityPopup: PropTypes.func.isRequired,
   value: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default pure(CitySelect);

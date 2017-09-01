@@ -11,11 +11,14 @@ import {
   PageSwitcher,
 } from 'components';
 import Tag from 'components/SliderBar/components/Tag';
+
+import { openPopup } from 'ducks/Popup/actions';
 import { fetchPosts, fetchTags } from 'ducks/TagSearch/actions';
 
 import paginateHOC from '../../HOC/paginate';
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 
+import { API_URL } from 'config';
 
 import { __t } from './../../i18n/translator';
 
@@ -76,6 +79,16 @@ class TagSearchResults extends Component {
     dispatch(fetchPosts(options));
   }
 
+  changeCity = city => this.props.updateFieldByName('city', city.name);
+
+  openSelectPopup = () => this.props
+    .dispatch(openPopup('selectPopup', {
+      onClickItem: this.changeCity,
+      title: 'city',
+      async: true,
+      apiUrl: `${API_URL}geo/cities/`,
+    }));
+
   clickOnTag = (tag) => {
     const { router, filters } = this.props;
     const newTags = filters.tags.split(',');
@@ -106,6 +119,7 @@ class TagSearchResults extends Component {
       applyFilters,
       reversePriceRange,
       paginate,
+      changeFiltersType,
     } = this.props;
 
     return (
@@ -147,6 +161,8 @@ class TagSearchResults extends Component {
               updateFilter={updateFilter}
               applyFilters={applyFilters}
               reversePriceRange={reversePriceRange}
+              changeFiltersType={changeFiltersType}
+              openCityPopup={this.openSelectPopup}
             />
             {
               isFetching
@@ -179,6 +195,8 @@ TagSearchResults.propTypes = {
   dispatch: PropTypes.func.isRequired,
   applyFilters: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
+  changeFiltersType: PropTypes.func.isRequired,
+  updateFieldByName: PropTypes.func.isRequired,
   paginate: PropTypes.func.isRequired,
   reversePriceRange: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,

@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { NewPost, BlogCard } from 'components';
-import { Product } from 'components/Cards';
+import { Product, Event } from 'components/Cards';
 
 import { __t } from './../../i18n/translator';
 
 const cardsByType = {
   1: Product,
   4: BlogCard,
+  3: Event,
 };
 
 const ListWithNew = ({

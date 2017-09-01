@@ -149,7 +149,7 @@ class BlogsPage extends Component {
             </svg>
             {__t('Blogs')}
           </h1>
-          {
+          {/* {
             sections.length > 0
             &&
             <SliderBar
@@ -159,7 +159,7 @@ class BlogsPage extends Component {
               itemWidth={120}
               itemProps={{ baseUrl: '/blogs' }}
             />
-          }
+          } */}
           <div className="filter filter-search">
             <ChoiseFilter
               choiseList={[

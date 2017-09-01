@@ -71,6 +71,23 @@ const mapFiltersToProps = WrappedComponent => class MapFilters extends PureCompo
     });
   }
 
+  changeFiltersType = ({ target }) => {
+    const { router, routing } = this.props;
+    const query = Object.assign({}, {
+      type: target.getAttribute('data-value'),
+      tags: this.state.tags,
+    });
+
+    this.setState({
+      type: target.getAttribute('data-value'),
+    });
+
+    router.push({
+      pathname: routing.pathname,
+      query,
+    });
+  }
+
   render() {
     return (<WrappedComponent
       {...this.props}
@@ -79,6 +96,7 @@ const mapFiltersToProps = WrappedComponent => class MapFilters extends PureCompo
       updateFilter={this.updateFilter}
       updateFieldByName={this.updateFieldByName}
       reversePriceRange={this.reversePriceRange}
+      changeFiltersType={this.changeFiltersType}
     />);
   }
 };
