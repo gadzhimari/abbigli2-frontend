@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 import { Share } from 'components';
 import { ProductsIcons } from 'components/Icons';
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 
 import './Product.less';
 
@@ -20,7 +20,7 @@ const Product = ({
       <div className="post-card__img-wrap">
         <img
           className="post-card__img"
-          src={`${DOMAIN_URL}thumbs/unsafe/292x221/${data.images[0].file}`}
+          src={`${THUMBS_URL}unsafe/292x221/${data.images[0].file}`}
           alt={data.title}
         />
         <div className="share">
@@ -48,7 +48,7 @@ const Product = ({
               data.user.avatar
                 ? <img
                   className="avatar__img"
-                  src={`${DOMAIN_URL}thumbs/unsafe/30x30/${data.user.avatar}`}
+                  src={`${THUMBS_URL}unsafe/30x30/${data.user.avatar}`}
                   alt={name}
                 />
                 : <img

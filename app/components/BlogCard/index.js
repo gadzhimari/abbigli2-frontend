@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import dateFormat from 'dateformat';
 import { CardUni, Share, Link } from 'components';
 
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 
 import './index.less';
 
@@ -26,7 +26,7 @@ class BlogCard extends Component {
         <div className="blog-card__img-wrap">
           <img
             className="blog-card__img"
-            src={`${DOMAIN_URL}thumbs/unsafe/360x250/${data.images[0].file}`}
+            src={`${THUMBS_URL}unsafe/360x250/${data.images[0].file}`}
             alt={data.title}
           />
           <div className="share">
@@ -49,7 +49,7 @@ class BlogCard extends Component {
               {
                 data.user.avatar
                   ? <img
-                    src={`${DOMAIN_URL}thumbs/unsafe/36x36/${data.user.avatar}`}
+                    src={`${THUMBS_URL}unsafe/36x36/${data.user.avatar}`}
                     alt={data.user.profile_name}
                     className="avatar__img"
                   />

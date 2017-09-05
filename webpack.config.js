@@ -37,6 +37,7 @@ const plugins = [
       LOCATION: JSON.stringify(process.env.LOCATION),
       SENTRY_DNS_CLIENT: JSON.stringify(process.env.SENTRY_DNS_CLIENT),
       DOMAIN_URL: JSON.stringify(process.env.DOMAIN_URL),
+      THUMBS_URL: JSON.stringify(process.env.THUMBS_URL),
     },
   })
 ];

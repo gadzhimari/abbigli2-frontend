@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { pure } from 'recompose';
 
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 import { __t } from '../../../i18n/translator';
 
 import './User.less';
@@ -16,7 +16,7 @@ const User = ({ user }) => {
           user.avatar
             ? <img
               className="user-card__avatar-img"
-              src={`${DOMAIN_URL}thumbs/unsafe/86x86/${user.avatar}`}
+              src={`${THUMBS_URL}unsafe/86x86/${user.avatar}`}
               alt={user.profile_name}
             />
             : <img

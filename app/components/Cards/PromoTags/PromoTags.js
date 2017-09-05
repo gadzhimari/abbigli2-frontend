@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 import './PromoTags.less';
 
 const PromoTags = ({ tags }) => {
@@ -14,7 +14,7 @@ const PromoTags = ({ tags }) => {
       <div className="promo-tag__img-wrap">
         <img
           className="promo-tag__img"
-          src={`${DOMAIN_URL}thumbs/unsafe/251x207/${tags[0].preview}`}
+          src={`${THUMBS_URL}unsafe/251x207/${tags[0].preview}`}
           alt={tags[0].title}
         />
       </div>

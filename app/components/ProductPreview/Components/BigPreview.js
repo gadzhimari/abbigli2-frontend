@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 
 const BigPreview = (props) => {
   const { src, active, index, title, tags } = props;
@@ -20,7 +20,7 @@ const BigPreview = (props) => {
     >
       <img
         className="sp-image"
-        src={`${DOMAIN_URL}thumbs/unsafe/460x460/${src}`}
+        src={`${THUMBS_URL}unsafe/460x460/${src}`}
       ></img>
     </div>
   );

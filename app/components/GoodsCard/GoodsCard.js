@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 
 import './GoodsCard.less';
 
@@ -26,7 +26,7 @@ const GoodsCard = ({
             item.user.avatar
               ? <img
                 className="avatar__img"
-                src={`${DOMAIN_URL}thumbs/unsafe/60x60/${item.user.avatar}`}
+                src={`${THUMBS_URL}unsafe/60x60/${item.user.avatar}`}
                 alt={item.user.profile_name}
               />
               : <img
@@ -46,7 +46,7 @@ const GoodsCard = ({
       <div className="goods-card__img-wrap">
         <img
           className="goods-card__img"
-          src={`${DOMAIN_URL}thumbs/unsafe/251x207/${item.images[0].file}`}
+          src={`${THUMBS_URL}unsafe/251x207/${item.images[0].file}`}
           alt={item.user.profile_name}
         />
       </div>

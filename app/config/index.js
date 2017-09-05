@@ -15,6 +15,7 @@ export const IS_DEVELOPMENT = isDevelopment;
 
 export const DOMAIN_URL = process.env.DOMAIN_URL;
 export const API_URL = `${DOMAIN_URL}api/v1/`;
+export const THUMBS_URL = process.env.THUMBS_URL;
 
 export const IS_HOT_DEVELOPMENT = isDevelopment && module.hot;
 

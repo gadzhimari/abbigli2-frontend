@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Link } from 'react-router';
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 
 import { setFollow } from 'ducks/PostPage/actions';
 
@@ -22,7 +22,7 @@ const AuthorInfo = ({
       >
         {
           data.avatar
-            ? <img src={`${DOMAIN_URL}thumbs/unsafe/113x113/${data.avatar}`} alt={data.profile_name} />
+            ? <img src={`${THUMBS_URL}unsafe/113x113/${data.avatar}`} alt={data.profile_name} />
             : <img src="/images/svg/avatar.svg" alt={data.profile_name} />
         }
       </Link>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router';
 
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 import { __t } from './../../i18n/translator';
 
 class UserMenu extends PureComponent {
@@ -54,7 +54,7 @@ class UserMenu extends PureComponent {
           {
             user.avatar
               ? <img
-                src={`${DOMAIN_URL}thumbs/unsafe/30x30/${user.avatar}`}
+                src={`${THUMBS_URL}unsafe/30x30/${user.avatar}`}
                 alt={user.profile_name ? user.profile_name : `ID:${user.id}`}
               />
               : <svg viewBox="0 0 19.2 22.721">
