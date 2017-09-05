@@ -26,7 +26,7 @@ class BlogCard extends Component {
         <div className="blog-card__img-wrap">
           <img
             className="blog-card__img"
-            src={`${THUMBS_URL}unsafe/360x250/${data.images[0].file}`}
+            src={`${THUMBS_URL}unsafe/360x250/${data.images[0] ? data.images[0].file : ''}`}
             alt={data.title}
           />
           <div className="share">
