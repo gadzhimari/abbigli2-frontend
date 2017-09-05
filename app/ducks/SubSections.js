@@ -18,7 +18,7 @@ const initialState = {
   next: null,
   items: [],
   pagesCount: 0,
-  isFethingPosts: true,
+  isFetchingPosts: true,
   posts: [],
 };
 

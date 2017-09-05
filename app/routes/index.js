@@ -28,6 +28,7 @@ import {
   Faq,
   Agreement,
   PeopleSearch,
+  Category,
 } from 'containers';
 
 import Chat from 'containers/Chat';
@@ -65,7 +66,7 @@ const routes = (store, token, shouldPreload) => {
       <Route path="people" component={PeopleSearch} />
       <Route path="chat" component={Chat} />
 
-      <Route path="c/:section" component={Sections} />
+      <Route path="c/:section" component={Category} />
       <Route path="c/:section/:subsection" component={Sections} />
 
       <Route path="post/new" component={PostCreate} onEnter={handleNoAuth} />
