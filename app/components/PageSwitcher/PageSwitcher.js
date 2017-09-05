@@ -12,6 +12,9 @@ const Page = ({ page, isActive, paginate }) => (<div
 </div>);
 
 const PageSwitcher = ({ active, count, paginate, }) => {
+  if (count === 1) {
+    return null;
+  }
   const pages = Array(count)
     .fill(1)
     .map((_, idx) => {

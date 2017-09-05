@@ -21,13 +21,21 @@ import './Sections.less';
 class Sections extends Component {
   render() {
     const { items, params, sections, priceTemplate, posts } = this.props;
-    const activeSections = sections
-      .filter(section => section.slug === params.section)[0] || {};
+    const section = sections
+      .filter(item => item.slug === params.section)[0] || { children: [] };
+    const subSection = section.children
+      .filter(subsection => subsection.slug === params.subsection)[0] || {};
+    const subSectionChildren = subSection.children || section.children || [];
 
     const crumbs = [{
-      title: activeSections.title,
-      url: `/sections/${params.section}`,
-    }];
+      title: section.title,
+      url: `/c/${params.section}`,
+    },
+    {
+      title: subSection.title,
+      url: `/c/${params.section}/${params.subsection}`,
+    },
+    ];
 
     const newData = [{
       id: 0,
@@ -53,18 +61,19 @@ class Sections extends Component {
           <BreadCrumbs
             crumbs={crumbs}
           />
-          <h1 className="section-title">{activeSections.title}</h1>
+          <h1 className="section-title">
+            {section.title} - {subSection.title}
+          </h1>
           <div className="cards-wrap cards-wrap_tag">
-            <PromoTags tags={items.slice(0, 5)} />
-            <PromoTags tags={items.slice(5, 10)} />
-            <PromoTags tags={items.slice(10, 15)} />
-            <PromoTags tags={items.slice(15, 20)} />
-            <PromoTags tags={items.slice(20, 25)} />
+            <PromoTags tags={subSectionChildren.slice(0, 5)} />
+            <PromoTags tags={subSectionChildren.slice(5, 10)} />
+            <PromoTags tags={subSectionChildren.slice(10, 15)} />
+            <PromoTags tags={subSectionChildren.slice(15, 20)} />
+            <PromoTags tags={subSectionChildren.slice(20, 25)} />
           </div>
           <div className="cards-wrap cards-wrap_tag">
             {
               items
-                .slice(25)
                 .map(tag => <a className="tag" key={tag.id}>#{tag.title}</a>)
             }
             <button
@@ -116,9 +125,9 @@ const mapStateToProps = ({ SubSections, Sections, Settings }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchSectionTags: (slug, page) => dispatch(fetchData(slug, page)),
+  fetchSectionTags: (category, page) => dispatch(fetchData({ category, page })),
   openMobileFilters: () => dispatch(openPopup('filtersPopup')),
-  fetchPosts: (slug, page) => dispatch(fetchSectionPosts({ slug, page })),
+  fetchPosts: (category, page) => dispatch(fetchSectionPosts({ category, page })),
 });
 
 const enhance = compose(connect(mapStateToProps, mapDispatchToProps), preloader);

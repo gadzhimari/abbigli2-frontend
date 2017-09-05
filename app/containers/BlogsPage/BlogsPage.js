@@ -119,7 +119,7 @@ class BlogsPage extends Component {
   }
 
   render() {
-    const { isFetching, items, sections, params, routing, router, pages, paginate } = this.props;
+    const { isFetching, items, sections, params, routing, router, pages, paginate, activePage } = this.props;
 
     const section = sections.filter(item => routing && item.slug === routing.query.section)[0];
 
@@ -199,7 +199,7 @@ class BlogsPage extends Component {
             !isFetching
             &&
             <PageSwitcher
-              active={(routing && Number(routing.query.page)) || 1}
+              active={activePage}
               count={pages}
               paginate={paginate}
             />
@@ -214,6 +214,7 @@ BlogsPage.propTypes = {
   changeSearchValue: PropTypes.func.isRequired,
   fetchBlogs: PropTypes.func.isRequired,
   pages: PropTypes.number.isRequired,
+  activePage: PropTypes.number.isRequired,
   paginate: PropTypes.func.isRequired,
 };
 

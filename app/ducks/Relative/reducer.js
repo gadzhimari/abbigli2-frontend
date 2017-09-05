@@ -16,8 +16,9 @@ const reducer = (state = initialState, action) => {
     case (RELATIVE_RESPONSE): {
       return Object.assign({}, state, {
         isFetching: false,
-        items: action.items,
+        items: action.data.results,
         post: action.post,
+        pages: Math.ceil(action.data.count / 30),
       });
     }
     default: {

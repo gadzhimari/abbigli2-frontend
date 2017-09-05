@@ -1,10 +1,13 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
+import { Link } from 'react-router';
 
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { debounce } from 'utils/functions';
+import { DOMAIN_URL } from 'config';
 
 import './SubMenu.less';
 
@@ -17,15 +20,20 @@ const SubMenuItem = ({ item, isHidden }) => {
       className={className}
       data-cat_id={item.id}
     >
-      {item.title}
+      <Link
+        to={`/${item.view_on_site_url.replace(DOMAIN_URL, '')}`}
+      >
+        {item.title}
+      </Link>
       <div className="header-submenu__category">
         {
-          item.children.map(child => <a
+          item.children.map(child => <Link
             key={child.id}
+            to={`/${child.view_on_site_url.replace(DOMAIN_URL, '')}`}
             className="header-submenu__category-name"
           >
             {child.title}
-          </a>)
+          </Link>)
         }
       </div>
     </div>
@@ -35,22 +43,27 @@ const SubMenuItem = ({ item, isHidden }) => {
 const SubMenuDropdownItem = ({ item }) => (
   <div className="header-submenu__dropdown-item">
     <div className="dropdown-item__name">
-      {item.title}
+      <Link
+        to={`/${item.view_on_site_url.replace(DOMAIN_URL, '')}`}
+      >
+        {item.title}
+      </Link>
     </div>
     <div className="header-submenu__subdropdown">
       {
-        item.children.map(child => <a
+        item.children.map(child => <Link
           key={child.id}
           className="header-submenu__subdropdown-item"
+          to={`/${child.view_on_site_url.replace(DOMAIN_URL, '')}`}
         >
           {child.title}
-        </a>)
+        </Link>)
       }
     </div>
   </div>
 );
 
-class SubMenu extends Component {
+class SubMenu extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { ErrorInput } from 'components/Inputs';
-import { ChoiceColor } from 'components';
+import { ChoiceColor } from 'components/FiltersSelects';
 
 import { __t } from '../../../i18n/translator';
 

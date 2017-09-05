@@ -34,6 +34,7 @@ const paginate = WrappedComponent => class extends PureComponent {
     return (<WrappedComponent
       {...this.props}
       paginate={this.paginate}
+      activePage={(this.props.routing && Number(this.props.routing.query.page)) || 1}
     />);
   }
 };

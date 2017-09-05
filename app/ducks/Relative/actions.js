@@ -7,9 +7,9 @@ const request = () => ({
   type: RELATIVE_REQUEST,
 });
 
-const response = (items, post) => ({
+const response = (data, post) => ({
   type: RELATIVE_RESPONSE,
-  items,
+  data,
   post,
 });
 
@@ -22,6 +22,6 @@ export const fetchData = slug => (dispatch) => {
 
   return Promise.all(promises)
     .then(([items, post]) => {
-      dispatch(response(items.results, post));
+      dispatch(response(items, post));
     });
 };

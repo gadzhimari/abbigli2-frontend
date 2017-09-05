@@ -3,15 +3,10 @@ import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import { Link } from 'components';
 import TagsSearchForm from '../TagsSearchForm';
-
-import { API_URL } from 'config';
+import UserSearch from '../UserSearch';
 
 import { __t } from './../../i18n/translator';
-
-import { DOMAIN_URL } from 'config';
-
 import './Search.styl';
 
 const propTypes = {
@@ -103,6 +98,26 @@ class Search extends Component {
     router.push(`/tags/${link}/new`);
   }
 
+  searchUsers = () => {
+    const { userRequest } = this.state;
+    const { router } = this.props;
+
+    router.push({
+      pathname: '/people',
+      query: {
+        user: userRequest,
+      },
+    });
+  }
+
+  search = () => {
+    const { mode } = this.state;
+
+    mode === 'tags'
+      ? this.searchByTags()
+      : this.searchUsers();
+  }
+
   clearRes = () => {
     this.setState({
       results: [],
@@ -118,39 +133,12 @@ class Search extends Component {
     this.clearRes();
   }
 
-  usersInputFocus = () => {
+  changeUserRequest = ({ target }) => {
     this.setState({
-      usersOpen: true,
+      userRequest: target.value,
     });
   }
 
-  usersInputBlur = () => {
-    this.setState({
-      usersOpen: false,
-    });
-  }
-
-  request = (e) => {
-    const request = e.target.value;
-
-    this.setState({ userRequest: request });
-
-    if (request.length < 1) {
-      this.setState({ results: [] });
-    } else {
-      fetch(`${API_URL}profiles/?search=${request}`)
-        .then(response => {
-          if (response.status >= 400) {
-            throw new Error('Bad response from server');
-          }
-
-          return response.json();
-        })
-        .then((result) => {
-          this.setState({ results: result.results });
-        });
-    }
-  }
 
   render() {
     const { mode, userRequest, results, usersOpen } = this.state;
@@ -161,37 +149,8 @@ class Search extends Component {
 
     return (
       <div className={`search ${shouldResultsOpen ? 'open-result' : ''}`}>
-        <div className="search-results">
-          {
-            (usersOpen && results.length > 0 && userRequest.length > 0)
-              ? (results.map(item => (
-                <Link
-                  key={`${item.id}--usersearch`}
-                  className="search-result-people"
-                  to={`/profile/${item.id}`}
-                  onClick={() => this.clearRes()}
-                >
-                  <div className="search-result__avatar">
-                    {item.avatar
-                      ? <img
-                        src={`${DOMAIN_URL}thumbs/unsafe/70x70/${item.avatar}`}
-                        alt={item.profile_name}
-                      />
-                      : <img
-                        src={`/images/svg/avatar.svg`}
-                        alt={item.profile_name}
-                      />
-                    }
-                  </div>
-                  <div className="search-result__name">{item.profile_name}</div>
-                  <div className="search-result__city">{item.city && item.city.name}</div>
-                </Link>
-              )))
-              : null
-          }
-        </div>
         <div className="search-input-wrap">
-          <div className="search-hide-scroll"></div>
+          <div className="search-hide-scroll" />
           {
             mode === 'tags'
               ? (<TagsSearchForm
@@ -200,21 +159,12 @@ class Search extends Component {
                 deleteAllTags={this.deleteAllTags}
                 tags={tagList}
               />)
-              : (
-                <form action="#">
-                  <input
-                    autoComplete="off"
-                    id="header-search"
-                    className="search-input"
-                    onFocus={this.usersInputFocus}
-                    onChange={this.request}
-                    type="text"
-                    placeholder={__t('users.for.search')}
-                    value={userRequest}
-                  />
-                  <input type="submit" style={{ display: 'none' }} value="" />
-                </form>
-              )
+              : <UserSearch
+                inputClass={'search-input'}
+                search={this.searchUsers}
+                onChange={this.changeUserRequest}
+                value={this.state.userRequest}
+              />
           }
           <div className="search-type">
             <div
@@ -234,18 +184,12 @@ class Search extends Component {
               </div>
             </div>
           </div>
-          {
-            mode === 'tags'
-              ? (
-                <div
-                  className="search-submit"
-                  onClick={this.searchByTags}
-                >
-                  {__t('Search')}
-                </div>
-              )
-              : null
-          }
+          <div
+            className="search-submit"
+            onClick={this.search}
+          >
+            {__t('Search')}
+          </div>
         </div>
       </div>
     );

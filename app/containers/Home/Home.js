@@ -30,8 +30,8 @@ class Home extends Component {
   componentWillMount() {
     const { dispatch } = this.props;
 
-    dispatch(fetchDataBlogs());
-    dispatch(fetchDataEvents());
+    dispatch(fetchDataBlogs({ type: 4 }));
+    dispatch(fetchDataEvents({ type: 3 }));
     dispatch(fetchDataProducts());
   }
 

@@ -17,14 +17,6 @@ import { API_URL } from 'config';
 
 import './index.styl';
 
-const getSectionUrl = (slug, section, tag) => {
-  if (tag) {
-    return `/sections/${section}/${tag}/${slug}`;
-  }
-
-  return `/${slug}-products/${section}`;
-};
-
 const newData = [{
   id: 0,
   type: 4,
@@ -81,7 +73,7 @@ class SectionTag extends Component {
   fetchPosts = (route, params, config = {}) => {
     const { dispatch } = this.props;
     const options = Object.assign({}, config, {
-      section: params.section,
+      category: params.subsection,
     });
 
     if (route.filter) {
@@ -98,7 +90,7 @@ class SectionTag extends Component {
   fetchSectionTags() {
     const { routeParams } = this.props;
 
-    fetch(`${API_URL}tags/?section=${routeParams.section}&title=${routeParams.tag}`)
+    fetch(`${API_URL}tags/?category=${routeParams.subsection}`)
       .then((response) => {
         if (response.status >= 400) {
           throw new Error("Bad response from server");
@@ -135,17 +127,25 @@ class SectionTag extends Component {
       priceTemplate,
     } = this.props;
 
-    const seoTextsObj = sections
-      .filter(section => section.slug === routeParams.section)[0] || {};
+    const section = sections
+      .filter(item => item.slug === routeParams.section)[0] || { children: [] };
+
+    const subSection = section.children
+      .filter(subsection => subsection.slug === routeParams.subsection)[0] || {};
 
     const crumbs = [{
-      title: seoTextsObj.title,
-      url: `/sections/${routeParams.section}`,
-    }];
+      title: section.title,
+      url: `/c/${routeParams.section}`,
+    },
+    {
+      title: subSection.title,
+      url: `/c/${routeParams.section}/${routeParams.subsection}`,
+    },
+    ];
 
     return (
       <div>
-        {/* {
+        {
           this.state.tags.length > 0
           &&
           <SliderBar
@@ -153,18 +153,16 @@ class SectionTag extends Component {
             items={this.state.tags}
             ItemComponent={Tag}
             itemWidth={175}
-            itemProps={{ link: `/sections/${seoTextsObj.slug}/` }}
+            itemProps={{ link: `/c/${routeParams.section}/${routeParams.subsection}` }}
           />
-        } */}
+        }
         <main className="main">
           <BreadCrumbs
             crumbs={crumbs}
           />
           <div className="content">
             <h1 className="section-title">
-              {seoTextsObj.title}
-              {' '}
-              {`#${routeParams.tags}`}
+              {section.title} - {subSection.title}
               <div className="section-title__subscribe">
                 <button className="default-button" type="button">
                   + Подписаться

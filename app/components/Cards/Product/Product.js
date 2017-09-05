@@ -1,17 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router';
+
 import { Share } from 'components';
 import { ProductsIcons } from 'components/Icons';
 import { DOMAIN_URL } from 'config';
 
 import './Product.less';
-
-const typesUrl = {
-  1: 'post',
-  3: 'event',
-  4: 'blog',
-};
 
 const Product = ({
   data,
@@ -32,17 +28,20 @@ const Product = ({
           <div className="dropdown-corner" />
           <div className="dropdown">
             <Share
-              postLink={`/${typesUrl[data.type]}/${data.slug}`}
+              postLink={`/post/${data.slug}`}
               buttonClass="social-btn"
             />
           </div>
         </div >
       </div>
       <div className="post-card__info">
-        <a className="post-card__title">
+        <Link
+          className="post-card__title"
+          to={`/post/${data.slug}`}
+        >
           <ProductsIcons.service className="icon icon-bag" />
           {data.title}
-        </a>
+        </Link>
         <a className="user">
           <div className="avatar">
             {
@@ -70,6 +69,17 @@ const Product = ({
       </div>
     </div>
   );
+};
+
+Product.propTypes = {
+  data: PropTypes.shape({
+    title: PropTypes.string,
+    slug: PropTypes.string,
+    price: PropTypes.number,
+    user: PropTypes.object,
+    images: PropTypes.array,
+  }).isRequired,
+  priceTemplate: PropTypes.string.isRequired,
 };
 
 export default Product;

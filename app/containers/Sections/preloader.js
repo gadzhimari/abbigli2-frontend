@@ -10,7 +10,7 @@ const preloader = WrappedComponent => class extends PureComponent {
     fetchSectionTags: PropTypes.func.isRequired,
     fetchPosts: PropTypes.func.isRequired,
     params: PropTypes.shape({
-      section: PropTypes.string,
+      subsection: PropTypes.string,
     }).isRequired,
   }
 
@@ -25,8 +25,8 @@ const preloader = WrappedComponent => class extends PureComponent {
     const { params, fetchSectionTags, fetchPosts } = this.props;
 
     Promise.all([
-      fetchSectionTags(params.section),
-      fetchPosts(params.section),
+      fetchSectionTags(params.subsection),
+      fetchPosts(params.subsection),
     ]).then(() => this.setState({
       isFetching: false,
     }));

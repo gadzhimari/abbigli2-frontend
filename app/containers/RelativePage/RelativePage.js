@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+
+import paginateHOC from '../../HOC/paginate';
 
 import { __t } from '../../i18n/translator';
 import * as actions from 'ducks/Relative/actions';
@@ -27,7 +31,14 @@ class RelativePage extends Component {
   }
 
   render() {
-    const { isFetching, items, post } = this.props;
+    const {
+      isFetching,
+      items, 
+      post,
+      pages,
+      paginate,
+      activePage,
+    } = this.props;
 
     return (
       <main className="main">
@@ -59,7 +70,11 @@ class RelativePage extends Component {
           {
             !isFetching
             &&
-            <PageSwitcher />
+            <PageSwitcher
+              count={pages}
+              paginate={paginate}
+              active={activePage}
+            />
           }
         </div>
       </main>
@@ -72,10 +87,13 @@ const mapStateToProps = store => ({
   items: store.RelativePage.items,
   post: store.RelativePage.post,
   routing: store.routing.locationBeforeTransitions,
+  pages: store.RelativePage.pages,
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchData: slug => dispatch(actions.fetchData(slug)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RelativePage);
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps), paginateHOC);
+
+export default enhance(RelativePage);

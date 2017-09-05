@@ -85,23 +85,21 @@ export function appendData(responseData) {
   return { type: APPEND, data: responseData }
 }
 
-export function fetchData(section, page = 1) {
-  const pageQuery = page === 1
-    ? ''
-    : `&page=${page}`;
+export function fetchData(options = {}) {
+  const query = createQuery(options);
 
-  return dispatch => {
-    if (page === 1) {
+  return (dispatch) => {
+    if (!options.page) {
       dispatch(requestData());
     } else {
       dispatch(requestDataAppend());
     }
 
-    return fetch(`${API_URL}tags/?section=${section}${pageQuery}`)
+    return fetch(`${API_URL}tags/${query}`)
       .then(res => res.json())
       .then((responseData) => {
         if (responseData.results) {
-          if (page === 1) {
+          if (!options.page) {
             dispatch(setData(responseData));
           } else {
             dispatch(appendData(responseData));

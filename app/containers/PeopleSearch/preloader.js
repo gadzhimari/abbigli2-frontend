@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { Loading } from 'components';
+import { createQuery } from 'utils/functions';
 
 import { API_URL } from 'config';
 
@@ -18,6 +19,7 @@ const preloader = WrappedComponent => class extends PureComponent {
       isFetching: true,
       results: [],
       usersCount: null,
+      pages: 1,
     };
   }
 
@@ -25,11 +27,30 @@ const preloader = WrappedComponent => class extends PureComponent {
     this.fetchUsers();
   }
 
+  componentDidUpdate(prevProps) {
+    const { routing } = this.props;
+
+    if (prevProps.routing.query !== routing.query) {
+      this.fetchUsers();
+    }
+  }
+
   fetchUsers = () => {
     const { routing } = this.props;
-    const query = (routing && routing.query) || {};
+    const currentQuery = (routing && routing.query) || {
+      user: '',
+      page: 1,
+    };
+    const query = createQuery({
+      search: currentQuery.user,
+      page: currentQuery.page,
+    });
 
-    fetch(`${API_URL}profiles/?search=${query.user}`)
+    this.setState({
+      isFetching: true,
+    });
+
+    fetch(`${API_URL}profiles/${query}`)
       .then((response) => {
         if (response.status >= 400) {
           throw new Error('Bad response from server');
@@ -42,12 +63,13 @@ const preloader = WrappedComponent => class extends PureComponent {
           results: result.results,
           isFetching: false,
           usersCount: result.count,
+          pages: Math.ceil(result.count / 50),
         });
       });
   }
 
   render() {
-    const { isFetching, results, usersCount } = this.state;
+    const { isFetching, results, usersCount, pages } = this.state;
     const { routing } = this.props;
     const query = (routing && routing.query) || {};
 
@@ -56,9 +78,11 @@ const preloader = WrappedComponent => class extends PureComponent {
     }
 
     return (<WrappedComponent
+      {...this.props}
       usersCount={usersCount}
       users={results}
       request={query.user}
+      pages={pages}
     />);
   }
 };
