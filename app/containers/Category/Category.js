@@ -9,12 +9,10 @@ import {
   ListWithNew,
   PageSwitcher,
 } from 'components';
-import { Product } from 'components/Cards';
+import { Product, SubCategoryList } from 'components/Cards';
 
 import preloader from './preloader';
 import paginateHOC from '../../HOC/paginate';
-
-import SubCategoryList from './SubCategoryList';
 
 import { fetchSectionPosts } from 'ducks/SubSections';
 

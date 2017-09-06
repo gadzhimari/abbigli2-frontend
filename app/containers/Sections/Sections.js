@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
+import { Link } from 'react-router';
 
 import {
   BreadCrumbs,
@@ -9,7 +11,7 @@ import {
   ListWithNew,
 } from 'components';
 
-import { PromoTags, Product } from 'components/Cards';
+import { PromoTags, Product, SubCategoryList } from 'components/Cards';
 import preloader from './preloader';
 
 import { fetchData, fetchSectionPosts } from 'ducks/SubSections';
@@ -64,17 +66,50 @@ class Sections extends Component {
           <h1 className="section-title">
             {section.title} - {subSection.title}
           </h1>
-          <div className="cards-wrap cards-wrap_tag">
-            <PromoTags tags={subSectionChildren.slice(0, 5)} />
-            <PromoTags tags={subSectionChildren.slice(5, 10)} />
-            <PromoTags tags={subSectionChildren.slice(10, 15)} />
-            <PromoTags tags={subSectionChildren.slice(15, 20)} />
-            <PromoTags tags={subSectionChildren.slice(20, 25)} />
-          </div>
+          {
+            subSectionChildren.length < 15
+              ? <div className="cards-wrap cards-wrap_tag">
+                <SubCategoryList
+                  items={subSectionChildren}
+                  category={`${section.slug}/${subSection.slug}`}
+                />
+              </div>
+              : <div className="cards-wrap cards-wrap_tag">
+                <PromoTags
+                  sections={subSectionChildren.slice(0, 5)}
+                  category={`${section.slug}/${subSection.slug}`}
+                />
+                <PromoTags
+                  sections={subSectionChildren.slice(5, 10)}
+                  category={`${section.slug}/${subSection.slug}`}
+                />
+                <PromoTags
+                  sections={subSectionChildren.slice(10, 15)}
+                  category={`${section.slug}/${subSection.slug}`}
+                />
+                <PromoTags
+                  sections={subSectionChildren.slice(15, 20)}
+                  category={`${section.slug}/${subSection.slug}`}
+                />
+                <PromoTags
+                  sections={subSectionChildren.slice(20, 25)}
+                  category={`${section.slug}/${subSection.slug}`}
+                />
+              </div>
+          }
+          <h1 className="section-title">
+            {__t('Tags')}
+          </h1>
           <div className="cards-wrap cards-wrap_tag">
             {
               items
-                .map(tag => <a className="tag" key={tag.id}>#{tag.title}</a>)
+                .map(tag => <Link
+                  className="tag"
+                  key={tag.id}
+                  to={`/find?tags=${tag.title}&type=1`}
+                >
+                  #{tag.title}
+                </Link>)
             }
             <button
               className="default-button"

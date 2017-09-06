@@ -1,12 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router';
+
+import { SubCategoryList } from 'components/Cards';
+
 import { THUMBS_URL } from 'config';
 import './PromoTags.less';
 
-const PromoTags = ({ tags }) => {
-  if (tags.length === 0) {
+const PromoTags = ({ sections, category }) => {
+  if (sections.length === 0) {
     return null;
+  }
+
+  if (sections.length < 5) {
+    return <SubCategoryList items={sections} category={category} />;
   }
 
   return (
@@ -14,23 +22,30 @@ const PromoTags = ({ tags }) => {
       <div className="promo-tag__img-wrap">
         <img
           className="promo-tag__img"
-          src={`${THUMBS_URL}unsafe/251x207/${tags[0].preview}`}
-          alt={tags[0].title}
+          src={`${THUMBS_URL}unsafe/251x207/${sections[0].preview}`}
+          alt={sections[0].title}
         />
       </div>
       {
-        tags.map(tag => <a className="promo-tag__link" key={tag.id}>{tag.title}</a>)
+        sections.map(section => <Link
+          className="promo-tag__link"
+          key={section.id}
+          to={`/c/${category}/${section.slug}`}
+        >
+          {section.title}
+        </Link>)
       }
     </div>
   );
 };
 
 PromoTags.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.shape({
+  sections: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string,
     preview: PropTypes.string,
     id: PropTypes.number,
   })).isRequired,
+  category: PropTypes.string.isRequired,
 };
 
 export default PromoTags;

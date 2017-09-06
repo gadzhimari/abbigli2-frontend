@@ -70,10 +70,22 @@ class SectionTag extends Component {
     }
   }
 
+  clickOnTag = (tag) => {
+    const { router } = this.props;
+
+    router.push({
+      pathname: '/find',
+      query: Object.assign({}, {
+        tags: tag,
+        type: 1,
+      }),
+    });
+  }
+
   fetchPosts = (route, params, config = {}) => {
     const { dispatch } = this.props;
     const options = Object.assign({}, config, {
-      category: params.subsection,
+      category: params.category,
     });
 
     if (route.filter) {
@@ -133,6 +145,9 @@ class SectionTag extends Component {
     const subSection = section.children
       .filter(subsection => subsection.slug === routeParams.subsection)[0] || {};
 
+    const category = subSection.children
+      .filter(item => item.slug === routeParams.category)[0] || {};
+
     const crumbs = [{
       title: section.title,
       url: `/c/${routeParams.section}`,
@@ -140,6 +155,10 @@ class SectionTag extends Component {
     {
       title: subSection.title,
       url: `/c/${routeParams.section}/${routeParams.subsection}`,
+    },
+    {
+      title: category.title,
+      url: `/c/${routeParams.section}/${routeParams.subsection}/${routeParams.category}`,
     },
     ];
 
@@ -153,7 +172,9 @@ class SectionTag extends Component {
             items={this.state.tags}
             ItemComponent={Tag}
             itemWidth={175}
-            itemProps={{ link: `/c/${routeParams.section}/${routeParams.subsection}` }}
+            itemProps={{
+              onClick: this.clickOnTag,
+            }}
           />
         }
         <main className="main">
@@ -162,7 +183,7 @@ class SectionTag extends Component {
           />
           <div className="content">
             <h1 className="section-title">
-              {section.title} - {subSection.title}
+              {section.title} - {subSection.title} - {category.title}
               <div className="section-title__subscribe">
                 <button className="default-button" type="button">
                   + Подписаться

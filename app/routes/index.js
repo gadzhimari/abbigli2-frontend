@@ -68,6 +68,7 @@ const routes = (store, token, shouldPreload) => {
 
       <Route path="c/:section" component={Category} />
       <Route path="c/:section/:subsection" component={Sections} />
+      <Route path="c/:section/:subsection/:category" component={SectionTag} />
 
       <Route path="post/new" component={PostCreate} onEnter={handleNoAuth} />
       <Route path="profile/:profile/post/edit/:slug" component={PostCreate} onEnter={handleNoAuth} />
