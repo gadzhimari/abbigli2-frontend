@@ -12,6 +12,7 @@
     max-width: 1250px;
     padding: 0 25px;
     white-space: nowrap;
+    position: relative;
   }
   &__item {
     font-size: 14px;
@@ -125,6 +126,10 @@
       margin-bottom: 10px;
       padding: 0 15px;
 
+      &.hide {
+        display: none;
+      }
+
       &:hover {
         color: @blue;
         .dropdown-item__name:before {
@@ -166,6 +171,42 @@
         text-decoration: underline;
       }
     }
+  }
+}
+
+.header-category {
+  width: 100%;
+  display: none;
+  position: absolute;
+  background-color: #2c2f33;
+  padding: 15px 20px 0;
+  left: 25px;
+  right: 255px;
+  top: 44px;
+  white-space: normal;
+  &.show {
+    display: block;
+  }
+
+  &__column {
+    font-size: 14px;
+    line-height: 18px;
+    display: inline-block;
+    vertical-align: top;
+    width: 15%;
+    margin-bottom: 25px;
+    margin-right: 1.5%;
+    min-width: 120px;
+  }
+  &__title {
+    font-family: 'ClearSansBold', sans-serif;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  &__name {
+    display: block;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 5px;
   }
 }
 

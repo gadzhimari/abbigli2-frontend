@@ -1,67 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router';
-
 import { connect } from 'react-redux';
-import classNames from 'classnames';
+
+import SubMenuItem from './SubMenuItem';
+import SubMenuDropdownItem from './SubMenuDropdownItem';
+import CategoryList from './CategoryList';
 
 import { debounce } from 'utils/functions';
-import { DOMAIN_URL } from 'config';
 
 import './SubMenu.less';
-
-const SubMenuItem = ({ item, isHidden }) => {
-  const className = classNames('header-submenu__item', {
-    hide: isHidden,
-  });
-  return (
-    <div
-      className={className}
-      data-cat_id={item.id}
-    >
-      <Link
-        to={`/${item.view_on_site_url.replace(DOMAIN_URL, '')}`}
-      >
-        {item.title}
-      </Link>
-      <div className="header-submenu__category">
-        {
-          item.children.map(child => <Link
-            key={child.id}
-            to={`/${child.view_on_site_url.replace(DOMAIN_URL, '')}`}
-            className="header-submenu__category-name"
-          >
-            {child.title}
-          </Link>)
-        }
-      </div>
-    </div>
-  );
-};
-
-const SubMenuDropdownItem = ({ item }) => (
-  <div className="header-submenu__dropdown-item">
-    <div className="dropdown-item__name">
-      <Link
-        to={`/${item.view_on_site_url.replace(DOMAIN_URL, '')}`}
-      >
-        {item.title}
-      </Link>
-    </div>
-    <div className="header-submenu__subdropdown">
-      {
-        item.children.map(child => <Link
-          key={child.id}
-          className="header-submenu__subdropdown-item"
-          to={`/${child.view_on_site_url.replace(DOMAIN_URL, '')}`}
-        >
-          {child.title}
-        </Link>)
-      }
-    </div>
-  </div>
-);
 
 class SubMenu extends PureComponent {
   constructor(props) {
@@ -76,15 +24,20 @@ class SubMenu extends PureComponent {
   }
 
   componentDidMount() {
+    const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
     this.checkVisibility();
+
+    catList.forEach((item) => {
+      item.addEventListener('mouseover', this.showCategory);
+    });
+
+    document.querySelector('.header-submenu__more').addEventListener('mouseleave', this.toggleElseMenuVisibility);
 
     window.addEventListener('resize', this.debouncedResetInvisible);
   }
 
-  componentDidUpdate() {
-    if (this.state.mustRecalculateVisibility) {
-      this.checkVisibility();
-    }
+  shouldComponentUpdate() {
+    return false;
   }
 
   componentWillUnmount() {
@@ -94,64 +47,126 @@ class SubMenu extends PureComponent {
   checkVisibility = () => {
     const wrapperBounds = this.catWrapper.getBoundingClientRect();
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
-    const invisibleList = [];
 
     const check = (item) => {
       const itemBounds = item.getBoundingClientRect();
       const catId = Number(item.getAttribute('data-cat_id'));
 
-      if (itemBounds.left + item.offsetWidth > wrapperBounds.right - 77) {
-        invisibleList.push(catId);
+      if (itemBounds.left + item.offsetWidth > wrapperBounds.right - 90) {
+        item.classList.add('hide');
+        this.elseBtn.classList.remove('hide');
+        this.subWrapper
+          .querySelector(`[data-cat_id="${catId}"]`)
+          .classList.remove('hide');
       }
     };
 
     catList
       .forEach(check);
-
-    this.setState({
-      invisibleSections: invisibleList,
-      mustRecalculateVisibility: false,
-    });
   }
 
   resetInvisible = () => {
-    this.setState({
-      invisibleSections: [],
-      mustRecalculateVisibility: true,
-    });
+    const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
+
+    catList.forEach(item => item.classList.remove('hide'));
+    this.checkVisibility();
+  }
+
+  clickMoreItem = ({ currentTarget }) => {
+    const catId = currentTarget.getAttribute('data-cat_id');
+    const catById = this.catWrapper.querySelector(`[data-cat_id="${catId}"]`);
+    const visibleCatList = this.catWrapper
+      .querySelectorAll('.header-submenu__item:not(.hide)');
+    const lastVisibleCat = visibleCatList[visibleCatList.length - 1];
+    const lastVisibleCatId = lastVisibleCat.getAttribute('data-cat_id');
+
+    lastVisibleCat.classList.add('hide');
+    catById.classList.remove('hide');
+    currentTarget.classList.add('hide');
+    this.subWrapper
+      .querySelector(`[data-cat_id="${lastVisibleCatId}"]`)
+      .classList.remove('hide');
+
+    setTimeout(this.dispatchMouseEnterEvent(catById, 'mouseover'));
+  }
+
+  dispatchMouseEnterEvent = (target, eventType) => {
+    const event = new Event(eventType);
+
+    target.dispatchEvent(event);
+  }
+
+  showSubMenu = () => {
+    this.hideCategory();
+    this.subWrapper.classList.remove('hide');
+  }
+
+  showCategory = ({ currentTarget }) => {
+    const catId = currentTarget.getAttribute('data-cat_id');
+    const categoryList = this.catWrapper.querySelector(`.header-category[data-cat_id="${catId}"]`);
+
+    this.hideCategory();
+    this.subWrapper.classList.add('hide');
+
+    if (categoryList) {
+      categoryList.classList.add('show');
+    }
+  }
+
+  hideCategory = () => {
+    const activeList = this.catWrapper.querySelector('.show');
+
+    if (activeList) {
+      activeList.classList.remove('show');
+    }
   }
 
   render() {
-    const { sections, invisibleSections } = this.state;
-    const hiddenList = sections.filter(item => invisibleSections.includes(item.id));
+    const { sections } = this.state;
 
     return (
-      <div className="header-submenu">
+      <div
+        className="header-submenu"
+        onMouseLeave={this.hideCategory}
+      >
         <div
           className="header-submenu__inner"
           ref={wrapper => (this.catWrapper = wrapper)}
         >
           {
             sections.map(item => (<SubMenuItem
-              key={item.id}
+              key={`${item.id}-section`}
               item={item}
-              isHidden={invisibleSections.includes(item.id)}
+              showCategory={this.showCategory}
             />))
           }
-          {
-            hiddenList.length !== 0
-            &&
-            <div className="header-submenu__more">
-              Ещё
-              <div className="header-submenu__dropdown">
-                {
-                  hiddenList.map(item => <SubMenuDropdownItem
-                    item={item}
-                    key={item.id}
-                  />)
-                }
-              </div>
+          <div
+            className="header-submenu__more hide"
+            ref={elseBtn => (this.elseBtn = elseBtn)}
+            onMouseEnter={this.showSubMenu}
+          >
+            {'Ещё'}
+            <div
+              className="header-submenu__dropdown hide"
+              ref={wrapper => (this.subWrapper = wrapper)}
+            >
+              {
+                sections.map(item => <SubMenuDropdownItem
+                  item={item}
+                  key={item.id}
+                  onClick={this.clickMoreItem}
+                />)
+              }
             </div>
+          </div>
+          {
+            sections.map((section) => {
+              if (section.children.length !== 0) {
+                return <CategoryList key={section.id} category={section} />;
+              }
+
+              return null;
+            })
           }
         </div>
       </div>
