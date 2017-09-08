@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import SubCategoryItem from './SubCategoryItem';
 
-const SubCategoryList = ({ items, category }) => (
+const SubCategoryList = ({ items, url }) => (
   <div className="category-buttons">
     {
       items.map(item => <SubCategoryItem
         data={item}
-        category={category}
+        url={url}
         key={item.id}
       />)
     }
@@ -17,7 +17,7 @@ const SubCategoryList = ({ items, category }) => (
 
 SubCategoryList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  category: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default SubCategoryList;

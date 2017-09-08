@@ -52,7 +52,7 @@ class SubMenu extends PureComponent {
       const itemBounds = item.getBoundingClientRect();
       const catId = Number(item.getAttribute('data-cat_id'));
 
-      if (itemBounds.left + item.offsetWidth > wrapperBounds.right - 90) {
+      if (itemBounds.left + item.offsetWidth > wrapperBounds.right - 200) {
         item.classList.add('hide');
         this.elseBtn.classList.remove('hide');
         this.subWrapper

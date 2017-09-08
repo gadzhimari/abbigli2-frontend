@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 
-const SubCategoryItem = ({ data, category }) => (
+const SubCategoryItem = ({ data, url }) => (
   <Link
     className="category-button"
-    to={`/c/${category}/${data.slug}`}
+    to={`${url}/${data.slug}`}
   >
     {data.title}
   </Link>
@@ -18,7 +18,7 @@ SubCategoryItem.propTypes = {
     title: PropTypes.string,
     slug: PropTypes.string,
   }).isRequired,
-  category: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default SubCategoryItem;

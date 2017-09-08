@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import { SectionTag } from 'containers';
+
 import { Loading } from 'components';
 
 import { API_URL } from 'config';
@@ -12,42 +14,92 @@ const preloader = WrappedComponent => class extends PureComponent {
     params: PropTypes.shape({
       subsection: PropTypes.string,
     }).isRequired,
+    sections: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   constructor() {
     super();
     this.state = {
       isFetching: true,
+      tree: [],
     };
   }
 
   componentDidMount() {
-    const { params, fetchSectionTags, fetchPosts } = this.props;
+    const { params, fetchSectionTags, fetchPosts, sections } = this.props;
+    const tree = this.createTree(params, sections);
+    const currentSection = tree[tree.length - 1];
 
     Promise.all([
-      fetchSectionTags(params.subsection),
-      fetchPosts(params.subsection),
+      fetchSectionTags(currentSection.slug),
+      fetchPosts(currentSection.slug),
     ]).then(() => this.setState({
       isFetching: false,
+      tree,
     }));
   }
 
-  // componentDidUpdate(prevProps) {
-  //   const { params, fetchSectionTags } = this.props;
+  componentDidUpdate(prevProps) {
+    const { params, fetchSectionTags, fetchPosts, sections } = this.props;
+    const tree = this.createTree(params, sections);
+    const currentSection = tree[tree.length - 1];
 
-  //   if (prevProps.params.section !== params.section) {
-  //     fetchSectionTags(params.section, 1);
-  //   }
-  // }
+    if (prevProps.params !== params) {
+      this.setState({
+        isFetching: true,
+      });
+
+      Promise.all([
+        fetchSectionTags(currentSection.slug),
+        fetchPosts(currentSection.slug),
+      ]).then(() => this.setState({
+        isFetching: false,
+        tree,
+      }));
+    }
+  }
+
+  createTree = (params, sections) => {
+    const array = Object.keys(params)
+      .map(key => params[key]);
+
+    return array.reduce((acc) => {
+      const categories = acc.length > 0
+        ? acc[acc.length - 1].children
+        : sections;
+      const current = categories.filter(section => array.includes(section.slug))[0] || {};
+      const previous = acc.length > 0
+        ? acc[acc.length - 1]
+        : null;
+
+
+      acc.push({
+        id: current.id,
+        title: current.title,
+        slug: current.slug,
+        children: current.children,
+        url: previous
+          ? `${previous.url}/${current.slug}`
+          : `/c/${current.slug}`,
+      });
+
+      return acc;
+    }, []);
+  }
 
   render() {
-    const { isFetching } = this.state;
+    const { isFetching, tree } = this.state;
+    const currentSection = tree[tree.length - 1] || {};
 
     if (isFetching) {
       return <Loading loading={isFetching} />;
     }
 
-    return (<WrappedComponent {...this.props} />);
+    if (currentSection.children.length === 0) {
+      return <SectionTag {...this.props} tree={tree} />;
+    }
+
+    return (<WrappedComponent {...this.props} tree={tree} />);
   }
 };
 

@@ -8,13 +8,13 @@ import { SubCategoryList } from 'components/Cards';
 import { THUMBS_URL } from 'config';
 import './PromoTags.less';
 
-const PromoTags = ({ sections, category }) => {
+const PromoTags = ({ sections, url }) => {
   if (sections.length === 0) {
     return null;
   }
 
   if (sections.length < 5) {
-    return <SubCategoryList items={sections} category={category} />;
+    return <SubCategoryList items={sections} url={url} />;
   }
 
   return (
@@ -30,7 +30,7 @@ const PromoTags = ({ sections, category }) => {
         sections.map(section => <Link
           className="promo-tag__link"
           key={section.id}
-          to={`/c/${category}/${section.slug}`}
+          to={`${url}/${section.slug}`}
         >
           {section.title}
         </Link>)
@@ -45,7 +45,7 @@ PromoTags.propTypes = {
     preview: PropTypes.string,
     id: PropTypes.number,
   })).isRequired,
-  category: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default PromoTags;
