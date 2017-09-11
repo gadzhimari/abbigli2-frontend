@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 import { __t } from './../../i18n/translator';
 
 class Avatar extends Component {
@@ -76,7 +77,7 @@ class Avatar extends Component {
             &&
             <img
               className="user-profile__avatar"
-              src={`${DOMAIN_URL}thumbs/unsafe/140x140/${avatar}`}
+              src={`${THUMBS_URL}unsafe/140x140/${avatar}`}
               onLoad={this.loaded}
             />
           }

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const Popup = ({
   children,
@@ -26,11 +27,7 @@ const Popup = ({
 Popup.propTypes = {
   title: PropTypes.string.isRequired,
   closePopup: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.children,
-    PropTypes.array,
-    PropTypes.string,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.any]).isRequired,
 };
 
 export default Popup;

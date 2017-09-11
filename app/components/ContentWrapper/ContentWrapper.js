@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Hammer from 'react-hammerjs';
 
 import { Menu, Footer } from 'components';

@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 import Avatar from './Avatar';
 
@@ -15,7 +16,7 @@ import { Link } from 'components';
 import { SocialIcons } from 'components/Icons';
 import { openPopup } from 'ducks/Popup/actions';
 
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 
 import { debounce } from 'utils/functions';
 
@@ -296,7 +297,7 @@ class UserProfileMe extends Component {
             banner_left
               ? <img
                 className="user-profile__cover"
-                src={`${DOMAIN_URL}thumbs/unsafe/${leftCoverSize}/${banner_left}`}
+                src={`${THUMBS_URL}unsafe/${leftCoverSize}/${banner_left}`}
               />
               : <img className="user-profile__cover" src="/images/def_left.jpg" />
           }
@@ -384,7 +385,7 @@ class UserProfileMe extends Component {
         <form
           className="user-profile__cover-big"
           onSubmit={this.saveData}
-          style={banner_main ? { backgroundImage: `url(${DOMAIN_URL}thumbs/unsafe/1000x400/${banner_main})`, backgroundSize: 'cover' } : null}
+          style={banner_main ? { backgroundImage: `url(${THUMBS_URL}unsafe/1000x400/${banner_main})`, backgroundSize: 'cover' } : null}
         >
           <div className="user-profile__form">
             <div className="user-profile__title-wrap">
@@ -693,7 +694,7 @@ class UserProfileMe extends Component {
                 </div>
               <div className="user-profile__characteristic-item messages">
                 <Link
-                  to={`/profile/${user.id}/messages`}
+                  to="/chat"
                 >
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">
                     <path d="M9,0H1C0.45,0,0.005,0.449,0.005,1L0,7c0,0.55,0.45,1,1,1h8c0.55,0,1-0.45,1-1V1C10,0.449,9.55,0,9,0z M9,2

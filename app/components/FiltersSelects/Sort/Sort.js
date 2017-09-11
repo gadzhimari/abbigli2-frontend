@@ -73,7 +73,7 @@ Sort.propTypes = {
   name: PropTypes.string.isRequired,
   subClass: PropTypes.string,
   activeItem: PropTypes.string,
-  listItems: PropTypes.arrayOf(PropTypes.oneOfType(PropTypes.string, PropTypes.object)).isRequired,
+  listItems: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])).isRequired,
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };

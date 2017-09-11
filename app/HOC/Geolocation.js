@@ -1,4 +1,5 @@
-import { Component, Children, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import { Component, Children } from 'react';
 
 import { connect } from 'react-redux';
 import { API_URL } from 'config';

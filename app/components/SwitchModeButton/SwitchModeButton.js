@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import { ProductsIcons } from 'components/Icons';
 import getComponent from 'utils/getComponent';

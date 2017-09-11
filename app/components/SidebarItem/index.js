@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import RouterLink from 'react-router/lib/Link';
 import moment from 'moment';
 import { DOMAIN_URL } from 'config';

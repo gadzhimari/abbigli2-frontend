@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import ShareButton from './Buttons/ShareButton';
 import { location as lang } from 'config';

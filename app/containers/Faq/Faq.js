@@ -1,5 +1,6 @@
 import Helmet from 'react-helmet';
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'preact-redux';
 import { bindActionCreators } from 'redux';
 

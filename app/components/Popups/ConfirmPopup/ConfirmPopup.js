@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { ErrorInput } from 'components/Inputs';
@@ -192,7 +193,7 @@ ConfirmPopup.propTypes = {
   closePopup: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  errors: PropTypes.oneOfType(PropTypes.object, PropTypes.any),
+  errors: PropTypes.oneOfType([PropTypes.object, PropTypes.any]),
   options: PropTypes.shape({
     callback: PropTypes.func.isRequired,
     previousPopup: PropTypes.string,

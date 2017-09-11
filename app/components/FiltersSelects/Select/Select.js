@@ -92,7 +92,7 @@ Select.propTypes = {
   subClass: PropTypes.string,
   placeholder: PropTypes.string,
   activeItem: PropTypes.string,
-  listItems: PropTypes.arrayOf(PropTypes.oneOfType(PropTypes.string, PropTypes.object)).isRequired,
+  listItems: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])).isRequired,
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   ItemComponent: PropTypes.node.isRequired,

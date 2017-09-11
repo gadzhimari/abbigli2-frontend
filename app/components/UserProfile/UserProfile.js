@@ -6,7 +6,7 @@ import { openPopup } from 'ducks/Popup/actions';
 import { setFollow } from 'actions/follow';
 
 import { __t } from './../../i18n/translator';
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 
 import { debounce } from 'utils/functions';
 
@@ -104,7 +104,7 @@ class UserProfile extends Component {
                 &&
                 <img
                   className="user-profile__avatar"
-                  src={`${DOMAIN_URL}thumbs/unsafe/140x140/${avatar}`}
+                  src={`${THUMBS_URL}unsafe/140x140/${avatar}`}
                   alt={profile_name}
                 />
               }
@@ -114,7 +114,7 @@ class UserProfile extends Component {
             banner_left
               ? <img
                 className="user-profile__cover"
-                src={`${DOMAIN_URL}thumbs/unsafe/${leftCoverSize}/${banner_left}`}
+                src={`${THUMBS_URL}unsafe/${leftCoverSize}/${banner_left}`}
               />
               : <img className="user-profile__cover" src="/images/def_left.jpg" />
           }
@@ -122,7 +122,7 @@ class UserProfile extends Component {
         <div
           className="user-profile__cover-big"
           style={banner_main
-            ? { backgroundImage: `url(${DOMAIN_URL}thumbs/unsafe/1000x400/${banner_main})`, backgroundSize: 'cover' }
+            ? { backgroundImage: `url(${THUMBS_URL}unsafe/1000x400/${banner_main})`, backgroundSize: 'cover' }
             : null
           }
         >

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { ErrorInput } from 'components/Inputs';
@@ -101,7 +102,7 @@ PasswordPopup.propTypes = {
   closePopup: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  errors: PropTypes.oneOf(PropTypes.object, PropTypes.any),
+  errors: PropTypes.oneOfType([PropTypes.object, PropTypes.any]),
 };
 
 const mapStateToProps = ({ Auth }) => ({

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import dateFormat from 'dateformat';
 import { connect } from 'preact-redux';
 import { Link } from 'react-router';

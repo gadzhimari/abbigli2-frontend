@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Helmet from 'react-helmet';
@@ -136,6 +137,7 @@ class App extends Component {
         isOpenMenu={mobileMenuOpened}
         closeMenu={this.closeMenu}
         isFetchingSections={isFetchingSections}
+        openPopup={this.modalButtonClick}
       >
         <Helmet
           {...appConfig.head}
