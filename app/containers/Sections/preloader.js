@@ -81,6 +81,7 @@ const preloader = WrappedComponent => class extends PureComponent {
         url: previous
           ? `${previous.url}/${current.slug}`
           : `/c/${current.slug}`,
+        showAll: current.show_all,
       });
 
       return acc;

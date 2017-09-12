@@ -1,0 +1,33 @@
+.category-button {
+
+  &.category-button--imaged {
+    width: 19%;
+    padding: 0;
+
+    &:hover {
+      background-color: #fff;
+    }
+  }
+
+  &__image-wrapper {
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__image {
+    min-height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  &__title {
+    padding: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #1d1c1c;
+  }
+}

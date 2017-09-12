@@ -11,7 +11,10 @@ import {
   ListWithNew,
 } from 'components';
 
-import { PromoTags, Product, SubCategoryList } from 'components/Cards';
+import ShowAllSection from './ShowAllSection';
+import ShowMiddleCards from './ShowMiddleCards';
+
+import { Product, SubCategoryList } from 'components/Cards';
 import preloader from './preloader';
 
 import { fetchData, fetchSectionPosts } from 'ducks/SubSections';
@@ -42,6 +45,8 @@ class Sections extends Component {
   render() {
     const { items, params, sections, priceTemplate, posts, tree } = this.props;
     const currentSection = tree[tree.length - 1];
+    const isShowAll = currentSection.showAll;
+    const startIndex = isShowAll ? 4 : 0;
 
     return (
       <main className="main">
@@ -53,36 +58,21 @@ class Sections extends Component {
             {currentSection.title}
           </h1>
           {
-            currentSection.children.length < 15
-              ? <div className="cards-wrap cards-wrap_tag">
-                <SubCategoryList
-                  items={currentSection.children}
-                  url={`${currentSection.url}`}
-                />
-              </div>
-              : <div className="cards-wrap cards-wrap_tag">
-                <PromoTags
-                  sections={currentSection.children.slice(0, 5)}
-                  url={currentSection.url}
-                />
-                <PromoTags
-                  sections={currentSection.children.slice(5, 10)}
-                  url={currentSection.url}
-                />
-                <PromoTags
-                  sections={currentSection.children.slice(10, 15)}
-                  url={currentSection.url}
-                />
-                <PromoTags
-                  sections={currentSection.children.slice(15, 20)}
-                  url={currentSection.url}
-                />
-                <PromoTags
-                  sections={currentSection.children.slice(20, 25)}
-                  url={currentSection.url}
-                />
-              </div>
+            isShowAll
+            &&
+            <ShowAllSection
+              items={currentSection.children.slice(0, startIndex)}
+              url={currentSection.url}
+            />
           }
+          <ShowMiddleCards
+            items={currentSection.children.slice(startIndex, startIndex + 5)}
+            url={currentSection.url}
+          />
+          <SubCategoryList
+            items={currentSection.children.slice(startIndex + 5)}
+            url={currentSection.url}
+          />
           <h1 className="section-title">
             {__t('Tags')}
           </h1>
