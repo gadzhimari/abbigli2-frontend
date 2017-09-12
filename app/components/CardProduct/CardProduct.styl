@@ -22,12 +22,16 @@
   left: 0;
 }
 
-.tag-card__img {
+.legacy .tag-card__img {
   background-color: #b0bec5;
   position: relative;
   overflow: hidden;
   height: 290px;
   display: block;
+  top: 0;
+  left: 0;
+  transform: none;
+
   &:hover .tag-card__name-wrap {
     color: #0090de;
   }
@@ -42,11 +46,13 @@
   padding: 0 20px;
 }
 
-.legacy.tag-card__name {
+.legacy .tag-card__name {
   font-family: 'clear_sansbold';
   font-size: 22px;
   line-height: 26px;
   position: relative;
+  padding: 0;
+  text-align: left;
 }
 
 .tag-card--product .tag-card__name {
@@ -198,6 +204,18 @@
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }
+}
+
+.like-comment__button {
+    font-size: 12px;
+    line-height: 16px;
+    color: #a9aeb0;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+    margin-right: 5px;
+    position: relative;
+    line-height: 19px;
 }
 
 

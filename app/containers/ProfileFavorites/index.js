@@ -3,18 +3,13 @@ import React, { Component } from 'react';
 import {
   CardsWrap,
   CardProduct,
-  CardsSort,
-  CardsSortItem,
-  UserProfile,
   Loading,
-} from 'components'
-import Helmet from 'react-helmet';
+} from 'components';
+
 import './index.styl';
 import { connect } from 'preact-redux';
 import InfiniteScroll from 'react-infinite-scroller';
-import { fetchData, setData } from 'ducks/PostsSpecific';
-import { fetchData as fetchDataPosts, setData as setDataPosts, removeFromFavorites } from 'ducks/ProfilePosts';
-import { Link } from 'react-router';
+import { fetchData as fetchDataPosts, removeFromFavorites } from 'ducks/ProfilePosts';
 import { getJsonFromStorage } from 'utils/functions';
 
 import { withRouter } from 'react-router';

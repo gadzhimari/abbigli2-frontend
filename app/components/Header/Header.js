@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { pure } from 'recompose';
+
 import { Link } from 'components';
 import SubMenu from './SubMenu';
 
@@ -27,4 +29,4 @@ function Header(props) {
   );
 }
 
-export default Header;
+export default pure(Header);

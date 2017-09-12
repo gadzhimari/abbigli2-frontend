@@ -5,7 +5,7 @@ import { Link } from 'components';
 
 import { __t } from './../../../i18n/translator';
 
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 
 const MyFollowers = (props) => {
   const {
@@ -21,7 +21,7 @@ const MyFollowers = (props) => {
       <div className="popup-subscriber__avatar">
         {item.avatar
           ? <img
-            src={`${DOMAIN_URL}thumbs/unsafe/60x60/${item.avatar}`}
+            src={`${THUMBS_URL}unsafe/60x60/${item.avatar}`}
             alt={item.profile_name} />
           : <img
             src="/images/svg/avatar.svg"
