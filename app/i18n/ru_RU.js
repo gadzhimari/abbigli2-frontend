@@ -96,6 +96,7 @@ export default {
     "End.date": "Дата окончания",
     "Location": "Место проведения",
     "Events": "События",
+    "+0000000000 or jonh@gmail.com": "+79008009090 или anna@gmail.com",
     "Create.a.mood": "Создать настроение",
     "Nearby": "Рядом",
     "About": "О нас",
