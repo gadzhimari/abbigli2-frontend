@@ -91,9 +91,7 @@ class SubMenu extends PureComponent {
   }
 
   dispatchMouseEnterEvent = (target, eventType) => {
-    const event = new Event(eventType);
-
-    target.dispatchEvent(event);
+    target.dispatchEvent(new Event(eventType));
   }
 
   showSubMenu = () => {
@@ -138,6 +136,7 @@ class SubMenu extends PureComponent {
               key={`${item.id}-section`}
               item={item}
               showCategory={this.showCategory}
+              hideCategory={this.hideCategory}
             />))
           }
           <div
@@ -162,7 +161,11 @@ class SubMenu extends PureComponent {
           {
             sections.map((section) => {
               if (section.children.length !== 0) {
-                return <CategoryList key={section.id} category={section} />;
+                return (<CategoryList
+                  key={section.id}
+                  category={section}
+                  hideCategory={this.hideCategory}
+                />);
               }
 
               return null;

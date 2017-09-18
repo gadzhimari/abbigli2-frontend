@@ -94,6 +94,8 @@ export default {
     "Price": "Цена",
     "Start.date": "Дата начала",
     "End.date": "Дата окончания",
+    "Whithin": "Не далее",
+    "kilometers": "километров",
     "Location": "Место проведения",
     "Events": "События",
     "Create.a.mood": "Создать настроение",

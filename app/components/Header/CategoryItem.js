@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router';
 
-const CategoryItem = ({ item, categorySlug }) => (
+const CategoryItem = ({ item, categorySlug, hideCategory }) => (
   <div className="header-category__column">
     <Link
       className="header-category__title"
       to={`/c/${categorySlug}/${item.slug}`}
+      onClick={hideCategory}
     >
       {item.title}
     </Link>
@@ -20,6 +21,7 @@ const CategoryItem = ({ item, categorySlug }) => (
           className="header-category__name"
           key={child.id}
           to={`/c/${categorySlug}/${item.slug}/${child.slug}`}
+          onClick={hideCategory}
         >
           {child.title}
         </Link>)
@@ -34,6 +36,7 @@ CategoryItem.propTypes = {
     children: PropTypes.array,
   }).isRequired,
   categorySlug: PropTypes.string.isRequired,
+  hideCategory: PropTypes.func.isRequired,
 };
 
 export default CategoryItem;

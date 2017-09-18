@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import CategoryItem from './CategoryItem';
 
-const CategoryList = ({ category }) => (
+const CategoryList = ({ category, hideCategory }) => (
   <div
     className="header-category"
     data-cat_id={category.id}
@@ -14,6 +14,7 @@ const CategoryList = ({ category }) => (
           item={child}
           key={child.id}
           categorySlug={category.slug}
+          hideCategory={hideCategory}
         />)
     }
   </div>
@@ -24,6 +25,7 @@ CategoryList.propTypes = {
     id: PropTypes.number,
     children: PropTypes.array,
   }).isRequired,
+  hideCategory: PropTypes.func.isRequired,
 };
 
 export default CategoryList;
