@@ -49,14 +49,18 @@ class ResetPopup extends Component {
           </header>
           <form className="register-popup__form">
             <div className="register-popup__field">
+              <label htmlFor="recover-password">
+                {__t('Your email or phone number')}
+              </label>
               <ErrorInput
                 className="register-popup__input"
                 value={this.state.contact}
                 onChange={this.handleChange}
                 disabled={isFetching}
-                placeholder={__t('Your email or phone number')}
+                placeholder={__t('+0000000000 or jonh@gmail.com')}
                 errors={errors.contact}
                 errorClass="login__form-error"
+                id="recover-password"
               />
             </div>
             <FetchingButton
