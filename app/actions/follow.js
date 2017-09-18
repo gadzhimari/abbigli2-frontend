@@ -59,6 +59,7 @@ export function setFollow(profileId, fromPost = true) {
       .then((response) => {
         dispatch(setFollowing(response));
         dispatch(followResponse());
+        return Promise.resolve();
       });
   };
 }

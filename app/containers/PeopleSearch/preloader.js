@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { Loading } from 'components';
-import { createQuery } from 'utils/functions';
+import { createQuery, getJsonFromStorage } from 'utils/functions';
 
 import { API_URL } from 'config';
 
@@ -37,6 +37,8 @@ const preloader = WrappedComponent => class extends PureComponent {
 
   fetchUsers = () => {
     const { routing } = this.props;
+    const token = getJsonFromStorage('id_token');
+    const config = { headers: {} };
     const currentQuery = (routing && routing.query) || {
       user: '',
       page: 1,
@@ -50,7 +52,11 @@ const preloader = WrappedComponent => class extends PureComponent {
       isFetching: true,
     });
 
-    fetch(`${API_URL}profiles/${query}`)
+    if (token) {
+      config.headers.Authorization = `JWT ${token}`;
+    }
+
+    fetch(`${API_URL}profiles/${query}`, config)
       .then((response) => {
         if (response.status >= 400) {
           throw new Error('Bad response from server');
