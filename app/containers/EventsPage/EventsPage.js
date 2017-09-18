@@ -87,6 +87,9 @@ class EventsPage extends Component {
       apiUrl: `${API_URL}geo/cities/`,
     }));
 
+  openMobileFilters = () => this.props
+    .dispatch(openPopup('filtersPopup'));
+
   render() {
     const {
       sections,
@@ -138,6 +141,14 @@ class EventsPage extends Component {
               itemProps={{ baseUrl: '/events' }}
             />
           } */}
+
+          <a
+            className="filter-open"
+            onClick={this.openMobileFilters}
+          >
+            Фильтры
+          </a>
+
           <EventsFilters
             filters={filters}
             applyFilters={applyFilters}
