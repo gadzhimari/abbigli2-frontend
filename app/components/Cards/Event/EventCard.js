@@ -14,11 +14,15 @@ const EventCard = ({ data }) => {
   return (
     <div className="event-card">
       <div className="event-card__img-wrap">
-        <img
-          className="blog-card__img"
-          src={`${THUMBS_URL}unsafe/360x250/${data.images[0].file}`}
-          alt={data.title}
-        />
+        <Link
+          to={`/event/${data.slug}`}
+        >
+          <img
+            className="blog-card__img"
+            src={`${THUMBS_URL}unsafe/360x250/${data.images[0].file}`}
+            alt={data.title}
+          />
+        </Link>
         <div className="share">
           <div className="share__icon" />
           <div className="dropdown-corner" />

@@ -24,11 +24,15 @@ class BlogCard extends Component {
     return (
       <div className="blog-card">
         <div className="blog-card__img-wrap">
-          <img
-            className="blog-card__img"
-            src={`${THUMBS_URL}unsafe/360x250/${data.images[0] ? data.images[0].file : ''}`}
-            alt={data.title}
-          />
+          <Link
+            to={`/blog/${data.slug}`}
+          >
+            <img
+              className="blog-card__img"
+              src={`${THUMBS_URL}unsafe/360x250/${data.images[0] ? data.images[0].file : ''}`}
+              alt={data.title}
+            />
+          </Link>
           <div className="share">
             <div className="share__icon" />
             <div className="dropdown-corner" />
@@ -64,7 +68,7 @@ class BlogCard extends Component {
           </Link>
           <Link
             className="blog-card__title"
-            to={`/${typesUrl[data.type]}/${data.slug}`}
+            to={`/blog/${data.slug}`}
           >
             <div className="icon icon-blog"></div>
             {data.title}

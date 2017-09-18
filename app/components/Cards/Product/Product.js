@@ -18,11 +18,15 @@ const Product = ({
   return (
     <div className="post-card">
       <div className="post-card__img-wrap">
-        <img
-          className="post-card__img"
-          src={`${THUMBS_URL}unsafe/292x221/${data.images[0].file}`}
-          alt={data.title}
-        />
+        <Link
+          to={`/post/${data.slug}`}
+        >
+          <img
+            className="post-card__img"
+            src={`${THUMBS_URL}unsafe/292x221/${data.images[0].file}`}
+            alt={data.title}
+          />
+        </Link>
         <div className="share">
           <div className="share__icon" />
           <div className="dropdown-corner" />
