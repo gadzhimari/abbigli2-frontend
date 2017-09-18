@@ -13,6 +13,7 @@ const EventFilters = ({ openCityPopup, filters, updateFilter, applyFilters }) =>
       <CitySelect
         openCityPopup={openCityPopup}
         value={filters.city}
+        updateFilter={updateFilter}
       />
       <DateRange
         updateDate={updateFilter}

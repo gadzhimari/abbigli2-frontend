@@ -70,8 +70,8 @@ class DateInput extends Component {
     } = this.props;
 
     const formate = location === 'en'
-      ? 'dddd, MMMM Do YYYY'
-      : 'dddd, Do MMMM YYYY';
+      ? 'MMMM Do YYYY'
+      : 'Do MMMM YYYY';
     const formatedValue = value && mustFormat
       ? moment(value)
         .locale(location)

@@ -41,7 +41,7 @@ const newData = [{
 class EventsPage extends Component {
   componentDidMount() {
     const { items, location } = this.props;
-    this.globalWrapper = document.querySelector('.global-wrapper');
+    this.globalWrapper = document.body;
     this.globalWrapper.classList.add('event');
 
     if (location.action === 'POP' && items.length === 0) {

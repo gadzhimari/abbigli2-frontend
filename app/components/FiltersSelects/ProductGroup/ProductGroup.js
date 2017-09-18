@@ -21,6 +21,7 @@ const ProductGroup = ({ activeSectionTitle, sections, activeFilters, updateFilte
     <ChoiceColor
       activeColor={activeFilters.color}
       onChange={updateFilter}
+      canReset
     />
     <Select
       subClass="select_distance"

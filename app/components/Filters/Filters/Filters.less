@@ -8,6 +8,18 @@
   position: relative;
   text-align: right;
 
+  input {
+    cursor: pointer;
+  }
+
+  .icon.icon-close {
+    width: 12px;
+  }
+
+  .icon.icon-arrow {
+    pointer-events: none;
+  }
+
   &-search {
     text-align: left;
     padding: 0 185px 0 170px;
@@ -45,6 +57,7 @@
     .button(default);
     width: 170px;
     margin: 15px 0 0 15px;
+    display: inline-block;
   }
 
   .price-range {

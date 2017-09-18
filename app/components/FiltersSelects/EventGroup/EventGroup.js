@@ -28,6 +28,7 @@ const EventGroup = ({
       openCityPopup={openCityPopup}
       value={activeFilters.city}
       className="select_city"
+      updateFilter={updateFilter}
     />
     <Select
       subClass="select_distance"

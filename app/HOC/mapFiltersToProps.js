@@ -44,8 +44,11 @@ const mapFiltersToProps = WrappedComponent => class MapFilters extends PureCompo
     this.state = filters;
   }
 
-  updateFilter = ({ target }) => {
-    this.updateFieldByName(target.dataset.field, target.value || target.dataset.value);
+  updateFilter = ({ currentTarget }) => {
+    this.updateFieldByName(
+      currentTarget.dataset.field,
+      currentTarget.value || currentTarget.dataset.value
+    );
   }
 
   updateFieldByName = (name, value) => {
