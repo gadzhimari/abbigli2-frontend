@@ -86,7 +86,7 @@ ListWithNew.propTypes = {
   newItems: PropTypes.arrayOf(PropTypes.object).isRequired,
   itemProps: PropTypes.shape(),
   count: PropTypes.number.isRequired,
-  ItemComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.array, PropTypes.string]).isRequired,
+  ItemComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.any]).isRequired,
 };
 
 export default ListWithNew;

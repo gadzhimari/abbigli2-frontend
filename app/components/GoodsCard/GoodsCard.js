@@ -44,11 +44,15 @@ const GoodsCard = ({
         </Link>
       </div>
       <div className="goods-card__img-wrap">
-        <img
-          className="goods-card__img"
-          src={`${THUMBS_URL}unsafe/251x207/${item.images[0].file}`}
-          alt={item.user.profile_name}
-        />
+        <Link
+          to={`/${typesUrl[item.type]}/${item.slug}`}
+        >
+          <img
+            className="goods-card__img"
+            src={`${THUMBS_URL}unsafe/251x207/${item.images[0].file}`}
+            alt={item.user.profile_name}
+          />
+        </Link>
       </div>
       <div className="goods-card__info">
         <Link
