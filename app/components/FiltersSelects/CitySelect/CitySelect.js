@@ -18,8 +18,7 @@ const CitySelect = ({ openCityPopup, value, className, updateFilter }) => (
         ? <svg
           className="icon icon-close"
           viewBox="0 0 14 14.031"
-          onMouseDown={updateFilter}
-          onTouchStart={updateFilter}
+          onClick={updateFilter}
           data-value=""
           data-field="city"
         >

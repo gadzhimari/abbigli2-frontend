@@ -29,8 +29,7 @@ const Select = (props) => {
           ? <svg
             className="icon icon-close"
             viewBox="0 0 14 14.031"
-            onMouseDown={props.updateFilter}
-            onTouchStart={props.updateFilter}
+            onClick={props.updateFilter}
             data-value=""
             data-field={props.field}
           >

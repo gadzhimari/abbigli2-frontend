@@ -7,8 +7,6 @@ import Select from './Components/Select';
 import DateInput from './Components/Date';
 import { CitySelect } from 'components/FiltersSelects';
 
-import mapFiltersToProps from '../../../HOC/mapFiltersToProps';
-
 import { openPopup } from 'ducks/Popup/actions';
 import { API_URL } from 'config';
 import { __t } from '../../../i18n/translator';
@@ -119,7 +117,6 @@ class FiltersPopup extends PureComponent {
 
 const mapStateToProps = state => ({
   sections: state.Sections.items,
-  routing: state.routing.locationBeforeTransitions,
 });
 
 const enhance = compose(connect(mapStateToProps));

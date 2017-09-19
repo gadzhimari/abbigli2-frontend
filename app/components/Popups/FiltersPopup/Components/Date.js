@@ -23,8 +23,7 @@ const DateInput = ({ label, value, onChange, name }) => (
           ? <svg
             className="icon icon-close"
             viewBox="0 0 14 14.031"
-            onMouseDown={onChange}
-            onTouchStart={onChange}
+            onClick={onChange}
             data-value=""
             data-field={name}
           >
