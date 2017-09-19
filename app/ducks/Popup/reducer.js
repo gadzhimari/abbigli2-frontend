@@ -23,6 +23,10 @@ const popupReducer = (state = initialState, action = {}) => {
         options: {},
         showOverlay: false,
       });
+    case actions.UPDATE_OPTIONS:
+      return Object.assign({}, state, {
+        options: { ...state.options, ...action.options },
+      });
     default: return state;
   }
 };

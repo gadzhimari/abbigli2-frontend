@@ -74,7 +74,7 @@ class App extends Component {
   componentDidMount() {
     if (window) {
       if (window.innerWidth < 500) {
-        window.document.querySelector('body').className = 'isMobile';
+        window.document.querySelector('body').classList.add('isMobile');
       }
     }
 

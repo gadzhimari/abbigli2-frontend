@@ -77,7 +77,8 @@ class EventsPage extends Component {
   handleChangeField = ({ target }) => this.props
     .dispatch(changeSearchField(target.name, target.value));
 
-  changeCity = city => this.props.updateFieldByName('city', city.name);
+  changeCity = city => this.props
+    .updateFieldByName('city', city.name);
 
   openSelectPopup = () => this.props
     .dispatch(openPopup('selectPopup', {
@@ -88,7 +89,12 @@ class EventsPage extends Component {
     }));
 
   openMobileFilters = () => this.props
-    .dispatch(openPopup('filtersPopup'));
+    .dispatch(openPopup('filtersPopup', {
+      filters: this.props.filters,
+      updateFilter: this.props.updateFilter,
+      applyFilters: this.props.applyFilters,
+      changeCity: this.changeCity,
+    }));
 
   render() {
     const {

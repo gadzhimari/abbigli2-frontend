@@ -17,6 +17,19 @@
   overflow: auto;
   height: 100%;
 
+  div {
+    margin-bottom: 20px;
+  }
+
+  .input {
+    font-size: 18px;
+
+    &::-webkit-input-placeholder {color:#000;}
+    &::-moz-placeholder          {color:#000;}/* Firefox 19+ */
+    &:-moz-placeholder           {color:#000;}/* Firefox 18- */
+    &:-ms-input-placeholder      {color:#000;}
+  }
+
   &__header {
     font-size: 14px;
     line-height: 18px;
@@ -28,8 +41,16 @@
   .icon-close {
     fill: #000;
     background-size: 10px 10px;
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
+    right: 15px;
+    .align-vertical;
+  }
+  .select .icon-close {
+    fill: #000;
+    background-size: 10px 10px;
+    width: 14px;
+    height: 14px;
     right: 15px;
     .align-vertical;
   }

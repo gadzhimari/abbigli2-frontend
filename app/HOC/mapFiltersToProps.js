@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import { updateOptions } from '../ducks/Popup/actions';
+
 const omitInvalidData = (object) => {
   const keys = Object.keys(object);
   const newObject = {};
@@ -23,6 +25,7 @@ const mapFiltersToProps = WrappedComponent => class MapFilters extends PureCompo
     router: PropTypes.shape({
       push: PropTypes.func,
     }).isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -44,17 +47,20 @@ const mapFiltersToProps = WrappedComponent => class MapFilters extends PureCompo
     this.state = filters;
   }
 
-  updateFilter = ({ currentTarget }) => {
+  updateFilter = (event) => {
+    event.stopPropagation();
+
     this.updateFieldByName(
-      currentTarget.dataset.field,
-      currentTarget.value || currentTarget.dataset.value
+      event.currentTarget.dataset.field,
+      event.currentTarget.value || event.currentTarget.dataset.value
     );
   }
 
   updateFieldByName = (name, value) => {
-    this.setState({
+    this.setState(prevState => this.updateFilterPopupOptions({
+      ...prevState,
       [name]: value,
-    });
+    }));
   }
 
   applyFilters = () => {
@@ -89,6 +95,12 @@ const mapFiltersToProps = WrappedComponent => class MapFilters extends PureCompo
       pathname: routing.pathname,
       query,
     });
+  }
+
+  updateFilterPopupOptions = (options) => {
+    this.props.dispatch(updateOptions({ filters: options }));
+
+    return options;
   }
 
   render() {

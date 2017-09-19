@@ -11,3 +11,8 @@ export const closePopup = () => ({
   type: actions.CLOSE_POPUP,
 });
 
+export const updateOptions = options => ({
+  type: actions.UPDATE_OPTIONS,
+  options,
+});
+
