@@ -79,6 +79,8 @@ class BlogPage extends Component {
     this.globalWrapper.classList.remove('blog', 'article');
   }
 
+  handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
+
   sendComment = (comment) => {
     const { dispatch, params } = this.props;
 
@@ -108,8 +110,6 @@ class BlogPage extends Component {
 
     return defaultImages && <Gallery images={defaultImages} />;
   }
-
-  handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
 
   render() {
     const commentsList = this.props.itemsComments;
