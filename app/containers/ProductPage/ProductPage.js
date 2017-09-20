@@ -86,11 +86,13 @@ class ProductPage extends Component {
   }
 
   sendComment = (comment) => {
-    const { dispatch } = this.props;
+    const { dispatch, params } = this.props;
 
-    dispatch(sendComment(comment));
+    dispatch(sendComment({
+      comment,
+      slug: params.slug,
+    }));
   }
-
   sendMessage = (message) => {
     const { dispatch, data } = this.props;
     const post = {

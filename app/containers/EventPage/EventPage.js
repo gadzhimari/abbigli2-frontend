@@ -72,9 +72,12 @@ class EventPage extends Component {
   handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
 
   sendComment = (comment) => {
-    const { dispatch } = this.props;
+    const { dispatch, params } = this.props;
 
-    dispatch(sendComment(comment));
+    dispatch(sendComment({
+      comment,
+      slug: params.slug,
+    }));
   }
 
   renderSlider = () => {
