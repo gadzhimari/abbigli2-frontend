@@ -1,18 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 
 import {
   TileWrap,
   Banner,
   Loading,
   HR,
-  CardUni,
   BannerBlue,
-  HomeSlider,
   Link,
-  GoodsCard,
 } from 'components';
+
+import { Uni, Goods } from 'components/Cards';
 
 import { fetchData as fetchDataBlogs } from 'ducks/Blogs';
 import { fetchData as fetchDataEvents } from 'ducks/Events';
@@ -59,11 +58,7 @@ class Home extends Component {
     return (
       <div className="container-fluid main-page">
         <Banner />
-        {/* {
-          (!isFetchingSections && itemsSections.length > 0)
-          &&
-          <HomeSlider itemsSections={itemsSections} />
-        } */}
+
         <Loading loading={isFetchingSections} />
 
         <BannerBlue
@@ -85,7 +80,7 @@ class Home extends Component {
               &&
               itemsProducts
                 .slice(0, 8)
-                .map(item => <GoodsCard
+                .map(item => <Goods
                   item={item}
                   key={`${item.slug}--top`}
                   priceTemplate={priceTemplate}
@@ -112,7 +107,7 @@ class Home extends Component {
             &&
             itemsBlogs
               .slice(0, 8)
-              .map(item => <CardUni
+              .map(item => <Uni
                 item={item}
                 key={`${item.slug}--blogs`}
                 isAuth={isAuthenticated}
@@ -138,7 +133,7 @@ class Home extends Component {
             &&
             itemsEvents
               .slice(0, 8)
-              .map(item => <CardUni
+              .map(item => <Uni
                 item={item}
                 key={`${item.slug}--events`}
                 isAuth={isAuthenticated}

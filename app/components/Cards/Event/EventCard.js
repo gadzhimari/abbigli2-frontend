@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import { pure } from 'recompose';
-import { CardUni, Share } from 'components';
+import { Share } from 'components';
 
 import { THUMBS_URL } from 'config';
 

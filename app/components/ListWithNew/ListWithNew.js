@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { NewPost, BlogCard } from 'components';
-import { Product, Event } from 'components/Cards';
+import { NewPost } from 'components';
+import { Product, Event, Blog } from 'components/Cards';
 
 import { __t } from './../../i18n/translator';
 
 const cardsByType = {
   1: Product,
-  4: BlogCard,
+  4: Blog,
   3: Event,
 };
 

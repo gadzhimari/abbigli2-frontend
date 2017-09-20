@@ -6,13 +6,14 @@ import { compose } from 'recompose';
 
 import {
   BreadCrumbs,
-  BlogCard,
   Loading,
   ListWithNew,
   PageSwitcher,
   SliderBar,
   ChoiseFilter,
 } from 'components';
+
+import { Blog } from 'components/Cards';
 
 import paginateHOC from '../../HOC/paginate';
 import BlogSection from 'components/SliderBar/components/BlogSection';
@@ -192,7 +193,7 @@ class BlogsPage extends Component {
                 newItems={newData}
                 itemProps={{ legacy: true }}
                 count={8}
-                ItemComponent={BlogCard}
+                ItemComponent={Blog}
               />
           }
           {

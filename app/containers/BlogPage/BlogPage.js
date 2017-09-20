@@ -10,11 +10,11 @@ import {
   Sidebar,
   FavoriteAdd,
   NewPost,
-  BlogCard,
   RelativePosts,
 } from 'components';
 
 import { CommentsField, CommentsList } from 'components/Comments';
+import { Blog } from 'components/Cards';
 
 import postLoader from 'App/HOC/postLoader';
 
@@ -189,7 +189,7 @@ class BlogPage extends Component {
             &&
             <RelativePosts
               items={relativePosts}
-              Component={BlogCard}
+              Component={Blog}
               slug={data.slug}
             />
           }

@@ -21,24 +21,15 @@ import {
   EventPage,
   BlogPage,
   BlogsPage,
-  SectionTag,
   SpecificPostsPage,
   PostCreate,
   RelativePage,
   Faq,
   Agreement,
   PeopleSearch,
-  Category,
 } from 'containers';
 
 import Chat from 'containers/Chat';
-
-if (IS_HOT_DEVELOPMENT) {
-  // HMR falls over when a Route uses a dynamic component resolution
-  // property (i.e. getComponent or getComponents).  As a workaround for any
-  // of your components that are resolved dynamically please require them below.
-  require('../containers/NotFound/NotFound'); // eslint-disable-line global-require
-}
 
 
 const routes = (store, token, shouldPreload) => {

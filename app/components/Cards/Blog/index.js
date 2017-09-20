@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import dateFormat from 'dateformat';
-import { CardUni, Share, Link } from 'components';
+import { Share, Link } from 'components';
 
 import { THUMBS_URL } from 'config';
 
@@ -15,11 +15,7 @@ const typesUrl = {
 
 class BlogCard extends Component {
   render() {
-    const { data, legacy } = this.props;
-
-    if (!legacy) {
-      return <CardUni item={data} />;
-    }
+    const { data } = this.props;
 
     return (
       <div className="blog-card">
@@ -91,19 +87,5 @@ class BlogCard extends Component {
     );
   }
 }
-
-BlogCard.defaultProps = {
-  data: {
-    title: '',
-    content: '',
-    images: [],
-    slug: '',
-    user: {},
-    created: null,
-    comments_num: 0,
-    likes_num: 0,
-    type: 0,
-  },
-};
 
 export default BlogCard;

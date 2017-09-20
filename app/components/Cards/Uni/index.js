@@ -15,7 +15,7 @@ import { THUMBS_URL } from 'config';
 
 import './index.styl';
 
-class CardUni extends Component {
+class Uni extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -182,4 +182,4 @@ class CardUni extends Component {
   }
 }
 
-export default connect()(CardUni);
+export default connect()(Uni);
