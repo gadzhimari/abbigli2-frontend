@@ -69,6 +69,8 @@ class EventPage extends Component {
     this.globalWrapper.classList.remove('event', 'article');
   }
 
+  handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
+
   sendComment = (comment) => {
     const { dispatch } = this.props;
 
