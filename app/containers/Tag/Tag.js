@@ -103,6 +103,14 @@ class TagSearchResults extends Component {
     });
   }
 
+  openMobileFilters = () => this.props
+    .dispatch(openPopup('filtersPopup', {
+      filters: this.props.filters,
+      updateFilter: this.props.updateFilter,
+      applyFilters: this.props.applyFilters,
+      changeCity: this.changeCity,
+    }));
+
   render() {
     const {
       routeParams,
@@ -151,7 +159,10 @@ class TagSearchResults extends Component {
                 <button className="default-button" type="button">
                   + {__t('Subscribe')}
                 </button>
-                <a className="filter-open">
+                <a
+                  className="filter-open"
+                  onClick={this.openMobileFilters}
+                >
                   {__t('Filters')}
                 </a>
               </div>

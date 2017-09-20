@@ -4,12 +4,30 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
 import EventsGroup from './Components/EventsGroup';
+import Select from './Components/Select';
+import ProductsGroup from './Components/ProductsGroup';
 
 import { openPopup } from 'ducks/Popup/actions';
 import { API_URL } from 'config';
 import { __t } from '../../../i18n/translator';
 
 import './FiltersPopup.less';
+
+const postTypes = [{
+  title: __t('Products'),
+  slug: 1,
+  id: 0,
+},
+{
+  title: __t('Blogs'),
+  slug: 4,
+  id: 1,
+},
+{
+  title: __t('Events'),
+  slug: 3,
+  id: 2,
+}];
 
 const distances = [{
   slug: 1000,
@@ -66,10 +84,34 @@ class FiltersPopup extends PureComponent {
             <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
           </svg>
         </div>
-        <EventsGroup
-          options={options}
-          openSelectPopup={this.openSelectPopup}
+        <Select
+          wrapperClass="choice-section"
+          selectClass="input"
+          value={options.type || options.filters.type}
+          options={postTypes}
+          updateFilter={options.updateFilter}
+          canReset={false}
+          field="type"
         />
+        {
+          (options.type === '3' || options.filters.type === '3')
+          &&
+          <EventsGroup
+            options={options}
+            openSelectPopup={this.openSelectPopup}
+            distances={distances}
+            sections={sections}
+          />
+        }
+        {
+          (options.type === '1' || options.filters.type === '1')
+          &&
+          <ProductsGroup
+            options={options}
+            distances={distances}
+            sections={sections}
+          />
+        }
         <button
           className="default-button"
           type="button"

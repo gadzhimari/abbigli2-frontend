@@ -10,9 +10,13 @@ const Select = (props) => {
         onChange={props.updateFilter}
         data-field={props.field}
       >
-        <option value="">
-          {props.placeholder}
-        </option>
+        {
+          props.placeholder && props.placeholder.length > 0
+          &&
+          <option value="">
+            {props.placeholder}
+          </option>
+        }
         {
           (props.options && props.options.length > 0)
           &&
@@ -25,7 +29,7 @@ const Select = (props) => {
         }
       </select>
       {
-        props.value
+        props.value && props.canReset
           ? <svg
             className="icon icon-close"
             viewBox="0 0 14 14.031"
@@ -41,6 +45,11 @@ const Select = (props) => {
       }
     </div>
   );
+};
+
+Select.defaultProps = {
+  placeholder: '',
+  canReset: true,
 };
 
 export default Select;

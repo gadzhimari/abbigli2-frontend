@@ -94,6 +94,7 @@ class EventsPage extends Component {
       updateFilter: this.props.updateFilter,
       applyFilters: this.props.applyFilters,
       changeCity: this.changeCity,
+      type: '3',
     }));
 
   render() {
