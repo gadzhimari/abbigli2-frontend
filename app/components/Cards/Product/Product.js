@@ -1,19 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+import { pure } from 'recompose';
+
 import { Link } from 'react-router';
 
-import { Share } from 'components';
+import { Share, Like } from 'components';
 import { ProductsIcons } from 'components/Icons';
 import { THUMBS_URL } from 'config';
 
+import { setLike } from 'actions/like';
+import { stagedPopup } from 'ducks/Auth/authActions';
+
 import './Product.less';
 
-const Product = ({
-  data,
-  priceTemplate,
-}) => {
+const Product = ({ data, priceTemplate, isAuth, dispatch }) => {
   const name = data.user.profile_name ? data.user.profile_name : `ID: ${data.user.id}`;
+  const like = () => {
+    if (!isAuth) {
+      dispatch(stagedPopup('register'));
+
+      return false;
+    }
+
+    dispatch(setLike(data.slug));
+
+    return true;
+  };
 
   return (
     <div className="post-card">
@@ -27,6 +41,10 @@ const Product = ({
             alt={data.title}
           />
         </Link>
+        <Like
+          liked={data.liked}
+          onClick={like}
+        />
         <div className="share">
           <div className="share__icon" />
           <div className="dropdown-corner" />
@@ -84,6 +102,12 @@ Product.propTypes = {
     images: PropTypes.array,
   }).isRequired,
   priceTemplate: PropTypes.string.isRequired,
+  isAuth: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
-export default Product;
+const mapStateToProps = state => ({
+  isAuth: state.Auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(pure(Product));

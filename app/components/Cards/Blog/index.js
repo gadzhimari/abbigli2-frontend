@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+
 import dateFormat from 'dateformat';
-import { Share, Link } from 'components';
+import { Share, Link, Like } from 'components';
 
 import { THUMBS_URL } from 'config';
+
+import { setLike } from 'actions/like';
+import { stagedPopup } from 'ducks/Auth/authActions';
 
 import './index.less';
 
@@ -14,6 +20,20 @@ const typesUrl = {
 };
 
 class BlogCard extends Component {
+  like = () => {
+    const { isAuth, dispatch, data } = this.props;
+
+    if (!isAuth) {
+      dispatch(stagedPopup('register'));
+
+      return false;
+    }
+
+    dispatch(setLike(data.slug));
+
+    return true;
+  };
+
   render() {
     const { data } = this.props;
 
@@ -29,6 +49,10 @@ class BlogCard extends Component {
               alt={data.title}
             />
           </Link>
+          <Like
+            liked={data.liked}
+            onClick={this.like}
+          />
           <div className="share">
             <div className="share__icon" />
             <div className="dropdown-corner" />
@@ -88,4 +112,20 @@ class BlogCard extends Component {
   }
 }
 
-export default BlogCard;
+BlogCard.propTypes = {
+  data: PropTypes.shape({
+    title: PropTypes.string,
+    slug: PropTypes.string,
+    price: PropTypes.number,
+    user: PropTypes.object,
+    images: PropTypes.array,
+  }).isRequired,
+  isAuth: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  isAuth: state.Auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(BlogCard);
