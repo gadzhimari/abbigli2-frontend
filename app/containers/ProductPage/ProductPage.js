@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import {
   Gallery,
@@ -228,7 +229,11 @@ class ProductPage extends Component {
                 {
                   data
                     .tags
-                    .map((item, idx) => <a className="tag" key={idx}>{item}</a>)
+                    .map((item, idx) => <Link
+                      className="tag"
+                      key={idx}
+                      to={`/find?tags=${item}&type=1`}
+                    >{item}</Link>)
                 }
               </div>
             </div>
