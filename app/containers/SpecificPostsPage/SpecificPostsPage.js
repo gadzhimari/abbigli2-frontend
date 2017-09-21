@@ -4,15 +4,22 @@ import { compose } from 'recompose';
 
 import {
   BreadCrumbs,
-  Filters,
   ListWithNew,
   PageSwitcher,
 } from 'components';
+
+import Filters from './Filters';
 import { Product } from 'components/Cards';
 import { fetchData } from 'ducks/PostsSpecific';
+import { ProductsIcons } from 'components/Icons';
+
+import { openPopup } from 'ducks/Popup/actions';
 
 import paginateHOC from '../../HOC/paginate';
+import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 import preloader from './preloader';
+
+import { __t } from '../../i18n/translator';
 
 const newData = [{
   id: 0,
@@ -33,9 +40,18 @@ const newData = [{
 }];
 
 class SpecificPostsPage extends PureComponent {
+  openMobileFilters = () => this.props
+    .dispatch(openPopup('filtersPopup', {
+      filters: this.props.filters,
+      updateFilter: this.props.updateFilter,
+      applyFilters: this.props.applyFilters,
+      type: 1,
+    }));
+
   render() {
-    const { page, priceTemplate, items, pages, paginate, routing } = this.props;
+    const { page, priceTemplate, items, pages, paginate, routing, route } = this.props;
     const crumbs = [page];
+    const Icon = ProductsIcons[route.filter] || null;
 
     return (
       <main className="main">
@@ -43,8 +59,22 @@ class SpecificPostsPage extends PureComponent {
           crumbs={crumbs}
         />
         <h1 className="section-title">
+          {Icon && <Icon />}
           {page.title}
         </h1>
+        <a
+          className="filter-open"
+          onClick={this.openMobileFilters}
+        >
+          {__t('Filters')}
+        </a>
+        <Filters
+          sections={this.props.sections}
+          updateFilter={this.props.updateFilter}
+          applyFilters={this.props.applyFilters}
+          activeFilters={this.props.filters}
+          reversePriceRange={this.props.reversePriceRange}
+        />
         <ListWithNew
           ItemComponent={Product}
           items={items}
@@ -62,7 +92,7 @@ class SpecificPostsPage extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ PostsSpecific, Settings, Auth, routing }) => ({
+const mapStateToProps = ({ PostsSpecific, Settings, Auth, routing, Sections }) => ({
   next: PostsSpecific.next,
   items: PostsSpecific.items,
   isFetching: PostsSpecific.isFetching,
@@ -70,12 +100,19 @@ const mapStateToProps = ({ PostsSpecific, Settings, Auth, routing }) => ({
   priceTemplate: Settings.data.CURRENCY,
   routing: routing.locationBeforeTransitions,
   pages: PostsSpecific.pages,
+  sections: Sections.items,
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchPosts: (specific, options) => dispatch(fetchData(specific, options)),
+  dispatch,
 });
 
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps), paginateHOC, preloader);
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  paginateHOC,
+  mapFiltersToProps,
+  preloader
+);
 
 export default enhance(SpecificPostsPage);
