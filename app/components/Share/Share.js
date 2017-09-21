@@ -10,12 +10,21 @@ const style = { display: 'inline-block' };
 export default function Share({ postLink, buttonClass }) {
   const location = window.location || {};
 
+  const fbDialog = (e) => {
+    e.preventDefault();
+
+    window.FB.ui({
+      method: 'share',
+      href: `${location.origin}${postLink}`,
+    }, () => {});
+  };
+
   return (
     <div style={style}>
       <ShareButton
         className={buttonClass}
         provider="facebook"
-        link={`https://www.facebook.com/sharer.php?u=${location.origin}${postLink}/`}
+        onClick={fbDialog}
       />
       <ShareButton
         className={buttonClass}
