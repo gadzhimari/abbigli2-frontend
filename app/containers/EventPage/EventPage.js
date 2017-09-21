@@ -170,6 +170,9 @@ class EventPage extends Component {
             popularPosts={popularPosts}
             toggleFavorite={this.handleFavorite}
             isFavorited={data.favorite}
+            seeAllUrl="/events"
+            newSectionTitle={__t('New in events')}
+            popularSectionTitle={__t('Popular in events')}
           />
           {
             relativePosts.length > 0

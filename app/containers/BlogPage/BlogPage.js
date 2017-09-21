@@ -183,6 +183,9 @@ class BlogPage extends Component {
             popularPosts={popularPosts}
             toggleFavorite={this.handleFavorite}
             isFavorited={data.favorite}
+            seeAllUrl="/blogs"
+            newSectionTitle={__t('New in blogs')}
+            popularSectionTitle={__t('Popular in blogs')}
           />
           {
             relativePosts.length > 0

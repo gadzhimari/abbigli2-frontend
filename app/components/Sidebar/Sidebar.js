@@ -20,6 +20,9 @@ const Sidebar = ({
   popularPosts,
   isFavorited,
   toggleFavorite,
+  seeAllUrl,
+  newSectionTitle,
+  popularSectionTitle,
 }) => (
     <div className="sidebar">
       <div className="sidebar__group sidebar__group_favourite">
@@ -40,13 +43,13 @@ const Sidebar = ({
       </div>
       <SidebarList
         items={newPosts}
-        title={__t('New in blogs')}
-        seeAllUrl="/blogs"
+        title={newSectionTitle}
+        seeAllUrl={seeAllUrl}
       />
       <SidebarList
         items={popularPosts}
         title={__t('Popular in blogs')}
-        seeAllUrl="/blogs?popular=true"
+        seeAllUrl={`${seeAllUrl}?popular=true`}
       />
     </div>
   );
