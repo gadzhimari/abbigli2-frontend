@@ -64,7 +64,10 @@ const Product = ({ data, priceTemplate, isAuth, dispatch }) => {
           <ProductsIcons.service className="icon icon-bag" />
           {data.title}
         </Link>
-        <a className="user">
+        <Link
+          className="user"
+          to={`/profile/${data.user.id}`}
+        >
           <div className="avatar">
             {
               data.user.avatar
@@ -82,7 +85,7 @@ const Product = ({ data, priceTemplate, isAuth, dispatch }) => {
             }
           </div>
           {name}
-        </a>
+        </Link>
         <div className="post-card__price">
           {
             priceTemplate.replace('?', data.price)
