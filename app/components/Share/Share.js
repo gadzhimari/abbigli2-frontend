@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-
+import { pure } from 'recompose';
 import ShareButton from './Buttons/ShareButton';
 import { location as lang } from 'config';
 
@@ -7,7 +7,7 @@ import './Share.styl';
 
 const style = { display: 'inline-block' };
 
-export default function Share({ postLink, buttonClass }) {
+function Share({ postLink, buttonClass }) {
   const location = window.location || {};
 
   const fbDialog = (e) => {
@@ -29,6 +29,8 @@ export default function Share({ postLink, buttonClass }) {
       <ShareButton
         className={buttonClass}
         provider="pinterest"
+        data-pin-do="buttonPin"
+        data-pin-custom="true"
         link={`https://www.pinterest.com/pin/create/button/?url=${location.origin}${postLink}/`}
       />
       {
@@ -47,3 +49,5 @@ Share.propTypes = {
   postLink: PropTypes.string.isRequired,
   buttonClass: PropTypes.string.isRequired,
 };
+
+export default pure(Share);
