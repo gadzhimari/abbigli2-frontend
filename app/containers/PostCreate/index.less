@@ -185,12 +185,17 @@
   min-height: 180px!important;
 }
 
+
 .add-tabs__select.Select {
   font-size: 16px;
   font-family: 'ClearSans';
   padding: 2px 0;
   border: 1px solid #acacac;
   border-radius: 3px;
+
+  & + .add-tabs__select {
+    margin-top: 15px;
+  }
 
   & .Select-control {
     border: none!important;

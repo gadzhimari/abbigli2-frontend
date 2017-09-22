@@ -6,7 +6,6 @@ import update from 'react/lib/update';
 import classNames from 'classnames';
 
 import { API_URL } from 'config';
-import Select from 'react-select';
 
 import { withRouter } from 'react-router';
 import { compose } from 'recompose';
@@ -17,6 +16,7 @@ import SwitchType from './Components/SwitchType';
 import ProductSpecific from './Components/ProductSpecific';
 import EventSpecific from './Components/EventSpecific';
 import ContentFields from './Components/ContentFields';
+import MultiSelect from './Components/MultiSelect';
 import postLoader from './postLoader';
 
 import { FetchingButton } from 'components';
@@ -89,12 +89,6 @@ class PostCreate extends Component {
     [target.name]: target.value,
   });
 
-  sectionsChange = (sections) => {
-    if (sections.length <= 5) {
-      this.setState({ sections: sections.map(item => (item.value)) });
-    }
-  }
-
   changeType = ({ currentTarget }) => this.setState({
     type: Number(currentTarget.dataset.type),
   });
@@ -111,13 +105,15 @@ class PostCreate extends Component {
     const { type, images, city, contentBlog } = this.state;
     const { savePost, params } = this.props;
     const keys = {
-      1: ['price', 'title', 'content', 'tags', 'sections'],
-      3: ['title', 'content', 'tags', 'sections', 'date_end', 'date_start'],
-      4: ['title', 'tags', 'sections'],
+      1: ['price', 'title', 'content', 'tags'],
+      3: ['title', 'content', 'tags', 'date_end', 'date_start'],
+      4: ['title', 'tags'],
     };
     const body = {
       images: images.map(item => item.id),
       type,
+      categories: this.sectionSelect.value,
+      sections: this.sectionSelect.value,
     };
 
     if (city && type === 3) {
@@ -181,12 +177,6 @@ class PostCreate extends Component {
       params,
     } = this.props;
 
-    const sectionsOptions = sections
-      .map(item => ({
-        value: item.id,
-        label: item.title,
-      }));
-
     const containerClassName = classNames('add-tabs__content', {
       'add-tabs__content_blog': type === 4,
       'add-tabs__content_event': type === 3,
@@ -226,7 +216,11 @@ class PostCreate extends Component {
                   onChange={this.changeValue}
                   openCityPopup={this.openSelectPopup}
                 />
-                <div className="add-tabs__form-field">
+                <MultiSelect
+                  options={sections}
+                  ref={sectionSelect => (this.sectionSelect = sectionSelect)}
+                />
+                {/* <div className="add-tabs__form-field">
                   <ErrorInput
                     className="add-tabs__select"
                     name="form-field-name"
@@ -234,7 +228,6 @@ class PostCreate extends Component {
                     id="sectionGoods"
                     options={sectionsOptions}
                     placeholder=""
-                    multi
                     onChange={this.sectionsChange}
                     errors={errors.sections}
                     wrapperClass=""
@@ -242,7 +235,7 @@ class PostCreate extends Component {
                     labelRequired
                     label={__t('Section')}
                   />
-                </div>
+                </div> */}
                 <ProductSpecific
                   shouldShow={type === 1}
                   onChange={this.changeValue}
