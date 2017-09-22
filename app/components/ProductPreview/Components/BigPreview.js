@@ -15,13 +15,14 @@ const BigPreview = (props) => {
     <div
       className={`sp-slide${activeClass}`}
       data-index={index}
-      alt={alt}
-      title={title}
     >
       <img
         className="sp-image"
         src={`${DOMAIN_URL}thumbs/unsafe/460x460/${src}`}
-      ></img>
+        alt={'Handmade'}
+        title={'Abbigli'}
+        data-pin-media={src}
+      />
     </div>
   );
 };

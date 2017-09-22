@@ -24,7 +24,8 @@ const SmallPreview = (props) => {
         src={`${DOMAIN_URL}thumbs/unsafe/100x100/${src}`}
         style={{ width: '100%' }}
         alt=""
-        title=""
+        title="Abbigli"
+        data-pin-nopin="true"
       />
     </div>
   );
