@@ -202,6 +202,7 @@ export default {
     "delete.cover": "Delete the cover",
     "save.changes": "Save changes",
     "cancel": "Cancel",
+    'Mood': 'Create the mood',
     "edit.profile": "Edit profile",
     "abbigli.about.header": "How to make an own shop of Handmade products? We know that exactly!",
     "abbigli.about.p1": "You’re creating handmade goods or you know a lot about diy stuff, and want to turn a hobby into a business? With Abbigli your dream can come true!",
