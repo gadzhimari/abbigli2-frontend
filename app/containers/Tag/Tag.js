@@ -148,9 +148,9 @@ class TagSearchResults extends Component {
                 `"${routing.query.tags.split(',').join(' ')}"`
               }
               <div className="section-title__subscribe">
-                <button className="default-button" type="button">
+                {/* <button className="default-button" type="button">
                   + {__t('Subscribe')}
-                </button>
+                </button> */}
                 <a className="filter-open">
                   {__t('Filters')}
                 </a>
