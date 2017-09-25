@@ -246,6 +246,7 @@ export default {
     'Place of event': 'Место проведения',
     'Mood': 'Создать настроение',
     'Send message': 'Отправить сообщение',
+    'Buy a gifts': 'Покупайте подарки',
     'My followers': 'Мои подписчики',
     'I following': 'Я подписан',
     'Followers': 'Подписчики',

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -40,7 +40,7 @@ const newData = [{
   },
 }];
 
-class BlogsPage extends Component {
+class BlogsPage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,6 +50,8 @@ class BlogsPage extends Component {
 
   componentDidMount() {
     this.fetchData();
+
+    document.body.classList.add('blogs-page');
   }
 
   componentDidUpdate(prevProps) {
@@ -58,6 +60,10 @@ class BlogsPage extends Component {
     if (prevProps.location.query !== location.query) {
       this.fetchData();
     }
+  }
+
+  componentWillUnmount() {
+    document.body.classList.remove('blogs-page');
   }
 
   fetchData = () => {
