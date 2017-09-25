@@ -69,10 +69,15 @@ class EventPage extends Component {
     this.globalWrapper.classList.remove('event', 'article');
   }
 
-  sendComment = (comment) => {
-    const { dispatch } = this.props;
+  handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
 
-    dispatch(sendComment(comment));
+  sendComment = (comment) => {
+    const { dispatch, params } = this.props;
+
+    dispatch(sendComment({
+      comment,
+      slug: params.slug,
+    }));
   }
 
   renderSlider = () => {
@@ -165,6 +170,9 @@ class EventPage extends Component {
             popularPosts={popularPosts}
             toggleFavorite={this.handleFavorite}
             isFavorited={data.favorite}
+            seeAllUrl="/events"
+            newSectionTitle={__t('New in events')}
+            popularSectionTitle={__t('Popular in events')}
           />
           {
             relativePosts.length > 0

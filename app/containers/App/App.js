@@ -9,7 +9,6 @@ import { DragDropContext } from 'react-dnd';
 import {
   Header,
   Search,
-  Sprites,
   AvatarBlock,
   ContentWrapper,
 } from 'components';
@@ -165,7 +164,6 @@ class App extends Component {
             isFetchingSections={isFetchingSections}
           />
         </Header>
-        <Sprites />
 
         <Popup
           dispatch={dispatch}

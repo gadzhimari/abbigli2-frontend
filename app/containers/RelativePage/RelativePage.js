@@ -11,11 +11,12 @@ import * as actions from 'ducks/Relative/actions';
 
 import {
   BreadCrumbs,
-  BlogCard,
   Loading,
   PageSwitcher,
   ListWithNew,
 } from 'components';
+
+import { Blog } from 'components/Cards';
 
 const typesUrl = {
   1: 'post',
@@ -60,7 +61,7 @@ class RelativePage extends Component {
               ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
               : <div className="cards-wrap">
                 {
-                  items.map(item => <BlogCard
+                  items.map(item => <Blog
                     key={item.id}
                     data={item}
                   />)

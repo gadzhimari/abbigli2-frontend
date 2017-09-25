@@ -10,11 +10,11 @@ import {
   Sidebar,
   FavoriteAdd,
   NewPost,
-  BlogCard,
   RelativePosts,
 } from 'components';
 
 import { CommentsField, CommentsList } from 'components/Comments';
+import { Blog } from 'components/Cards';
 
 import postLoader from 'App/HOC/postLoader';
 
@@ -79,6 +79,8 @@ class BlogPage extends Component {
     this.globalWrapper.classList.remove('blog', 'article');
   }
 
+  handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
+
   sendComment = (comment) => {
     const { dispatch, params } = this.props;
 
@@ -108,8 +110,6 @@ class BlogPage extends Component {
 
     return defaultImages && <Gallery images={defaultImages} />;
   }
-
-  handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
 
   render() {
     const commentsList = this.props.itemsComments;
@@ -183,13 +183,16 @@ class BlogPage extends Component {
             popularPosts={popularPosts}
             toggleFavorite={this.handleFavorite}
             isFavorited={data.favorite}
+            seeAllUrl="/blogs"
+            newSectionTitle={__t('New in blogs')}
+            popularSectionTitle={__t('Popular in blogs')}
           />
           {
             relativePosts.length > 0
             &&
             <RelativePosts
               items={relativePosts}
-              Component={BlogCard}
+              Component={Blog}
               slug={data.slug}
             />
           }

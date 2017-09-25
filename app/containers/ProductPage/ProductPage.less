@@ -33,8 +33,10 @@
   &__favourite {
     position: relative;
     margin-bottom: 30px;
+    text-align: right;
+
     .favourite-add {
-      position: absolute;
+      display: inline-block;
       right: 0;
       top: 0;
     }
@@ -123,5 +125,63 @@
   }
   &:active {
     background-color: #006fac;
+  }
+}
+
+@media only screen and (min-width: 961px) and (max-width: 1120px) {
+  .goods-post__favourite {
+    .favourite-add {
+      position: relative;
+      margin-top: 20px;
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .goods-post {
+    .slider-goods {
+      display: block;
+      width: 100%;
+      margin: 0 auto 40px auto;
+    }
+
+    &__info {
+      margin: 0;
+      width: 100%;
+      display: block;
+    }
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .goods-post {
+    .section-title {
+      font-size: 20px;
+      line-height: 24px;
+      text-align: left;
+
+      .icon-bag {
+        background-size: 36px 31px;
+        width: 36px;
+        height: 31px;
+      }
+    }
+
+    .favourite-add {
+      position: relative;
+      margin-top: 20px;
+    }
+
+    .breadcrumbs {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (width: 320px) {
+  .goods-post {
+    .want-button {
+      margin-right: 35px;
+    }
   }
 }

@@ -115,9 +115,9 @@ h2 {
   margin: 0 0 15px 0;
   position: relative;
   text-align: left;
-  width: auto;
 
   span {
+    font-size: 18px;
     color: @grayText;
   }
 
@@ -128,8 +128,8 @@ h2 {
     text-align: left;
   }
 
-  .default-button {
-    .button(default);
+  .icon {
+    margin-right: 10px;
   }
 
   .icon-blog {
@@ -139,7 +139,6 @@ h2 {
     height: 33px;
     display: inline-block;
     vertical-align: top;
-    margin-right: 5px;
   }
   .icon-event {
     fill: @event;
@@ -148,6 +147,39 @@ h2 {
     height: 28px;
     display: inline-block;
     vertical-align: top;
+  }
+  .icon-new {
+    fill: @new;
+    background-size: 26px 26px;
+    width: 26px;
+    height: 26px;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 3px;
+  }
+  .icon-beside {
+    fill: @beside;
+    background-size: 17px 24px;
+    width: 17px;
+    height: 24px;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 4px;
+  }
+  .icon-mood {
+    fill: @mood;
+    background-size: 26px 26px;
+    width: 26px;
+    height: 26px;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 4px;
+  }
+  .icon-popular {
+    fill: #DB0E16;
+    width: 26px;
+    vertical-align: top;
+    margin-top: 4px;
   }
 }
 
@@ -178,10 +210,29 @@ h2 {
   padding: 25px 25px 40px 25px;
 }
 
+.category-buttons {
+  margin-bottom: 20px;
+}
+
 .cards-wrap {
   font-size: 0;
-  margin: 0 -1.5%;
-  padding: 0 1%;
+  margin: 0 -1%;
+  padding: 0 0.5%;
+  &_tag {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    .default-button {
+      .button(default);
+      margin: 0 .5% 1%;
+    }
+  }
+  .tag {
+    margin: 0 .5% 1%;
+  }
+  &_users {
+    margin: 0 -1.5%;
+    padding: 0;
+  }
 }
 
 .logo-gray {
@@ -190,6 +241,14 @@ h2 {
 
 .show-more {
   .show-more();
+}
+
+@media only screen and (min-width: 761px) and (max-width: 980px) {
+  .cards-wrap {
+    &_users {
+      margin: 0 -1%;
+    }
+  }
 }
 
 @media only screen and (max-width: 760px) {
@@ -225,10 +284,12 @@ h2 {
     padding: 25px 10px 40px 10px;
   }
   .cards-wrap {
-    margin: 0;
-    padding: 0;
     &_tag {
-      margin: 0 -1% 20px -1%;
+      .tag {
+        &:nth-child(n+17){
+          display: none;
+        }
+      }
     }
   }
   .section {
@@ -237,4 +298,14 @@ h2 {
       text-align: center;
     }
   }
+}
+
+@keyframes slide-in {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes slide-menu {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
 }

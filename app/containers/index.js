@@ -1,7 +1,6 @@
 export { default as About } from './About/About';
 export { default as App } from './App/App';
 export { default as Home } from './Home/Home';
-export { default as NotFound } from './NotFound/NotFound';
 export { default as Questions } from './Questions/Questions';
 export { default as Sections } from './Sections/Sections';
 export { default as Tag } from './Tag/Tag';

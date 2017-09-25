@@ -15,33 +15,19 @@ import { THUMBS_URL } from 'config';
 
 import './index.styl';
 
-class CardUni extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      forced: {
-        like: null,
-      },
-    };
-  }
-
+class Uni extends Component {
   like = () => {
     const { isAuth, item, dispatch } = this.props;
 
     if (!isAuth) {
       dispatch(stagedPopup('register'));
 
-      return;
+      return false;
     }
 
-    this.setState({
-      forced: {
-        like: (this.state.forced.like === null
-          ? !item.liked
-          : !this.state.forced.like),
-      },
-    });
     dispatch(setLike(item.slug));
+
+    return true;
   }
 
   render() {
@@ -97,7 +83,7 @@ class CardUni extends Component {
           </Link>
 
           <Like
-            liked={this.state.forced.like === null ? liked : this.state.forced.like}
+            liked={liked}
             onClick={this.like}
           />
           <div className="share">
@@ -182,4 +168,4 @@ class CardUni extends Component {
   }
 }
 
-export default connect()(CardUni);
+export default connect()(Uni);

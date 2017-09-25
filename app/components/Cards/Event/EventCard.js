@@ -1,15 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-
+import { connect } from 'react-redux';
 import { pure } from 'recompose';
-import { CardUni, Share } from 'components';
+import { Share, Like } from 'components';
+
+import moment from 'moment';
 
 import { THUMBS_URL } from 'config';
 
+import { setLike } from 'actions/like';
+import { stagedPopup } from 'ducks/Auth/authActions';
+
 import './index.less';
 
-const EventCard = ({ data }) => {
+const EventCard = ({ data, isAuth, dispatch }) => {
+  const like = () => {
+    if (!isAuth) {
+      dispatch(stagedPopup('register'));
+
+      return false;
+    }
+
+    dispatch(setLike(data.slug));
+
+    return true;
+  };
 
   return (
     <div className="event-card">
@@ -23,6 +39,10 @@ const EventCard = ({ data }) => {
             alt={data.title}
           />
         </Link>
+        <Like
+          liked={data.liked}
+          onClick={like}
+        />
         <div className="share">
           <div className="share__icon" />
           <div className="dropdown-corner" />
@@ -51,10 +71,18 @@ const EventCard = ({ data }) => {
           dangerouslySetInnerHTML={{ __html: data.seo_description }}
         />
         <div className="event-card__date">
-          06.11.16 - 19.11.16
-        <span className="event-card__city">
-            г.Москва
-        </span>
+          {
+            moment(data.date_start)
+              .format('DD.MM.YYYY')
+          }
+          {
+            data.date_end
+            &&
+            ` - ${moment(data.date_end).format('DD.MM.YYYY')}`
+          }
+          <div className="event-card__city">
+            {data.city && data.city.name}
+          </div>
         </div>
         <Link
           className="user"
@@ -82,5 +110,21 @@ const EventCard = ({ data }) => {
   );
 };
 
-export default pure(EventCard);
+EventCard.propTypes = {
+  data: PropTypes.shape({
+    title: PropTypes.string,
+    slug: PropTypes.string,
+    price: PropTypes.number,
+    user: PropTypes.object,
+    images: PropTypes.array,
+  }).isRequired,
+  isAuth: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  isAuth: state.Auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(pure(EventCard));
 

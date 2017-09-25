@@ -1,23 +1,29 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { DOMAIN_URL } from 'config';
+
+import { THUMBS_URL } from 'config';
+import { __t } from '../../i18n/translator';
+
 
 import './OtherArticles.less';
 
 const urls = {
   3: 'event',
   4: 'blog',
+  1: 'post',
 };
 
-const OtherArticles = ({
-  articles,
-}) => {
+const OtherArticles = ({ articles }) => {
+  if (!articles || articles.length === 0) {
+    return null;
+  }
+
   return (
     <div className="other-articles">
       <a className="other-articles__item">
         <span className="other-articles__item-text">
-          Другие статьи автора
+          {__t("More from author")}
         </span>
       </a>
       {
@@ -32,7 +38,7 @@ const OtherArticles = ({
               to={`/${urls[article.type]}/${article.slug}`}
             >
               <img
-                src={`${DOMAIN_URL}thumbs/unsafe/120x103/${article.images[0].file}`}
+                src={`${THUMBS_URL}unsafe/120x103/${article.images[0].file}`}
                 alt={article.title}
               />
             </Link>
@@ -40,6 +46,10 @@ const OtherArticles = ({
       }
     </div>
   );
+};
+
+OtherArticles.propTypes = {
+  articles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default OtherArticles;
