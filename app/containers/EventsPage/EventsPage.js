@@ -42,7 +42,7 @@ class EventsPage extends Component {
   componentDidMount() {
     const { items, location } = this.props;
     this.globalWrapper = document.body;
-    this.globalWrapper.classList.add('event');
+    this.globalWrapper.classList.add('event', 'blogs-page');
 
     if (location.action === 'POP' && items.length === 0) {
       this.loadItems();
@@ -62,7 +62,7 @@ class EventsPage extends Component {
   }
 
   componentWillUnmount() {
-    this.globalWrapper.classList.remove('event');
+    this.globalWrapper.classList.remove('event', 'blogs-page');
   }
 
   loadItems = () => {
@@ -137,7 +137,7 @@ class EventsPage extends Component {
             </svg>
             {__t('Events')}
           </h1>
-          {/* {
+          {
             sections.length > 0
             &&
             <SliderBar
@@ -145,10 +145,12 @@ class EventsPage extends Component {
               items={sections}
               ItemComponent={BlogSection}
               itemWidth={120}
-              itemProps={{ baseUrl: '/events' }}
+              itemProps={{
+                baseUrl: '/events',
+                isBlog: true,
+              }}
             />
-          } */}
-
+          }
           <a
             className="filter-open"
             onClick={this.openMobileFilters}
@@ -212,7 +214,7 @@ function mapStateToProps(state) {
     start: events.searchFields.start,
     end: events.searchFields.end,
     geoCity: state.Geo.city,
-    sections: state.Sections.items,
+    sections: state.Sections.subsections,
     routing: state.routing.locationBeforeTransitions,
     pages: events.pages,
   };

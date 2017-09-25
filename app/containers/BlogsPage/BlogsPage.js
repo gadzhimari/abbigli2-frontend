@@ -156,7 +156,7 @@ class BlogsPage extends PureComponent {
             </svg>
             {__t('Blogs')}
           </h1>
-          {/* {
+          {
             sections.length > 0
             &&
             <SliderBar
@@ -164,9 +164,12 @@ class BlogsPage extends PureComponent {
               items={sections}
               ItemComponent={BlogSection}
               itemWidth={120}
-              itemProps={{ baseUrl: '/blogs' }}
+              itemProps={{
+                baseUrl: '/blogs',
+                isBlog: true,
+              }}
             />
-          } */}
+          }
           <div className="filter filter-search">
             <ChoiseFilter
               choiseList={[
@@ -229,7 +232,7 @@ const mapStateToProps = ({ Blogs, Sections, routing }) => ({
   isFetching: Blogs.isFetching,
   items: Blogs.items,
   searchValue: Blogs.searchValue,
-  sections: Sections.items,
+  sections: Sections.subsections,
   routing: routing.locationBeforeTransitions,
   pages: Blogs.pages,
 });
