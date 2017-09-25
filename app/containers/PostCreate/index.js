@@ -6,7 +6,6 @@ import update from 'react/lib/update';
 import classNames from 'classnames';
 
 import { API_URL } from 'config';
-import Select from 'react-select';
 
 import { withRouter } from 'react-router';
 import { compose } from 'recompose';
@@ -17,6 +16,7 @@ import SwitchType from './Components/SwitchType';
 import ProductSpecific from './Components/ProductSpecific';
 import EventSpecific from './Components/EventSpecific';
 import ContentFields from './Components/ContentFields';
+import MultiSelect from './Components/MultiSelect';
 import postLoader from './postLoader';
 
 import { FetchingButton } from 'components';
@@ -44,6 +44,7 @@ class PostCreate extends Component {
     this.state = {
       ...props.data,
       contentBlog: props.data.content,
+      changeCategory: false,
     };
   }
 
@@ -89,12 +90,6 @@ class PostCreate extends Component {
     [target.name]: target.value,
   });
 
-  sectionsChange = (sections) => {
-    if (sections.length <= 5) {
-      this.setState({ sections: sections.map(item => (item.value)) });
-    }
-  }
-
   changeType = ({ currentTarget }) => this.setState({
     type: Number(currentTarget.dataset.type),
   });
@@ -111,13 +106,15 @@ class PostCreate extends Component {
     const { type, images, city, contentBlog } = this.state;
     const { savePost, params } = this.props;
     const keys = {
-      1: ['price', 'title', 'content', 'tags', 'sections'],
-      3: ['title', 'content', 'tags', 'sections', 'date_end', 'date_start'],
-      4: ['title', 'tags', 'sections'],
+      1: ['price', 'title', 'content', 'tags'],
+      3: ['title', 'content', 'tags', 'date_end', 'date_start'],
+      4: ['title', 'tags'],
     };
     const body = {
       images: images.map(item => item.id),
       type,
+      categories: (this.sectionSelect && this.sectionSelect.value) || [this.state.categories[0].id],
+      sections: [1],
     };
 
     if (city && type === 3) {
@@ -139,6 +136,12 @@ class PostCreate extends Component {
     } else {
       savePost(body, typesUrl, 'POST');
     }
+  }
+
+  toggleChangable = () => {
+    this.setState({
+      changeCategory: !this.state.changeCategory,
+    });
   }
 
   openSelectPopup = () => this.props
@@ -181,12 +184,6 @@ class PostCreate extends Component {
       params,
     } = this.props;
 
-    const sectionsOptions = sections
-      .map(item => ({
-        value: item.id,
-        label: item.title,
-      }));
-
     const containerClassName = classNames('add-tabs__content', {
       'add-tabs__content_blog': type === 4,
       'add-tabs__content_event': type === 3,
@@ -226,23 +223,27 @@ class PostCreate extends Component {
                   onChange={this.changeValue}
                   openCityPopup={this.openSelectPopup}
                 />
-                <div className="add-tabs__form-field">
-                  <ErrorInput
-                    className="add-tabs__select"
-                    name="form-field-name"
-                    value={this.state.sections}
-                    id="sectionGoods"
-                    options={sectionsOptions}
-                    placeholder=""
-                    multi
-                    onChange={this.sectionsChange}
-                    errors={errors.sections}
-                    wrapperClass=""
-                    component={Select}
-                    labelRequired
-                    label={__t('Section')}
-                  />
-                </div>
+                {
+                  this.state.categories && !this.state.changeCategory
+                    ? <div className="add-tabs__form-field">
+                      <label className="label">{__t('Category')}</label>
+                      <div className="add-tabs__category-name">
+                        {this.state.categories[0].title}{' '}
+                        <span
+                          className="add-tabs__category-change"
+                          onClick={this.toggleChangable}
+                        >
+                          {__t('Change')}
+                        </span>
+                      </div>
+                    </div>
+                    : <MultiSelect
+                      options={sections}
+                      ref={sectionSelect => (this.sectionSelect = sectionSelect)}
+                      currentCategory={this.state.categories && this.state.categories[0].title}
+                      chooseCarrentCategory={this.toggleChangable}
+                    />
+                }
                 <ProductSpecific
                   shouldShow={type === 1}
                   onChange={this.changeValue}
