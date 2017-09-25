@@ -44,6 +44,7 @@ class PostCreate extends Component {
     this.state = {
       ...props.data,
       contentBlog: props.data.content,
+      changeCategory: false,
     };
   }
 
@@ -112,8 +113,8 @@ class PostCreate extends Component {
     const body = {
       images: images.map(item => item.id),
       type,
-      categories: this.sectionSelect.value,
-      sections: this.sectionSelect.value,
+      categories: (this.sectionSelect && this.sectionSelect.value) || [this.state.categories[0].id],
+      sections: [1],
     };
 
     if (city && type === 3) {
@@ -135,6 +136,12 @@ class PostCreate extends Component {
     } else {
       savePost(body, typesUrl, 'POST');
     }
+  }
+
+  toggleChangable = () => {
+    this.setState({
+      changeCategory: !this.state.changeCategory,
+    });
   }
 
   openSelectPopup = () => this.props
@@ -216,26 +223,27 @@ class PostCreate extends Component {
                   onChange={this.changeValue}
                   openCityPopup={this.openSelectPopup}
                 />
-                <MultiSelect
-                  options={sections}
-                  ref={sectionSelect => (this.sectionSelect = sectionSelect)}
-                />
-                {/* <div className="add-tabs__form-field">
-                  <ErrorInput
-                    className="add-tabs__select"
-                    name="form-field-name"
-                    value={this.state.sections}
-                    id="sectionGoods"
-                    options={sectionsOptions}
-                    placeholder=""
-                    onChange={this.sectionsChange}
-                    errors={errors.sections}
-                    wrapperClass=""
-                    component={Select}
-                    labelRequired
-                    label={__t('Section')}
-                  />
-                </div> */}
+                {
+                  this.state.categories && !this.state.changeCategory
+                    ? <div className="add-tabs__form-field">
+                      <label className="label">{__t('Category')}</label>
+                      <div className="add-tabs__category-name">
+                        {this.state.categories[0].title}{' '}
+                        <span
+                          className="add-tabs__category-change"
+                          onClick={this.toggleChangable}
+                        >
+                          {__t('Change')}
+                        </span>
+                      </div>
+                    </div>
+                    : <MultiSelect
+                      options={sections}
+                      ref={sectionSelect => (this.sectionSelect = sectionSelect)}
+                      currentCategory={this.state.categories && this.state.categories[0].title}
+                      chooseCarrentCategory={this.toggleChangable}
+                    />
+                }
                 <ProductSpecific
                   shouldShow={type === 1}
                   onChange={this.changeValue}

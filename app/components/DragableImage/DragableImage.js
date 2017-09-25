@@ -6,7 +6,7 @@ import ItemTypes from './ItemTypes';
 
 import { Loading } from 'components';
 
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 
 const cardSource = {
   beginDrag(props) {
@@ -93,7 +93,7 @@ class DragableImage extends Component {
       });
     });
 
-    image.src = `${DOMAIN_URL}thumbs/unsafe/276x184/${imageSrc}`;
+    image.src = `${THUMBS_URL}unsafe/276x184/${imageSrc}`;
   }
 
   rotateImage = ({ currentTarget }) => this.props

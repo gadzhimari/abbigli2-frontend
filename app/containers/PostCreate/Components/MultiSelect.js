@@ -7,12 +7,18 @@ import { __t } from '../../../i18n/translator';
 
 class MultiSelect extends PureComponent {
   static propTypes = {
-    /* Массив из элементов верхнего уровня */
+    /** Массив из элементов верхнего уровня */
     options: PropTypes.arrayOf(PropTypes.object),
+    /** Заголовок существующей категории поста, если есть */
+    currentCategory: PropTypes.string,
+    /** Функция возвращения к существующей категории поста */
+    chooseCarrentCategory: PropTypes.func,
   }
 
   static defaultProps = {
     options: [],
+    currentCategory: '',
+    chooseCarrentCategory: () => {},
   }
 
   constructor(props) {
@@ -87,6 +93,21 @@ class MultiSelect extends PureComponent {
               key={group.label}
               label={group.label}
             />)
+        }
+        {
+          this.props.currentCategory
+          &&
+          <div className="add-tabs__current-category">
+            <div className="add-tabs__category-name">
+              {this.props.currentCategory}{' '}
+              <span
+                className="add-tabs__category-change"
+                onClick={this.props.chooseCarrentCategory}
+              >
+                {__t('Choose')}
+              </span>
+            </div>
+          </div>
         }
       </div>
     );
