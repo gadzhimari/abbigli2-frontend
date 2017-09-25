@@ -121,6 +121,8 @@ class TagsBar extends Component {
     const { items, itemProps, ItemComponent, sliderName, itemWidth } = this.props;
     const { maxSlided, slidedRight } = this.state;
 
+    if (items.length === 0) return null;
+
     return (
       <div className={sliderName}>
         <Hummer
@@ -156,10 +158,11 @@ class TagsBar extends Component {
 TagsBar.defaultProps = {
   link: '',
   itemProps: {},
+  items: [],
 };
 
 TagsBar.propTypes = {
-  items: PropTypes.array.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object),
   sliderName: PropTypes.string.isRequired,
   itemWidth: PropTypes.number.isRequired,
   itemProps: PropTypes.object,

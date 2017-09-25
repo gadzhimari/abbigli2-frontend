@@ -25,7 +25,8 @@ class SubMenu extends PureComponent {
 
   componentDidMount() {
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
-    this.checkVisibility();
+
+    setTimeout(this.checkVisibility, 0);
 
     catList.forEach((item) => {
       item.addEventListener('mouseover', this.showCategory);
@@ -34,6 +35,7 @@ class SubMenu extends PureComponent {
     document.querySelector('.header-submenu__more').addEventListener('mouseleave', this.toggleElseMenuVisibility);
 
     window.addEventListener('resize', this.debouncedResetInvisible);
+    window.addEventListener('load', this.checkVisibility);
   }
 
   shouldComponentUpdate() {
