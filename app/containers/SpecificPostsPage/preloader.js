@@ -27,16 +27,26 @@ const preloader = WrappedComponent => class extends PureComponent {
 
     if (route.filter === 'Mood') {
       fetchPosts('mood', options);
+      return;
     }
 
     if (route.filter === 'New') {
       fetchPosts('new', options);
+      return;
     }
 
-    if (route.filter === 'Popular' || route.filter === 'Near') {
+    if (route.filter === 'Popular') {
       fetchPosts('', {
         ...options,
-        [route.filter]: true,
+        popular: true,
+      });
+      return;
+    }
+
+    if (route.filter === 'Near') {
+      fetchPosts('', {
+        ...options,
+        distance: 100,
       });
     }
   }
