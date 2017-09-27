@@ -50,8 +50,8 @@ class ProfileFeed extends Component {
     this.fetchPosts();
   }
 
-  componentWillUpdate(nextProps) {
-    if (nextProps.routes !== this.props.routes) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.params !== this.props.params) {
       this.fetchPosts();
     }
   }
