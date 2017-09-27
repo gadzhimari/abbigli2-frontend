@@ -3,26 +3,7 @@ import React, { Component } from 'react';
 
 import { Loading } from 'components';
 
-import { fetchData } from 'ducks/Profile';
-
 const ProfileLoaderDecorator = Profile => class extends Component {
-  static propTypes = {
-    authFetching: PropTypes.bool.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    isMe: PropTypes.bool.isRequired,
-    params: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    me: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    errorMessage: PropTypes.string,
-    following: PropTypes.any,
-    errors: PropTypes.any,
-    followers: PropTypes.array.isRequired,
-    routes: PropTypes.array.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired,
-    children: PropTypes.any,
-  };
-
   componentDidMount() {
     const { authFetching } = this.props;
     if (!authFetching) {
@@ -47,10 +28,10 @@ const ProfileLoaderDecorator = Profile => class extends Component {
   }
 
   fetchProfile = () => {
-    const { params, me, dispatch, isAuthenticated } = this.props;
-    const isMe = params.profile == me.id;
+    const { params, me, dispatch, isAuthenticated, loadProfile } = this.props;
+    const isMe = Number(params.profile) === me.id;
 
-    dispatch(fetchData(isMe, params.profile, isAuthenticated));
+    loadProfile(params.profile, isMe, isAuthenticated);
   }
 
   render() {

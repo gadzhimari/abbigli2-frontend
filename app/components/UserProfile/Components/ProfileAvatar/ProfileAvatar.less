@@ -1,0 +1,105 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.profile-avatar {
+  position: absolute;
+  left: 0;
+  top: -30px;
+  text-align: center;
+
+  &__wrap {
+    background: url("/img/bg/avatar.svg") center 25px no-repeat #dedede;
+    background-size: 80%;
+    width: 156px;
+    height: 156px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 10px solid #f2f2f2;
+    position: relative;
+    margin-bottom: 10px;
+  }
+  &__img {
+    max-width: 100%;
+  }
+
+  &__loader-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+  }
+
+  &__loader {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    & .loader {
+      margin: 0;
+    }
+  }
+
+  &__edit {
+    width: 100%;
+    font-family: 'ClearSansBold', sans-serif;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    display: none;
+    cursor: pointer;
+
+    .icon {
+      fill: #eaeaea;
+      display: block;
+      margin: 0 auto 10px;
+      width: 25px;
+      height: 19px;
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid #bababa;
+    left: 0;
+    top: 120px;
+    text-align: center;
+    z-index: 1;
+
+    &:before {
+      content: '';
+      display: block;
+      top: -6px;
+      position: absolute;
+      left: 50%;
+      margin-left: -3px;
+      .triangle(top, 6px, 6px, #fff);
+    }
+
+    &-item {
+      font-size: 14px;
+      color: #383838;
+      padding: 5px 0;
+      border-bottom: 1px solid #dcdcdc;
+      cursor: pointer;
+
+      &:first-child {
+        color: @blue;
+      }
+
+      &:last-child {
+        border: none;
+      }
+    }
+  }
+}

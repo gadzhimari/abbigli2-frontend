@@ -1,0 +1,114 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.profile-info {
+  background-color: #f2f2f2;
+  padding: 0 25px;
+  &__inner {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 30px 240px 30px 180px;
+    position: relative;
+    min-height: 200px;
+  }
+}
+
+.profile {
+  &-edit {
+    color: @blue;
+  }
+
+  &__name {
+    font-family: 'ClearSansBold', sans-serif;
+    font-size: 24px;
+    line-height: 28px;
+    margin-bottom: 10px;
+  }
+
+  &__about {
+    margin-bottom: 20px;
+  }
+
+  &__address {
+    position: relative;
+    padding-left: 20px;
+    .icon {
+      fill: #1d1c1c;
+      background-size: 14px 20px;
+      width: 14px;
+      height: 20px;
+      left: 0;
+      top: 2px;
+      position: absolute;
+    }
+  }
+
+  &-my {
+    position: absolute;
+    background-color: #fff;
+    right: 0;
+    top: 30px;
+    border-radius: 4px;
+    padding: 10px;
+    min-width: 220px;
+
+    &__item {
+      margin-bottom: 5px;
+      position: relative;
+      padding: 0 40px 0 25px;
+      display: block;
+      color: #000;
+      &:hover {
+        color: @blue;
+
+        & .icon {
+          fill: @blue;
+        }
+      }
+
+      .icon {
+        fill: #cecdcb;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -6px;
+
+        &-feed {
+          width: 12px;
+          height: 12px;
+        }
+        &-messages {
+          width: 14px;
+          height: 13px;
+        }
+        &-user {
+          width: 12px;
+          height: 13px;
+        }
+        &-subscribers {
+          width: 17px;
+          height: 16px;
+        }
+      }
+
+      &-number {
+        color: @grayText;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      &--active {
+        color: @blue;
+        .icon {
+          fill: @blue;
+        }
+      }
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+}

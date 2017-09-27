@@ -77,7 +77,7 @@ class MessagePopup extends Component {
               >
                 {__t('Your message to')}
                 {' '}
-                {options.name}
+                {options.name || options.profile_name || `User id: ${options.id}`}
               </label>
               <textarea
                 id="message"

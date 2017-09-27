@@ -6,7 +6,6 @@ import Avatar from './Avatar';
 import './UserProfile.styl';
 import { API_URL, location } from 'config';
 
-import { setErrors, setProfile, updateBanner } from 'ducks/Profile';
 import { setMe } from 'ducks/Auth/authActions/fetchMe';
 
 import { __t } from './../../i18n/translator';

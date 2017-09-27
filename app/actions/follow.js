@@ -1,6 +1,5 @@
 import { API_URL } from 'config';
 
-import { setFollowing } from 'ducks/Profile';
 import { setNewFollowStatus } from 'ducks/BlogPost';
 import { getJsonFromStorage } from 'utils/functions';
 
@@ -57,7 +56,6 @@ export function setFollow(profileId, fromPost = true) {
     return fetch(`${API_URL}profiles/${profileId}/follow/`, config)
       .then(res => res.json())
       .then((response) => {
-        dispatch(setFollowing(response));
         dispatch(followResponse());
         return Promise.resolve();
       });

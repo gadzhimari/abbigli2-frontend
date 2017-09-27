@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Link } from 'components';
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 
 const Recipient = ({
   data,
@@ -16,12 +16,12 @@ const Recipient = ({
         {
           data.avatar
             ? <img
-              src={`${DOMAIN_URL}thumbs/unsafe/70x70/${data.avatar}`}
-              alt={data.name}
+              src={`${THUMBS_URL}unsafe/70x70/${data.avatar}`}
+              alt={data.name || data.profile_name || `User id: ${data.id}`}
             />
             : <img
               src={'/images/svg/avatar.svg'}
-              alt={data.name}
+              alt={data.name || data.profile_name || `User id: ${data.id}`}
             />
         }
       </div>
@@ -29,7 +29,7 @@ const Recipient = ({
         <div
           className="recipient__name"
         >
-          {data.name}
+          {data.name || data.profile_name || `User id: ${data.id}`}
         </div>
         <div className="mobile-search__people-city recipient__city">
           {(data.city && data.city.name)}

@@ -15,7 +15,6 @@ import { withRouter } from 'react-router';
 import redirectHOC from '../../HOC/redirectHOC';
 
 import { fetchData as fetchDataPosts } from 'ducks/ProfilePosts';
-import { setProfile } from 'ducks/Profile';
 
 import { API_URL } from 'config';
 
@@ -29,12 +28,12 @@ class ProfileFeed extends Component {
     this.page = 1;
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchPosts();
   }
 
-  componentWillUpdate(nextProps) {
-    if (nextProps.routes !== this.props.routes) {
+  componentDidUpdate(nextProps) {
+    if (nextProps.params !== this.props.params) {
       this.fetchPosts();
     }
   }
@@ -74,7 +73,6 @@ class ProfileFeed extends Component {
     fetch(`${API_URL}my-profile/`, config)
       .then(res => res.json())
       .then(responseData => {
-        dispatch(setProfile(responseData));
       })
       .catch(err => console.log("Error: ", err));
   }

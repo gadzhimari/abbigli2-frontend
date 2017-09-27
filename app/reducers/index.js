@@ -19,7 +19,7 @@ import Support from 'ducks/Support';
 import Dialogs from 'ducks/Dialogs';
 import Geo from 'ducks/Geo';
 import Posts from 'ducks/Posts';
-import Profile from 'ducks/Profile';
+import Profile from 'ducks/Profile/';
 import Seo from 'ducks/Seo';
 import Settings from 'ducks/Settings';
 import Search from 'ducks/Search';
