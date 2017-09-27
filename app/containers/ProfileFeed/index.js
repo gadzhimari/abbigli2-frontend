@@ -46,7 +46,7 @@ class ProfileFeed extends Component {
     this.page = 1;
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchPosts();
   }
 
