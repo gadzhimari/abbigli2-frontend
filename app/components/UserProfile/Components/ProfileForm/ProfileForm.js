@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { API_URL } from 'config';
-import { getJsonFromStorage } from 'utils/functions';
 
 import './ProfileForm.less';
 
@@ -10,10 +9,15 @@ class ProfileForm extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      city: props.data.city,
+      city: props.data.city && {
+        name: `${props.data.city.name}, ${props.data.city.country.name}`,
+      },
       data: {
         profile_name: props.data.profile_name,
         info: props.data.info,
+        city: props.data.city
+          ? props.data.city.id
+          : '',
       },
     };
   }
@@ -40,9 +44,30 @@ class ProfileForm extends PureComponent {
     });
   }
 
+  handleChangeCity = (city) => {
+    this.setState({
+      city,
+      data: {
+        ...this.state.data,
+        city: city.id,
+      },
+    });
+  }
+
+  openSelectPopup = () => {
+    const { openPopup } = this.props;
+
+    openPopup('selectPopup', {
+      onClickItem: this.handleChangeCity,
+      title: 'city',
+      async: true,
+      apiUrl: `${API_URL}geo/cities/`,
+    });
+  };
+
   render() {
     const { data, city } = this.state;
-    const cityValue = city && `${city.name}, ${city.country.name}`;
+    const cityValue = (city && city.name) || '';
 
     return (
       <form className="profile-form" onSubmit={this.save}>
@@ -61,7 +86,10 @@ class ProfileForm extends PureComponent {
           name="info"
           onChange={this.handleChange}
         />
-        <div className="input-city">
+        <div
+          className="input-city"
+          onClick={this.openSelectPopup}
+        >
           <svg className="icon icon-pin" viewBox="40.3 168.9 14 20">
             <path d="M52.2,170.9c-1.3-1.3-3.1-2.1-5-2.1c-1.9,0-3.6,0.7-5,2.1c-2.4,2.4-2.8,7.1-0.7,9.8l5.6,8.1l5.6-8.1 C55,178,54.7,173.4,52.2,170.9z M47.3,178.4c-1.4,0-2.6-1.1-2.6-2.6s1.1-2.6,2.6-2.6c1.4,0,2.6,1.1,2.6,2.6S48.7,178.4,47.3,178.4z" />
           </svg>

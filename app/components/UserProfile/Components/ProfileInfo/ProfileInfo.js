@@ -42,6 +42,7 @@ const ProfileInfo = ({
               data={data}
               handleEditing={handleEditing}
               saveChanges={saveChanges}
+              openPopup={openPopup}
             />
             : <div>
               <ProfileField
