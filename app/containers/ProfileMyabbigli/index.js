@@ -25,11 +25,11 @@ class ProfileMyabbigli extends Component {
     ]).then(() => callback());
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchPosts();
   }
 
-  componentWillUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (prevProps.params !== this.props.params) {
       this.fetchPosts();
     }
