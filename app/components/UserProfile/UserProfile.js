@@ -3,13 +3,6 @@ import React, { PureComponent } from 'react';
 import ProfileHeader from './Components/ProfileHeader';
 import ProfileInfo from './Components/ProfileInfo';
 
-import { setFollow } from 'actions/follow';
-
-
-import { API_URL } from 'config';
-import { getJsonFromStorage } from 'utils/functions';
-import { setMe } from 'ducks/Auth/authActions/fetchMe';
-
 import { __t } from './../../i18n/translator';
 
 import './UserProfile.less';
