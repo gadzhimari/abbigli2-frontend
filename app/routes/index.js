@@ -27,6 +27,7 @@ import {
   Faq,
   Agreement,
   PeopleSearch,
+  ProfileAbout,
 } from 'containers';
 
 import Chat from 'containers/Chat';
@@ -69,6 +70,7 @@ const routes = (store, token, shouldPreload) => {
         <IndexRoute component={ProfileMyabbigli} />
         <Route path="favorites" component={ProfileFavorites} />
         <Route path="feed" component={ProfileFeed} />
+        <Route path="about" component={ProfileAbout} />
         <Route path="messages" component={ProfileMessages} />
       </Route>
 

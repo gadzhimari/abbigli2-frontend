@@ -45,7 +45,7 @@ class ProfileMyabbigli extends Component {
     const { isFetchingPosts, itemsPosts, dispatch, isAuth, isMe } = this.props;
 
     return (
-      <div id="profile_content">
+      <div className="profile_content">
 
         {
           isMe

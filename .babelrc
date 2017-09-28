@@ -6,6 +6,7 @@
   ],
   "plugins": [
     "transform-decorators-legacy",
-    "babel-plugin-webpack-alias"
+    "babel-plugin-webpack-alias",
+    "jsx-control-statements"
   ]
 }

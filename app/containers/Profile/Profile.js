@@ -146,14 +146,29 @@ class Profile extends Component {
                 to="/chat"
                 className={"profile-submenu__item feed " + (childrenPath === 'messages' ? 'active' : '')}
               >
-
                 <div className="icon-wrap">
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">
                     <path d="M9,0H1C0.45,0,0.005,0.449,0.005,1L0,7c0,0.55,0.45,1,1,1h8c0.55,0,1-0.45,1-1V1C10,0.449,9.55,0,9,0z M9,2
                       L5,4.5L1,2V1l4,2.5L9,1V2z"/>
-</svg>
+                  </svg>
                 </div>
                 {__t('Messages')}
+              </Link>)
+            }
+            {
+              (<Link
+                to={`/profile/${data.id}/about`}
+                className={"profile-submenu__item feed " + (childrenPath === 'about' ? 'active' : '')}
+              >
+                <div className="icon-wrap">
+                  <svg className="icon" viewBox="0 0 22.2 25.6">
+                    <g id="XMLID_44_">
+                      <path id="XMLID_61_" className="st0" d="M11.1,14C6.6,14,2.6,15.3,0,17.3c1.3,4.8,5.8,8.3,11.1,8.3c5.3,0,9.8-3.5,11.1-8.3 C19.6,15.3,15.6,14,11.1,14z" />
+                      <circle id="XMLID_77_" className="st0" cx="11.1" cy="6.3" r="6.3" />
+                    </g>
+                  </svg>
+                </div>
+                {__t('About')}
               </Link>)
             }
           </div>

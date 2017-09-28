@@ -196,7 +196,7 @@ class ProfileFeed extends Component {
     </div>);
 
     return (
-      <div id="profile_content">
+      <div className="profile_content">
         {
           isFetchingPosts
             ? <Loading

@@ -59,6 +59,7 @@ const profileReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         data: action.data,
+        isSaving: false,
       };
     }
     default: {
