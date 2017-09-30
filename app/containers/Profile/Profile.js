@@ -168,7 +168,7 @@ class Profile extends Component {
                     </g>
                   </svg>
                 </div>
-                {__t('About')}
+                {__t('About me')}
               </Link>)
             }
           </div>

@@ -17,9 +17,15 @@
       &:first-child {
         .button(default);
         margin-right: 15px;
+        text-transform: none;
       }
       &:last-child {
         .button(cancelgoods);
+        text-transform: none;
+
+        .icon-close {
+          display: none;
+        }
       }
     }
   }
@@ -68,5 +74,34 @@
   .profile-edit {
     opacity: 0.3;
     pointer-events: none;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .profile-form .default-button:last-child {
+    font-size: 0;
+    position: relative;
+    width: 37px;
+    min-width: initial;
+
+    & .icon-close {
+      width: 18px;
+      height: 18px;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      fill: #fff;
+    }
+  }
+
+  .profile__submenu .profile-submenu__item {
+    font-size: 0;
+
+    .icon-wrap, .icon {
+      width: 24px;
+      height: 24px;
+    }
   }
 }

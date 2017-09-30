@@ -13,6 +13,7 @@
     .default-button {
       margin: 25px 0;
       border-radius: 4px;
+      text-transform: none;
     }
 
     &-textarea {
@@ -112,5 +113,74 @@
 
   &:last-child {
     margin-right: 0;  
+  }
+}
+
+@media screen and (max-width: 1105px) {
+  .input-city {
+    max-width: initial;
+  }
+
+  .profile-form__buttons {
+    position: relative;
+    margin-top: 15px;
+  }
+}
+
+@media screen and (max-width: 826px) {
+  .profile-my {
+    font-size: 0;
+    width: 100%;
+    max-width: 50px;
+    min-width: 50px;
+    text-align: center;
+  }
+
+  .profile-my__item {
+    padding: 0;
+  }
+
+  .profile-my__item .icon {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .profile-info__inner {
+    padding: 30px 60px 30px 180px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .profile-header {
+    height: 200px;
+  }
+
+  .profile-info__inner {
+    padding: 174px 0px 30px 0px;
+  }
+
+  .profile-avatar {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .profile-my {
+    max-width: initial;
+    position: relative;
+    margin-top: 15px;
+  }
+
+  .profile-my__item-number {
+    font-size: 14px;
+  }
+
+  .profile-my__item {
+    display: inline-block;
+    width: 25%;
+
+    .icon {
+      width: 18px;
+      height: 18px;
+    }
   }
 }

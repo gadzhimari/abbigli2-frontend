@@ -496,7 +496,7 @@
 }
 
 @media only screen and (max-width: 414px) {
-  .tag-card,
+  .tag-card.legacy,
   .card-add-wrap {
     margin: 0 auto 10px;
     display: block;
@@ -514,7 +514,7 @@
     line-height: 24px;
   }
   .tag-card__img {
-    height: 290px!important;
+    height: auto!important;
   }
   .popup .default-button,
   .popup .cancel-button {
@@ -1053,7 +1053,7 @@
 }
 
 .isMobile .my-showcase .tag-card__img {
-  height: 350px!important;
+  height: auto!important;
 }
 
 .isMobile .profile-submenu__item {
@@ -1106,12 +1106,6 @@
   background-size: 24px 24px;
   width: 24px;
   height: 24px;
-}
-
-.isMobile .profile-submenu__item.favorites .icon {
-  background-size: 24px 22px;
-  width: 24px;
-  height: 22px;
 }
 
 .isMobile .profile-submenu__item.feed .icon {

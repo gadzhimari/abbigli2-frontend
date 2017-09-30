@@ -62,6 +62,7 @@ export default {
     "tags": "Теги",
     "Your skype": "Ваш skype",
     "Save": "Сохранить",
+    "About me": "О себе",
     "Your phone number": "Ваш номер телефона",
     "new.in.blogs": "Новое в блогах",
     "other.articles.of.the.author": "другие статьи автора",
