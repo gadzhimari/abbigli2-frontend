@@ -63,6 +63,7 @@ export default {
     "Your skype": "Ваш skype",
     "Save": "Сохранить",
     "About me": "О себе",
+    "Publish": "Опубликовать",
     "Your phone number": "Ваш номер телефона",
     "new.in.blogs": "Новое в блогах",
     "other.articles.of.the.author": "другие статьи автора",
