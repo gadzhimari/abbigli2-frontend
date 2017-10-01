@@ -136,6 +136,7 @@ class EventsPage extends Component {
               <path d="M18.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8s-1.8,0.8-1.8,1.8v3.3 C16.8,6.1,17.6,6.9,18.6,6.9z" />
             </svg>
             {__t('Events')}
+            {section && `- ${section.title}`}
           </h1>
           {
             sections.length > 0
