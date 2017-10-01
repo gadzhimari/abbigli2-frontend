@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { pure } from 'recompose';
+
 import { ErrorInput } from 'components/Inputs';
 import { ChoiceColor } from 'components/FiltersSelects';
 
@@ -14,7 +16,7 @@ const ProductSpecific = ({ shouldShow, priceValue, errors, onChange, colorValue 
   const changeColor = ({ target }) => onChange({
     target: {
       name: 'color',
-      value: target.dataset.color,
+      value: target.getAttribute('data-value'),
     },
   });
 
@@ -52,4 +54,4 @@ ProductSpecific.propTypes = {
   }).isRequired,
 };
 
-export default ProductSpecific;
+export default pure(ProductSpecific);
