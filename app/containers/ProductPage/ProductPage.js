@@ -208,7 +208,9 @@ class ProductPage extends Component {
                 {data.content}
               </p>
               <div className="goods-post__buttons">
-                <div className="goods-post__price">950 руб.</div>
+                <div className="goods-post__price">
+                  {priceTemplate && priceTemplate.replace('?', data.price)}
+                </div>
                 <button
                   className="want-button"
                   onClick={this.showOrHideWants}
