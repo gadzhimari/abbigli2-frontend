@@ -4,6 +4,7 @@ export default {
     "users.for.search": "Поиск людей",
     "Search": "Поиск",
     "handmade": "хендмейд",
+    "Likes": "Лайки",
 
     "message.to": "Сообщение для",
     "send.message": "ОТПРАВИТЬ СООБЩЕНИЕ",

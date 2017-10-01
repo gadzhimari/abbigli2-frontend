@@ -47,18 +47,6 @@ class ProfileLinks extends PureComponent {
       <div className="profile-my">
         <Link
           className="profile-my__item"
-          to={`/profile/${data.id}/feed`}
-        >
-          <svg className="icon icon-feed" viewBox="0 0 24.1 23.8">
-            <rect x="0" y="0" className="st0" width="10" height="11.7" />
-            <rect x="0" y="16.3" className="st0" width="10" height="7.6" />
-            <rect x="14.1" y="12.1" className="st0" width="10" height="11.7" />
-            <rect x="14.1" y="0" className="st0" width="10" height="7.6" />
-          </svg>
-          {__t('My feed')}
-        </Link>
-        <Link
-          className="profile-my__item"
           to="/chat"
         >
           <svg className="icon icon-messages" viewBox="0 0 25 23">
@@ -103,6 +91,17 @@ class ProfileLinks extends PureComponent {
           </div>
           {__t('My following')}
         </Link>
+        <div
+          className="profile-my__item"
+        >
+          <svg className="icon icon-like" viewBox="0 0 34 31.193">
+            <path d="M17,31.193l-2.467-2.242C5.778,21.011,0,15.774,0,9.35C0,4.113,4.113,0,9.351,0C12.308,0,15.147,1.377,17,3.552 C18.853,1.377,21.691,0,24.649,0C29.886,0,34,4.113,34,9.35c0,6.425-5.781,11.661-14.537,19.618L17,31.193z"/>
+          </svg>
+          {__t('Likes')}
+          <div className="profile-my__item-number">
+            {data.likes_num}
+          </div>
+        </div>
       </div >
     );
   }
