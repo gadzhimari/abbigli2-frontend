@@ -11,6 +11,7 @@ import './AuthorInfo.less';
 const AuthorInfo = ({
   data,
   dispatch,
+  showSubscribeButton,
 }) => {
   const subscribe = () => dispatch(setFollow(data.id));
 
@@ -47,17 +48,19 @@ const AuthorInfo = ({
               : 'Город не указан'
           }
         </div>
-        <button
-          className="default-button"
-          type="button"
-          onClick={subscribe}
-        >
-          {
-            data.is_subscribed
-              ? __t('Unsubscribe')
-              : __t('Subscribe')
-          }
-        </button>
+        <If condition={showSubscribeButton}>
+          <button
+            className="default-button"
+            type="button"
+            onClick={subscribe}
+          >
+            {
+              data.is_subscribed
+                ? __t('Unsubscribe')
+                : __t('Subscribe')
+            }
+          </button>
+        </If>
       </div>
     </div >
   );
