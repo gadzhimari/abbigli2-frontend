@@ -23,6 +23,7 @@ const ProfileInfo = ({
   uploadImage,
   uploadingImage,
   saveChanges,
+  deleteImage,
 }) => (
     <div className="profile-info">
       <div className="profile-info__inner">
@@ -35,6 +36,7 @@ const ProfileInfo = ({
           isEditing={isEditing}
           uploadImage={uploadImage}
           uploadingImage={uploadingImage}
+          deleteImage={deleteImage}
         />
         {
           isEditing

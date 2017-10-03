@@ -5,7 +5,7 @@ export default {
     "Search": "Поиск",
     "handmade": "хендмейд",
     "Likes": "Лайки",
-
+    "Your city": "Ваш город",
     "message.to": "Сообщение для",
     "send.message": "ОТПРАВИТЬ СООБЩЕНИЕ",
     

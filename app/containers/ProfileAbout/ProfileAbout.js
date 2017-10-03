@@ -26,6 +26,11 @@ class ProfileAbout extends PureComponent {
     isMe: Type.bool,
     saveChanges: Type.func,
     isSaving: Type.bool,
+    errors: Type.shape({
+      phone: Type.arrayOf(Type.string),
+      email: Type.arrayOf(Type.string),
+      vk_account: Type.arrayOf(Type.string),
+    }),
   }
 
   static defaultProps = {
@@ -33,6 +38,7 @@ class ProfileAbout extends PureComponent {
     isMe: false,
     saveChanges: () => {},
     isSaving: false,
+    errors: {},
   }
 
   state = {
@@ -56,15 +62,14 @@ class ProfileAbout extends PureComponent {
       ...this.editingContact.value,
       ...this.editingSocial.value,
     };
-    console.dir(this.editingContact, this.editingSocial);
     this.props.saveChanges(data)
-    .then(() => this.cancelEditing());
+      .then(status => status && this.cancelEditing());
   }
 
   cancelEditing = () => this.handleEditing(false);
 
   render() {
-    const { data, isMe, isSaving } = this.props;
+    const { data, isMe, isSaving, errors } = this.props;
 
     return (
       <div className="profile_content">
@@ -74,9 +79,20 @@ class ProfileAbout extends PureComponent {
           <AboutSocial isMe={isMe} data={data} />
         </If>
         <If condition={this.state.isEditing && isMe}>
-          <EditingInfo ref={(info) => { this.editingInfo = info; }} />
-          <EditingContact data={data} ref={(contact) => { this.editingContact = contact; }} />
-          <EditingSocial data={data} ref={(social) => { this.editingSocial = social; }} />
+          <EditingInfo
+            ref={(info) => { this.editingInfo = info; }}
+            errors={errors}
+          />
+          <EditingContact
+            data={data}
+            ref={(contact) => { this.editingContact = contact; }}
+            errors={errors}
+          />
+          <EditingSocial
+            data={data}
+            ref={(social) => { this.editingSocial = social; }}
+            errors={errors}
+          />
           <SaveButtons
             handleCancel={this.cancelEditing}
             handleSave={this.handleSaveChanges}
@@ -91,6 +107,7 @@ class ProfileAbout extends PureComponent {
 const mapState = state => ({
   data: state.Profile.data,
   isSaving: state.Profile.isSaving,
+  errors: state.Profile.errors,
   me: state.Auth.me,
 });
 
