@@ -34,6 +34,10 @@ class ProfileAvatar extends PureComponent {
     });
   }
 
+  handleDeleteImage = () => {
+    this.props.deleteImage(UPLOAD_INPUT_NAME);
+  }
+
   focusOnFileInput = () => {
     this.fileInput.click();
   }
@@ -107,7 +111,10 @@ class ProfileAvatar extends PureComponent {
           >
             {__t('Upload new')}
           </div>
-          <div className="profile-avatar__dropdown-item">
+          <div
+            className="profile-avatar__dropdown-item"
+            onClick={this.handleDeleteImage}
+          >
             {__t('Delete')}
           </div>
           <div
@@ -147,6 +154,7 @@ ProfileAvatar.propTypes = {
   openMessagePopup: PropTypes.func.isRequired,
   uploadImage: PropTypes.func.isRequired,
   handleEditing: PropTypes.func.isRequired,
+  deleteImage: PropTypes.func.isRequired,
 };
 
 ProfileAvatar.defaultProps = {

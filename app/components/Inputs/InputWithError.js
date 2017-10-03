@@ -28,6 +28,10 @@ class InputWithError extends Component {
     showError: false,
   })
 
+  get mustShowErrors() {
+    return this.state.showError && this.props.errors && this.props.errors.length;
+  }
+
   render() {
     const {
       component: RenderInput,
@@ -37,6 +41,7 @@ class InputWithError extends Component {
       errorClass,
       label,
       id,
+      Icon,
       labelRequired,
       wrapperErrorClass,
     } = this.props;
@@ -68,29 +73,24 @@ class InputWithError extends Component {
             }
           </label>
         }
+        <If condition={Icon}>
+          {Icon}
+        </If>
         <RenderInput
           onFocus={this.hideError}
           className={inputClass}
           {...omitedProps}
         />
-        {
-          this.state.showError
-          &&
-          errors
-          &&
-          errors.length
-          &&
-          <div>
-            {
-              errors.map((error, key) => (<div
-                className={errorClass}
-                key={key}
-              >
-                {error}
-              </div>))
-            }
-          </div>
-        }
+        <If condition={this.mustShowErrors}>
+          {
+            errors.map(error => (<div
+              className={errorClass}
+              key={error}
+            >
+              {error}
+            </div>))
+          }
+        </If>
       </div>
     );
   }
@@ -105,6 +105,7 @@ InputWithError.defaultProps = {
   label: null,
   id: '',
   labelRequired: false,
+  Icon: null,
 };
 
 InputWithError.propTypes = {
@@ -121,6 +122,7 @@ InputWithError.propTypes = {
     PropTypes.element,
   ]),
   errors: PropTypes.any,
+  Icon: PropTypes.node,
 };
 
 

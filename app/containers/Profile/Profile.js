@@ -14,7 +14,7 @@ import './Profile.styl';
 import { __t } from './../../i18n/translator';
 
 import ProfileLoader from './components/ProfileLoaderDecorator';
-import { uploadImage, loadProfile, saveChanges } from 'ducks/Profile/actions';
+import { uploadImage, loadProfile, saveChanges, deleteImage } from 'ducks/Profile/actions';
 import { openPopup } from 'ducks/Popup/actions';
 import { setFollow } from 'actions/follow';
 
@@ -242,6 +242,8 @@ const mapDispatchToProps = dispatch => ({
   openPopup: (...args) => dispatch(openPopup(...args)),
   /** Используетс для подписки на пользователей */
   follow: id => dispatch(setFollow(id, false)),
+  /** Используется для удаления выбранного изображения профиля */
+  deleteImage: name => dispatch(deleteImage(name)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileLoader(Profile));

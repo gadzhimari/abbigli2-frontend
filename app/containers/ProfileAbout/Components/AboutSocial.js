@@ -7,7 +7,15 @@ import ShareButton from '../../../components/Share/Buttons/ShareButton';
 
 import { __t } from '../../../i18n/translator';
 
+import { location } from 'config';
+
 const AboutSocial = ({ data, isMe }) => {
+  const isRuLocation = location === 'ru';
+  const someNetworkExist = ['vk_account', 'ok_account', 'fb_account', 'google_account']
+    .some(network => !!data[network]);
+
+  if (!someNetworkExist) return null;
+
   return (
     <div className="profile-about__contact">
       <h4 className="profile-about__contact-header">
@@ -18,50 +26,58 @@ const AboutSocial = ({ data, isMe }) => {
         }
       </h4>
       <div className="profile-about__social-items">
-        <a
-          className="profile-about__social-item"
-          href={data.vk_account}
-        >
-          <ShareButton
-            className="social-btn vkontakte"
-            provider="vk"
-            link={data.vk_account}
-          />
-          {'Вконтакте'}
-        </a>
-        <a
-          className="profile-about__social-item"
-          href={data.ok_account}
-        >
-          <ShareButton
-            className="social-btn"
-            provider="odnoklassniki"
-            link={data.ok_account}
-          />
-          {'Одноклассники'}
-        </a>
-        <a
-          className="profile-about__social-item"
-          href={data.fb_account}
-        >
-          <ShareButton
-            className="social-btn"
-            provider="facebook"
-            link={data.fb_account}
-          />
-          {'Facebook'}
-        </a>
-        <a
-          className="profile-about__social-item"
-          href={data.google_account}
-        >
-          <ShareButton
-            className="social-btn google-plus"
-            provider="google"
-            link={data.google_account}
-          />
-          {'Google plus'}
-        </a>
+        <If condition={data.vk_account && isRuLocation}>
+          <a
+            className="profile-about__social-item"
+            href={data.vk_account}
+          >
+            <ShareButton
+              className="social-btn vkontakte"
+              provider="vk"
+              link={data.vk_account}
+            />
+            {'Вконтакте'}
+          </a>
+        </If>
+        <If condition={data.ok_account && isRuLocation}>
+          <a
+            className="profile-about__social-item"
+            href={data.ok_account}
+          >
+            <ShareButton
+              className="social-btn"
+              provider="odnoklassniki"
+              link={data.ok_account}
+            />
+            {'Одноклассники'}
+          </a>
+        </If>
+        <If condition={data.fb_account}>
+          <a
+            className="profile-about__social-item"
+            href={data.fb_account}
+          >
+            <ShareButton
+              className="social-btn"
+              provider="facebook"
+              link={data.fb_account}
+            />
+            {'Facebook'}
+          </a>
+        </If>
+        <If condition={data.google_account}>
+          <a
+            className="profile-about__social-item"
+            href={data.google_account}
+          >
+            <ShareButton
+              className="social-btn google-plus"
+              provider="google"
+              link={data.google_account}
+            />
+            {'Google plus'}
+          </a>
+        </If>
       </div>
     </div>
   );

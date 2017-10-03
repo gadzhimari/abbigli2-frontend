@@ -15,6 +15,8 @@ const initialState = {
   isMe: false,
   /** Статус сохранения данных профиля */
   isSaving: false,
+  /** Ошибки редактирования профиля */
+  errors: {},
 };
 
 const profileReducer = (state = initialState, action = {}) => {
@@ -60,6 +62,22 @@ const profileReducer = (state = initialState, action = {}) => {
         ...state,
         data: action.data,
         isSaving: false,
+      };
+    }
+    case (types.IMAGE_DELETE_REQUEST): {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ...action.data,
+        },
+      };
+    }
+    case (types.SAVE_CHANGES_ERROR): {
+      return {
+        ...state,
+        isSaving: false,
+        errors: action.data,
       };
     }
     default: {

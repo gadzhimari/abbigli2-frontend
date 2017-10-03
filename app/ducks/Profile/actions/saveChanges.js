@@ -13,6 +13,11 @@ const saveResponse = data => ({
   data,
 });
 
+const saveError = data => ({
+  type: types.SAVE_CHANGES_ERROR,
+  data,
+});
+
 const saveChanges = (data) => {
   const token = getJsonFromStorage('id_token');
 
@@ -31,10 +36,17 @@ const saveChanges = (data) => {
     dispatch(saveRequest());
 
     return fetch(`${API_URL}my-profile/`, config)
-      .then(res => res.json())
-      .then((response) => {
+      .then(res => res.json().then(response => ({ res, response })))
+      .then(({ res, response }) => {
+        if (!res.ok) {
+          dispatch(saveError(response));
+          return false;
+        }
+
         dispatch(saveResponse(response));
         dispatch(setMe(response));
+
+        return true;
       });
   };
 };

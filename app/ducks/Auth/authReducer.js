@@ -28,7 +28,10 @@ const authReducer = (state = initialState, action) => {
       });
     case actionsTypes.ME_STORE:
       return Object.assign({}, state, {
-        me: action.data,
+        me: {
+          ...state.me,
+          ...action.data,
+        },
         isFetching: false,
         isAuthenticated: true,
       });

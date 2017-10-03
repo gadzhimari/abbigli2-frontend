@@ -92,18 +92,22 @@
 .edit-contact__wrapper {
   width: 100%;
   max-width: 280px;
-  height: 40px;
   position: relative;
   display: inline-block;
   margin-right: 22px;
   margin-bottom: 10px;
+  vertical-align: top;
+
+  .input {
+    height: 40px;
+  }
 
   .social-btn {
     width: 27px;
     height: 27px;
     position: absolute;
     left: 10px;
-    top: 50%;
+    top: 20px;
     transform: translateY(-50%);
 
     & + .input {
@@ -114,6 +118,10 @@
   &:last-child {
     margin-right: 0;  
   }
+}
+
+.post-create__error-input {
+  border-color: #d10e0e;
 }
 
 @media screen and (max-width: 1105px) {
