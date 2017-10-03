@@ -15,7 +15,7 @@ const ProfileHeader = ({ background, isEditing, uploadImage, uploadingImage }) =
   const headerStyle = background
     ? { backgroundImage: `url(${THUMBS_URL}unsafe/1600x500/${background})` }
     : {};
-  
+
   const isFetching = uploadingImage === UPLOAD_INPUT_NAME;
 
   return (
@@ -23,9 +23,7 @@ const ProfileHeader = ({ background, isEditing, uploadImage, uploadingImage }) =
       className="profile-header"
       style={headerStyle}
     >
-      {
-        (isEditing && !isFetching)
-        &&
+      <If condition={isEditing && !isFetching}>
         <div className="profile-header__edit">
           <input
             className="input-file"
@@ -38,14 +36,12 @@ const ProfileHeader = ({ background, isEditing, uploadImage, uploadingImage }) =
           </svg>
           {__t('Change header image')}
         </div>
-      }
-      {
-        (isEditing && isFetching)
-        &&
+      </If>
+      <If condition={isEditing && isFetching}>
         <div className="profile-header__edit">
           {__t('Please wait, image loading...')}
         </div>
-      }
+      </If>
     </div >
   );
 };
@@ -60,7 +56,7 @@ ProfileHeader.propTypes = {
 ProfileHeader.defaultProps = {
   background: null,
   isEditing: false,
-  uploadImage: () => {},
+  uploadImage: () => { },
   uploadingImage: null,
 };
 

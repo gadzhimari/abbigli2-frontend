@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { API_URL } from 'config';
 
+import { __t } from '../../../../i18n/translator';
+
 import './ProfileForm.less';
 
 class ProfileForm extends PureComponent {
@@ -65,6 +67,18 @@ class ProfileForm extends PureComponent {
     });
   };
 
+  handleClearCity = (e) => {
+    e.stopPropagation();
+
+    this.setState({
+      city: '',
+      data: {
+        ...this.state.data,
+        city: '',
+      },
+    });
+  }
+
   render() {
     const { data, city } = this.state;
     const cityValue = (city && city.name) || '';
@@ -74,14 +88,14 @@ class ProfileForm extends PureComponent {
         <input
           className="input"
           type="text"
-          placeholder="Введите название"
+          placeholder={__t('Profile name')}
           value={data.profile_name}
           name="profile_name"
           onChange={this.handleChange}
         />
         <textarea
           className="textarea"
-          placeholder="Чему посвящена ваша страница"
+          placeholder={__t('Profile description')}
           value={data.info}
           name="info"
           onChange={this.handleChange}
@@ -98,19 +112,25 @@ class ProfileForm extends PureComponent {
             type="text"
             name="city"
             value={cityValue}
-            placeholder="Ваш город"
+            placeholder={__t('Your city')}
           />
+          <If condition={cityValue}>
+            <svg viewBox="0 0 14 14.031" className="icon icon-clear" onClick={this.handleClearCity}>
+              <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
+            </svg>
+          </If>
         </div>
         <div className="profile-form__buttons">
-          <button className="default-button" type="submit">Сохранить изменения</button>
+          <button className="default-button" type="submit">
+            {__t('Save changes')}
+          </button>
           <button
             className="default-button"
             type="button"
             onClick={this.handleCancel}
           >
-            Отмена
+            {__t('Cancel')}
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 14 14.031"
               className="icon-close icon"
             >

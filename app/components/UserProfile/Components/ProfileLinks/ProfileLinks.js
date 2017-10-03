@@ -45,6 +45,7 @@ class ProfileLinks extends PureComponent {
 
     return (
       <div className="profile-my">
+        <div className="main__overlay" />
         <Link
           className="profile-my__item"
           to={`/profile/${data.id}/feed`}

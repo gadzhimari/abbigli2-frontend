@@ -10,8 +10,8 @@ class EditingContact extends PureComponent {
     super(props);
 
     this.state = {
-      phone: props.data.phone,
-      email: props.data.email,
+      phone_info: props.data.phone_info,
+      email_info: props.data.email_info,
       skype: props.data.skype,
     };
   }
@@ -27,7 +27,7 @@ class EditingContact extends PureComponent {
   }
 
   render() {
-    const { phone, email, skype } = this.state;
+    const { phone_info: phone, email_info: email, skype } = this.state;
     const { errors } = this.props;
 
     return (
@@ -41,7 +41,7 @@ class EditingContact extends PureComponent {
             value={phone}
             placeholder={__t('Your phone number')}
             type="tel"
-            name="phone"
+            name="phone_info"
             onChange={this.handleChange}
             wrapperClass="edit-contact__wrapper"
             errors={errors.phone}
@@ -51,7 +51,7 @@ class EditingContact extends PureComponent {
             value={email}
             placeholder={__t('Your email')}
             type="email"
-            name="email"
+            name="email_info"
             onChange={this.handleChange}
             wrapperClass="edit-contact__wrapper"
             errors={errors.email}
@@ -73,8 +73,8 @@ class EditingContact extends PureComponent {
 
 EditingContact.propTypes = {
   data: Type.shape({
-    phone: Type.string,
-    email: Type.string,
+    phone_info: Type.string,
+    email_info: Type.string,
     skype: Type.string,
   }),
   errors: Type.shape({

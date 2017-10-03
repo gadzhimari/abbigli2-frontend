@@ -10,6 +10,7 @@ const Footer = ({
   openPopup,
 }) => (
     <footer className="footer">
+      <div className="main__overlay" />
       <div className="footer__content">
         <a className="logo-gray" />
         <div className="footer__links">

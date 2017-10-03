@@ -12,6 +12,7 @@ import './Header.styl';
 function Header(props) {
   return (
     <header className="header">
+      <div className="main__overlay" />
       <div className="header__content">
         <Link
           to="/"
