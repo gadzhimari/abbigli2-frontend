@@ -1,4 +1,4 @@
-import { API_URL } from 'config';
+import { Posts } from 'API';
 
 export const RELATIVE_REQUEST = 'RELATIVE_REQUEST';
 export const RELATIVE_RESPONSE = 'RELATIVE_RESPONSE';
@@ -16,12 +16,12 @@ const response = (data, post) => ({
 export const fetchData = slug => (dispatch) => {
   dispatch(request());
   const promises = [
-    fetch(`${API_URL}posts/${slug}/similar/`).then(res => res.json()),
-    fetch(`${API_URL}posts/${slug}`).then(res => res.json()),
+    Posts.getSimilarPosts(slug),
+    Posts.getPost(slug),
   ];
 
   return Promise.all(promises)
     .then(([items, post]) => {
-      dispatch(response(items, post));
+      dispatch(response(items.data, post.data));
     });
 };

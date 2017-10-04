@@ -1,7 +1,6 @@
 import * as types from './types';
 
-import { getJsonFromStorage } from 'utils/functions';
-import { API_URL } from 'config';
+import { Profile } from 'API';
 
 import { setMe } from '../../Auth/authActions/fetchMe';
 
@@ -13,24 +12,8 @@ const deleteImageRequest = imageName => ({
 });
 
 const deleteImage = (name) => {
-  const token = getJsonFromStorage('id_token');
-
-  if (!token) return null;
-
   const formData = new FormData();
-
   formData.append(name, new Blob(), '');
-
-  const headers = {
-    Accept: 'application/json, */*',
-    Authorization: `JWT ${token}`,
-  };
-
-  const config = {
-    headers,
-    method: 'PATCH',
-    body: formData,
-  };
 
   return (dispatch) => {
     dispatch(deleteImageRequest(name));
@@ -38,10 +21,9 @@ const deleteImage = (name) => {
       [name]: null,
     }));
 
-    return fetch(`${API_URL}my-profile/`, config)
-      .then(res => res.json())
+    return Profile.saveChanges(formData)
       .then((response) => {
-        dispatch(setMe(response));
+        dispatch(setMe(response.data));
       });
   };
 };

@@ -1,4 +1,4 @@
-import { API_URL } from 'config';
+import { Posts } from 'API';
 import * as actions from '../actionTypes';
 
 const request = () => ({
@@ -13,9 +13,8 @@ const response = relativePosts => ({
 const fetchRelative = slug => (dispatch) => {
   dispatch(request());
 
-  return fetch(`${API_URL}posts/${slug}/similar/`)
-    .then(res => res.json())
-    .then(data => dispatch(response(data.results)));
+  return Posts.getSimilarPosts(slug)
+    .then(res => dispatch(response(res.data.results)));
 };
 
 export default fetchRelative;

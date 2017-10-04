@@ -3,42 +3,24 @@ import { setFetchingStatus, setError, handleSucces } from './common';
 import { openPopup } from 'ducks/Popup/actions';
 import { resetConfirm } from './';
 
-import { API_URL } from 'config';
+import { Auth } from 'API';
 
 const resetWithoutSideEffects = (creds) => {
   const formData = new FormData();
   formData.append('contact', creds.contact);
 
-  const config = {
-    method: 'POST',
-    body: formData,
-  };
-
-  return fetch(`${API_URL}reset-password/`, config)
-      .then(response => response.json().then(user => ({ user, response })));
+  return Auth.resetPassword(formData);
 };
 
 const reset = (creds) => {
   const formData = new FormData();
   formData.append('contact', creds.contact);
 
-  const config = {
-    method: 'POST',
-    body: formData,
-  };
-
   return (dispatch) => {
     dispatch(setFetchingStatus());
 
-    return fetch(`${API_URL}reset-password/`, config)
-      .then(response => response.json().then(user => ({ user, response })))
-      .then(({ user, response }) => {
-        if (!response.ok) {
-          dispatch(setError('reset', user));
-
-          return;
-        }
-
+    return Auth.resetPassword(formData)
+      .then((res) => {
         dispatch(handleSucces({
           loginStage: 'confirm',
         }));
@@ -46,10 +28,11 @@ const reset = (creds) => {
         dispatch(openPopup('confirmPopup', {
           callback: data => dispatch(resetConfirm(data)),
           previousPopup: 'resetPopup',
-          contact: user.contact,
+          contact: res.data.contact,
           againRequest: resetWithoutSideEffects,
         }));
-      });
+      })
+      .catch(error => dispatch(setError('reset', error.response.data)));
   };
 };
 

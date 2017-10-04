@@ -4,10 +4,7 @@ import { combineReducers } from 'redux';
 import Sections from 'ducks/Sections';
 import SubSections from 'ducks/SubSections';
 import Blogs from 'ducks/Blogs';
-import BlogsPopular from 'ducks/BlogsPopular';
-import BlogPost from 'ducks/BlogPost';
 import Events from 'ducks/Events';
-import EventsPopular from 'ducks/EventsPopular';
 import Products from 'ducks/Products';
 import PostsSpecific from 'ducks/PostsSpecific';
 import ProfilePosts from 'ducks/ProfilePosts';
@@ -37,10 +34,7 @@ export default combineReducers({
   Sections,
   SubSections,
   Blogs,
-  BlogsPopular,
-  BlogPost,
   Events,
-  EventsPopular,
   Products,
   PostsSpecific,
   ProfilePosts,

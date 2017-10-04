@@ -1,7 +1,6 @@
 import * as types from './types';
 
-import { getJsonFromStorage } from 'utils/functions';
-import { API_URL } from 'config';
+import { Profile } from 'API';
 
 import { setMe } from '../../Auth/authActions/fetchMe';
 
@@ -16,32 +15,16 @@ const uploadImageResponse = data => ({
 });
 
 const uploadImage = ({ target }) => {
-  const token = getJsonFromStorage('id_token');
-
-  if (!token) return null;
-
   const formData = new FormData();
   formData.append(target.name, target.files[0]);
-
-  const headers = {
-    Accept: 'application/json, */*',
-    Authorization: `JWT ${token}`,
-  };
-
-  const config = {
-    headers,
-    method: 'PATCH',
-    body: formData,
-  };
 
   return (dispatch) => {
     dispatch(uploadImageRequest(target.name));
 
-    return fetch(`${API_URL}my-profile/`, config)
-      .then(res => res.json())
+    return Profile.saveChanges(formData)
       .then((response) => {
-        dispatch(uploadImageResponse(response));
-        dispatch(setMe(response));
+        dispatch(uploadImageResponse(response.data));
+        dispatch(setMe(response.data));
       });
   };
 };

@@ -1,22 +1,10 @@
-import { API_URL } from 'config';
-import { getJsonFromStorage } from 'utils/functions';
+import { Images } from 'API';
 
 const rotateImage = (imageId, direction, callbacks) => {
-  const token = getJsonFromStorage('id_token');
-  if (!token) return;
-
-  const config = {
-    method: 'POST',
-    headers: {
-      Authorization: `JWT ${token}`,
-    },
-  };
-
   callbacks.req();
 
-  fetch(`${API_URL}images/${imageId}/rotate-${direction}/`, config)
-    .then(res => res.json())
-    .then(({ url }) => callbacks.res(url));
+  Images.rotateImage(imageId, direction)
+    .then(res => callbacks.res(res.data.url));
 };
 
 export default rotateImage;

@@ -1,5 +1,4 @@
-import { getJsonFromStorage } from 'utils/functions';
-import { API_URL } from 'config';
+import { Images } from 'API';
 
 import * as actions from '../actionTypes';
 
@@ -12,50 +11,22 @@ const imageUploadRes = (imageError = []) => ({
   imageError,
 });
 
-const uploadImages = (files, callback) => {
-  const token = getJsonFromStorage('id_token');
-  const promises = [];
+const uploadImages = (files, callback) => (dispatch) => {
+  dispatch(imageUploadReq());
 
-  if (!token) return;
+  const promises = files.map((file) => {
+    const formData = new FormData();
+    formData.append('file', file);
 
-  return (dispatch) => {
-    dispatch(imageUploadReq());
+    return Images.uploadImage(formData);
+  });
 
-    files.forEach((file) => {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const config = {
-        method: 'POST',
-        headers: {
-          Authorization: `JWT ${token}`,
-        },
-        body: formData,
-      };
-
-      promises.push(
-        fetch(`${API_URL}images/`, config)
-          .then(res => res.json())
-      );
-    });
-
-    return Promise.all(promises)
-      .then((responseData) => {
-        const errors = [];
-        const images = [];
-
-        responseData.forEach((img) => {
-          if (img.id) {
-            images.push(img);
-          } else {
-            errors.push(img.file[0]);
-          }
-        });
-        callback(images);
-        dispatch(imageUploadRes(errors));
-      })
-      .catch(err => console.log("Error: ", err));
-  };
+  return Promise.all(promises)
+    .then((res) => {
+      callback(res.map(item => item.data));
+      dispatch(imageUploadRes());
+    })
+    .catch(err => dispatch(imageUploadRes(err.response.data.file)));
 };
 
 export default uploadImages;

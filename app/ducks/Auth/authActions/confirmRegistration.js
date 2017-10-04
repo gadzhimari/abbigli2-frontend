@@ -2,38 +2,19 @@ import { setFetchingStatus, setError, handleSucces } from './common';
 
 import { openPopup } from 'ducks/Popup/actions';
 
-import { API_URL } from 'config';
+import { Auth } from 'API';
 
-const confirmRegistration = (creds) => {
-  const config = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      phone: creds.contact,
-      code: creds.code,
-    }),
-  };
+const confirmRegistration = creds => (dispatch) => {
+  dispatch(setFetchingStatus());
 
-  return (dispatch) => {
-    dispatch(setFetchingStatus());
+  return Auth.signUpConfirm({ phone: creds.contact, code: creds.code })
+    .then((res) => {
+      document.cookie = `id_token=${res.data.token}`;
 
-    return fetch(`${API_URL}signup/confirm/`, config)
-      .then(response => response.json().then(user => ({ user, response })))
-      .then(({ user, response }) => {
-        if (!response.ok) {
-          dispatch(setError('confirm', user));
-
-          return;
-        }
-
-        document.cookie = `id_token=${user.token}`;
-
-        dispatch(handleSucces({
-          registerStage: 'setPassword',
-        }));
-        dispatch(openPopup('passwordPopup'));
-      });
-  };
+      dispatch(handleSucces({ registerStage: 'setPassword' }));
+      dispatch(openPopup('passwordPopup'));
+    })
+    .catch(error => dispatch(setError('confirm', error.response.data)));
 };
 
 

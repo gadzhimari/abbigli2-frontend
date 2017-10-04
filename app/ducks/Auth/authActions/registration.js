@@ -3,57 +3,31 @@ import { setFetchingStatus, setError, handleSucces } from './common';
 import { openPopup } from 'ducks/Popup/actions';
 import { registerConfirm } from './';
 
-import { API_URL } from 'config';
+import { Auth } from 'API';
 
-const regWithoutSideEffects = (creds) => {
-  const config = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ phone: creds.contact }),
-  };
+const regWithoutSideEffects = creds => Auth.signUp({ phone: creds.contact });
 
-  return fetch(`${API_URL}signup/`, config)
-      .then(response => response.json().then(user => ({ user, response })));
+const registration = creds => (dispatch) => {
+  dispatch(setFetchingStatus());
+
+  return Auth.signUp({ phone: creds.phoneNumber })
+    .then((res) => {
+      dispatch(handleSucces({
+        registerStage: 'confirm',
+        phone: res.data.phone,
+      }));
+
+      dispatch(openPopup('confirmPopup', {
+        callback: data => dispatch(registerConfirm(data)),
+        previousPopup: 'registerPopup',
+        contact: res.data.phone,
+        againRequest: regWithoutSideEffects,
+      }));
+    })
+    .catch((error) => {
+      dispatch(setError('registration', error.response.data));
+    });
 };
 
-const registration = (creds) => {
-  const config = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ phone: creds.phoneNumber }),
-  };
-
-  return (dispatch) => {
-    dispatch(setFetchingStatus());
-
-    return fetch(`${API_URL}signup/`, config)
-      .then(response =>
-        response.json().then(user => ({ user, response }))
-      ).then(({ user, response }) => {
-        if (!response.ok) {
-          throw new Error(JSON.stringify(user));
-        }
-
-        dispatch(handleSucces({
-          registerStage: 'confirm',
-          phone: user.phone,
-        }));
-
-        dispatch(openPopup('confirmPopup', {
-          callback: data => dispatch(registerConfirm(data)),
-          previousPopup: 'registerPopup',
-          contact: user.phone,
-          againRequest: regWithoutSideEffects,
-        }));
-      })
-      .catch((error) => {
-        dispatch(setError('registration', JSON.parse(error.message)));
-      });
-  };
-};
 
 export default registration;

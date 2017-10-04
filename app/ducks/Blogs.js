@@ -2,6 +2,8 @@
 import { API_URL } from 'config';
 import { getJsonFromStorage, createQuery } from 'utils/functions';
 
+import { Posts } from 'API';
+
 // Actions
 const REQUEST = 'abbigli/Blogs/REQUEST';
 const SET = 'abbigli/Blogs/SET';
@@ -73,12 +75,9 @@ export function fetchData(options = {}, tokenID) {
   return (dispatch) => {
     dispatch(requestData());
 
-    return fetch(`${API_URL}posts/${query}`, config)
-      .then(res => res.json())
+    return Posts.getPosts(options)
       .then((responseData) => {
-        if (responseData.results) {
-          dispatch(setData(responseData, options.page));
-        }
+        dispatch(setData(responseData.data, options.page));
         return Promise.resolve();
       });
   };

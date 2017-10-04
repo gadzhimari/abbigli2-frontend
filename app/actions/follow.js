@@ -1,6 +1,5 @@
 import { API_URL } from 'config';
 
-import { setNewFollowStatus } from 'ducks/BlogPost';
 import { getJsonFromStorage } from 'utils/functions';
 
 const FOLLOW_REQUEST = 'FOLLOW_REQUEST';
@@ -48,9 +47,6 @@ export function setFollow(profileId, fromPost = true) {
   }
 
   return (dispatch) => {
-    if (fromPost) {
-      dispatch(setNewFollowStatus());
-    }
     dispatch(followRequest());
 
     return fetch(`${API_URL}profiles/${profileId}/follow/`, config)

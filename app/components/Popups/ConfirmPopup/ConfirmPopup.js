@@ -47,21 +47,18 @@ class ConfirmPopup extends Component {
       againRequestFetching: true,
     });
 
-    options.againRequest({
-      contact: options.contact,
-    })
-      .then(({ response, user }) => {
-        if (!response.ok) {
-          return this.setState({
-            againRequestFetching: false,
-            againErrors: user,
-          });
-        }
-
-        return this.setState({
+    options.againRequest({ contact: options.contact })
+      .then(() => {
+        this.setState({
           againRequestFetching: false,
           againErrors: {},
           againRequestDelay: 60,
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          againRequestFetching: false,
+          againErrors: error.data,
         });
       });
   }

@@ -1,6 +1,5 @@
 import * as types from './types';
-import { getJsonFromStorage } from 'utils/functions';
-import { API_URL } from 'config';
+import { Profile } from 'API';
 
 import { setMe } from '../../Auth/authActions/fetchMe';
 
@@ -18,37 +17,15 @@ const saveError = data => ({
   data,
 });
 
-const saveChanges = (data) => {
-  const token = getJsonFromStorage('id_token');
+const saveChanges = (data) => (dispatch) => {
+  dispatch(saveRequest());
 
-  if (!token) return null;
-
-  const config = {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-    body: JSON.stringify(data),
-  };
-
-  return (dispatch) => {
-    dispatch(saveRequest());
-
-    return fetch(`${API_URL}my-profile/`, config)
-      .then(res => res.json().then(response => ({ res, response })))
-      .then(({ res, response }) => {
-        if (!res.ok) {
-          dispatch(saveError(response));
-          return false;
-        }
-
-        dispatch(saveResponse(response));
-        dispatch(setMe(response));
-
-        return true;
-      });
-  };
+  return Profile.saveChanges(data)
+    .then((response) => {
+      dispatch(saveResponse(response.data));
+      dispatch(setMe(response.data));
+    })
+    .catch(response => dispatch(saveError(response.data)));
 };
 
 export default saveChanges;

@@ -1,7 +1,6 @@
 import * as actions from '../actionsTypes';
 
-import { getJsonFromStorage, createQuery } from 'utils/functions';
-import { API_URL } from 'config';
+import { Posts } from 'API';
 
 const request = () => ({
   type: actions.POSTS_REQUEST,
@@ -14,21 +13,11 @@ const response = (data, pageCount) => ({
 });
 
 const fetchPosts = options => (dispatch) => {
-  const token = getJsonFromStorage('id_token') || null;
-  const config = { headers: {} };
-
-  if (token) {
-    config.headers.Authorization = `JWT ${token}`;
-  }
-
   dispatch(request());
 
-  return fetch(`${API_URL}posts/${createQuery(options)}`, config)
-    .then(res => res.json())
-    .then(result => dispatch(response(
-      result.results,
-      Math.ceil(result.count / 30)
-    )));
+  return Posts.getPosts(options)
+    .then(res =>
+      dispatch(response(res.data.results, Math.ceil(res.data.count / 30))));
 };
 
 export default fetchPosts;

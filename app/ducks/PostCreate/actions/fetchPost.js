@@ -1,4 +1,4 @@
-import { API_URL } from 'config';
+import { Posts } from 'API';
 import * as actions from '../actionTypes';
 
 const fetchPostReq = () => ({
@@ -13,9 +13,8 @@ const fetchPostRes = data => ({
 const fetchPost = slug => (dispatch) => {
   dispatch(fetchPostReq);
 
-  return fetch(`${API_URL}posts/${slug}`)
-    .then(res => res.json())
-    .then((responseData) => {
+  return Posts.getPost(slug)
+    .then(({ data: responseData }) => {
       dispatch(fetchPostRes({
         type: responseData.type,
         content: responseData.content || '',

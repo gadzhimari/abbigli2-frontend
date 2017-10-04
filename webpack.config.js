@@ -55,7 +55,7 @@ if (isProd) {
 
 const alias = {
   App: path.resolve(__dirname, 'app'),
-  Api: path.resolve(__dirname, 'app/api'),
+  API: path.resolve(__dirname, 'app/api'),
   Tools: path.resolve(__dirname, 'app/tools'),
   'preact-redux': 'react-redux',
   config: inRoot('app/config'),

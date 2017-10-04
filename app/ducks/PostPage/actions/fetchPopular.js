@@ -1,4 +1,4 @@
-import { API_URL } from 'config';
+import { Posts } from 'API';
 import * as actions from '../actionTypes';
 
 const request = () => ({
@@ -13,9 +13,8 @@ const response = popularPosts => ({
 const fetchPopular = type => (dispatch) => {
   dispatch(request);
 
-  return fetch(`${API_URL}posts/?type=${type}&popular=true`)
-    .then(res => res.json())
-    .then(data => dispatch(response(data.results)));
+  return Posts.getPosts({ type, popular: true })
+    .then(res => dispatch(response(res.data.results)));
 };
 
 export default fetchPopular;

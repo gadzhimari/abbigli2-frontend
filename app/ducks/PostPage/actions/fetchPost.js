@@ -1,5 +1,4 @@
-import { API_URL } from 'config';
-import { getJsonFromStorage } from 'utils/functions';
+import { Posts } from 'API';
 import * as actions from '../actionTypes';
 
 const requestPost = () => ({
@@ -15,40 +14,16 @@ const setNotFound = () => ({
   type: actions.ERROR_404,
 });
 
-const fetchPost = (slug, type, tokenID) => {
-  const token = tokenID || getJsonFromStorage('id_token');
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
+const fetchPost = (slug, token) => (dispatch) => {
+  dispatch(requestPost());
 
-  if (token) {
-    config.headers.Authorization = `JWT ${token}`;
-  }
-
-  return (dispatch) => {
-    dispatch(requestPost());
-
-    return fetch(`${API_URL}posts/${slug}/`, config)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        throw new Error(res.status);
-      })
-      .then((responseData) => {
-        if (responseData) {
-          dispatch(responsePost(responseData));
-        }
-      })
-      .catch((error) => {
-        if (error.message === '404') {
-          dispatch(setNotFound());
-        }
-      });
-  };
+  return Posts.getPost(slug, token)
+    .then((response) => {
+      dispatch(responsePost(response.data));
+    })
+    .catch(() => {
+      dispatch(setNotFound());
+    });
 };
 
 export default fetchPost;
