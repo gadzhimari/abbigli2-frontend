@@ -84,7 +84,7 @@ class Profile extends Component {
           isEditing={this.state.isEditing}
         />
 
-        <main className="main">
+        <main className="main profile">
           {
             this.state.isEditing
             &&
