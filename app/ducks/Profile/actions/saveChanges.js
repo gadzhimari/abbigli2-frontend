@@ -17,7 +17,7 @@ const saveError = data => ({
   data,
 });
 
-const saveChanges = (data) => (dispatch) => {
+const saveChanges = data => (dispatch) => {
   dispatch(saveRequest());
 
   return Profile.saveChanges(data)
@@ -25,7 +25,7 @@ const saveChanges = (data) => (dispatch) => {
       dispatch(saveResponse(response.data));
       dispatch(setMe(response.data));
     })
-    .catch(response => dispatch(saveError(response.data)));
+    .catch(({ response }) => { dispatch(saveError(response.data)); });
 };
 
 export default saveChanges;
