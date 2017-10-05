@@ -106,9 +106,6 @@ class SectionTag extends Component {
             <h1 className="section-title">
               {currentSection.title}
               <div className="section-title__subscribe">
-                <button className="default-button" type="button">
-                  + Подписаться
-                </button>
                 <a className="filter-open">
                   Фильтры
                 </a>
