@@ -9,6 +9,8 @@ import CategoryList from './CategoryList';
 
 import { debounce } from 'utils/functions';
 
+import { __t } from '../../i18n/translator';
+
 import './SubMenu.less';
 
 class SubMenu extends PureComponent {
@@ -146,7 +148,7 @@ class SubMenu extends PureComponent {
             ref={elseBtn => (this.elseBtn = elseBtn)}
             onMouseEnter={this.showSubMenu}
           >
-            {'Ещё'}
+            {__t('More')}
             <div
               className="header-submenu__dropdown hide"
               ref={wrapper => (this.subWrapper = wrapper)}

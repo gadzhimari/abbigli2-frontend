@@ -157,6 +157,7 @@ export default {
     "sign.up": "Регистрация",
     "Continue": "Продолжить",
     "read more": "Читать больше",
+    'More': "Ещё",
     "Explore": "Изучить",
     "Display.for.sale.their.works": "Выставляйте на продажу своё творчество",
     "Log In": "Войти",
