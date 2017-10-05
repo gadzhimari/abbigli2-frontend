@@ -51,13 +51,13 @@ class Menu extends Component {
             <div className="icon icon-beside" />
             <div className="main-menu__item-name">{__t('Nearby')}</div>
           </Link>
-          <div className="main-menu__item">
+          {/* <div className="main-menu__item">
             <div className="icon icon-sections" />
             <div className="main-menu__item-name">{__t('Sections')}</div>
             <div className="main-menu__item-corner" />
-          </div>
+          </div> */}
         </div>
-        <div className="main-menu__sections">
+        {/* <div className="main-menu__sections">
           {
             (!isFetchingSections && itemsSections.length > 0)
             && itemsSections.map(item => (<Link
@@ -70,7 +70,7 @@ class Menu extends Component {
             ))
           }
 
-        </div>
+        </div> */}
         <div className="main-menu__footer">
           <Link className="main-menu__footer-item" to="/page/about">{__t('About')}</Link>
           <Link className="main-menu__footer-item" to="/page/faq">{__t('FAQ')}</Link>
