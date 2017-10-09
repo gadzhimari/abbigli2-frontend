@@ -52,7 +52,7 @@ const newData = [{
 }];
 
 class ProductPage extends Component {
-  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, 1, token));
+  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, token));
 
   static fetchSubData = (dispatch, data) => Promise.all([
     dispatch(fetchDataComments(data.slug)),

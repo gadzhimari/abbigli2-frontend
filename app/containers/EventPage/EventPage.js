@@ -44,7 +44,7 @@ const newData = [{
 }];
 
 class EventPage extends Component {
-  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, 3, token))
+  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, token))
 
   static fetchSubData = (dispatch, data, params) => Promise.all([
     dispatch(fetchNew({

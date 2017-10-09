@@ -50,7 +50,7 @@ const newData = [{
 }];
 
 class BlogPage extends Component {
-  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, 4, token))
+  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, token))
 
   static fetchSubData = (dispatch, data, params) => Promise.all([
     dispatch(fetchNew({
