@@ -157,8 +157,8 @@ class ProductPage extends Component {
       me,
     } = this.props;
     const crumbs = [{
-      title: __t('Blogs'),
-      url: '/blogs',
+      title: data.category.title,
+      url: data.category.view_on_site_url,
     },
     {
       title: data.user.profile_name || `User ID: ${data.user.id}`,
