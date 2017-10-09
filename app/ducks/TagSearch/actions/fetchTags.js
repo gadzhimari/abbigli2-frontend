@@ -7,7 +7,7 @@ const response = data => ({
   data,
 });
 
-const fetchTags = tags => dispatch => Tags.getTags(tags)
+const fetchTags = tags => dispatch => Tags.getRelatedTags(tags)
   .then(res => dispatch(response(res.data.results)));
 
 export default fetchTags;
