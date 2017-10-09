@@ -20,6 +20,8 @@ const reducer = (state = initialState, action) => {
     case (actions.REQUEST_POST): {
       return Object.assign({}, state, {
         isFetchingPost: true,
+        usersPosts: [],
+        relativePosts: [],
       });
     }
     case (actions.RESPONSE_POST): {
