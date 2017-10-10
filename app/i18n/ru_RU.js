@@ -114,6 +114,7 @@ export default {
     "Feed": "Лента",
     "Logout": "Выйти",
     "Create": "Создать",
+    "Save changes": "Сохранить изменения",
     "Login": "Войти",
     "Notifications": "Уведомления",
     "Do.comment": "Комментировать",
