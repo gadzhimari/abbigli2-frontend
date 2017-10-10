@@ -24,6 +24,8 @@ const saveChanges = data => (dispatch) => {
     .then((response) => {
       dispatch(saveResponse(response.data));
       dispatch(setMe(response.data));
+
+      return true;
     })
     .catch(({ response }) => { dispatch(saveError(response.data)); });
 };
