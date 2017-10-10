@@ -92,7 +92,7 @@ class ProfileLinks extends PureComponent {
           className="profile-my__item"
         >
           <svg className="icon icon-like" viewBox="0 0 34 31.193">
-            <path d="M17,31.193l-2.467-2.242C5.778,21.011,0,15.774,0,9.35C0,4.113,4.113,0,9.351,0C12.308,0,15.147,1.377,17,3.552 C18.853,1.377,21.691,0,24.649,0C29.886,0,34,4.113,34,9.35c0,6.425-5.781,11.661-14.537,19.618L17,31.193z"/>
+            <path d="M17,31.193l-2.467-2.242C5.778,21.011,0,15.774,0,9.35C0,4.113,4.113,0,9.351,0C12.308,0,15.147,1.377,17,3.552 C18.853,1.377,21.691,0,24.649,0C29.886,0,34,4.113,34,9.35c0,6.425-5.781,11.661-14.537,19.618L17,31.193z" />
           </svg>
           {__t('Likes')}
           <div className="profile-my__item-number">
@@ -124,6 +124,17 @@ class ProfileLinks extends PureComponent {
           {this.props.data.followers_count}
         </div>
       </Link>
+      <div
+        className="profile-my__item"
+      >
+        <svg className="icon icon-like" viewBox="0 0 34 31.193">
+          <path d="M17,31.193l-2.467-2.242C5.778,21.011,0,15.774,0,9.35C0,4.113,4.113,0,9.351,0C12.308,0,15.147,1.377,17,3.552 C18.853,1.377,21.691,0,24.649,0C29.886,0,34,4.113,34,9.35c0,6.425-5.781,11.661-14.537,19.618L17,31.193z" />
+        </svg>
+        {__t('Likes')}
+        <div className="profile-my__item-number">
+          {this.props.data.likes_num}
+        </div>
+      </div>
       <FetchingButton
         className="default-button"
         isFetching={this.state.fetchingFollow}
