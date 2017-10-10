@@ -8,12 +8,18 @@ import { __t } from './../../i18n/translator';
 import './UserProfile.less';
 
 class UserProfile extends PureComponent {
-  openFollowers = ({ target }) => {
-    const { openPopup } = this.props;
+  openFollowers = () => {
+    this.openPopup(this.props.followers, __t('Followers'));
+  }
 
-    openPopup('followersPopup', {
-      title: target.getAttribute('data-title'),
-      items: this.props[target.getAttribute('data-type')],
+  openFollowing = () => {
+    this.openPopup(this.props.following, __t('Following'));
+  }
+
+  openPopup = (items, title) => {
+    this.props.openPopup('followersPopup', {
+      title,
+      items,
       blankText: __t('No results'),
     });
   }
@@ -37,6 +43,7 @@ class UserProfile extends PureComponent {
           {...this.props}
           openFollowers={this.openFollowers}
           openMessagePopup={this.openMessagePopup}
+          openFollowing={this.openFollowing}
         />
       </div >
     );

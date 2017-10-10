@@ -24,6 +24,7 @@ const ProfileInfo = ({
   uploadingImage,
   saveChanges,
   deleteImage,
+  openFollowing,
 }) => (
     <div className="profile-info">
       <div className="profile-info__inner">
@@ -87,6 +88,7 @@ const ProfileInfo = ({
           follow={follow}
           openPopup={openPopup}
           isAuthenticated={isAuthenticated}
+          openFollowing={openFollowing}
         />
       </div >
     </div >

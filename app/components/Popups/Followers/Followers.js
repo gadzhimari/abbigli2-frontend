@@ -29,12 +29,12 @@ class Followers extends Component {
           </header>
           <div className="popup-subscribers">
             {
-              options.items.length === 0
+              (!options.items || options.items.length === 0)
               &&
               options.blankText
             }
             {
-              options.items.map(item => <Follower
+              !!options.items && options.items.map(item => <Follower
                 key={item.id}
                 item={item}
                 onClick={closePopup}
