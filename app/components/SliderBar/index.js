@@ -2,8 +2,6 @@
 
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import Hummer from 'react-hammerjs';
-
 import ComponentsList from './components/ComponentsList';
 import SliderButtons from './components/SliderButtons';
 
@@ -12,6 +10,19 @@ import { debounce } from 'utils/functions';
 import './index.less';
 
 class TagsBar extends PureComponent {
+  static propTypes = {
+    items: PropTypes.arrayOf(PropTypes.object),
+    sliderName: PropTypes.string.isRequired,
+    itemWidth: PropTypes.number.isRequired,
+    itemProps: PropTypes.object,
+  };
+
+  static defaultProps = {
+    link: '',
+    itemProps: {},
+    items: [],
+  };
+
   state = {
     slidedRight: 0,
     maxSlided: 0,
@@ -140,18 +151,5 @@ class TagsBar extends PureComponent {
     );
   }
 }
-
-TagsBar.defaultProps = {
-  link: '',
-  itemProps: {},
-  items: [],
-};
-
-TagsBar.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object),
-  sliderName: PropTypes.string.isRequired,
-  itemWidth: PropTypes.number.isRequired,
-  itemProps: PropTypes.object,
-};
 
 export default TagsBar;

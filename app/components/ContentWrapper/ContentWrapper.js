@@ -27,32 +27,33 @@ class ContentWrapper extends Component {
       : 'mobile-menu__overlay';
 
     return (
-      <Hammer
-        onSwipe={this.onSwipeHandler}
-        direction="DIRECTION_LEFT"
-      >
-        <div className="mobile-menu__current">
+      <div className="mobile-menu__current">
+        <Hammer
+          onSwipe={this.onSwipeHandler}
+          direction="DIRECTION_LEFT"
+        >
           <div
             className={overlayClass}
             onClick={closeMenu}
-          />
-          <Menu
-            modalButtonClick={modalButtonClick}
-            itemsSections={itemsSections}
-            isFetchingSections={isFetchingSections}
-            wrapperClass={menuWrapperClass}
-            closeMenu={closeMenu}
-          />
-          <div className={contentWrapperClass}>
-            {children}
-          </div>
-          <Footer
-            openPopup={openPopup}
           >
-            Logo
-        </Footer>
+            <Menu
+              modalButtonClick={modalButtonClick}
+              itemsSections={itemsSections}
+              isFetchingSections={isFetchingSections}
+              wrapperClass={menuWrapperClass}
+              closeMenu={closeMenu}
+            />
+          </div>
+        </Hammer>
+        <div className={contentWrapperClass}>
+          {children}
         </div>
-      </Hammer>
+        <Footer
+          openPopup={openPopup}
+        >
+          Logo
+        </Footer>
+      </div>
     );
   }
 }
