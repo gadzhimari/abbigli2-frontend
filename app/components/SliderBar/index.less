@@ -286,9 +286,29 @@
   }
 }
 
+@media only screen and (max-width: 768px) {
+  .slider-category, .slider-tags {
+    overflow: hidden;
+  }
+
+  .slider-category__nav, .slider-tags__nav {
+    display: none;
+  }
+
+  .slider-category__viewport, .slider-tags__viewport {
+    overflow-x: auto;
+    margin-bottom: -30px;
+    padding-bottom: 30px;
+  }
+}
+
 @media only screen and (max-width: 480px) {
   .slider-category {
     &__item {
+      &_blog {
+        width: 100px;
+        height: 85px;
+      }
       &:after {
         top: -6px;
       }
