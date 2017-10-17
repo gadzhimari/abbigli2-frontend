@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+/* eslint react/require-default-props: 0 */
+import React, { PureComponent } from 'react';
+import Type from 'prop-types';
 
 import { SocialGroups } from 'components';
 import { Link } from 'react-router';
@@ -6,7 +8,19 @@ import { __t } from '../../i18n/translator';
 
 import './Menu.styl';
 
-class Menu extends Component {
+class Menu extends PureComponent {
+  static propTypes = {
+    isFetchingSections: Type.bool,
+    itemsSections: Type.arrayOf(Type.shape({
+      id: Type.number,
+      title: Type.string,
+      slug: Type.string,
+    })),
+    wrapperClass: Type.string,
+    closeMenu: Type.func,
+    modalButtonClick: Type.func,
+  };
+
   static defaultProps = {
     closeMenu: () => true,
   };
@@ -51,26 +65,15 @@ class Menu extends Component {
             <div className="icon icon-beside" />
             <div className="main-menu__item-name">{__t('Nearby')}</div>
           </Link>
-          {/* <div className="main-menu__item">
-            <div className="icon icon-sections" />
-            <div className="main-menu__item-name">{__t('Sections')}</div>
-            <div className="main-menu__item-corner" />
-          </div> */}
-        </div>
-        {/* <div className="main-menu__sections">
           {
-            (!isFetchingSections && itemsSections.length > 0)
-            && itemsSections.map(item => (<Link
-              className="main-menu__section"
-              to={`/sections/${item.slug}`}
-              key={`section--${item.slug}`}
-            >
-              {item.title}
-            </Link>
+            itemsSections.map(section => (
+              <Link className="main-menu__item" to={`/c/${section.slug}`} key={section.id}>
+                {section.title}
+              </Link>
             ))
           }
-
-        </div> */}
+          
+        </div>
         <div className="main-menu__footer">
           <Link className="main-menu__footer-item" to="/page/about">{__t('About')}</Link>
           <Link className="main-menu__footer-item" to="/page/faq">{__t('FAQ')}</Link>
