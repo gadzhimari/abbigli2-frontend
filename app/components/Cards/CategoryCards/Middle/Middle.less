@@ -1,7 +1,7 @@
 .category-button {
 
   &.category-button--imaged {
-    width: 19%;
+    width: 18%;
     padding: 0;
 
     &:hover {
@@ -29,5 +29,41 @@
     text-overflow: ellipsis;
     overflow: hidden;
     color: #1d1c1c;
+  }
+}
+
+@media only screen and (max-width: 1000px) and (min-width: 769px) {
+  .category-button.category-button--imaged:nth-child(4n + 4) {
+    margin-right: 0;
+  }
+
+  .category-button.category-button--imaged {
+    width: 23%;
+  }
+}
+
+@media only screen and (max-width: 768px) and (min-width: 501px) {
+  .category-button.category-button--imaged:nth-child(3n + 3) {
+    margin-right: 0;
+  }
+
+  .category-button.category-button--imaged {
+    width: 31%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .category-button.category-button--imaged:nth-child(even) {
+    margin-right: 0;
+  }
+
+  .category-button.category-button--imaged {
+    width: 47%;
+  }
+}
+
+@media only screen and (max-width: 340px) {
+  .category-button__image-wrapper {
+    height: 115px;
   }
 }
