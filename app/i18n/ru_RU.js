@@ -159,7 +159,7 @@ export default {
     "Continue": "Продолжить",
     "read more": "Читать больше",
     'More': "Ещё",
-    "Explore": "Изучить",
+    "Explore": "Увидеть больше",
     "Display.for.sale.their.works": "Выставляйте на продажу своё творчество",
     "Log In": "Войти",
     "Sign In": "Войти",
