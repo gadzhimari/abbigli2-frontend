@@ -41,6 +41,14 @@ class Home extends Component {
     dispatch(stagedPopup('register'));
   }
 
+  handleOpenCreating = () => {
+    if (this.props.isAuthenticated) {
+      this.props.router.push('/post/new');
+    } else {
+      this.showRegister();
+    }
+  }
+
   render() {
     const {
       isFetchingSections,
@@ -57,7 +65,9 @@ class Home extends Component {
 
     return (
       <div className="container-fluid main-page">
-        <Banner />
+        <Banner
+          handleOpenCreating={this.handleOpenCreating}
+        />
 
         <Loading loading={isFetchingSections} />
 

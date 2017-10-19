@@ -3,7 +3,7 @@ import './Banner.styl';
 
 import { __t } from './../../i18n/translator';
 
-function Banner() {
+function Banner({ handleOpenCreating }) {
   return (
     <div className="home-page__banner-wrap">
       <div className="home-page__banner">
@@ -13,11 +13,15 @@ function Banner() {
           </h2>
           {__t('banner.text')}
           <br/>
-          <button className="button-banner">
+          <button
+            className="button-banner"
+            type="button"
+            onClick={handleOpenCreating}
+          >
             {__t('banner.button.create')}
           </button>
         </div>
-        <a className="main-page__banner-author">{__t('banner.from.blog')} <b>{__t('banner.name')}</b></a>
+        {/* <a className="main-page__banner-author">{__t('banner.from.blog')} <b>{__t('banner.name')}</b></a> */}
       </div>
     </div>
   );
