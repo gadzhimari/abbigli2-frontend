@@ -21,7 +21,7 @@ const FavoriteAdd = ({ toggleFavorite, isFavorited }) => {
             : __t('Add to favorites')
         }
       </div>
-      <div className="subscription">
+      {/* <div className="subscription">
         <div className="subscription__icon">
           <svg className="icon icon-sandwich" viewBox="0 0 14 10">
             <path d="M0,10V8h14v2H0z M0,4h14v2H0V4z M0,0h14v2H0V0z" />
@@ -47,7 +47,7 @@ const FavoriteAdd = ({ toggleFavorite, isFavorited }) => {
             </svg>
           </button >
         </div >
-      </div >
+      </div > */}
     </div >
   );
 };
