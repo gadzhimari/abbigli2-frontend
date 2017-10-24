@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import Follower from './Follower';
+import Follower from '../SearchPopup/UserItem';
 
 import { __t } from '../../../i18n/translator';
 

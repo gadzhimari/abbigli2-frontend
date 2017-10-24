@@ -7,8 +7,12 @@ const UserItem = ({
   onClick,
   searchString,
 }) => {
-  const formattedName = item.profile_name
-    .replace(searchString, `<strong>${searchString}</strong>`);
+  let formattedName = item.profile_name || `ID: ${item.id}`;
+
+  if (searchString) {
+    formattedName = formattedName
+      .replace(searchString, `<strong>${searchString}</strong>`);
+  }
 
   return (
     <Link
@@ -33,9 +37,6 @@ const UserItem = ({
         className="mobile-search__people-name"
         dangerouslySetInnerHTML={{ __html: formattedName }}
       />
-      <div className="mobile-search__people-city">
-        {item.city && item.city.name}
-      </div>
     </Link>
   );
 };
