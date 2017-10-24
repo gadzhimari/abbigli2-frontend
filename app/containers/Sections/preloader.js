@@ -96,7 +96,7 @@ const preloader = WrappedComponent => class extends PureComponent {
       return <Loading loading={isFetching} />;
     }
 
-    if (currentSection.children.length === 0) {
+    if (currentSection.children && currentSection.children.length === 0) {
       return <SectionTag {...this.props} tree={tree} />;
     }
 
