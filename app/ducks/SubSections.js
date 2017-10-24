@@ -28,7 +28,6 @@ export default function (state = initialState, action = {}) {
     case SET:
       return Object.assign({}, state, {
         items: action.data.results,
-        pagesCount: Math.ceil(action.count / 50),
         next: action.data.next,
         isFetching: false,
       });
@@ -56,6 +55,7 @@ export default function (state = initialState, action = {}) {
       return Object.assign({}, state, {
         isFetchingPosts: false,
         posts: action.posts,
+        pagesCount: Math.ceil(action.count / 50),
       });
     default:
       return state;
@@ -78,11 +78,11 @@ export function requestDataAppend() {
 }
 
 export function setData(responseData) {
-  return { type: SET, data: responseData }
+  return { type: SET, data: responseData };
 }
 
 export function appendData(responseData) {
-  return { type: APPEND, data: responseData }
+  return { type: APPEND, data: responseData };
 }
 
 export function fetchData(options = {}) {
@@ -115,9 +115,10 @@ const fetchingPosts = () => ({
   type: LOAD_POSTS,
 });
 
-const fetchedPosts = posts => ({
+const fetchedPosts = (posts, count) => ({
   type: LOADED_POSTS,
   posts,
+  count,
 });
 
 export const fetchSectionPosts = options => (dispatch) => {
@@ -126,5 +127,5 @@ export const fetchSectionPosts = options => (dispatch) => {
 
   return fetch(`${API_URL}posts/${query}`)
     .then(res => res.json())
-    .then(result => dispatch(fetchedPosts(result.results)));
+    .then(result => dispatch(fetchedPosts(result.results, result.count)));
 };

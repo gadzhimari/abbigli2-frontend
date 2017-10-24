@@ -5,8 +5,6 @@ import { SectionTag } from 'containers';
 
 import { Loading } from 'components';
 
-import { API_URL } from 'config';
-
 const preloader = WrappedComponent => class extends PureComponent {
   static propTypes = {
     fetchSectionTags: PropTypes.func.isRequired,

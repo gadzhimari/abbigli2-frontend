@@ -10,6 +10,8 @@ import {
   PageSwitcher,
   ListWithNew,
 } from 'components';
+import paginateHOC from '../../HOC/paginate';
+
 
 import ShowAllSection from './ShowAllSection';
 import ShowMiddleCards from './ShowMiddleCards';
@@ -43,7 +45,8 @@ const newData = [{
 
 class Sections extends Component {
   render() {
-    const { items, params, sections, priceTemplate, posts, tree } = this.props;
+    const { items, params, sections, priceTemplate, posts, tree, isFetching } = this.props;
+    const { pages, paginate, activePage } = this.props;
     const currentSection = tree[tree.length - 1];
     const isShowAll = currentSection.showAll;
     const startIndex = isShowAll ? 4 : 0;
@@ -79,20 +82,16 @@ class Sections extends Component {
           <div className="cards-wrap cards-wrap_tag">
             {
               items
+                .slice(0, 20)
                 .map(tag => <Link
                   className="tag"
                   key={tag.id}
                   to={`/find?tags=${tag.title}&type=1`}
+                  rel="nofollow"
                 >
                   #{tag.title}
                 </Link>)
             }
-            <button
-              className="default-button"
-              type="button"
-            >
-              {__t('More')}
-            </button>
           </div>
           <ListWithNew
             ItemComponent={Product}
@@ -101,11 +100,15 @@ class Sections extends Component {
             itemProps={{ priceTemplate }}
             count={4}
           />
-          {/* {
+          {
             !isFetching
             &&
-            <PageSwitcher />
-          }  */}
+            <PageSwitcher
+              count={pages}
+              paginate={paginate}
+              active={activePage}
+            />
+          }
         </div>
       </main>
     );
@@ -126,13 +129,14 @@ Sections.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = ({ SubSections, Sections, Settings }) => ({
+const mapStateToProps = ({ SubSections, Sections, Settings, routing }) => ({
   items: SubSections.items,
   isFetching: SubSections.isFetching,
-  pagesCount: SubSections.pagesCount,
+  pages: SubSections.pagesCount,
   sections: Sections.items,
   posts: SubSections.posts,
   priceTemplate: Settings.data.CURRENCY,
+  routing: routing.locationBeforeTransitions,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -141,6 +145,6 @@ const mapDispatchToProps = dispatch => ({
   fetchPosts: (category, page) => dispatch(fetchSectionPosts({ category, page })),
 });
 
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps), preloader);
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps), preloader, paginateHOC);
 
 export default enhance(Sections);
