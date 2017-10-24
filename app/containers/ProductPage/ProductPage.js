@@ -156,18 +156,22 @@ class ProductPage extends Component {
       priceTemplate,
       me,
     } = this.props;
-    const crumbs = [{
-      title: data.category.title,
-      url: data.category.view_on_site_url,
-    },
-    {
+    const crumbs = [];
+
+    if (data.category) {
+      crumbs.push({
+        title: data.category.title,
+        url: data.category.view_on_site_url,
+      });
+    }
+
+    crumbs.push({
       title: data.user.profile_name || `User ID: ${data.user.id}`,
       url: `/profile/${data.user.id}`,
-    },
-    {
+    }, {
       title: data.title,
       url: `/blog/${data.slug}`,
-    }];
+    });
 
     const isUsersPost = author.id === me.id;
 
@@ -255,7 +259,7 @@ class ProductPage extends Component {
                       className="tag"
                       key={idx}
                       to={`/find?tags=${item}&type=1`}
-                    >{item}</Link>)
+                    >#{item}</Link>)
                 }
               </div>
             </div>
