@@ -83,21 +83,19 @@ class Home extends Component {
             {__t('Display.for.sale.their.works')}
           </h3>
         </div>
-        <div className="main">
-          <div className="cards-wrap">
-            {
-              (!isFetchingProducts && itemsProducts.length > 0)
-              &&
-              itemsProducts
-                .slice(0, 8)
-                .map(item => <Goods
-                  item={item}
-                  key={`${item.slug}--top`}
-                  priceTemplate={priceTemplate}
-                  isAuth={isAuthenticated}
-                />)
-            }
-          </div>
+        <div className="cards-wrap" style={{ padding: '0 15px' }}>
+          {
+            (!isFetchingProducts && itemsProducts.length > 0)
+            &&
+            itemsProducts
+              .slice(0, 8)
+              .map(item => <Goods
+                item={item}
+                key={`${item.slug}--top`}
+                priceTemplate={priceTemplate}
+                isAuth={isAuthenticated}
+              />)
+          }
         </div>
         <Loading loading={isFetchingProducts} />
 
