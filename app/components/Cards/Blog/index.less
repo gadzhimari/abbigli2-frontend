@@ -27,7 +27,7 @@
 
   &__info {
     position: relative;
-    padding: 35px 10px 10px 10px;
+    padding: 45px 10px 10px 10px;
   }
 
   .user {
@@ -42,6 +42,7 @@
     text-overflow: ellipsis;
     display: block;
     padding: 0 10px;
+    font-size: 16px;
 
     .avatar {
       width: 36px;
@@ -54,7 +55,7 @@
 
   &__title {
     font-family: 'ClearSansBold';
-    font-size: 16px;
+    font-size: 18px;
     line-height: 20px;
     color: #000;
     position: relative;
@@ -83,7 +84,7 @@
   }
 
   &__text {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 18px;
     text-align: center;
     margin-bottom: 10px;
@@ -91,7 +92,7 @@
     overflow: hidden;
   }
   &__date {
-    font-size: 13px;
+    font-size: 16px;
     line-height: 17px;
     color: @grayText;
     text-align: center;
@@ -100,11 +101,13 @@
   .comment-count {
     display: inline-block;
     vertical-align: top;
-    margin: -2px 0 0 30px;
+    margin: 0px 0 0 30px;
 
     .icon {
-      width: 10px;
+      width: 14px;
       margin-right: 10px;
+      margin-bottom: -2px;
+      fill: @grayText;
     }
   }
 }
