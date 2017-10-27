@@ -20,74 +20,90 @@ const preloader = WrappedComponent => class extends PureComponent {
     this.state = {
       isFetching: true,
       tree: [],
+      promo: [],
     };
   }
 
   componentDidMount() {
-    const { params, fetchSectionTags, fetchPosts, sections } = this.props;
-    const tree = this.createTree(params, sections);
-    const currentSection = tree[tree.length - 1];
-
-    Promise.all([
-      fetchSectionTags(currentSection.slug),
-      fetchPosts(currentSection.slug),
-    ]).then(() => this.setState({
-      isFetching: false,
-      tree,
-    }));
+    this.getData();
   }
 
   componentDidUpdate(prevProps) {
-    const { params, fetchSectionTags, fetchPosts, sections } = this.props;
-    const tree = this.createTree(params, sections);
-    const currentSection = tree[tree.length - 1];
-
+    const { params } = this.props;
     if (prevProps.params !== params) {
       this.setState({
         isFetching: true,
       });
 
-      Promise.all([
-        fetchSectionTags(currentSection.slug),
-        fetchPosts(currentSection.slug),
-      ]).then(() => this.setState({
-        isFetching: false,
-        tree,
-      }));
+      this.getData();
     }
   }
 
+  getData = () => {
+    const { params, fetchSectionTags, fetchPosts, sections } = this.props;
+    const tree = this.createTree(params, sections);
+    const currentSection = tree[tree.length - 1];
+    const promo = this.getPromo(currentSection);
+
+    Promise.all([fetchSectionTags(currentSection.slug), fetchPosts(currentSection.slug)])
+      .then(() => this.setState({
+        isFetching: false,
+        tree,
+        promo,
+      }));
+  }
+
   createTree = (params, sections) => {
-    const array = Object.keys(params)
-      .map(key => params[key]);
+    const { normalizedSections, promo } = this.props;
 
-    return array.reduce((acc) => {
-      const categories = acc.length > 0
-        ? acc[acc.length - 1].children
-        : sections;
-      const current = categories.filter(section => array.includes(section.slug))[0] || {};
-      const previous = acc.length > 0
-        ? acc[acc.length - 1]
-        : null;
+    const array = Object.keys(params).map(key => params[key]);
+    const categories = normalizedSections.entities.categories;
+    const promoCategories = promo.entities.categories;
 
+    return array.reduce((acc, cur) => {
+      const targetCategories = cur in categories ? categories : promoCategories;
+      const current = Object.create(targetCategories[cur]);
 
-      acc.push({
-        id: current.id,
-        title: current.title,
-        slug: current.slug,
-        children: current.children,
-        url: previous
-          ? `${previous.url}/${current.slug}`
-          : `/c/${current.slug}`,
-        showAll: current.show_all,
-      });
+      current.children = current.children.map(catSlug => targetCategories[catSlug]);
+      current.url = current.view_on_site_url;
+
+      acc.push(current);
 
       return acc;
     }, []);
   }
 
+  getPromo = (currentSection) => {
+    if (currentSection.children.length === 0) return [];
+
+    const { promo } = this.props;
+    const promoCategories = promo.entities.categories;
+
+    const currentPromoParent = promoCategories[currentSection.slug];
+
+    const promoCat = getPromoFromCat(currentPromoParent.children);
+
+    return promoCat;
+
+    function getPromoFromCat(array) {
+      return array.reduce((prev, cur) => {
+        const currentCat = promoCategories[cur];
+
+        if (currentCat.is_promo) {
+          prev.push(currentCat);
+
+          return prev;
+        }
+
+        prev.push(...getPromoFromCat(currentCat.children));
+
+        return prev;
+      }, []);
+    }
+  }
+
   render() {
-    const { isFetching, tree } = this.state;
+    const { isFetching, tree, promo } = this.state;
     const currentSection = tree[tree.length - 1] || {};
 
     if (isFetching) {
@@ -98,7 +114,7 @@ const preloader = WrappedComponent => class extends PureComponent {
       return <SectionTag {...this.props} tree={tree} />;
     }
 
-    return (<WrappedComponent {...this.props} tree={tree} />);
+    return (<WrappedComponent {...this.props} tree={tree} promoCategories={promo} />);
   }
 };
 

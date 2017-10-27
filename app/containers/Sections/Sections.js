@@ -1,3 +1,5 @@
+/* eslint react/sort-comp: 0 react/require-default-props: 0 */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,8 +14,6 @@ import {
 } from 'components';
 import paginateHOC from '../../HOC/paginate';
 
-
-import ShowAllSection from './ShowAllSection';
 import ShowMiddleCards from './ShowMiddleCards';
 
 import { Product, SubCategoryList } from 'components/Cards';
@@ -45,11 +45,10 @@ const newData = [{
 
 class Sections extends Component {
   render() {
-    const { items, params, sections, priceTemplate, posts, tree, isFetching } = this.props;
+    const { items, params, sections, priceTemplate, posts, tree, promoCategories } = this.props;
     const { pages, paginate, activePage } = this.props;
     const currentSection = tree[tree.length - 1];
-    const isShowAll = currentSection.showAll;
-    const startIndex = isShowAll ? 4 : 0;
+    const startIndex = 5;
 
     return (
       <main className="main">
@@ -60,20 +59,16 @@ class Sections extends Component {
           <h1 className="section-title">
             {currentSection.title}
           </h1>
-          {
-            isShowAll
-            &&
-            <ShowAllSection
-              items={currentSection.children.slice(0, startIndex)}
-              url={currentSection.url}
-            />
-          }
           <ShowMiddleCards
-            items={currentSection.children.slice(startIndex, startIndex + 5)}
+            items={currentSection.children.slice(0, startIndex)}
             url={currentSection.url}
           />
           <SubCategoryList
-            items={currentSection.children.slice(startIndex + 5)}
+            items={currentSection.children.slice(startIndex)}
+            url={currentSection.url}
+          />
+          <SubCategoryList
+            items={promoCategories.slice(0, 10)}
             url={currentSection.url}
           />
           <h1 className="section-title">
@@ -82,7 +77,7 @@ class Sections extends Component {
           <div className="cards-wrap cards-wrap_tag">
             {
               items
-                .slice(0, 20)
+                .slice(0, 25)
                 .map(tag => <Link
                   className="tag"
                   key={tag.id}
@@ -100,15 +95,15 @@ class Sections extends Component {
             itemProps={{ priceTemplate }}
             count={4}
           />
-          {
-            !isFetching
-            &&
-            <PageSwitcher
-              count={pages}
-              paginate={paginate}
-              active={activePage}
-            />
-          }
+          <SubCategoryList
+            items={promoCategories.slice(10, 15)}
+            url={currentSection.url}
+          />
+          <PageSwitcher
+            count={pages}
+            paginate={paginate}
+            active={activePage}
+          />
         </div>
       </main>
     );
@@ -117,16 +112,17 @@ class Sections extends Component {
 
 Sections.propTypes = {
   isFetching: PropTypes.bool.isRequired,
-  fetchSectionTags: PropTypes.func.isRequired,
+  fetchSectionTags: PropTypes.func,
   items: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string,
     preview: PropTypes.string,
     id: PropTypes.number,
   })).isRequired,
-  pagesCount: PropTypes.number.isRequired,
+  pagesCount: PropTypes.number,
   params: PropTypes.shape({
     section: PropTypes.string,
   }).isRequired,
+  tree: PropTypes.arrayOf(PropTypes.object),
 };
 
 const mapStateToProps = ({ SubSections, Sections, Settings, routing }) => ({
@@ -134,6 +130,8 @@ const mapStateToProps = ({ SubSections, Sections, Settings, routing }) => ({
   isFetching: SubSections.isFetching,
   pages: SubSections.pagesCount,
   sections: Sections.items,
+  normalizedSections: Sections.normalizedCategories,
+  promo: Sections.promo,
   posts: SubSections.posts,
   priceTemplate: Settings.data.CURRENCY,
   routing: routing.locationBeforeTransitions,

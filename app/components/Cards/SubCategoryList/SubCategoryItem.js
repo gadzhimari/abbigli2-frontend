@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 const SubCategoryItem = ({ data, url }) => (
   <Link
     className="category-button"
-    to={`${url}/${data.slug}`}
+    to={`${data.view_on_site_url}`}
   >
     {data.title}
   </Link>
