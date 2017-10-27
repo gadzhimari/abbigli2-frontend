@@ -5,6 +5,8 @@ import Follower from '../SearchPopup/UserItem';
 
 import { __t } from '../../../i18n/translator';
 
+import './Followers.less';
+
 class Followers extends Component {
   render() {
     const { closePopup, options } = this.props;
