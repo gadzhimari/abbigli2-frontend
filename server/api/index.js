@@ -1,4 +1,4 @@
-import expre  ss from 'express';
+import express from 'express';
 
 import getCatalogStore from './catalog/getCatalogStore';
 
