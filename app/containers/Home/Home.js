@@ -83,7 +83,7 @@ class Home extends Component {
             {__t('Display.for.sale.their.works')}
           </h3>
         </div>
-        <div className="cards-wrap" style={{ padding: '0 15px' }}>
+        <TileWrap>
           {
             (!isFetchingProducts && itemsProducts.length > 0)
             &&
@@ -96,7 +96,7 @@ class Home extends Component {
                 isAuth={isAuthenticated}
               />)
           }
-        </div>
+        </TileWrap>
         <Loading loading={isFetchingProducts} />
 
         <Link to="/new-products/" className="show-more">
