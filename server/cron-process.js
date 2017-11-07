@@ -11,6 +11,7 @@ intel.basicConfig({
 
 checkCatalog((updated) => {
   const message = updated ? 'catalog cache updated' : 'catalog do not need update';
+  console.log('initial catalog cache');
 
   intel.info(message);
 });
