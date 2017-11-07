@@ -23,24 +23,6 @@ import { __t } from '../../i18n/translator';
 
 import './BlogsPage.less';
 
-const newData = [{
-  id: 0,
-  type: 4,
-  title: 'Blog title',
-  author: {
-    name: 'Mike',
-  },
-},
-{
-  id: 1,
-  type: 3,
-  title: 'Event title',
-  date: '22.07.2017',
-  author: {
-    name: 'Mike',
-  },
-}];
-
 class BlogsPage extends PureComponent {
   constructor(props) {
     super(props);
@@ -200,7 +182,7 @@ class BlogsPage extends PureComponent {
               ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
               : <ListWithNew
                 items={items}
-                newItems={newData}
+                itemsType={3}
                 itemProps={{ legacy: true }}
                 count={8}
                 ItemComponent={Blog}

@@ -108,12 +108,18 @@ module.exports = {
         test: /\.less$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader', 'postcss-loader', {
+          use: [{
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          }, 'postcss-loader', {
             loader: 'less-loader',
             options: {
               paths: [
                 path.resolve(__dirname, 'app/containers/App/base'),
               ],
+              sourceMap: true,
             },
           }],
         }),

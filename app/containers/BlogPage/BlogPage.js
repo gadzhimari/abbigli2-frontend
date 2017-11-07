@@ -30,25 +30,6 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './BlogPage.less';
 
-
-const newData = [{
-  id: 0,
-  type: 4,
-  title: 'Blog title',
-  author: {
-    name: 'Mike',
-  },
-},
-{
-  id: 1,
-  type: 3,
-  title: 'Event title',
-  date: '22.07.2017',
-  author: {
-    name: 'Mike',
-  },
-}];
-
 class BlogPage extends Component {
   static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, token))
 
@@ -196,7 +177,7 @@ class BlogPage extends Component {
               slug={data.slug}
             />
           }
-          <div className="section">
+          {/* <div className="section">
             <div className="cards-wrap">
               {
                 newData.map(item => <NewPost
@@ -205,7 +186,7 @@ class BlogPage extends Component {
                 />)
               }
             </div>
-          </div>
+          </div> */}
         </main>
       </main>
     );

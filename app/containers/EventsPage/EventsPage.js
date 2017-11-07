@@ -20,24 +20,6 @@ import { __t } from './../../i18n/translator';
 
 import './EventPage.less';
 
-const newData = [{
-  id: 0,
-  type: 4,
-  title: 'Blog title',
-  author: {
-    name: 'Mike',
-  },
-},
-{
-  id: 1,
-  type: 3,
-  title: 'Event title',
-  date: '22.07.2017',
-  author: {
-    name: 'Mike',
-  },
-}];
-
 class EventsPage extends Component {
   componentDidMount() {
     const { items, location } = this.props;
@@ -170,7 +152,7 @@ class EventsPage extends Component {
               ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
               : <ListWithNew
                 items={items}
-                newItems={newData}
+                itemsType={4}
                 itemProps={{ legacy: true }}
                 count={8}
                 ItemComponent={Event}

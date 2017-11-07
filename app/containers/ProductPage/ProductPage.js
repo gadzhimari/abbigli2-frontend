@@ -282,7 +282,7 @@ class ProductPage extends Component {
               itemProps={{ priceTemplate }}
             />
           }
-          <div className="section">
+          {/* <div className="section">
             <div className="cards-wrap">
               {
                 newData.map(item => <NewPost
@@ -291,7 +291,7 @@ class ProductPage extends Component {
                 />)
               }
             </div>
-          </div>
+          </div> */}
         </main>
       </main>
     );

@@ -21,6 +21,7 @@ import {
 } from 'ducks/Auth/authActions';
 import { closePopup, openPopup } from 'ducks/Popup/actions';
 import { fetchData as settingsFetch, fetchGeo } from 'ducks/Settings';
+import loadNewIn from 'ducks/NewIn/actions';
 import toggleMobileMenu, { closeMenu } from 'ducks/Menu/actions';
 import { fetchData as fetchDataSections } from 'ducks/Sections';
 
@@ -68,6 +69,7 @@ class App extends Component {
 
     dispatch(settingsFetch());
     dispatch(fetchGeo());
+    dispatch(loadNewIn());
   }
 
   componentDidMount() {

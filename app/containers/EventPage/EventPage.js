@@ -183,7 +183,7 @@ class EventPage extends Component {
               slug={data.slug}
             />
           }
-          <div className="section">
+          {/* <div className="section">
             <div className="cards-wrap">
               {
                 newData.map(item => <NewPost
@@ -192,7 +192,7 @@ class EventPage extends Component {
                 />)
               }
             </div>
-          </div>
+          </div> */}
         </main>
       </main>
     );

@@ -1,35 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router';
 import { __t } from '../../i18n/translator';
+import { THUMBS_URL } from 'config';
+
 import './NewPost.less';
 
-const NewPost = ({
-  data,
-}) => {
+const rubricByType = {
+  3: __t('New in blogs'),
+  4: __t('New in events'),
+  1: __t('New in posts'),
+};
+
+const NewPost = ({ data }) => {
+  if (!data) return null;
+
+  const userName = data.user.profile_name || `user id: ${data.user.id}`;
+
   return (
     <div className="new-post">
       <div className="new-post__img-wrap">
         <img
           className="new-post__img"
-          src="/images/temp/2.png"
+          src={`${THUMBS_URL}unsafe/592x140/${data.images[0].file}`}
           alt={data.title}
         />
       </div>
       <div className="new-post__info">
         <div className="new-post__rubric">
-          {
-            data.type === 3
-              ? __t('New in events')
-              : __t('New in blogs')
-          }
+          {rubricByType[data.type]}
         </div>
-        <a className="new-post__title">
-          <svg className="icon icon-bag">
-            <use xlinkHref="#icon-bag" />
-          </svg>
+        <Link className="new-post__title" to={data.view_on_site_url}>
           {data.title}
-        </a>
+        </Link>
         <div className="new-post__date">
           {
             !!data.date
@@ -43,10 +47,10 @@ const NewPost = ({
               <img
                 className="avatar__img"
                 src="/images/temp/3.png"
-                alt={data.author.name}
+                alt={userName}
               />
             </div>
-            {data.author.name}
+            {userName}
           </a>
         </div>
       </div>

@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+import { pure } from 'recompose';
+
 import { NewPost } from 'components';
 import { Product, Event, Blog } from 'components/Cards';
 
 import { __t } from './../../i18n/translator';
+
+const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 const cardsByType = {
   1: Product,
@@ -12,13 +17,28 @@ const cardsByType = {
   3: Event,
 };
 
+const newItemsByType = {
+  1: ['blogs', 'events'],
+  3: ['posts', 'events'],
+  4: ['posts', 'blogs'],
+};
+
+const getNewItems = (type, props) => {
+  const types = newItemsByType[type];
+
+  return types.map(item => props[item][getRandomInt(0, props[item].length - 1)]);
+};
+
 const ListWithNew = ({
   items,
-  newItems,
   itemProps,
   count,
   ItemComponent,
+  itemsType,
+  newPosts,
 }) => {
+  const newItems = getNewItems(itemsType, newPosts);
+
   if (items.length === 0) {
     return (
       <div>
@@ -27,10 +47,16 @@ const ListWithNew = ({
         </div>
         <div className="cards-wrap">
           {
-            newItems.map(item => <NewPost
-              data={item}
-              key={item.id}
-            />)
+            newItems.map((item) => {
+              if (!item) {
+                return null;
+              }
+
+              return (<NewPost
+                data={item}
+                key={item.id}
+              />);
+            })
           }
         </div>
       </div>
@@ -54,10 +80,16 @@ const ListWithNew = ({
       </div>
       <div className="cards-wrap">
         {
-          newItems.map(item => <NewPost
-            data={item}
-            key={item.id}
-          />)
+          newItems.map((item) => {
+            if (!item) {
+              return null;
+            }
+
+            return (<NewPost
+              data={item}
+              key={item.id}
+            />);
+          })
         }
       </div>
       <div className="cards-wrap">
@@ -79,14 +111,29 @@ const ListWithNew = ({
 
 ListWithNew.defaultProps = {
   itemProps: {},
+  itemsType: 1,
 };
 
 ListWithNew.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  newItems: PropTypes.arrayOf(PropTypes.object).isRequired,
   itemProps: PropTypes.shape(),
+  itemsType: PropTypes.number,
   count: PropTypes.number.isRequired,
-  ItemComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.any]).isRequired,
+  ItemComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.any])
+    .isRequired,
+  newPosts: PropTypes.shape({
+    posts: PropTypes.array,
+    events: PropTypes.array,
+    blogs: PropTypes.array,
+  }).isRequired,
 };
 
-export default ListWithNew;
+const mapStore = store => ({
+  newPosts: {
+    posts: store.NewIn.posts,
+    events: store.NewIn.events,
+    blogs: store.NewIn.blogs,
+  },
+});
+
+export default connect(mapStore)(pure(ListWithNew));

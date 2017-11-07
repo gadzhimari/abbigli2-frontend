@@ -23,24 +23,6 @@ import { __t } from '../../i18n/translator';
 
 import './Sections.less';
 
-const newData = [{
-  id: 0,
-  type: 4,
-  title: 'Blog title',
-  author: {
-    name: 'Mike',
-  },
-},
-{
-  id: 1,
-  type: 3,
-  title: 'Event title',
-  date: '22.07.2017',
-  author: {
-    name: 'Mike',
-  },
-}];
-
 class Sections extends Component {
   render() {
     const { items, params, sections, priceTemplate, posts, tree } = this.props;
@@ -97,7 +79,6 @@ class Sections extends Component {
           <ListWithNew
             ItemComponent={Product}
             items={posts}
-            newItems={newData}
             itemProps={{ priceTemplate }}
             count={4}
           />
