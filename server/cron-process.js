@@ -9,8 +9,14 @@ intel.basicConfig({
   file: './node-server.log',
 });
 
+checkCatalog((updated) => {
+  const message = updated ? 'catalog cache updated' : 'catalog do not need update';
+
+  intel.info(message);
+});
+
 const job = new CronJob({
-  cronTime: '00 * * * * *',
+  cronTime: '00 00 20 * * *',
   onTick: () => {
     checkCatalog((updated) => {
       const message = updated ? 'catalog cache updated' : 'catalog do not need update';
