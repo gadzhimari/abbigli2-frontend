@@ -67,17 +67,13 @@ class Sections extends Component {
             items={currentSection.children.slice(startIndex)}
             url={currentSection.url}
           />
-          <SubCategoryList
-            items={promoCategories.slice(0, 10)}
-            url={currentSection.url}
-          />
           <h1 className="section-title">
             {__t('Tags')}
           </h1>
           <div className="cards-wrap cards-wrap_tag">
             {
               items
-                .slice(0, 25)
+                .slice(0, 20)
                 .map(tag => <Link
                   className="tag"
                   key={tag.id}
@@ -88,6 +84,18 @@ class Sections extends Component {
                 </Link>)
             }
           </div>
+          <div className="category-buttons">
+            {
+              promoCategories
+                .slice(0, 10)
+                .map(item => <Link
+                  to={item.view_on_site_url}
+                  className="category-buttons__link"
+                >
+                  {item.title}
+                </Link>)
+            }
+          </div> 
           <ListWithNew
             ItemComponent={Product}
             items={posts}
@@ -95,10 +103,18 @@ class Sections extends Component {
             itemProps={{ priceTemplate }}
             count={4}
           />
-          <SubCategoryList
-            items={promoCategories.slice(10, 15)}
-            url={currentSection.url}
-          />
+          <div className="category-buttons">
+            {
+              promoCategories
+                .slice(10, 15)
+                .map(item => <Link
+                  to={item.view_on_site_url}
+                  className="category-buttons__link"
+                >
+                  {item.title}
+                </Link>)
+            }
+          </div>
           <PageSwitcher
             count={pages}
             paginate={paginate}
