@@ -8,8 +8,8 @@ import { THUMBS_URL } from 'config';
 import './NewPost.less';
 
 const rubricByType = {
-  3: __t('New in blogs'),
-  4: __t('New in events'),
+  4: __t('New in blogs'),
+  3: __t('New in events'),
   1: __t('New in posts'),
 };
 
