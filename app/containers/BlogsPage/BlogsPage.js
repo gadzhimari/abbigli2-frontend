@@ -182,7 +182,7 @@ class BlogsPage extends PureComponent {
               ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
               : <ListWithNew
                 items={items}
-                itemsType={3}
+                itemsType={4}
                 itemProps={{ legacy: true }}
                 count={8}
                 ItemComponent={Blog}

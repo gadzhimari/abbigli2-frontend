@@ -152,7 +152,7 @@ class EventsPage extends Component {
               ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
               : <ListWithNew
                 items={items}
-                itemsType={4}
+                itemsType={3}
                 itemProps={{ legacy: true }}
                 count={8}
                 ItemComponent={Event}

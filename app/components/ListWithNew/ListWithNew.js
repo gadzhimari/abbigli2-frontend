@@ -19,8 +19,8 @@ const cardsByType = {
 
 const newItemsByType = {
   1: ['blogs', 'events'],
-  3: ['posts', 'events'],
-  4: ['posts', 'blogs'],
+  4: ['posts', 'events'],
+  3: ['posts', 'blogs'],
 };
 
 const getNewItems = (type, props) => {

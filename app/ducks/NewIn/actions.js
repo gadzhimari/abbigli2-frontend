@@ -21,8 +21,8 @@ const loadPosts = () => {
       if (loaded === 3) {
         dispatch(loadedPosts({
           posts: results[0],
-          blogs: results[1],
-          events: results[2],
+          events: results[1],
+          blogs: results[2],
         }));
       }
     };
