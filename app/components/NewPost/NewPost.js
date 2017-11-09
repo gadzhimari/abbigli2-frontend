@@ -20,13 +20,13 @@ const NewPost = ({ data }) => {
 
   return (
     <div className="new-post">
-      <div className="new-post__img-wrap">
+      <Link className="new-post__img-wrap" to={data.view_on_site_url}>
         <img
           className="new-post__img"
           src={`${THUMBS_URL}unsafe/592x140/${data.images[0].file}`}
           alt={data.title}
         />
-      </div>
+      </Link>
       <div className="new-post__info">
         <div className="new-post__rubric">
           {rubricByType[data.type]}
