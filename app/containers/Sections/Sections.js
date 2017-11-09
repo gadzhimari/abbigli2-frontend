@@ -49,6 +49,7 @@ class Sections extends Component {
     const { pages, paginate, activePage } = this.props;
     const currentSection = tree[tree.length - 1];
     const startIndex = 5;
+    const isPromo = currentSection.is_promo;
 
     return (
       <main className="main">
@@ -59,17 +60,29 @@ class Sections extends Component {
           <h1 className="section-title">
             {currentSection.title}
           </h1>
-          <ShowMiddleCards
-            items={currentSection.children.slice(0, startIndex)}
-            url={currentSection.url}
-          />
-          <SubCategoryList
-            items={currentSection.children.slice(startIndex)}
-            url={currentSection.url}
-          />
-          <h1 className="section-title">
-            {__t('Tags')}
-          </h1>
+          {
+            !isPromo
+            &&
+            <ShowMiddleCards
+              items={currentSection.children.slice(0, startIndex)}
+              url={currentSection.url}
+            />
+          }
+          {
+            !isPromo
+            &&
+            <SubCategoryList
+              items={currentSection.children.slice(startIndex)}
+              url={currentSection.url}
+            />
+          }
+          {
+            !isPromo
+            &&
+            <h1 className="section-title">
+              {__t('Tags')}
+            </h1>
+          }
           <div className="cards-wrap cards-wrap_tag">
             {
               items
@@ -106,7 +119,7 @@ class Sections extends Component {
           <div className="category-buttons">
             {
               promoCategories
-                .slice(10, 15)
+                .slice(10, isPromo ? promoCategories.length : 15)
                 .map(item => <Link
                   to={item.view_on_site_url}
                   className="category-buttons__link"

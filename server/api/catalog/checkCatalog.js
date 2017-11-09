@@ -68,7 +68,6 @@ const checkHashes = (data) => {
 
   data.forEach((item) => {
     const newHash = digest(item.data);
-    console.log(item.type, '|', newHash, '|', hashes[item.type]);
 
     if (newHash !== hashes[item.type]) {
       hashes[item.type] = newHash;

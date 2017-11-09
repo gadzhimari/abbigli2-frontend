@@ -58,10 +58,7 @@ const routes = (store, token, shouldPreload) => {
       <Route path="people" component={PeopleSearch} />
       <Route path="chat" component={Chat} />
 
-      <Route path="c/:section" component={Sections} />
-      <Route path="c/:section/:subsection" component={Sections} />
-      <Route path="c/:section/:subsection/:category" component={Sections} />
-      <Route path="c/:section/:subsection/:category/:subcategory" component={Sections} />
+      <Route path="c(/**)/:section" component={Sections} />
 
       <Route path="post/new" component={PostCreate} onEnter={handleNoAuth} />
       <Route path="profile/:profile/post/edit/:slug" component={PostCreate} onEnter={handleNoAuth} />

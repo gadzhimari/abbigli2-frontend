@@ -41,6 +41,7 @@ const preloader = WrappedComponent => class extends PureComponent {
 
   getData = () => {
     const { params, fetchSectionTags, fetchPosts, sections } = this.props;
+    const start = performance.now();
     const tree = this.createTree(params, sections);
     const currentSection = tree[tree.length - 1];
     const promo = this.getPromo(currentSection);
@@ -56,13 +57,17 @@ const preloader = WrappedComponent => class extends PureComponent {
   createTree = (params, sections) => {
     const { normalizedSections, promo } = this.props;
 
-    const array = Object.keys(params).map(key => params[key]);
+    let array = [params.section];
     const categories = normalizedSections.entities.categories;
     const promoCategories = promo.entities.categories;
 
+    if (params.splat) {
+      array = params.splat.split('/').concat(array);
+    }
+
     return array.reduce((acc, cur) => {
       const targetCategories = cur in categories ? categories : promoCategories;
-      const current = Object.create(targetCategories[cur]);
+      const current = Object.assign({}, targetCategories[cur]);
 
       current.children = current.children.map(catSlug => targetCategories[catSlug]);
       current.url = current.view_on_site_url;
