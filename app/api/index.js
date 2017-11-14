@@ -101,6 +101,12 @@ export const Profile = {
 };
 
 export const Tags = {
+  getTags(params) {
+    return request({
+      url: 'tags/',
+      params,
+    });
+  },
   getRelatedTags(tags) {
     return request({
       url: 'tags/',

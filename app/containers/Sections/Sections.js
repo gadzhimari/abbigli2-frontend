@@ -15,11 +15,12 @@ import {
 import paginateHOC from '../../HOC/paginate';
 
 import ShowMiddleCards from './ShowMiddleCards';
+import TagsBlock from './TagsBlock';
 
 import { Product, SubCategoryList } from 'components/Cards';
 import preloader from './preloader';
 
-import { fetchData, fetchSectionPosts } from 'ducks/SubSections';
+import { fetchPosts, fetchTags } from 'ducks/CatalogPage/actions';
 import { openPopup } from 'ducks/Popup/actions';
 import { __t } from '../../i18n/translator';
 
@@ -83,20 +84,10 @@ class Sections extends Component {
               {__t('Tags')}
             </h1>
           }
-          <div className="cards-wrap cards-wrap_tag">
-            {
-              items
-                .slice(0, 20)
-                .map(tag => <Link
-                  className="tag"
-                  key={tag.id}
-                  to={`/find?tags=${tag.title}&type=1`}
-                  rel="nofollow"
-                >
-                  #{tag.title}
-                </Link>)
-            }
-          </div>
+          <TagsBlock
+            items={items}
+            category={currentSection.slug}
+          />
           <div className="category-buttons">
             {
               promoCategories
@@ -154,22 +145,22 @@ Sections.propTypes = {
   tree: PropTypes.arrayOf(PropTypes.object),
 };
 
-const mapStateToProps = ({ SubSections, Sections, Settings, routing }) => ({
-  items: SubSections.items,
-  isFetching: SubSections.isFetching,
-  pages: SubSections.pagesCount,
+const mapStateToProps = ({ CatalogPage, Sections, Settings, routing }) => ({
+  items: CatalogPage.tags,
+  isFetching: CatalogPage.isFetching,
+  pages: CatalogPage.postPagesCount,
   sections: Sections.items,
   normalizedSections: Sections.normalizedCategories,
   promo: Sections.promo,
-  posts: SubSections.posts,
+  posts: CatalogPage.posts,
   priceTemplate: Settings.data.CURRENCY,
   routing: routing.locationBeforeTransitions,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchSectionTags: (category, page) => dispatch(fetchData({ category, page })),
+  fetchSectionTags: (category, page) => dispatch(fetchTags({ category, page })),
   openMobileFilters: () => dispatch(openPopup('filtersPopup')),
-  fetchPosts: (category, page) => dispatch(fetchSectionPosts({ category, page })),
+  fetchPosts: (category, page) => dispatch(fetchPosts({ category, page })),
 });
 
 const enhance = compose(connect(mapStateToProps, mapDispatchToProps), preloader, paginateHOC);
