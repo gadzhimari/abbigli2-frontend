@@ -138,6 +138,15 @@ class AvatarBlock extends Component {
         {
           isAuthenticated
           &&
+          <Link className="header__menu-item" to="/chat">
+            <svg className="icon icon-messages" viewBox="0 0 25 23">
+              <path d="M21.4,13.6l-0.2,4.6l-3.8-3.1c-0.4,0.1-0.9,0.1-1.3,0.1c-5,0-9-3.4-9-7.6c0-4.2,4-7.6,9-7.6s9,3.4,9,7.6 C25,10.1,23.6,12.2,21.4,13.6z M15.4,16.7c0.3,0,0.7,0,1,0c-1.6,2-4.3,3.3-7.4,3.3c-0.5,0-0.9,0-1.3-0.1L3.8,23l-0.2-4.6 C1.4,17,0,14.9,0,12.4c0-3.3,2.5-6.1,6-7.1c-0.4,0.9-0.6,1.9-0.6,3C5.3,12.9,9.8,16.7,15.4,16.7z"/>
+            </svg>
+          </Link>
+        }
+        {
+          isAuthenticated
+          &&
           <UserMenu
             user={this.props.me}
             onLogoutClick={onLogoutClick}

@@ -44,7 +44,6 @@ class PostCreate extends Component {
     this.state = {
       ...props.data,
       contentBlog: props.data.content,
-      changeCategory: false,
     };
   }
 
@@ -182,6 +181,7 @@ class PostCreate extends Component {
       errors,
       loadImageErrors,
       params,
+      categories,
     } = this.props;
 
     const containerClassName = classNames('add-tabs__content', {
@@ -223,27 +223,12 @@ class PostCreate extends Component {
                   onChange={this.changeValue}
                   openCityPopup={this.openSelectPopup}
                 />
-                {
-                  this.state.categories && !this.state.changeCategory
-                    ? <div className="add-tabs__form-field">
-                      <label className="label">{__t('Category')}</label>
-                      <div className="add-tabs__category-name">
-                        {this.state.categories[0].title}{' '}
-                        <span
-                          className="add-tabs__category-change"
-                          onClick={this.toggleChangable}
-                        >
-                          {__t('Change')}
-                        </span>
-                      </div>
-                    </div>
-                    : <MultiSelect
-                      options={sections}
-                      ref={sectionSelect => (this.sectionSelect = sectionSelect)}
-                      currentCategory={this.state.categories && this.state.categories[0].title}
-                      chooseCarrentCategory={this.toggleChangable}
-                    />
-                }
+                <MultiSelect
+                  options={sections}
+                  ref={sectionSelect => (this.sectionSelect = sectionSelect)}
+                  currentCategory={this.state.categories && this.state.categories[0].slug}
+                  categories={categories}
+                />
                 <ProductSpecific
                   shouldShow={type === 1}
                   onChange={this.changeValue}
@@ -337,6 +322,7 @@ const mapStateToProps = state => ({
   geoCity: state.Geo.city,
   isFetching: state.PostCreate.isPostFetching,
   data: state.PostCreate.data,
+  categories: state.Sections.normalizedCategories.entities.categories,
 });
 
 const mapDispatchToProps = dispatch => ({

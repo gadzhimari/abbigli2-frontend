@@ -1,3 +1,5 @@
+/* eslint react/require-default-props: 0 */
+
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,16 +11,12 @@ class MultiSelect extends PureComponent {
   static propTypes = {
     /** Массив из элементов верхнего уровня */
     options: PropTypes.arrayOf(PropTypes.object),
-    /** Заголовок существующей категории поста, если есть */
     currentCategory: PropTypes.string,
-    /** Функция возвращения к существующей категории поста */
-    chooseCarrentCategory: PropTypes.func,
+    categories: PropTypes.arrayOf(PropTypes.object),
   }
 
   static defaultProps = {
     options: [],
-    currentCategory: '',
-    chooseCarrentCategory: () => {},
   }
 
   constructor(props) {
@@ -30,6 +28,12 @@ class MultiSelect extends PureComponent {
         children: props.options,
       }],
     };
+  }
+
+  componentDidMount() {
+    if (this.props.currentCategory) {
+      this.genetateInitialStack();
+    }
   }
 
   /* Возвращает последний индекс стэка вложенности */
@@ -47,6 +51,39 @@ class MultiSelect extends PureComponent {
     return this.lastStackIndex === this.lastValuesIndex
       ? [this.state.values[this.lastStackIndex]]
       : [];
+  }
+
+  genetateInitialStack = () => {
+    const { currentCategory, categories } = this.props;
+    const stack = [];
+    const values = [];
+
+    let current = categories[currentCategory];
+
+    stack.push({
+      ...current,
+      value: current.id,
+      label: current.title,
+    });
+
+    values.push(current.id);
+
+    while (current.parent) {
+      current = categories[current.parent];
+
+      stack.unshift({
+        ...current,
+        value: current.id,
+        label: current.title,
+      });
+
+      values.unshift(current.id);
+    }
+
+    this.setState({
+      stack,
+      values,
+    });
   }
 
   sectionsChange = (value) => {
@@ -93,21 +130,6 @@ class MultiSelect extends PureComponent {
               key={group.label}
               label={group.label}
             />)
-        }
-        {
-          this.props.currentCategory
-          &&
-          <div className="add-tabs__current-category">
-            <div className="add-tabs__category-name">
-              {this.props.currentCategory}{' '}
-              <span
-                className="add-tabs__category-change"
-                onClick={this.props.chooseCarrentCategory}
-              >
-                {__t('Choose')}
-              </span>
-            </div>
-          </div>
         }
       </div>
     );
