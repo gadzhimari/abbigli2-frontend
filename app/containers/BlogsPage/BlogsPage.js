@@ -175,6 +175,12 @@ class BlogsPage extends PureComponent {
               onClick={this.doSearch}
             >
               {__t('Search')}
+              <svg className="icon icon-search" viewBox="0 0 57.9 58">
+                <g id="XMLID_2_">
+                  <path id="XMLID_9_" className="st0" d="M43.5,21.7C43.5,9.7,33.7,0,21.7,0C9.7,0,0,9.7,0,21.7s9.7,21.7,21.7,21.7 C33.7,43.5,43.5,33.7,43.5,21.7z M21.7,38.5C12.5,38.5,5,31,5,21.7S12.5,5,21.7,5s16.7,7.5,16.7,16.7S31,38.5,21.7,38.5z" />
+                  <path id="XMLID_10_" className="st0" d="M56.3,48.8L43.1,35.5c-2,3-4.6,5.6-7.7,7.5l13.3,13.4c2.1,2.1,5.5,2.1,7.6,0l0,0 C58.4,54.3,58.4,50.9,56.3,48.8z" />
+                </g>
+              </svg>
             </button>
           </div>
           {

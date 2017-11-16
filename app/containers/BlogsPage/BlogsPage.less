@@ -20,6 +20,10 @@
     &:after {
       display: none;
     }
+
+    & .icon-search {
+      display: none;
+    }
   }
 
   .content {
@@ -94,6 +98,32 @@
   &.open {
     .select__dropdown {
       display: block;
+    }
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .blog .filter.filter-search {
+    display: block;
+    padding: 0 60px 0 0;
+
+    & .select {
+      display: none;
+    }
+
+    & .default-button {
+      width: auto;
+      min-width: auto;
+      font: 0/0 serif;
+      text-shadow: none;
+      color: transparent;
+      padding: 8px 15px 9px;
+    }
+
+    .icon-search {
+      display: block;
+      width: 20px;
+      fill: #fff;
     }
   }
 }
