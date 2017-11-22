@@ -9,10 +9,13 @@ import { __t } from '../../../i18n/translator';
 
 class MultiSelect extends PureComponent {
   static propTypes = {
-    /** Массив из элементов верхнего уровня */
+    /* Массив из элементов верхнего уровня */
     options: PropTypes.arrayOf(PropTypes.object),
+    /* slug категории редактируемого поста
+    (используется когда мы редактируем сущетствующий пост) */
     currentCategory: PropTypes.string,
-    categories: PropTypes.arrayOf(PropTypes.object),
+    /* Список категорий нормализованных по slug */
+    categories: PropTypes.objectOf(PropTypes.object),
   }
 
   static defaultProps = {
@@ -53,32 +56,39 @@ class MultiSelect extends PureComponent {
       : [];
   }
 
-  genetateInitialStack = () => {
-    const { currentCategory, categories } = this.props;
-    const stack = [];
-    const values = [];
+  getCategoriesByCurrentSlug = () => {
+    const { currentCategory: slug, categories } = this.props;
+    const currentCategories = [];
 
-    let current = categories[currentCategory];
-
-    stack.push({
-      ...current,
-      value: current.id,
-      label: current.title,
-    });
-
-    values.push(current.id);
+    let current = { parent: slug };
 
     while (current.parent) {
       current = categories[current.parent];
 
-      stack.unshift({
-        ...current,
-        value: current.id,
-        label: current.title,
+      currentCategories.unshift(current);
+    }
+
+    return currentCategories;
+  }
+
+  genetateInitialStack = () => {
+    const stack = [...this.state.stack];
+    const values = [];
+    const activeCategories = this.getCategoriesByCurrentSlug();
+
+    activeCategories
+      .forEach((cat) => {
+        values.push(cat.id);
       });
 
-      values.unshift(current.id);
-    }
+    activeCategories
+      .slice(0, -1)
+      .forEach((cat) => {
+        stack.push({
+          label: cat.label,
+          children: cat.children,
+        });
+      });
 
     this.setState({
       stack,
@@ -127,6 +137,7 @@ class MultiSelect extends PureComponent {
               index={idx}
               onChange={this.sectionsChange}
               value={this.state.values[idx]}
+              categories={this.props.categories}
               key={group.label}
               label={group.label}
             />)
