@@ -190,7 +190,7 @@ export const Images = {
   rotateImage(id, direction) {
     return request({
       url: `images/${id}/rotate-${direction}/`,
-      method: 'DELETE',
+      method: 'POST',
       mustApplyToken: true,
     });
   },

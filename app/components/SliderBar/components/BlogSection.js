@@ -13,7 +13,7 @@ const BlogSection = ({ item, baseUrl, isBlog }) => (
       'slider-category__item': true,
       'slider-category__item_blog': isBlog,
     })}
-    to={`${baseUrl ? `${baseUrl}?section=${item.slug}` : `/c/${item.slug}`}`}
+    to={`${baseUrl ? `${baseUrl}?category=${item.slug}` : `/c/${item.slug}`}`}
   >
     <img
       src={`${THUMBS_URL}unsafe/180x153/${item.images[0]}`}
