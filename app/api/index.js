@@ -145,7 +145,6 @@ export const Auth = {
       url: 'reset-password/',
       method: 'POST',
       data,
-      mustApplyToken: true,
     });
   },
   setPassword(data) {

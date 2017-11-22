@@ -1,7 +1,6 @@
 import { setFetchingStatus, setError, handleSucces } from './common';
 
 import { openPopup } from 'ducks/Popup/actions';
-import { registerConfirm } from './';
 
 import { Auth } from 'API';
 
@@ -17,9 +16,7 @@ const registration = creds => (dispatch) => {
         phone: res.data.phone,
       }));
 
-      dispatch(openPopup('confirmPopup', {
-        callback: data => dispatch(registerConfirm(data)),
-        previousPopup: 'registerPopup',
+      dispatch(openPopup('confirmRegistration', {
         contact: res.data.phone,
         againRequest: regWithoutSideEffects,
       }));

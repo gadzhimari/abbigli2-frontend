@@ -1,7 +1,6 @@
 import { setFetchingStatus, setError, handleSucces } from './common';
 
 import { openPopup } from 'ducks/Popup/actions';
-import { resetConfirm } from './';
 
 import { Auth } from 'API';
 
@@ -25,9 +24,7 @@ const reset = (creds) => {
           loginStage: 'confirm',
         }));
 
-        dispatch(openPopup('confirmPopup', {
-          callback: data => dispatch(resetConfirm(data)),
-          previousPopup: 'resetPopup',
+        dispatch(openPopup('confirmResetPassword', {
           contact: res.data.contact,
           againRequest: resetWithoutSideEffects,
         }));

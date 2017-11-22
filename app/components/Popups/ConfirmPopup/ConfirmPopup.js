@@ -1,17 +1,15 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { PureComponent } from 'react';
 
 import { ErrorInput } from 'components/Inputs';
 import { FetchingButton } from 'components';
 import Timer from './Timer';
 
-import { openPopup } from 'ducks/Popup/actions';
 import { __t } from '../../../i18n/translator';
 
 import './ConfirmPopup.styl';
 
-class ConfirmPopup extends Component {
+class ConfirmPopup extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -22,14 +20,17 @@ class ConfirmPopup extends Component {
     };
   }
 
+  title = '';
+  buttonText = '';
+
   handleClick = () => {
-    const { options } = this.props;
+    const { options, sendForm } = this.props;
     const creds = {
       contact: options.contact,
       code: this.state.confirmCode,
     };
 
-    options.callback(creds);
+    sendForm(creds);
   }
 
   confirmChange = ({ target }) => this.setState({
@@ -64,11 +65,7 @@ class ConfirmPopup extends Component {
   }
 
   goBack = () => {
-    const { dispatch, options } = this.props;
-
-    dispatch(openPopup(options.previousPopup, {
-      contact: options.contact,
-    }));
+    throw new Error('ConfirmPopup: goBack method must be overrited in child class')
   }
 
   render() {
@@ -90,7 +87,7 @@ class ConfirmPopup extends Component {
               <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
             </svg>
             <div className="popup-title">
-              {__t('Confirm your contact')}
+              {this.title}
             </div>
           </header>
           <form className="register-popup__form">
@@ -105,7 +102,7 @@ class ConfirmPopup extends Component {
                 </a>
               </div>
               <div>
-                {__t("We've sent an SMS with an activation code to your phone.")}
+                {__t("We've sent an SMS with an confirmation code to your phone.")}
               </div>
               <div>
                 {__t('Please enter the code below.')}
@@ -170,7 +167,7 @@ class ConfirmPopup extends Component {
               onClick={this.handleClick}
               isFetching={isFetching}
             >
-              {__t('Confirm registration')}
+              {this.buttonText}
             </FetchingButton>
             <button
               className="register-popup__button"
@@ -189,6 +186,7 @@ class ConfirmPopup extends Component {
 ConfirmPopup.propTypes = {
   closePopup: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
+  sendForm: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   errors: PropTypes.oneOfType([PropTypes.object, PropTypes.any]),
   options: PropTypes.shape({
@@ -198,10 +196,4 @@ ConfirmPopup.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = ({ Auth }) => ({
-  isFetching: Auth.isFetching,
-  errors: Auth.errors,
-  number: Auth.number,
-});
-
-export default connect(mapStateToProps)(ConfirmPopup);
+export default ConfirmPopup;
