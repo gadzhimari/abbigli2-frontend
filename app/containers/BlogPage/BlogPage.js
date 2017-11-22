@@ -108,6 +108,7 @@ class BlogPage extends Component {
       popularPosts,
       author,
       relativePosts,
+      me,
     } = this.props;
 
     const crumbs = [{
@@ -123,6 +124,8 @@ class BlogPage extends Component {
       url: `/blog/${data.slug}`,
     }];
 
+    const isUsersPost = author.id === me.id;
+
     return (
       <main>
         <div className="subscription-article">
@@ -130,6 +133,7 @@ class BlogPage extends Component {
             <AuthorInfo
               data={author}
               dispatch={dispatch}
+              showSubscribeButton={!isUsersPost}
             />
             <OtherArticles articles={itemsAuthors} />
           </div>
@@ -221,6 +225,7 @@ const mapStateToProps = state => ({
   itemsComments: state.Comments.items,
   isFetchingComments: state.Comments.isFetching,
   isAuthenticated: state.Auth.isAuthenticated,
+  me: state.Auth.me,
 });
 
 export default connect(mapStateToProps)(postLoader(BlogPage));

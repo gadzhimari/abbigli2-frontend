@@ -113,6 +113,7 @@ class EventPage extends Component {
       popularPosts,
       relativePosts,
       usersPosts,
+      me,
     } = this.props;
     const crumbs = [{
       title: __t('Events'),
@@ -127,6 +128,8 @@ class EventPage extends Component {
       url: `/event/${data.slug}`,
     }];
 
+    const isUsersPost = author.id === me.id;
+
     return (
       <main>
         <div className="subscription-article">
@@ -134,6 +137,7 @@ class EventPage extends Component {
             <AuthorInfo
               data={author}
               dispatch={dispatch}
+              showSubscribeButton={!isUsersPost}
             />
             <OtherArticles articles={usersPosts} />
           </div>
@@ -224,6 +228,7 @@ function mapStateToProps(state) {
     popularPosts: state.PostPage.popularPosts,
     relativePosts: state.PostPage.relativePosts,
     usersPosts: state.PostPage.usersPosts,
+    me: state.Auth.me,
   };
 }
 
