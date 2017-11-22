@@ -50,7 +50,7 @@ class Sections extends Component {
     const { pages, paginate, activePage } = this.props;
     const currentSection = tree[tree.length - 1];
     const startIndex = 5;
-    const isPromo = currentSection.is_promo;
+    const isPromo = currentSection.is_promo || currentSection.children[0].is_promo;
 
     return (
       <main className="main">

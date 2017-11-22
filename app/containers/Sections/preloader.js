@@ -41,7 +41,6 @@ const preloader = WrappedComponent => class extends PureComponent {
 
   getData = () => {
     const { params, fetchSectionTags, fetchPosts, sections } = this.props;
-    const start = performance.now();
     const tree = this.createTree(params, sections);
     const currentSection = tree[tree.length - 1];
     const promo = this.getPromo(currentSection);
@@ -66,8 +65,18 @@ const preloader = WrappedComponent => class extends PureComponent {
     }
 
     return array.reduce((acc, cur) => {
-      const targetCategories = cur in categories ? categories : promoCategories;
-      const current = Object.assign({}, targetCategories[cur]);
+      let targetCategories = cur in categories ? categories : promoCategories;
+      let current = Object.assign({}, targetCategories[cur]);
+
+      if (current.is_promo) {
+        targetCategories = promoCategories;
+        current = Object.assign({}, targetCategories[cur]);
+      }
+
+      if (current.children.length === 0 && cur in promoCategories) {
+        targetCategories = promoCategories;
+        current = Object.assign({}, targetCategories[cur]);
+      }
 
       current.children = current.children.map(catSlug => targetCategories[catSlug]);
       current.url = current.view_on_site_url;
