@@ -1,3 +1,5 @@
+/* eslint react/require-default-props: 0 */
+
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
@@ -7,18 +9,17 @@ import { __t } from '../../../i18n/translator';
 
 class MultiSelect extends PureComponent {
   static propTypes = {
-    /** Массив из элементов верхнего уровня */
+    /* Массив из элементов верхнего уровня */
     options: PropTypes.arrayOf(PropTypes.object),
-    /** Заголовок существующей категории поста, если есть */
+    /* slug категории редактируемого поста
+    (используется когда мы редактируем сущетствующий пост) */
     currentCategory: PropTypes.string,
-    /** Функция возвращения к существующей категории поста */
-    chooseCarrentCategory: PropTypes.func,
+    /* Список категорий нормализованных по slug */
+    categories: PropTypes.objectOf(PropTypes.object),
   }
 
   static defaultProps = {
     options: [],
-    currentCategory: '',
-    chooseCarrentCategory: () => {},
   }
 
   constructor(props) {
@@ -30,6 +31,12 @@ class MultiSelect extends PureComponent {
         children: props.options,
       }],
     };
+  }
+
+  componentDidMount() {
+    if (this.props.currentCategory) {
+      this.genetateInitialStack();
+    }
   }
 
   /* Возвращает последний индекс стэка вложенности */
@@ -47,6 +54,46 @@ class MultiSelect extends PureComponent {
     return this.lastStackIndex === this.lastValuesIndex
       ? [this.state.values[this.lastStackIndex]]
       : [];
+  }
+
+  getCategoriesByCurrentSlug = () => {
+    const { currentCategory: slug, categories } = this.props;
+    const currentCategories = [];
+
+    let current = { parent: slug };
+
+    while (current.parent) {
+      current = categories[current.parent];
+
+      currentCategories.unshift(current);
+    }
+
+    return currentCategories;
+  }
+
+  genetateInitialStack = () => {
+    const stack = [...this.state.stack];
+    const values = [];
+    const activeCategories = this.getCategoriesByCurrentSlug();
+
+    activeCategories
+      .forEach((cat) => {
+        values.push(cat.id);
+      });
+
+    activeCategories
+      .slice(0, -1)
+      .forEach((cat) => {
+        stack.push({
+          label: cat.label,
+          children: cat.children,
+        });
+      });
+
+    this.setState({
+      stack,
+      values,
+    });
   }
 
   sectionsChange = (value) => {
@@ -90,24 +137,10 @@ class MultiSelect extends PureComponent {
               index={idx}
               onChange={this.sectionsChange}
               value={this.state.values[idx]}
+              categories={this.props.categories}
               key={group.label}
               label={group.label}
             />)
-        }
-        {
-          this.props.currentCategory
-          &&
-          <div className="add-tabs__current-category">
-            <div className="add-tabs__category-name">
-              {this.props.currentCategory}{' '}
-              <span
-                className="add-tabs__category-change"
-                onClick={this.props.chooseCarrentCategory}
-              >
-                {__t('Choose')}
-              </span>
-            </div>
-          </div>
         }
       </div>
     );

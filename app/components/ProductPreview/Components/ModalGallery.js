@@ -3,13 +3,11 @@ import React, { Component } from 'react';
 
 import Lightbox from 'react-images';
 
-import { DOMAIN_URL } from 'config';
-
 class ModalGallery extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeImage: Number(props.activeImage),
+      activeImage: Number(props.activeImage) || 0,
       width: 600,
     };
   }
@@ -46,7 +44,7 @@ class ModalGallery extends Component {
 
 ModalGallery.propTypes = {
   images: PropTypes.array,
-  activeImage: PropTypes.string.isRequired,
+  activeImage: PropTypes.string,
   closeGallery: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
 };

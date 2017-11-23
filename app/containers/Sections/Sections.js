@@ -1,3 +1,5 @@
+/* eslint react/sort-comp: 0 react/require-default-props: 0 */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,14 +12,15 @@ import {
   PageSwitcher,
   ListWithNew,
 } from 'components';
+import paginateHOC from '../../HOC/paginate';
 
-import ShowAllSection from './ShowAllSection';
 import ShowMiddleCards from './ShowMiddleCards';
+import TagsBlock from './TagsBlock';
 
 import { Product, SubCategoryList } from 'components/Cards';
 import preloader from './preloader';
 
-import { fetchData, fetchSectionPosts } from 'ducks/SubSections';
+import { fetchPosts, fetchTags } from 'ducks/CatalogPage/actions';
 import { openPopup } from 'ducks/Popup/actions';
 import { __t } from '../../i18n/translator';
 
@@ -25,12 +28,15 @@ import './Sections.less';
 
 class Sections extends Component {
   render() {
-    const { items, params, sections, priceTemplate, posts, tree, routing } = this.props;
+    const { items, params, sections, priceTemplate, posts, tree, promoCategories, routing } = this.props;
+    const { pages, paginate, activePage } = this.props;
     const currentSection = tree[tree.length - 1];
     const isShowAll = currentSection.showAll;
-    const startIndex = isShowAll ? 4 : 0;
+    const startIndex = 5;
     const currentTag = routing.query.tag;
     const crumbs = [...tree];
+    const isPromo = currentSection.is_promo || currentSection.children[0].is_promo;
+
 
     if (currentTag) {
       crumbs.push({
@@ -50,53 +56,67 @@ class Sections extends Component {
             {currentTag && ` #${currentTag}`}
           </h1>
           {
-            isShowAll
+            !isPromo
             &&
-            <ShowAllSection
+            <ShowMiddleCards
               items={currentSection.children.slice(0, startIndex)}
               url={currentSection.url}
             />
           }
-          <ShowMiddleCards
-            items={currentSection.children.slice(startIndex, startIndex + 5)}
-            url={currentSection.url}
+          {
+            !isPromo
+            &&
+            <SubCategoryList
+              items={currentSection.children.slice(startIndex)}
+              url={currentSection.url}
+            />
+          }
+          {
+            !isPromo
+            &&
+            <h1 className="section-title">
+              {__t('Tags')}
+            </h1>
+          }
+          <TagsBlock
+            items={items}
+            category={currentSection.slug}
           />
-          <SubCategoryList
-            items={currentSection.children.slice(startIndex + 5)}
-            url={currentSection.url}
-          />
-          <h1 className="section-title">
-            {__t('Tags')}
-          </h1>
-          <div className="cards-wrap cards-wrap_tag">
+          <div className="category-buttons">
             {
-              items
-                .map(tag => <Link
-                  className="tag"
-                  key={tag.id}
-                  to={`${location.pathname}?tag=${tag.title}`}
+              promoCategories
+                .slice(0, 10)
+                .map(item => <Link
+                  to={item.view_on_site_url}
+                  className="category-buttons__link"
                 >
-                  #{tag.title}
+                  {item.title}
                 </Link>)
             }
-            <button
-              className="default-button"
-              type="button"
-            >
-              {__t('More')}
-            </button>
-          </div>
+          </div> 
           <ListWithNew
             ItemComponent={Product}
             items={posts}
             itemProps={{ priceTemplate }}
             count={4}
           />
-          {/* {
-            !isFetching
-            &&
-            <PageSwitcher />
-          }  */}
+          <div className="category-buttons">
+            {
+              promoCategories
+                .slice(10, isPromo ? promoCategories.length : 15)
+                .map(item => <Link
+                  to={item.view_on_site_url}
+                  className="category-buttons__link"
+                >
+                  {item.title}
+                </Link>)
+            }
+          </div>
+          <PageSwitcher
+            count={pages}
+            paginate={paginate}
+            active={activePage}
+          />
         </div>
       </main>
     );
@@ -105,34 +125,37 @@ class Sections extends Component {
 
 Sections.propTypes = {
   isFetching: PropTypes.bool.isRequired,
-  fetchSectionTags: PropTypes.func.isRequired,
+  fetchSectionTags: PropTypes.func,
   items: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string,
     preview: PropTypes.string,
     id: PropTypes.number,
   })).isRequired,
-  pagesCount: PropTypes.number.isRequired,
+  pagesCount: PropTypes.number,
   params: PropTypes.shape({
     section: PropTypes.string,
   }).isRequired,
+  tree: PropTypes.arrayOf(PropTypes.object),
 };
 
-const mapStateToProps = ({ SubSections, Sections, Settings, routing }) => ({
-  items: SubSections.items,
-  isFetching: SubSections.isFetching,
-  pagesCount: SubSections.pagesCount,
+const mapStateToProps = ({ CatalogPage, Sections, Settings, routing }) => ({
+  items: CatalogPage.tags,
+  isFetching: CatalogPage.isFetching,
+  pages: CatalogPage.postPagesCount,
   sections: Sections.items,
-  posts: SubSections.posts,
+  normalizedSections: Sections.normalizedCategories,
+  promo: Sections.promo,
+  posts: CatalogPage.posts,
   priceTemplate: Settings.data.CURRENCY,
   routing: routing.locationBeforeTransitions,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchSectionTags: (category, page) => dispatch(fetchData({ category, page })),
+  fetchSectionTags: (category, page) => dispatch(fetchTags({ category, page })),
   openMobileFilters: () => dispatch(openPopup('filtersPopup')),
-  fetchPosts: (category, page, tags) => dispatch(fetchSectionPosts({ category, page, tags })),
+  fetchPosts: (category, page, tags) => dispatch(fetchPosts({ category, page, tags })),
 });
 
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps), preloader);
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps), preloader, paginateHOC);
 
 export default enhance(Sections);

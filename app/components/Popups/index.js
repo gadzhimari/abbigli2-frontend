@@ -13,3 +13,5 @@ export { default as selectPopup } from './SelectPopup';
 export { default as filtersPopup } from './FiltersPopup';
 export { default as followersPopup } from './Followers';
 export { default as sendPost } from './SendPost';
+export { default as confirmRegistration } from './ConfirmPopup/ConfirmRegistration';
+export { default as confirmResetPassword } from './ConfirmPopup/ConfirmPassword';

@@ -13,6 +13,8 @@ import geoLocation from './middlewares/geoLocation';
 import configureRedux from './middlewares/configureRedux';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
 
+import routes from './api';
+
 const app = express();
 const PORT = process.env.SERVER_PORT;
 const ravenDSN = process.env.SENTRY_DNS;
@@ -31,6 +33,7 @@ app.use(compression());
 // Middlewares
 app.use(Raven.requestHandler());
 
+app.use(routes);
 app.use(oauthHandler);
 app.use(configureRedux);
 app.use(geoLocation);

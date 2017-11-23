@@ -91,7 +91,7 @@ class EventsPage extends Component {
       pages,
       paginate,
     } = this.props;
-    const section = sections.filter(item => routing && item.slug === routing.query.section)[0];
+    const section = sections.filter(item => routing && item.slug === routing.query.category)[0];
 
     const crumbs = [{
       title: __t('Events'),
@@ -197,7 +197,7 @@ function mapStateToProps(state) {
     start: events.searchFields.start,
     end: events.searchFields.end,
     geoCity: state.Geo.city,
-    sections: state.Sections.subsections,
+    sections: state.Sections.items,
     routing: state.routing.locationBeforeTransitions,
     pages: events.pages,
   };

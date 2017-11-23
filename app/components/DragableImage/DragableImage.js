@@ -5,6 +5,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 
 import { Loading } from 'components';
+import ModalGallery from 'components/ProductPreview/Components/ModalGallery';
 
 import { THUMBS_URL } from 'config';
 
@@ -62,6 +63,7 @@ class DragableImage extends Component {
       isFetching: true,
       image: null,
       imageId: props.id,
+      isOpenedPreview: false,
     };
   }
 
@@ -96,8 +98,8 @@ class DragableImage extends Component {
     image.src = `${THUMBS_URL}unsafe/276x184/${imageSrc}`;
   }
 
-  rotateImage = ({ currentTarget }) => this.props
-    .rotateImage(this.state.imageId, currentTarget.dataset.direction, {
+  rotateImage = () => this.props
+    .rotateImage(this.state.imageId, 'right', {
       res: this.loadImageSrc,
       req: () => this.setFetchingStatus(true),
     })
@@ -109,9 +111,21 @@ class DragableImage extends Component {
     deleteImage(imageId);
   }
 
+  openBigPreview = () => {
+    this.setState({
+      isOpenedPreview: true,
+    });
+  }
+
+  closeBigPreview = () => {
+    this.setState({
+      isOpenedPreview: false,
+    });
+  }
+
   render() {
     const { isFetching } = this.state;
-    const { connectDragSource, connectDropTarget, isDragging } = this.props;
+    const { connectDragSource, connectDropTarget, isDragging, src } = this.props;
     const opacity = isDragging ? 0 : 1;
 
     return connectDragSource(connectDropTarget(
@@ -120,12 +134,25 @@ class DragableImage extends Component {
         style={{ opacity }}
       >
         {
+          this.state.isOpenedPreview
+          &&
+          <ModalGallery
+            images={[{ file: src }]}
+            closeGallery={this.closeBigPreview}
+            isOpen
+          />
+        }
+        {
           isFetching
             ? <div className="draggable-image__loader"><Loading loading={isFetching} /></div>
             : (<div>
               <div className="photo-upload__img" ref={wrapper => (this.wrapper = wrapper)} />
               <div className="photo-upload__controls">
-                <svg className="icon icon-zoom" viewBox="0 0 28.4 28.4">
+                <svg
+                  className="icon icon-zoom"
+                  viewBox="0 0 28.4 28.4"
+                  onClick={this.openBigPreview}
+                >
                   <path d="M23.2,11.6C23.2,5.2,18,0,11.6,0C5.2,0,0,5.2,0,11.6C0,18,5.2,23.2,11.6,23.2 C18,23.2,23.2,18,23.2,11.6z M11.6,20.5c-4.9,0-8.9-4-8.9-8.9c0-4.9,4-8.9,8.9-8.9c4.9,0,8.9,4,8.9,8.9 C20.5,16.5,16.5,20.5,11.6,20.5z"/>
                   <path d="M27.5,23.5L23,18.9c-1.1,1.6-2.5,3-4.1,4l4.6,4.6c1.1,1.1,2.9,1.1,4.1,0 C28.6,26.4,28.7,24.6,27.5,23.5z"/>
                   <path d="M15.1,10.4h-2.4V8.1c0-0.6-0.5-1.2-1.2-1.2s-1.2,0.5-1.2,1.2v2.4H8.1c-0.6,0-1.2,0.5-1.2,1.2 s0.5,1.2,1.2,1.2h2.4v2.4c0,0.6,0.5,1.2,1.2,1.2s1.2-0.5,1.2-1.2v-2.4h2.4c0.6,0,1.2-0.5,1.2-1.2S15.7,10.4,15.1,10.4z"/>
@@ -133,7 +160,6 @@ class DragableImage extends Component {
                 <svg
                   className="icon icon-rotate"
                   viewBox="0 0 25.5 30.7"
-                  data-direction="right"
                   onClick={this.rotateImage}
                 >
                   <path d="M4.4,15.3c0-4.2,3.1-7.7,7.2-8.3v2.4l7.5-4.7L11.6,0v2.6C5.1,3.2,0,8.6,0,15.3 c0,3.5,1.4,6.6,3.6,8.9l3.2-2.9C5.3,19.7,4.4,17.6,4.4,15.3z"/>

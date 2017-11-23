@@ -50,36 +50,70 @@ const preloader = WrappedComponent => class extends PureComponent {
   }
 
   createTree = (params, sections) => {
-    const array = Object.keys(params)
-      .map(key => params[key]);
+    const { normalizedSections, promo } = this.props;
 
-    return array.reduce((acc) => {
-      const categories = acc.length > 0
-        ? acc[acc.length - 1].children
-        : sections;
-      const current = categories.filter(section => array.includes(section.slug))[0] || {};
-      const previous = acc.length > 0
-        ? acc[acc.length - 1]
-        : null;
+    let array = [params.section];
+    const categories = normalizedSections.entities.categories;
+    const promoCategories = promo.entities.categories;
 
+    if (params.splat) {
+      array = params.splat.split('/').concat(array);
+    }
 
-      acc.push({
-        id: current.id,
-        title: current.title,
-        slug: current.slug,
-        children: current.children,
-        url: previous
-          ? `${previous.url}/${current.slug}`
-          : `/c/${current.slug}`,
-        showAll: current.show_all,
-      });
+    return array.reduce((acc, cur) => {
+      let targetCategories = cur in categories ? categories : promoCategories;
+      let current = Object.assign({}, targetCategories[cur]);
+
+      if (current.is_promo) {
+        targetCategories = promoCategories;
+        current = Object.assign({}, targetCategories[cur]);
+      }
+
+      if (current.children.length === 0 && cur in promoCategories) {
+        targetCategories = promoCategories;
+        current = Object.assign({}, targetCategories[cur]);
+      }
+
+      current.children = current.children.map(catSlug => targetCategories[catSlug]);
+      current.url = current.view_on_site_url;
+
+      acc.push(current);
 
       return acc;
     }, []);
   }
 
+  getPromo = (currentSection) => {
+    if (currentSection.children.length === 0) return [];
+
+    const { promo } = this.props;
+    const promoCategories = promo.entities.categories;
+
+    const currentPromoParent = promoCategories[currentSection.slug];
+
+    const promoCat = getPromoFromCat(currentPromoParent.children);
+
+    return promoCat;
+
+    function getPromoFromCat(array) {
+      return array.reduce((prev, cur) => {
+        const currentCat = promoCategories[cur];
+
+        if (currentCat.is_promo) {
+          prev.push(currentCat);
+
+          return prev;
+        }
+
+        prev.push(...getPromoFromCat(currentCat.children));
+
+        return prev;
+      }, []);
+    }
+  }
+
   render() {
-    const { isFetching, tree } = this.state;
+    const { isFetching, tree, promo } = this.state;
     const currentSection = tree[tree.length - 1] || {};
 
     if (isFetching) {
@@ -90,7 +124,7 @@ const preloader = WrappedComponent => class extends PureComponent {
       return <SectionTag {...this.props} tree={tree} />;
     }
 
-    return (<WrappedComponent {...this.props} tree={tree} />);
+    return (<WrappedComponent {...this.props} tree={tree} promoCategories={promo} />);
   }
 };
 

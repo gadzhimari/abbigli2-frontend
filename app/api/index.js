@@ -101,6 +101,12 @@ export const Profile = {
 };
 
 export const Tags = {
+  getTags(params) {
+    return request({
+      url: 'tags/',
+      params,
+    });
+  },
   getRelatedTags(tags) {
     return request({
       url: 'tags/',
@@ -139,7 +145,6 @@ export const Auth = {
       url: 'reset-password/',
       method: 'POST',
       data,
-      mustApplyToken: true,
     });
   },
   setPassword(data) {
@@ -185,7 +190,7 @@ export const Images = {
   rotateImage(id, direction) {
     return request({
       url: `images/${id}/rotate-${direction}/`,
-      method: 'DELETE',
+      method: 'POST',
       mustApplyToken: true,
     });
   },

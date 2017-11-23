@@ -28,6 +28,7 @@ import TagSearch from 'ducks/TagSearch';
 import Filters from 'ducks/Filters';
 import RelativePage from 'ducks/Relative';
 import NewIn from 'ducks/NewIn';
+import CatalogPage from 'ducks/CatalogPage';
 
 import { routerReducer } from 'react-router-redux';
 
@@ -60,4 +61,5 @@ export default combineReducers({
   Filters,
   RelativePage,
   NewIn,
+  CatalogPage,
 });

@@ -54,7 +54,7 @@ class BlogsPage extends PureComponent {
 
     const options = {
       popular: routing.query.popular === 'true',
-      section: routing.query.section,
+      category: routing.query.category,
       type: 4,
       search: routing.query.search,
     };
@@ -110,7 +110,7 @@ class BlogsPage extends PureComponent {
   render() {
     const { isFetching, items, sections, params, routing, router, pages, paginate, activePage } = this.props;
 
-    const section = sections.filter(item => routing && item.slug === routing.query.section)[0];
+    const section = sections.filter(item => routing && item.slug === routing.query.category)[0];
 
     const crumbs = [{
       title: __t('Blogs'),
@@ -221,7 +221,7 @@ const mapStateToProps = ({ Blogs, Sections, routing }) => ({
   isFetching: Blogs.isFetching,
   items: Blogs.items,
   searchValue: Blogs.searchValue,
-  sections: Sections.subsections,
+  sections: Sections.items,
   routing: routing.locationBeforeTransitions,
   pages: Blogs.pages,
 });
