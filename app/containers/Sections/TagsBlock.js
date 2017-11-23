@@ -64,7 +64,7 @@ class TagsBlock extends PureComponent {
             .map(tag => <Link
               className="tag"
               key={tag.id}
-              to={`/find?tags=${tag.title}&type=1`}
+              to={`${location.pathname}?tag=${tag.title}`}
               rel="nofollow"
             >
               #{tag.title}

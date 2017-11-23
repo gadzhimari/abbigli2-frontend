@@ -35,6 +35,7 @@ const preloader = WrappedComponent => class extends PureComponent {
     const { params, fetchSectionTags, fetchPosts, sections, routing } = this.props;
     const tree = this.createTree(params, sections);
     const currentSection = tree[tree.length - 1];
+    const promo = this.getPromo(currentSection);
 
     this.setState({
       isFetching: true,
@@ -46,6 +47,7 @@ const preloader = WrappedComponent => class extends PureComponent {
     ]).then(() => this.setState({
       isFetching: false,
       tree,
+      promo,
     }));
   }
 
