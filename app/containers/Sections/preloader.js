@@ -2,10 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { SectionTag } from 'containers';
-
 import { Loading } from 'components';
-
-import { API_URL } from 'config';
 
 const preloader = WrappedComponent => class extends PureComponent {
   static propTypes = {
@@ -17,46 +14,39 @@ const preloader = WrappedComponent => class extends PureComponent {
     sections: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
-  constructor() {
-    super();
-    this.state = {
-      isFetching: true,
-      tree: [],
-    };
+  state = {
+    isFetching: true,
+    tree: [],
   }
 
   componentDidMount() {
-    const { params, fetchSectionTags, fetchPosts, sections } = this.props;
+    this.fetchData();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { params } = this.props;
+
+    if (prevProps.params !== params) {
+      this.fetchData();
+    }
+  }
+
+  fetchData = () => {
+    const { params, fetchSectionTags, fetchPosts, sections, routing } = this.props;
     const tree = this.createTree(params, sections);
     const currentSection = tree[tree.length - 1];
 
+    this.setState({
+      isFetching: true,
+    });
+
     Promise.all([
       fetchSectionTags(currentSection.slug),
-      fetchPosts(currentSection.slug),
+      fetchPosts(currentSection.slug, 1, routing.query.tag),
     ]).then(() => this.setState({
       isFetching: false,
       tree,
     }));
-  }
-
-  componentDidUpdate(prevProps) {
-    const { params, fetchSectionTags, fetchPosts, sections } = this.props;
-    const tree = this.createTree(params, sections);
-    const currentSection = tree[tree.length - 1];
-
-    if (prevProps.params !== params) {
-      this.setState({
-        isFetching: true,
-      });
-
-      Promise.all([
-        fetchSectionTags(currentSection.slug),
-        fetchPosts(currentSection.slug),
-      ]).then(() => this.setState({
-        isFetching: false,
-        tree,
-      }));
-    }
   }
 
   createTree = (params, sections) => {

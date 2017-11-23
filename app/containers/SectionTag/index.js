@@ -32,39 +32,13 @@ const newData = [{
 }];
 
 class SectionTag extends Component {
-  // componentWillMount() {
-  //   const {
-  //     items,
-  //     location,
-  //     route,
-  //     routeParams,
-  //   } = this.props;
-
-  //   if (location.action === 'POP' && items.length === 0) {
-  //     this.fetchPosts(route, routeParams);
-  //   }
-
-  //   if (location.action === 'PUSH') {
-  //     this.fetchPosts(route, routeParams);
-  //   }
-  // }
-
-  // componentWillUpdate(nextProps) {
-  //   const { routeParams } = this.props;
-
-  //   if (nextProps.routeParams !== routeParams) {
-  //     this.fetchPosts(nextProps.route, nextProps.routeParams);
-  //   }
-  // }
-
   clickOnTag = (tag) => {
     const { router } = this.props;
 
     router.push({
-      pathname: '/find',
+      pathname: location.pathname,
       query: Object.assign({}, {
-        tags: tag,
-        type: 1,
+        tag,
       }),
     });
   }
@@ -79,9 +53,18 @@ class SectionTag extends Component {
       route,
       priceTemplate,
       tree,
+      routing,
     } = this.props;
-
     const currentSection = tree[tree.length - 1];
+    const currentTag = routing.query.tag;
+    const crumbs = [...tree];
+
+    if (currentTag) {
+      crumbs.push({
+        title: `#${currentTag}`,
+        url: `${location.pathname}?tag=${currentTag}`,
+      });
+    }
 
     return (
       <div>
@@ -100,18 +83,13 @@ class SectionTag extends Component {
         }
         <main className="main">
           <BreadCrumbs
-            crumbs={tree}
+            crumbs={crumbs}
           />
           <div className="content">
             <h1 className="section-title">
               {currentSection.title}
-              <div className="section-title__subscribe">
-                <a className="filter-open">
-                  Фильтры
-                </a>
-              </div>
+              {currentTag && ` #${currentTag}`}
             </h1>
-            {/* <Filters /> */}
             <ListWithNew
               ItemComponent={Product}
               items={posts}
