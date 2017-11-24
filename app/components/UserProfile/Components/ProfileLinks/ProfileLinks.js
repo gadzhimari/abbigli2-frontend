@@ -36,8 +36,16 @@ class ProfileLinks extends PureComponent {
     }
   }
 
+  openFollowers = () => {
+    this.props.openPopup('followersPopup');
+  }
+
+  openFollowing = () => {
+    this.props.openPopup('followingPopup');
+  }
+
   render() {
-    const { data, openFollowers, isMe, openFollowing } = this.props;
+    const { data, isMe} = this.props;
 
     if (!isMe) {
       return this.renderForVisitors();
@@ -60,7 +68,7 @@ class ProfileLinks extends PureComponent {
         </Link>
         <Link
           className="profile-my__item"
-          onClick={openFollowers}
+          onClick={this.openFollowers}
         >
           <svg className="icon icon-subscribers" viewBox="0 0 29.2 29.6">
             <g id="XMLID_1_">
@@ -77,7 +85,7 @@ class ProfileLinks extends PureComponent {
         </Link>
         <Link
           className="profile-my__item"
-          onClick={openFollowing}
+          onClick={this.openFollowing}
         >
           <svg className="icon icon-user" viewBox="0 0 22.2 25.6">
             <path d="M11.1,14C6.6,14,2.6,15.3,0,17.3c1.3,4.8,5.8,8.3,11.1,8.3c5.3,0,9.8-3.5,11.1-8.3 C19.6,15.3,15.6,14,11.1,14z" />
@@ -107,7 +115,7 @@ class ProfileLinks extends PureComponent {
     <div className="profile-my">
       <Link
         className="profile-my__item"
-        onClick={this.props.openFollowers}
+        onClick={this.openFollowers}
         data-type="followers"
         data-title={__t('Followers')}
       >

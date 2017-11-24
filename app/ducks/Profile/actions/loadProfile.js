@@ -13,6 +13,24 @@ const loadProfileResponse = (profile, followers, following = [], isMe) => ({
   isMe,
 });
 
+const moreFollowersRequest = () => ({
+  type: types.MORE_FOLLOWERS_REQUEST,
+});
+
+const moreFollowersResponse = data => ({
+  type: types.MORE_FOLLOWERS_RESPONSE,
+  data,
+});
+
+const moreFollowingRequest = () => ({
+  type: types.MORE_FOLLOWING_REQUEST,
+});
+
+const moreFollowingResponse = data => ({
+  type: types.MORE_FOLLOWING_RESPONSE,
+  data,
+});
+
 const loadProfile = (id, isMe, isAuth) => {
   const promises = [];
 
@@ -30,9 +48,27 @@ const loadProfile = (id, isMe, isAuth) => {
       .then((data) => {
         const [profile, followers, following = { data: {} }] = data;
 
-        dispatch(loadProfileResponse(profile.data, followers.data.results, following.data.results, isMe));
+        dispatch(loadProfileResponse(profile.data, followers.data, following.data, isMe));
       });
   };
+};
+
+export const loadMoreFollowers = (id, isMe, isAuth, options) => (dispatch) => {
+  dispatch(moreFollowersRequest());
+
+  return Profile.getFollowers(id, isMe, isAuth, 'followers', options)
+    .then((res) => {
+      dispatch(moreFollowersResponse(res.data));
+    });
+};
+
+export const loadMoreFollowing = (id, isMe, isAuth, options) => (dispatch) => {
+  dispatch(moreFollowingRequest());
+
+  return Profile.getFollowers(id, isMe, isAuth, 'following', options)
+    .then((res) => {
+      dispatch(moreFollowingResponse(res.data));
+    });
 };
 
 export default loadProfile;

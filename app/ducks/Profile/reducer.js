@@ -7,8 +7,14 @@ const initialState = {
   data: {},
   /** Подписчики пользователя */
   followers: [],
+  isLoadingMoreFollowers: false,
+  nextFollowersPage: null,
+  canLoadMoreFollowers: false,
   /** Подписки пользователя */
   following: null,
+  isLoadingMoreFollowing: false,
+  nextFollowingPage: null,
+  canLoadMoreFollowing: false,
   /** Содержит name текущего загружаемого изображения */
   uploadingImage: null,
   /** Указывает текущего ли юзера загружен профиль */
@@ -33,9 +39,13 @@ const profileReducer = (state = initialState, action = {}) => {
         ...state,
         isFetching: false,
         data: action.profile,
-        followers: action.followers,
-        following: action.following,
         isMe: action.isMe,
+        followers: action.followers.results,
+        nextFollowersPage: 2,
+        canLoadMoreFollowers: !!action.followers.next,
+        following: action.following.results,
+        nextFollowingPage: 2,
+        canLoadMoreFollowing: !!action.following.next,
       };
     }
     case (types.IMAGE_UPLOAD_REQUEST): {
@@ -78,6 +88,36 @@ const profileReducer = (state = initialState, action = {}) => {
         ...state,
         isSaving: false,
         errors: action.data,
+      };
+    }
+    case (types.MORE_FOLLOWERS_REQUEST): {
+      return {
+        ...state,
+        isLoadingMoreFollowers: true,
+      };
+    }
+    case (types.MORE_FOLLOWERS_RESPONSE): {
+      return {
+        ...state,
+        isLoadingMoreFollowers: false,
+        followers: [...state.followers, ...action.data.results],
+        nextFollowersPage: state.nextFollowersPage + 1,
+        canLoadMoreFollowers: !!action.data.next,
+      };
+    }
+    case (types.MORE_FOLLOWING_REQUEST): {
+      return {
+        ...state,
+        isLoadingMoreFollowing: true,
+      };
+    }
+    case (types.MORE_FOLLOWING_RESPONSE): {
+      return {
+        ...state,
+        isLoadingMoreFollowing: false,
+        following: [...state.following, ...action.data.results],
+        nextFollowingPage: state.nextFollowingPage + 1,
+        canLoadMoreFollowing: !!action.data.next,
       };
     }
     default: {

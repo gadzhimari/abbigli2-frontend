@@ -12,7 +12,6 @@ import './ProfileInfo.less';
 
 const ProfileInfo = ({
   data,
-  openFollowers,
   isMe,
   openMessagePopup,
   follow,
@@ -24,7 +23,6 @@ const ProfileInfo = ({
   uploadingImage,
   saveChanges,
   deleteImage,
-  openFollowing,
 }) => (
     <div className="profile-info">
       <div className="profile-info__inner">
@@ -84,11 +82,9 @@ const ProfileInfo = ({
         <ProfileLinks
           isMe={isMe}
           data={data}
-          openFollowers={openFollowers}
           follow={follow}
           openPopup={openPopup}
           isAuthenticated={isAuthenticated}
-          openFollowing={openFollowing}
         />
       </div >
     </div >

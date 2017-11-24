@@ -83,11 +83,12 @@ export const Profile = {
       mustApplyToken: isMe,
     });
   },
-  getFollowers(id, isMe, isAuth, type) {
+  getFollowers(id, isMe, isAuth, type, params) {
     return request({
       url: isMe ? `my-profile/${type}/` : `profiles/${id}/${type}/`,
       canApplyToken: isAuth,
       mustApplyToken: isMe,
+      params,
     });
   },
   saveChanges(data) {
