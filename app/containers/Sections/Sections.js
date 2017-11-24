@@ -31,7 +31,6 @@ class Sections extends Component {
     const { items, params, sections, priceTemplate, posts, tree, promoCategories, routing } = this.props;
     const { pages, paginate, activePage } = this.props;
     const currentSection = tree[tree.length - 1];
-    const isShowAll = currentSection.showAll;
     const startIndex = 5;
     const currentTag = routing.query.tag;
     const crumbs = [...tree];
@@ -117,6 +116,13 @@ class Sections extends Component {
             paginate={paginate}
             active={activePage}
           />
+          {
+            currentSection.description
+            &&
+            <p className="seo__description">
+              {currentSection.description}
+            </p>
+          }
         </div>
       </main>
     );

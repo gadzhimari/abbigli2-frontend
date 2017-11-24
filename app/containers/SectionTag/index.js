@@ -103,6 +103,13 @@ class SectionTag extends Component {
               &&
               <PageSwitcher />
             }
+            {
+              currentSection.description
+              &&
+              <p className="seo__description">
+                {currentSection.description}
+              </p>
+            }
           </div>
         </main>
       </div>
