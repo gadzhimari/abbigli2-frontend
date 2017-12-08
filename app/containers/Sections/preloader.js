@@ -43,7 +43,7 @@ const preloader = WrappedComponent => class extends PureComponent {
 
     Promise.all([
       fetchSectionTags(currentSection.slug),
-      fetchPosts(currentSection.slug, 1, routing.query.tag),
+      fetchPosts(currentSection.slug, routing.query.page, routing.query.tag),
     ]).then(() => this.setState({
       isFetching: false,
       tree,

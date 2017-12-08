@@ -23,7 +23,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         isFetchingPosts: false,
         posts: action.results,
-        postPagesCount: Math.ceil(action.count / 50),
+        postPagesCount: Math.ceil(action.count / 30),
       };
     }
     case actions.REQUEST_TAGS: {
