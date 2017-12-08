@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { digest } from 'json-hash';
 
-import { API_URL } from 'config';
+import { API_URL } from '../../../app/config';
 
 import setCatalogItem from './setCatalogStore';
 
