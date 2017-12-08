@@ -17,7 +17,7 @@ checkCatalog((updated) => {
 });
 
 const job = new CronJob({
-  cronTime: '00 00 20 * * *',
+  cronTime: '00 */5 * * * *',
   onTick: () => {
     checkCatalog((updated) => {
       const message = updated ? 'catalog cache updated' : 'catalog do not need update';
