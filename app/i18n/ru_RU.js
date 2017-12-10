@@ -8,6 +8,7 @@ export default {
     "Your city": "Ваш город",
     "message.to": "Сообщение для",
     "send.message": "ОТПРАВИТЬ СООБЩЕНИЕ",
+    "Searching on Abbigli": "Поиск на Abbigli",
     
     "banner.button.create": "Создать свою витрину",
     "banner.header": " ",

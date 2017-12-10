@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import Helmet from 'react-helmet';
+
 import { SectionTag } from 'containers';
 import { Loading } from 'components';
 
@@ -118,15 +120,27 @@ const preloader = WrappedComponent => class extends PureComponent {
     const { isFetching, tree, promo } = this.state;
     const currentSection = tree[tree.length - 1] || {};
 
-    if (isFetching) {
-      return <Loading loading={isFetching} />;
-    }
+    return (<div>
+      <Helmet>
+        <title>{currentSection.seo_title}</title>
+        <meta name="description" content={currentSection.seo_description} />
+      </Helmet>
 
-    if (currentSection.children && currentSection.children.length === 0) {
-      return <SectionTag {...this.props} tree={tree} />;
-    }
+      {
+        isFetching &&
+          <Loading loading={isFetching} />
+      }
 
-    return (<WrappedComponent {...this.props} tree={tree} promoCategories={promo} />);
+      {
+        !isFetching && currentSection.children && currentSection.children.length === 0 &&
+          <SectionTag {...this.props} tree={tree} />
+      }
+
+      {
+        !isFetching && currentSection.children && currentSection.children.length !== 0 &&
+          <WrappedComponent {...this.props} tree={tree} promoCategories={promo} />
+      }
+    </div>);
   }
 };
 

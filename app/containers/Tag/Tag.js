@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
+import Helmet from 'react-helmet';
 
 import {
   BreadCrumbs,
@@ -24,24 +25,6 @@ import { API_URL } from 'config';
 import { __t } from './../../i18n/translator';
 
 import './Tag.styl';
-
-const newData = [{
-  id: 0,
-  type: 4,
-  title: 'Blog title',
-  author: {
-    name: 'Mike',
-  },
-},
-{
-  id: 1,
-  type: 3,
-  title: 'Event title',
-  date: '22.07.2017',
-  author: {
-    name: 'Mike',
-  },
-}];
 
 class TagSearchResults extends Component {
   componentDidMount() {
@@ -133,6 +116,10 @@ class TagSearchResults extends Component {
 
     return (
       <div>
+        <Helmet>
+          <title>{__t('Searching on Abbigli')}</title>
+          <meta name="robots" content="noindex, follow" />
+        </Helmet>
         {
           tags.length > 0
           &&
@@ -181,7 +168,6 @@ class TagSearchResults extends Component {
                 ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
                 : <ListWithNew
                   items={items}
-                  newItems={newData}
                   count={4}
                   itemProps={{ priceTemplate, legacy: true }}
                 />

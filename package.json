@@ -10,7 +10,9 @@
     "development": "cp dev.env .env && npm run clean && npm-run-all --parallel devserver nodemon",
     "devserver": "webpack-dev-server",
     "nodemon": "nodemon ./server.js",
-    "start": "pm2-docker start ./server.js"
+    "start-prod-server": "pm2-docker start ./server.js",
+    "start-cron": "pm2-docker start ./cron.js",
+    "start": "npm-run-all --parallel start-cron start-prod-server"
   },
   "keywords": [
     "react",
@@ -47,6 +49,7 @@
     "maxmind": "^2.2.0",
     "moment": "^2.17.1",
     "mongoose": "^4.8.1",
+    "next": "^4.2.1",
     "node-cron": "^1.2.1",
     "normalizr": "^3.2.4",
     "pm2": "^2.4.5",

@@ -36,7 +36,6 @@ class Sections extends Component {
     const crumbs = [...tree];
     const isPromo = currentSection.is_promo || currentSection.children[0].is_promo;
 
-
     if (currentTag) {
       crumbs.push({
         title: `#${currentTag}`,
