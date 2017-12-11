@@ -14,16 +14,24 @@ import './index.styl';
 
 
 class ProfileMyabbigli extends Component {
-  constructor(props) {
-    super(props);
+  static prerenderData = ({ store }, nextState, replace, callback) => {
+    Promise.all([
+      store.dispatch(fetchDataPosts({
+        isMe: false,
+        profileId: nextState.params.profile,
+        type: 'posts',
+        page: 1,
+        isAuth: false,
+      })),
+    ]).then(() => callback());
   }
 
   componentDidMount() {
     this.fetchPosts();
   }
 
-  componentDidUpdate(nextProps) {
-    if (nextProps.params !== this.props.params) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.params !== this.props.params) {
       this.fetchPosts();
     }
   }

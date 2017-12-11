@@ -32,8 +32,8 @@ class ProfileFavorites extends Component {
     this.fetchPosts();
   }
 
-  componentDidUpdate(nextProps) {
-    if (nextProps.params !== this.props.params) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.params !== this.props.params) {
       this.fetchPosts();
     }
   }
