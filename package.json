@@ -12,7 +12,7 @@
     "nodemon": "nodemon ./server.js",
     "start-prod-server": "pm2-docker start ./server.js",
     "start-cron": "pm2-docker start ./cron.js",
-    "start": "npm-run-all --parallel start-cron start-prod-server"
+    "start": "pm2-docker start ./server.js"
   },
   "keywords": [
     "react",
