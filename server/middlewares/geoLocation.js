@@ -14,17 +14,19 @@ const geoLocation = (req, res, next) => {
 
   const city = cityLookup.get(ip);
 
-  req.redux.dispatch({
-    type: 'SET_COUNTRY',
-    code: city.country.iso_code,
-  });
+  if (city && city.country) {
+    req.redux.dispatch({
+      type: 'SET_COUNTRY',
+      code: city.country.iso_code,
+    });
 
-  req.redux.dispatch({
-    type: 'SET_COORDINATES',
-    coordinates: city.location,
-  });
+    req.redux.dispatch({
+      type: 'SET_COORDINATES',
+      coordinates: city.location,
+    });
 
-  res.cookie('countryCode', city.country.iso_code);
+    res.cookie('countryCode', city.country.iso_code);
+  }
 
   next();
 };
