@@ -29,14 +29,15 @@ const CategoryItem = ({ item, categorySlug, hideCategory }) => (
         </Link>)
     }
     {
-      item.children.length > 4 ?
-        <Link
-          className="header-category__name"
-          to={`/c/${categorySlug}/${item.slug}`}
-          onClick={hideCategory}
-        >
-          {__t('More')}
-        </Link> : ''
+      item.children.length > 4
+      &&
+      <Link
+        className="header-category__name"
+        to={`/c/${categorySlug}/${item.slug}`}
+        onClick={hideCategory}
+      >
+        {__t('More')}
+      </Link>
     }
   </div>
 );
