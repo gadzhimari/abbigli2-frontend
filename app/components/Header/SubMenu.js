@@ -50,23 +50,50 @@ class SubMenu extends PureComponent {
 
   checkVisibility = () => {
     const wrapperBounds = this.catWrapper.getBoundingClientRect();
+    const wrapperPaddingLeft = parseInt(window.getComputedStyle(this.catWrapper, null).getPropertyValue('padding-left'), 10);
+    const wrapperPaddingRight = parseInt(window.getComputedStyle(this.catWrapper, null).getPropertyValue('padding-left'), 10);
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
+    const moreBoundsWidth = (this.elseBtn.offsetWidth > 0 ? this.elseBtn.offsetWidth : 116) + parseInt(window.getComputedStyle(this.elseBtn, null).getPropertyValue('margin-left'), 10);
+    const itemMarginRight = parseInt(window.getComputedStyle(catList[0], null).getPropertyValue('margin-right'), 10);
 
-    const check = (item) => {
+    const wrapperAffectiveRightBound = wrapperBounds.right - wrapperPaddingRight;
+
+    const checkItemBounds = (item) => {
+      const itemBounds = item.getBoundingClientRect();
+      const itemAffectiveRightBound = itemBounds.right + itemMarginRight;
+      const res = (itemAffectiveRightBound > wrapperAffectiveRightBound);
+      return res;
+    };
+
+    const setItemVisibility = (item) => {
       const itemBounds = item.getBoundingClientRect();
       const catId = Number(item.getAttribute('data-cat_id'));
+      const itemAffectiveRightBound = itemBounds.right + itemMarginRight;
 
-      if (itemBounds.left + item.offsetWidth > wrapperBounds.right - 200) {
+      if (itemAffectiveRightBound > wrapperAffectiveRightBound - moreBoundsWidth) {
         item.classList.add('hide');
-        this.elseBtn.classList.remove('hide');
         this.subWrapper
           .querySelector(`[data-cat_id="${catId}"]`)
           .classList.remove('hide');
       }
     };
 
-    catList
-      .forEach(check);
+    catList.forEach((item) => {
+      item.classList.remove('hide');
+    });
+
+    let checkRes = false;
+    catList.forEach((item) => {
+      checkRes = checkRes || checkItemBounds(item);
+    });
+
+    if (checkRes) {
+      // выходит за раницы
+      this.elseBtn.classList.remove('hide');
+      catList.forEach(setItemVisibility);
+    } else {
+      this.elseBtn.classList.add('hide');
+    }
   }
 
   resetInvisible = () => {
