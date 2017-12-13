@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router';
 
+import { __t } from '../../i18n/translator';
+
 const CategoryItem = ({ item, categorySlug, hideCategory }) => (
   <div className="header-category__column">
     <Link
@@ -25,6 +27,17 @@ const CategoryItem = ({ item, categorySlug, hideCategory }) => (
         >
           {child.title}
         </Link>)
+    }
+    {
+      item.children.length > 4
+      &&
+      <Link
+        className="header-category__name"
+        to={`/c/${categorySlug}/${item.slug}`}
+        onClick={hideCategory}
+      >
+        {__t('More')}
+      </Link>
     }
   </div>
 );
