@@ -31,7 +31,7 @@ if (isProd) {
 } else {
   jsUrl = '/public/assets/bundle.js';
   cssUrl = '/public/assets/style.css';
-  commonCss = fs.readFileSync(path.resolve(__dirname, '../criticalCSS/common.css'), 'utf8');
+  commonCss = '';
 }
 
 const metriks = {
