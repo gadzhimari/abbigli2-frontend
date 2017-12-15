@@ -52,7 +52,8 @@ class SubMenu extends PureComponent {
     const wrapperBounds = this.catWrapper.getBoundingClientRect();
     const wrapperPaddingRight = parseInt(window.getComputedStyle(this.catWrapper, null).getPropertyValue('padding-right'), 10);
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
-    const moreBoundsWidth = (this.elseBtn.offsetWidth > 0 ? this.elseBtn.offsetWidth : 116) + parseInt(window.getComputedStyle(this.elseBtn, null).getPropertyValue('margin-left'), 10);
+    const moreBtnWidth = this.elseBtn.offsetWidth;
+    const moreBoundsWidth = (moreBtnWidth > 0 ? moreBtnWidth : 116) + parseInt(window.getComputedStyle(this.elseBtn, null).getPropertyValue('margin-left'), 10);
     const itemMarginRight = parseInt(window.getComputedStyle(catList[0], null).getPropertyValue('margin-right'), 10);
 
     const wrapperAffectiveRightBound = wrapperBounds.right - wrapperPaddingRight;
