@@ -8,6 +8,7 @@ import match from 'react-router/lib/match';
 
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
+import 'babel-polyfill';
 
 import Raven from 'raven-js';
 import Geolocation from './HOC/Geolocation';
@@ -16,11 +17,6 @@ import routes from './routes';
 import configureStore from './store';
 
 import { DOMAIN_URL } from './config';
-
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
-import 'babel-polyfill';
 
 const ravenDNS = process.env.SENTRY_DNS_CLIENT;
 const mode = process.env.NODE_ENV;
@@ -79,15 +75,13 @@ function renderApp() {
         <Geolocation>
           <Router history={history} {...renderProps} />
         </Geolocation>
-      </Provider>,
-      container
-    );
+      </Provider>, container);
   });
 }
 
-window.Mac = /Mac/.test(window.navigator.platform)
-window.Windows = /Win/.test(window.navigator.platform)
-window.Linux = /Linux/.test(window.navigator.platform)
+window.Mac = /Mac/.test(window.navigator.platform);
+window.Windows = /Win/.test(window.navigator.platform);
+window.Linux = /Linux/.test(window.navigator.platform);
 
 // The following is needed so that we can hot reload our App.
 if (process.env.NODE_ENV === 'development' && module.hot) {
@@ -99,6 +93,6 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./reducers', renderApp);
 }
 
-Event.prototype.persist = () => { }
+Event.prototype.persist = () => {};
 
 renderApp();
