@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
+import Type from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import {
   Gallery,
@@ -8,40 +9,21 @@ import {
   BreadCrumbs,
   Sidebar,
   FavoriteAdd,
-  NewPost,
   RelativePosts,
-} from 'components';
-import { CommentsField, CommentsList } from 'components/Comments';
-import { Event } from 'components/Cards';
+} from '../../components';
+import { CommentsField, CommentsList } from '../../components/Comments';
+import { Event } from '../../components/Cards';
+import DateRange from '../../components/DateRange';
 
-import postLoader from 'App/HOC/postLoader';
+import postLoader from '../../HOC/postLoader';
 
-import { connect } from 'react-redux';
-import { sendComment } from 'ducks/Comments';
+import {
+  fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite, fetchUsersPosts,
+} from '../../ducks/PostPage/actions';
 
-import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite, fetchUsersPosts } from 'ducks/PostPage/actions';
-
-import { fetchData as fetchDataComments } from 'ducks/Comments';
+import { fetchData as fetchDataComments, sendComment } from '../../ducks/Comments';
 
 import { __t } from '../../i18n/translator';
-
-const newData = [{
-  id: 0,
-  type: 4,
-  title: 'Blog title',
-  author: {
-    name: 'Mike',
-  },
-},
-{
-  id: 1,
-  type: 3,
-  title: 'Event title',
-  date: '22.07.2017',
-  author: {
-    name: 'Mike',
-  },
-}];
 
 class EventPage extends Component {
   static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, token))
@@ -129,6 +111,7 @@ class EventPage extends Component {
     }];
 
     const isUsersPost = author.id === me.id;
+    const { city } = data;
 
     return (
       <main>
@@ -153,10 +136,17 @@ class EventPage extends Component {
               </svg>
               {data.title}
             </h1>
+            <div className="article__date">
+              <DateRange
+                start={data.date_start}
+                end={data.date_end}
+              />
+            </div>
+            <div className="article__city">
+              {`${city.name}, ${city.country.name}`}
+            </div>
             {this.renderSlider()}
-            <div
-              dangerouslySetInnerHTML={{ __html: data.content }}
-            />
+            <div dangerouslySetInnerHTML={{ __html: data.content }} />
             <FavoriteAdd
               toggleFavorite={this.handleFavorite}
               isFavorited={data.favorite}
@@ -204,9 +194,9 @@ class EventPage extends Component {
 }
 
 EventPage.propTypes = {
-  data: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
+  data: Type.object.isRequired,
+  isFetching: Type.bool.isRequired,
+  dispatch: Type.func.isRequired,
 };
 
 function mapStateToProps(state) {

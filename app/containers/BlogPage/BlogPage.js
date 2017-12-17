@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import moment from 'moment';
+
 import {
   Gallery,
   AuthorInfo,
@@ -9,25 +11,22 @@ import {
   BreadCrumbs,
   Sidebar,
   FavoriteAdd,
-  NewPost,
   RelativePosts,
-} from 'components';
+} from '../../components';
 
-import { CommentsField, CommentsList } from 'components/Comments';
-import { Blog } from 'components/Cards';
+import { CommentsField, CommentsList } from '../../components/Comments';
+import { Blog } from '../../components/Cards';
 
-import postLoader from 'App/HOC/postLoader';
+import postLoader from '../../HOC/postLoader';
 
-import { sendComment } from 'ducks/Comments';
-
-import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite } from 'ducks/PostPage/actions';
-import { fetchData as fetchDataComments } from 'ducks/Comments';
-import { fetchData as fetchDataAuthors } from 'ducks/ProfilePosts';
+import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite } from '../../ducks/PostPage/actions';
+import { fetchData as fetchDataComments, sendComment } from '../../ducks/Comments';
+import { fetchData as fetchDataAuthors } from '../../ducks/ProfilePosts';
 
 import { __t } from '../../i18n/translator';
+import { location } from '../../config';
+import { POST_DATE_FORMAT } from '../../lib/date/formats';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import './BlogPage.less';
 
 class BlogPage extends Component {
@@ -147,6 +146,12 @@ class BlogPage extends Component {
               </svg>
               {data.title}
             </h1>
+            <div className="article__date">
+              {moment(data.created)
+                .locale(location)
+                .format(POST_DATE_FORMAT)
+              }
+            </div>
             {this.renderSlider()}
             <div
               dangerouslySetInnerHTML={{ __html: data.content }}
