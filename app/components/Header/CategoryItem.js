@@ -6,8 +6,11 @@ import PrepareTitle from './PrepareTitle';
 
 import { __t } from '../../i18n/translator';
 
-const CategoryItem = ({ item, categorySlug, hideCategory }) => (
-  <div className="header-category__column">
+const CategoryItem = ({ item, categorySlug, hideCategory, className }) => (
+  <div
+    className={className}
+    data-cat_id={item.id}
+  >
     <Link
       className="header-category__title"
       to={`/c/${categorySlug}/${item.slug}`}
@@ -51,6 +54,7 @@ CategoryItem.propTypes = {
   }).isRequired,
   categorySlug: PropTypes.string.isRequired,
   hideCategory: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
 };
 
 export default CategoryItem;

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import SubMenuItem from './SubMenuItem';
-import SubMenuDropdownItem from './SubMenuDropdownItem';
 import CategoryList from './CategoryList';
+import MoreList from './MoreList';
 
 import { debounce } from 'utils/functions';
 
@@ -33,9 +33,6 @@ class SubMenu extends PureComponent {
     catList.forEach((item) => {
       item.addEventListener('mouseover', this.showCategory);
     });
-
-    document.querySelector('.header-submenu__more').addEventListener('mouseleave', this.toggleElseMenuVisibility);
-
     window.addEventListener('resize', this.debouncedResetInvisible);
     window.addEventListener('load', this.checkVisibility);
   }
@@ -75,6 +72,10 @@ class SubMenu extends PureComponent {
         this.subWrapper
           .querySelector(`[data-cat_id="${catId}"]`)
           .classList.remove('hide');
+      } else {
+        this.subWrapper
+          .querySelector(`[data-cat_id="${catId}"]`)
+          .classList.add('hide');
       }
     };
 
@@ -88,7 +89,7 @@ class SubMenu extends PureComponent {
     });
 
     if (checkRes) {
-      // выходит за раницы
+      // выходит за границы
       this.elseBtn.classList.remove('hide');
       catList.forEach(setItemVisibility);
     } else {
@@ -127,7 +128,6 @@ class SubMenu extends PureComponent {
 
   showSubMenu = () => {
     this.hideCategory();
-    this.subWrapper.classList.remove('hide');
   }
 
   showCategory = ({ currentTarget }) => {
@@ -135,7 +135,6 @@ class SubMenu extends PureComponent {
     const categoryList = this.catWrapper.querySelector(`.header-category[data-cat_id="${catId}"]`);
 
     this.hideCategory();
-    this.subWrapper.classList.add('hide');
 
     if (categoryList) {
       categoryList.classList.add('show');
@@ -144,7 +143,6 @@ class SubMenu extends PureComponent {
 
   hideCategory = () => {
     const activeList = this.catWrapper.querySelector('.show');
-
     if (activeList) {
       activeList.classList.remove('show');
     }
@@ -173,21 +171,10 @@ class SubMenu extends PureComponent {
           <div
             className="header-submenu__more hide"
             ref={elseBtn => (this.elseBtn = elseBtn)}
-            onMouseEnter={this.showSubMenu}
+            onMouseEnter={this.showCategory}
+            data-cat_id={'more'}
           >
             {__t('More')}
-            <div
-              className="header-submenu__dropdown hide"
-              ref={wrapper => (this.subWrapper = wrapper)}
-            >
-              {
-                sections.map(item => <SubMenuDropdownItem
-                  item={item}
-                  key={item.id}
-                  onClick={this.clickMoreItem}
-                />)
-              }
-            </div>
           </div>
           {
             sections.map((section) => {
@@ -202,6 +189,16 @@ class SubMenu extends PureComponent {
               return null;
             })
           }
+          <div
+            data-cat_id={'more'}
+            ref={wrapper => (this.subWrapper = wrapper)}
+            className="header-category header-submenu__dropdown-item2"
+          >
+            <MoreList
+              sections={sections}
+              hideCategory={this.hideCategory}
+            />
+          </div>
         </div>
       </div>
     );

@@ -15,6 +15,7 @@ const CategoryList = ({ category, hideCategory }) => (
           key={child.id}
           categorySlug={category.slug}
           hideCategory={hideCategory}
+          className="header-category__column"
         />)
     }
   </div>
