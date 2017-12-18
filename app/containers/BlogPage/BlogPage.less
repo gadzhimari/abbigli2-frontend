@@ -17,6 +17,15 @@
   .textarea-wrap {
     margin-top: 40px;
   }
+
+  &__date {
+    font-size: 16px;
+    color: #8b8b8b;
+  }
+
+  &__city {
+    font-size: 16px;
+  }
 }
 
 @media only screen and (min-width: 761px) {
@@ -24,7 +33,7 @@
     .section-title {
       font-family: 'ClearSansBold';
       font-size: 40px;
-      line-height: 48px;
+      line-height: 25px;
       .icon-blog {
         background-size: 43px 45px;
         width: 43px;
@@ -40,16 +49,17 @@
       float: none;
       margin: 0;
     }
-    .section-title {
-      text-align: left;
-    }
+    
   }
 }
 
 @media only screen and (max-width: 480px) {
   .article {
-    .breadcrumbs {
-      display: none;
+    &__date {
+      text-align: center;
+    }
+    &__city {
+      text-align: center;
     }
   }
 }
