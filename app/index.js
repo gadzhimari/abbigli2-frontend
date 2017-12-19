@@ -28,15 +28,16 @@ if (mode === 'production' && ravenDNS) {
 }
 
 // Get the DOM Element that will host our React application.
-const container = document.querySelector('#app');
 const urlWithoutProtocol = DOMAIN_URL.split('://')[1];
+const store = configureStore();
 
 function renderApp() {
+  const container = document.querySelector('#app');
+
   while (container.firstChild) {
     container.removeChild(container.firstChild);
   }
 
-  const store = configureStore();
   const history = syncHistoryWithStore(browserHistory, store);
   const renderRoutes = routes(store);
   const routerParams = {
@@ -96,3 +97,5 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
 Event.prototype.persist = () => {};
 
 renderApp();
+
+export default store;

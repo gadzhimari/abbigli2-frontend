@@ -1,15 +1,14 @@
 import { SET_FOLLOWING } from '../actionTypes';
 
-import { getJsonFromStorage } from 'utils/functions';
-import { stagedPopup } from 'ducks/Auth/authActions';
-
-import { API_URL } from 'config';
+import { getJsonFromStorage } from '../../../utils/functions';
+import onlyAuthAction from '../../../lib/redux/onlyAuthAction';
+import { API_URL } from '../../../config';
 
 const updateFollow = () => ({
   type: SET_FOLLOWING,
 });
 
-const setFollow = (id) => {
+const setFollow = id => (dispatch) => {
   const token = getJsonFromStorage('id_token');
 
   const config = {
@@ -19,17 +18,11 @@ const setFollow = (id) => {
     },
   };
 
-  return (dispatch) => {
-    if (token) {
-      config.headers.Authorization = `JWT ${token}`;
-    } else {
-      return dispatch(stagedPopup('register'));
-    }
+  config.headers.Authorization = `JWT ${token}`;
 
-    dispatch(updateFollow());
+  dispatch(updateFollow());
 
-    return fetch(`${API_URL}profiles/${id}/follow/`, config);
-  };
+  return fetch(`${API_URL}profiles/${id}/follow/`, config);
 };
 
-export default setFollow;
+export default onlyAuthAction(setFollow);
