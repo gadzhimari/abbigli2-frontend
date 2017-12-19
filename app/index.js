@@ -37,7 +37,6 @@ function renderApp() {
   }
 
   const store = configureStore();
-
   const history = syncHistoryWithStore(browserHistory, store);
   const renderRoutes = routes(store);
   const routerParams = {

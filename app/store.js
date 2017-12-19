@@ -1,10 +1,11 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
+import { IS_DEVELOPMENT } from './config';
 
 let preloadedState;
 
-if (window && window.PRELOADED_STATE) {
+if (typeof window !== 'undefined' && window.PRELOADED_STATE) {
   preloadedState = JSON.parse(decodeURI(window.PRELOADED_STATE));
 } else {
   preloadedState = {};
@@ -14,8 +15,11 @@ const configureStore = () => {
   const store = createStore(
     reducers,
     preloadedState,
-    compose(applyMiddleware(thunk),
-    window && window.devToolsExtension ? window.devToolsExtension() : f => f));
+    compose(
+      applyMiddleware(thunk),
+      window.devToolsExtension ? window.devToolsExtension() : f => f
+    )
+  );
 
   return store;
 };
