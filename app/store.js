@@ -17,9 +17,7 @@ const configureStore = () => {
     preloadedState,
     compose(
       applyMiddleware(thunk),
-      window.devToolsExtension ? window.devToolsExtension() : f => f
-    )
-  );
+      window && window.devToolsExtension ? window.devToolsExtension() : f => f));
 
   return store;
 };
