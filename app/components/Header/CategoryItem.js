@@ -2,17 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router';
+import PrepareTitle from './PrepareTitle';
 
 import { __t } from '../../i18n/translator';
 
-const CategoryItem = ({ item, categorySlug, hideCategory }) => (
-  <div className="header-category__column">
+const CategoryItem = ({ item, categorySlug, hideCategory, className }) => (
+  <div
+    className={className}
+    data-cat_id={item.id}
+  >
     <Link
       className="header-category__title"
       to={`/c/${categorySlug}/${item.slug}`}
       onClick={hideCategory}
     >
-      {item.title}
+      {PrepareTitle(item.title)}
     </Link>
     {
       item.children.length > 0
@@ -25,7 +29,7 @@ const CategoryItem = ({ item, categorySlug, hideCategory }) => (
           to={`/c/${categorySlug}/${item.slug}/${child.slug}`}
           onClick={hideCategory}
         >
-          {child.title}
+          {PrepareTitle(child.title)}
         </Link>)
     }
     {
@@ -50,6 +54,7 @@ CategoryItem.propTypes = {
   }).isRequired,
   categorySlug: PropTypes.string.isRequired,
   hideCategory: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
 };
 
 export default CategoryItem;

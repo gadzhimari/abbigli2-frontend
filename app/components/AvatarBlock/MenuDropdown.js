@@ -23,6 +23,8 @@ class MenuDropdown extends PureComponent {
         this.closeDropdownHandler();
       }
     });
+
+    this.isMobile = window.innerWidth <= 700;
   }
 
   openDropdownHandler = ({ target, currentTarget }) => {
@@ -42,8 +44,8 @@ class MenuDropdown extends PureComponent {
     const dropdownClass = classNames('header__menu-item main-menu', {
       'open-menu': this.state.openDropdown,
     });
-    const isMobile = window.innerWidth <= 700;
-    const menuButtonHandler = isMobile
+
+    const menuButtonHandler = this.isMobile
       ? openMobileMenu
       : this.openDropdownHandler;
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import PrepareTitle from './PrepareTitle';
 
 const SubMenuDropdownItem = ({ item, onClick }) => (
   <div
@@ -9,7 +10,7 @@ const SubMenuDropdownItem = ({ item, onClick }) => (
   >
     <div className="dropdown-item__name">
       <a alt="">
-        {item.title}
+        {PrepareTitle(item.title)}
       </a>
     </div>
   </div>

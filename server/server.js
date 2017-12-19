@@ -1,5 +1,3 @@
-global.window = {};
-
 import express from 'express';
 import path from 'path';
 import compression from 'compression';
@@ -12,6 +10,7 @@ import oauthHandler from './middlewares/oauthHandling';
 import geoLocation from './middlewares/geoLocation';
 import configureRedux from './middlewares/configureRedux';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
+import setLocals from './middlewares/set-locals';
 
 import routes from './api';
 
@@ -34,6 +33,7 @@ app.use(compression());
 app.use(Raven.requestHandler());
 
 app.use(routes);
+app.use(setLocals);
 app.use(oauthHandler);
 app.use(configureRedux);
 app.use(geoLocation);
