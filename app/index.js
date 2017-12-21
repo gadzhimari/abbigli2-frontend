@@ -14,7 +14,7 @@ import Raven from 'raven-js';
 import Geolocation from './HOC/Geolocation';
 
 import routes from './routes';
-import configureStore from './store';
+import store from './store/store';
 
 import { DOMAIN_URL } from './config';
 
@@ -29,7 +29,6 @@ if (mode === 'production' && ravenDNS) {
 
 // Get the DOM Element that will host our React application.
 const urlWithoutProtocol = DOMAIN_URL.split('://')[1];
-const store = configureStore();
 
 function renderApp() {
   const container = document.querySelector('#app');
@@ -80,10 +79,6 @@ function renderApp() {
   });
 }
 
-window.Mac = /Mac/.test(window.navigator.platform);
-window.Windows = /Win/.test(window.navigator.platform);
-window.Linux = /Linux/.test(window.navigator.platform);
-
 // The following is needed so that we can hot reload our App.
 if (process.env.NODE_ENV === 'development' && module.hot) {
   // Accept changes to this file for hot reloading.
@@ -94,8 +89,4 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./reducers', renderApp);
 }
 
-Event.prototype.persist = () => {};
-
 renderApp();
-
-export default store;

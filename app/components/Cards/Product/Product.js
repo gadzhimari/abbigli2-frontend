@@ -6,28 +6,17 @@ import { pure } from 'recompose';
 
 import { Link } from 'react-router';
 
-import { Share, Like } from 'components';
-import { ProductsIcons } from 'components/Icons';
-import { THUMBS_URL } from 'config';
+import { Share, Like } from '../../../components';
+import { ProductsIcons } from '../../../components/Icons';
+import { THUMBS_URL } from '../../../config';
 
-import { setLike } from 'actions/like';
-import { stagedPopup } from 'ducks/Auth/authActions';
+import setLike from '../../../ducks/Like/actions';
 
 import './Product.less';
 
-const Product = ({ data, priceTemplate, isAuth, dispatch }) => {
+const Product = ({ data, priceTemplate }) => {
   const name = data.user.profile_name ? data.user.profile_name : `ID: ${data.user.id}`;
-  const like = () => {
-    if (!isAuth) {
-      dispatch(stagedPopup('register'));
-
-      return false;
-    }
-
-    dispatch(setLike(data.slug));
-
-    return true;
-  };
+  const like = () => setLike(data.slug);
 
   return (
     <div className="post-card">

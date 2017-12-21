@@ -34,6 +34,12 @@ const Posts = {
       mustApplyToken: true,
     });
   },
+  likePost(slug) {
+    return request({
+      url: `posts/${slug}/like/`,
+      mustApplyToken: true,
+    });
+  },
 };
 
 export default Posts;

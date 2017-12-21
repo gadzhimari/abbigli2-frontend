@@ -17,7 +17,7 @@ import paginateHOC from '../../HOC/paginate';
 import ShowMiddleCards from './ShowMiddleCards';
 import TagsBlock from './TagsBlock';
 
-import { Product, SubCategoryList } from 'components/Cards';
+import { Product, SubCategoryList } from '../../components/Cards';
 import preloader from './preloader';
 
 import { fetchPosts, fetchTags } from 'ducks/CatalogPage/actions';
