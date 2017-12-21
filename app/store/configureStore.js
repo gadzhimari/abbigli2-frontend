@@ -1,6 +1,7 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import reducers from './reducers';
+
+import reducers from '../reducers';
 
 let preloadedState;
 
@@ -15,7 +16,7 @@ const configureStore = () => {
     reducers,
     preloadedState,
     compose(applyMiddleware(thunk),
-    window && window.devToolsExtension ? window.devToolsExtension() : f => f));
+      window && window.devToolsExtension ? window.devToolsExtension() : f => f));
 
   return store;
 };

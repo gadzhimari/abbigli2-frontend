@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
+import Follow from '../ducks/Follow';
 import Sections from '../ducks/Sections';
 import SubSections from '../ducks/SubSections';
 import Blogs from '../ducks/Blogs';
@@ -57,5 +58,6 @@ export default combineReducers({
   RelativePage,
   NewIn,
   CatalogPage,
+  Follow,
   Menu,
 });

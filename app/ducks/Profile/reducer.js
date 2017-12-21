@@ -10,6 +10,7 @@ const initialState = {
   isLoadingMoreFollowers: false,
   nextFollowersPage: null,
   canLoadMoreFollowers: false,
+  isFollowing: false,
   /** Подписки пользователя */
   following: null,
   isLoadingMoreFollowing: false,
@@ -118,6 +119,34 @@ const profileReducer = (state = initialState, action = {}) => {
         following: [...state.following, ...action.data.results],
         nextFollowingPage: state.nextFollowingPage + 1,
         canLoadMoreFollowing: !!action.data.next,
+      };
+    }
+    case (types.CHANGE_FOLLOWING_STATUS): {
+      return {
+        ...state,
+        isFollowing: action.payload,
+      };
+    }
+    case (types.FOLLOW_USER): {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          followers_count: state.data.followers_count + 1,
+          is_subscribed: true,
+        },
+        followers: [...state.followers, action.payload],
+      };
+    }
+    case (types.UNFOLLOW_USER): {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          followers_count: state.data.followers_count - 1,
+          is_subscribed: false,
+        },
+        followers: state.followers.filter(follower => follower.id !== action.payload),
       };
     }
     default: {

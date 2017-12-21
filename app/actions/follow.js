@@ -1,13 +1,34 @@
-import { API_URL } from 'config';
-
-import { getJsonFromStorage } from 'utils/functions';
+import { Profile } from '../api';
+import onlyAuthAction from '../lib/redux/onlyAuthAction';
 
 const FOLLOW_REQUEST = 'FOLLOW_REQUEST';
 const FOLLOW_RESPONSE = 'FOLLOW_RESPONSE';
 
-// Actions
+const followRequest = () => ({
+  type: FOLLOW_REQUEST,
+});
 
-const followReducer = (state = { isFetching: false }, action) => {
+const followResponse = () => ({
+  type: FOLLOW_RESPONSE,
+});
+
+function follow(id) {
+  return (dispatch) => {
+    dispatch(followRequest());
+
+    return Profile.follow(id)
+      .then(() => {
+        dispatch(followResponse());
+        return Promise.resolve();
+      });
+  };
+}
+
+export const setFollow = onlyAuthAction(follow);
+
+const defaultState = { isFetching: false };
+
+const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case (FOLLOW_REQUEST): {
       return Object.assign({}, state, {
@@ -25,37 +46,4 @@ const followReducer = (state = { isFetching: false }, action) => {
   }
 };
 
-const followRequest = () => ({
-  type: FOLLOW_REQUEST,
-});
-
-const followResponse = () => ({
-  type: FOLLOW_RESPONSE,
-});
-
-export function setFollow(profileId, fromPost = true) {
-  const token = getJsonFromStorage('id_token');
-  const config = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  if (token) {
-    config.headers.Authorization = `JWT ${token}`;
-  }
-
-  return (dispatch) => {
-    dispatch(followRequest());
-
-    return fetch(`${API_URL}profiles/${profileId}/follow/`, config)
-      .then(res => res.json())
-      .then((response) => {
-        dispatch(followResponse());
-        return Promise.resolve();
-      });
-  };
-}
-
-export default followReducer;
+export default reducer;

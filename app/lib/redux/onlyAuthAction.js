@@ -1,16 +1,15 @@
-import state from '../../index';
+/* eslint consistent-return: 0 */
+import store from '../../store/store';
 import { openPopup } from '../../ducks/Popup/actions';
 
-function onlyAuthAction(action) {
+export default function onlyAuthAction(action) {
   return (...args) => {
-    const { isAuthenticated } = state.getState().Auth;
+    const { isAuthenticated } = store.getState().Auth;
 
     if (isAuthenticated) {
-      return state.dispatch(action(...args));
+      return store.dispatch(action(...args));
     }
 
-    return state.dispatch(openPopup('registerPopup'));
+    store.dispatch(openPopup('registerPopup'));
   };
 }
-
-export default onlyAuthAction;

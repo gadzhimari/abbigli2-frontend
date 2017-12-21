@@ -2,21 +2,17 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import {
-  UserProfile,
-  Link,
-} from 'components';
-
 import Helmet from 'react-helmet';
 
-import './Profile.styl';
+import { UserProfile, Link } from '../../components';
 
 import { __t } from './../../i18n/translator';
 
 import ProfileLoader from './components/ProfileLoaderDecorator';
-import { uploadImage, loadProfile, saveChanges, deleteImage } from 'ducks/Profile/actions';
-import { openPopup } from 'ducks/Popup/actions';
-import { setFollow } from 'actions/follow';
+import { uploadImage, loadProfile, saveChanges, deleteImage } from '../../ducks/Profile/actions';
+import { openPopup } from '../../ducks/Popup/actions';
+
+import './Profile.styl';
 
 class Profile extends Component {
   constructor(props) {
@@ -58,10 +54,7 @@ class Profile extends Component {
     } = this.props;
 
     const childrenWithProps = React.Children
-      .map(this.props.children, child => React.cloneElement(child, {
-        isMe,
-        me,
-      }));
+      .map(this.props.children, child => React.cloneElement(child, { isMe, me }));
 
     const title = isMe
       ? 'My profile'
@@ -240,8 +233,6 @@ const mapDispatchToProps = dispatch => ({
   saveChanges: data => dispatch(saveChanges(data)),
   /** Используется для открытия попапов */
   openPopup: (...args) => dispatch(openPopup(...args)),
-  /** Используетс для подписки на пользователей */
-  follow: id => dispatch(setFollow(id, false)),
   /** Используется для удаления выбранного изображения профиля */
   deleteImage: name => dispatch(deleteImage(name)),
 });
