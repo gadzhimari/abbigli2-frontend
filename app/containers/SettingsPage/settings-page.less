@@ -1,0 +1,98 @@
+@import 'icons';
+@import 'mixin';
+@import 'variables';
+
+.settings-table {
+  display: table;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+
+  &__row {
+    display: table-row;
+  }
+
+  &__cell {
+    display: table-cell;
+    vertical-align: top;
+    padding: 25px 0;
+    border-bottom: 1px solid @border;
+
+
+    &:first-child {
+      font-size: 18px;
+      color: @grayText;
+      min-width: 230px;
+    }
+  }
+
+  &__change {
+    cursor: pointer;
+    color: #0090de;
+    background: none;
+    border: none;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .checkbox-wrap {
+    margin-bottom: 15px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .input {
+    width: 240px;
+  }
+
+  &__buttons {
+    font-size: 0;
+    margin-top: 10px;
+    .default-button {
+     &:first-child {
+       display: inline-block;
+       vertical-align: top;
+       .button(default);
+     }
+    }
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .settings-table {
+    display: block;
+
+    &__row {
+      display: block;
+      margin-bottom: 20px;
+      border-bottom: 1px solid @border;
+      padding-bottom: 20px;
+    }
+    &__cell {
+      display: block;
+      border: none;
+      padding: 0;
+
+      &:first-child {
+        margin-bottom: 10px;
+      }
+
+      &--changed + & {
+        display: none;
+      }
+    }
+    &__change {
+      margin-top: 5px;
+    }
+
+    .default-button {
+      &:last-child {
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 30px;
+      }
+    }
+  }
+}

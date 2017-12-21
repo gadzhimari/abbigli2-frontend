@@ -43,7 +43,9 @@ const routes = (store, token, shouldPreload) => {
   const handleNoAuth = (nextState, replace) => {
     const state = store.getState();
 
-    if (!state.Auth.isAuthenticated) replace('/');
+    if (!state.Auth.isAuthenticated) {
+      replace('/');
+    }
   };
 
   return (
@@ -69,8 +71,9 @@ const routes = (store, token, shouldPreload) => {
         <Route path="feed" component={ProfileFeed} />
         <Route path="about" component={ProfileAbout} />
         <Route path="messages" component={ProfileMessages} />
-        <Route path="settings" component={SettingsPage} />
       </Route>
+
+      <Route path="settings" component={SettingsPage} onEnter={handleNoAuth} />
 
       <Route path="blogs" component={BlogsPage} />
       <Route path="events" component={EventsPage} />
