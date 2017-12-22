@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { DOMAIN_URL } from 'config';
-import PrepareTitle from './PrepareTitle';
 
 const SubMenuItem = ({ item, hideCategory }) => (
   <Link
@@ -11,7 +10,7 @@ const SubMenuItem = ({ item, hideCategory }) => (
     className="header-submenu__item"
     data-cat_id={item.id}
   >
-    {PrepareTitle(item.title)}
+    {item.title}
   </Link>
 );
 
