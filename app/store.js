@@ -6,7 +6,7 @@ import { IS_DEVELOPMENT } from './config';
 let preloadedState;
 
 if (typeof window !== 'undefined' && window.PRELOADED_STATE) {
-  preloadedState = JSON.parse(decodeURI(window.PRELOADED_STATE));
+  preloadedState = JSON.parse(window.PRELOADED_STATE);
 } else {
   preloadedState = {};
 }
