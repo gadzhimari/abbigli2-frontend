@@ -1,4 +1,4 @@
-import { Posts, Tags } from 'API';
+import { Posts, Tags } from '../../api';
 
 export const REQUEST_POSTS = 'catalog-page/REQUEST_POSTS';
 export const RESPONSE_POSTS = 'catalog-page/RESPONSE_POSTS';
@@ -42,7 +42,7 @@ const responseMoreTags = ({ next, results }) => ({
 export const fetchPosts = options => (dispatch) => {
   dispatch(requestPosts());
 
-  return Posts.getPosts(options)
+  return Posts.getPosts({ type: 1, ...options })
     .then(res => dispatch(responsePosts(res.data)));
 };
 
