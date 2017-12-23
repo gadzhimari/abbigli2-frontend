@@ -1,15 +1,18 @@
-import { API_URL } from 'config';
-import { openPopup } from 'ducks/Popup/actions';
+import { createAction } from 'redux-actions';
+import { Support } from '../api';
+import { openPopup } from './Popup/actions';
 
 // Actions
 export const SUPPORT_REQUEST = 'SUPPORT_REQUEST';
 export const SUPPORT_SUCCESS = 'SUPPORT_SUCCESS';
 export const SUPPORT_FAILURE = 'SUPPORT_FAILURE';
 
-export default function support(state = {
+const initalState = {
   isFetching: false,
   errors: {},
-}, action) {
+};
+
+export default function support(state = initalState, action) {
   switch (action.type) {
     case SUPPORT_REQUEST:
       return Object.assign({}, state, {
@@ -24,31 +27,16 @@ export default function support(state = {
     case SUPPORT_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        errors: action.message,
+        errors: action.payload,
       });
     default:
       return state;
   }
 }
 
-function requestSupport() {
-  return {
-    type: SUPPORT_REQUEST,
-  };
-}
-
-function receiveSupport() {
-  return {
-    type: SUPPORT_SUCCESS,
-  };
-}
-
-function supportError(message) {
-  return {
-    type: SUPPORT_FAILURE,
-    message,
-  };
-}
+const requestSupport = createAction(SUPPORT_REQUEST);
+const receiveSupport = createAction(SUPPORT_SUCCESS);
+const supportError = createAction(SUPPORT_FAILURE);
 
 export function getSupport(data) {
   const formData = new FormData();
@@ -56,30 +44,20 @@ export function getSupport(data) {
   formData.append('title', data.title);
   formData.append('email', data.email);
   formData.append('description', data.text);
-  formData.append('file', new Blob(data.file));
-
-  const config = {
-    method: 'POST',
-    body: formData,
-  };
+  formData.append('file', data.file);
 
   return (dispatch) => {
-    dispatch(requestSupport(data));
+    dispatch(requestSupport());
 
-    return fetch(`${API_URL}support/`, config)
-      .then(response =>
-        response.json().then(user => ({ user, response }))
-      ).then(({ user, response }) => {
-        if (!response.ok) {
-          throw new Error(JSON.stringify(user));
-        }
-
+    return Support.sendMessage(formData)
+      .then(() => {
+        dispatch(receiveSupport());
         dispatch(openPopup('statusPopup', {
           title: 'Message have been successfully sent',
         }));
-
-        receiveSupport();
       })
-      .catch(err => dispatch(supportError(JSON.parse(err.message))));
+      .catch((err) => {
+        dispatch(supportError(err.response.data));
+      });
   };
 }

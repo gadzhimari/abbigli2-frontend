@@ -4,29 +4,23 @@ import Dropzone from 'react-dropzone';
 
 import { connect } from 'react-redux';
 
-import Popup from '../CommonPopup';
-import { ErrorInput } from 'components/Inputs';
-import { FetchingButton } from 'components';
+import { ErrorInput } from '../../Inputs';
+import { FetchingButton } from '../../../components';
 
-import { getSupport } from 'ducks/Support';
+import { getSupport } from '../../../ducks/Support';
 import { __t } from '../../../i18n/translator';
 
 import './SupportPopup.styl';
 
 class SupportPopup extends Component {
-  constructor() {
-    super();
-    this.state = {
-      file: [],
-      title: '',
-      email: '',
-      text: '',
-    };
-  }
+  state = {
+    file: null,
+    title: '',
+    email: '',
+    text: '',
+  };
 
-  onDrop = file => this.setState({
-    file,
-  });
+  onDrop = ([file]) => this.setState({ file });
 
   onChangeInput = ({ target }) => this.setState({
     [target.name]: target.value,
@@ -48,9 +42,9 @@ class SupportPopup extends Component {
             <path d="M6.91,3.636V12c0,1.607-1.302,2.909-2.909,2.909c-1.608,0-2.909-1.302-2.909-2.909V2.909 c0-1.004,0.814-1.818,1.818-1.818c1.003,0,1.818,0.814,1.818,1.818v7.637c0,0.399-0.328,0.727-0.728,0.727 c-0.4,0-0.728-0.327-0.728-0.727v-6.91H2.182v6.91c0,1.003,0.814,1.817,1.818,1.817s1.818-0.814,1.818-1.817V2.909 C5.819,1.302,4.517,0,2.91,0S0,1.302,0,2.909V12c0,2.211,1.79,4,4,4c2.21,0,4-1.789,4-4V3.636H6.91z" />
           </svg>
           {
-            file.length > 0
+            file
               ? (<span id="title-attach-file">
-                {file[0].name}
+                {file.name}
               </span>)
               : __t('Add a file')
           }
@@ -139,7 +133,7 @@ class SupportPopup extends Component {
               onDrop={this.onDrop}
               file={this.state.file}
               component={dropZone}
-              errors={errors.description}
+              errors={errors.file}
             />
 
             <div className="buttons-wrap">
