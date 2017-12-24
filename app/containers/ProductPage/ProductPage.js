@@ -9,7 +9,6 @@ import {
   OtherArticles,
   BreadCrumbs,
   FavoriteAdd,
-  NewPost,
   RelativePosts,
   ProductPreview,
   Share,
@@ -33,24 +32,6 @@ import { openPopup } from 'ducks/Popup/actions';
 import { __t } from './../../i18n/translator';
 import './ProductPage.less';
 
-const newData = [{
-  id: 0,
-  type: 4,
-  title: 'Blog title',
-  author: {
-    name: 'Mike',
-  },
-},
-{
-  id: 1,
-  type: 3,
-  title: 'Event title',
-  date: '22.07.2017',
-  author: {
-    name: 'Mike',
-  },
-}];
-
 class ProductPage extends Component {
   static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, token));
 
@@ -59,6 +40,7 @@ class ProductPage extends Component {
     dispatch(fetchUsersPosts(1, data.user.id)),
     dispatch(fetchRelative(data.slug)),
   ])
+  .catch(console.log)
 
   static onUnmount = (dispatch) => {
     dispatch(resetPost());
@@ -142,7 +124,7 @@ class ProductPage extends Component {
 
   render() {
     const commentsList = this.props.itemsComments;
-    const location = typeof window !== 'undefined' ? window.location : {};
+    const location = {};
 
     const {
       isFetchingBlogs,
