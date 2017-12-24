@@ -1,9 +1,16 @@
-import request from './instance';
+import req from './instance';
 
 const Geo = {
-  getCitiesByName(name) {
-    return request({
-      url: `geo/cities/?name=${name}`
+  getCities(params) {
+    return req({
+      url: 'geo/cities/',
+      params,
+    });
+  },
+  getCountries(params) {
+    return req({
+      url: 'geo/countries/',
+      params,
     });
   },
 };

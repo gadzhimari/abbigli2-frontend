@@ -8,9 +8,9 @@ import debounce from 'lodash/debounce';
 import ResultsTags from './ResultsTags';
 import ResultsUsers from './ResultsUsers';
 
-import { changeValue, clearValue } from 'ducks/Search';
+import { changeValue, clearValue } from '../../../ducks/Search';
 
-import { API_URL } from 'config';
+import { API_URL } from '../../../config';
 import { __t } from '../../../i18n/translator';
 
 import './SearchPopup.styl';

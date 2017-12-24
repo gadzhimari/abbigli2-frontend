@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import { Component, Children } from 'react';
 
 import { connect } from 'react-redux';
-import { API_URL } from 'config';
-import { saveCity } from 'ducks/Geo';
+import { Geo } from '../api';
+
+import { saveCity } from '../ducks/Geo';
 
 class Geolocation extends Component {
   componentDidMount() {
@@ -27,15 +28,13 @@ class Geolocation extends Component {
   }
 
   fetchCityByCoords = ({ latitude, longitude }) => {
-    fetch(`${API_URL}geo/cities/?coords=${latitude},${longitude}`)
-      .then(res => res.json())
-      .then(({ results }) => {
-        this.saveCityToStore(results[0]);
+    Geo.getCities({ latitude, longitude })
+      .then((res) => {
+        const { dispatch } = this.props;
+
+        dispatch(saveCity(res.data.results[0]));
       });
   }
-
-  saveCityToStore = city => this.props
-    .dispatch(saveCity(city));
 
   render() {
     return Children.only(this.props.children);
@@ -49,14 +48,14 @@ Geolocation.propTypes = {
     longitude: PropTypes.number,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  user: PropTypes.shape({
-    city: PropTypes.object,
-  }).isRequired,
 };
 
-const mapStateToProps = ({ Geo, Auth }) => ({
-  coordinates: Geo.coordinates,
+Geolocation.defaultProps = {
+  coordinates: {},
+};
+
+const mapStateToProps = ({ Geo: GeoStore, Auth }) => ({
+  coordinates: GeoStore.coordinates,
   isAuthenticated: Auth.isAuthenticated,
   user: Auth.me,
 });

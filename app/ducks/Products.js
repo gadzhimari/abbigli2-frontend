@@ -1,13 +1,12 @@
-import { API_URL } from 'config';
-import { getJsonFromStorage } from 'utils/functions';
+import { createAction } from 'redux-actions';
+import { Posts } from '../api';
 
-const ENDPOINT = API_URL + 'posts/?main=true&type=1';
-
-// Actions
 const REQUEST = 'abbigli/Products/REQUEST';
 const SET = 'abbigli/Products/SET';
 
-// Reducer
+const requestData = createAction(REQUEST);
+const setData = createAction(SET);
+
 export default function (state = {
   isFetching: true,
   items: [],
@@ -15,49 +14,27 @@ export default function (state = {
   switch (action.type) {
     case SET:
       return Object.assign({}, state, {
-        items: action.data.results,
-        isFetching: false
-      })
+        items: action.payload.results,
+        isFetching: false,
+      });
     case REQUEST:
       return Object.assign({}, {
         isFetching: true,
-        items: []
-      })
+        items: [],
+      });
     default:
       return state;
   }
 }
 
-// Action Creators
-export function requestData() {
-  return {
-    type: REQUEST,
-    ENDPOINT
-  }
-}
-
 
 export function fetchData() {
-  let token = getJsonFromStorage('id_token') || null;
-  let config = {};
-  if (token) {
-    config = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${token}`,
-      },
-    };
-  }
-
-  return dispatch => {
+  return (dispatch) => {
     dispatch(requestData());
-    return fetch(ENDPOINT, config)
-      .then(res => res.json())
-      .then((responseData) => dispatch(setData(responseData)))
-  }
-}
 
-export function setData(responseData) {
-  return { type: SET, data: responseData }
+    return Posts.getPosts()
+      .then((res) => {
+        dispatch(setData(res.data));
+      });
+  };
 }

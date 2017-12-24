@@ -58,6 +58,13 @@ const Posts = {
       data,
     });
   },
+  getSpecificPosts(specific, params) {
+    return request({
+      url: `posts/${specific}/`,
+      canApplyToken: true,
+      params,
+    });
+  },
 };
 
 export default Posts;

@@ -1,6 +1,5 @@
 // Sections.js
-import { API_URL } from 'config';
-import { getJsonFromStorage, createQuery } from 'utils/functions';
+import { Posts } from '../api';
 
 // Actions
 const REQUEST = 'abbigli/Posts/REQUEST';
@@ -82,28 +81,18 @@ export function appendData(responseData, page) {
 }
 
 export function fetchData(options) {
-  const token = getJsonFromStorage('id_token') || null;
-  const config = { headers: {} };
-  const query = createQuery(options);
-
-  if (token) {
-    config.headers.Authorization = `JWT ${token}`;
-  }
   return (dispatch) => {
     if (!options.page || options.page === 1) {
       dispatch(requestData());
     } else {
       dispatch(requestDataAppend());
     }
-    return fetch(`${API_URL}posts/${query}`, config)
-      .then(res => res.json())
-      .then((responseData) => {
-        if (responseData.results) {
-          if (!options.page || options.page === 1) {
-            dispatch(setData(responseData, options.page, options.section, options.tag));
-          } else {
-            dispatch(appendData(responseData, options.page));
-          }
+    return Posts.getPosts(options)
+      .then((res) => {
+        if (!options.page || options.page === 1) {
+          dispatch(setData(res.data, options.page, options.section, options.tag));
+        } else {
+          dispatch(appendData(res.data, options.page));
         }
       });
   };
