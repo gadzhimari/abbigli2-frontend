@@ -1,7 +1,8 @@
 export default function trimSlash(req, res, next) {
-  const slashOnEndRegexp = /.\/$/;
+  const slashOnEndWithSymbolRegexp = /.\/$/;
+  const slashOnEndRegexp = /\/$/;
 
-  if (slashOnEndRegexp.test(req.path)) {
+  if (slashOnEndWithSymbolRegexp.test(req.path)) {
     const pathWithoutSlash = req.path.replace(slashOnEndRegexp, '');
     const pathToRedirect = req.originalUrl.replace(req.path, pathWithoutSlash);
 
