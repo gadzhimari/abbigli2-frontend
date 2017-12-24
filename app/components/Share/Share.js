@@ -9,7 +9,7 @@ import './Share.styl';
 const style = { display: 'inline-block' };
 
 export default function Share({ postLink, buttonClass }) {
-  const location = window.location || {};
+  const location = typeof window !== 'undefined' ? window.location : {};
 
   return (
     <div style={style}>
