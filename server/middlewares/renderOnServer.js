@@ -5,11 +5,13 @@ import { RouterContext } from 'react-router';
 import match from 'react-router/lib/match';
 import ReactDOM from 'react-dom/server';
 import { Provider } from 'react-redux';
-import helmet from 'react-helmet';
+import Helmet from 'react-helmet';
 
 import path from 'path';
 
 import routes from '../../app/routes';
+import mustAddNofollow from '../lib/mustAddNofollow';
+import { nofollow } from '../lib/etc/meta';
 
 const domain = process.env.DOMAIN_URL.slice(0, -1);
 
@@ -35,11 +37,16 @@ module.exports = (req, res) => {
         <RouterContext {...renderProps} />
       </Provider>);
 
-    const helmetStatic = helmet.renderStatic();
+    const helmetStatic = Helmet.renderStatic();
+
     const seo = {
       title: helmetStatic.title.toString(),
       meta: helmetStatic.meta.toString(),
     };
+
+    if (mustAddNofollow(req)) {
+      seo.meta = `${nofollow}${seo.meta}`;
+    }
 
     res.render('index', {
       markup: componentHTML,
