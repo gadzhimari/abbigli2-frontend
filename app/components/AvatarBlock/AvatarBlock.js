@@ -6,8 +6,8 @@ import { Link } from 'react-router';
 import MenuDropdown from './MenuDropdown';
 import UserMenu from './UserMenu';
 
-import { openPopup } from 'ducks/Popup/actions';
-import { stagedPopup } from 'ducks/Auth/authActions';
+import { openPopup } from '../../ducks/Popup/actions';
+import { stagedPopup } from '../../ducks/Auth/authActions';
 import './AvatarBlock.styl';
 
 class AvatarBlock extends Component {

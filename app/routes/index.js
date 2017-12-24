@@ -3,7 +3,6 @@
 import React from 'react';
 import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
-import { IS_HOT_DEVELOPMENT } from '../config';
 import {
   App,
   Home,
@@ -28,9 +27,10 @@ import {
   Agreement,
   PeopleSearch,
   ProfileAbout,
-} from 'containers';
+} from '../containers';
 
-import Chat from 'containers/Chat';
+import Chat from '../containers/Chat';
+import SettingsPage from '../containers/SettingsPage';
 
 
 const routes = (store, token, shouldPreload) => {
@@ -43,7 +43,9 @@ const routes = (store, token, shouldPreload) => {
   const handleNoAuth = (nextState, replace) => {
     const state = store.getState();
 
-    if (!state.Auth.isAuthenticated) replace('/');
+    if (!state.Auth.isAuthenticated) {
+      replace('/');
+    }
   };
 
   return (
@@ -70,6 +72,8 @@ const routes = (store, token, shouldPreload) => {
         <Route path="about" component={ProfileAbout} />
         <Route path="messages" component={ProfileMessages} />
       </Route>
+
+      <Route path="settings" component={SettingsPage} onEnter={handleNoAuth} />
 
       <Route path="blogs" component={BlogsPage} />
       <Route path="events" component={EventsPage} />
