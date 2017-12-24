@@ -1,34 +1,19 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import Type from 'prop-types';
+import { connect } from 'react-redux';
+
 import dateFormat from 'dateformat';
-import { connect } from 'preact-redux';
 import { Link } from 'react-router';
 
-import {
-  Share,
-  Like,
-} from 'components';
-import { setLike } from 'actions/like';
+import { Share, Like } from '../../../components';
+import setLike from '../../../ducks/Like/actions';
 
-import { stagedPopup } from 'ducks/Auth/authActions';
-import { THUMBS_URL } from 'config';
+import { THUMBS_URL } from '../../../config';
 
 import './index.styl';
 
 class Uni extends Component {
-  like = () => {
-    const { isAuth, item, dispatch } = this.props;
-
-    if (!isAuth) {
-      dispatch(stagedPopup('register'));
-
-      return false;
-    }
-
-    dispatch(setLike(item.slug));
-
-    return true;
-  }
+  like = () => setLike(this.props.item.slug)
 
   render() {
     const {

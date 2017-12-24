@@ -24,6 +24,13 @@ const Profile = {
       data,
     });
   },
+  follow(id) {
+    return request({
+      url: `profiles/${id}/follow/`,
+      method: 'POST',
+      mustApplyToken: true,
+    });
+  },
 };
 
 export default Profile;

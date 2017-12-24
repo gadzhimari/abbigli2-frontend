@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Link } from 'react-router';
-import { THUMBS_URL } from 'config';
+import { THUMBS_URL } from '../../config';
 
-import { setFollow } from 'ducks/PostPage/actions';
+import { setFollow } from '../../ducks/PostPage/actions';
 
 import { __t } from '../../i18n/translator';
 import './AuthorInfo.less';
@@ -13,7 +13,7 @@ const AuthorInfo = ({
   dispatch,
   showSubscribeButton,
 }) => {
-  const subscribe = () => dispatch(setFollow(data.id));
+  const subscribe = () => setFollow(data.id);
 
   return (
     <div className="subscription-article__wrap">

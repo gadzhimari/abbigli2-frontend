@@ -11,24 +11,24 @@ import {
   Search,
   AvatarBlock,
   ContentWrapper,
-} from 'components';
+} from '../../components';
 
-import scrollOnRoute from 'App/HOC/scrollOnRoute';
+import scrollOnRoute from '../../HOC/scrollOnRoute';
 
 import {
   fetchMe,
   logoutUser,
-} from 'ducks/Auth/authActions';
-import { closePopup, openPopup } from 'ducks/Popup/actions';
-import { fetchData as settingsFetch, fetchGeo } from 'ducks/Settings';
-import loadNewIn from 'ducks/NewIn/actions';
-import toggleMobileMenu, { closeMenu } from 'ducks/Menu/actions';
-import { fetchData as fetchDataSections } from 'ducks/Sections';
+} from '../../ducks/Auth/authActions';
+import { closePopup, openPopup } from '../../ducks/Popup/actions';
+import { fetchData as settingsFetch, fetchGeo } from '../../ducks/Settings';
+import loadNewIn from '../../ducks/NewIn/actions';
+import toggleMobileMenu, { closeMenu } from '../../ducks/Menu/actions';
+import { fetchData as fetchDataSections } from '../../ducks/Sections';
 
-import * as Popups from 'components/Popups';
-import getComponentFromObject from 'utils/getComponent';
+import * as Popups from '../../components/Popups';
+import getComponentFromObject from '../../utils/getComponent';
 
-import { appConfig } from 'config';
+import { appConfig } from '../../config';
 
 import './app.less';
 import './App.styl';
@@ -62,14 +62,10 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-  }
 
-  componentWillMount() {
-    const { dispatch } = this.props;
-
-    dispatch(settingsFetch());
-    dispatch(fetchGeo());
-    dispatch(loadNewIn());
+    props.dispatch(settingsFetch());
+    props.dispatch(fetchGeo());
+    props.dispatch(loadNewIn());
   }
 
   componentDidMount() {

@@ -1,39 +1,23 @@
 /* eslint react/sort-comp: 0 */
 
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import Type from 'prop-types';
 
 import { Link } from 'react-router';
-import { FetchingButton } from 'components';
+import { connect } from 'react-redux';
 
+import { FetchingButton } from '../../../../components';
+
+import follow from '../../../../ducks/Profile/actions/follow';
 import { __t } from '../../../../i18n/translator';
 
 import './ProfileLinks.less';
 
 class ProfileLinks extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSubscribed: props.data.is_subscribed,
-      fetchingFollow: false,
-    };
-  }
-
   handleFollow = () => {
-    if (this.props.isAuthenticated) {
-      this.setState(prevState => ({
-        isSubscribed: !prevState.isSubscribed,
-        fetchingFollow: true,
-      }));
+    const { is_subscribed, id } = this.props.data;
 
-      this.props
-        .follow(this.props.data.id)
-        .then(() => this.setState({
-          fetchingFollow: false,
-        }));
-    } else {
-      this.props.openPopup('loginPopup');
-    }
+    follow(id, is_subscribed);
   }
 
   openFollowers = () => {
@@ -145,12 +129,12 @@ class ProfileLinks extends PureComponent {
       </div>
       <FetchingButton
         className="default-button"
-        isFetching={this.state.fetchingFollow}
+        isFetching={this.props.isFetchingFollow}
         type="button"
         onClick={this.handleFollow}
       >
         {
-          this.state.isSubscribed
+          this.props.data.is_subscribed
             ? `- ${__t('Unsubscribe')}`
             : `+ ${__t('Subscribe')}`
         }
@@ -159,4 +143,8 @@ class ProfileLinks extends PureComponent {
   );
 }
 
-export default ProfileLinks;
+const mapState = ({ Profile }) => ({
+  isFetchingFollow: Profile.isFollowing,
+});
+
+export default connect(mapState)(ProfileLinks);

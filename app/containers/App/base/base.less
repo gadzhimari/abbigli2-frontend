@@ -244,6 +244,35 @@ h2 {
   .show-more();
 }
 
+.cards-wrap.cards-wrap__tag .category-button {
+  margin: 0 0.5% 1% 0.5%;
+}
+
+.category-button {
+  font-family: 'ClearSans', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  color: #1d1c1c;
+  border: 1px solid #b2b2b2;
+  background-color: #fff;
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px 15px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 0 15px 10px 0;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    background-color: #0091e1;
+    border-color: #0091e1;
+    color: #fff;
+  }
+}
+
 @media only screen and (min-width: 761px) and (max-width: 980px) {
   .cards-wrap {
     &_users {

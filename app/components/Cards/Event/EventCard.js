@@ -3,29 +3,19 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { pure } from 'recompose';
-import { Share, Like } from 'components';
 
 import moment from 'moment';
 
-import { THUMBS_URL } from 'config';
+import { Share, Like } from '../../../components';
 
-import { setLike } from 'actions/like';
-import { stagedPopup } from 'ducks/Auth/authActions';
+import { THUMBS_URL } from '../../../config';
+
+import setLike from '../../../ducks/Like/actions';
 
 import './index.less';
 
-const EventCard = ({ data, isAuth, dispatch }) => {
-  const like = () => {
-    if (!isAuth) {
-      dispatch(stagedPopup('register'));
-
-      return false;
-    }
-
-    dispatch(setLike(data.slug));
-
-    return true;
-  };
+const EventCard = ({ data }) => {
+  const like = () => setLike(data.slug);
 
   return (
     <div className="event-card">
@@ -118,8 +108,6 @@ EventCard.propTypes = {
     user: PropTypes.object,
     images: PropTypes.array,
   }).isRequired,
-  isAuth: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

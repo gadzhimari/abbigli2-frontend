@@ -4,35 +4,16 @@ import { connect } from 'react-redux';
 
 
 import dateFormat from 'dateformat';
-import { Share, Link, Like } from 'components';
+import { Share, Link, Like } from '../../../components';
 
-import { THUMBS_URL } from 'config';
+import { THUMBS_URL } from '../../../config';
 
-import { setLike } from 'actions/like';
-import { stagedPopup } from 'ducks/Auth/authActions';
+import setLike from '../../../ducks/Like/actions';
 
 import './index.less';
 
-const typesUrl = {
-  1: 'post',
-  3: 'event',
-  4: 'blog',
-};
-
 class BlogCard extends Component {
-  like = () => {
-    const { isAuth, dispatch, data } = this.props;
-
-    if (!isAuth) {
-      dispatch(stagedPopup('register'));
-
-      return false;
-    }
-
-    dispatch(setLike(data.slug));
-
-    return true;
-  };
+  like = () => setLike(this.props.data.slug);
 
   render() {
     const { data } = this.props;
@@ -58,7 +39,7 @@ class BlogCard extends Component {
             <div className="dropdown-corner" />
             <div className="dropdown">
               <Share
-                postLink={`/${typesUrl[data.type]}/${data.slug}`}
+                postLink={`/blog/${data.slug}`}
                 buttonClass="social-btn"
               />
             </div>
