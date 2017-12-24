@@ -142,7 +142,7 @@ class ProductPage extends Component {
 
   render() {
     const commentsList = this.props.itemsComments;
-    const location = window.location || {};
+    const location = typeof window !== undefined ? window.location : {};
 
     const {
       isFetchingBlogs,

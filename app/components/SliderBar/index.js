@@ -26,7 +26,7 @@ class TagsBar extends PureComponent {
   state = {
     slidedRight: 0,
     maxSlided: 0,
-    factor: window && window.innerWidth > 500 ? 3 : 1,
+    factor: typeof window !== 'undefined' && window.innerWidth > 500 ? 3 : 1,
   };
 
   calculateOnResize = debounce(this.calculateMaxSlided, 300, this);
