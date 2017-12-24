@@ -16,7 +16,8 @@ const configureStore = () => {
     reducers,
     preloadedState,
     compose(applyMiddleware(thunk),
-      window && window.devToolsExtension ? window.devToolsExtension() : f => f));
+      typeof window !== 'undefined' && window.devToolsExtension
+        ? window.devToolsExtension() : f => f));
 
   return store;
 };

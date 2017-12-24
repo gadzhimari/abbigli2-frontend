@@ -9,8 +9,6 @@
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
           <style>
-            <%- commonCss %>
-
             .slideout-menu {
               display: none;
             }
@@ -68,9 +66,9 @@
   <script type="text/javascript" src="/js/jQuery_1.11.min.js" defer></script>
   <script type="text/javascript" src="/js/redactor.min.js?v=2.6" defer></script>
   <script type="text/javascript" src="/js/source.js" defer></script>
-  <script src="<%= baseUrl %><%= jsUrl %>" defer></script>
+  <script src="<%= assetsUrl %><%= assets.js %>" defer></script>
   <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
-  <link rel="stylesheet" href="<%= baseUrl %><%= cssUrl %>">
+  <link rel="stylesheet" href="<%= assetsUrl %><%= assets.css %>">
 </body>
 
 </html>
