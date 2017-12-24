@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import { routerReducer } from 'react-router-redux';
 
 import Follow from '../ducks/Follow';
@@ -50,7 +51,9 @@ export default combineReducers({
   Seo,
   Settings,
   Search,
+  Menu,
   routing: routerReducer,
+  Follow,
   PostCreate,
   PostPage,
   TagSearch,
@@ -58,6 +61,4 @@ export default combineReducers({
   RelativePage,
   NewIn,
   CatalogPage,
-  Follow,
-  Menu,
 });

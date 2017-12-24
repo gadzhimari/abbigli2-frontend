@@ -9,6 +9,7 @@
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
           <style>
+            <%- commonCss %>
 
             .slideout-menu {
               display: none;
@@ -59,17 +60,17 @@
     <%- markup %>
   </div>
   <script>
-    window.PRELOADED_STATE = '<%= store %>';
+    window.PRELOADED_STATE = <%- JSON.stringify(decodeURI(store)) %>;
   </script>
-  
+
   <%- metriks %>
 
   <script type="text/javascript" src="/js/jQuery_1.11.min.js" defer></script>
   <script type="text/javascript" src="/js/redactor.min.js?v=2.6" defer></script>
   <script type="text/javascript" src="/js/source.js" defer></script>
-  <script src="<%= assetsUrl %><%= assets.js %>" defer></script>
+  <script src="<%= baseUrl %><%= jsUrl %>" defer></script>
   <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
-  <link rel="stylesheet" href="<%= assetsUrl %><%= assets.css %>">
+  <link rel="stylesheet" href="<%= baseUrl %><%= cssUrl %>">
 </body>
 
 </html>

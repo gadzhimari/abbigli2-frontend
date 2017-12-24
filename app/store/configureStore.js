@@ -5,8 +5,8 @@ import reducers from '../reducers';
 
 let preloadedState;
 
-if (window && window.PRELOADED_STATE) {
-  preloadedState = JSON.parse(decodeURI(window.PRELOADED_STATE));
+if (typeof window !== 'undefined' && window.PRELOADED_STATE) {
+  preloadedState = JSON.parse(window.PRELOADED_STATE);
 } else {
   preloadedState = {};
 }

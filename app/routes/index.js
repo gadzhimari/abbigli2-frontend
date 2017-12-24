@@ -3,6 +3,7 @@
 import React from 'react';
 import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
+import { IS_HOT_DEVELOPMENT } from '../config';
 import {
   App,
   Home,
@@ -27,10 +28,9 @@ import {
   Agreement,
   PeopleSearch,
   ProfileAbout,
-} from '../containers';
+} from 'containers';
 
-import Chat from '../containers/Chat';
-import SettingsPage from '../containers/SettingsPage';
+import Chat from 'containers/Chat';
 
 
 const routes = (store, token, shouldPreload) => {

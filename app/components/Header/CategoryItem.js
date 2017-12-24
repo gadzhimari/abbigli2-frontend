@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router';
-import PrepareTitle from './PrepareTitle';
 
 import { __t } from '../../i18n/translator';
 
@@ -16,7 +15,7 @@ const CategoryItem = ({ item, categorySlug, hideCategory, className }) => (
       to={`/c/${categorySlug}/${item.slug}`}
       onClick={hideCategory}
     >
-      {PrepareTitle(item.title)}
+      {item.title}
     </Link>
     {
       item.children.length > 0
@@ -29,7 +28,7 @@ const CategoryItem = ({ item, categorySlug, hideCategory, className }) => (
           to={`/c/${categorySlug}/${item.slug}/${child.slug}`}
           onClick={hideCategory}
         >
-          {PrepareTitle(child.title)}
+          {child.title}
         </Link>)
     }
     {

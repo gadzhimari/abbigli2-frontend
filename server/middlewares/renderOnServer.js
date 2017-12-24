@@ -13,8 +13,6 @@ import routes from '../../app/routes';
 import mustAddNofollow from '../lib/mustAddNofollow';
 import { nofollow } from '../lib/etc/meta';
 
-const domain = process.env.DOMAIN_URL.slice(0, -1);
-
 module.exports = (req, res) => {
   const store = req.redux;
   const renderRoutes = routes(store, req.cookies.id_token, true);
@@ -50,9 +48,7 @@ module.exports = (req, res) => {
 
     res.render('index', {
       markup: componentHTML,
-      store: encodeURI(JSON.stringify(store.getState())),
       seo,
-      canonical: `${domain}${req.path}`,
     });
   });
 };
