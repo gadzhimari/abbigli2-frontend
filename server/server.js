@@ -11,6 +11,7 @@ import geoLocation from './middlewares/geoLocation';
 import configureRedux from './middlewares/configureRedux';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
 import setLocals from './middlewares/set-locals';
+import trimSlash from './middlewares/trim-url-slash';
 
 import routes from './api';
 
@@ -33,6 +34,7 @@ app.use(compression());
 app.use(Raven.requestHandler());
 
 app.use(routes);
+app.use(trimSlash);
 app.use(setLocals);
 app.use(oauthHandler);
 app.use(configureRedux);
