@@ -34,7 +34,7 @@ class SubMenu extends PureComponent {
       item.addEventListener('mouseover', this.showCategory);
     });
     window.addEventListener('resize', this.debouncedResetInvisible);
-    window.addEventListener('load', this.checkVisibility);
+//    window.addEventListener('load', this.checkVisibility); // Если глюков не обнаружено, то можно удалить
   }
 
   shouldComponentUpdate() {
@@ -46,28 +46,21 @@ class SubMenu extends PureComponent {
   }
 
   checkVisibility = () => {
-    const wrapperBounds = this.catWrapper.getBoundingClientRect();
-    const wrapperPaddingRight = parseInt(window.getComputedStyle(this.catWrapper, null).getPropertyValue('padding-right'), 10);
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
-    const moreBtnWidth = this.elseBtn.offsetWidth;
-    const moreBoundsWidth = (moreBtnWidth > 0 ? moreBtnWidth : 116) + parseInt(window.getComputedStyle(this.elseBtn, null).getPropertyValue('margin-left'), 10);
-    const itemMarginRight = parseInt(window.getComputedStyle(catList[0], null).getPropertyValue('margin-right'), 10);
-
-    const wrapperAffectiveRightBound = wrapperBounds.right - wrapperPaddingRight;
 
     const checkItemBounds = (item) => {
+      // top у первого ряда 71, у второго ряда 115
+      // оставляем немного на всякий случай для погрешности браузеров
       const itemBounds = item.getBoundingClientRect();
-      const itemAffectiveRightBound = itemBounds.right + itemMarginRight;
-      const res = (itemAffectiveRightBound > wrapperAffectiveRightBound);
+      const res = itemBounds.top > 100;
       return res;
     };
 
     const setItemVisibility = (item) => {
       const itemBounds = item.getBoundingClientRect();
       const catId = Number(item.getAttribute('data-cat_id'));
-      const itemAffectiveRightBound = itemBounds.right + itemMarginRight;
 
-      if (itemAffectiveRightBound > wrapperAffectiveRightBound - moreBoundsWidth) {
+      if (itemBounds.top > 100) {
         item.classList.add('hide');
         this.subWrapper
           .querySelector(`[data-cat_id="${catId}"]`)
@@ -160,21 +153,25 @@ class SubMenu extends PureComponent {
           className="header-submenu__inner"
           ref={wrapper => (this.catWrapper = wrapper)}
         >
-          {
-            sections.map(item => (<SubMenuItem
-              key={`${item.id}-section`}
-              item={item}
-              showCategory={this.showCategory}
-              hideCategory={this.hideCategory}
-            />))
-          }
-          <div
-            className="header-submenu__more hide"
-            ref={elseBtn => (this.elseBtn = elseBtn)}
-            onMouseEnter={this.showCategory}
-            data-cat_id={'more'}
-          >
-            {__t('More')}
+          <div className="header-submenu__inner3">
+            <div className="header-submenu__inner2">
+              {
+                sections.map(item => (<SubMenuItem
+                  key={`${item.id}-section`}
+                  item={item}
+                  showCategory={this.showCategory}
+                  hideCategory={this.hideCategory}
+                />))
+              }
+            </div>
+            <div
+              className="header-submenu__more hide"
+              ref={elseBtn => (this.elseBtn = elseBtn)}
+              onMouseEnter={this.showCategory}
+              data-cat_id={'more'}
+            >
+              {__t('More')}
+            </div>
           </div>
           {
             sections.map((section) => {
