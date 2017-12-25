@@ -178,7 +178,7 @@ class SubMenu extends PureComponent {
           </div>
           {
             sections.map((section) => {
-              if (section.children.length !== 0) {
+              if (section.children.length !== 0 && section.posts_num !== 0) {
                 return (<CategoryList
                   key={section.id}
                   category={section}

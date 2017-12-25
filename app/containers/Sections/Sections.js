@@ -43,6 +43,9 @@ class Sections extends Component {
       });
     }
 
+    currentSection.children = currentSection.children
+      .filter(item => item.posts_num !== 0);
+
     return (
       <main className="main">
         <div className="content">
