@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import Helmet from 'react-helmet';
 
-import { SectionTag } from 'containers';
-import { Loading } from 'components';
+import { SectionTag } from '../../containers';
+import { Loading } from '../../components';
 
 const preloader = WrappedComponent => class extends PureComponent {
   static propTypes = {
@@ -124,21 +124,21 @@ const preloader = WrappedComponent => class extends PureComponent {
       <Helmet>
         <title>{currentSection.seo_title}</title>
         <meta name="description" content={currentSection.seo_description} />
+        {currentSection.post_num === '0' &&
+          <meta name="robots" content="noindex, nofollow" />
+        }
       </Helmet>
 
-      {
-        isFetching &&
-          <Loading loading={isFetching} />
+      {isFetching &&
+        <Loading loading={isFetching} />
       }
 
-      {
-        !isFetching && currentSection.children && currentSection.children.length === 0 &&
-          <SectionTag {...this.props} tree={tree} />
+      {!isFetching && currentSection.children && currentSection.children.length === 0 &&
+        <SectionTag {...this.props} tree={tree} />
       }
 
-      {
-        !isFetching && currentSection.children && currentSection.children.length !== 0 &&
-          <WrappedComponent {...this.props} tree={tree} promoCategories={promo} />
+      {!isFetching && currentSection.children && currentSection.children.length !== 0 &&
+        <WrappedComponent {...this.props} tree={tree} promoCategories={promo} />
       }
     </div>);
   }

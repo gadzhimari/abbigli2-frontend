@@ -56,11 +56,11 @@ class ProductPreview extends Component {
 
     const prevElement = activeElement.previousElementSibling
       ||
-    document.querySelector('.sp-slides').lastElementChild;
+      document.querySelector('.sp-slides').lastElementChild;
 
     const prevSmall = activeSmall.previousElementSibling
       ||
-    document.querySelector('.sp-thumbnails').lastElementChild;
+      document.querySelector('.sp-thumbnails').lastElementChild;
 
     activeElement.classList.remove('selected');
     activeSmall.classList.remove('sp-selected-thumbnail');
@@ -81,11 +81,11 @@ class ProductPreview extends Component {
 
     const nextElement = activeElement.nextElementSibling
       ||
-    document.querySelector('.sp-slides').firstElementChild;
+      document.querySelector('.sp-slides').firstElementChild;
 
     const nextSmall = activeSmall.nextElementSibling
       ||
-    document.querySelector('.sp-thumbnails').firstElementChild;
+      document.querySelector('.sp-thumbnails').firstElementChild;
 
     activeElement.classList.remove('selected');
     activeSmall.classList.remove('sp-selected-thumbnail');
@@ -146,28 +146,22 @@ class ProductPreview extends Component {
   }
 
   render() {
-    const {
-      slideWidth,
-      activeIndex,
-      modalOpen,
-      thumbWidth,
-      thumbsScroll,
-    } = this.state;
     const { images, tags, title } = this.props;
+
+    if (images.length === 0) return null;
+
+    const { slideWidth, activeIndex, modalOpen, thumbWidth, thumbsScroll } = this.state;
+
     const thumbsWidth = (((slideWidth / 3) + 5) * images.length);
 
     return (
       <div className="product-preview slider-goods">
-        {
-          modalOpen
-            &&
-          <ModalGallery
-            images={images}
-            activeImage={activeIndex}
-            closeGallery={this.closeGallery}
-            isOpen={modalOpen}
-          />
-        }
+        <ModalGallery
+          images={images}
+          activeImage={activeIndex}
+          closeGallery={this.closeGallery}
+          isOpen={modalOpen}
+        />
         <div
           id="my-slider"
           className="product-slider"
@@ -210,7 +204,7 @@ class ProductPreview extends Component {
             </div>
             {
               images.length > 1
-                &&
+              &&
               <SliderArrows
                 prevSlide={this.prevSlide}
                 nextSlide={this.nextSlide}

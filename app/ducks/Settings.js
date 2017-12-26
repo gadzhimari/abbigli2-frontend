@@ -9,11 +9,12 @@ import { location } from 'config';
 const SET = 'abbigli/settings/SET';
 const SET_GEO = 'abbigli/settings/SET_GEO';
 
+const isEN = location === 'en';
+
 const initialState = {
   data: {
-    CURRENCY: location === 'en'
-      ? '$ ?'
-      : '? руб',
+    CURRENCY: isEN ? '$ ?' : '? руб',
+    usd_code: isEN ? 'USD' : 'RUB',
   },
   geo: [],
   currentCountry: null,

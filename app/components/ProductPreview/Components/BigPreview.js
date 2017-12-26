@@ -1,36 +1,41 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-import { THUMBS_URL } from 'config';
+import classNames from 'classnames';
 
-const BigPreview = (props) => {
-  const { src, active, index, title, tags } = props;
-  const activeClass = active
-    ? ' selected'
-    : '';
-  const alt = tags.length > 0
-    ? tags.join(' ')
-    : tags;
+import { THUMBS_URL } from '../../../config';
 
-  return (
-    <div
-      className={`sp-slide${activeClass}`}
-      data-index={index}
-      alt={alt}
-      title={title}
-    >
-      <img
-        className="sp-image"
-        src={`${THUMBS_URL}unsafe/460x460/${src}`}
-      ></img>
-    </div>
-  );
-};
+class BigPreview extends PureComponent {
+  static propTypes = {
+    src: PropTypes.string,
+    title: PropTypes.string,
+    active: PropTypes.bool,
+    index: PropTypes.number,
+    tags: PropTypes.arrayOf(PropTypes.string),
+  }
 
-BigPreview.propTypes = {
-  src: PropTypes.string,
-  active: PropTypes.bool,
-  index: PropTypes.number,
-};
+  render() {
+    const { src, active, index, title, tags } = this.props;
+    const alt = tags.join(' ');
+    const className = classNames('sp-slide', {
+      selected: active,
+    });
+
+    return (
+      <div
+        className={className}
+        data-index={index}
+      >
+        <img
+          className="sp-image"
+          src={`${THUMBS_URL}unsafe/460x460/${src}`}
+          alt={alt}
+          title={title}
+          itemProp="image"
+        />
+      </div>
+    );
+  }
+}
 
 export default BigPreview;

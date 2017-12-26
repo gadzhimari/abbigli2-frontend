@@ -1,21 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Type from 'prop-types';
 
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link';
 
-
-const Crumb = ({ url, title }) => (
-  <Link
+const Crumb = ({ url, title, pos }) => (
+  <li
     className="breadcrumbs__item"
-    to={url}
+    itemProp="itemListElement"
+    itemScope
+    itemType="http://schema.org/ListItem"
   >
-    {title}
-  </Link>
+    <Link
+      to={url}
+      className="breadcrumbs__link"
+      itemProp="item"
+    >
+      <span itemProp="name">{title}</span>
+      <meta itemProp="position" content={pos} />
+    </Link>
+  </li>
 );
 
 Crumb.propTypes = {
-  url: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  url: Type.string.isRequired,
+  title: Type.string.isRequired,
+  pos: Type.string.number,
 };
 
 export default Crumb;
