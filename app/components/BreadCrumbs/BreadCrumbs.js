@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Crumb from './Crumb';
@@ -11,30 +11,34 @@ const defaultCrumb = [{
   url: '/',
 }];
 
-const BreadCrumbs = ({
-  crumbs,
-}) => (
-    <div className="breadcrumbs">
-      {
-        [...defaultCrumb, ...crumbs]
-          .map((crumb, id) => <Crumb
-            title={crumb.title}
-            url={crumb.url}
-            key={id}
-          />)
-      }
-    </div>
-  );
+class BreadCrumbs extends PureComponent {
+  static propTypes = {
+    crumbs: PropTypes.arrayOf(PropTypes.shape({
+      url: PropTypes.string,
+      title: PropTypes.string,
+    })),
+  }
 
-BreadCrumbs.defaultProps = {
-  crumbs: [],
-};
+  static defaultProps = {
+    crumbs: [],
+  }
 
-BreadCrumbs.propTypes = {
-  crumbs: PropTypes.arrayOf(PropTypes.shape({
-    url: PropTypes.string,
-    title: PropTypes.string,
-  })),
-};
+  render() {
+    const { crumbs } = this.props;
+
+    return (
+      <ul
+        className="breadcrumbs"
+        itemScope
+        itemType="http://schema.org/BreadcrumbList"
+      >
+        {
+          [...defaultCrumb, ...crumbs]
+            .map((crumb, idx) => <Crumb {...crumb} pos={idx + 1} key={crumb.title} />)
+        }
+      </ul>
+    );
+  }
+}
 
 export default BreadCrumbs;

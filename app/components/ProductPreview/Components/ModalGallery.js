@@ -22,6 +22,9 @@ class ModalGallery extends Component {
 
   render() {
     const { closeGallery, isOpen } = this.props;
+
+    if (!isOpen) return null;
+
     const { activeImage } = this.state;
     const images = this.props.images
       .map(img => ({

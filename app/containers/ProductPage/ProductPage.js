@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link';
 
 import {
   Gallery,
@@ -12,22 +12,22 @@ import {
   RelativePosts,
   ProductPreview,
   Share,
-} from 'components';
+} from '../../components';
 
-import { Product } from 'components/Cards';
-import { CommentsField, CommentsList } from 'components/Comments';
+import { Product } from '../../components/Cards';
+import Price from './Price';
+import { CommentsField, CommentsList } from '../../components/Comments';
 
-import postLoader from 'App/HOC/postLoader';
+import postLoader from '../../HOC/postLoader';
 
-import { sendComment } from 'ducks/Comments';
-import { sendPostMessage } from 'ducks/Dialogs';
+import { sendComment, fetchData as fetchDataComments } from '../../ducks/Comments';
+import { sendPostMessage } from '../../ducks/Dialogs';
 
-import { fetchData as fetchDataComments } from 'ducks/Comments';
-import { fetchPost, resetPost, fetchRelative, fetchUsersPosts, toggleFavorite } from 'ducks/PostPage/actions';
+import { fetchPost, resetPost, fetchRelative, fetchUsersPosts, toggleFavorite } from '../../ducks/PostPage/actions';
 
-import { stagedPopup } from 'ducks/Auth/authActions';
-import { openPopup } from 'ducks/Popup/actions';
+import { openPopup } from '../../ducks/Popup/actions';
 
+import onlyAuthAction from '../../lib/redux/onlyAuthAction';
 
 import { __t } from './../../i18n/translator';
 import './ProductPage.less';
@@ -40,7 +40,7 @@ class ProductPage extends Component {
     dispatch(fetchUsersPosts(1, data.user.id)),
     dispatch(fetchRelative(data.slug)),
   ])
-  .catch(console.log)
+    .catch(console.log)
 
   static onUnmount = (dispatch) => {
     dispatch(resetPost());
@@ -92,26 +92,19 @@ class ProductPage extends Component {
     dispatch(sendPostMessage(data.user.id, post, message, this.showOrHideWants));
   }
 
-  showOrHideWants = () => {
-    const { dispatch, isAuthenticated, author } = this.props;
+  openWantsPopup = onlyAuthAction(openPopup.bind(null, 'sendPost'))
 
-    if (isAuthenticated) {
-      dispatch(openPopup('sendPost', {
-        name: author.profile_name,
-        sendMessage: this.sendMessage,
-      }));
-    } else {
-      dispatch(stagedPopup('register'));
-    }
+  handleWantsClick = () => {
+    this.openWantsPopup({
+      name: this.props.author.profile_name,
+      sendMessage: this.sendMessage,
+    });
   }
 
   renderSlider = () => {
-    const {
-      images,
-    } = this.props.data;
+    const { images } = this.props.data;
 
-    const defaultImages = images
-      &&
+    const defaultImages = images &&
       images
         .filter(item => item.type !== 'redactor')
         .map(image => ({
@@ -124,7 +117,6 @@ class ProductPage extends Component {
 
   render() {
     const commentsList = this.props.itemsComments;
-    const location = {};
 
     const {
       isFetchingBlogs,
@@ -174,27 +166,21 @@ class ProductPage extends Component {
           <If condition={isUsersPost}>
             <Link
               to={`/profile/${author.id}/post/edit/${data.slug}`}
-              className="default-button"
-              style={{
-                display: 'inline-block',
-                marginBottom: '15px',
-                borderRadius: '4px',
-                textTransform: 'none',
-              }}
+              className="default-button edit-post-button"
             >
               {__t('Edit')}
             </Link>
           </If>
-          <div className="content">
-            {
-              data.images
-              &&
-              <ProductPreview
-                images={data.images}
-                tags={data.tags}
-                title={data.title}
-              />
-            }
+          <div
+            className="content"
+            itemScope
+            itemType="http://schema.org/Product"
+          >
+            <ProductPreview
+              images={data.images}
+              tags={data.tags}
+              title={data.title}
+            />
             <div className="goods-post__info">
               <div className="goods-post__favourite">
                 <FavoriteAdd
@@ -206,19 +192,20 @@ class ProductPage extends Component {
                 <svg className="icon icon-bag" viewBox="0 0 53.3 45.9">
                   <path d="M51.3,17H39.1c-0.1-0.2-0.1-0.5-0.3-0.7L28.3,0.8c-0.1-0.2-0.3-0.3-0.5-0.5c0,0,0,0-0.1-0.1 c0,0,0,0,0,0C27.5,0.2,27.3,0.1,27,0c0,0,0,0,0,0c-0.1,0-0.3,0-0.4,0s-0.3,0-0.4,0c0,0,0,0,0,0c-0.2,0.1-0.5,0.1-0.7,0.3 c0,0,0,0,0,0c0,0,0,0-0.1,0.1c-0.2,0.1-0.3,0.3-0.5,0.5L14.5,16.3c-0.1,0.2-0.2,0.5-0.3,0.7H2c-1.3,0-2.3,1.3-1.9,2.5l7.4,25 c0.2,0.8,1,1.4,1.9,1.4h34.5c0.9,0,1.6-0.6,1.9-1.4l7.4-25C53.6,18.3,52.6,17,51.3,17z M26.6,5.5L34.4,17H18.8L26.6,5.5z M26.6,37.6 c-3.5,0-6.3-2.8-6.3-6.3c0-3.5,2.8-6.3,6.3-6.3s6.3,2.8,6.3,6.3C32.9,34.8,30.1,37.6,26.6,37.6z" />
                 </svg>
-                {data.title}
+                <span className="section-title__text" itemProp="name">
+                  {data.title}
+                </span>
               </h1>
-              <p>
+              <p itemProp="description">
                 {data.content}
               </p>
               <div className="goods-post__buttons">
-                <div className="goods-post__price">
-                  {priceTemplate && priceTemplate.replace('?', data.price)}
-                </div>
+                <Price price={data.price} />
+
                 <If condition={!isUsersPost}>
                   <button
                     className="want-button"
-                    onClick={this.showOrHideWants}
+                    onClick={this.handleWantsClick}
                   >
                     <svg className="icon icon-bag" viewBox="0 0 53.3 45.9">
                       <path d="M51.3,17H39.1c-0.1-0.2-0.1-0.5-0.3-0.7L28.3,0.8c-0.1-0.2-0.3-0.3-0.5-0.5c0,0,0,0-0.1-0.1 c0,0,0,0,0,0C27.5,0.2,27.3,0.1,27,0c0,0,0,0,0,0c-0.1,0-0.3,0-0.4,0s-0.3,0-0.4,0c0,0,0,0,0,0c-0.2,0.1-0.5,0.1-0.7,0.3 c0,0,0,0,0,0c0,0,0,0-0.1,0.1c-0.2,0.1-0.3,0.3-0.5,0.5L14.5,16.3c-0.1,0.2-0.2,0.5-0.3,0.7H2c-1.3,0-2.3,1.3-1.9,2.5l7.4,25 c0.2,0.8,1,1.4,1.9,1.4h34.5c0.9,0,1.6-0.6,1.9-1.4l7.4-25C53.6,18.3,52.6,17,51.3,17z M26.6,5.5L34.4,17H18.8L26.6,5.5z M26.6,37.6 c-3.5,0-6.3-2.8-6.3-6.3c0-3.5,2.8-6.3,6.3-6.3s6.3,2.8,6.3,6.3C32.9,34.8,30.1,37.6,26.6,37.6z" />
@@ -226,44 +213,34 @@ class ProductPage extends Component {
                     {__t('Want it')}
                   </button>
                 </If>
+
                 <div className="social-networks">
                   <Share
                     buttonClass="social-btn"
-                    postLink={location.pathname}
+                    postLink={data.view_on_site_url}
                   />
                 </div>
               </div>
               <div className="goods-post__tags">
-                {
-                  data
-                    .tags
-                    .map((item, idx) => <Link
-                      className="tag"
-                      key={idx}
-                      to={`/find?tags=${item}&type=1`}
-                    >#{item}</Link>)
+                {data.tags
+                  .map((item, idx) => (
+                    <Link className="tag" key={idx} to={`/find?tags=${item}`}>#{item}</Link>))
                 }
               </div>
             </div>
           </div>
           <div className="section">
-            <CommentsField
-              onSend={this.sendComment}
-            />
-            <CommentsList
-              comments={commentsList}
-            />
+            <CommentsField onSend={this.sendComment} />
+            <CommentsList comments={commentsList} />
           </div>
-          {
-            relativePosts.length > 0
-            &&
-            <RelativePosts
-              items={relativePosts}
-              Component={Product}
-              slug={data.slug}
-              itemProps={{ priceTemplate }}
-            />
-          }
+
+          <RelativePosts
+            items={relativePosts}
+            Component={Product}
+            slug={data.slug}
+            itemProps={{ priceTemplate }}
+          />
+
           {/* <div className="section">
             <div className="cards-wrap">
               {
@@ -283,10 +260,11 @@ class ProductPage extends Component {
 ProductPage.propTypes = {
   data: PropTypes.object.isRequired,
   me: PropTypes.object,
-  isFetching: PropTypes.bool.isRequired,
-  isAuthenticated: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
   priceTemplate: PropTypes.string.isRequired,
+  author: PropTypes.shape({
+    profile_name: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = state => ({

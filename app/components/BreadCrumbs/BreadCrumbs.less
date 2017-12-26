@@ -6,14 +6,12 @@
   margin-bottom: 15px;
 
   &__item {
-    font-size: 14px;
-    line-height: 18px;
-    color: @grayText;
     position: relative;
     display: inline-block;
     vertical-align: top;
     padding-right: 10px;
     margin-right: 5px;
+    line-height: 18px;
 
     &:after {
       content: '';
@@ -37,6 +35,11 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  &__link {
+    font-size: 14px;
+    color: @grayText;
   }
 }
 
