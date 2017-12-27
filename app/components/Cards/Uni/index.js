@@ -6,9 +6,9 @@ import dateFormat from 'dateformat';
 import { Link } from 'react-router';
 
 import { Share, Like } from '../../../components';
+import Image from '../../../components/Image';
 import setLike from '../../../ducks/Like/actions';
-
-import { THUMBS_URL } from '../../../config';
+import Avatar from '../../Avatar';
 
 import './index.styl';
 
@@ -45,6 +45,7 @@ class Uni extends Component {
       3: 'event',
       4: 'blog',
     };
+    const imageUrl = images && images[0] && images[0].file;
 
     return (
       <div className="tile">
@@ -56,15 +57,12 @@ class Uni extends Component {
           className="tile__image-holder"
         >
           <Link to={`/${types_url[type]}/${slug}`}>
-            {
-              images[0]
-              &&
-              <img
-                className="tile__image"
-                src={`${THUMBS_URL}unsafe/400x300/${images[0].file}`}
-                alt={title}
-              />
-            }
+            <Image
+              className="tile__image"
+              alt={title}
+              thumbSize="400x300"
+              src={imageUrl}
+            />
           </Link>
 
           <Like
@@ -113,21 +111,12 @@ class Uni extends Component {
             to={`/profile/${user.id}`}
             className="tile__author"
           >
-            {
-              user.avatar
-                ? <div className="tile__author-avatar">
-                  <img
-                    src={`${THUMBS_URL}unsafe/25x25/${user.avatar}`}
-                    alt={user.profile_name}
-                  />
-                </div>
-                : <div className="tile__author-avatar">
-                  <img
-                    src="/images/icons_with_bg/user_active.svg"
-                    alt={user.profile_name}
-                  />
-                </div>
-            }
+            <Avatar
+              className="tile__author-avatar"
+              avatar={user.avatar}
+              thumbSize="25x25"
+              alt={user.profile_name}
+            />
             <div className="tile__author-name">
               {user.profile_name}
             </div>

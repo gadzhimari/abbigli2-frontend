@@ -7,8 +7,8 @@ import { pure } from 'recompose';
 import moment from 'moment';
 
 import { Share, Like } from '../../../components';
-
-import { THUMBS_URL } from '../../../config';
+import Image from '../../Image';
+import Avatar from '../../Avatar';
 
 import setLike from '../../../ducks/Like/actions';
 
@@ -16,6 +16,7 @@ import './index.less';
 
 const EventCard = ({ data }) => {
   const like = () => setLike(data.slug);
+  const imageUrl = data.images && data.images[0] && data.images[0].file;
 
   return (
     <div className="event-card">
@@ -23,10 +24,11 @@ const EventCard = ({ data }) => {
         <Link
           to={`/event/${data.slug}`}
         >
-          <img
+          <Image
             className="blog-card__img"
-            src={`${THUMBS_URL}unsafe/360x250/${data.images[0].file}`}
             alt={data.title}
+            thumbSize="360x250"
+            src={imageUrl}
           />
         </Link>
         <Like
@@ -78,21 +80,13 @@ const EventCard = ({ data }) => {
           className="user"
           to={`/profile/${data.user.id}`}
         >
-          <div className="avatar">
-            {
-              data.user.avatar
-                ? <img
-                  src={`${THUMBS_URL}unsafe/36x36/${data.user.avatar}`}
-                  alt={data.user.profile_name}
-                  className="avatar__img"
-                />
-                : <img
-                  src={'/images/svg/avatar.svg'}
-                  alt={data.user.profile_name}
-                  className="avatar__img"
-                />
-            }
-          </div>
+          <Avatar
+            className="avatar"
+            imgClassName="avatar__img"
+            avatar={data.user.avatar}
+            thumbSize="36x36"
+            alt={data.user.profile_name}
+          />
           {data.user.profile_name}
         </Link>
       </div>
