@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 
 import { Link } from 'react-router';
-
-import { THUMBS_URL } from 'config';
+import Image from '../../../../components/Image';
 
 import './Middle.less';
 
-const Middle = ({ item, url }) => {
+const Middle = ({ item }) => {
+  const imageUrl = item.images && item.images[0];
+
   return (
     <Link
       className="category-button category-button--imaged"
@@ -18,10 +19,11 @@ const Middle = ({ item, url }) => {
       title={item.title}
     >
       <div className="category-button__image-wrapper">
-        <img
-          src={`${THUMBS_URL}unsafe/289x238/${item.images[0]}`}
-          alt={item.title}
+        <Image
           className="category-button__image"
+          alt={item.title}
+          thumbSize="289x238"
+          src={imageUrl}
         />
       </div>
       <div className="category-button__title">
@@ -38,7 +40,6 @@ Middle.propTypes = {
     images: PropTypes.array,
     id: PropTypes.number,
   }).isRequired,
-  url: PropTypes.string.isRequired,
 };
 
 export default pure(Middle);

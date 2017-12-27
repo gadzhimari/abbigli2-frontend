@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { THUMBS_URL } from 'config';
+import Image from '../../../components/Image';
+import Avatar from '../../Avatar';
+
 
 import './GoodsCard.less';
 
@@ -15,6 +17,8 @@ const GoodsCard = ({
   item,
   priceTemplate,
 }) => {
+  const imageUrl = item.images && item.images[0] && item.images[0].file;
+
   return (
     <div className="goods-card">
       <div className="goods-card__author">
@@ -22,19 +26,12 @@ const GoodsCard = ({
           to={`/profile/${item.user.id}`}
           className="avatar"
         >
-          {
-            item.user.avatar
-              ? <img
-                className="avatar__img"
-                src={`${THUMBS_URL}unsafe/60x60/${item.user.avatar}`}
-                alt={item.user.profile_name}
-              />
-              : <img
-                className="avatar__img"
-                src="/images/icons_with_bg/user_active.svg"
-                alt={item.user.profile_name}
-              />
-          }
+          <Avatar
+            imgClassName="avatar__img"
+            avatar={item.user.avatar}
+            thumbSize="60x60"
+            alt={item.user.profile_name}
+          />
         </Link>
         <Link
           to={`/profile/${item.user.id}`}
@@ -47,10 +44,11 @@ const GoodsCard = ({
         <Link
           to={`/${typesUrl[item.type]}/${item.slug}`}
         >
-          <img
+          <Image
             className="goods-card__img"
-            src={`${THUMBS_URL}unsafe/251x207/${item.images[0].file}`}
             alt={item.user.profile_name}
+            thumbSize="251x207"
+            src={imageUrl}
           />
         </Link>
       </div>

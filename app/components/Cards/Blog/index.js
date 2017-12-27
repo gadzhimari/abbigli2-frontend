@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-
 import dateFormat from 'dateformat';
-import { Share, Link, Like } from '../../../components';
 
-import { THUMBS_URL } from '../../../config';
+import Image from '../../../components/Image';
+import Avatar from '../../Avatar';
+import { Share, Link, Like } from '../../../components';
 
 import setLike from '../../../ducks/Like/actions';
 
@@ -17,6 +17,7 @@ class BlogCard extends Component {
 
   render() {
     const { data } = this.props;
+    const imageUrl = data.images && data.images[0] && data.images[0].file;
 
     return (
       <div className="blog-card">
@@ -24,10 +25,11 @@ class BlogCard extends Component {
           <Link
             to={`/blog/${data.slug}`}
           >
-            <img
+            <Image
               className="blog-card__img"
-              src={`${THUMBS_URL}unsafe/360x250/${data.images[0] ? data.images[0].file : ''}`}
               alt={data.title}
+              thumbSize="360x250"
+              src={imageUrl}
             />
           </Link>
           <Like
@@ -50,21 +52,13 @@ class BlogCard extends Component {
             className="user"
             to={`/profile/${data.user.id}`}
           >
-            <div className="avatar">
-              {
-                data.user.avatar
-                  ? <img
-                    src={`${THUMBS_URL}unsafe/36x36/${data.user.avatar}`}
-                    alt={data.user.profile_name}
-                    className="avatar__img"
-                  />
-                  : <img
-                    src={'/images/svg/avatar.svg'}
-                    alt={data.user.profile_name}
-                    className="avatar__img"
-                  />
-              }
-            </div>
+            <Avatar
+              className="avatar"
+              imgClassName="avatar__img"
+              avatar={data.user.avatar}
+              thumbSize="36x36"
+              alt={data.user.profile_name}
+            />
             {data.user.profile_name}
           </Link>
           <Link

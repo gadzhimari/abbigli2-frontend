@@ -7,8 +7,10 @@ import { pure } from 'recompose';
 import { Link } from 'react-router';
 
 import { Share, Like } from '../../../components';
+import Image from '../../../components/Image';
+import Avatar from '../../Avatar';
+
 import { ProductsIcons } from '../../../components/Icons';
-import { THUMBS_URL } from '../../../config';
 
 import setLike from '../../../ducks/Like/actions';
 
@@ -17,16 +19,15 @@ import './Product.less';
 const Product = ({ data, priceTemplate }) => {
   const name = data.user.profile_name ? data.user.profile_name : `ID: ${data.user.id}`;
   const like = () => setLike(data.slug);
+  const imageUrl = data.images && data.images[0] && data.images[0].file;
 
   return (
     <div className="post-card">
       <div className="post-card__img-wrap">
-        <Link
-          to={`/post/${data.slug}`}
-        >
-          <img
-            className="post-card__img"
-            src={`${THUMBS_URL}unsafe/292x221/${data.images[0].file}`}
+        <Link to={`/post/${data.slug}`}>
+          <Image
+            thumbSize="292x221"
+            src={imageUrl}
             alt={data.title}
           />
         </Link>
@@ -57,22 +58,13 @@ const Product = ({ data, priceTemplate }) => {
           className="user"
           to={`/profile/${data.user.id}`}
         >
-          <div className="avatar">
-            {
-              data.user.avatar
-                ? <img
-                  className="avatar__img"
-                  src={`${THUMBS_URL}unsafe/30x30/${data.user.avatar}`}
-                  alt={name}
-                />
-                : <img
-                  className="avatar__img"
-                  src={'/images/svg/avatar.svg'}
-                  alt={name}
-                />
-
-            }
-          </div>
+          <Avatar
+            className="avatar"
+            imgClassName="avatar__img"
+            avatar={data.user.avatar}
+            thumbSize="30x30"
+            alt={name}
+          />
           {name}
         </Link>
         <div className="post-card__price">
