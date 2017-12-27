@@ -1,16 +1,12 @@
+import { createAction } from 'redux-actions';
+
 import { Profile } from '../../api';
 import onlyAuthAction from '../../lib/redux/onlyAuthAction';
 
-export const FOLLOW_REQUEST = 'FOLLOW_REQUEST';
-export const FOLLOW_RESPONSE = 'FOLLOW_RESPONSE';
+export const SET_FOLLOW_STATUS = 'FOLLOW_REQUEST';
 
-const followRequest = () => ({
-  type: FOLLOW_REQUEST,
-});
-
-const followResponse = () => ({
-  type: FOLLOW_RESPONSE,
-});
+const followRequest = createAction(SET_FOLLOW_STATUS, () => ({ isFetching: true }));
+const followResponse = createAction(SET_FOLLOW_STATUS, () => ({ isFetching: false }));
 
 const follow = id => (dispatch) => {
   dispatch(followRequest());
