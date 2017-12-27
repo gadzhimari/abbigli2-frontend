@@ -1,23 +1,8 @@
-import { FOLLOW_REQUEST, FOLLOW_RESPONSE } from './actions';
+import { SET_FOLLOW_STATUS } from './actions';
+import createSetReducer from '../../lib/redux/createSetReducer';
 
 const initialState = { isFetching: false };
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case (FOLLOW_REQUEST): {
-      return Object.assign({}, state, {
-        isFetching: true,
-      });
-    }
-    case (FOLLOW_RESPONSE): {
-      return Object.assign({}, state, {
-        isFetching: false,
-      });
-    }
-    default: {
-      return state;
-    }
-  }
-};
+const reducer = createSetReducer(SET_FOLLOW_STATUS, initialState);
 
 export default reducer;
