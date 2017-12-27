@@ -124,7 +124,7 @@ const preloader = WrappedComponent => class extends PureComponent {
       <Helmet>
         <title>{currentSection.seo_title}</title>
         <meta name="description" content={currentSection.seo_description} />
-        {currentSection.post_num === '0' &&
+        {currentSection.posts_num === '0' &&
           <meta name="robots" content="noindex, nofollow" />
         }
       </Helmet>
