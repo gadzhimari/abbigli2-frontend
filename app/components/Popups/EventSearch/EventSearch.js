@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import { openPopup } from 'ducks/Popup/actions';
+import { openPopup } from '../../../ducks/Popup/actions';
 
-import { API_URL } from 'config';
+import { API_URL } from '../../../config';
 import { __t } from '../../../i18n/translator';
 
 import './EventSearch.styl';

@@ -1,14 +1,16 @@
-// Sections.js
 import moment from 'moment';
+import { createAction } from 'redux-actions';
 import { Posts } from '../api';
 
-// Actions
 const REQUEST = 'abbigli/Events/REQUEST';
 const SET = 'abbigli/Events/SET';
 const CHANGE_SEARCH_FIELD = 'abbigli/Events/CHANGE_SEARCH_FIELD';
 
-// Reducer
-export default function (state = {
+const requestData = createAction(REQUEST);
+const setData = createAction(SET);
+export const changeSearchField = createAction(CHANGE_SEARCH_FIELD);
+
+const initialState = {
   isFetching: true,
   next: null,
   items: [],
@@ -20,48 +22,37 @@ export default function (state = {
     end: moment(new Date()).format('YYYY-MM-DD'),
     city: null,
   },
-}, action = {}) {
+};
+
+export default function (state = initialState, action = {}) {
   switch (action.type) {
     case SET:
-      return Object.assign({}, state, {
-        items: action.data.results,
-        next: action.data.next,
+      return {
+        ...state,
+        items: action.payload.data.results,
+        next: action.payload.data.next,
         isFetching: false,
-        page: action.page + 1,
-        pages: Math.ceil(action.data.count / 30),
-      });
+        page: action.payload.page + 1,
+        pages: Math.ceil(action.payload.data.count / 30),
+      };
     case REQUEST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: true,
         items: [],
-      });
+      };
     case CHANGE_SEARCH_FIELD:
-      return Object.assign({}, state, {
-        searchFields: Object.assign(state.searchFields, {
-          [action.field]: action.value,
-        }),
-      });
+      return {
+        ...state,
+        searchFields: {
+          ...state.searchFields,
+          [action.payload.name]: action.payload.value,
+        },
+      };
     default:
       return state;
   }
 }
-
-// Action Creators
-export function requestData() {
-  return {
-    type: REQUEST,
-  };
-}
-
-export function setData(responseData, page) {
-  return { type: SET, data: responseData, page };
-}
-
-export const changeSearchField = (field, value) => ({
-  type: CHANGE_SEARCH_FIELD,
-  field,
-  value,
-});
 
 export function fetchData(options = {}) {
   return (dispatch) => {
@@ -69,7 +60,10 @@ export function fetchData(options = {}) {
 
     return Posts.getPosts(options)
       .then((res) => {
-        dispatch(setData(res.data, Number(options.page) || 1));
+        dispatch(setData({
+          data: res.data,
+          page: Number(options.page) || 1,
+        }));
       });
   };
 }
