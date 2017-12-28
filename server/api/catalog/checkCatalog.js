@@ -3,7 +3,7 @@ import { digest } from 'json-hash';
 
 import { API_URL } from '../../../app/config';
 
-import setCatalogItem from './setCatalogStore';
+import setCatalogItem, { normalizer, justReturn } from './setCatalogStore';
 
 const instance = axios.create({
   baseURL: API_URL,
@@ -19,23 +19,27 @@ const hashes = {
 const catalogTypes = [
   {
     path: 'categories/',
-    type: 'categories',
-    mustNormalized: false,
-  },
-  {
-    path: 'categories/',
-    type: 'normalizedCategories',
-    mustNormalized: true,
+    aggregators: [{
+      saveAs: 'categories',
+      func: justReturn,
+    }, {
+      saveAs: 'normalizedCategories',
+      func: normalizer,
+    }],
   },
   {
     path: 'categories/?promo=1',
-    type: 'promo',
-    mustNormalized: true,
+    aggregators: [{
+      saveAs: 'promo',
+      func: normalizer,
+    }],
   },
   {
     path: 'sections/',
-    type: 'sections',
-    mustNormalized: false,
+    aggregators: [{
+      saveAs: 'sections',
+      func: justReturn,
+    }],
   },
 ];
 
@@ -52,14 +56,24 @@ const loadCatalog = (urls, callback) => {
     }
   };
 
+  const errorCallback = () => {
+    loaded += 1;
+
+    if (loaded === urls.length) {
+      callback(results);
+    }
+  };
+
   urls.forEach((url, idx) => {
-    instance.request({
-      url: url.path,
-    }).then(result => loadCallback(idx, {
-      data: result.data.results,
-      type: url.type,
-      mustNormalized: url.mustNormalized,
-    }));
+    instance.request({ url: url.path })
+      .then(result => loadCallback(idx, {
+        ...url,
+        data: result.data.results,
+      }))
+      .catch((err) => {
+        errorCallback();
+        console.error(`error at: ${url.path}`, err.message);
+      });
   });
 };
 

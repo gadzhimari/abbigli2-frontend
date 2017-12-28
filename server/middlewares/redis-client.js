@@ -1,7 +1,5 @@
 import redis from 'redis';
 
-console.log(process.env.REDIS_HOST, process.env.REDIS_PORT);
-
 const client = redis.createClient({
   db: 1,
   host: process.env.REDIS_HOST,
@@ -11,5 +9,17 @@ const client = redis.createClient({
 client.on('connect', () => {
   console.log('connected');
 });
+
+export const saveToRedis = (key, value) => {
+  let valueToSave = value;
+
+  if (typeof valueToSave !== 'string') {
+    valueToSave = JSON.stringify(valueToSave);
+  }
+
+  console.log(`${key} saved`);
+
+  client.set(key, valueToSave);
+};
 
 export default client;
