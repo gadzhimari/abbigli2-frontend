@@ -16,9 +16,19 @@ const preloader = WrappedComponent => class extends PureComponent {
     sections: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
-  state = {
-    isFetching: true,
-    tree: [],
+  constructor(props) {
+    super(props);
+
+    const { params, sections } = this.props;
+    const tree = this.createTree(params, sections);
+    const currentSection = tree[tree.length - 1];
+    const promo = this.getPromo(currentSection);
+
+    this.state = {
+      isFetching: true,
+      tree,
+      promo,
+    };
   }
 
   componentDidMount() {
@@ -124,7 +134,7 @@ const preloader = WrappedComponent => class extends PureComponent {
       <Helmet>
         <title>{currentSection.seo_title}</title>
         <meta name="description" content={currentSection.seo_description} />
-        {currentSection.posts_num === '0' &&
+        {currentSection.posts_num === 0 &&
           <meta name="robots" content="noindex, nofollow" />
         }
       </Helmet>
