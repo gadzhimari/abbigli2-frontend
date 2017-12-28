@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
 import Link from 'react-router/lib/Link';
-import { DOMAIN_URL } from '../../config';
 
 class SubMenuItem extends PureComponent {
   static propTypes = {
@@ -19,7 +19,7 @@ class SubMenuItem extends PureComponent {
 
     return (
       <Link
-        to={`/${item.view_on_site_url.replace(DOMAIN_URL, '')}`}
+        to={item.view_on_site_url}
         onClick={hideCategory}
         className="header-submenu__item"
         data-cat_id={item.id}

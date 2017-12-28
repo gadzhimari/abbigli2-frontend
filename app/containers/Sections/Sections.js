@@ -7,11 +7,7 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { Link } from 'react-router';
 
-import {
-  BreadCrumbs,
-  PageSwitcher,
-  ListWithNew,
-} from 'components';
+import { BreadCrumbs, PageSwitcher, ListWithNew } from '../../components';
 import paginateHOC from '../../HOC/paginate';
 
 import ShowMiddleCards from './ShowMiddleCards';
@@ -20,8 +16,8 @@ import TagsBlock from './TagsBlock';
 import { Product, SubCategoryList } from '../../components/Cards';
 import preloader from './preloader';
 
-import { fetchPosts, fetchTags } from 'ducks/CatalogPage/actions';
-import { openPopup } from 'ducks/Popup/actions';
+import { fetchPosts, fetchTags } from '../../ducks/CatalogPage/actions';
+import { openPopup } from '../../ducks/Popup/actions';
 import { __t } from '../../i18n/translator';
 
 import './Sections.less';
@@ -52,75 +48,74 @@ class Sections extends Component {
           <BreadCrumbs
             crumbs={crumbs}
           />
+
           <h1 className="section-title">
             {currentSection.title}
             {currentTag && ` #${currentTag}`}
           </h1>
-          {
-            !isPromo
-            &&
+
+          {!isPromo &&
             <ShowMiddleCards
               items={currentSection.children.slice(0, startIndex)}
               url={currentSection.url}
             />
           }
-          {
-            !isPromo
-            &&
+
+          {!isPromo &&
             <SubCategoryList
               items={currentSection.children.slice(startIndex)}
               url={currentSection.url}
             />
           }
-          {
-            !isPromo
-            &&
+
+          {!isPromo &&
             <h1 className="section-title">
               {__t('Tags')}
             </h1>
           }
+
           <TagsBlock
             items={items}
             category={currentSection.slug}
+            currentUrl={currentSection.view_on_site_url}
           />
+
           <div className="category-buttons">
-            {
-              promoCategories
-                .slice(0, 10)
-                .map(item => <Link
-                  to={item.view_on_site_url}
-                  className="category-buttons__link"
-                >
-                  {item.title}
-                </Link>)
+            {promoCategories.slice(0, 10)
+              .map(item => <Link
+                to={item.view_on_site_url}
+                className="category-buttons__link"
+              >
+                {item.title}
+              </Link>)
             }
-          </div> 
+          </div>
+
           <ListWithNew
             ItemComponent={Product}
             items={posts}
             itemProps={{ priceTemplate }}
             count={4}
           />
+
           <div className="category-buttons">
-            {
-              promoCategories
-                .slice(10, isPromo ? promoCategories.length : 15)
-                .map(item => <Link
-                  to={item.view_on_site_url}
-                  className="category-buttons__link"
-                >
-                  {item.title}
-                </Link>)
+            {promoCategories.slice(10, isPromo ? promoCategories.length : 15)
+              .map(item => <Link
+                to={item.view_on_site_url}
+                className="category-buttons__link"
+              >
+                {item.title}
+              </Link>)
             }
           </div>
+
           <PageSwitcher
             count={pages}
             paginate={paginate}
             active={activePage}
           />
-          {
-            currentSection.description
-            &&
+
+          {currentSection.description &&
             <p className="seo__description">
               {currentSection.description}
             </p>

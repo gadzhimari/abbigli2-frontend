@@ -10,15 +10,15 @@ class CategoryItem extends PureComponent {
     item: PropTypes.shape({
       slug: PropTypes.string,
       title: PropTypes.string,
+      view_on_site_url: PropTypes.string,
       children: PropTypes.array,
     }).isRequired,
-    categorySlug: PropTypes.string.isRequired,
     hideCategory: PropTypes.func.isRequired,
     className: PropTypes.string.isRequired,
   }
 
   render() {
-    const { item, categorySlug, hideCategory, className } = this.props;
+    const { item, hideCategory, className } = this.props;
 
     if (item.posts_num === 0) return null;
 
@@ -29,35 +29,31 @@ class CategoryItem extends PureComponent {
       >
         <Link
           className="header-category__title"
-          to={`/c/${categorySlug}/${item.slug}`}
+          to={item.view_on_site_url}
           onClick={hideCategory}
         >
           {item.title}
         </Link>
-        {
-          item.children.length > 0
-          &&
-          item.children
-            .slice(0, 4)
+
+        {item.children.length > 0 &&
+          item.children.slice(0, 4)
             .map((child) => {
               if (child.posts_num === 0) return null;
 
               return (<Link
                 className="header-category__name"
                 key={child.id}
-                to={`/c/${categorySlug}/${item.slug}/${child.slug}`}
+                to={child.view_on_site_url}
                 onClick={hideCategory}
               >
                 {child.title}
               </Link>);
             })
         }
-        {
-          item.children.length > 4
-          &&
+        {item.children.length > 4 &&
           <Link
             className="header-category__name"
-            to={`/c/${categorySlug}/${item.slug}`}
+            to={item.view_on_site_url}
             onClick={hideCategory}
           >
             {__t('More')}

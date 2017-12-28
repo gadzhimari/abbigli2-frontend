@@ -60,8 +60,6 @@ const routes = (store, token, shouldPreload) => {
       <Route path="people" component={PeopleSearch} />
       <Route path="chat" component={Chat} />
 
-      <Route path="c(/**)/:section" component={Sections} />
-
       <Route path="post/new" component={PostCreate} onEnter={handleNoAuth} />
       <Route path="profile/:profile/post/edit/:slug" component={PostCreate} onEnter={handleNoAuth} />
 
@@ -86,6 +84,8 @@ const routes = (store, token, shouldPreload) => {
       <Route path="popular-products" component={SpecificPostsPage} filter="Popular" />
       <Route path="set-the-mood" component={SpecificPostsPage} filter="Mood" />
       <Route path="nearest-products" component={SpecificPostsPage} filter="Near" />
+
+      <Route path="(**/):section" component={Sections} />
     </Route>
   );
 };
