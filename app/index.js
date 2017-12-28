@@ -10,7 +10,8 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import 'babel-polyfill';
 
-import Raven from 'raven-js';
+import './lib/raven';
+
 import Geolocation from './HOC/Geolocation';
 
 import routes from './routes';
@@ -21,14 +22,6 @@ import { createHistoryListener } from './lib/analitics';
 
 import { DOMAIN_URL } from './config';
 
-const ravenDNS = process.env.SENTRY_DNS_CLIENT;
-const mode = process.env.NODE_ENV;
-
-if (mode === 'production' && ravenDNS) {
-  Raven
-    .config(ravenDNS)
-    .install();
-}
 
 // Get the DOM Element that will host our React application.
 const urlWithoutProtocol = DOMAIN_URL.split('://')[1];
