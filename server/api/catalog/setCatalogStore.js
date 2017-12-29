@@ -1,22 +1,29 @@
 import treeFlatter from 'tree-flatter';
 import { normalize, schema } from 'normalizr';
 
-import redisClient from '../../middlewares/redis-client';
+import { saveToRedis } from '../../middlewares/redis-client';
 
 const category = new schema.Entity('categories', {}, { idAttribute: 'slug' });
 const categoryList = [category];
 
+export const normalizer = (data) => {
+  const tree = treeFlatter(data, { idKey: 'slug', itemsKey: 'children' });
+
+  return normalize(tree, categoryList);
+};
+
+export const justReturn = data => data;
+
 const setCatalogItem = (item) => {
-  let data = item.data;
+  const data = item.data;
 
-  if (item.mustNormalized) {
-    data = treeFlatter(data, { idKey: 'slug', itemsKey: 'children' });
-    data = normalize(data, categoryList);
+  if (item.aggregators) {
+    item.aggregators.forEach((a) => {
+      const result = a.func(data);
+
+      saveToRedis(a.saveAs, result);
+    });
   }
-
-  const stringified = JSON.stringify(data);
-
-  redisClient.set(item.type, stringified);
 };
 
 export default setCatalogItem;

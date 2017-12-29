@@ -6,9 +6,9 @@ import Type from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Link } from 'react-router';
-import { FetchingButton } from 'components';
+import { FetchingButton } from '../../components';
 
-import { fetchMoreTags } from 'ducks/CatalogPage/actions';
+import { fetchMoreTags } from '../../ducks/CatalogPage/actions';
 
 import { __t } from '../../i18n/translator';
 
@@ -22,6 +22,7 @@ class TagsBlock extends PureComponent {
     next: Type.oneOfType([Type.number, Type.any]),
     fetchMore: Type.func,
     isFetchingMore: Type.bool,
+    currentUrl: Type.string,
   }
 
   static defaultProps = {
@@ -55,24 +56,22 @@ class TagsBlock extends PureComponent {
   render() {
     if (this.props.items.length === 0) return null;
 
-    const { next, isFetchingMore } = this.props;
+    const { next, isFetchingMore, currentUrl } = this.props;
 
     return (
       <div className="cards-wrap cards-wrap_tag">
-        {
-          this.items
-            .map(tag => <Link
-              className="tag"
-              key={tag.id}
-              to={`${location.pathname}?tag=${tag.title}`}
-              rel="nofollow"
-            >
-              #{tag.title}
-            </Link>)
+        {this.items
+          .map(tag => <Link
+            className="tag"
+            key={tag.id}
+            to={`${currentUrl}?tag=${tag.title}`}
+            rel="nofollow"
+          >
+            #{tag.title}
+          </Link>)
         }
-        {
-          next
-          &&
+
+        {next &&
           <FetchingButton
             className="default-button"
             onClick={this.handleLoadMore}

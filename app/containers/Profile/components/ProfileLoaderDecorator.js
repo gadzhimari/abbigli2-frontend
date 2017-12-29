@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { Loading } from 'components';
+import Helmet from 'react-helmet';
+
+import { Loading } from '../../../components';
+
+const NOFOLLOW_CHILDREN_TYPES = ['feed', 'messages', 'favorites', 'about'];
+const mustNofollow = type => NOFOLLOW_CHILDREN_TYPES.some(item => item === type);
 
 const ProfileLoaderDecorator = Profile => class extends Component {
   componentDidMount() {
@@ -28,8 +33,7 @@ const ProfileLoaderDecorator = Profile => class extends Component {
   }
 
   fetchProfile = () => {
-    const { params, me, dispatch, isAuthenticated, loadProfile } = this.props;
-    const isMe = Number(params.profile) === me.id;
+    const { params, me, dispatch, isAuthenticated, loadProfile, isMe } = this.props;
 
     loadProfile(params.profile, isMe, isAuthenticated);
   }
@@ -38,15 +42,34 @@ const ProfileLoaderDecorator = Profile => class extends Component {
     const {
       isFetching,
       routes,
+      data,
+      isMe,
     } = this.props;
 
     const childrenPath = routes[2].path;
+    const title = isMe ? 'My profile' : `Profile ${data.profile_name || data.id}`;
 
-    return isFetching
-      ? (<div className="container-fluid">
-        <Loading loading={isFetching} />
-      </div>)
-      : <Profile {...this.props} childrenPath={childrenPath} />;
+    return (
+      <div>
+        <Helmet>
+          <title>{title}</title>
+          <meta name="description" content={data.info} />
+          {mustNofollow(childrenPath) &&
+            <meta name="robots" content="noindex, follow" />
+          }
+        </Helmet>
+
+        {isFetching &&
+          <div className="container-fluid">
+            <Loading loading={isFetching} />
+          </div>
+        }
+
+        {!isFetching &&
+          <Profile {...this.props} childrenPath={childrenPath} />
+        }
+      </div>
+    );
   }
 };
 

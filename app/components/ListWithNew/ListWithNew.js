@@ -64,7 +64,7 @@ const ListWithNew = ({
   }
 
   return (
-    <div style={{ 'margin-bottom': '30px' }}>
+    <div style={{ marginBottom: '30px' }}>
       <div className="cards-wrap">
         {
           items.slice(0, count).map((item) => {

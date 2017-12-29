@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Helmet from 'react-helmet';
-
 import { UserProfile, Link } from '../../components';
 
 import { __t } from './../../i18n/translator';
@@ -56,21 +54,8 @@ class Profile extends Component {
     const childrenWithProps = React.Children
       .map(this.props.children, child => React.cloneElement(child, { isMe, me }));
 
-    const title = isMe
-      ? 'My profile'
-      : `Profile ${data.profile_name || data.id}`;
-
     return (
       <div>
-        <Helmet
-          title={title}
-          meta={[
-            {
-              name: 'description',
-              content: data.info,
-            },
-          ]}
-        />
         <UserProfile
           {...this.props}
           handleEditing={this.handleEditing}

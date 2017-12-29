@@ -24,7 +24,7 @@ const Crumb = ({ url, title, pos }) => (
 Crumb.propTypes = {
   url: Type.string.isRequired,
   title: Type.string.isRequired,
-  pos: Type.string.number,
+  pos: Type.number,
 };
 
 export default Crumb;

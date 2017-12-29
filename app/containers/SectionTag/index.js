@@ -1,35 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+
 import {
   BreadCrumbs,
   SliderBar,
-  Filters,
-  ListWithNew,
-  PageSwitcher,
-} from 'components';
-import { Product } from 'components/Cards';
-import Tag from 'components/SliderBar/components/Tag';
+  Loading,
+} from '../../components';
+
+import Content from './Content';
+import paginateHOC from '../../HOC/paginate';
+import Tag from '../../components/SliderBar/components/Tag';
 
 
 import './index.styl';
-
-const newData = [{
-  id: 0,
-  type: 4,
-  title: 'Blog title',
-  author: {
-    name: 'Mike',
-  },
-},
-{
-  id: 1,
-  type: 3,
-  title: 'Event title',
-  date: '22.07.2017',
-  author: {
-    name: 'Mike',
-  },
-}];
 
 class SectionTag extends Component {
   clickOnTag = (tag) => {
@@ -45,18 +28,14 @@ class SectionTag extends Component {
 
   render() {
     const {
-      posts,
-      items,
+      tags,
       isFetching,
-      routeParams,
       sections,
-      route,
-      priceTemplate,
       tree,
       routing,
     } = this.props;
     const currentSection = tree[tree.length - 1];
-    const currentTag = routing.query.tag;
+    const currentTag = routing && routing.query.tag;
     const crumbs = [...tree];
 
     if (currentTag) {
@@ -68,12 +47,10 @@ class SectionTag extends Component {
 
     return (
       <div>
-        {
-          items.length > 0
-          &&
+        {tags.length > 0 &&
           <SliderBar
             sliderName="slider-tags"
-            items={items}
+            items={tags}
             ItemComponent={Tag}
             itemWidth={175}
             itemProps={{
@@ -86,26 +63,23 @@ class SectionTag extends Component {
             crumbs={crumbs}
           />
           <div className="content">
+
             <h1 className="section-title">
-              {currentSection.title}
+              {currentSection.seo_h1 || currentSection.title}
               {currentTag && ` #${currentTag}`}
             </h1>
-            <ListWithNew
-              ItemComponent={Product}
-              items={posts}
-              newItems={newData}
-              count={8}
-              itemProps={{ priceTemplate }}
-            />
 
-            {
-              !isFetching
-              &&
-              <PageSwitcher />
+            {isFetching &&
+              <Loading loading={isFetching} />
             }
-            {
-              currentSection.description
-              &&
+
+            {!isFetching &&
+              <Content
+                {...this.props}
+              />
+            }
+
+            {currentSection.description &&
               <p className="seo__description">
                 {currentSection.description}
               </p>
@@ -124,15 +98,6 @@ SectionTag.defaultProps = {
 
 SectionTag.propTypes = {
   isFetching: PropTypes.bool.isRequired,
-  isFetchingMore: PropTypes.bool.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  page: PropTypes.number.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  routeParams: PropTypes.object.isRequired,
-  next: PropTypes.any,
-  routes: PropTypes.array.isRequired,
-  currentTag: PropTypes.string,
-  currentSection: PropTypes.string,
 };
 
-export default SectionTag;
+export default paginateHOC(SectionTag);
