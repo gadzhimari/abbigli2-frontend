@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
 import { SectionTag } from '../../containers';
-import { Loading } from '../../components';
 
 const preloader = WrappedComponent => class extends PureComponent {
   static propTypes = {
@@ -51,6 +50,8 @@ const preloader = WrappedComponent => class extends PureComponent {
 
     this.setState({
       isFetching: true,
+      tree,
+      promo,
     });
 
     Promise.all([
@@ -58,8 +59,6 @@ const preloader = WrappedComponent => class extends PureComponent {
       fetchPosts(currentSection.slug, routing.query.page, routing.query.tag),
     ]).then(() => this.setState({
       isFetching: false,
-      tree,
-      promo,
     }));
   }
 
@@ -139,16 +138,22 @@ const preloader = WrappedComponent => class extends PureComponent {
         }
       </Helmet>
 
-      {isFetching &&
-        <Loading loading={isFetching} />
+      {currentSection.children && currentSection.children.length === 0 &&
+        <SectionTag
+          isFetching={isFetching}
+          {...this.props}
+          tree={tree}
+        />
       }
 
-      {!isFetching && currentSection.children && currentSection.children.length === 0 &&
-        <SectionTag {...this.props} tree={tree} />
-      }
-
-      {!isFetching && currentSection.children && currentSection.children.length !== 0 &&
-        <WrappedComponent {...this.props} tree={tree} promoCategories={promo} />
+      {currentSection.children && currentSection.children.length !== 0 &&
+        <WrappedComponent
+          isFetching={isFetching}
+          {...this.props}
+          tree={tree}
+          promo={promo}
+          section={currentSection}
+        />
       }
     </div>);
   }
