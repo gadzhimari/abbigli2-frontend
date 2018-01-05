@@ -33,7 +33,7 @@ const Auth = {
   },
   setPassword(data) {
     return request({
-      url: 'set-password/',
+      url: 'my-profile/set-password/',
       method: 'POST',
       data,
       canApplyToken: true,
