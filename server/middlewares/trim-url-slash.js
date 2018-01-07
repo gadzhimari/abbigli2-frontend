@@ -1,14 +1,17 @@
-export default function trimSlash(req, res, next) {
-  const slashAtEndWith = /(.)\/$/;
+/* eslint-disable consistent-return */
 
-  if (slashAtEndWith.test(req.path)) {
-    const pathWithoutSlash = req.path.replace(slashAtEndWith, '$1');
-    const pathToRedirect = req.originalUrl.replace(req.path, pathWithoutSlash);
+const trailingSlash = /(.)\/(\?.+)?$/;
 
-    res.redirect(301, pathToRedirect);
+function trimSlash(req, res, next) {
+  const url = req.originalUrl;
 
-    return;
+  if (trailingSlash.test(url)) {
+    const to = url.replace(trailingSlash, '$1$2');
+
+    return res.redirect(301, to);
   }
 
   next();
 }
+
+export default trimSlash;

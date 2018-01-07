@@ -12,6 +12,7 @@ import configureRedux from './middlewares/configureRedux';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
 import trimSlash from './middlewares/trim-url-slash';
 import setLocals from './middlewares/set-locals';
+import redirectManager from './middlewares/redirect-manager';
 
 import routes from './api';
 
@@ -34,6 +35,7 @@ app.use(compression());
 app.use(Raven.requestHandler());
 
 app.use(routes);
+app.use(redirectManager);
 app.use(trimSlash);
 app.use(setLocals);
 app.use(oauthHandler);
