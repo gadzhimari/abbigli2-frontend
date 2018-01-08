@@ -6,24 +6,18 @@ import Helmet from 'react-helmet';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
-import {
-  Header,
-  Search,
-  AvatarBlock,
-  ContentWrapper,
-} from '../../components';
+import { Header, Search, AvatarBlock, ContentWrapper } from '../../components';
+import NotFound from '../../containers/NotFound';
 
 import scrollOnRoute from '../../HOC/scrollOnRoute';
 
-import {
-  fetchMe,
-  logoutUser,
-} from '../../ducks/Auth/authActions';
+import { fetchMe, logoutUser } from '../../ducks/Auth/authActions';
 import { closePopup, openPopup } from '../../ducks/Popup/actions';
 import { fetchData as settingsFetch, fetchGeo } from '../../ducks/Settings';
 import loadNewIn from '../../ducks/NewIn/actions';
 import toggleMobileMenu, { closeMenu } from '../../ducks/Menu/actions';
 import { fetchData as fetchDataSections } from '../../ducks/Sections';
+import { clearNetworkError } from '../../ducks/NetworkErrors/reducer';
 
 import * as Popups from '../../components/Popups';
 import getComponentFromObject from '../../utils/getComponent';
@@ -47,17 +41,19 @@ class App extends Component {
 
     const promises = [store.dispatch(fetchDataSections())];
     const child = nextState.routes[nextState.routes.length - 1].component;
+    const childFetch = child.fetchData || child.WrappedComponent.fetchData;
 
     if (token) {
       promises.push(store.dispatch(fetchMe(token)));
     }
 
-    if (child.fetchData) {
-      promises.push(child.fetchData(store.dispatch, nextState.params, token));
+    if (childFetch) {
+      promises.push(childFetch(store.dispatch, nextState.params, token));
     }
 
     return Promise.all(promises)
-      .then(() => callback());
+      .then(() => callback())
+      .catch(err => console.log(err));
   }
 
   constructor(props) {
@@ -85,10 +81,14 @@ class App extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    const { isAuthenticated, dispatch } = this.props;
+    const { isAuthenticated, dispatch, location } = this.props;
 
     if (nextProps.isAuthenticated !== isAuthenticated && nextProps.isAuthenticated) {
       dispatch(fetchMe());
+    }
+
+    if (nextProps.location.key !== location.key) {
+      dispatch(clearNetworkError());
     }
   }
 
@@ -96,14 +96,12 @@ class App extends Component {
 
   closeMenu = () => this.props.dispatch(closeMenu());
 
-  logoutUser = () => this.props
-    .dispatch(logoutUser())
+  logoutUser = () => this.props.dispatch(logoutUser())
 
   modalButtonClick = ({ currentTarget }) => this.props
     .dispatch(openPopup(currentTarget.dataset.type || currentTarget.name))
 
-  closePopup = () => this.props
-    .dispatch(closePopup())
+  closePopup = () => this.props.dispatch(closePopup())
 
   render() {
     const {
@@ -118,8 +116,8 @@ class App extends Component {
       mobileMenuOpened,
       itemsSections,
       isFetchingSections,
+      errors,
     } = this.props;
-
 
     const seoData = seo.data.filter(item => item.url == location.pathname)[0];
 
@@ -169,7 +167,9 @@ class App extends Component {
           options={popupOptions}
         />
 
-        {children}
+        {errors.status !== null ?
+          <NotFound /> : children
+        }
       </ContentWrapper>
     );
   }
@@ -179,6 +179,10 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
+  errors: PropTypes.shape({
+    status: PropTypes.oneOfType([PropTypes.number, PropTypes.any]),
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.any]),
+  }),
 };
 
 
@@ -205,6 +209,7 @@ function mapStateToProps(state) {
     mobileMenuOpened: state.Menu.open,
     itemsSections: state.Sections.items,
     isFetchingSections: state.Sections.isFetching,
+    errors: state.NetworkErrors,
   };
 }
 

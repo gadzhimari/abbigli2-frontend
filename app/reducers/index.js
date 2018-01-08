@@ -30,6 +30,7 @@ import RelativePage from '../ducks/Relative';
 import NewIn from '../ducks/NewIn';
 import CatalogPage from '../ducks/CatalogPage';
 import Menu from '../ducks/Menu';
+import NetworkErrors from '../ducks/NetworkErrors';
 
 export default combineReducers({
   Sections,
@@ -61,4 +62,5 @@ export default combineReducers({
   RelativePage,
   NewIn,
   CatalogPage,
+  NetworkErrors,
 });

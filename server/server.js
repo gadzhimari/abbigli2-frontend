@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
 import Raven from 'raven';
 
@@ -30,6 +31,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('./public'));
 // Parsers and compressors
 app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(compression());
 // Middlewares
 app.use(Raven.requestHandler());

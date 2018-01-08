@@ -74,7 +74,7 @@ Sections.propTypes = {
   tree: PropTypes.arrayOf(PropTypes.object),
 };
 
-const mapStateToProps = ({ CatalogPage, Sections, Settings, routing }) => ({
+const mapStateToProps = ({ CatalogPage, Sections, Settings, routing, NetworkErrors }) => ({
   tags: CatalogPage.tags,
   pages: CatalogPage.postPagesCount,
   sections: Sections.items,
@@ -83,6 +83,7 @@ const mapStateToProps = ({ CatalogPage, Sections, Settings, routing }) => ({
   posts: CatalogPage.posts,
   priceTemplate: Settings.data.CURRENCY,
   routing: routing.locationBeforeTransitions,
+  errors: NetworkErrors,
 });
 
 const mapDispatchToProps = dispatch => ({

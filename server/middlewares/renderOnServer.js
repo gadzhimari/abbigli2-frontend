@@ -24,6 +24,8 @@ module.exports = (req, res) => {
     location: req.newPath || req.url,
   },
   (error, redirectLocation, renderProps) => {
+    const state = store.getState();
+
     if (redirectLocation) {
       return res.redirect(301, redirectLocation.pathname + redirectLocation.search);
     }
@@ -36,7 +38,9 @@ module.exports = (req, res) => {
       return res.status(404).sendFile(path.resolve(__dirname, '../templates/404.html'));
     }
 
-    console.log('pre');
+    if (state.NetworkErrors.status !== null) {
+      res.status(state.NetworkErrors.status);
+    }
 
     const componentHTML = ReactDOM.renderToString(
       <Provider store={store} >
