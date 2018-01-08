@@ -1,5 +1,7 @@
-import { Posts } from 'API';
+import { Posts } from '../../../api';
 import * as actions from '../actionTypes';
+
+import { setNetworkError } from '../../NetworkErrors/reducer';
 
 const requestPost = () => ({
   type: actions.REQUEST_POST,
@@ -10,10 +12,6 @@ const responsePost = post => ({
   post,
 });
 
-const setNotFound = () => ({
-  type: actions.ERROR_404,
-});
-
 const fetchPost = (slug, token) => (dispatch) => {
   dispatch(requestPost());
 
@@ -21,8 +19,8 @@ const fetchPost = (slug, token) => (dispatch) => {
     .then((response) => {
       dispatch(responsePost(response.data));
     })
-    .catch(() => {
-      dispatch(setNotFound());
+    .catch(({ response }) => {
+      dispatch(setNetworkError(response));
     });
 };
 

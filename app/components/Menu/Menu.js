@@ -2,15 +2,15 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import { SocialGroups } from 'components';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link';
+
+import { SocialGroups } from '../../components';
 import { __t } from '../../i18n/translator';
 
 import './Menu.styl';
 
 class Menu extends PureComponent {
   static propTypes = {
-    isFetchingSections: Type.bool,
     itemsSections: Type.arrayOf(Type.shape({
       id: Type.number,
       title: Type.string,
@@ -27,7 +27,6 @@ class Menu extends PureComponent {
 
   render() {
     const {
-      isFetchingSections,
       itemsSections,
       modalButtonClick,
       wrapperClass,
@@ -67,12 +66,12 @@ class Menu extends PureComponent {
           </Link>
           {
             itemsSections.map(section => (
-              <Link className="main-menu__item" to={`/c/${section.slug}`} key={section.id}>
+              <Link className="main-menu__item" to={section.view_on_site_url} key={section.id}>
                 {section.title}
               </Link>
             ))
           }
-          
+
         </div>
         <div className="main-menu__footer">
           <Link className="main-menu__footer-item" to="/page/about">{__t('About')}</Link>

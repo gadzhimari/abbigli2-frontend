@@ -1,4 +1,5 @@
-import { Posts, Tags } from '../../api';
+import { Posts, Tags, Catalog } from '../../api';
+import { setNetworkError } from '../NetworkErrors/reducer';
 
 export const REQUEST_POSTS = 'catalog-page/REQUEST_POSTS';
 export const RESPONSE_POSTS = 'catalog-page/RESPONSE_POSTS';
@@ -58,4 +59,16 @@ export const fetchMoreTags = options => (dispatch) => {
 
   return Tags.getTags(options)
     .then(res => dispatch(responseMoreTags(res.data)));
+};
+
+
+// TODO:
+// Сделать этот запрос основным способом загрузить массив текущих категори
+// Выпилить createTree из containers/Section/preloader
+// Сделать состояния для данного запроса
+export const fetchCrumbs = options => (dispatch) => {
+  return Catalog.getCategoryCrumbs(options)
+    .catch(({ response }) => {
+      dispatch(setNetworkError(response));
+    });
 };

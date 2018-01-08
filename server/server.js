@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
 import Raven from 'raven';
 
@@ -12,6 +13,7 @@ import configureRedux from './middlewares/configureRedux';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
 import trimSlash from './middlewares/trim-url-slash';
 import setLocals from './middlewares/set-locals';
+import redirectManager from './middlewares/redirect-manager';
 
 import routes from './api';
 
@@ -29,11 +31,13 @@ app.set('view engine', 'ejs');
 app.use(express.static('./public'));
 // Parsers and compressors
 app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(compression());
 // Middlewares
 app.use(Raven.requestHandler());
 
 app.use(routes);
+app.use(redirectManager);
 app.use(trimSlash);
 app.use(setLocals);
 app.use(oauthHandler);

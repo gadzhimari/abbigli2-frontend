@@ -10,7 +10,7 @@ const instance = axios.create({
 const request = (options) => {
   const {
     url,
-    method = 'get',
+    method = 'GET',
     params = {},
     canApplyToken = false,
     mustApplyToken = false,

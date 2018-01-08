@@ -1,4 +1,4 @@
-/* eslint-disable no-console,global-require,no-underscore-dangle,import/no-extraneous-dependencies,max-len */
+/* eslint-disable consistent-return */
 
 import React from 'react';
 import { RouterContext } from 'react-router';
@@ -19,7 +19,13 @@ module.exports = (req, res) => {
   const store = req.redux;
   const renderRoutes = routes(store, req.cookies.id_token, true);
 
-  match({ routes: renderRoutes, location: req.newPath || req.url }, (error, redirectLocation, renderProps) => {
+  match({
+    routes: renderRoutes,
+    location: req.newPath || req.url,
+  },
+  (error, redirectLocation, renderProps) => {
+    const state = store.getState();
+
     if (redirectLocation) {
       return res.redirect(301, redirectLocation.pathname + redirectLocation.search);
     }
@@ -30,6 +36,10 @@ module.exports = (req, res) => {
 
     if (!renderProps) {
       return res.status(404).sendFile(path.resolve(__dirname, '../templates/404.html'));
+    }
+
+    if (state.NetworkErrors.status !== null) {
+      res.status(state.NetworkErrors.status);
     }
 
     const componentHTML = ReactDOM.renderToString(

@@ -2,9 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 
-import {
-  Loading,
-} from 'components';
+import { Loading } from '../components';
 
 const postLoader = WrappedComponent => class extends Component {
   static propTypes = {
@@ -16,10 +14,6 @@ const postLoader = WrappedComponent => class extends Component {
   };
 
   static fetchData = (...data) => WrappedComponent.fetchData(...data)
-
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     const { data, routeParams, dispatch } = this.props;

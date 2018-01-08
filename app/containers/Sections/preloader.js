@@ -4,8 +4,19 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
 import { SectionTag } from '../../containers';
+import { fetchCrumbs } from '../../ducks/CatalogPage/actions';
 
 const preloader = WrappedComponent => class extends PureComponent {
+  static fetchData = (dispatch, params) => {
+    let slugs = [params.section];
+
+    if (params.splat) {
+      slugs = params.splat.split('/').concat(slugs);
+    }
+
+    return dispatch(fetchCrumbs({ slugs }));
+  }
+
   static propTypes = {
     fetchSectionTags: PropTypes.func.isRequired,
     fetchPosts: PropTypes.func.isRequired,
@@ -21,7 +32,7 @@ const preloader = WrappedComponent => class extends PureComponent {
     const { params, sections } = this.props;
     const tree = this.createTree(params, sections);
     const currentSection = tree[tree.length - 1];
-    const promo = this.getPromo(currentSection);
+    const promo = currentSection ? this.getPromo(currentSection) : null;
 
     this.state = {
       isFetching: true,
@@ -62,7 +73,7 @@ const preloader = WrappedComponent => class extends PureComponent {
     }));
   }
 
-  createTree = (params, sections) => {
+  createTree = (params) => {
     const { normalizedSections, promo } = this.props;
 
     let array = [params.section];
@@ -75,6 +86,13 @@ const preloader = WrappedComponent => class extends PureComponent {
 
     return array.reduce((acc, cur) => {
       let targetCategories = cur in categories ? categories : promoCategories;
+      const len = acc.length;
+
+      if (!targetCategories[cur] || (len > 0 && acc[len - 1] === null)) {
+        acc.push(null);
+        return acc;
+      }
+
       let current = Object.assign({}, targetCategories[cur]);
 
       if (current.is_promo) {
@@ -82,7 +100,7 @@ const preloader = WrappedComponent => class extends PureComponent {
         current = Object.assign({}, targetCategories[cur]);
       }
 
-      if (current.children.length === 0 && cur in promoCategories) {
+      if (current.children && current.children.length === 0 && cur in promoCategories) {
         targetCategories = promoCategories;
         current = Object.assign({}, targetCategories[cur]);
       }
