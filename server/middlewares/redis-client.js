@@ -1,10 +1,13 @@
 import redis from 'redis';
+import util from 'util';
 
 const client = redis.createClient({
   db: 1,
   host: process.env.REDIS_HOST,
   port: process.env.REDIS_PORT,
 });
+
+client.get = util.promisify(client.get);
 
 client.on('connect', () => {
   console.log('connected');
