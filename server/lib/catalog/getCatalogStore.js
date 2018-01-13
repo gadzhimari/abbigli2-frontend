@@ -1,9 +1,8 @@
 import redisClient from '../../middlewares/redis-client';
 
-const getKeyFromStore = (key, idx, callback) => {
-  redisClient.get(key, (err, data) => {
-    callback(idx, data);
-  });
+const getKeyFromStore = async (key) => {
+  const data = await redisClient.get(key);
+  return data;
 };
 
 const getCatalog = (keys, callback) => {
@@ -12,15 +11,16 @@ const getCatalog = (keys, callback) => {
 
   const next = (idx, data) => {
     result[idx] = JSON.parse(data);
-    loaded++;
+    loaded += 1;
 
     if (loaded === keys.length) {
       callback(result);
     }
   };
 
-  keys.forEach((key, idx) => {
-    getKeyFromStore(key, idx, next);
+  keys.forEach(async (key, idx) => {
+    const data = await getKeyFromStore(key);
+    next(idx, data);
   });
 };
 
