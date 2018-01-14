@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Select from 'react-select';
 
-import Popup from '../CommonPopup';
-import { SocialLogin, FetchingButton } from 'components';
+import { SocialLogin, FetchingButton } from '../../../components';
 import CountryItem from './CountryItem';
 
-import { registration } from 'ducks/Auth/authActions';
-import { openPopup } from 'ducks/Popup/actions';
+import { registration } from '../../../ducks/Auth/authActions';
+import { openPopup } from '../../../ducks/Popup/actions';
 import { __t } from '../../../i18n/translator';
 
 import './RegisterPopup.styl';

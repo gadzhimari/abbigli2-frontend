@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SocialIcons } from 'components/Icons';
+import { SocialIcons } from '../../../components/Icons';
 
 const SocialButton = ({
   socialLink,

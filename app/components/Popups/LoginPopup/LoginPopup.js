@@ -2,12 +2,11 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { ErrorInput } from 'components/Inputs';
-import { SocialLogin, FetchingButton } from 'components';
+import { ErrorInput } from '../../../components/Inputs';
+import { SocialLogin, FetchingButton } from '../../../components';
 
-import { login } from 'ducks/Auth/authActions';
-import { openPopup } from 'ducks/Popup/actions';
-import { stagedPopup } from 'ducks/Auth/authActions';
+import { login, stagedPopup } from '../../../ducks/Auth/authActions';
+import { openPopup } from '../../../ducks/Popup/actions';
 import { __t } from '../../../i18n/translator';
 
 import './LoginPopup.styl';

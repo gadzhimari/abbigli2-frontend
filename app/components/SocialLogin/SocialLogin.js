@@ -1,4 +1,5 @@
 import React from 'react';
+import Type from 'prop-types';
 
 import SocialButton from './Buttons/SocialButton';
 
@@ -8,14 +9,18 @@ import {
   GOOGLE_ID,
   VK_ID,
   location,
-} from 'config';
+} from '../../config';
 
-const SocialLogin = ({
-  className,
-}) => {
-  const fbLink = `https://facebook.com/dialog/oauth?client_id=${FB_ID}&redirect_uri=`;
-  const googleLink = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_ID}&response_type=code&scope=openid&redirect_uri=`;
-  const vkLink = `https://oauth.vk.com/authorize?client_id=${VK_ID}&response_type=code&display=popup&redirect_uri=`;
+const fbOauth = 'https://facebook.com/dialog/oauth';
+const googleOauth = 'https://accounts.google.com/o/oauth2/v2/auth';
+const vkOauth = 'https://oauth.vk.com/authorize';
+
+const SocialLogin = ({ className }) => {
+  const redirectTo = location && location.href;
+
+  const fbLink = `${fbOauth}?client_id=${FB_ID}&state=${redirectTo}`;
+  const googleLink = `${googleOauth}?client_id=${GOOGLE_ID}&response_type=code&scope=openid&state=${redirectTo}`;
+  const vkLink = `${vkOauth}?client_id=${VK_ID}&response_type=code&display=popup&state=${redirectTo}`;
 
   return (
     <div className="buttons-social">
@@ -48,6 +53,10 @@ const SocialLogin = ({
       }
     </div>
   );
+};
+
+SocialLogin.propTypes = {
+  className: Type.string,
 };
 
 export default SocialLogin;

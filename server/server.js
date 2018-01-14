@@ -7,7 +7,6 @@ import bodyParser from 'body-parser';
 import Raven from 'raven';
 
 import renderOnServer from './middlewares/renderOnServer';
-import oauthHandler from './middlewares/oauthHandling';
 import geoLocation from './middlewares/geoLocation';
 import configureRedux from './middlewares/configureRedux';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
@@ -40,7 +39,6 @@ app.use(routes);
 app.use(redirectManager);
 app.use(trimSlash);
 app.use(setLocals);
-app.use(oauthHandler);
 app.use(configureRedux);
 app.use(geoLocation);
 app.use(handleGoogleCahceUrl);
