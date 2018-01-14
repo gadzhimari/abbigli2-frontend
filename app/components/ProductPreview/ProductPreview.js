@@ -20,9 +20,11 @@ class ProductPreview extends Component {
   }
 
   componentDidMount() {
-    this.updateSliderSize();
+    if (this.props.images.length !== 0) {
+      this.updateSliderSize();
 
-    window.addEventListener('resize', this.updateSliderSize);
+      window.addEventListener('resize', this.updateSliderSize);
+    }
   }
 
   componentWillUnmount() {
