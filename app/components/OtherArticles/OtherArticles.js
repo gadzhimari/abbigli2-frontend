@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
-import { THUMBS_URL } from 'config';
+import Link from 'react-router/lib/Link';
+import Image from '../Image';
+
 import { __t } from '../../i18n/translator';
 
 
@@ -23,22 +24,20 @@ const OtherArticles = ({ articles }) => {
     <div className="other-articles">
       <a className="other-articles__item">
         <span className="other-articles__item-text">
-          {__t("More from author")}
+          {__t('More from author')}
         </span>
       </a>
       {
-        articles
-        &&
-        articles
-          .slice(0, 4)
+        articles && articles.slice(0, 4)
           .map(article => (
             <Link
               className="other-articles__item"
               key={article.id}
               to={`/${urls[article.type]}/${article.slug}`}
             >
-              <img
-                src={`${THUMBS_URL}unsafe/120x103/${article.images[0].file}`}
+              <Image
+                src={article.images[0] && article.images[0].file}
+                thumbSize="120x103"
                 alt={article.title}
               />
             </Link>

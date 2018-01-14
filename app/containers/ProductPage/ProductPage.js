@@ -101,20 +101,6 @@ class ProductPage extends Component {
     });
   }
 
-  renderSlider = () => {
-    const { images } = this.props.data;
-
-    const defaultImages = images &&
-      images
-        .filter(item => item.type !== 'redactor')
-        .map(image => ({
-          original: image.file,
-          thumbnail: image.file,
-        }));
-
-    return defaultImages && <Gallery images={defaultImages} />;
-  }
-
   render() {
     const commentsList = this.props.itemsComments;
 
@@ -140,11 +126,11 @@ class ProductPage extends Component {
     }
 
     crumbs.push({
-      title: data.user.profile_name || `User ID: ${data.user.id}`,
+      title: author.profile_name || `User ID: ${author.id}`,
       url: `/profile/${data.user.id}`,
     }, {
       title: data.title,
-      url: `/blog/${data.slug}`,
+      url: `/post/${data.slug}`,
     });
 
     const isUsersPost = author.id === me.id;
