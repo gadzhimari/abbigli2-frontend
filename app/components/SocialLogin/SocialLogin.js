@@ -16,11 +16,11 @@ const googleOauth = 'https://accounts.google.com/o/oauth2/v2/auth';
 const vkOauth = 'https://oauth.vk.com/authorize';
 
 const SocialLogin = ({ className }) => {
-  const redirectTo = location && location.href;
+  const redirectTo = window.location && window.location.href;
 
-  const fbLink = `${fbOauth}?client_id=${FB_ID}&state=${redirectTo}`;
-  const googleLink = `${googleOauth}?client_id=${GOOGLE_ID}&response_type=code&scope=openid&state=${redirectTo}`;
-  const vkLink = `${vkOauth}?client_id=${VK_ID}&response_type=code&display=popup&state=${redirectTo}`;
+  const fbLink = `${fbOauth}?client_id=${FB_ID}&state=${redirectTo}&redirect_uri=`;
+  const googleLink = `${googleOauth}?client_id=${GOOGLE_ID}&response_type=code&scope=openid&state=${redirectTo}&redirect_uri=`;
+  const vkLink = `${vkOauth}?client_id=${VK_ID}&response_type=code&display=popup&state=${redirectTo}&redirect_uri=`;
 
   return (
     <div className="buttons-social">
