@@ -31,8 +31,11 @@ const moreFollowingResponse = data => ({
   data,
 });
 
-const loadProfile = (id, isMe, isAuth) => {
+const loadProfile = (id, isAuth) => (dispatch, getState) => {
+  const { Auth } = getState();
+
   const promises = [];
+  const isMe = Auth.me.id === Number(id);
 
   promises.push(Profile.getData(id, isMe, isAuth));
   promises.push(Profile.getFollowers(id, isMe, isAuth, 'followers'));
@@ -40,17 +43,14 @@ const loadProfile = (id, isMe, isAuth) => {
   if (isMe) {
     promises.push(Profile.getFollowers(id, isMe, isAuth, 'following'));
   }
+  dispatch(loadProfileRequest());
 
-  return (dispatch) => {
-    dispatch(loadProfileRequest());
+  return Promise.all(promises)
+    .then((data) => {
+      const [profile, followers, following = { data: {} }] = data;
 
-    return Promise.all(promises)
-      .then((data) => {
-        const [profile, followers, following = { data: {} }] = data;
-
-        dispatch(loadProfileResponse(profile.data, followers.data, following.data, isMe));
-      });
-  };
+      dispatch(loadProfileResponse(profile.data, followers.data, following.data, isMe));
+    });
 };
 
 export const loadMoreFollowers = (id, isMe, isAuth, options) => (dispatch) => {
