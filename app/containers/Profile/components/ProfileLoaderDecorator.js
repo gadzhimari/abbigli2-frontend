@@ -33,9 +33,9 @@ const ProfileLoaderDecorator = Profile => class extends Component {
   }
 
   fetchProfile = () => {
-    const { params, me, dispatch, isAuthenticated, loadProfile, isMe } = this.props;
+    const { params, isAuthenticated, loadProfile } = this.props;
 
-    loadProfile(params.profile, isMe, isAuthenticated);
+    loadProfile(params.profile, isAuthenticated);
   }
 
   render() {
