@@ -16,6 +16,9 @@ import Geolocation from './HOC/Geolocation';
 import routes from './routes';
 import store from './store/store';
 
+import parseQuery from './lib/parse-query';
+import { createHistoryListener } from './lib/analitics';
+
 import { DOMAIN_URL } from './config';
 
 const ravenDNS = process.env.SENTRY_DNS_CLIENT;
@@ -39,18 +42,11 @@ function renderApp() {
 
   const history = syncHistoryWithStore(browserHistory, store);
   const renderRoutes = routes(store);
+
   const routerParams = {
     routes: renderRoutes,
     history,
   };
-  const parseQuery = query => query
-    .replace('?', '')
-    .split('&')
-    .map(item => item.split('='))
-    .reduce((a, b) => Object.assign({}, a, {
-      [b[0]]: b[1],
-    })
-    , {});
 
   if (location.pathname === '/search') {
     const siteUrl = parseQuery(location.search).q
@@ -68,6 +64,8 @@ function renderApp() {
   } else {
     routerParams.location = location.pathname;
   }
+
+  createHistoryListener(history);
 
   match(routerParams, (err, redirect, renderProps) => {
     render(
