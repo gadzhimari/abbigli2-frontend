@@ -32,7 +32,6 @@ import {
 import Chat from '../containers/Chat';
 import SettingsPage from '../containers/SettingsPage';
 
-
 const routes = (store, token, shouldPreload) => {
   const componentFn = (Component, value) => (nextState, replace, callback) => Component[value]({
     store,

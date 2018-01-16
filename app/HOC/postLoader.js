@@ -57,7 +57,7 @@ const postLoader = WrappedComponent => class extends Component {
           { property: 'og:title', content: data.seo_title || data.title },
           { property: 'og:description', content: data.seo_description },
           { property: 'og:', content: data.seo_description },
-          { property: 'og:image', content: images[0] && images[0].file },
+          { property: 'og:image', content: images && images[0] && images[0].file },
         ]}
       />
       {

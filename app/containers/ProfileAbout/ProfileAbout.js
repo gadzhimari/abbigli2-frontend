@@ -74,7 +74,11 @@ class ProfileAbout extends PureComponent {
     return (
       <div className="profile_content">
         <If condition={!this.state.isEditing}>
-          <AboutInfo handleEditing={this.handleEditing} isMe={isMe} />
+          <AboutInfo
+            handleEditing={this.handleEditing}
+            isMe={isMe}
+            info={data.description}
+          />
           <AboutContact data={data} />
           <AboutSocial isMe={isMe} data={data} />
         </If>
