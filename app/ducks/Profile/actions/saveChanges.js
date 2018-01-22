@@ -1,5 +1,5 @@
 import * as types from './types';
-import { Profile } from 'API';
+import { Profile } from '../../../api';
 
 import { setMe } from '../../Auth/authActions/fetchMe';
 

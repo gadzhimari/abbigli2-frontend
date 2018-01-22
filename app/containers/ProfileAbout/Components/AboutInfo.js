@@ -10,9 +10,7 @@ const AboutInfo = ({ info, isMe, handleEditing }) => {
 
   return (
     <div className="profile-about__info">
-      {
-        isMe
-        &&
+      {isMe &&
         <button
           className="default-button"
           type="button"
@@ -21,15 +19,15 @@ const AboutInfo = ({ info, isMe, handleEditing }) => {
           {__t('Edit')}
         </button>
       }
+
       <h3 className="profile-about__header">
-        {
-          isMe
-            ? __t('Your contact information')
-            : __t('User contact information')
-        }
+        { isMe ? __t('Your contact information') : __t('User contact information') }
       </h3>
+
       <p className="profile-about__text">
-        {info || isMe ? __t('You did not provide your contact information yet') : __t('The user has not yet filled out information about themselves')}
+        {info || (isMe ?
+          __t('You did not provide your contact information yet') :
+          __t('The user has not yet filled out information about themselves'))}
       </p>
     </div>
   );
