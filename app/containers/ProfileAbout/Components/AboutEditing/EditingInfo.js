@@ -27,9 +27,7 @@ class EditingInfo extends PureComponent {
         <h3 className="profile-about__header">
           {__t('Your contact information')}
         </h3>
-        <p className="profile-about__text">
-          Здесь какой-то текст, который еще, судя по всему, не придумали
-        </p>
+
         <textarea
           className="profile-about__info-textarea"
           value={this.state.value}
