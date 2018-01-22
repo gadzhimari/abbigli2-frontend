@@ -1,4 +1,4 @@
-import checkCatalog from './api/catalog/checkCatalog';
+import checkCatalog from './lib/catalog/checkCatalog';
 
 const CronJob = require('cron').CronJob;
 const intel = require('intel');
