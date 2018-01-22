@@ -27,7 +27,7 @@ class ImageUploadZone extends Component {
     } = this.props;
     
     return (
-      <div className="add-tabs__form">
+      <div>
         <div>
           Вы можете загрузить не более хх изображений в формате JPEG, PNG, не привышающих размер 4mpх.
         </div>

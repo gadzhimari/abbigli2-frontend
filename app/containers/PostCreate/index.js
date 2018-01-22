@@ -12,6 +12,8 @@ import { compose } from 'recompose';
 
 import { connect } from 'react-redux';
 
+import ProductForm from './ProductForm';
+
 import SwitchType from './Components/SwitchType';
 import ProductSpecific from './Components/ProductSpecific';
 import EventSpecific from './Components/EventSpecific';
@@ -19,7 +21,7 @@ import ContentFields from './Components/ContentFields';
 import MultiSelect from './Components/MultiSelect';
 import postLoader from './postLoader';
 
-import { FetchingButton } from 'components';
+import { FetchingButton } from '../../components';
 import ImageUploadZone from 'components/ImageUploadZone';
 import { ErrorInput } from 'components/Inputs';
 
@@ -198,78 +200,16 @@ class PostCreate extends Component {
             activeType={type}
             onlyType={params.slug ? type : null}
           />
+
           <div className={containerClassName}>
             <div className="add-tabs__content-tab add-tabs__content_goods">
-              <div className="add-tabs__form">
-                <ErrorInput
-                  className="input"
-                  id="nameGoods"
-                  name="title"
-                  value={title}
-                  onChange={this.changeValue}
-                  placeholder=""
-                  errors={errors.title}
-                  wrapperClass="add-tabs__form-field input-wrap"
-                  wrapperErrorClass="error"
-                  labelRequired
-                  label={__t('Title')}
-                />
-                <EventSpecific
-                  shouldShow={type === 3}
-                  dateStart={this.state.date_start}
-                  dateEnd={this.state.date_end}
-                  city={city}
-                  errors={errors}
-                  onChange={this.changeValue}
-                  openCityPopup={this.openSelectPopup}
-                />
-                <MultiSelect
-                  options={sections}
-                  ref={sectionSelect => (this.sectionSelect = sectionSelect)}
-                  currentCategory={this.state.categories && this.state.categories[0].slug}
-                  categories={categories}
-                />
-                <ProductSpecific
-                  shouldShow={type === 1}
-                  onChange={this.changeValue}
-                  priceValue={price}
-                  colorValue={color}
-                  errors={errors}
-                />
-              </div>
-              <ImageUploadZone
-                onMove={this.onMoveImage}
-                images={images}
-                deleteImage={this.deleteImage}
-                uploadImages={this.uploadImages}
-                imageFetching={isFetchingImage}
-                rotateImage={actions.rotateImage}
-                loadImageErrors={loadImageErrors}
-                errors={errors.images}
-              />
-              <ContentFields
-                isBlog={type === 4}
-                onChange={this.changeValue}
-                contentValue={content}
-                blogValue={contentBlog}
-                tagsValue={tags}
+              <ProductForm
+                visible={type === 1}
                 errors={errors}
+                categories={categories}
+                sections={sections}
               />
-              <div className="add-tabs__buttons">
-                <FetchingButton
-                  className="default-button"
-                  isFetching={isSaving}
-                  onClick={this.save}
-                >
-                  {__t('Publish')}
-                </FetchingButton>
-                <button
-                  className="default-button"
-                  onClick={this.handleClose}
-                >
-                  {__t('Cancel')}
-                </button>
-              </div>
+
             </div>
           </div>
         </div >

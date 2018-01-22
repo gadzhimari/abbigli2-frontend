@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Input from './Input';
 
-import { omit } from 'utils/functions';
+import { omit } from '../../utils/functions';
 
 class InputWithError extends Component {
   constructor(props) {
@@ -61,34 +61,33 @@ class InputWithError extends Component {
 
     return (
       <div className={wrapper}>
-        {
-          label
-          &&
+        {label &&
           <label className="label" htmlFor={id}>
             {label}
-            {
-              labelRequired
-              &&
+
+            {labelRequired &&
               <span className="label__required">*</span>
             }
           </label>
         }
+
         <If condition={Icon}>
           {Icon}
         </If>
+
         <RenderInput
           onFocus={this.hideError}
           className={inputClass}
           {...omitedProps}
         />
+
         <If condition={this.mustShowErrors}>
-          {
-            errors.map(error => (<div
-              className={errorClass}
-              key={error}
-            >
-              {error}
-            </div>))
+          {errors.map(error => (<div
+            className={errorClass}
+            key={error}
+          >
+            {error}
+          </div>))
           }
         </If>
       </div>

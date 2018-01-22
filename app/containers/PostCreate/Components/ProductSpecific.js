@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { pure } from 'recompose';
 
-import { ErrorInput } from 'components/Inputs';
-import { ChoiceColor } from 'components/FiltersSelects';
+import { ErrorInput } from '../../../components/Inputs';
+import { ChoiceColor } from '../../../components/FiltersSelects';
 
 import { __t } from '../../../i18n/translator';
 
