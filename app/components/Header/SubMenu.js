@@ -124,17 +124,20 @@ class SubMenu extends PureComponent {
   }
 
   showCategory = ({ currentTarget }) => {
-    const catId = currentTarget.getAttribute('data-cat_id');
-    const categoryList = this.catWrapper.querySelector(`.header-category[data-cat_id="${catId}"]`);
+    window.timeOut = setTimeout(() => {
+      const catId = currentTarget.getAttribute('data-cat_id');
+      const categoryList = this.catWrapper.querySelector(`.header-category[data-cat_id="${catId}"]`);
 
-    this.hideCategory();
+      this.hideCategory();
 
-    if (categoryList) {
-      categoryList.classList.add('show');
-    }
+      if (categoryList) {
+        categoryList.classList.add('show');
+      }
+    }, 300);
   }
 
   hideCategory = () => {
+    clearTimeout(window.timeOut);
     const activeList = this.catWrapper.querySelector('.show');
     if (activeList) {
       activeList.classList.remove('show');
