@@ -124,7 +124,7 @@ class SubMenu extends PureComponent {
   }
 
   showCategory = ({ currentTarget }) => {
-    window.timeOut = setTimeout(() => {
+    this.timeOut = setTimeout(() => {
       const catId = currentTarget.getAttribute('data-cat_id');
       const categoryList = this.catWrapper.querySelector(`.header-category[data-cat_id="${catId}"]`);
 
@@ -137,7 +137,7 @@ class SubMenu extends PureComponent {
   }
 
   hideCategory = () => {
-    clearTimeout(window.timeOut);
+    clearTimeout(this.timeOut);
     const activeList = this.catWrapper.querySelector('.show');
     if (activeList) {
       activeList.classList.remove('show');
