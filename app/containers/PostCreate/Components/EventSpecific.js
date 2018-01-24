@@ -54,6 +54,7 @@ const EventSpecific = ({
           component={DateInput}
           className="input"
           label={__t('End.date')}
+          labelRequired
         />
       </div >
     </div >
@@ -67,6 +68,7 @@ EventSpecific.propTypes = {
   errors: PropTypes.shape({
     city: PropTypes.array,
     date_start: PropTypes.array,
+    date_end: PropTypes.array,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
   openCityPopup: PropTypes.func.isRequired,

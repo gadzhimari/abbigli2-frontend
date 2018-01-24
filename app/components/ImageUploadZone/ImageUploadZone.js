@@ -60,6 +60,8 @@ class ImageUploadZone extends Component {
           }
         </Dropzone>
         {
+          images.length === 0
+          &&
           errors
           &&
           errors.length !== 0
