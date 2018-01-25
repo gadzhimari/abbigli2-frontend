@@ -297,8 +297,7 @@ PostCreate.propTypes = {
     images: PropTypes.array,
     city: PropTypes.array,
     price: PropTypes.array,
-    date_start: PropTypes.array,
-    date_end: PropTypes.array,
+    date_start: PropTypes.array
   }).isRequired,
   loadImageErrors: PropTypes.arrayOf(PropTypes.string).isRequired,
   params: PropTypes.shape({
