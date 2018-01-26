@@ -1,29 +1,40 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-import { SocialIcons } from 'components/Icons';
+import { SocialIcons } from '../../Icons';
+import { SHARE_TYPES_FOR_ANALITICS } from '../../../lib/constants/social';
 
-const ShareButton = ({
-  link,
-  provider,
-  className,
-}) => (
-  <a
-    className={`${className} ${provider}`}
-    href={link}
-    target="_blank"
-    rel="nofollow noopener noreferrer"
-  >
-    {
-      SocialIcons[provider]()
+export default class ShareButton extends PureComponent {
+  static propTypes = {
+    href: PropTypes.string,
+    provider: PropTypes.string,
+    className: PropTypes.string,
+    onClick: PropTypes.func,
+  }
+
+  onClick = (e) => {
+    const { provider, onClick } = this.props;
+
+    if (onClick) {
+      onClick(e, {
+        socialCode: SHARE_TYPES_FOR_ANALITICS[provider],
+      });
     }
-  </a>
-);
+  }
 
-ShareButton.propTypes = {
-  link: PropTypes.string.isRequired,
-  provider: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
-};
+  render() {
+    const { provider, className, href } = this.props;
 
-export default ShareButton;
+    return (
+      <a
+        className={`${className} ${provider}`}
+        target="_blank"
+        rel="nofollow noopener noreferrer"
+        onClick={this.onClick}
+        href={href}
+      >
+        {SocialIcons[provider]()}
+      </a>
+    );
+  }
+}

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { UserProfile, Link } from '../../components';
 
 import { __t } from './../../i18n/translator';
+import { gaSendClickEvent } from '../../lib/analitics';
 
 import ProfileLoader from './components/ProfileLoaderDecorator';
 import { uploadImage, loadProfile, saveChanges, deleteImage } from '../../ducks/Profile/actions';
@@ -26,10 +27,28 @@ class Profile extends Component {
     document.body.classList.remove('profile-page--edit');
   }
 
+  onClickMyAbbigli = () => {
+    gaSendClickEvent('profile', 'mypage');
+  }
+
+  onClickFavorites = () => {
+    gaSendClickEvent('profile', 'favorites');
+  }
+
+  onClickFeed = () => {
+    gaSendClickEvent('profile', 'feed');
+  }
+
+  onClickMessages = () => {
+    gaSendClickEvent('profile', 'messages');
+  }
+
+  onClickAbout = () => {
+    gaSendClickEvent('profile', 'about_me');
+  }
+
   handleEditing = (status) => {
-    this.setState({
-      isEditing: status,
-    });
+    this.setState({ isEditing: status });
 
     if (status) {
       document.body.classList.add('profile-page--edit');
@@ -63,11 +82,11 @@ class Profile extends Component {
         />
 
         <main className="main profile">
-          {
-            this.state.isEditing
-            &&
+          {this.state.isEditing &&
             <div className="main__overlay" />
           }
+
+          {/* TODO: Вынести в отдельный компонент */}
           <div className="profile__submenu">
             <a className="profile-submenu__item back">
               <div className="icon-wrap">
@@ -79,6 +98,7 @@ class Profile extends Component {
 
             <Link
               to={`/profile/${data.id}/`}
+              onClick={this.onClickMyAbbigli}
               className={"profile-submenu__item my-abbigli " + (!childrenPath ? 'active' : '')}
             >
               <div className="icon-wrap">
@@ -91,6 +111,7 @@ class Profile extends Component {
               &&
               <Link
                 to={`/profile/${data.id}/favorites`}
+                onClick={this.onClickFavorites}
                 className={"profile-submenu__item favorites " + (childrenPath === 'favorites' ? 'active' : '')}
               >
                 <div className="icon-wrap">
@@ -106,6 +127,7 @@ class Profile extends Component {
               &&
               <Link
                 to={`/profile/${data.id}/feed`}
+                onClick={this.onClickFeed}
                 className={"profile-submenu__item feed " + (childrenPath === 'feed' ? 'active' : '')}
               >
                 <div className="icon-wrap">
@@ -122,6 +144,7 @@ class Profile extends Component {
               &&
               (<Link
                 to="/chat"
+                onClick={this.onClickMessages}
                 className={"profile-submenu__item feed " + (childrenPath === 'messages' ? 'active' : '')}
               >
                 <div className="icon-wrap">
@@ -136,6 +159,7 @@ class Profile extends Component {
             {
               (<Link
                 to={`/profile/${data.id}/about`}
+                onClick={this.onClickAbout}
                 className={"profile-submenu__item feed " + (childrenPath === 'about' ? 'active' : '')}
               >
                 <div className="icon-wrap">

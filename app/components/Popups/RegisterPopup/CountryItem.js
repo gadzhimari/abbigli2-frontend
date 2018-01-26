@@ -1,9 +1,6 @@
 import React from 'react';
 
-const CountryItem = ({
-  data,
-  onClick,
-}) => {
+const CountryItem = ({ data, onClick }) => {
   const handleClick = () => {
     onClick({
       country: data,

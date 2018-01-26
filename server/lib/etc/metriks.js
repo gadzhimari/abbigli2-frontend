@@ -9,6 +9,8 @@ export default {
 
     ga('create', 'UA-78577116-1', 'auto');
     ga('send', 'pageview');
+    setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])",15000);
+    ga('require', 'displayfeatures');
   </script>`,
   ru: `
   <!-- Yandex.Metrika counter -->
@@ -48,6 +50,8 @@ export default {
 
   ga('create', 'UA-78577116-2', 'auto');
   ga('send', 'pageview');
+  setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])",15000);
+  ga('require', 'displayfeatures');
 
 </script>`,
 };
