@@ -21,3 +21,14 @@ export function createHistoryListener(history) {
     googleSetPage(location.pathname);
   });
 }
+
+/**
+ * Отправляет в аналитику событие клика
+ * @param {String} eventCategory - элемент с которым вазимодествуем
+ * @param {String} eventLabel - описание действия
+ */
+export function gaSendClickEvent(eventCategory, eventLabel) {
+  if (typeof ga !== 'undefined') {
+    ga('send', 'event', eventCategory, 'click', eventLabel, { nonInteraction: 1 });
+  }
+}

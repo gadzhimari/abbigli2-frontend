@@ -1,68 +1,69 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { Menu } from 'components';
+import Dropdown from '../_basicClasses/Dopdown';
+import { Menu } from '../../components';
 
-class MenuDropdown extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      openDropdown: false,
-    };
+import { gaSendClickEvent } from '../../lib/analitics';
+
+class MenuDropdown extends Dropdown {
+  constructor() {
+    super();
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('click', (e) => {
-      const openMenuContainer = document.querySelector('.main-menu');
-      const dropdown = document.querySelector('.dropdown');
-
-      if (!openMenuContainer || !dropdown) return;
-
-      if (!openMenuContainer.contains(e.target) || dropdown.contains(e.target)) {
-        this.closeDropdownHandler();
-      }
-    });
-
-    this.isMobile = window.innerWidth <= 700;
+    this.setupOutsideClickHandler(this.close);
   }
 
-  openDropdownHandler = ({ target, currentTarget }) => {
-    if (this.state.openDropdown && target !== currentTarget) return;
-
-    this.setState({
-      openDropdown: true,
-    });
+  onOpen = () => {
+    gaSendClickEvent('menu', 'menu');
   }
 
-  closeDropdownHandler = () => this.setState({
-    openDropdown: false,
-  });
+  toggle() {
+    if (window.innerWidth <= 700) {
+      this.props.openMobileMenu();
+      return;
+    }
+
+    super.toggle();
+  }
+
+  onDropdownClick = ({ target }) => {
+    if (target.tagName.toLowerCase() === 'a') {
+      this.close();
+    }
+  }
 
   render() {
-    const { isFetchingSections, itemsSections, modalButtonClick, openMobileMenu } = this.props;
+    const { isFetchingSections, itemsSections, modalButtonClick } = this.props;
     const dropdownClass = classNames('header__menu-item main-menu', {
-      'open-menu': this.state.openDropdown,
+      'open-menu': this.state.opened,
     });
-
-    const menuButtonHandler = this.isMobile
-      ? openMobileMenu
-      : this.openDropdownHandler;
 
     return (
       <div
         className={dropdownClass}
-        onClick={menuButtonHandler}
+        ref={root => (this.root = root)}
       >
-        <svg className="icon" viewBox="0 0 16 12">
-          <path d="M0,12v-2h16v2H0z M0,5h16v2H0V5z M0,0h16v2H0V0z" />
-        </svg>
+        <button
+          className="main-menu__opener"
+          onClick={this.toggle}
+        >
+          <svg className="icon" viewBox="0 0 16 12">
+            <path d="M0,12v-2h16v2H0z M0,5h16v2H0V5z M0,0h16v2H0V0z" />
+          </svg>
+        </button>
+
         <div className="dropdown-corner" />
+
         <Menu
           wrapperClass="dropdown"
           isFetchingSections={isFetchingSections}
           itemsSections={itemsSections}
           modalButtonClick={modalButtonClick}
+          closeMenu={this.onDropdownClick}
         />
       </div>
 

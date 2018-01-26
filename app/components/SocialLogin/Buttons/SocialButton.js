@@ -9,10 +9,12 @@ const SocialButton = ({
   provider,
   children,
   className,
+  ...elementProps
 }) => (
   <a
     className={`button-social ${className}`}
     href={`${socialLink}${DOMAIN_URL}oauth/${provider}/`}
+    {...elementProps}
   >
     <div className="icon-wrap">
       {
