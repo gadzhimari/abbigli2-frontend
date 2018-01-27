@@ -188,7 +188,7 @@ class PostCreate extends Component {
       'add-tabs__content_blog': type === 4,
       'add-tabs__content_event': type === 3,
     });
-
+    
     return (
       <main className="main">
         <h2>{__t('Add on Abbigli')}</h2>

@@ -40,6 +40,10 @@ const reducer = (state = initialState, action) => {
     case (actions.LOAD_IMAGE_REQ): {
       return Object.assign({}, state, {
         isFetchingImage: true,
+        errors: {
+          ...state.errors,
+          images: [],
+        },
       });
     }
     case (actions.LOAD_IMAGE_RES): {

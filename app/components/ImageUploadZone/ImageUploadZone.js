@@ -12,7 +12,6 @@ class ImageUploadZone extends Component {
     const { imageFetching, uploadImages } = this.props;
 
     if (imageFetching) return;
-
     uploadImages(images);
   }
 
@@ -26,7 +25,7 @@ class ImageUploadZone extends Component {
       errors,
       loadImageErrors,
     } = this.props;
-
+    
     return (
       <div className="add-tabs__form">
         <div>
@@ -60,8 +59,6 @@ class ImageUploadZone extends Component {
           }
         </Dropzone>
         {
-          images.length === 0
-          &&
           errors
           &&
           errors.length !== 0
