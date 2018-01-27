@@ -7,6 +7,8 @@ import CountryItem from './CountryItem';
 
 import { registration } from '../../../ducks/Auth/authActions';
 import { openPopup } from '../../../ducks/Popup/actions';
+
+import { gaSendClickEvent } from '../../../lib/analitics';
 import { __t } from '../../../i18n/translator';
 
 import './RegisterPopup.styl';
@@ -20,6 +22,24 @@ class RegisterPopup extends Component {
       country: props.options.country || props.currentCountry || props.countres[0],
       selfErrors: null,
     };
+  }
+
+  onSendGaEvent = (e, { name }) => {
+    gaSendClickEvent('signin_up', name);
+  }
+
+  onRegistrationClick = (...attr) => {
+    const { checkRules } = this.state;
+
+    this.onSendGaEvent(...attr);
+
+    if (checkRules) {
+      this.handleClick();
+    } else {
+      this.setState({
+        errorText: 'You should agree Terms of use of the resource',
+      });
+    }
   }
 
   numberChange = ({ target }) => this.setState({
@@ -45,18 +65,6 @@ class RegisterPopup extends Component {
     };
 
     dispatch(registration(creds));
-  }
-
-  handleRegister = () => {
-    const { checkRules } = this.state;
-
-    if (checkRules) {
-      this.handleClick();
-    } else {
-      this.setState({
-        errorText: 'You should agree Terms of use of the resource',
-      });
-    }
   }
 
   openChoseCountry = () => this.props
@@ -111,6 +119,7 @@ class RegisterPopup extends Component {
                   {__t('required')}
                 </span>
               </label>
+
               <input
                 className="register-popup__input"
                 onClick={this.openChoseCountry}
@@ -123,10 +132,12 @@ class RegisterPopup extends Component {
               <label htmlFor="phone" className="register-popup__label">
                 {__t('Telephone')}
               </label>
+
               <div className="register-popup__phone-wrap">
                 <div className="register-popup__code">
                   {country && country.phone}
                 </div>
+
                 <input
                   className="register-popup__input register-popup__input--phone"
                   id="phone"
@@ -137,20 +148,20 @@ class RegisterPopup extends Component {
                 />
               </div>
               {
-                selfErrors && selfErrors.country
-                &&
+                selfErrors && selfErrors.country &&
                 <div className="login__form-error">
                   {selfErrors.country}
                 </div>
               }
+
               {
-                errors && errors.phone
-                &&
+                errors && errors.phone &&
                 <div className="login__form-error">
                   {errors.phone}
                 </div>
               }
             </div>
+
             <div className="register-popup__terms">
               {__t('By registration you agree to the')}
               <a
@@ -163,9 +174,9 @@ class RegisterPopup extends Component {
 
             <FetchingButton
               className="register-popup__fetch-button"
-              type="button"
-              onClick={this.handleRegister}
+              onClick={this.onRegistrationClick}
               isFetching={isFetching}
+              name="phone"
             >
               {__t('Sign Up')}
             </FetchingButton>
@@ -176,6 +187,7 @@ class RegisterPopup extends Component {
 
             <SocialLogin
               className="register-popup__social"
+              onButtonClick={this.onSendGaEvent}
             />
 
             <a

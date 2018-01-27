@@ -13,8 +13,7 @@ import EditingContact from './Components/AboutEditing/EditingContact';
 import EditingSocial from './Components/AboutEditing/EditingSocial';
 import SaveButtons from './Components/AboutEditing/SaveButtons';
 
-import { saveChanges } from 'ducks/Profile/actions';
-
+import { saveChanges } from '../../ducks/Profile/actions';
 
 import './ProfileAbout.less';
 
@@ -85,6 +84,7 @@ class ProfileAbout extends PureComponent {
         <If condition={this.state.isEditing && isMe}>
           <EditingInfo
             ref={(info) => { this.editingInfo = info; }}
+            info={data.description}
             errors={errors}
           />
           <EditingContact

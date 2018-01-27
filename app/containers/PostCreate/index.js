@@ -89,9 +89,9 @@ class PostCreate extends Component {
     [target.name]: target.value,
   });
 
-  changeType = ({ currentTarget }) => this.setState({
-    type: Number(currentTarget.dataset.type),
-  });
+  changeType = (type) => {
+    this.setState({ type });
+  }
 
   deleteImage = (id) => {
     this.setState({

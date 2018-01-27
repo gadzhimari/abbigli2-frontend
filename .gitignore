@@ -2,3 +2,6 @@ node_modules
 public/assets
 .idea
 *.log
+.env
+dev.env
+node-server.log

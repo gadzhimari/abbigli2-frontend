@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Loading } from 'components';
+import { Loading } from '../../../../components';
 
-import { THUMBS_URL } from 'config';
+import { THUMBS_URL } from '../../../../config';
+import { gaSendClickEvent } from '../../../../lib/analitics';
 import { __t } from '../../../../i18n/translator';
 
 import './ProfileAvatar.less';
@@ -15,7 +16,10 @@ class ProfileAvatar extends PureComponent {
     isOpenDropdown: false,
   }
 
-  handleEditing = () => this.props.handleEditing(true);
+  handleEditing = () => {
+    gaSendClickEvent('profile', 'edit');
+    this.props.handleEditing(true);
+  }
 
   handleChangeImage = () => {
     const { src } = this.props;

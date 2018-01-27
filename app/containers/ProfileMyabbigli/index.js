@@ -2,16 +2,13 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import {
-  CardProduct,
-  Loading,
-  Link,
-} from 'components';
-import { fetchData as fetchDataPosts, removePost } from 'ducks/ProfilePosts';
+import { CardProduct, Loading, Link } from '../../components';
+import { fetchData as fetchDataPosts, removePost } from '../../ducks/ProfilePosts';
+
+import { gaSendClickEvent } from '../../lib/analitics';
 import { __t } from './../../i18n/translator';
 
 import './index.styl';
-
 
 class ProfileMyabbigli extends Component {
   static prerenderData = ({ store }, nextState, replace, callback) => {
@@ -36,6 +33,10 @@ class ProfileMyabbigli extends Component {
     }
   }
 
+  onCreateLinkClick = () => {
+    gaSendClickEvent('profile', 'add');
+  }
+
   fetchPosts = (page) => {
     const { isMe, dispatch, params, isAuth } = this.props;
     const options = {
@@ -55,44 +56,33 @@ class ProfileMyabbigli extends Component {
     return (
       <div className="profile_content">
 
-        {
-          isMe
-          &&
-          <h5
-            style={{
-              margin: '35px 0px',
-              width: '100%',
-              textAlign: 'center',
-              color: '#8A9093',
-            }}
-          >
+        {isMe &&
+          <h5 className="my-abbigli__text">
             {__t('My.abbigly.propfile')}
           </h5>
         }
-        {
-          (!isMe && !itemsPosts.length && !isFetchingPosts)
-          &&
-          <h5
-            style={{
-              margin: '35px 0px',
-              width: '100%',
-              textAlign: 'center',
-              color: '#8A9093',
-            }}
-          >
+
+        {(!isMe && !itemsPosts.length && !isFetchingPosts) &&
+          <h5 className="my-abbigli__text">
             {__t('Nothing here yet')}
           </h5>
         }
+
         <div className="cards-wrap my-showcase legacy">
 
-          {
-            isMe
-              &&
+          {isMe &&
             <Link
               className="card-add-wrap"
+              onClick={this.onCreateLinkClick}
               to={'/post/new'}
             >
-              <img className="card-img" src="/images/card-bg.png" style={{ opacity: 0 }} />
+              <img
+                className="card-img"
+                src="/images/card-bg.png"
+                style={{ opacity: 0 }}
+                alt=""
+              />
+
               <div className="card-add">
                 <div className="card-add__text">
                   <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

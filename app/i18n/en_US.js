@@ -44,7 +44,7 @@ export default {
 
     "bannerBlue.text": "ABBIGLI.COM is a free place for unique things, where creators, artists, crafters and antique collectors find each other and share their art with the world.",
 
-    "bannerOld.text": "Handmade studio for buying and selling handicrafts that made in a single copy!",
+    "bannerOld.text": "Handmade studio for buying and selling one of a kind handicrafts!",
 
     "about.page.slider1.slide1": "ABBIGLI.COM is a unique platform where designers, artists, craftsmen, collectors and other creative thinkers find each other and share their art with the world.",
     "about.page.slider1.slide2": "Our mission is to build up a free space for talent and creativity. To help artists and their fans stay in touch. Create an environment where creative people can have direct dialog with each other and there are no agents and mediators.",
