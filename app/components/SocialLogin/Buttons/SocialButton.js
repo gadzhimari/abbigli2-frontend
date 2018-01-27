@@ -1,36 +1,49 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import Type from 'prop-types';
+import React, { PureComponent } from 'react';
 
 import { SocialIcons } from '../../../components/Icons';
 
-const SocialButton = ({
-  socialLink,
-  DOMAIN_URL,
-  provider,
-  children,
-  className,
-  ...elementProps
-}) => (
-  <a
-    className={`button-social ${className}`}
-    href={`${socialLink}${DOMAIN_URL}oauth/${provider}/`}
-    {...elementProps}
-  >
-    <div className="icon-wrap">
-      {
-        SocialIcons[provider]()
-      }
-    </div>
-    { children }
-  </a>
-);
+import { SOCIAL_TYPES_FOR_ANALITICS } from '../../../lib/constants/social';
+import { DOMAIN_URL } from '../../../config';
 
-SocialButton.propTypes = {
-  socialLink: PropTypes.string.isRequired,
-  DOMAIN_URL: PropTypes.string.isRequired,
-  provider: PropTypes.string.isRequired,
-  children: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
-};
+export default class SocialButton extends PureComponent {
+  static propTypes = {
+    socialLink: Type.string,
+    provider: Type.string,
+    children: Type.string,
+    className: Type.string,
+    onClick: Type.func,
+  }
 
-export default SocialButton;
+  onClick = (e) => {
+    const { onClick, provider } = this.props;
+    const name = SOCIAL_TYPES_FOR_ANALITICS[provider];
+
+    if (onClick) {
+      onClick(e, { name });
+    }
+  }
+
+  render() {
+    const { socialLink,
+            provider,
+            children,
+            className,
+            ...elementProps } = this.props;
+
+    delete elementProps.onClick;
+
+    return (
+      <a
+        className={`button-social ${className}`}
+        href={`${socialLink}${DOMAIN_URL}oauth/${provider}/`}
+        {...elementProps}
+      >
+        <div className="icon-wrap">
+          {SocialIcons[provider]()}
+        </div>
+        {children}
+      </a>
+    );
+  }
+}

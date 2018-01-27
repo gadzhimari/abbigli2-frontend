@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 
 import { SocialIcons } from '../../Icons';
-import { SHARE_TYPES_FOR_ANALITICS } from '../../../lib/constants/social';
+import { SOCIAL_TYPES_FOR_ANALITICS } from '../../../lib/constants/social';
 
 export default class ShareButton extends PureComponent {
   static propTypes = {
@@ -17,7 +17,7 @@ export default class ShareButton extends PureComponent {
 
     if (onClick) {
       onClick(e, {
-        socialCode: SHARE_TYPES_FOR_ANALITICS[provider],
+        socialCode: SOCIAL_TYPES_FOR_ANALITICS[provider],
       });
     }
   }

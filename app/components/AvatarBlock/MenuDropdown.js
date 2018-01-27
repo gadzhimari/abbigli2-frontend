@@ -37,7 +37,7 @@ class MenuDropdown extends Dropdown {
   }
 
   render() {
-    const { isFetchingSections, itemsSections, modalButtonClick } = this.props;
+    const { modalButtonClick } = this.props;
     const dropdownClass = classNames('header__menu-item main-menu', {
       'open-menu': this.state.opened,
     });
@@ -60,8 +60,6 @@ class MenuDropdown extends Dropdown {
 
         <Menu
           wrapperClass="dropdown"
-          isFetchingSections={isFetchingSections}
-          itemsSections={itemsSections}
           modalButtonClick={modalButtonClick}
           closeMenu={this.onDropdownClick}
         />
@@ -72,7 +70,6 @@ class MenuDropdown extends Dropdown {
 }
 
 MenuDropdown.propTypes = {
-  isFetchingSections: PropTypes.bool.isRequired,
   itemsSections: PropTypes.arrayOf(PropTypes.object).isRequired,
   modalButtonClick: PropTypes.func.isRequired,
   openMobileMenu: PropTypes.func.isRequired,

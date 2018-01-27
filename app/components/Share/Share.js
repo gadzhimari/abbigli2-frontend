@@ -4,7 +4,10 @@ import React from 'react';
 import ShareButton from './Buttons/ShareButton';
 import { location as lang } from '../../config';
 
-import { FACEBOOK_PROVIDER, VK_PROVIDER, PINTEREST_PROVIDE } from '../../lib/constants/social';
+import {
+  FACEBOOK_PROVIDER,
+  VK_PROVIDER,
+  PINTEREST_PROVIDER } from '../../lib/constants/social';
 
 import './Share.styl';
 
@@ -23,7 +26,7 @@ export default function Share({ postLink, buttonClass, onClick }) {
       />
       <ShareButton
         className={buttonClass}
-        provider={PINTEREST_PROVIDE}
+        provider={PINTEREST_PROVIDER}
         onClick={onClick}
         href={`https://www.pinterest.com/pin/create/button/?url=${location.origin}${postLink}/`}
       />
