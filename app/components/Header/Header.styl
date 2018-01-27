@@ -43,6 +43,11 @@
     }
 
     &-item {
+      background-color: transparent;
+      border: none;
+      margin: 0;
+      padding: 0;
+
       min-width: 80px;
       border-left: 1px solid #dcdcdc;
       display: inline-block;
@@ -207,8 +212,10 @@
       fill: #acacac;
 
       position: absolute;
-      top: calc(50% - 14px);
-      left: calc(50% - 14px);
+      top: 50%;
+      left: 50%;
+
+      transform: translate(-50%, -50%);
     }
   }
 
@@ -697,10 +704,16 @@
       }
     }
   }
+}
 
-  .main-menu__footer-item {
+.main-menu__footer-item {
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
     margin-right: 15px;
-  }
+    font-size: 16px;
+    line-height: 24px;
 }
 
 @media only screen and (min-width: 414px) {

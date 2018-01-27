@@ -1,12 +1,8 @@
-import Type from 'prop-types';
 import React, { PureComponent } from 'react';
-import RouterLink from 'react-router/lib/Link';
+import Type from 'prop-types';
 
-import './Link.styl';
-
-export default class Link extends PureComponent {
+export default class Button extends PureComponent {
   static propTypes = {
-    to: Type.string,
     children: Type.oneOfType([Type.node, Type.arrayOf(Type.node)]),
     onClick: Type.func,
     name: Type.string,
@@ -22,19 +18,19 @@ export default class Link extends PureComponent {
   }
 
   render() {
-    const { children, ...linkProps } = this.props;
+    const { children, ...buttonProps } = this.props;
 
-    delete linkProps.onClick;
-    delete linkProps.name;
-    delete linkProps.dataset;
+    delete buttonProps.name;
+    delete buttonProps.onClick;
+    delete buttonProps.dataset;
 
     return (
-      <RouterLink
+      <button
         onClick={this.onClick}
-        {...linkProps}
+        {...buttonProps}
       >
         {children}
-      </RouterLink>
+      </button>
     );
   }
 }

@@ -24,10 +24,14 @@ class RegisterPopup extends Component {
     };
   }
 
-  onRegistrationClick = () => {
+  onSendGaEvent = (e, { name }) => {
+    gaSendClickEvent('signin_up', name);
+  }
+
+  onRegistrationClick = (...attr) => {
     const { checkRules } = this.state;
 
-    gaSendClickEvent('signin_up', 'phone');
+    this.onSendGaEvent(...attr);
 
     if (checkRules) {
       this.handleClick();
@@ -36,14 +40,6 @@ class RegisterPopup extends Component {
         errorText: 'You should agree Terms of use of the resource',
       });
     }
-  }
-
-  onFbClick = () => {
-    gaSendClickEvent('signin_up', 'FB');
-  }
-
-  onVkClick = () => {
-    gaSendClickEvent('signin_up', 'VK');
   }
 
   numberChange = ({ target }) => this.setState({
@@ -178,9 +174,9 @@ class RegisterPopup extends Component {
 
             <FetchingButton
               className="register-popup__fetch-button"
-              type="button"
               onClick={this.onRegistrationClick}
               isFetching={isFetching}
+              name="phone"
             >
               {__t('Sign Up')}
             </FetchingButton>
@@ -191,8 +187,7 @@ class RegisterPopup extends Component {
 
             <SocialLogin
               className="register-popup__social"
-              onFbClick={this.onFbClick}
-              onVkClick={this.onVkClick}
+              onButtonClick={this.onSendGaEvent}
             />
 
             <a

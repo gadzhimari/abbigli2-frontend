@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
 import Link from 'react-router/lib/Link';
+import Button from '../Button/Button';
 
 import { SocialGroups } from '../../components';
 import { __t } from '../../i18n/translator';
@@ -23,6 +24,7 @@ class Menu extends PureComponent {
 
   static defaultProps = {
     closeMenu: () => true,
+    itemsSections: [],
   };
 
   render() {
@@ -44,45 +46,51 @@ class Menu extends PureComponent {
             <div className="icon icon-new" />
             <div className="main-menu__item-name">{__t('New')}</div>
           </Link>
+
           <Link className="main-menu__item" to="/blogs/">
             <div className="icon icon-blog" />
             <div className="main-menu__item-name">{__t('Blogs')}</div>
           </Link>
+
           <Link className="main-menu__item" to="/popular-products/">
             <div className="icon icon-popular" />
             <div className="main-menu__item-name">{__t('Popular')}</div>
           </Link>
+
           <Link className="main-menu__item" to="/events/">
             <div className="icon icon-event" />
             <div className="main-menu__item-name">{__t('Events')}</div>
           </Link>
+
           <Link className="main-menu__item" to="/set-the-mood/">
             <div className="icon icon-mood" />
             <div className="main-menu__item-name">{__t('Create.a.mood')}</div>
           </Link>
+
           <Link className="main-menu__item" to="/nearest-products/">
             <div className="icon icon-beside" />
             <div className="main-menu__item-name">{__t('Nearby')}</div>
           </Link>
-          {
-            itemsSections.map(section => (
-              <Link className="main-menu__item" to={section.view_on_site_url} key={section.id}>
-                {section.title}
-              </Link>
-            ))
+
+          {itemsSections.map(section => (
+            <Link className="main-menu__item" to={section.view_on_site_url} key={section.id}>
+              {section.title}
+            </Link>
+          ))
           }
 
         </div>
         <div className="main-menu__footer">
           <Link className="main-menu__footer-item" to="/page/about">{__t('About')}</Link>
           <Link className="main-menu__footer-item" to="/page/faq">{__t('FAQ')}</Link>
-          <a
+
+          <Button
             className="main-menu__footer-item"
             onClick={modalButtonClick}
-            data-type="supportPopup"
+            name="supportPopup"
           >
             {__t('Support')}
-          </a>
+          </Button>
 
           <SocialGroups />
 

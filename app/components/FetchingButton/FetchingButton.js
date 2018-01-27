@@ -1,42 +1,41 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import Type from 'prop-types';
+import React, { PureComponent } from 'react';
+
+import Button from '../Button/Button';
 
 import './FetchingButton.styl';
 
-const FetchingButton = props => {
-  const { isFetching, onClick, children, className } = props;
-  const hundleClick = () => {
-    if (isFetching) return;
-    onClick();
-  };
-  const childrenClass = isFetching
-    ? 'loader__children loader__children--hide'
-    : 'loader__children';
-  const loaderClass = isFetching
-    ? 'loader__wrapper'
-    : 'loader__wrapper loader__wrapper--hide';
+export default class FetchingButton extends PureComponent {
+  static propTypes = {
+    isFetching: Type.bool,
+    onClick: Type.func,
+    children: Type.oneOfType([Type.node, Type.arrayOf(Type.node)]),
+  }
 
-  return (
-    <button
-      className={className}
-      type="button"
-      onClick={hundleClick}
-    >
-      <div className={loaderClass}>
-        <div className='loader01' />
-      </div>
-      <div className={childrenClass}>
-        {children}
-      </div>
-    </button>
-  );
-};
+  onClick = (...attr) => {
+    const { isFetching, onClick } = this.props;
 
-FetchingButton.propTypes = {
-  isFetching: PropTypes.bool,
-  onClick: PropTypes.func,
-  children: PropTypes.any,
-  className: PropTypes.string,
-};
+    if (onClick && !isFetching) {
+      onClick(...attr);
+    }
+  }
 
-export default FetchingButton;
+  render() {
+    const { children, isFetching, ...buttonProps } = this.props;
+
+    delete buttonProps.onClick;
+
+    return (
+      <Button
+        onClick={this.onClick}
+        {...buttonProps}
+      >
+        {isFetching ?
+          <div className="loader__wrapper">
+            <div className="loader01" />
+          </div> : children
+        }
+      </Button>
+    );
+  }
+}

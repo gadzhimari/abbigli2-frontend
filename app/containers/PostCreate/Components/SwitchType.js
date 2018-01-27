@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import Button from '../../../components/Button/Button';
 import { ProductsIcons } from '../../../components/Icons';
 
 import { gaSendClickEvent } from '../../../lib/analitics';
@@ -9,29 +10,21 @@ import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../../lib/constants/post
 import { __t } from '../../../i18n/translator';
 
 class SwitchType extends PureComponent {
-  onProductClick = () => {
-    gaSendClickEvent('add', 'product');
-    this.props.onClick(PRODUCT_TYPE);
+  onClick = (e, { name, dataset }) => {
+    gaSendClickEvent('add', name);
+    this.props.onClick(dataset.type);
   }
 
-  onBlogClick = () => {
-    gaSendClickEvent('add', 'post');
-    this.props.onClick(BLOG_TYPE);
-  }
-
-  onEventClick = () => {
-    gaSendClickEvent('add', 'event');
-    this.props.onClick(EVENT_TYPE);
-  }
-
-  renderButton = ({ active, onClick, text, icon }) => (
-    <button
+  renderButton = ({ active, text, icon, type, name }) => (
+    <Button
       className={classNames('add-tabs__label', { active })}
-      onClick={onClick}
+      onClick={this.onClick}
+      dataset={{ type }}
+      name={name}
     >
       {icon}
       {text}
-    </button>
+    </Button>
   );
 
   render() {
@@ -41,19 +34,22 @@ class SwitchType extends PureComponent {
       (!onlyType || onlyType === PRODUCT_TYPE) && {
         text: __t('Product or service'),
         icon: <ProductsIcons.service className="icon icon-bag" />,
-        onClick: this.onProductClick,
+        type: PRODUCT_TYPE,
+        name: 'product',
         active: activeType === PRODUCT_TYPE,
       },
       (!onlyType || onlyType === BLOG_TYPE) && {
         text: __t('Blog'),
         icon: <ProductsIcons.blog />,
-        onClick: this.onBlogClick,
+        type: BLOG_TYPE,
+        name: 'post',
         active: activeType === BLOG_TYPE,
       },
       (!onlyType || onlyType === EVENT_TYPE) && {
         text: __t('Event'),
         icon: <ProductsIcons.event />,
-        onClick: this.onEventClick,
+        type: EVENT_TYPE,
+        name: 'event',
         active: activeType === EVENT_TYPE,
       },
     ]

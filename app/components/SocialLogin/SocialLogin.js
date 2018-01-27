@@ -7,17 +7,20 @@ import noop from '../../lib/noop';
 
 import {
   FB_ID,
-  DOMAIN_URL,
   GOOGLE_ID,
   VK_ID,
-  location,
-} from '../../config';
+  location } from '../../config';
+
+import {
+  FACEBOOK_PROVIDER,
+  VK_PROVIDER,
+  GOOGLE_PROVIDER } from '../../lib/constants/social';
 
 const fbOauth = 'https://facebook.com/dialog/oauth';
 const googleOauth = 'https://accounts.google.com/o/oauth2/v2/auth';
 const vkOauth = 'https://oauth.vk.com/authorize';
 
-const SocialLogin = ({ className, onFbClick, onVkClick }) => {
+const SocialLogin = ({ className, onButtonClick }) => {
   const redirectTo = window.location && window.location.href;
 
   const fbLink = `${fbOauth}?client_id=${FB_ID}&state=${redirectTo}&redirect_uri=`;
@@ -28,10 +31,9 @@ const SocialLogin = ({ className, onFbClick, onVkClick }) => {
     <div className="buttons-social">
       <SocialButton
         socialLink={fbLink}
-        DOMAIN_URL={DOMAIN_URL}
-        provider="facebook"
+        provider={FACEBOOK_PROVIDER}
         className={`facebook ${className}`}
-        onClick={onFbClick}
+        onClick={onButtonClick}
       >
         {'Facebook'}
       </SocialButton>
@@ -39,18 +41,16 @@ const SocialLogin = ({ className, onFbClick, onVkClick }) => {
         location === 'en'
           ? <SocialButton
             socialLink={googleLink}
-            DOMAIN_URL={DOMAIN_URL}
-            provider="google"
+            provider={GOOGLE_PROVIDER}
             className={`google-plus ${className}`}
           >
             {'Google Plus'}
           </SocialButton>
           : <SocialButton
             socialLink={vkLink}
-            DOMAIN_URL={DOMAIN_URL}
-            provider="vk"
+            provider={VK_PROVIDER}
             className={`vkontakte ${className}`}
-            onClick={onVkClick}
+            onClick={onButtonClick}
           >
             {'ВКонтакте'}
           </SocialButton>
@@ -61,8 +61,7 @@ const SocialLogin = ({ className, onFbClick, onVkClick }) => {
 
 SocialLogin.propTypes = {
   className: Type.string,
-  onFbClick: Type.func,
-  onVkClick: Type.func,
+  onButtonClick: Type.func,
 };
 
 SocialLogin.defaultProps = {
