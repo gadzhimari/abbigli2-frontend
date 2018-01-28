@@ -1,68 +1,52 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { getJsonFromStorage } from 'utils/functions';
-
-import { API_URL } from 'config';
-
-import { __t } from '../../i18n/translator';
+import Type from 'prop-types';
+import React, { PureComponent } from 'react';
 
 import './redactor/redactor.css';
 
-class Textarea extends Component {
-  componentDidMount() {
-    this.activateRedactor();
+export default class Textarea extends PureComponent {
+  static propTypes = {
+    onChange: Type.func,
+    value: Type.string,
+    name: Type.string,
+    wrapperClass: Type.string,
+    label: Type.string,
+  };
+
+  constructor(props) {
+    super(props);
+
+    /* TODO: сделать нормально */
+    this.id = Math.random() * Math.random();
   }
 
-  shouldComponentUpdate() {
-    return false;
-  }
+  onChange(e) {
+    const { onChange, name } = this.props;
 
-  activateRedactor = () => {
-    const { onChange } = this.props;
-    const token = getJsonFromStorage('id_token');
-
-    window.jQuery('#content').redactor({
-      linkNofollow: true,
-      placeholder: __t('Description'),
-      imageUpload: `${API_URL}images/`,
-      imageUploadParam: 'file',
-      plugins: ['source'],
-      callbacks: {
-        uploadBeforeSend: (xhr) => {
-          xhr.setRequestHeader('Authorization', `JWT ${token}`);
-        },
-        imageUpload: (image, json) => {
-          image[0].src = json.file;
-        },
-        change() {
-          const eventProxy = {
-            target: {
-              value: this.code.get(),
-              name: 'contentBlog',
-            },
-          };
-          onChange(eventProxy);
-        },
-      },
-    });
+    if (onChange) {
+      onChange(e, { name, value: e.target.value });
+    }
   }
 
   render() {
+    const { wrapperClass, label, ...textareaProps } = this.props;
+
+    delete textareaProps.name;
+    delete textareaProps.onChange;
+
     return (
-      <div>
+      <div className={wrapperClass}>
+        {label &&
+          <label className="label" htmlFor={this.id}>
+            {label}
+          </label>
+        }
+
         <textarea
-          id="content"
-          className="textarea"
-          value={this.props.value}
+          id={this.id}
+          onChange={this.onChange}
+          {...textareaProps}
         />
       </div>
     );
   }
 }
-
-Textarea.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
-};
-
-export default Textarea;

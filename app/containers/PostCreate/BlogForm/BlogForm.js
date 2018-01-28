@@ -1,54 +1,47 @@
 import React from 'react';
 import Type from 'prop-types';
-import block from 'bem-cn';
 
 import CreateForm from '../CreateForm/CreateForm';
-import { ErrorInput } from '../../../components/Inputs';
-import { ChoiceColor } from '../../../components/FiltersSelects';
 import FormBlock from '../FormBlock';
-import MultiSelect from '../Components/MultiSelect';
-import Textarea from '../../../components/Inputs/Textarea';
+import { ErrorInput } from '../../../components/Inputs';
 import ImageUploadZone from '../../../components/ImageUploadZone';
 import FetchingButton from '../../../components/FetchingButton';
 import Button from '../../../components/Button';
+import Redactor from '../../../components/Inputs/Redactor';
+import Select from '../../../components/Inputs/Select';
 
+import categoriesAdapter from '../../../lib/adapters/categories-to-options';
 import { mergeObjects } from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
 
-import './ProductForm.less';
 
-const b = block('ProductForm');
-
-class ProductForm extends CreateForm {
+export default class BlogForm extends CreateForm {
   constructor(props) {
     super(props);
 
     this.state = mergeObjects({
       title: '',
-      price: '',
       content: '',
-      color: 'red',
       tags: '',
       images: [],
+      categories: null,
     }, props.data);
   }
 
   render() {
-    const {
-        visible,
-        errors,
-        sections,
-        categories,
-        isFetchingImage,
-        imagesErrors,
-        isSaving } = this.props;
+    const { visible,
+            errors,
+            sections,
+            isFetchingImage,
+            imagesErrors,
+            isSaving } = this.props;
 
-    const { title, price, color, images, content, tags } = this.state;
+    const { title, images, content, tags, categories } = this.state;
 
     if (!visible) return null;
 
     return (
-      <form className={b}>
+      <form className="add-tabs__content_blog">
         <FormBlock>
           <ErrorInput
             className="input"
@@ -62,33 +55,17 @@ class ProductForm extends CreateForm {
             label={__t('Title')}
           />
 
-          <MultiSelect
+          <Select
+            wrapperClass="add-tabs__form-field"
+            className="add-tabs__select"
+            label={__t('Choose category')}
+            placeholder=""
             options={sections}
-            ref={sectionSelect => (this.sectionSelect = sectionSelect)}
-            currentCategory={this.state.categories && this.state.categories[0].slug}
-            categories={categories}
+            optionsAdapter={categoriesAdapter}
+            onChange={this.onChange}
+            value={categories}
+            name="categories"
           />
-
-          <div className="add-tabs__form-field">
-            <ErrorInput
-              className="input"
-              name="price"
-              value={price}
-              onChange={this.onChange}
-              errors={errors.price}
-              wrapperClass={b('price').mix('input-wrap')}
-              wrapperErrorClass="error"
-              labelRequired
-              label={__t('Price')}
-            />
-
-            <ChoiceColor
-              isMobile
-              onChange={this.onChange}
-              activeColor={color}
-              className={b('choiceColor')}
-            />
-          </div>
         </FormBlock>
 
         <FormBlock>
@@ -105,7 +82,7 @@ class ProductForm extends CreateForm {
         </FormBlock>
 
         <FormBlock>
-          <Textarea
+          <Redactor
             wrapperClass="add-tabs__form-field"
             className="textarea"
             onChange={this.onChange}
@@ -133,7 +110,7 @@ class ProductForm extends CreateForm {
             isFetching={isSaving}
             onClick={this.onSave}
             type="button"
-            name="add_product"
+            name="add_post"
           >
             {__t('Publish')}
           </FetchingButton>
@@ -142,7 +119,7 @@ class ProductForm extends CreateForm {
             className="default-button"
             onClick={this.onCancel}
             type="button"
-            name="add_product_cancel"
+            name="add_post_cancel"
           >
             {__t('Cancel')}
           </Button>
@@ -151,5 +128,3 @@ class ProductForm extends CreateForm {
     );
   }
 }
-
-export default ProductForm;

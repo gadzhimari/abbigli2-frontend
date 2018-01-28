@@ -1,54 +1,55 @@
 import React from 'react';
-import Type from 'prop-types';
-import block from 'bem-cn';
 
 import CreateForm from '../CreateForm/CreateForm';
-import { ErrorInput } from '../../../components/Inputs';
-import { ChoiceColor } from '../../../components/FiltersSelects';
 import FormBlock from '../FormBlock';
-import MultiSelect from '../Components/MultiSelect';
-import Textarea from '../../../components/Inputs/Textarea';
+import { ErrorInput } from '../../../components/Inputs';
 import ImageUploadZone from '../../../components/ImageUploadZone';
 import FetchingButton from '../../../components/FetchingButton';
 import Button from '../../../components/Button';
+import Textarea from '../../../components/Inputs/Textarea';
+import Select from '../../../components/Inputs/Select';
+import DateInput from '../../../components/Inputs/DateInput';
 
+import categoriesAdapter from '../../../lib/adapters/categories-to-options';
 import { mergeObjects } from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
 
-import './ProductForm.less';
-
-const b = block('ProductForm');
-
-class ProductForm extends CreateForm {
+export default class EventForm extends CreateForm {
   constructor(props) {
     super(props);
 
     this.state = mergeObjects({
       title: '',
-      price: '',
       content: '',
-      color: 'red',
       tags: '',
       images: [],
+      categories: null,
+      date_start: '',
+      date_end: '',
+      city: null,
     }, props.data);
   }
 
   render() {
-    const {
-        visible,
-        errors,
-        sections,
-        categories,
-        isFetchingImage,
-        imagesErrors,
-        isSaving } = this.props;
+    const { visible,
+            errors,
+            sections,
+            isFetchingImage,
+            imagesErrors,
+            isSaving } = this.props;
 
-    const { title, price, color, images, content, tags } = this.state;
+    const { title,
+            images,
+            content,
+            tags,
+            categories,
+            date_start: dateStart,
+            date_end: dateEnd } = this.state;
 
     if (!visible) return null;
 
     return (
-      <form className={b}>
+      <form className="add-tabs__content_event">
         <FormBlock>
           <ErrorInput
             className="input"
@@ -62,33 +63,54 @@ class ProductForm extends CreateForm {
             label={__t('Title')}
           />
 
-          <MultiSelect
+          <Select
+            wrapperClass="add-tabs__form-field"
+            className="add-tabs__select"
+            label={__t('Choose category')}
+            placeholder=""
             options={sections}
-            ref={sectionSelect => (this.sectionSelect = sectionSelect)}
-            currentCategory={this.state.categories && this.state.categories[0].slug}
-            categories={categories}
+            optionsAdapter={categoriesAdapter}
+            onChange={this.onChange}
+            value={categories}
+            name="categories"
+          />
+
+          <ErrorInput
+            wrapperClass="add-tabs__form-field input-wrap"
+            wrapperErrorClass="error"
+            name="city"
+            errors={errors.city}
+            className="input"
+            label={__t('Place')}
+            labelRequired
           />
 
           <div className="add-tabs__form-field">
             <ErrorInput
-              className="input"
-              name="price"
-              value={price}
-              onChange={this.onChange}
-              errors={errors.price}
-              wrapperClass={b('price').mix('input-wrap')}
+              wrapperClass="input-wrap add-tabs__form-calendar input-date"
               wrapperErrorClass="error"
+              value={dateStart}
+              onChange={this.onChange}
+              name="date_start"
+              errors={errors.date_start}
+              component={DateInput}
+              className="input"
+              label={__t('Start.date')}
               labelRequired
-              label={__t('Price')}
             />
 
-            <ChoiceColor
-              isMobile
+            <ErrorInput
+              wrapperClass="input-wrap add-tabs__form-calendar input-date"
+              wrapperErrorClass="error"
+              value={dateEnd}
               onChange={this.onChange}
-              activeColor={color}
-              className={b('choiceColor')}
+              name="date_end"
+              errors={errors.date_end}
+              component={DateInput}
+              className="input"
+              label={__t('End.date')}
             />
-          </div>
+          </div >
         </FormBlock>
 
         <FormBlock>
@@ -133,7 +155,7 @@ class ProductForm extends CreateForm {
             isFetching={isSaving}
             onClick={this.onSave}
             type="button"
-            name="add_product"
+            name="add_event"
           >
             {__t('Publish')}
           </FetchingButton>
@@ -142,14 +164,12 @@ class ProductForm extends CreateForm {
             className="default-button"
             onClick={this.onCancel}
             type="button"
-            name="add_product_cancel"
+            name="add_event_cancel"
           >
             {__t('Cancel')}
           </Button>
         </div>
-      </form>
+      </form >
     );
   }
 }
-
-export default ProductForm;

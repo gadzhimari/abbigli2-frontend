@@ -40,7 +40,7 @@ class ChoiceColor extends PureComponent {
   }
 
   handleClickOutside = ({ target }) => {
-    if (isClickOutside(target, this.root)) {
+    if (isClickOutside(this.root, target)) {
       this.setState({ openedDropdown: false });
     }
   }

@@ -1,38 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Helmet from 'react-helmet';
-import update from 'react/lib/update';
-import classNames from 'classnames';
-
-import { API_URL } from 'config';
-
 import { withRouter } from 'react-router';
 import { compose } from 'recompose';
-
 import { connect } from 'react-redux';
 
-import ProductForm from './ProductForm';
+import update from 'react/lib/update';
 
+import ProductForm from './ProductForm/ProductForm';
+import BlogForm from './BlogForm/BlogForm';
+import EventForm from './EventForm/EventForm';
 import SwitchType from './Components/SwitchType';
-import ProductSpecific from './Components/ProductSpecific';
-import EventSpecific from './Components/EventSpecific';
-import ContentFields from './Components/ContentFields';
-import MultiSelect from './Components/MultiSelect';
 import postLoader from './postLoader';
 
-import { FetchingButton } from '../../components';
-import ImageUploadZone from 'components/ImageUploadZone';
-import { ErrorInput } from 'components/Inputs';
+import * as actions from '../../ducks/PostCreate/actions';
+import { openPopup } from '../../ducks/Popup/actions';
 
-import * as actions from 'ducks/PostCreate/actions';
-import { openPopup } from 'ducks/Popup/actions';
+import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
+import { API_URL } from '../../config';
+import { __t } from '../../i18n/translator';
 
-import { __t } from './../../i18n/translator';
-
-import 'react-select/dist/react-select.css';
 import './index.less';
-
 
 const typesUrl = {
   1: 'post',
@@ -41,27 +29,7 @@ const typesUrl = {
 };
 
 class PostCreate extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ...props.data,
-      contentBlog: props.data.content,
-    };
-  }
-
-  componentDidUpdate() {
-    const { city } = this.state;
-    const { geoCity } = this.props;
-
-    if (!city && geoCity) {
-      this.setState({
-        city: {
-          name: `${geoCity.name}, ${geoCity.country.name}`,
-          id: geoCity.id,
-        },
-      });
-    }
-  }
+  state = { type: 1 }
 
   onImagesUploaded = images => this.setState({
     images: [...this.state.images, ...images],
@@ -165,18 +133,6 @@ class PostCreate extends Component {
 
   render() {
     const {
-      price,
-      title,
-      tags,
-      images,
-      city,
-      type,
-      content,
-      color,
-      contentBlog,
-    } = this.state;
-
-    const {
       sections,
       isSaving,
       isFetchingImage,
@@ -186,11 +142,8 @@ class PostCreate extends Component {
       categories,
     } = this.props;
 
-    const containerClassName = classNames('add-tabs__content', {
-      'add-tabs__content_blog': type === 4,
-      'add-tabs__content_event': type === 3,
-    });
-    
+    const { type } = this.state;
+
     return (
       <main className="main">
         <h2>{__t('Add on Abbigli')}</h2>
@@ -201,10 +154,24 @@ class PostCreate extends Component {
             onlyType={params.slug ? type : null}
           />
 
-          <div className={containerClassName}>
+          <div className="add-tabs__content">
             <div className="add-tabs__content-tab add-tabs__content_goods">
               <ProductForm
-                visible={type === 1}
+                visible={type === PRODUCT_TYPE}
+                errors={errors}
+                categories={categories}
+                sections={sections}
+              />
+
+              <BlogForm
+                visible={type === BLOG_TYPE}
+                errors={errors}
+                categories={categories}
+                sections={sections}
+              />
+
+              <EventForm
+                visible={type === EVENT_TYPE}
                 errors={errors}
                 categories={categories}
                 sections={sections}

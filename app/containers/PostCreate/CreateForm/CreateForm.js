@@ -1,13 +1,16 @@
 import { PureComponent } from 'react';
 import Type from 'prop-types';
 
+import { gaSendClickEvent } from '../../../lib/analitics';
 import * as actions from '../../../ducks/PostCreate/actions';
 
 class CreateForm extends PureComponent {
   static propTypes = {
     uploadImages: Type.func,
-    data: Type.shape({
-      title: Type.string,
+    onCancel: Type.func,
+    savePost: Type.func,
+    params: Type.shape({
+      slug: Type.string,
     }),
   }
 
@@ -15,13 +18,21 @@ class CreateForm extends PureComponent {
     this.setState({ [name]: value });
   }
 
-  onSubmit = (e) => {
-    e.preventDefault();
+  onSave = (e, { name }) => {
+    const { savePost, params } = this.props;
 
-    console.log('submit');
+    this.gaSendEvent(name);
+    savePost(this.state, params.slug);
   }
 
-  getDataProvider = () => this.props.data || this.state;
+  onCancel = (e, { name }) => {
+    this.gaSendEvent(name);
+    this.props.onCancel();
+  }
+
+  gaSendEvent = (name) => {
+    gaSendClickEvent('add', name);
+  }
 
   uploadImages = (images) => {
     this.props.uploadImages(images, this.onImagesUploaded);

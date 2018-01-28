@@ -1,10 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 
 /**
- * Проверяет входит ли target в потомки elem или является ли он им
+ * Проверяет входит ли target в потомки element или является ли он им
+ * @param {*} element - элемент для проверки на вхождение target
  * @param {HTMLElement} target - целевой элемент события
- * @param {*} elem - элемент для проверки на вхождение target
+ * @returns {Boolean}
  */
-export function isClickOutside(elem, target) {
-  return target !== elem && !elem.contains(target);
+export function isClickOutside(element, target) {
+  return element !== target && !element.contains(target);
 }
