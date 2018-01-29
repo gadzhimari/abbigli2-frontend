@@ -128,6 +128,7 @@ export default {
 
     'faq.tabs.account.title': 'Deleting your account.',
     'faq.tabs.account.text': 'Should you wish to delete your account, please write to us in the support team.',
+    'footer.abbigli': 'Abbigli.com',
 
     "Search": "Search",
     "Topis": "Topics",

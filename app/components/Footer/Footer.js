@@ -15,7 +15,7 @@ const Footer = ({ openPopup }) => (
       <a className="logo-gray" href="/" />
       <div className="footer__links">
         <span className="footer__copyright">
-          © 2017 Abbigli.com
+          © 2017 {__t('footer.abbigli')}
         </span>
         <noindex>
           <a className="footer__link" href="/page/about">
