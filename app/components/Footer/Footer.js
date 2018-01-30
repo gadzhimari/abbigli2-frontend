@@ -14,7 +14,9 @@ const Footer = ({ openPopup }) => (
     <div className="footer__content">
       <a className="logo-gray" href="/" />
       <div className="footer__links">
-        <span className="footer__copyright">© 2017 Abbigli.com </span>
+        <span className="footer__copyright">
+          © 2017 {__t('footer.abbigli')}
+        </span>
         <noindex>
           <a className="footer__link" href="/page/about">
             {__t('About')}
@@ -30,7 +32,7 @@ const Footer = ({ openPopup }) => (
             {__t('Support')}
           </a>
         </noindex>
-        <a className="footer__link footer__link_blog">Аббигли блог</a>
+        {/* <a className="footer__link footer__link_blog">Аббигли блог</a> */}
         <a
           className="footer__youtube"
           href={socialGroupsUrl.youtube}

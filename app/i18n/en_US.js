@@ -17,6 +17,7 @@ export default {
     "message.to": "Message to",
     "send.message": "SEND MESSAGE",
     "Do.comment": "Leave a comment",
+    "No.one.commented": "No one has commented this post yet",
     "Collapse.comments": "Collapse comments",
     "send.message.to.user": "You can send a private message to this user.",
     "The.selection.of.participants": "Popular",
@@ -128,6 +129,7 @@ export default {
 
     'faq.tabs.account.title': 'Deleting your account.',
     'faq.tabs.account.text': 'Should you wish to delete your account, please write to us in the support team.',
+    'footer.abbigli': 'Abbigli.com',
 
     "Search": "Search",
     "Topis": "Topics",

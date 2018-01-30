@@ -34,7 +34,7 @@ class CommentsList extends Component {
             ? comments
               .slice(0, renderedCount)
               .map(comment => <CommentItem data={comment} key={comment.id} />)
-            : 'Никто еще не прокоментировал эту запись'
+            : __t('No.one.commented')
           }
 
           {
