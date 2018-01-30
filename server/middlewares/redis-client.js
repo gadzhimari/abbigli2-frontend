@@ -1,17 +1,23 @@
+/* eslint-disable import/no-mutable-exports */
 import redis from 'redis';
 import util from 'util';
 
-const client = redis.createClient({
-  db: 1,
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-});
+const connectToRedis = process.env.LOCAL_REDIS === 'yes';
+let client = {};
 
-client.get = util.promisify(client.get);
+if (connectToRedis) {
+  client = redis.createClient({
+    db: 1,
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+  });
 
-client.on('connect', () => {
-  console.log('connected');
-});
+  client.get = util.promisify(client.get);
+
+  client.on('connect', () => {
+    console.log('connected');
+  });
+}
 
 export const saveToRedis = (key, value) => {
   let valueToSave = value;
