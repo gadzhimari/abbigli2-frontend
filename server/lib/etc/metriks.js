@@ -9,7 +9,7 @@ export default {
 
     ga('create', 'UA-78577116-1', 'auto');
     ga('send', 'pageview');
-    setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])",15000);
+    setTimeout("ga('send','event','Engaged users','More than 15 seconds')",15000);
     ga('require', 'displayfeatures');
   </script>`,
   ru: `
@@ -50,7 +50,7 @@ export default {
 
   ga('create', 'UA-78577116-2', 'auto');
   ga('send', 'pageview');
-  setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])",15000);
+  setTimeout("ga('send','event','Engaged users','More than 15 seconds')",15000);
   ga('require', 'displayfeatures');
 
 </script>`,
