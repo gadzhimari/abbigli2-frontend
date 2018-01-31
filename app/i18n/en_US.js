@@ -39,7 +39,7 @@ export default {
 
     "banner.button.create": "Create your own showcase",
     "banner.header": "Handmade studio for",
-    "banner.text": "buying and selling handicrafts that made in a single copy! ",
+    "banner.text": "buying and selling one of a kind handicrafts! ",
     "banner.from.blog": "From blog",
     "banner.name": "Sana",
 
