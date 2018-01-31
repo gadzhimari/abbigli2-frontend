@@ -42,6 +42,10 @@ const newData = [{
   },
 }];
 
+const exceptFilters = [
+  'New', 'Popular', 'Mood', 'Near',
+];
+
 class SpecificPostsPage extends PureComponent {
 
   componentDidMount() {
@@ -91,13 +95,15 @@ class SpecificPostsPage extends PureComponent {
         >
           {__t('Filters')}
         </a>
-        <Filters
-          sections={this.props.sections}
-          updateFilter={this.props.updateFilter}
-          applyFilters={this.props.applyFilters}
-          activeFilters={this.props.filters}
-          reversePriceRange={this.props.reversePriceRange}
-        />
+        {exceptFilters.indexOf(route.filter) === -1 &&
+          <Filters
+            sections={this.props.sections}
+            updateFilter={this.props.updateFilter}
+            applyFilters={this.props.applyFilters}
+            activeFilters={this.props.filters}
+            reversePriceRange={this.props.reversePriceRange}
+          />
+        }
         <ListWithNew
           ItemComponent={Product}
           items={items}
