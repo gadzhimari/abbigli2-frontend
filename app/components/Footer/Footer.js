@@ -18,9 +18,11 @@ const Footer = ({ openPopup }) => (
           © 2017 {__t('footer.abbigli')}
         </span>
         <noindex>
-          <a className="footer__link" href="/page/about">
-            {__t('About')}
-          </a>
+          {/*
+            <a className="footer__link" href="/page/about">
+              {__t('About')}
+            </a>
+          */}
           <a className="footer__link" href="/page/faq">
             {__t('FAQ')}
           </a>
