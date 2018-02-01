@@ -2,6 +2,7 @@ node_modules
 public/assets
 .idea
 *.log
+.DS_Store
 .env
 dev.env
 node-server.log
