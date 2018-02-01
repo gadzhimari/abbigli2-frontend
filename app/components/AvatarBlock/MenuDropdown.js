@@ -6,23 +6,25 @@ import Dropdown from '../_basicClasses/Dopdown';
 import { Menu } from '../../components';
 
 import { gaSendClickEvent } from '../../lib/analitics';
+import bindMethods from '../../lib/bindMethods';
 
 class MenuDropdown extends Dropdown {
-  constructor() {
-    super();
-    this.toggle = this.toggle.bind(this);
+  constructor(props) {
+    super(props);
+
+    bindMethods(this, ['toggle', 'onOpen', 'onDropdownClick']);
   }
 
   componentDidMount() {
     this.setupOutsideClickHandler(this.close);
   }
 
-  onOpen = () => {
+  onOpen() {
     gaSendClickEvent('menu', 'menu');
   }
 
   toggle() {
-    if (window.innerWidth <= 700) {
+    if (window.innerWidth <= 768) {
       this.props.openMobileMenu();
       return;
     }
@@ -30,7 +32,7 @@ class MenuDropdown extends Dropdown {
     super.toggle();
   }
 
-  onDropdownClick = ({ target }) => {
+  onDropdownClick({ target }) {
     if (target.tagName.toLowerCase() === 'a') {
       this.close();
     }
@@ -70,7 +72,6 @@ class MenuDropdown extends Dropdown {
 }
 
 MenuDropdown.propTypes = {
-  itemsSections: PropTypes.arrayOf(PropTypes.object).isRequired,
   modalButtonClick: PropTypes.func.isRequired,
   openMobileMenu: PropTypes.func.isRequired,
 };
