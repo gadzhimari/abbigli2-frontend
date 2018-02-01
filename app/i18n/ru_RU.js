@@ -159,7 +159,6 @@ export default {
 
     "tooltip.create.tags": "Слова по которым Вас найдут на проекте. Эти слова должны отражать суть вашей публикации",
     "sign.up": "Регистрация",
-    'sign.up.to.leave.comment': 'Sign Up to leave a comment',
     "Continue": "Продолжить",
     "read more": "Читать больше",
     'More': "Ещё",
