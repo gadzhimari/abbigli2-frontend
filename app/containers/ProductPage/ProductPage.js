@@ -97,6 +97,7 @@ class ProductPage extends Component {
       relativePosts,
       priceTemplate,
       me,
+      isAuthenticated,
     } = this.props;
     const crumbs = [];
 
@@ -149,7 +150,11 @@ class ProductPage extends Component {
           />
 
           <div className="section">
-            <CommentsField onSend={this.sendComment} />
+            <CommentsField
+              onSend={this.sendComment}
+              canComment={isAuthenticated}
+              dispatch={dispatch}
+            />
             <CommentsList comments={commentsList} />
           </div>
 

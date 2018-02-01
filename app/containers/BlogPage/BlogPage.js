@@ -169,6 +169,8 @@ class BlogPage extends Component {
 
             <CommentsField
               onSend={this.sendComment}
+              canComment={isAuthenticated}
+              dispatch={dispatch}
             />
 
             <CommentsList

@@ -287,7 +287,7 @@ export default {
     'Add a file': 'Прикрепить файл',
     'Information about your page': 'Информация о Вашей странице',
     'Edit': 'Редактировать',
-    'Sign Up to leave a comment': 'Зарегистрируйтесь, чтобы оставить комментарий',
+    'sign.up.to.leave.comment': 'Зарегистрируйтесь, чтобы оставить комментарий',
     'Your comment': 'Ваш комментарий',
     'Want it': 'Хочу!',
     'Date': 'Дата проведения',
