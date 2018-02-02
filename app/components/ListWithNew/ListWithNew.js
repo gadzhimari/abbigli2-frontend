@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { pure } from 'recompose';
 
-import { NewPost } from 'components';
+import { NewPost, NoMatch } from 'components';
 import { Product, Event, Blog } from 'components/Cards';
-
-import { __t } from './../../i18n/translator';
 
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -32,6 +30,7 @@ const getNewItems = (type, props) => {
 const ListWithNew = ({
   items,
   itemProps,
+  query,
   count,
   ItemComponent,
   itemsType,
@@ -43,7 +42,7 @@ const ListWithNew = ({
     return (
       <div>
         <div className="cards-wrap">
-          {__t('Nothing here yet')}
+          <NoMatch query={query} />
         </div>
         <div className="cards-wrap">
           {
@@ -121,6 +120,7 @@ ListWithNew.propTypes = {
   count: PropTypes.number.isRequired,
   ItemComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.any])
     .isRequired,
+  query: PropTypes.string,
   newPosts: PropTypes.shape({
     posts: PropTypes.array,
     events: PropTypes.array,

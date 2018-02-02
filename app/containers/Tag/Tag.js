@@ -94,6 +94,17 @@ class TagSearchResults extends Component {
       changeCity: this.changeCity,
     }));
 
+  renderResultsOfSearch() {
+    const { items, routing } = this.props;
+
+    return ((items.length !== 0) &&
+      <h1 className="section-title">
+        <span>{__t('Search results')}</span>
+        {routing && ` "${routing.query.tags.split(',').join(' ')}"`}
+      </h1>
+    );
+  }
+
   render() {
     const {
       routeParams,
@@ -134,27 +145,8 @@ class TagSearchResults extends Component {
         <main className="main">
           <BreadCrumbs />
           <div className="content">
-            <h1 className="section-title">
-              <span>{__t('Search results')}</span>
-              {' '}
-              {
-                routing
-                &&
-                `"${routing.query.tags.split(',').join(' ')}"`
-              }
-              <div className="section-title__subscribe">
-                {/* <button className="default-button" type="button">
-                  + {__t('Subscribe')}
-                </button> */}
-                {/* <a
-                  className="filter-open"
-                  onClick={this.openMobileFilters}
-                >
-                  {__t('Filters')}
-                </a> */}
-              </div>
-            </h1>
-            {/* <Filters
+            { this.renderResultsOfSearch() }
+            <Filters
               sections={sections}
               activeFilters={filters}
               updateFilter={updateFilter}
@@ -170,6 +162,7 @@ class TagSearchResults extends Component {
                   items={items}
                   count={4}
                   itemProps={{ priceTemplate, legacy: true }}
+                  query={filters.tags}
                 />
             }
             {

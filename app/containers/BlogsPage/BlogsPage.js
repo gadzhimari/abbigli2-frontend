@@ -109,6 +109,7 @@ class BlogsPage extends PureComponent {
 
   render() {
     const { isFetching, items, sections, params, routing, router, pages, paginate, activePage } = this.props;
+    const { searchValue } = this.state;
 
     const section = sections.filter(item => routing && item.slug === routing.query.category)[0];
 
@@ -167,7 +168,7 @@ class BlogsPage extends PureComponent {
               placeholder={__t('Blog search')}
               onChange={this.changeSearch}
               onKeyDown={this.handleSearchKeyDown}
-              value={this.state.searchValue}
+              value={searchValue}
             />
             <button
               className="default-button"
@@ -192,6 +193,7 @@ class BlogsPage extends PureComponent {
                 itemProps={{ legacy: true }}
                 count={8}
                 ItemComponent={Blog}
+                query={searchValue}
               />
           }
           {

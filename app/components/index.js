@@ -48,4 +48,5 @@ export { default as Sidebar } from './Sidebar';
 export { default as FavoriteAdd } from './FavoriteAdd';
 export { default as RelativePosts } from './RelativePosts';
 export { default as ChoiseFilter } from './ChoiseFilter';
+export { default as NoMatch } from './NoMatch';
 
