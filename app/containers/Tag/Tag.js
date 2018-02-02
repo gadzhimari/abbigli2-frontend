@@ -101,6 +101,23 @@ class TagSearchResults extends Component {
       <h1 className="section-title">
         <span>{__t('Search results')}</span>
         {routing && ` "${routing.query.tags.split(',').join(' ')}"`}
+        {' '}
+        {
+          routing
+          &&
+          `"${routing.query.tags.split(',').join(' ')}"`
+        }
+        <div className="section-title__subscribe">
+          {/* <button className="default-button" type="button">
+            + {__t('Subscribe')}
+          </button> */}
+          <a
+            className="filter-open"
+            onClick={this.openMobileFilters}
+          >
+            {__t('Filters')}
+          </a>
+        </div>
       </h1>
     );
   }

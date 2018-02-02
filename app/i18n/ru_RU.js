@@ -4,6 +4,7 @@ export default {
   'sign.up.to.leave.comment': 'Войдите чтобы оставить комментарий',
   'See all': 'Посмотреть все',
   'Popular in blogs': 'Популярное в блогах',
+  'Popular in events': 'Популярное в событиях',
   'Show more': 'Показать еще',
   'Add to favorites': 'Добавить в избранное',
   'Post is in favorites': 'Пост в избранном',
