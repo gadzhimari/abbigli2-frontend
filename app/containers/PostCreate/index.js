@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import Type from 'prop-types';
 
 import { withRouter } from 'react-router';
 import { compose } from 'recompose';
@@ -22,21 +22,11 @@ import { __t } from '../../i18n/translator';
 
 import './index.less';
 
-const typesUrl = {
-  1: 'post',
-  3: 'event',
-  4: 'blog',
-};
-
 class PostCreate extends Component {
-  state = { type: 1 }
+  state = { type: PRODUCT_TYPE }
 
   onImagesUploaded = images => this.setState({
     images: [...this.state.images, ...images],
-  });
-
-  onChangeCity = city => this.setState({
-    city,
   });
 
   onMoveImage = (dragIndex, hoverIndex) => {
@@ -55,10 +45,6 @@ class PostCreate extends Component {
 
   uploadImages = images => this.props.uploadImages(images, this.onImagesUploaded);
 
-  changeValue = ({ target }) => this.setState({
-    [target.name]: target.value,
-  });
-
   changeType = (type) => {
     this.setState({ type });
   }
@@ -69,48 +55,6 @@ class PostCreate extends Component {
         .filter(img => img.id !== id),
     });
     actions.deleteImage(id);
-  }
-
-  save = () => {
-    const { type, images, city, contentBlog } = this.state;
-    const { savePost, params } = this.props;
-    const keys = {
-      1: ['price', 'title', 'content', 'tags'],
-      3: ['title', 'content', 'tags', 'date_end', 'date_start'],
-      4: ['title', 'tags'],
-    };
-    const body = {
-      images: images.map(item => item.id),
-      type,
-      categories: (this.sectionSelect && this.sectionSelect.value) || [this.state.categories[0].id],
-      sections: [1],
-    };
-
-    if (city && type === 3) {
-      body.city = city.id;
-    }
-
-    keys[type].forEach((key) => {
-      if (this.state[key]) {
-        body[key] = this.state[key];
-      }
-    });
-
-    if (type === 4) {
-      body.content = contentBlog;
-    }
-
-    if (params.slug) {
-      savePost(body, typesUrl, 'PATCH', params.slug);
-    } else {
-      savePost(body, typesUrl, 'POST');
-    }
-  }
-
-  toggleChangable = () => {
-    this.setState({
-      changeCategory: !this.state.changeCategory,
-    });
   }
 
   openSelectPopup = () => this.props
@@ -124,23 +68,19 @@ class PostCreate extends Component {
   handleClose = () => {
     const { router } = this.props;
 
-    if (history.state) {
-      router.goBack();
-    } else {
-      router.push('/');
-    }
+    router.goBack();
   }
 
   render() {
-    const {
-      sections,
-      isSaving,
-      isFetchingImage,
-      errors,
-      loadImageErrors,
-      params,
-      categories,
-    } = this.props;
+    const { sections,
+            isSaving,
+            isFetchingImage,
+            errors,
+            loadImageErrors,
+            params,
+            categories,
+            isTouch,
+            openPopup } = this.props;
 
     const { type } = this.state;
 
@@ -161,6 +101,7 @@ class PostCreate extends Component {
                 errors={errors}
                 categories={categories}
                 sections={sections}
+                onCancel={this.handleClose}
               />
 
               <BlogForm
@@ -168,6 +109,7 @@ class PostCreate extends Component {
                 errors={errors}
                 categories={categories}
                 sections={sections}
+                onCancel={this.handleClose}
               />
 
               <EventForm
@@ -175,6 +117,9 @@ class PostCreate extends Component {
                 errors={errors}
                 categories={categories}
                 sections={sections}
+                isTouch={isTouch}
+                onCancel={this.handleClose}
+                openPopup={openPopup}
               />
 
             </div>
@@ -186,38 +131,30 @@ class PostCreate extends Component {
 }
 
 PostCreate.propTypes = {
-  data: PropTypes.shape({
-    title: PropTypes.string,
-    type: PropTypes.number,
-    content: PropTypes.string,
-  }).isRequired,
-  uploadImages: PropTypes.func.isRequired,
-  openPopup: PropTypes.func.isRequired,
-  savePost: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
-  isFetchingImage: PropTypes.bool.isRequired,
-  sections: PropTypes.arrayOf(PropTypes.object).isRequired,
-  errors: PropTypes.shape({
-    title: PropTypes.array,
-    tags: PropTypes.array,
-    sections: PropTypes.array,
-    images: PropTypes.array,
-    city: PropTypes.array,
-    price: PropTypes.array,
-    date_start: PropTypes.array
-  }).isRequired,
-  loadImageErrors: PropTypes.arrayOf(PropTypes.string).isRequired,
-  params: PropTypes.shape({
-    slug: PropTypes.string,
-  }).isRequired,
-  router: PropTypes.shape({
-    goBack: PropTypes.func,
-    push: PropTypes.func,
-  }).isRequired,
-  geoCity: PropTypes.shape({
-    name: PropTypes.string,
-    id: PropTypes.number,
-  }).isRequired,
+  uploadImages: Type.func,
+  openPopup: Type.func,
+  savePost: Type.func,
+  isSaving: Type.bool,
+  isFetchingImage: Type.bool,
+  sections: Type.arrayOf(Type.object),
+  errors: Type.shape({
+    title: Type.array,
+    tags: Type.array,
+    sections: Type.array,
+    images: Type.array,
+    city: Type.array,
+    price: Type.array,
+    date_start: Type.array,
+  }),
+  loadImageErrors: Type.arrayOf(Type.string),
+  params: Type.shape({
+    slug: Type.string,
+  }),
+  router: Type.shape({
+    goBack: Type.func,
+    push: Type.func,
+  }),
+  isTouch: Type.bool
 };
 
 const mapStateToProps = state => ({
@@ -230,6 +167,7 @@ const mapStateToProps = state => ({
   isFetching: state.PostCreate.isPostFetching,
   data: state.PostCreate.data,
   categories: state.Sections.normalizedCategories.entities.categories,
+  isTouch: state.isTouch,
 });
 
 const mapDispatchToProps = dispatch => ({

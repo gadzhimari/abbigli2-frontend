@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import ReactSelect from 'react-select';
+import ReactSelect, { Async } from 'react-select';
 
 export default class Select extends PureComponent {
   static propTypes = {
@@ -15,6 +15,7 @@ export default class Select extends PureComponent {
     wrapperClass: Type.string,
     label: Type.string,
     name: Type.string,
+    async: Type.bool
   }
 
   static defaultProps = {
@@ -40,12 +41,14 @@ export default class Select extends PureComponent {
   }
 
   render() {
-    const { wrapperClass, label, ...selectProps } = this.props;
+    const { wrapperClass, label, async, ...selectProps } = this.props;
     const { options } = this.state;
 
     delete selectProps.onChange;
     delete selectProps.options;
     delete selectProps.optionsAdapter;
+
+    const SelectComponent = async ? Async : ReactSelect;
 
     return (
       <div className={wrapperClass}>
@@ -55,7 +58,7 @@ export default class Select extends PureComponent {
           </label>
         }
 
-        <ReactSelect
+        <SelectComponent
           options={options}
           onChange={this.onChange}
           clearable={false}

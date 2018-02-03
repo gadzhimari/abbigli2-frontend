@@ -9,6 +9,7 @@ import Button from '../../../components/Button';
 import Textarea from '../../../components/Inputs/Textarea';
 import Select from '../../../components/Inputs/Select';
 import DateInput from '../../../components/Inputs/DateInput';
+import CitySelect from '../../../components/Inputs/CitySelect/';
 
 import categoriesAdapter from '../../../lib/adapters/categories-to-options';
 import { mergeObjects } from '../../../lib/merge-objects';
@@ -36,7 +37,9 @@ export default class EventForm extends CreateForm {
             sections,
             isFetchingImage,
             imagesErrors,
-            isSaving } = this.props;
+            isSaving,
+            isTouch,
+            openPopup } = this.props;
 
     const { title,
             images,
@@ -44,7 +47,8 @@ export default class EventForm extends CreateForm {
             tags,
             categories,
             date_start: dateStart,
-            date_end: dateEnd } = this.state;
+            date_end: dateEnd,
+            city } = this.state;
 
     if (!visible) return null;
 
@@ -75,14 +79,17 @@ export default class EventForm extends CreateForm {
             name="categories"
           />
 
-          <ErrorInput
+          <CitySelect
             wrapperClass="add-tabs__form-field input-wrap"
-            wrapperErrorClass="error"
-            name="city"
-            errors={errors.city}
-            className="input"
+            className="add-tabs__select"
             label={__t('Place')}
-            labelRequired
+            placeholder=""
+            value={city}
+            name="city"
+            onChange={this.onChange}
+            errors={errors.city}
+            compact={isTouch}
+            openPopup={openPopup}
           />
 
           <div className="add-tabs__form-field">

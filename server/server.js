@@ -3,6 +3,7 @@ import path from 'path';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import device from 'express-device';
 
 import Raven from 'raven';
 
@@ -13,6 +14,7 @@ import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
 import trimSlash from './middlewares/trim-url-slash';
 import setLocals from './middlewares/set-locals';
 import redirectManager from './middlewares/redirect-manager';
+import setupIsTouch from './middlewares/setupIsTouch';
 
 import routes from './api';
 
@@ -34,6 +36,7 @@ app.use(bodyParser.json());
 app.use(compression());
 // Middlewares
 app.use(Raven.requestHandler());
+app.use(device.capture());
 
 app.use(routes);
 app.use(redirectManager);
@@ -41,6 +44,7 @@ app.use(trimSlash);
 app.use(setLocals);
 app.use(configureRedux);
 app.use(geoLocation);
+app.use(setupIsTouch);
 app.use(handleGoogleCahceUrl);
 app.use(renderOnServer);
 
