@@ -7,6 +7,6 @@
  */
 export default function bindMethods(context, methods) {
   methods.forEach((method) => {
-    context.constructor.prototype[method] = context.constructor.prototype[method].bind(context);
+    context[method] = context[method].bind(context);
   });
 }
