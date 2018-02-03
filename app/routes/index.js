@@ -50,7 +50,9 @@ const routes = (store, token, shouldPreload) => {
   return (
     <Route path="/" component={App} onEnter={componentFn(App, 'fetchData')} >
       <IndexRoute component={Home} />
-      <Route path="page/about" component={About} />
+      {/*
+        <Route path="page/about" component={About} />
+      */}
       <Route path="page/faq" component={Faq} />
       <Route path="page/agreement" component={Agreement} />
       <Route path="questions" component={Questions} />
