@@ -42,10 +42,6 @@ const newData = [{
   },
 }];
 
-const exceptFilters = [
-  'New', 'Popular', 'Mood', 'Near',
-];
-
 class SpecificPostsPage extends PureComponent {
 
   componentDidMount() {
@@ -89,13 +85,13 @@ class SpecificPostsPage extends PureComponent {
           {Icon && <Icon />}
           {page.title}
         </h1>
-        <a
-          className="filter-open"
-          onClick={this.openMobileFilters}
-        >
-          {__t('Filters')}
-        </a>
-        {exceptFilters.indexOf(route.filter) === -1 &&
+        {/*
+          <a
+            className="filter-open"
+            onClick={this.openMobileFilters}
+          >
+            {__t('Filters')}
+          </a>
           <Filters
             sections={this.props.sections}
             updateFilter={this.props.updateFilter}
@@ -103,7 +99,7 @@ class SpecificPostsPage extends PureComponent {
             activeFilters={this.props.filters}
             reversePriceRange={this.props.reversePriceRange}
           />
-        }
+        */}
         <ListWithNew
           ItemComponent={Product}
           items={items}
