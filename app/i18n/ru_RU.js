@@ -1,5 +1,5 @@
 export default {
-  'You can upload maximum images': 'Вы можете загрузить не более хх изображений в формате JPEG, PNG, не привышающих размер 4mpх.',
+  'You can upload maximum images': 'Вы можете загрузить изображения в формате JPEG, PNG.',
   'Upload image': 'Загрузить фото',
   "tag.search": "Поиск тегов",
   "tag.for.search": "Поиск по тегам",

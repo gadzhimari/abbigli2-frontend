@@ -1,5 +1,5 @@
 export default {
-  'You can upload maximum images': 'You can upload maximum xx images in JPEG, PNG format, not accustomed to the size of 4mpx.',
+  'You can upload maximum images': 'You can upload images in JPEG, PNG format.',
   'Upload image': 'Upload image',
   "tag.search": "Tag search",
   "tag.for.search": "Tags search",
