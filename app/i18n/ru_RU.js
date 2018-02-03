@@ -1,4 +1,10 @@
 export default {
+    'See all': 'Посмотреть все',
+    'Popular in blogs': 'Популярное в блогах',
+    'Show more': 'Показать еще',
+    'Add to favorites': 'Добавить в избранное',
+    'Post is in favorites': 'Пост в избранном',
+    'Relative posts': 'Похожие посты',
     "tag.search": "Поиск тегов",
     "tag.for.search": "Поиск по тегам",
     "users.for.search": "Поиск людей",

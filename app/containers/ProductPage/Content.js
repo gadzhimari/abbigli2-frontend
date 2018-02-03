@@ -47,7 +47,7 @@ export default class ProductContent extends PureComponent {
             />
           </div>
 
-          <Title title={data.titel} />
+          <Title title={data.title} />
 
           <p itemProp="description">
             {data.content}
