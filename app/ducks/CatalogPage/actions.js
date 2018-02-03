@@ -66,9 +66,7 @@ export const fetchMoreTags = options => (dispatch) => {
 // Сделать этот запрос основным способом загрузить массив текущих категори
 // Выпилить createTree из containers/Section/preloader
 // Сделать состояния для данного запроса
-export const fetchCrumbs = options => (dispatch) => {
-  return Catalog.getCategoryCrumbs(options)
-    .catch(({ response }) => {
-      dispatch(setNetworkError(response));
-    });
-};
+export const fetchCrumbs = options => dispatch => Catalog.getCategoryCrumbs(options)
+  .catch(({ response }) => {
+    dispatch(setNetworkError(response));
+  });

@@ -4,3 +4,4 @@ public/assets
 *.log
 .env
 dev.env
+node-server.log

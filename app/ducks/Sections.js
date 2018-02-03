@@ -1,5 +1,5 @@
 // Sections.js
-import { DOMAIN_URL } from 'config';
+import { Catalog } from '../api';
 
 // Actions
 const REQUEST = 'abbigli/Sections/REQUEST';
@@ -46,19 +46,13 @@ export function setData(data) {
   };
 }
 
-export function fetchData() {
-  return (dispatch) => {
-
-    return fetch(`http://localhost:3000/node-api/catalog/`)
-      .then(res => res.json())
-      .then((data) => {
-        dispatch(setData({
-          categories: data.categories,
-          sections: data.sections,
-          normalizedCategories: data.normalizedCategories,
-          promo: data.promo,
-        }));
-      });
-  };
-}
+export const fetchData = () => dispatch => Catalog.getCatalog()
+  .then(({ data }) => {
+    dispatch(setData({
+      categories: data.categories,
+      sections: data.sections,
+      normalizedCategories: data.normalizedCategories,
+      promo: data.promo,
+    }));
+  });
 

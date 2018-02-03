@@ -188,7 +188,7 @@ class PostCreate extends Component {
       'add-tabs__content_blog': type === 4,
       'add-tabs__content_event': type === 3,
     });
-
+    
     return (
       <main className="main">
         <h2>{__t('Add on Abbigli')}</h2>
@@ -297,7 +297,7 @@ PostCreate.propTypes = {
     images: PropTypes.array,
     city: PropTypes.array,
     price: PropTypes.array,
-    date_start: PropTypes.array,
+    date_start: PropTypes.array
   }).isRequired,
   loadImageErrors: PropTypes.arrayOf(PropTypes.string).isRequired,
   params: PropTypes.shape({

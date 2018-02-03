@@ -44,7 +44,7 @@ export default {
 
     "banner.button.create": "Create your own showcase",
     "banner.header": "Handmade studio for",
-    "banner.text": "buying and selling handicrafts that made in a single copy! ",
+    "banner.text": "buying and selling one of a kind handicrafts! ",
     "banner.from.blog": "From blog",
     "banner.name": "Sana",
 
@@ -134,16 +134,17 @@ export default {
 
     'faq.tabs.account.title': 'Deleting your account.',
     'faq.tabs.account.text': 'Should you wish to delete your account, please write to us in the support team.',
+    'footer.abbigli': 'Abbigli.com',
 
     "Search": "Search",
     "Topis": "Topics",
     "tags": "Tags",
     "you": "You",
     "sign.up": "Sign Up",
+    'sign.up.to.leave.comment': 'Sign Up to leave a comment',
     "new.in.blogs": "New in blogs",
     "other.articles.of.the.author": "Other articles of the author",
-    "Picking.up.users": "Picking up users",
-    "New": "New",
+    "Picking.up.users": "Picking up users", "New": "New",
     "Blogs": "Blogs",
     "Popular": "Popular",
     "Search.in.blogs": "Search in blogs",
