@@ -134,12 +134,14 @@ class ProductPage extends Component {
           <BreadCrumbs crumbs={crumbs} />
 
           {userIsOwner &&
-            <Link
-              to={`/profile/${author.id}/post/edit/${data.slug}`}
-              className="default-button edit-post-button"
-            >
-              {__t('Edit')}
-            </Link>
+            <div className="edit-post__container">
+              <Link
+                to={`/profile/${author.id}/post/edit/${data.slug}`}
+                className="default-button edit-post-button"
+              >
+                {__t('Edit')}
+              </Link>
+            </div>
           }
 
           <Content
