@@ -28,10 +28,7 @@ const loadPosts = () => {
     };
 
     sourcesTypes.forEach((type, idx) => {
-      Posts.getPosts({
-        type,
-        popular: true,
-      })
+      Posts.getPosts({ type })
       .then(res => callback(res.data.results, idx));
     });
   };
