@@ -25,11 +25,11 @@ class ImageUploadZone extends Component {
       errors,
       loadImageErrors,
     } = this.props;
-    
+
     return (
       <div className="add-tabs__form">
         <div>
-          Вы можете загрузить не более хх изображений в формате JPEG, PNG, не привышающих размер 4mpх.
+          {__t('You can upload maximum images')}
         </div>
         {
           images.map((image, idx) => <DragableImage
@@ -53,7 +53,7 @@ class ImageUploadZone extends Component {
                 <svg className="icon icon-camera" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 27">
                   <path d="M27,27H3c-1.651,0-3-1.351-3-2.997V6c0-1.65,1.349-3,3-3h4.756L10.5,0 h9.002l2.743,3H27c1.649,0,3,1.35,3,3v18.003C30,25.65,28.65,27,27,27z M15,7.501c-4.14,0-7.5,3.36-7.5,7.5 c0,4.141,3.359,7.5,7.5,7.5c4.139,0,7.501-3.359,7.501-7.5C22.501,10.861,19.139,7.501,15,7.501z M15,19.799 c-2.65,0-4.8-2.147-4.8-4.799c0-2.65,2.15-4.801,4.8-4.801c2.653,0,4.801,2.15,4.801,4.801C19.801,17.652,17.654,19.799,15,19.799z" />
                 </svg>
-                Загрузка фото
+                {__t('Upload image')}
               </div>)
               : <Loading loading={imageFetching} />
           }
