@@ -1,4 +1,6 @@
 export default {
+  'Upload image': 'Upload image',
+  'You can upload maximum images': 'You can upload maximum xx images in JPEG, PNG format, not accustomed to the size of 4mpx.',
   'Popular in blogs': 'Popular in blogs',
   'Show more': 'Show more',
   'Relative posts': 'Relative posts',
