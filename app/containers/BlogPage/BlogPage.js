@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Link from '../../components/Link/Link';
 
 import moment from 'moment';
 import { processBlogContent } from '../../lib/process-html';
+import createPostEditLink from '../../lib/links/edit-post-link';
 
 import {
   Gallery,
@@ -144,9 +146,13 @@ class BlogPage extends Component {
 
           <div className="content">
             <h1 className="section-title">
-              <svg className="icon icon-blog" viewBox="0 0 51 52.7">
-                <path d="M51,9.4L41.5,0L31,10.4H4.1c-2.3,0-4.1,1.8-4.1,4.1v27.8c0,2.3,1.8,4.1,4.1,4.1h1.4l0.7,6.3 l8.3-6.3H38c2.3,0,4.1-1.8,4.1-4.1V18.1L51,9.4z M16.2,34.4l1-6.3l5.3,5.4L16.2,34.4z M47.2,9.4L24,32.2l-5.6-5.6l23-22.8L47.2,9.4z " />
-              </svg>
+              {isUsersPost &&
+                <Link to={createPostEditLink({ profile: data.user.id, slug: data.slug })}>
+                  <svg className="icon icon-blog" viewBox="0 0 51 52.7">
+                    <path d="M51,9.4L41.5,0L31,10.4H4.1c-2.3,0-4.1,1.8-4.1,4.1v27.8c0,2.3,1.8,4.1,4.1,4.1h1.4l0.7,6.3 l8.3-6.3H38c2.3,0,4.1-1.8,4.1-4.1V18.1L51,9.4z M16.2,34.4l1-6.3l5.3,5.4L16.2,34.4z M47.2,9.4L24,32.2l-5.6-5.6l23-22.8L47.2,9.4z " />
+                  </svg>
+                </Link>
+              }
 
               {data.title}
             </h1>
@@ -161,6 +167,15 @@ class BlogPage extends Component {
             {this.renderSlider()}
 
             <div>{processBlogContent(data.content)}</div>
+
+            {isUsersPost &&
+              <Link to={createPostEditLink({ profile: data.user.id, slug: data.slug })} className="edit-btn">
+                <svg className="icon icon-edit" viewBox="0 0 18 18">
+                  <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
+                </svg>
+                {__t('Edit')}
+              </Link>
+            }
 
             <FavoriteAdd
               toggleFavorite={this.handleFavorite}
@@ -215,6 +230,7 @@ class BlogPage extends Component {
 
 
 BlogPage.propTypes = {
+  router: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   routeParams: PropTypes.object.isRequired,
   isFetching: PropTypes.bool.isRequired,
