@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Link from '../../components/Link/Link';
 
 import { gaSendClickEvent } from '../../lib/analitics';
+import scrollTo from '../../utils/scrollTo';
 import { __t } from '../../i18n/translator';
 
 export default class ProfileSubMenu extends PureComponent {
@@ -18,8 +19,21 @@ export default class ProfileSubMenu extends PureComponent {
     }),
   }
 
+  componentDidMount() {
+    this.scrollToMenu();
+  }
+
+  componentDidUpdate() {
+    this.scrollToMenu();
+  }
+
   onLinkClick = (e, { name }) => {
     gaSendClickEvent('profile', name);
+  }
+
+  scrollToMenu() {
+    const elementY = window.pageYOffset + this.submenu.getBoundingClientRect().top;
+    scrollTo(elementY, 500);
   }
 
   render() {
@@ -32,7 +46,7 @@ export default class ProfileSubMenu extends PureComponent {
     const commonClass = 'profile-submenu__item';
 
     return (
-      <div className="profile__submenu">
+      <div className="profile__submenu" ref={(c) => { this.submenu = c; }}>
         <a className="profile-submenu__item back">
           <div className="icon-wrap">
             <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="248.914 244 14.173 24">
