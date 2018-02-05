@@ -191,7 +191,7 @@ class RegisterPopup extends Component {
             />
 
             <a
-              className="register-popup__link register-popup__link--big"
+              className="register-popup__link register-popup__link--promo"
               onClick={this.openSignIn}
             >
               {__t('Sign In')}
