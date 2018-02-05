@@ -28,6 +28,7 @@ export default class EventForm extends CreateForm {
       date_start: '',
       date_end: '',
       city: null,
+      cityOptions: []
     }, props.data);
   }
 
@@ -39,16 +40,18 @@ export default class EventForm extends CreateForm {
             imagesErrors,
             isSaving,
             isTouch,
-            openPopup } = this.props;
+            openPopup,
+            imageZoneActions,
+            ...imageZoneProps } = this.props;
 
     const { title,
-            images,
             content,
             tags,
             categories,
             date_start: dateStart,
             date_end: dateEnd,
-            city } = this.state;
+            city,
+            cityOptions } = this.state;
 
     if (!visible) return null;
 
@@ -90,6 +93,8 @@ export default class EventForm extends CreateForm {
             errors={errors.city}
             compact={isTouch}
             openPopup={openPopup}
+            autoload={false}
+            options={cityOptions}
           />
 
           <div className="add-tabs__form-field">
@@ -122,13 +127,8 @@ export default class EventForm extends CreateForm {
 
         <FormBlock>
           <ImageUploadZone
-            onMove={this.onMoveImage}
-            images={images}
-            deleteImage={this.deleteImage}
-            uploadImages={this.uploadImages}
-            imageFetching={isFetchingImage}
-            rotateImage={this.rotateImage}
-            loadImageErrors={imagesErrors}
+            {...imageZoneProps}
+            {...imageZoneActions}
             errors={errors.images}
           />
         </FormBlock>

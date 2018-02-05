@@ -26,13 +26,14 @@ class Input extends Component {
   }
 
   render() {
-    const { className, name } = this.props;
+    const { ...inputProps } = this.props;
+
+    delete inputProps.onChange;
 
     return (
       <input
-        className={className}
+        {...inputProps}
         onChange={this.onChange}
-        name={name}
       />
     );
   }

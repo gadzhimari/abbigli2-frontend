@@ -1,5 +1,4 @@
 import React from 'react';
-import Type from 'prop-types';
 
 import CreateForm from '../CreateForm/CreateForm';
 import FormBlock from '../FormBlock';
@@ -24,7 +23,7 @@ export default class BlogForm extends CreateForm {
       content: '',
       tags: '',
       images: [],
-      categories: null,
+      categories: null
     }, props.data);
   }
 
@@ -32,11 +31,11 @@ export default class BlogForm extends CreateForm {
     const { visible,
             errors,
             sections,
-            isFetchingImage,
-            imagesErrors,
-            isSaving } = this.props;
+            isSaving,
+            imageZoneActions,
+            ...imageZoneProps } = this.props;
 
-    const { title, images, content, tags, categories } = this.state;
+    const { title, content, tags, categories } = this.state;
 
     if (!visible) return null;
 
@@ -70,13 +69,8 @@ export default class BlogForm extends CreateForm {
 
         <FormBlock>
           <ImageUploadZone
-            onMove={this.onMoveImage}
-            images={images}
-            deleteImage={this.deleteImage}
-            uploadImages={this.uploadImages}
-            imageFetching={isFetchingImage}
-            rotateImage={this.rotateImage}
-            loadImageErrors={imagesErrors}
+            {...imageZoneProps}
+            {...imageZoneActions}
             errors={errors.images}
           />
         </FormBlock>

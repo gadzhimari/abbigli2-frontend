@@ -6,7 +6,10 @@
  */
 export function pick(object, keys) {
   return keys.reduce((acc, key) => {
-    acc[key] = object[key];
+    if (object[key]) {
+      acc[key] = object[key];
+    }
+
     return acc;
   }, {});
 }

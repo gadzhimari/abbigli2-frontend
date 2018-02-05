@@ -1,6 +1,8 @@
 import Type from 'prop-types';
 import React, { PureComponent } from 'react';
 
+import bindMethods from '../../lib/bindMethods';
+
 import './redactor/redactor.css';
 
 export default class Textarea extends PureComponent {
@@ -17,6 +19,8 @@ export default class Textarea extends PureComponent {
 
     /* TODO: сделать нормально */
     this.id = Math.random() * Math.random();
+
+    bindMethods(this, ['onChange']);
   }
 
   onChange(e) {

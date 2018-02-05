@@ -1,6 +1,8 @@
 import { Posts } from '../../../api';
 import * as actions from '../actionTypes';
 
+import preparePostForEditing from '../../../lib/adapters/prepare-post-for-editing';
+
 const fetchPostReq = () => ({
   type: actions.LOAD_POST_REQ,
 });
@@ -15,7 +17,7 @@ const fetchPost = slug => (dispatch) => {
 
   return Posts.getPost(slug)
     .then(({ data }) => {
-      dispatch(fetchPostRes(data));
+      dispatch(fetchPostRes(preparePostForEditing(data)));
     });
 };
 

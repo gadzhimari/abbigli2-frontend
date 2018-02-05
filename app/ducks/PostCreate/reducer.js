@@ -29,15 +29,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetchingImage: true,
-<<<<<<< HEAD
         errors: {
           ...state.errors,
           images: [],
         },
-      });
-=======
       };
->>>>>>> Промежуточный коммит
     }
     case (actions.LOAD_IMAGE_RES): {
       return {

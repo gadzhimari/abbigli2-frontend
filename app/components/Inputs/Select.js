@@ -3,6 +3,8 @@ import Type from 'prop-types';
 
 import ReactSelect, { Async } from 'react-select';
 
+import 'react-select/dist/react-select.css';
+
 export default class Select extends PureComponent {
   static propTypes = {
     /**
@@ -32,11 +34,11 @@ export default class Select extends PureComponent {
     };
   }
 
-  onChange = ({ value }) => {
+  onChange = ({ value, label }) => {
     const { onChange, name } = this.props;
 
     if (onChange) {
-      onChange(null, { value, name });
+      onChange(null, { value, name, label });
     }
   }
 

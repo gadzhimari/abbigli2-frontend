@@ -1,5 +1,4 @@
 import React from 'react';
-import Type from 'prop-types';
 import block from 'bem-cn';
 
 import CreateForm from '../CreateForm/CreateForm';
@@ -16,6 +15,7 @@ import { mergeObjects } from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
 
 import './ProductForm.less';
+import bindMethods from '../../../lib/bindMethods';
 
 const b = block('ProductForm');
 
@@ -27,10 +27,20 @@ class ProductForm extends CreateForm {
       title: '',
       price: '',
       content: '',
-      color: 'red',
+      colors: ['red'],
       tags: '',
       images: [],
+      currentCategory: undefined
     }, props.data);
+
+    bindMethods(this, ['onSave']);
+  }
+
+  onSave(...attr) {
+    this.setState(
+      { categories: this.sectionSelect.value },
+      () => super.onSave(...attr)
+    );
   }
 
   render() {
@@ -39,11 +49,11 @@ class ProductForm extends CreateForm {
         errors,
         sections,
         categories,
-        isFetchingImage,
-        imagesErrors,
-        isSaving } = this.props;
+        isSaving,
+        imageZoneActions,
+        ...imageZoneProps } = this.props;
 
-    const { title, price, color, images, content, tags } = this.state;
+    const { title, price, colors, content, tags, currentCategory } = this.state;
 
     if (!visible) return null;
 
@@ -65,7 +75,7 @@ class ProductForm extends CreateForm {
           <MultiSelect
             options={sections}
             ref={sectionSelect => (this.sectionSelect = sectionSelect)}
-            currentCategory={this.state.categories && this.state.categories[0].slug}
+            currentCategory={currentCategory}
             categories={categories}
           />
 
@@ -85,7 +95,7 @@ class ProductForm extends CreateForm {
             <ChoiceColor
               isMobile
               onChange={this.onChange}
-              activeColor={color}
+              activeColor={colors[0]}
               className={b('choiceColor')}
             />
           </div>
@@ -93,13 +103,8 @@ class ProductForm extends CreateForm {
 
         <FormBlock>
           <ImageUploadZone
-            onMove={this.onMoveImage}
-            images={images}
-            deleteImage={this.deleteImage}
-            uploadImages={this.uploadImages}
-            imageFetching={isFetchingImage}
-            rotateImage={this.rotateImage}
-            loadImageErrors={imagesErrors}
+            {...imageZoneProps}
+            {...imageZoneActions}
             errors={errors.images}
           />
         </FormBlock>

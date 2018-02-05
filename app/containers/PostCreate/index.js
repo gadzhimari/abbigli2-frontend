@@ -17,19 +17,42 @@ import * as actions from '../../ducks/PostCreate/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
 import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
-import { API_URL } from '../../config';
+import bindMethods from '../../lib/bindMethods';
+import { mergeObjects } from '../../lib/merge-objects';
 import { __t } from '../../i18n/translator';
 
 import './index.less';
 
 class PostCreate extends Component {
-  state = { type: PRODUCT_TYPE }
+  constructor(props) {
+    super(props);
 
-  onImagesUploaded = images => this.setState({
-    images: [...this.state.images, ...images],
-  });
+    this.state = mergeObjects({
+      type: PRODUCT_TYPE,
+      images: []
+    }, props.data);
 
-  onMoveImage = (dragIndex, hoverIndex) => {
+    bindMethods(this, [
+      'onImagesUploaded',
+      'onMoveImage',
+      'uploadImages',
+      'changeType',
+      'deleteImage',
+      'handleClose',
+      'getImageZoneActions',
+      'save'
+    ]);
+
+    this.imageZoneActions = this.getImageZoneActions();
+  }
+
+  onImagesUploaded(images) {
+    this.setState({
+      images: [...this.state.images, ...images],
+    });
+  }
+
+  onMoveImage(dragIndex, hoverIndex) {
     const { images } = this.state;
     const dragImage = images[dragIndex];
 
@@ -43,46 +66,75 @@ class PostCreate extends Component {
     }));
   }
 
-  uploadImages = images => this.props.uploadImages(images, this.onImagesUploaded);
-
-  changeType = (type) => {
-    this.setState({ type });
+  getImageZoneActions() {
+    return {
+      uploadImages: this.uploadImages,
+      rotateImage: actions.rotateImage,
+      onMove: this.onMoveImage,
+      deleteImage: this.deleteImage
+    };
   }
 
-  deleteImage = (id) => {
-    this.setState({
-      images: this.state.images
-        .filter(img => img.id !== id),
-    });
+  uploadImages(images) {
+    this.props.uploadImages(images, this.onImagesUploaded);
+  }
+
+  deleteImage(id) {
+    this.setState(({ images }) => ({
+      images: images.filter(img => img.id !== id)
+    }));
     actions.deleteImage(id);
   }
 
-  openSelectPopup = () => this.props
-    .openPopup('selectPopup', {
-      onClickItem: this.onChangeCity,
-      title: 'city',
-      async: true,
-      apiUrl: `${API_URL}geo/cities/`,
-    });
+  changeType(type) {
+    this.setState({ type });
+  }
+
+  save(data, slug) {
+    const { savePost } = this.props;
+
+    savePost({
+      ...data,
+      ...this.state,
+      images: this.state.images.map(img => img.id),
+      categories: [data.categories],
+      // legacy: нужно до тех пор, пока сервер требует это поле
+      sections: [1]
+    }, slug);
+  }
 
   handleClose = () => {
-    const { router } = this.props;
-
-    router.goBack();
+    this.props.router.goBack();
   }
 
   render() {
     const { sections,
             isSaving,
-            isFetchingImage,
             errors,
-            loadImageErrors,
             params,
             categories,
             isTouch,
-            openPopup } = this.props;
+            openPopup,
+            data,
+            isFetchingImage,
+            loadImageErrors } = this.props;
 
-    const { type } = this.state;
+    const { type, images } = this.state;
+
+    const commonProps = {
+      imageZoneActions: this.imageZoneActions,
+      errors,
+      categories,
+      sections,
+      onCancel: this.handleClose,
+      isSaving,
+      data,
+      params,
+      savePost: this.save,
+      images,
+      imageFetching: isFetchingImage,
+      loadImageErrors
+    };
 
     return (
       <main className="main">
@@ -98,30 +150,19 @@ class PostCreate extends Component {
             <div className="add-tabs__content-tab add-tabs__content_goods">
               <ProductForm
                 visible={type === PRODUCT_TYPE}
-                errors={errors}
-                categories={categories}
-                sections={sections}
-                onCancel={this.handleClose}
+                {...commonProps}
               />
 
               <BlogForm
                 visible={type === BLOG_TYPE}
-                errors={errors}
-                categories={categories}
-                sections={sections}
-                onCancel={this.handleClose}
+                {...commonProps}
               />
 
               <EventForm
                 visible={type === EVENT_TYPE}
-                errors={errors}
-                categories={categories}
-                sections={sections}
                 isTouch={isTouch}
-                onCancel={this.handleClose}
-                openPopup={openPopup}
+                {...commonProps}
               />
-
             </div>
           </div>
         </div >
@@ -174,7 +215,7 @@ const mapDispatchToProps = dispatch => ({
   fetchPost: slug => dispatch(actions.fetchPost(slug)),
   clearData: () => dispatch(actions.clearData()),
   uploadImages: (images, callback) => dispatch(actions.uploadImages(images, callback)),
-  savePost: (body, types, method, slug) => dispatch(actions.savePost(body, types, method, slug)),
+  savePost: (body, slug) => dispatch(actions.savePost(body, slug)),
   openPopup: (popup, options) => dispatch(openPopup(popup, options)),
 });
 

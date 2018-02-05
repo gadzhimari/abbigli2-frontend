@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import Type from 'prop-types';
 import block from 'bem-cn';
 
 import Button from '../../Button';
@@ -11,15 +11,21 @@ import { isClickOutside } from '../../../lib/window';
 
 import { __t } from '../../../i18n/translator';
 import './ChoiceColor.less';
+import bindMethods from '../../../lib/bindMethods';
 
 const b = block('ChoiceColor');
 
 class ChoiceColor extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      openedDropdown: false,
-    };
+
+    this.state = { openedDropdown: false };
+
+    bindMethods(this, [
+      'onClear',
+      'handleClickOutside',
+      'openDropdown'
+    ]);
   }
 
   componentDidMount() {
@@ -32,20 +38,20 @@ class ChoiceColor extends PureComponent {
     window.removeEventListener('click', this.handleClickOutside);
   }
 
-  onClear = (e) => {
+  onClear(e) {
     this.props.onChange(e, {
-      value: '',
-      name: 'color',
+      value: [],
+      name: 'colors',
     });
   }
 
-  handleClickOutside = ({ target }) => {
+  handleClickOutside({ target }) {
     if (isClickOutside(this.root, target)) {
       this.setState({ openedDropdown: false });
     }
   }
 
-  openDropdown = () => {
+  openDropdown() {
     this.setState({ openedDropdown: true });
   }
 
@@ -102,10 +108,10 @@ ChoiceColor.defaultProps = {
 };
 
 ChoiceColor.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  activeColor: PropTypes.string,
-  className: PropTypes.string,
-  isMobile: PropTypes.bool,
+  onChange: Type.func.isRequired,
+  activeColor: Type.string,
+  className: Type.oneOfType([Type.string, Type.func]),
+  isMobile: Type.bool,
 };
 
 export default ChoiceColor;

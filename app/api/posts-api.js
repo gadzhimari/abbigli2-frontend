@@ -48,7 +48,7 @@ const Posts = {
       data,
     });
   },
-  editPost(slug, data) {
+  editPost(data, slug) {
     return request({
       url: `/posts/${slug}/`,
       mustApplyToken: true,

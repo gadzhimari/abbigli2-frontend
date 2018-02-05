@@ -16,8 +16,8 @@ class Color extends Component {
   onClick = (e) => {
     if (this.props.onClick) {
       this.props.onClick(e, {
-        value: this.props.color,
-        name: 'color',
+        value: [this.props.color],
+        name: 'colors',
       });
     }
   }

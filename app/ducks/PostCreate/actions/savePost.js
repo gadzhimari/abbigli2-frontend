@@ -21,8 +21,8 @@ const savePost = (data, slug = null) => (dispatch) => {
       dispatch(savePostRes());
       browserHistory.push(createPostLink(res.data));
     })
-    .catch((error) => {
-      dispatch(savePostRes(error.respons.data));
+    .catch(({ response }) => {
+      dispatch(savePostRes(response.data));
     });
 };
 

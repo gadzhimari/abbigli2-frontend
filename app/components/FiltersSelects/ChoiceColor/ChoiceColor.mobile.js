@@ -12,7 +12,7 @@ const b = block('ChoiceColor');
 class ChoiceColor extends Component {
   static propTypes = {
     activeColor: Type.string,
-    className: Type.string,
+    className: Type.oneOfType([Type.string, Type.func]),
     onChange: Type.func,
   }
 
