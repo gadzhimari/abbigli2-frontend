@@ -1,50 +1,29 @@
 import browserHistory from 'react-router/lib/browserHistory';
 
-import { getJsonFromStorage } from 'utils/functions';
-import { API_URL } from 'config';
-
+import { Posts } from '../../../api';
 import * as actions from '../actionTypes';
 
-const savePostReq = () => ({
-  type: actions.SAVE_POST_REQ,
-});
+import createPostLink from '../../../lib/links/post-link';
 
+const savePostReq = () => ({ type: actions.SAVE_POST_REQ });
 const savePostRes = (errors = {}) => ({
   type: actions.SAVE_POST_RES,
   errors,
 });
 
-const savePost = (data, typesUrl, method, slug = '') => {
-  const token = getJsonFromStorage('id_token');
-  let config;
+const savePost = (data, slug = null) => (dispatch) => {
+  dispatch(savePostReq());
 
-  if (token) {
-    config = {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `JWT ${token}`,
-      },
-      body: JSON.stringify(data),
-    };
-  } else {
-    return;
-  }
+  const apiMethod = slug ? Posts.editPost : Posts.createPost;
 
-  return (dispatch) => {
-    dispatch(savePostReq());
-
-    return fetch(`${API_URL}posts/${slug ? `${slug}/` : ''}`, config)
-      .then(response => response.json())
-      .then((result) => {
-        if (result.id) {
-          dispatch(savePostRes());
-          browserHistory.push(`/${typesUrl[result.type]}/${result.slug}`);
-        } else {
-          dispatch(savePostRes(result));
-        }
-      });
-  };
+  return apiMethod(data, slug)
+    .then((res) => {
+      dispatch(savePostRes());
+      browserHistory.push(createPostLink(res.data));
+    })
+    .catch(({ response }) => {
+      dispatch(savePostRes(response.data));
+    });
 };
 
 export default savePost;

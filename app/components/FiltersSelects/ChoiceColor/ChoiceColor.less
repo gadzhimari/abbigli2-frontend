@@ -21,7 +21,7 @@
   @class: extract(@item, 1);
   @color: extract(@item, 2);
 
-  .color_@{class} {
+  .Color_color_@{class} {
     background-color: @color;
   }
 
@@ -30,7 +30,7 @@
 
 .color-bg-generator();
 
-.color-choice {
+.ChoiceColor {
   position: relative;
 
   &__wrap {
@@ -77,32 +77,6 @@
     }
   }
 
-  &__color {
-    display: inline-block;
-    vertical-align: top;
-    cursor: pointer;
-    border-radius: 2px;
-    width: 20px;
-    height: 20px;
-    border: 1px solid #acacac;
-    position: relative;
-    margin: 10px;
-
-    &.active {
-      &:before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: -4px;
-        left: -4px;
-        right: -4px;
-        bottom: -4px;
-        border: 2px solid #ff0808;
-        border-radius: 3px;
-      }
-    }
-  }
-
   &.open {
     .color-choice__dropdown {
       display: block;
@@ -110,8 +84,36 @@
   }
 }
 
+.Color {
+  width: 20px;
+  height: 20px;
+  margin: 10px;
+  position: relative;
+
+  display: inline-block;
+  vertical-align: top;
+
+  cursor: pointer;
+  border-radius: 2px;
+  border: 1px solid #acacac;
+
+  &_isActive {
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border: 2px solid #ff0808;
+      border-radius: 3px;
+    }
+  }
+}
+
 @media only screen and (max-width: 760px) {
-  .color-choice {
+  .ColorChoice {
     &__wrap {
       text-align: center;
     }

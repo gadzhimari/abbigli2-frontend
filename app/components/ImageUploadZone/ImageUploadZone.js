@@ -27,7 +27,7 @@ class ImageUploadZone extends Component {
     } = this.props;
 
     return (
-      <div className="add-tabs__form">
+      <div>
         <div>
           {__t('You can upload maximum images')}
         </div>

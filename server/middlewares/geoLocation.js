@@ -1,6 +1,8 @@
 import maxmind from 'maxmind';
 import path from 'path';
 
+import { setSettlement } from '../../app/ducks/settlement';
+
 const cityLookup = maxmind.openSync(path.resolve(__dirname, '../geo-base/GeoLite2-City.mmdb'));
 
 const geoLocation = (req, res, next) => {
@@ -19,6 +21,8 @@ const geoLocation = (req, res, next) => {
       type: 'SET_COUNTRY',
       code: city.country.iso_code,
     });
+
+    req.redux.dispatch(setSettlement(city));
 
     req.redux.dispatch({
       type: 'SET_COORDINATES',

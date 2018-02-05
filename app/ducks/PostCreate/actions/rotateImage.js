@@ -1,4 +1,4 @@
-import { Images } from 'API';
+import { Images } from '../../../api';
 
 const rotateImage = (imageId, direction, callbacks) => {
   callbacks.req();

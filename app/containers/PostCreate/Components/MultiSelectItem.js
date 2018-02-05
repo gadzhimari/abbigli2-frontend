@@ -1,22 +1,25 @@
 /* eslint react/require-default-props: 0 */
 
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import Type from 'prop-types';
 
 import Select from 'react-select';
 
 class MultiSelectItem extends PureComponent {
   static propTypes = {
-    options: PropTypes.arrayOf(PropTypes.shape({
-      title: PropTypes.string,
-      id: PropTypes.number,
-      children: PropTypes.array,
-    })).isRequired,
-    onChange: PropTypes.func,
-    label: PropTypes.string,
-    index: PropTypes.number,
-    value: PropTypes.number,
-    categories: PropTypes.arrayOf(PropTypes.object),
+    options: Type.arrayOf(Type.oneOfType([
+      Type.shape({
+        title: Type.string,
+        id: Type.number,
+        children: Type.array,
+      }),
+      Type.string
+    ])),
+    onChange: Type.func,
+    label: Type.string,
+    index: Type.number,
+    value: Type.number,
+    categories: Type.shape(),
   };
 
   static defaultProps = {
@@ -64,6 +67,7 @@ class MultiSelectItem extends PureComponent {
         onChange={this.handleChange}
         clearable={false}
         placeholder={label}
+        autosize={false}
       />
     );
   }

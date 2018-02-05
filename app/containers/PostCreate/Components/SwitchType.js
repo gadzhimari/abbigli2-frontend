@@ -21,6 +21,7 @@ class SwitchType extends PureComponent {
       onClick={this.onClick}
       dataset={{ type }}
       name={name}
+      key={type}
     >
       {icon}
       {text}

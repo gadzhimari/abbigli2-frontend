@@ -31,8 +31,12 @@ import NewIn from '../ducks/NewIn';
 import CatalogPage from '../ducks/CatalogPage';
 import Menu from '../ducks/Menu';
 import NetworkErrors from '../ducks/NetworkErrors';
+import settlement from '../ducks/settlement';
+import isTouch from '../ducks/isTouch';
 
 export default combineReducers({
+  Auth,
+  settlement,
   Sections,
   SubSections,
   Blogs,
@@ -41,7 +45,6 @@ export default combineReducers({
   PostsSpecific,
   ProfilePosts,
   TopAuthors,
-  Auth,
   Popup,
   Comments,
   Dialogs,
@@ -63,4 +66,5 @@ export default combineReducers({
   NewIn,
   CatalogPage,
   NetworkErrors,
+  isTouch
 });

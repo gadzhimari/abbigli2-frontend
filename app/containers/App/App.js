@@ -41,7 +41,8 @@ class App extends Component {
 
     const promises = [store.dispatch(fetchDataSections())];
     const child = nextState.routes[nextState.routes.length - 1].component;
-    const childFetch = child.fetchData || child.WrappedComponent.fetchData;
+    const childFetch = child.fetchData ||
+      (child.WrappedComponent && child.WrappedComponent.fetchData);
 
     if (token) {
       promises.push(store.dispatch(fetchMe(token)));
