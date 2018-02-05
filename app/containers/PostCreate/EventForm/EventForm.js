@@ -28,7 +28,7 @@ export default class EventForm extends CreateForm {
       date_start: '',
       date_end: '',
       city: null,
-      cityOptions: []
+      cityOptions: undefined
     }, props.data);
   }
 
@@ -93,8 +93,8 @@ export default class EventForm extends CreateForm {
             errors={errors.city}
             compact={isTouch}
             openPopup={openPopup}
-            autoload={false}
             options={cityOptions}
+            cache={false}
           />
 
           <div className="add-tabs__form-field">
