@@ -9,10 +9,10 @@ export default function preparePostForEditing(data) {
     tags: data.tags.join(' '),
     currentCategory: data.categories[0].slug,
     categories: data.categories[0].id,
-    cityOptions: [{
+    cityOptions: data.city && [{
       value: data.city.id,
       label: `${data.city.name}, ${data.city.country.name}`
     }],
-    city: data.city.id
+    city: data.city && data.city.id
   };
 }
