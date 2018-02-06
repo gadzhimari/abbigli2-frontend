@@ -70,6 +70,20 @@ class SearchForm extends Component {
     if (prevProps.tags !== tags) {
       this.getTagsFromProps();
     }
+
+    const optionsList = this.optionsList;
+    const { activeOptionClass } = this.props;
+    const activeOption = document.querySelector(`li.${activeOptionClass}`);
+    if (activeOption) {
+      const optionsListRect = optionsList.getBoundingClientRect();
+      const activeOptionRect = activeOption.getBoundingClientRect();
+      if (activeOptionRect.bottom > optionsListRect.bottom) {
+        optionsList.scrollTop = ((activeOption.offsetTop + activeOption.clientHeight) -
+          optionsList.offsetHeight);
+      } else if (activeOptionRect.top < optionsListRect.top) {
+        optionsList.scrollTop = activeOption.offsetTop;
+      }
+    }
   }
 
   getTagsFromProps = () => {
@@ -406,7 +420,11 @@ class SearchForm extends Component {
         {
           (isFocused && options.length)
             ? (
-              <div className={`search-form__options-wrapper ${optionsWrapperClass}`}>
+
+              <div
+                className={`search-form__options-wrapper ${optionsWrapperClass}`}
+                ref={optionsList => (this.optionsList = optionsList)}
+              >
                 <ul className={optionListClass}>
                   {
                     options.map(option => (
