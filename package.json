@@ -74,7 +74,7 @@
     "react-helmet": "^5.0.1",
     "react-html-parser": "^2.0.2",
     "react-image-gallery": "^0.8.2",
-    "react-images": "^0.5.4",
+    "react-images": "^0.5.17",
     "react-infinite-scroller": "^1.0.6",
     "react-phone-number-input": "0.5.3",
     "react-redux": "^5.0.2",
