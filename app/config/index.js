@@ -14,7 +14,7 @@ export const appConfig = {
     titleTemplate: '%s',
     meta: [
       { property: 'og:site_name', content: 'Abbilgi' },
-      { property: 'og:image', content: '/media/og-image.jpg' },
+      { property: 'og:image', content: `${DOMAIN_URL}media/og-image.jpg` },
       { property: 'og:locale', content: 'ru_RU' },
       { property: 'og:title', content: 'Abbilgi' },
     ],
