@@ -146,15 +146,15 @@ class TagSearchResults extends Component {
                 {/* <button className="default-button" type="button">
                   + {__t('Subscribe')}
                 </button> */}
-                <a
+                {/* <a
                   className="filter-open"
                   onClick={this.openMobileFilters}
                 >
                   {__t('Filters')}
-                </a>
+                </a> */}
               </div>
             </h1>
-            <Filters
+            {/* <Filters
               sections={sections}
               activeFilters={filters}
               updateFilter={updateFilter}
@@ -162,7 +162,7 @@ class TagSearchResults extends Component {
               reversePriceRange={reversePriceRange}
               changeFiltersType={changeFiltersType}
               openCityPopup={this.openSelectPopup}
-            />
+            /> */}
             {
               isFetching
                 ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
