@@ -13,7 +13,6 @@ export const appConfig = {
   head: {
     titleTemplate: '%s',
     meta: [
-      { charset: 'utf-8' },
       { property: 'og:site_name', content: 'Abbilgi' },
       { property: 'og:image', content: '/media/og-image.jpg' },
       { property: 'og:locale', content: 'ru_RU' },

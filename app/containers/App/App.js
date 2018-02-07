@@ -136,7 +136,7 @@ class App extends Component {
         openPopup={this.modalButtonClick}
       >
         <Helmet
-          {...appConfig.head}
+          {...appConfig.head.titleTemplate}
           title={seoData && seoData.seo_title}
           meta={seoData && [
             {
@@ -147,6 +147,7 @@ class App extends Component {
               name: 'keywords',
               content: seoData.seo_keywords,
             },
+            ...appConfig.head.meta,
           ]}
         />
         <Header>
