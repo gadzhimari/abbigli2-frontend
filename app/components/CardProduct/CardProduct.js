@@ -84,6 +84,7 @@ class CardProduct extends Component {
       type,
       comments_num,
       likes_num,
+      view_on_site_url: postUrl
     } = this.props.data;
 
     const {
@@ -103,8 +104,6 @@ class CardProduct extends Component {
     const likeCount = this.state.forced.count === null
       ? likes_num
       : this.state.forced.count;
-
-    const location = window.location || {};
 
     const formatedPrice = Number(price).toFixed(2);
 
@@ -134,7 +133,7 @@ class CardProduct extends Component {
             </div>
 
             <Share
-              postLink={`/${typesUrl[type]}/${slug}`}
+              postLink={postUrl}
               buttonClass="share-button"
             />
           </div>

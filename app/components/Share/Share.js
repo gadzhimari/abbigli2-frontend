@@ -22,13 +22,13 @@ export default function Share({ postLink, buttonClass, onClick }) {
         className={buttonClass}
         provider={FACEBOOK_PROVIDER}
         onClick={onClick}
-        href={`https://www.facebook.com/sharer.php?u=${location.origin}${postLink}/`}
+        href={`https://www.facebook.com/sharer.php?u=${postLink}/`}
       />
       <ShareButton
         className={buttonClass}
         provider={PINTEREST_PROVIDER}
         onClick={onClick}
-        href={`https://www.pinterest.com/pin/create/button/?url=${location.origin}${postLink}/`}
+        href={`https://www.pinterest.com/pin/create/button/?url=${postLink}/`}
       />
       {
         lang === 'ru'
@@ -36,7 +36,7 @@ export default function Share({ postLink, buttonClass, onClick }) {
         <ShareButton
           className={`${buttonClass} vkontakte`}
           provider={VK_PROVIDER}
-          href={`https://vk.com/share.php?url=${location.origin}${postLink}/`}
+          href={`https://vk.com/share.php?url=${postLink}/`}
           onClick={onClick}
         />
       }
