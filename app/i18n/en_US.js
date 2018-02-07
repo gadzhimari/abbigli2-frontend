@@ -1,7 +1,7 @@
 export default {
   'Upload image': 'Upload image',
-  'You can upload maximum images': 'You can upload maximum xx images in JPEG, PNG format.',
   'sign.up.to.leave.comment': 'Sign up to leave comment',
+  'You can upload maximum images': 'You can upload images in JPEG, PNG format',
   'Popular in blogs': 'Popular in blogs',
   'Show more': 'Show more',
   'Relative posts': 'Relative posts',
