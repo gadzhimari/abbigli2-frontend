@@ -11,7 +11,7 @@ import * as actions from 'ducks/Relative/actions';
 
 import {
   BreadCrumbs,
-  Loading,
+  Spin,
   PageSwitcher,
   ListWithNew,
 } from 'components';
@@ -34,7 +34,7 @@ class RelativePage extends Component {
   render() {
     const {
       isFetching,
-      items, 
+      items,
       post,
       pages,
       paginate,
@@ -58,7 +58,11 @@ class RelativePage extends Component {
           }
           {
             isFetching
-              ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
+            ? <div className="cards-wrap">
+              <div className="spin-wrapper">
+                <Spin visible={isFetching} />
+              </div>
+            </div>
               : <div className="cards-wrap">
                 {
                   items.map(item => <Blog

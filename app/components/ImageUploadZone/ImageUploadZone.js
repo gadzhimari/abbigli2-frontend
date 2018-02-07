@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 
-import { DragableImage, Loading } from 'components';
+import { DragableImage, Spin } from 'components';
 import { __t } from './../../i18n/translator';
 
 import './ImageUploadZone.less';
@@ -55,7 +55,10 @@ class ImageUploadZone extends Component {
                 </svg>
                 {__t('Upload image')}
               </div>)
-              : <Loading loading={imageFetching} />
+              : (<div className="spin-wrapper">
+                <Spin visible={imageFetching} />
+              </div>
+              )
           }
         </Dropzone>
         {

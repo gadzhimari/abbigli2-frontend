@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { CardProduct, Loading, Link } from '../../components';
+import { CardProduct, Spin, Link } from '../../components';
 import { fetchData as fetchDataPosts, removePost } from '../../ducks/ProfilePosts';
 
 import { gaSendClickEvent } from '../../lib/analitics';
@@ -116,7 +116,9 @@ class ProfileMyabbigli extends Component {
             ))
           }
 
-          <Loading loading={isFetchingPosts} />
+          <div className="spin-wrapper">
+            <Spin visible={isFetchingPosts} />
+          </div>
         </div>
       </div>
     );
