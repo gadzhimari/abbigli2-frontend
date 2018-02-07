@@ -23,6 +23,7 @@ export { default as ProductPreview } from './ProductPreview/ProductPreview';
 export { default as UserProfile } from './UserProfile/UserProfile';
 export { default as Gallery } from './Gallery/Gallery';
 export { default as Loading } from './Loading';
+export { default as Spin } from './Spin';
 export { default as HR } from './HR';
 export { default as Share } from './Share/Share';
 export { default as HomeSlider } from './HomeSlider';
