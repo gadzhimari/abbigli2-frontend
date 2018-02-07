@@ -85,19 +85,21 @@ class SpecificPostsPage extends PureComponent {
           {Icon && <Icon />}
           {page.title}
         </h1>
-        <a
-          className="filter-open"
-          onClick={this.openMobileFilters}
-        >
-          {__t('Filters')}
-        </a>
-        <Filters
-          sections={this.props.sections}
-          updateFilter={this.props.updateFilter}
-          applyFilters={this.props.applyFilters}
-          activeFilters={this.props.filters}
-          reversePriceRange={this.props.reversePriceRange}
-        />
+        {/*
+          <a
+            className="filter-open"
+            onClick={this.openMobileFilters}
+          >
+            {__t('Filters')}
+          </a>
+          <Filters
+            sections={this.props.sections}
+            updateFilter={this.props.updateFilter}
+            applyFilters={this.props.applyFilters}
+            activeFilters={this.props.filters}
+            reversePriceRange={this.props.reversePriceRange}
+          />
+        */}
         <ListWithNew
           ItemComponent={Product}
           items={items}

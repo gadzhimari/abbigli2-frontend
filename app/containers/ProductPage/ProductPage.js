@@ -97,6 +97,7 @@ class ProductPage extends Component {
       relativePosts,
       priceTemplate,
       me,
+      isAuthenticated,
     } = this.props;
     const crumbs = [];
 
@@ -133,12 +134,14 @@ class ProductPage extends Component {
           <BreadCrumbs crumbs={crumbs} />
 
           {userIsOwner &&
-            <Link
-              to={`/profile/${author.id}/post/edit/${data.slug}`}
-              className="default-button edit-post-button"
-            >
-              {__t('Edit')}
-            </Link>
+            <div className="edit-post__container">
+              <Link
+                to={`/profile/${author.id}/post/edit/${data.slug}`}
+                className="default-button edit-post-button"
+              >
+                {__t('Edit')}
+              </Link>
+            </div>
           }
 
           <Content
@@ -149,7 +152,11 @@ class ProductPage extends Component {
           />
 
           <div className="section">
-            <CommentsField onSend={this.sendComment} />
+            <CommentsField
+              onSend={this.sendComment}
+              canComment={isAuthenticated}
+              dispatch={dispatch}
+            />
             <CommentsList comments={commentsList} />
           </div>
 

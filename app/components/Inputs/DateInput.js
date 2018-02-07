@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import moment from 'moment';
 
-import { location } from 'config';
+import { location } from '../../config';
 
 import 'react-day-picker/lib/style.css';
 
@@ -22,36 +22,28 @@ class DateInput extends Component {
       showOverlay: false,
       selectedDay: undefined,
     };
+
     this.clickInside = false;
   }
 
   getSelectedDays = day => DateUtils.isSameDay(this.state.selectedDay, day)
 
   showOverlay = () => {
-    this.setState({
-      showOverlay: true,
-    });
+    this.setState({ showOverlay: true });
     this.props.onFocus();
   }
 
   hideOverlay = () => {
-    this.setState({
-      showOverlay: this.clickInside,
-    });
+    this.setState({ showOverlay: this.clickInside });
     this.clickInside = false;
   }
 
   handleDayClick = (event, day) => {
-    this.setState({
-      selectedDay: day,
-      showOverlay: false,
-    });
-    this.props.onChange({
-      target: {
-        name: this.props.name,
-        value: moment(day).format(this.props.format),
-      },
-    });
+    const { name, onChange } = this.props;
+    const value = moment(day).format(this.props.format);
+
+    this.setState({ selectedDay: day, showOverlay: false });
+    onChange(null, { name, value });
   }
 
   handleClickInside = () => {

@@ -96,6 +96,7 @@ class EventPage extends Component {
       relativePosts,
       usersPosts,
       me,
+      isAuthenticated,
     } = this.props;
     const crumbs = [{
       title: __t('Events'),
@@ -153,6 +154,8 @@ class EventPage extends Component {
             />
             <CommentsField
               onSend={this.sendComment}
+              canComment={isAuthenticated}
+              dispatch={dispatch}
             />
             <CommentsList
               comments={commentsList}

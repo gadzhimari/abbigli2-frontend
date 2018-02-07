@@ -40,6 +40,22 @@ const Posts = {
       mustApplyToken: true,
     });
   },
+  createPost(data) {
+    return request({
+      url: '/posts/',
+      mustApplyToken: true,
+      method: 'POST',
+      data,
+    });
+  },
+  editPost(data, slug) {
+    return request({
+      url: `/posts/${slug}/`,
+      mustApplyToken: true,
+      method: 'PATCH',
+      data,
+    });
+  },
 };
 
 export default Posts;

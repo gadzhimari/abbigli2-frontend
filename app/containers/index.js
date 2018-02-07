@@ -18,7 +18,6 @@ export { default as EventsPage } from './EventsPage/EventsPage';
 export { default as EventPage } from './EventPage/EventPage';
 export { default as SpecificPostsPage } from './SpecificPostsPage/SpecificPostsPage';
 export { default as PostCreate } from './PostCreate';
-export { default as PostEdit } from './PostEdit';
 export { default as Faq } from './Faq';
 export { default as Agreement } from './Agreement';
 export { default as RelativePage } from './RelativePage';

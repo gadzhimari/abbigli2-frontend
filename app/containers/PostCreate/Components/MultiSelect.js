@@ -15,7 +15,7 @@ class MultiSelect extends PureComponent {
     (используется когда мы редактируем сущетствующий пост) */
     currentCategory: PropTypes.string,
     /* Список категорий нормализованных по slug */
-    categories: PropTypes.objectOf(PropTypes.object),
+    categories: PropTypes.objectOf(PropTypes.object)
   }
 
   static defaultProps = {
@@ -52,8 +52,8 @@ class MultiSelect extends PureComponent {
   /* Возвращает значение последнего вложенного элемента */
   get value() {
     return this.lastStackIndex === this.lastValuesIndex
-      ? [this.state.values[this.lastStackIndex]]
-      : [];
+      ? this.state.values[this.lastStackIndex]
+      : null;
   }
 
   getCategoriesByCurrentSlug = () => {
@@ -99,11 +99,9 @@ class MultiSelect extends PureComponent {
   sectionsChange = (value) => {
     if (value.index === this.lastStackIndex) {
       this.updateStackAndValue(value);
-
-      return;
+    } else {
+      this.replaceStack(value.index, value);
     }
-
-    this.replaceStack(value.index, value);
   }
 
   updateStackAndValue = (value) => {
@@ -130,6 +128,7 @@ class MultiSelect extends PureComponent {
         <label className="label">
           {__t('Choose category')}
         </label>
+
         {
           this.state.stack
             .map((group, idx) => <MultiSelectItem
@@ -138,7 +137,7 @@ class MultiSelect extends PureComponent {
               onChange={this.sectionsChange}
               value={this.state.values[idx]}
               categories={this.props.categories}
-              key={group.label}
+              key={idx}
               label={group.label}
             />)
         }
