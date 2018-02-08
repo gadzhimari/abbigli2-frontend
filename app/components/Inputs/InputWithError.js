@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Input from './Input';
+import { omit } from 'lodash';
 
-import { omit } from 'utils/functions';
+import Input from './Input';
 
 class InputWithError extends Component {
   constructor(props) {
@@ -76,16 +76,11 @@ class InputWithError extends Component {
         <If condition={Icon}>
           {Icon}
         </If>
-        <span className="input__box">
-          <RenderInput
-            onFocus={this.hideError}
-            className={inputClass}
-            {...omitedProps}
-          />
-          <If condition={this.mustShowErrors}>
-            <span className="input__icon input__icon_error">!</span>
-          </If>
-        </span>
+        <RenderInput
+          onFocus={this.hideError}
+          className={inputClass}
+          {...omitedProps}
+        />
         <If condition={this.mustShowErrors}>
           {
             errors.map(error => (<div

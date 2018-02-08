@@ -9,12 +9,13 @@ import { ErrorInput } from 'components/Inputs';
 
 import { __t } from '../../../../i18n/translator';
 
+import { location } from 'config';
+
 class EditingSocial extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      pinterest_account: props.data.pinterest_account,
       vk_account: props.data.vk_account,
       google_account: props.data.google_account,
       ok_account: props.data.ok_account,
@@ -32,67 +33,55 @@ class EditingSocial extends PureComponent {
     return this.state;
   }
 
-  render() {
-    const { vk_account, ok_account, fb_account, google_account } = this.state;
+  renderSocialLinks() {
     const { errors } = this.props;
+    const { vk_account, ok_account, fb_account, google_account } = this.state;
 
+    const rawSocials = [
+      { name: 'vk', provider: 'vk', value: vk_account, cls: 'vkontakte' },
+      { name: 'ok', provider: 'odnoklassniki', value: ok_account, cls: '' },
+      { name: 'fb', provider: 'facebook', value: fb_account, cls: '' },
+      { name: 'google', provider: 'google', value: google_account, cls: 'google-plus' },
+    ];
+    const excludeSocialServices = ['vk', 'ok'];
+    let socials;
+    if (location === 'en') {
+      socials = rawSocials.filter(social => !excludeSocialServices.includes(social.name));
+    } else {
+      socials = rawSocials;
+    }
+
+    return (
+      <div>
+        {
+          socials.map(social => (
+            <ErrorInput
+              key={social.name}
+              className="input"
+              value={social.value}
+              name={`${social.name}_account`}
+              onChange={this.handleChange}
+              wrapperClass="edit-contact__wrapper"
+              errors={errors[`${social.name}_account`]}
+              Icon={<ShareButton
+                className={`social-btn ${social.cls}`}
+                provider={social.provider}
+                link={null}
+              />}
+            />
+          ))
+        }
+      </div>
+    );
+  }
+
+  render() {
     return (
       <div className="profile-about__contact">
         <h4 className="profile-about__contact-header">
           {__t('Contact')}
         </h4>
-        <ErrorInput
-          className="input"
-          value={vk_account}
-          name="vk_account"
-          onChange={this.handleChange}
-          wrapperClass="edit-contact__wrapper"
-          errors={errors.vk_account}
-          Icon={<ShareButton
-            className="social-btn vkontakte"
-            provider="vk"
-            link={null}
-          />}
-        />
-        <ErrorInput
-          className="input"
-          value={ok_account}
-          name="ok_account"
-          onChange={this.handleChange}
-          wrapperClass="edit-contact__wrapper"
-          errors={errors.ok_account}
-          Icon={<ShareButton
-            className="social-btn"
-            provider="odnoklassniki"
-            link={null}
-          />}
-        />
-        <ErrorInput
-          className="input"
-          value={fb_account}
-          name="fb_account"
-          onChange={this.handleChange}
-          wrapperClass="edit-contact__wrapper"
-          errors={errors.fb_account}
-          Icon={<ShareButton
-            className="social-btn"
-            provider="facebook"
-            link={null}
-          />}
-        />
-        <ErrorInput
-          className="input"
-          value={google_account}
-          name="google_account"
-          onChange={this.handleChange}
-          wrapperClass="edit-contact__wrapper"
-          errors={errors.google_account}
-          Icon={<ShareButton
-            className="social-btn google-plus"
-            provider="google"
-            link={null}
-          />}
-        />
+        { this.renderSocialLinks() }
       </div>
     );
   }
@@ -100,7 +89,6 @@ class EditingSocial extends PureComponent {
 
 EditingSocial.propTypes = {
   data: Type.shape({
-    pinterest_account: Type.string,
     vk_account: Type.string,
     google_account: Type.string,
     ok_account: Type.string,
