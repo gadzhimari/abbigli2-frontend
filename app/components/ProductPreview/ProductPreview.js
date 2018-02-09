@@ -28,6 +28,9 @@ class ProductPreview extends Component {
   }
 
   componentWillUnmount() {
+    if (this.resizeTimer) {
+      window.clearTimeout(this.resizeTimer);
+    }
     window.removeEventListener('resize', this.updateSliderSize);
   }
 
@@ -139,12 +142,14 @@ class ProductPreview extends Component {
   }
 
   updateSliderSize = () => {
-    const newWidth = document.querySelector('.product-slider').offsetWidth;
+    this.resizeTimer = window.setTimeout(() => {
+      const newWidth = document.querySelector('.product-slider').offsetWidth;
 
-    this.setState({
-      slideWidth: newWidth,
-      thumbWidth: (newWidth / 3) - 7,
-    });
+      this.setState({
+        slideWidth: newWidth,
+        thumbWidth: (newWidth / 3) - 7,
+      });
+    }, 50);
   }
 
   render() {
