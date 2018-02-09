@@ -110,3 +110,4 @@ class ProductPreview extends Component {
 }
 
 export default ProductPreview;
+
