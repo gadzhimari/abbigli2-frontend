@@ -54,5 +54,6 @@ export const fetchData = () => dispatch => Catalog.getCatalog()
       normalizedCategories: data.normalizedCategories,
       promo: data.promo,
     }));
-  });
+  })
+  .catch((err) => { console.log(err); });
 

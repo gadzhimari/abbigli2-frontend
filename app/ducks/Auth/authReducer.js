@@ -35,6 +35,12 @@ const authReducer = (state = initialState, action) => {
         isFetching: false,
         isAuthenticated: true,
       });
+    case actionsTypes.SET_ME_ERROR:
+      return {
+        ...state,
+        isFetching: false,
+        isAuthenticated: false,
+      };
     default:
       return state;
   }
