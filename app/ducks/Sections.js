@@ -1,9 +1,8 @@
-import { createAction } from 'redux-actions';
-import { Catalog } from '../api';
+import { createActions, handleActions } from 'redux-actions';
+import { Catalog, errorHandler } from '../api';
 
-const SET = 'Sections/SET';
-
-const setData = createAction(SET);
+const SET_SECTIONS = 'SET_SECTIONS';
+const { setSections } = createActions(SET_SECTIONS);
 
 const initalState = {
   items: [],
@@ -12,23 +11,20 @@ const initalState = {
   promo: {},
 };
 
-export default function (state = initalState, action = {}) {
-  if (action.type === SET) {
+export default handleActions({
+  [setSections](state, { payload }) {
     return {
       ...state,
-      items: action.payload.categories,
-      subsections: action.payload.sections,
-      normalizedCategories: action.payload.normalizedCategories,
-      promo: action.payload.promo,
+      items: payload.categories,
+      subsections: payload.sections,
+      normalizedCategories: payload.normalizedCategories,
+      promo: payload.promo,
     };
   }
+}, initalState);
 
-  return state;
-}
-
-export function fetchData() {
-  return dispatch => Catalog.getCatalog()
-    .then((res) => {
-      dispatch(setData(res.data));
-    });
+export function fetchSections() {
+  return (dispatch, getState, logger) => Catalog.getCatalog()
+    .then((res) => { dispatch(setSections(res.data)); })
+    .catch((err) => { errorHandler(err, logger); });
 }

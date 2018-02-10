@@ -1,7 +1,6 @@
 /* eslint no-console: 0 */
 import Raven from 'raven';
-
-const isProduction = process.env.NODE_ENV === 'production';
+import cfg from './config';
 
 const logger = {
   info: (message) => {
@@ -10,7 +9,7 @@ const logger = {
   error: (path, err) => {
     console.error(path, err);
 
-    if (isProduction) {
+    if (cfg.isProduction) {
       Raven.captureException(err);
     }
   },

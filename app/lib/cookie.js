@@ -1,9 +1,9 @@
 /* eslint global-require: 0 import/prefer-default-export: 0 */
 
-let cookie;
+let cookie = null;
 
 if (typeof document !== 'undefined') {
-  cookie = require('cookies-js')(window);
+  cookie = require('cookies-js');
 }
 
 export const getCookie = (value) => {

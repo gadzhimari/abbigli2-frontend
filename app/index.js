@@ -22,8 +22,6 @@ import { createHistoryListener } from './lib/analitics';
 
 import { DOMAIN_URL } from './config';
 
-
-// Get the DOM Element that will host our React application.
 const urlWithoutProtocol = DOMAIN_URL.split('://')[1];
 
 function renderApp() {
@@ -34,10 +32,9 @@ function renderApp() {
   }
 
   const history = syncHistoryWithStore(browserHistory, store);
-  const renderRoutes = routes(store);
 
   const routerParams = {
-    routes: renderRoutes,
+    routes,
     history,
   };
 

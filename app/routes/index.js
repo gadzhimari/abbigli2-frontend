@@ -6,7 +6,6 @@ import IndexRoute from 'react-router/lib/IndexRoute';
 import {
   App,
   Home,
-  About,
   Questions,
   Sections,
   Tag,
@@ -26,65 +25,51 @@ import {
   Agreement,
   PeopleSearch,
   ProfileAbout,
+  About
 } from '../containers';
 
 import Chat from '../containers/Chat';
 import SettingsPage from '../containers/SettingsPage';
 
-const routes = (store, token, shouldPreload) => {
-  const componentFn = (Component, value) => (nextState, replace, callback) => Component[value]({
-    store,
-    token,
-    shouldPreload,
-  }, nextState, replace, callback);
+import pages from '../lib/pages';
 
-  const handleNoAuth = (nextState, replace) => {
-    const state = store.getState();
+const routes = (
+  <Route path={pages.ROOT_PAGE.path} component={App} >
+    <IndexRoute component={Home} />
+    <Route path={pages.FAQ_PAGE.path} component={Faq} />
+    <Route path={pages.ABOUT_PAGE.path} component={About} />
+    <Route path={pages.AGREEMENT_PAGE.path} component={Agreement} />
+    <Route path={pages.QUESTIONS_PAGE.path} component={Questions} />
+    <Route path={pages.SEARCH_PAGE.path} component={Tag} />
+    <Route path={pages.PEOPLE_SEARCH.path} component={PeopleSearch} />
+    <Route path={pages.SEARCH_PAGE.path} component={Chat} />
 
-    if (!state.Auth.isAuthenticated) {
-      replace('/');
-    }
-  };
+    <Route path={pages.CREATE_PAGE.path} component={PostCreate} />
+    <Route path={pages.EDIT_PAGE.path} component={PostCreate} />
 
-  return (
-    <Route path="/" component={App} onEnter={componentFn(App, 'fetchData')} >
-      <IndexRoute component={Home} />
-      <Route path="page/about" component={About} />
-      <Route path="page/faq" component={Faq} />
-      <Route path="page/agreement" component={Agreement} />
-      <Route path="questions" component={Questions} />
-      <Route path="tags/:tags/:filter(/:page)" component={Tag} />
-      <Route path="find" component={Tag} />
-      <Route path="people" component={PeopleSearch} />
-      <Route path="chat" component={Chat} />
-
-      <Route path="post/new" component={PostCreate} onEnter={handleNoAuth} />
-      <Route path="profile/:profile/post/edit/:slug" component={PostCreate} onEnter={handleNoAuth} />
-
-      <Route path="profile/(:profile)" component={Profile} >
-        <IndexRoute component={ProfileMyabbigli} />
-        <Route path="favorites" component={ProfileFavorites} />
-        <Route path="feed" component={ProfileFeed} />
-        <Route path="about" component={ProfileAbout} />
-      </Route>
-
-      <Route path="settings" component={SettingsPage} onEnter={handleNoAuth} />
-
-      <Route path="blogs" component={BlogsPage} />
-      <Route path="events" component={EventsPage} />
-      <Route path="event/:slug" component={EventPage} />
-      <Route path="blog/:slug" component={BlogPage} />
-      <Route path="post/:slug" component={ProductPage} />
-      <Route path="relative/:slug" component={RelativePage} />
-
-      <Route path="new-products" component={SpecificPostsPage} filter="New" />
-      <Route path="popular-products" component={SpecificPostsPage} filter="Popular" />
-      <Route path="set-the-mood" component={SpecificPostsPage} filter="Mood" />
-      <Route path="nearest-products" component={SpecificPostsPage} filter="Near" />
-
-      <Route path="(**/):section" component={Sections} />
+    <Route path={pages.PROFILE_PAGE.path} component={Profile} >
+      <IndexRoute component={ProfileMyabbigli} />
+      <Route path={pages.FAVORITES_PAGE.path} component={ProfileFavorites} mustScroll={false} />
+      <Route path={pages.FEED_PAGE.path} component={ProfileFeed} mustScroll={false} />
+      <Route path={pages.ABOUT_PROFILE_PAGE.path} component={ProfileAbout} mustScroll={false} />
     </Route>
-  );
-};
+
+    <Route path={pages.SETTINGS_PAGE.path} component={SettingsPage} />
+
+    <Route path={pages.BLOGS_PAGE.path} component={BlogsPage} />
+    <Route path={pages.EVENTS_PAGE.path} component={EventsPage} />
+    <Route path={pages.EVENT_PAGE.path} component={EventPage} />
+    <Route path={pages.BLOG_PAGE.path} component={BlogPage} />
+    <Route path={pages.PRODUCT_PAGE.path} component={ProductPage} />
+    <Route path={pages.RELATIVE_PRODUCTS_PAGE.path} component={RelativePage} />
+
+    <Route path={pages.NEW_PRODUCTS_PAGE.path} component={SpecificPostsPage} filter="New" />
+    <Route path={pages.POPULAR_PRODUCTS_PAGE.path} component={SpecificPostsPage} filter="Popular" />
+    <Route path={pages.MOOD_PAGE.path} component={SpecificPostsPage} filter="Mood" />
+    <Route path={pages.NEAR_PAGE.path} component={SpecificPostsPage} filter="Near" />
+
+    <Route path={pages.CATALOG_PAGE.path} component={Sections} />
+  </Route>
+);
 
 export default routes;

@@ -32,8 +32,6 @@ import { POST_DATE_FORMAT } from '../../lib/date/formats';
 import './BlogPage.less';
 
 class BlogPage extends Component {
-  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, token))
-
   static fetchSubData = (dispatch, data, params) => Promise.all([
     dispatch(fetchNew({
       type: 4,

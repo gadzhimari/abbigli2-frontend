@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import Link from '../../components/Link/Link';
 
 import { gaSendClickEvent } from '../../lib/analitics';
-import scrollTo from '../../utils/scrollTo';
 import { __t } from '../../i18n/translator';
 
 export default class ProfileSubMenu extends PureComponent {
@@ -25,11 +24,6 @@ export default class ProfileSubMenu extends PureComponent {
 
   onLinkClick = (e, { name }) => {
     gaSendClickEvent('profile', name);
-  }
-
-  scrollToMenu() {
-    const elementY = window.pageYOffset + this.submenu.getBoundingClientRect().top;
-    scrollTo(elementY, 500);
   }
 
   render() {

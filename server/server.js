@@ -15,14 +15,17 @@ import trimSlash from './middlewares/trim-url-slash';
 import setLocals from './middlewares/set-locals';
 import redirectManager from './middlewares/redirect-manager';
 import setupUseragent from './middlewares/setupUseragent';
+import setupIsTouch from './middlewares/setupIsTouch';
+import setupDataRequests from './middlewares/setupDataRequests';
+import handleRequests from './middlewares/handleRequests';
+import setupClientRoutes from './lib/setupClientRoutes';
 
 import routes from './api';
+import cfg from './config';
 
 const app = express();
-const PORT = process.env.SERVER_PORT;
-const ravenDSN = process.env.SENTRY_DNS;
 
-Raven.config(ravenDSN).install();
+Raven.config(cfg.sentryDns).install();
 
 // Enable ip from proxy
 app.enable('trust proxy');
@@ -45,14 +48,17 @@ app.use(setLocals);
 app.use(configureRedux);
 app.use(geoLocation);
 app.use(setupUseragent);
+app.use(setupDataRequests);
+app.use(setupIsTouch);
+
+setupClientRoutes(app);
+
+app.use(handleRequests);
 app.use(handleGoogleCahceUrl);
 app.use(renderOnServer);
 
-if (process.env.NODE_ENV === 'production' && ravenDSN) {
+if (cfg.isProduction && cfg.sentryDns) {
   app.use(Raven.errorHandler());
 }
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`server listening on port ${PORT}`);
-});
+export default app;

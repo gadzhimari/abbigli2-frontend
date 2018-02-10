@@ -5,8 +5,6 @@ import { withRouter } from 'react-router';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
-import update from 'react/lib/update';
-
 import ProductForm from './ProductForm/ProductForm';
 import BlogForm from './BlogForm/BlogForm';
 import EventForm from './EventForm/EventForm';
@@ -56,14 +54,14 @@ class PostCreate extends Component {
     const { images } = this.state;
     const dragImage = images[dragIndex];
 
-    this.setState(update(this.state, {
-      images: {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, dragImage],
-        ],
-      },
-    }));
+    // this.setState(update(this.state, {
+    //   images: {
+    //     $splice: [
+    //       [dragIndex, 1],
+    //       [hoverIndex, 0, dragImage],
+    //     ],
+    //   },
+    // }));
   }
 
   getImageZoneActions() {
