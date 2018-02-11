@@ -12,6 +12,10 @@ export default class FetchingButton extends PureComponent {
     children: Type.oneOfType([Type.node, Type.arrayOf(Type.node)]),
   }
 
+  static defaultProps = {
+    type: 'button'
+  }
+
   onClick = (...attr) => {
     const { isFetching, onClick } = this.props;
 
