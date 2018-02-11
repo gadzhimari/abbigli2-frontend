@@ -67,6 +67,11 @@ function renderApp() {
 
   createHistoryListener(history);
 
+  // убираем хэш оставленный от входа через oauth
+  if (location.hash) {
+    history.push(location.pathname);
+  }
+
   match(routerParams, (err, redirect, renderProps) => {
     render(
       <Provider store={store}>
