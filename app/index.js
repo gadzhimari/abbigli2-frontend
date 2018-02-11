@@ -68,7 +68,7 @@ function renderApp() {
   createHistoryListener(history);
 
   // убираем хэш оставленный от входа через oauth
-  if (location.hash) {
+  if (/#.*$/.test(location.href)) {
     history.push(location.pathname);
   }
 
