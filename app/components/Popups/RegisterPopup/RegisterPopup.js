@@ -177,6 +177,7 @@ class RegisterPopup extends Component {
               onClick={this.onRegistrationClick}
               isFetching={isFetching}
               name="phone"
+              type="button"
             >
               {__t('Sign Up')}
             </FetchingButton>
