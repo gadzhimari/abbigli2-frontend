@@ -68,7 +68,7 @@ class RegisterPopup extends Component {
   }
 
   openChoseCountry = () => this.props
-    .dispatch(openPopup('selectPopup', {
+    .dispatch(openPopup('selectPopup1', {
       title: 'Country',
       items: this.props.countres,
       filterField: 'name',

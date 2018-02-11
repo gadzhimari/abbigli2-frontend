@@ -134,7 +134,7 @@ class EventsPage extends Component {
               }}
             />
           }
-          <a
+          {/* <a
             className="filter-open"
             onClick={this.openMobileFilters}
           >
@@ -146,7 +146,7 @@ class EventsPage extends Component {
             applyFilters={applyFilters}
             updateFilter={updateFilter}
             openCityPopup={this.openSelectPopup}
-          />
+          /> */}
           {
             isFetching
               ? <div className="cards-wrap"><Loading loading={isFetching} /></div>

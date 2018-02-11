@@ -10,6 +10,7 @@ export { default as deleteMessagePopup } from './DeleteMessagePopup';
 export { default as eventSearch } from './EventSearch';
 export { default as statusPopup } from './StatusPopup';
 export { default as selectPopup } from './SelectPopup/SelectPopup2';
+export { default as selectPopup1 } from './SelectPopup/SelectPopup';
 export { default as filtersPopup } from './FiltersPopup';
 export { default as followersPopup } from './Followers/Followers';
 export { default as followingPopup } from './Followers/Following';

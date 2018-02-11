@@ -1,6 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import { DOMAIN_URL } from '../../app/config';
 
+const hashRegexp = /#.*/;
+
 export default (req, res) => {
   const config = {
     method: 'POST',
@@ -8,7 +10,9 @@ export default (req, res) => {
     body: JSON.stringify({ code: req.query.code }),
   };
 
-  const { state } = req.query;
+  let { state } = req.query;
+
+  state = state.replace(hashRegexp, '');
 
   fetch(`${DOMAIN_URL}api/social/${req.params.social}/`, config)
     .then(response => response.json())
