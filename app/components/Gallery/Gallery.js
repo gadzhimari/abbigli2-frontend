@@ -8,7 +8,7 @@ class Gallery extends Component {
   shouldComponentUpdate(nextProps) {
     return nextProps !== this.props;
   }
-  
+
   render() {
     const shouldShowDots = this.props.images.length > 1;
     return <ImageGallery

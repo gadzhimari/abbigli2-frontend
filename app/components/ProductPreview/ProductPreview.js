@@ -1,155 +1,61 @@
 import React, { Component } from 'react';
+import ImageGallery from 'react-image-gallery';
+import 'react-image-gallery/styles/css/image-gallery.css';
 
-import BigPreview from './Components/BigPreview';
-import SmallPreview from './Components/SmallPreview';
-import SliderArrows from './Components/SliderArrows';
 import ModalGallery from './Components/ModalGallery';
 
-import './ProductPreview.styl';
+import './ProductPreview.less';
 
 class ProductPreview extends Component {
-  constructor() {
-    super();
-    this.state = {
-      activeIndex: '0',
-      slideWidth: 460,
-      thumbWidth: 107,
-      modalOpen: false,
-      thumbsScroll: 0,
-    };
+  state = {
+    currentIndex: 0,
+    modalOpen: false,
   }
 
-  componentDidMount() {
-    if (this.props.images.length !== 0) {
-      this.updateSliderSize();
-
-      window.addEventListener('resize', this.updateSliderSize);
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.resizeTimer) {
-      window.clearTimeout(this.resizeTimer);
-    }
-    window.removeEventListener('resize', this.updateSliderSize);
-  }
-
-
-  selectActive = ({ target }) => {
-    const newActiveIndex = target.dataset.index;
-    const activeElement = document.querySelector('.selected');
-    const activeSmall = document.querySelector('.sp-selected-thumbnail');
-    const nextElement = document.querySelector(`.sp-slide[data-index="${newActiveIndex}"]`);
-    const nextSmall = document.querySelector(`.sp-thumbnail-container[data-index="${newActiveIndex}"]`);
-
-    activeElement.classList.remove('selected');
-    activeSmall.classList.remove('sp-selected-thumbnail');
-
-    nextElement.classList.add('selected');
-    nextSmall.classList.add('sp-selected-thumbnail');
-
-    this.slideThumbs(newActiveIndex);
-
+  onSlide = (index) => {
     this.setState({
-      activeIndex: newActiveIndex,
-    });
-  }
-
-  prevSlide = () => {
-    const activeElement = document.querySelector('.selected');
-    const activeSmall = document.querySelector('.sp-selected-thumbnail');
-
-    const prevElement = activeElement.previousElementSibling
-      ||
-      document.querySelector('.sp-slides').lastElementChild;
-
-    const prevSmall = activeSmall.previousElementSibling
-      ||
-      document.querySelector('.sp-thumbnails').lastElementChild;
-
-    activeElement.classList.remove('selected');
-    activeSmall.classList.remove('sp-selected-thumbnail');
-
-    prevElement.classList.add('selected');
-    prevSmall.classList.add('sp-selected-thumbnail');
-
-    this.slideThumbs(prevElement.dataset.index);
-
-    this.setState({
-      activeIndex: prevElement.dataset.index,
-    });
-  }
-
-  nextSlide = () => {
-    const activeElement = document.querySelector('.selected');
-    const activeSmall = document.querySelector('.sp-selected-thumbnail');
-
-    const nextElement = activeElement.nextElementSibling
-      ||
-      document.querySelector('.sp-slides').firstElementChild;
-
-    const nextSmall = activeSmall.nextElementSibling
-      ||
-      document.querySelector('.sp-thumbnails').firstElementChild;
-
-    activeElement.classList.remove('selected');
-    activeSmall.classList.remove('sp-selected-thumbnail');
-
-    nextElement.classList.add('selected');
-    nextSmall.classList.add('sp-selected-thumbnail');
-
-    this.slideThumbs(nextElement.dataset.index);
-
-    this.setState({
-      activeIndex: nextElement.dataset.index,
-    });
-  }
-
-  slideThumbs = (index) => {
-    const { thumbWidth } = this.state;
-    const { images } = this.props;
-    const lastIndex = (images.length - 1).toString();
-    let numberIndex;
-
-    if (index === '0') {
-      numberIndex = 1;
-    } else if (index === lastIndex) {
-      numberIndex = lastIndex - 1;
-    } else {
-      numberIndex = Number(index);
-    }
-
-    const newScroll = (thumbWidth + 10) * (numberIndex - 1);
-
-    this.setState({
-      thumbsScroll: newScroll,
+      currentIndex: index,
     });
   }
 
   openGallery = () => {
-    document.body.style.overflow = 'hidden';
-
     this.setState({
       modalOpen: true,
     });
   }
 
-  closeGallery = () => {
-    document.body.style.overflow = 'auto';
+  closeGallery = (index) => {
     this.setState({
       modalOpen: false,
+      currentIndex: index,
     });
+    this.imageGallery.slideToIndex(index);
   }
 
-  updateSliderSize = () => {
-    this.resizeTimer = window.setTimeout(() => {
-      const newWidth = document.querySelector('.product-slider').offsetWidth;
+  renderLeftNav(onClick) {
+    return (
+      <button
+        className="image-gallery-left-nav"
+        onClick={onClick}
+      >
+        <svg className="icon" viewBox="0 0 11.56 18.72">
+          <path d="M9.36,0l2.199,2.2L4.415,9.36l7.145,7.16L9.36,18.72L0,9.36L9.36,0z" />
+        </svg>
+      </button>
+    );
+  }
 
-      this.setState({
-        slideWidth: newWidth,
-        thumbWidth: (newWidth / 3) - 7,
-      });
-    }, 50);
+  renderRightNav(onClick) {
+    return (
+      <button
+        className="image-gallery-right-nav"
+        onClick={onClick}
+      >
+        <svg className="icon" viewBox="0 0 11.56 18.72">
+          <path d="M2.2,0L0,2.2l7.146,7.16L0,16.521l2.2,2.199L11.56,9.36L2.2,0z" />
+        </svg>
+      </button>
+    );
   }
 
   render() {
@@ -157,94 +63,47 @@ class ProductPreview extends Component {
 
     if (images.length === 0) return null;
 
-    const { slideWidth, activeIndex, modalOpen, thumbWidth, thumbsScroll } = this.state;
-
-    const thumbsWidth = (((slideWidth / 3) + 5) * images.length);
+    const { currentIndex, modalOpen } = this.state;
+    const defaultImages = images.map(image => ({
+      original: image.file,
+      thumbnail: image.file,
+      originalAlt: tags.join(' '),
+      originalTitle: title,
+    }));
+    const shouldShowImages = images.length > 1;
 
     return (
-      <div className="product-preview slider-goods">
+      <div className="product__gallery">
         <ModalGallery
           images={images}
-          activeImage={activeIndex}
+          currentImage={currentIndex}
           closeGallery={this.closeGallery}
           isOpen={modalOpen}
         />
         <div
-          id="my-slider"
-          className="product-slider"
+          className="image-gallery-button-expand"
+          onClick={this.openGallery}
         >
-          <div
-            className="sp-full-screen-button sp-fade-full-screen"
-            style={{ zIndex: 100 }}
-            onClick={this.openGallery}
+          <svg
+            className="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 28 28"
           >
-            <svg
-              className="icon"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 28 28"
-            >
-              <path d="M4,18H0v10h10v-4H4V18z M0,10h4V4h6V0H0V10z M24,24h-6v4h10V18h-4V24z M18,0v4h6v6h4V0H18z" />
-            </svg>
-          </div>
-          <div
-            className="slides-container"
-            style={{
-              width: `${slideWidth}px`,
-              height: `${slideWidth}px`,
-            }}
-          >
-            <div
-              className="sp-slides"
-              ref={container => (this.slidesContainer = container)}
-              onClick={this.openGallery}
-            >
-              {
-                images.map((item, index) => <BigPreview
-                  key={`${item.id.toString()}--big`}
-                  src={item.file}
-                  active={index.toString() === activeIndex}
-                  index={index}
-                  tags={tags}
-                  title={title}
-                />)
-              }
-            </div>
-            {
-              images.length > 1
-              &&
-              <SliderArrows
-                prevSlide={this.prevSlide}
-                nextSlide={this.nextSlide}
-              />
-            }
-          </div>
-          {
-            images.length > 1
-            &&
-            <div className="thumbnails-container">
-              <div
-                className="sp-thumbnails sp-grab"
-                ref={container => (this.thumbsContainer = container)}
-                style={{
-                  width: `${thumbsWidth}px`,
-                  WebkitTransform: `translate3d(-${thumbsScroll}px, 0 , 0)`,
-                  transform: `translate3d(-${thumbsScroll}px, 0 , 0)`,
-                }}
-              >
-                {
-                  images.map((item, index) => <SmallPreview
-                    src={item.file}
-                    key={`${item.id.toString()}--small`}
-                    active={index.toString() === activeIndex}
-                    index={index}
-                    slideWidth={thumbWidth}
-                    onClick={this.selectActive}
-                  />)
-                }
-              </div>
-            </div>
-          }
+            <path d="M4,18H0v10h10v-4H4V18z M0,10h4V4h6V0H0V10z M24,24h-6v4h10V18h-4V24z M18,0v4h6v6h4V0H18z" />
+          </svg>
         </div>
+        <ImageGallery
+          ref={(i) => { this.imageGallery = i; }}
+          items={defaultImages}
+          showThumbnails={shouldShowImages}
+          showFullscreenButton={false}
+          showPlayButton={false}
+          showBullets={false}
+          slideInterval={2000}
+          onSlide={this.onSlide}
+          renderLeftNav={this.renderLeftNav}
+          renderRightNav={this.renderRightNav}
+        />
       </div>
     );
   }

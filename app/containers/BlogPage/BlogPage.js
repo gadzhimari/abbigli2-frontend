@@ -141,7 +141,7 @@ class BlogPage extends Component {
           </div>
         </div>
 
-        <main className="main">
+        <div className="main">
           <BreadCrumbs crumbs={crumbs} />
 
           <div className="content">
@@ -222,7 +222,7 @@ class BlogPage extends Component {
               }
             </div>
           </div> */}
-        </main>
+        </div>
       </main>
     );
   }

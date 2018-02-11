@@ -119,7 +119,7 @@ class ProductPage extends Component {
     const userIsOwner = author.id === me.id;
 
     return (
-      <main>
+      <main className="product">
         <div className="subscription-article">
           <div className="subscription-article__container">
             <AuthorInfo
@@ -130,7 +130,7 @@ class ProductPage extends Component {
             <OtherArticles articles={itemsAuthors} />
           </div>
         </div>
-        <main className="main">
+        <div className="main">
           <BreadCrumbs crumbs={crumbs} />
 
           {userIsOwner &&
@@ -166,7 +166,7 @@ class ProductPage extends Component {
             slug={data.slug}
             itemProps={{ priceTemplate }}
           />
-        </main>
+        </div>
       </main>
     );
   }

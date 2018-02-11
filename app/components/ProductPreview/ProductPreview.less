@@ -1,0 +1,125 @@
+.product__gallery {
+  position: relative;
+  max-width: 460px;
+
+  .image-gallery {
+    &-left-nav,
+    &-right-nav {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      cursor: pointer;
+      border-radius: 3px;
+      background-color: #2e2e2e;
+      opacity: 0.4;
+      &:before {
+        content: none;
+      }
+      &:hover {
+        opacity: 0.8;
+      }
+      .icon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 12px;
+        height: 19px;
+        transform: translate(-50%,-50%);
+        background-size: 12px 19px;
+        fill: #fff;
+      }
+    }
+
+    &-left-nav {
+      left: 10px;
+    }
+
+    &-right-nav {
+      right: 10px;
+    }
+
+    &-button-expand {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 117px;
+      z-index: 100;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      background-color: #fff;
+
+      .icon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 28px;
+        height: 28px;
+        transform: translate(-50%,-50%);
+        background-size: 28px 28px;
+        fill: #1076ff;
+      }
+
+      &:hover {
+        background-color: #1076ff;
+        .icon {
+          fill: #fff;
+        }
+      }
+    }
+
+    &-image {
+      padding: 50%;
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &-thumbnails .image-gallery-thumbnails-container {
+      text-align: left;
+    }
+
+    &-slide {
+      opacity: 0;
+      transition: opacity 0.5s ease !important;
+      &.center {
+        opacity: 1;
+      }
+    }
+
+    &-thumbnail {
+      width: 140px;
+      height: 140px;
+
+      & > div {
+        position: relative;
+        padding: 50%;
+      }
+
+      img {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .product__gallery {
+    .image-gallery-thumbnail {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
