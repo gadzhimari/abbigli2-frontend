@@ -59,7 +59,7 @@ class ProfileForm extends PureComponent {
   openSelectPopup = () => {
     const { openPopup } = this.props;
 
-    openPopup('selectPopup', {
+    openPopup('selectPopup1', {
       onClickItem: this.handleChangeCity,
       title: 'city',
       async: true,
