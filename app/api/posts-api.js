@@ -30,12 +30,14 @@ const Posts = {
   },
   toggleFavorite(slug) {
     return request({
+      method: 'POST',
       url: `posts/${slug}/favorite/`,
       mustApplyToken: true,
     });
   },
   likePost(slug) {
     return request({
+      method: 'POST',
       url: `posts/${slug}/like/`,
       mustApplyToken: true,
     });
