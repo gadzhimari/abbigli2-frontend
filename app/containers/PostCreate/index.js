@@ -161,6 +161,7 @@ class PostCreate extends Component {
               <EventForm
                 visible={type === EVENT_TYPE}
                 isTouch={isTouch}
+                openPopup={openPopup}
                 {...commonProps}
               />
             </div>
