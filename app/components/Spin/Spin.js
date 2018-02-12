@@ -1,38 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
+
+import cn from 'utils/cn';
 
 import './Spin.less';
 
+@cn('spin')
 class Spin extends Component {
   static propTypes = {
     visible: PropTypes.bool,
     size: PropTypes.oneOf(['s', 'm', 'l', 'xl']),
-    prefixCls: PropTypes.string,
     className: PropTypes.string,
-    theme: PropTypes.oneOf(['abbigli-light', 'abbigli-dark'])
+    theme: PropTypes.oneOf(['abbigli-light', 'abbigli-dark']),
   };
 
   static defaultProps = {
     visible: false,
     size: 'm',
-    prefixCls: 'spin',
   };
 
-  render() {
-    const { visible, className, size, prefixCls } = this.props;
-    const spinClassNames = cn(prefixCls, {
-      [`${prefixCls}_size_s`]: size === 's',
-      [`${prefixCls}_size_m`]: size === 'm',
-      [`${prefixCls}_size_l`]: size === 'l',
-      [`${prefixCls}_size_xl`]: size === 'xl',
-      [`${prefixCls}_visible`]: visible === true,
-    }, className);
+  render(cn) {
+    const { size, visible } = this.props;
 
     return (
-      <span className={spinClassNames}>
-        <spin className={`${prefixCls}__spinning`} />
-        <spin className={`${prefixCls}__icon`} />
+      <span
+        className={cn({
+          size,
+          visible,
+        })}
+      >
+        <spin className={cn('spinning')} />
+        <spin className={cn('icon')} />
       </span>
     );
   }
