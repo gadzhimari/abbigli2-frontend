@@ -112,7 +112,7 @@ class EventPage extends Component {
       url: `/event/${data.slug}`,
     }];
 
-    const isUsersPost = author.id === me.id;
+    const userIsOwner = author.id === me.id;
     const { city } = data;
 
     return (
@@ -122,7 +122,7 @@ class EventPage extends Component {
             <AuthorInfo
               data={author}
               dispatch={dispatch}
-              showSubscribeButton={!isUsersPost}
+              canSubscribe={!userIsOwner}
             />
             <OtherArticles articles={usersPosts} />
           </div>
