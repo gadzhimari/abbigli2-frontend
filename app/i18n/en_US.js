@@ -4,7 +4,7 @@ export default {
   'You can upload maximum images': 'You can upload images in JPEG, PNG format',
   'Popular in blogs': 'Popular in blogs',
   'Show more': 'Show more',
-  'Relative posts': 'Relative posts',
+  'Relative posts': 'Related posts',
   'Add to favorites': 'Add to favorites',
   'Post is in favorites': 'Post is in favorites',
   "tag.search": "Tag search",
