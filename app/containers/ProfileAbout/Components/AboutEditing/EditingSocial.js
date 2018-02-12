@@ -37,19 +37,12 @@ class EditingSocial extends PureComponent {
     const { errors } = this.props;
     const { vk_account, ok_account, fb_account, google_account } = this.state;
 
-    const rawSocials = [
-      { name: 'vk', provider: 'vk', value: vk_account, cls: 'vkontakte' },
-      { name: 'ok', provider: 'odnoklassniki', value: ok_account, cls: '' },
+    const socials = [
+      location === 'ru' && { name: 'vk', provider: 'vk', value: vk_account, cls: 'vkontakte' },
+      location === 'ru' && { name: 'ok', provider: 'odnoklassniki', value: ok_account, cls: '' },
       { name: 'fb', provider: 'facebook', value: fb_account, cls: '' },
       { name: 'google', provider: 'google', value: google_account, cls: 'google-plus' },
-    ];
-    const excludeSocialServices = ['vk', 'ok'];
-    let socials;
-    if (location === 'en') {
-      socials = rawSocials.filter(social => !excludeSocialServices.includes(social.name));
-    } else {
-      socials = rawSocials;
-    }
+    ].filter(Boolean);
 
     return (
       <div>
