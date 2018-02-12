@@ -23,7 +23,7 @@ class Spin extends Component {
     const { size, visible } = this.props;
 
     return (
-      <span
+      visible && <span
         className={cn({
           size,
           visible,
