@@ -14,6 +14,7 @@ import {
 import { CommentsField, CommentsList } from '../../components/Comments';
 import { Event } from '../../components/Cards';
 import DateRange from '../../components/DateRange';
+import City from '../../components-lib/City';
 
 import postLoader from '../../HOC/postLoader';
 
@@ -128,6 +129,7 @@ class EventPage extends Component {
         </div>
         <main className="main">
           <BreadCrumbs crumbs={crumbs} />
+
           <div className="content">
             <h1 className="section-title">
               <svg className="icon icon-event" viewBox="0 0 27 26">
@@ -137,26 +139,36 @@ class EventPage extends Component {
               </svg>
               {data.title}
             </h1>
+
             <div className="article__date">
               <DateRange
                 start={data.date_start}
                 end={data.date_end}
               />
             </div>
-            <div className="article__city">
-              {`${city.name}, ${city.country.name}`}
-            </div>
+
+            <City
+              className="article__city"
+              city={city}
+            />
+
             {this.renderSlider()}
-            <div dangerouslySetInnerHTML={{ __html: data.content }} />
+
+            <div>
+              {data.content}
+            </div>
+
             <FavoriteAdd
               toggleFavorite={this.handleFavorite}
               isFavorited={data.favorite}
             />
+
             <CommentsField
               onSend={this.sendComment}
               canComment={isAuthenticated}
               dispatch={dispatch}
             />
+
             <CommentsList
               comments={commentsList}
             />
