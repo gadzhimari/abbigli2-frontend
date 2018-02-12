@@ -11,17 +11,17 @@ const SocialGroups = ({
     <ShareButton
       className="social-btn"
       provider="facebook"
-      link={socialGroupsUrl.fb}
+      href={socialGroupsUrl.fb}
     />
     <ShareButton
       className="social-btn"
       provider="pinterest"
-      link={socialGroupsUrl.pinterest}
+      href={socialGroupsUrl.pinterest}
     />
     <ShareButton
       className="social-btn google-plus"
       provider="google"
-      link={socialGroupsUrl.google}
+      href={socialGroupsUrl.google}
     />
 
     {
@@ -30,7 +30,7 @@ const SocialGroups = ({
       <ShareButton
         className="social-btn vkontakte"
         provider="vk"
-        link={socialGroupsUrl.vk}
+        href={socialGroupsUrl.vk}
       />
     }
     {
@@ -39,7 +39,7 @@ const SocialGroups = ({
       <ShareButton
         className="social-btn"
         provider="odnoklassniki"
-        link={socialGroupsUrl.ok}
+        href={socialGroupsUrl.ok}
       />
     }
   </div>
