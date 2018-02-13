@@ -7,6 +7,7 @@ stages:
 variables:
   CONTAINER_RU_IMAGE: registry.abbigli.com/abbigli/abbigli2-frontend/image:ru
   CONTAINER_COM_IMAGE: registry.abbigli.com/abbigli/abbigli2-frontend/image:com
+  CONTAINER_DEV_IMAGE: registry.abbigli.com/abbigli/abbigli2-frontend/image:beta
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.abbigli.com
@@ -26,6 +27,14 @@ build_com:
   - docker push $CONTAINER_COM_IMAGE
   only:
   - master
+
+build_dev:
+  stage: build
+  script:
+  - docker build --build-arg APP_ENV=prod -t $CONTAINER_DEV_IMAGE .
+  - docker push $CONTAINER_DEV_IMAGE
+  only:
+  - develop
 
 deploy_prod_ru:
   stage: deploy
@@ -68,3 +77,22 @@ deploy_prod_com:
   when: manual
   only:
   - master
+  
+  deploy_dev:
+  stage: deploy
+  before_script:
+  - apk add --no-cache openssh-client
+  - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa.pub && chmod 600 ~/.ssh/id_rsa.pub
+  - ssh-add ~/.ssh/id_rsa.pub
+  - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
+  script:
+  - ssh -t abbigli@us.abbigli.com -p 733 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/deploy && docker-compose pull --ignore-pull-failures"
+  - ssh -t abbigli@us.abbigli.com -p 733 "cd ~/us && docker-compose up --no-deps -d app-frontend-beta && docker exec -i app-frontend-beta ash -c 'cp -r /app/public/* /public/'"
+  environment:
+    name: beta/dev
+    url: http://beta.abbigli.com
+  when: manual
+  only:
+  - develop
