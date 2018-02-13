@@ -88,7 +88,7 @@ deploy_dev:
   - ssh-add ~/.ssh/id_rsa.pub
   - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
   script:
-  - ssh -t abbigli@us.abbigli.com -p 733 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/deploy && docker-compose pull --ignore-pull-failures"
+  - ssh -t abbigli@us.abbigli.com -p 733 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/us && docker-compose pull --ignore-pull-failures"
   - ssh -t abbigli@us.abbigli.com -p 733 "cd ~/us && docker-compose up --no-deps -d app-frontend-beta && docker exec -i app-frontend-beta ash -c 'cp -r /app/public/* /public/'"
   environment:
     name: beta/dev
