@@ -19,10 +19,6 @@ export default class ProfileSubMenu extends PureComponent {
     }),
   }
 
-  componentDidMount() {
-    this.scrollToMenu();
-  }
-
   componentDidUpdate() {
     this.scrollToMenu();
   }
