@@ -42,6 +42,8 @@ const Product = ({ data, priceTemplate }) => {
             <Share
               postLink={`/post/${data.slug}`}
               buttonClass="social-btn"
+              media={imageUrl}
+              description={data.title}
             />
           </div>
         </div >
