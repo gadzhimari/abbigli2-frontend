@@ -18,11 +18,13 @@ if (isProduction) {
  * пример использования в templates/index.ejs
  */
 function setLocals(req, res, next) {
+  const isBot = req.useragent.isBot;
   res.locals.assets = assets;
   res.locals.assetsUrl = assetsUrl;
   res.locals.metriks = isProduction ? metriks[lang] : '';
   res.locals.lang = lang;
-  res.locals.criticalCss = criticalCss;
+  res.locals.criticalCss = isBot ? '' : criticalCss;
+  res.locals.isBot = isBot;
 
   next();
 }

@@ -60,6 +60,9 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    if (props.itemsSections.length === 0) {
+      props.dispatch(fetchDataSections());
+    }
     props.dispatch(settingsFetch());
     props.dispatch(fetchGeo());
     props.dispatch(loadNewIn());

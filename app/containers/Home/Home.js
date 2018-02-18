@@ -9,25 +9,21 @@ import {
   HR,
   BannerBlue,
   Link,
-} from 'components';
+} from '../../components';
 
-import { Uni, Goods } from 'components/Cards';
+import { Uni, Goods } from '../../components/Cards';
 
-import { fetchData as fetchDataBlogs } from 'ducks/Blogs';
-import { fetchData as fetchDataEvents } from 'ducks/Events';
-import { fetchData as fetchDataProducts } from 'ducks/Products';
-import { stagedPopup } from 'ducks/Auth/authActions';
+import { fetchData as fetchDataBlogs } from '../../ducks/Blogs';
+import { fetchData as fetchDataEvents } from '../../ducks/Events';
+import { fetchData as fetchDataProducts } from '../../ducks/Products';
+import { stagedPopup } from '../../ducks/Auth/authActions';
 import { __t } from './../../i18n/translator';
 
 import './Home.styl';
 
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentWillMount() {
+  componentDidMount() {
     const { dispatch } = this.props;
 
     dispatch(fetchDataBlogs({ type: 4 }));
@@ -51,10 +47,8 @@ class Home extends Component {
 
   render() {
     const {
-      isFetchingSections,
       isFetchingBlogs,
       isFetchingEvents,
-      itemsSections,
       itemsBlogs,
       itemsEvents,
       isFetchingProducts,
@@ -68,8 +62,6 @@ class Home extends Component {
         <Banner
           handleOpenCreating={this.handleOpenCreating}
         />
-
-        <Loading loading={isFetchingSections} />
 
         <BannerBlue
           hideJoin={isAuthenticated}
@@ -157,7 +149,7 @@ class Home extends Component {
         <HR color={'orange'} />
 
         <div className="map">
-          <img className="map-img" src="/images/map.jpg" />
+          <img alt="" className="map-img" src="/images/map.jpg" />
         </div>
 
         <div className="pre-footer">
@@ -186,13 +178,11 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  itemsSections: PropTypes.array.isRequired,
-  isFetchingSections: PropTypes.bool.isRequired,
-  itemsBlogs: PropTypes.array.isRequired,
+  itemsBlogs: PropTypes.arrayOf(PropTypes.object).isRequired,
   isFetchingBlogs: PropTypes.bool.isRequired,
-  itemsEvents: PropTypes.array.isRequired,
+  itemsEvents: PropTypes.arrayOf(PropTypes.object).isRequired,
   isFetchingEvents: PropTypes.bool.isRequired,
-  itemsProducts: PropTypes.array.isRequired,
+  itemsProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
   isFetchingProducts: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   priceTemplate: PropTypes.string,
