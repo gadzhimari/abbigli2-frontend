@@ -60,7 +60,7 @@ module.exports = (req, res) => {
 
     res.render('index', {
       markup: componentHTML,
-      store: encodeURI(JSON.stringify(store.getState())),
+      store: res.locals.isBot ? '' : encodeURI(JSON.stringify(store.getState())),
       seo,
       canonical: `${domain}${req.path}`,
     });
