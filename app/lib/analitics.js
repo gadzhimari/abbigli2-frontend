@@ -14,7 +14,7 @@ function googleSetPage(path) {
 
 /**
  * Устанавливаем слушатель на браузерную историю
- * @param {*} history - объект истории браузера
+ * @param {Object} history - объект истории браузера
  */
 export function createHistoryListener(history) {
   history.listen((location) => {
@@ -29,6 +29,6 @@ export function createHistoryListener(history) {
  */
 export function gaSendClickEvent(eventCategory, eventLabel) {
   if (typeof ga !== 'undefined') {
-    ga('send', 'event', eventCategory, 'click', eventLabel, { nonInteraction: 1 });
+    ga('send', 'event', eventCategory, 'click', eventLabel);
   }
 }
