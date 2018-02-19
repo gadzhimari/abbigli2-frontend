@@ -3,6 +3,8 @@
 import Type from 'prop-types';
 import React, { PureComponent } from 'react';
 
+import cn from 'classnames';
+
 import Follower from '../SearchPopup/UserItem';
 import { FetchingButton } from 'components';
 
@@ -44,8 +46,61 @@ class UsersPopup extends PureComponent {
     this.props.loadMore(profile.id, isMe, isAuth, { page });
   }
 
+  renderBlankScreen() {
+    return (
+      <div className="popup__message">
+        <b className="popup__message-title">{ this.blankText }</b>
+        <span className="popup__message-subtitle">{ this.translater('Soon') }</span>
+      </div>
+    );
+  }
+
+  renderSubscribers() {
+    const { isLoadingMore, canLoadMore, closePopup, items } = this.props;
+    let loadMoreButton = null;
+
+    if (canLoadMore) {
+      loadMoreButton = (<FetchingButton
+        className="followers__loading"
+        onClick={this.loadMore}
+        isFetching={isLoadingMore}
+      >
+        {this.translater('Load more')}
+      </FetchingButton>
+      );
+    }
+
+    return (
+      <div>
+        {
+          items.map(item => <Follower
+            key={item.id}
+            item={item}
+            onClick={closePopup}
+          />,
+          )
+        }
+        { loadMoreButton }
+      </div>
+    );
+  }
+
+  renderContent() {
+    const { items } = this.props;
+    const classes = cn({
+      'popup__body': true,
+      'popup__body_no-results': items.length === 0,
+    });
+
+    return (
+      <div className={classes}>
+        { items.length === 0 ? this.renderBlankScreen() : this.renderSubscribers() }
+      </div>
+    );
+  }
+
   render() {
-    const { closePopup, items, canLoadMore, isLoadingMore } = this.props;
+    const { closePopup } = this.props;
 
     return (
       <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
@@ -65,31 +120,7 @@ class UsersPopup extends PureComponent {
               {this.title}
             </div>
           </header>
-          <div className="popup-subscribers">
-            {
-              items.length === 0
-              &&
-              this.blankText
-            }
-            {
-              items.map(item => <Follower
-                key={item.id}
-                item={item}
-                onClick={closePopup}
-              />)
-            }
-            {
-              canLoadMore
-              &&
-              <FetchingButton
-                className="followers__loading"
-                onClick={this.loadMore}
-                isFetching={isLoadingMore}
-              >
-                {this.translater('Load more')}
-              </FetchingButton>
-            }
-          </div>
+          { this.renderContent() }
         </div>
       </div>
     );

@@ -1,6 +1,7 @@
 export default {
   'Upload image': 'Загрузить изображение',
-  'You can upload maximum images': 'Вы можете загрузить не более хх изображений в формате JPEG, PNG, не привышающих размер 4mpх.',
+  'You can upload maximum images': 'Вы можете загрузить изображения в формате JPEG, PNG',
+  'sign.up.to.leave.comment': 'Войдите чтобы оставить комментарий',
   'See all': 'Посмотреть все',
   'Popular in blogs': 'Популярное в блогах',
   'Show more': 'Показать еще',
@@ -17,6 +18,7 @@ export default {
   "message.to": "Сообщение для",
   "send.message": "ОТПРАВИТЬ СООБЩЕНИЕ",
   "Searching on Abbigli": "Поиск на Abbigli",
+  'sign.up.to.leave.comment': 'Войдите чтобы оставить комментарий',
 
   "banner.button.create": "Создать свою витрину",
   "banner.header": " ",

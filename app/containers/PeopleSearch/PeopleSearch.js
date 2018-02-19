@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { BreadCrumbs, PageSwitcher } from '../../components';
+import { BreadCrumbs, PageSwitcher, NoMatch } from '../../components';
 import { User } from '../../components/Cards';
 
 import { openPopup as open } from '../../ducks/Popup/actions';
@@ -28,10 +28,20 @@ class PeopleSearch extends PureComponent {
     isAuthenticated: PropTypes.bool.isRequired,
   }
 
+  renderResultsOfSearch() {
+    const { users, request, usersCount } = this.props;
+
+    return ((users.length === 0)
+      ? <NoMatch query={request} />
+      : <h1 className="section-title">
+        {`${__t('Results for request')} «${request}» `}
+        <span>{usersCount}</span>
+      </h1>
+    );
+  }
+
   render() {
     const {
-      request,
-      usersCount,
       users,
       follow,
       isAuthenticated,
@@ -46,10 +56,7 @@ class PeopleSearch extends PureComponent {
       <main className="main">
         <BreadCrumbs />
         <div className="content">
-          <h1 className="section-title">
-            {`${__t('Results for request')} «${request}» `}
-            <span>{usersCount}</span>
-          </h1>
+          { this.renderResultsOfSearch() }
           <div className="cards-wrap cards-wrap_users">
             {
               users.map(user => <User

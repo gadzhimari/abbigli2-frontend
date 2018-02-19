@@ -5,7 +5,7 @@ import { loadMoreFollowers } from 'ducks/Profile/actions/loadProfile';
 
 class Followers extends UsersPopup {
   title = this.translater('Followers');
-  blankText = this.translater('No results');
+  blankText = this.translater('No.followers');
 }
 
 const mapProps = state => ({

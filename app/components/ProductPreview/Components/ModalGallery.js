@@ -4,12 +4,9 @@ import React, { Component } from 'react';
 import Lightbox from 'react-images';
 
 class ModalGallery extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeImage: Number(props.activeImage) || 0,
-      width: 600,
-    };
+  state = {
+    activeImage: Number(this.props.activeImage) || 0,
+    width: 600,
   }
 
   nextImage = () => this.setState({
@@ -46,7 +43,7 @@ class ModalGallery extends Component {
 }
 
 ModalGallery.propTypes = {
-  images: PropTypes.array,
+  images: PropTypes.arrayOf(PropTypes.string),
   activeImage: PropTypes.string,
   closeGallery: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
