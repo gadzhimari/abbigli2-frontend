@@ -6,7 +6,7 @@ import DialogsList from './Components/DialogsList';
 import MessagesList from './Components/MessagesList';
 
 import { openPopup } from 'ducks/Popup/actions';
-import { sendPrivateMessage, setActiveDialog, loadMessages } from 'ducks/Dialogs';
+import { sendPrivateMessage, setActiveDialog, loadMessages } from 'ducks/Dialogs/actions';
 
 import { location } from 'config';
 import { DOMAIN_URL } from 'config';

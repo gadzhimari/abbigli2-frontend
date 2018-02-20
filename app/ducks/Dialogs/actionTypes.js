@@ -1,0 +1,13 @@
+export const REQUEST = 'abbigli/Dialogs/REQUEST';
+export const RESPONSE = 'abbigli/Dialogs/RESPONSE';
+export const SET = 'abbigli/Dialogs/SET';
+export const DELETE = 'abbigli/Dialogs/DELETE';
+export const SET_ACTIVE = 'abbigli/Dialogs/SET_ACTIVE';
+export const MESSAGES_REQUEST = 'abbigli/Dialogs/MESSAGES_REQUEST';
+export const SET_MESSAGES = 'abbigli/Dialogs/SET_MESSAGES';
+export const APPEND_MESSAGES = 'abbigli/Dialogs/APPEND_MESSAGES';
+export const PUSH_MESSAGE = 'abbigli/Dialogs/PUSH_MESSAGE';
+export const MESSAGE_SENDING = 'abbigli/Dialogs/MESSAGE_SENDING';
+export const MESSAGE_SENDED = 'abbigli/Dialogs/MESSAGE_SENDED';
+export const LOAD_MORE = 'abbigli/Dialogs/LOAD_MORE';
+export const PRIVATE_MESSAGE = 'private message';
