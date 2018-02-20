@@ -1,5 +1,5 @@
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import ShareButton from './Buttons/ShareButton';
 import { location as lang } from '../../config';
@@ -7,44 +7,54 @@ import { location as lang } from '../../config';
 import {
   FACEBOOK_PROVIDER,
   VK_PROVIDER,
-  PINTEREST_PROVIDER } from '../../lib/constants/social';
+  PINTEREST_PROVIDER,
+} from '../../lib/constants/social';
 
 import './Share.styl';
 
 const style = { display: 'inline-block' };
 
-export default function Share({ postLink, buttonClass, onClick }) {
-  const location = typeof window !== 'undefined' ? window.location : {};
+class Share extends PureComponent {
+  static propTypes = {
+    postLink: PropTypes.string.isRequired,
+    buttonClass: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
+    media: PropTypes.string,
+    description: PropTypes.string,
+  };
 
-  return (
-    <div style={style}>
-      <ShareButton
-        className={buttonClass}
-        provider={FACEBOOK_PROVIDER}
-        onClick={onClick}
-        href={`https://www.facebook.com/sharer.php?u=${postLink}/`}
-      />
-      <ShareButton
-        className={buttonClass}
-        provider={PINTEREST_PROVIDER}
-        onClick={onClick}
-        href={`https://www.pinterest.com/pin/create/button/?url=${postLink}/`}
-      />
-      {
-        lang === 'ru'
-        &&
+  render() {
+    const { postLink, buttonClass, media, description, onClick } = this.props;
+    const location = typeof window !== 'undefined' ? window.location : {};
+    const url = `${location}/${postLink}`;
+
+    return (
+      <div style={style}>
         <ShareButton
-          className={`${buttonClass} vkontakte`}
-          provider={VK_PROVIDER}
-          href={`https://vk.com/share.php?url=${postLink}/`}
+          className={buttonClass}
+          provider={FACEBOOK_PROVIDER}
           onClick={onClick}
+          href={`https://www.facebook.com/sharer.php?u=${url}/`}
         />
-      }
-    </div>);
+        <ShareButton
+          className={buttonClass}
+          provider={PINTEREST_PROVIDER}
+          onClick={onClick}
+          href={`https://www.pinterest.com/pin/create/button/?url=${url}&media=${media}&description=${description}/`}
+        />
+        {
+          lang === 'ru'
+          &&
+          <ShareButton
+            className={`${buttonClass} vkontakte`}
+            provider={VK_PROVIDER}
+            href={`https://vk.com/share.php?url=${url}/`}
+            onClick={onClick}
+          />
+        }
+      </div>
+    );
+  }
 }
 
-Share.propTypes = {
-  postLink: PropTypes.string.isRequired,
-  buttonClass: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
-};
+export default Share;
