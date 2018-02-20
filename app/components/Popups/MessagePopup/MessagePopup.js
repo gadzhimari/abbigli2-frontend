@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Recipient from './Recipient';
 import { FetchingButton } from 'components';
 
-import { sendPrivateMessage } from 'ducks/Dialogs';
+import { sendPrivateMessage } from 'ducks/Dialogs/actions';
 
 import { __t } from '../../../i18n/translator';
 

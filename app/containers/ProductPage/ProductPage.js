@@ -17,7 +17,7 @@ import { CommentsField, CommentsList } from '../../components/Comments';
 import postLoader from '../../HOC/postLoader';
 
 import { sendComment, fetchData as fetchDataComments } from '../../ducks/Comments';
-import { sendPostMessage } from '../../ducks/Dialogs';
+import { sendPostMessage } from '../../ducks/Dialogs/actions';
 
 import { fetchPost, resetPost, fetchRelative, fetchUsersPosts, toggleFavorite } from '../../ducks/PostPage/actions';
 

@@ -6,3 +6,4 @@ export { default as Images } from './images-api';
 export { default as Support } from './support-api';
 export { default as Catalog } from './catalog-api';
 export { default as Geo } from './geo-api';
+export { default as Dialogs } from './dialogs-api';

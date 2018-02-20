@@ -4,19 +4,26 @@ import PropTypes from 'prop-types';
 import { __t } from '../../../i18n/translator';
 
 class MessageField extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: '',
-    };
+  static propTypes = {
+    sendMessage: PropTypes.func.isRequired,
+  };
+
+  state = {
+    message: '',
+  };
+
+  changeMessage = ({ target }) => {
+    this.setState({
+      message: target.value,
+    });
   }
 
-  changeMessage = ({ target }) => this.setState({
-    message: target.value,
-  });
-
   sendMessage = () => {
-    this.props.sendMessage(this.state.message);
+    const { message } = this.state;
+    if (!message.trim()) {
+      return;
+    }
+    this.props.sendMessage(message);
     this.setState({
       message: '',
     });
@@ -63,9 +70,5 @@ class MessageField extends Component {
     );
   }
 }
-
-MessageField.propTypes = {
-  sendMessage: PropTypes.func.isRequired,
-};
 
 export default MessageField;
