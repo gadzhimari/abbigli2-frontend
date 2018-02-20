@@ -6,7 +6,6 @@ import './Gallery.less';
 
 class Gallery extends PureComponent {
   render() {
-    console.log('images ', this.props.images);
     const shouldShowDots = this.props.images.length > 1;
     return (<ImageGallery
       items={this.props.images}
