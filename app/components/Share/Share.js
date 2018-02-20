@@ -12,6 +12,8 @@ import {
 
 import './Share.styl';
 
+const style = { display: 'inline-block' };
+
 class Share extends PureComponent {
   static propTypes = {
     postLink: PropTypes.string.isRequired,
@@ -23,8 +25,8 @@ class Share extends PureComponent {
 
   render() {
     const { postLink, buttonClass, media, description, onClick } = this.props;
-    const url = `${window.location}/${postLink}`;
-    const style = { display: 'inline-block' };
+    const location = typeof window !== 'undefined' ? window.location : {};
+    const url = `${location}/${postLink}`;
 
     return (
       <div style={style}>
