@@ -7,7 +7,7 @@ const deleteData = id => ({
   id,
 });
 
-const deleteDialog = id => async (dispatch) => {
+const deleteDialog = id => (dispatch) => {
   dispatch(deleteData(id));
   dispatch(closePopup());
 
