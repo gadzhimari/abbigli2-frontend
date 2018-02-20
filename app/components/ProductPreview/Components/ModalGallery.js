@@ -5,34 +5,54 @@ import Lightbox from 'react-images';
 
 class ModalGallery extends Component {
   state = {
-    activeImage: Number(this.props.activeImage) || 0,
+    currentImage: this.props.currentImage || 0,
     width: 600,
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { isOpen } = this.props;
+
+    if (!isOpen) {
+      this.setState({
+        currentImage: nextProps.currentImage,
+      });
+    }
+  }
+
+  onClose = () => {
+    const { currentImage, closeGallery } = this.props;
+
+    this.setState({
+      currentImage,
+    });
+    closeGallery(this.state.currentImage);
+  }
+
   nextImage = () => this.setState({
-    activeImage: this.state.activeImage + 1,
+    currentImage: this.state.currentImage + 1,
   });
 
   prevImage = () => this.setState({
-    activeImage: this.state.activeImage - 1,
+    currentImage: this.state.currentImage - 1,
   });
 
   render() {
-    const { closeGallery, isOpen } = this.props;
+    const { isOpen } = this.props;
 
-    if (!isOpen) return null;
+    if (!isOpen) {
+      return null;
+    }
 
-    const { activeImage } = this.state;
-    const images = this.props.images
-      .map(img => ({
-        src: img.file,
-      }));
+    const { currentImage } = this.state;
+    const images = this.props.images.map(img => ({
+      src: img.file,
+    }));
 
     return (
       <Lightbox
         images={images}
-        currentImage={activeImage}
-        onClose={closeGallery}
+        currentImage={currentImage}
+        onClose={this.onClose}
         isOpen={isOpen}
         onClickNext={this.nextImage}
         onClickPrev={this.prevImage}
@@ -44,7 +64,7 @@ class ModalGallery extends Component {
 
 ModalGallery.propTypes = {
   images: PropTypes.arrayOf(PropTypes.string),
-  activeImage: PropTypes.string,
+  currentImage: PropTypes.number,
   closeGallery: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
 };

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Link from '../../components/Link/Link';
-
 import moment from 'moment';
+
+import Link from '../../components/Link/Link';
 import { processBlogContent } from '../../lib/process-html';
 import createPostEditLink from '../../lib/links/edit-post-link';
 
@@ -141,7 +141,7 @@ class BlogPage extends Component {
           </div>
         </div>
 
-        <main className="main">
+        <div className="main">
           <BreadCrumbs crumbs={crumbs} />
 
           <div className="content">
@@ -222,7 +222,7 @@ class BlogPage extends Component {
               }
             </div>
           </div> */}
-        </main>
+        </div>
       </main>
     );
   }

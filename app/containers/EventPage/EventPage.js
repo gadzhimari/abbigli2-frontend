@@ -127,7 +127,7 @@ class EventPage extends Component {
             <OtherArticles articles={usersPosts} />
           </div>
         </div>
-        <main className="main">
+        <div className="main">
           <BreadCrumbs crumbs={crumbs} />
 
           <div className="content">
@@ -202,7 +202,7 @@ class EventPage extends Component {
               }
             </div>
           </div> */}
-        </main>
+        </div>
       </main>
     );
   }
