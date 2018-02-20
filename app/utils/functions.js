@@ -93,18 +93,6 @@ export function debounce(callback, wait, context = this) {
   };
 }
 
-export const omit = (obj, values) => {
-  const newObj = {};
-
-  Object.keys(obj).forEach((key) => {
-    if (!values.includes(key)) {
-      newObj[key] = obj[key];
-    }
-  });
-
-  return newObj;
-};
-
 export const createQuery = (queryObj) => {
   const keys = Object.keys(queryObj);
 

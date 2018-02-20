@@ -39,7 +39,7 @@ const plugins = [
       DOMAIN_URL: JSON.stringify(process.env.DOMAIN_URL),
       THUMBS_URL: JSON.stringify(process.env.THUMBS_URL),
     },
-  })
+  }),
 ];
 
 if (isProd) {

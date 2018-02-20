@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import omit from 'lodash/omit';
+
 import Input from './Input';
 
-import { omit } from 'utils/functions';
-
 class InputWithError extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showError: false,
-    };
+  state = {
+    showError: false,
   }
 
   componentDidUpdate(prevProps) {
