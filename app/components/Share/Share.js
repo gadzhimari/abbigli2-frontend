@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import ShareButton from './Buttons/ShareButton';
-import { location as lang } from '../../config';
+import { DOMAIN_URL, location as lang } from '../../config';
 
 import {
   FACEBOOK_PROVIDER,
@@ -25,8 +25,7 @@ class Share extends PureComponent {
 
   render() {
     const { postLink, buttonClass, media, description, onClick } = this.props;
-    const location = typeof window !== 'undefined' ? window.location : {};
-    const url = `${location}/${postLink}`;
+    const url = `${DOMAIN_URL}${postLink}`;
 
     return (
       <div style={style}>
@@ -34,13 +33,13 @@ class Share extends PureComponent {
           className={buttonClass}
           provider={FACEBOOK_PROVIDER}
           onClick={onClick}
-          href={`https://www.facebook.com/sharer.php?u=${url}/`}
+          href={`https://www.facebook.com/sharer.php?u=${url}`}
         />
         <ShareButton
           className={buttonClass}
           provider={PINTEREST_PROVIDER}
           onClick={onClick}
-          href={`https://www.pinterest.com/pin/create/button/?url=${url}&media=${media}&description=${description}/`}
+          href={`https://www.pinterest.com/pin/create/button/?url=${url}&media=${media}&description=${description}`}
         />
         {
           lang === 'ru'
@@ -48,7 +47,7 @@ class Share extends PureComponent {
           <ShareButton
             className={`${buttonClass} vkontakte`}
             provider={VK_PROVIDER}
-            href={`https://vk.com/share.php?url=${url}/`}
+            href={`https://vk.com/share.php?url=${url}`}
             onClick={onClick}
           />
         }

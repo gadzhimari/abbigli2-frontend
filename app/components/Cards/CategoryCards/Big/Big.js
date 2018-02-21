@@ -15,7 +15,7 @@ const Big = ({ item, url }) => {
       <div className="promo-tag__img-wrap">
         <img
           className="promo-tag__img"
-          src={`${THUMBS_URL}unsafe/289x238/${item.images[0]}`}
+          src={`${THUMBS_URL}/unsafe/289x238/${item.images[0]}`}
           alt={item.title}
         />
       </div>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Type from 'prop-types';
 import { connect } from 'react-redux';
 
 import dateFormat from 'dateformat';
@@ -17,22 +16,21 @@ class Uni extends Component {
 
   render() {
     const {
-      title,
-      created,
-      comments_num,
-      likes_num,
-      price,
-      images,
-      city,
-      user,
-      date_start,
-      date_end,
-      type,
-      slug,
-      liked
-    } = this.props.item;
-
-    const { dispatch, priceTemplate } = this.props;
+      item: {
+        title,
+        comments_num: commentsCount,
+        price,
+        images,
+        city,
+        user,
+        date_start,
+        date_end: dateEnd,
+        type,
+        slug,
+        liked,
+      },
+      priceTemplate,
+    } = this.props;
 
     const types_url = {
       1: 'post',
@@ -49,13 +47,7 @@ class Uni extends Component {
 
     return (
       <div className="tile">
-        {/*
-          Hided for this relise
-          <Subscription />
-        */}
-        <div
-          className="tile__image-holder"
-        >
+        <div className="tile__image-holder">
           <Link to={`/${types_url[type]}/${slug}`}>
             <Image
               className="tile__image"
@@ -76,6 +68,8 @@ class Uni extends Component {
               <Share
                 postLink={`/${types_url[type]}/${slug}`}
                 buttonClass="social-btn"
+                media={imageUrl}
+                description={title}
               />
             </div>
           </div>
@@ -97,7 +91,7 @@ class Uni extends Component {
               className="tile__date"
             >
               {dateFormat(date_start, 'dd.mm.yy')}
-              {date_end ? ' - ' + dateFormat(date_end, 'dd.mm.yy') : ''}
+              { dateEnd ? ' - ' + dateFormat(dateEnd, 'dd.mm.yy') : ''}
               <span className="tile__city">
                 {
                   city
@@ -125,8 +119,8 @@ class Uni extends Component {
             (type === 4)
             &&
             <div className="tile__comment-count">
-              <div className="icon"></div>
-              {comments_num > 0 && comments_num}
+              <div className="icon" />
+                { commentsCount > 0 && commentsCount }
             </div>
           }
           {

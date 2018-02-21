@@ -44,7 +44,7 @@ class User extends PureComponent {
               this.props.user.avatar
                 ? <img
                   className="user-card__avatar-img"
-                  src={`${THUMBS_URL}unsafe/86x86/${this.props.user.avatar}`}
+                  src={`${THUMBS_URL}/unsafe/86x86/${this.props.user.avatar}`}
                   alt={this.props.user.profile_name}
                 />
                 : <img

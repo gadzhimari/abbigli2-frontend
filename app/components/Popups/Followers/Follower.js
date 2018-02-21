@@ -15,7 +15,7 @@ const Follower = ({ item, onClick }) => (
       <img
         src={
           item.avatar
-            ? `${THUMBS_URL}unsafe/60x60/${item.avatar}`
+            ? `${THUMBS_URL}/unsafe/60x60/${item.avatar}`
             : '/images/svg/avatar.svg'
         }
         alt={item.profile_name}

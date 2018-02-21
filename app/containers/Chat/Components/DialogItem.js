@@ -5,7 +5,7 @@ import moment from 'moment';
 import AvatarPost from './AvatarPost';
 import Avatar from './Avatar';
 
-import { location, DOMAIN_URL } from 'config';
+import { location } from 'config';
 
 const DialogItem = ({
   data,

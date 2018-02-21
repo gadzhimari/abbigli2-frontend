@@ -18,7 +18,7 @@ class Image extends PureComponent {
       ...imageProps
     } = this.props;
 
-    const url = thumbSize ? `${THUMBS_URL}unsafe/${thumbSize}/${src}` : src;
+    const url = thumbSize ? `${THUMBS_URL}/unsafe/${thumbSize}/${src}` : src;
 
     return (
       <img

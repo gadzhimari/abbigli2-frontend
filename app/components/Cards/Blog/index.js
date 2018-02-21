@@ -43,6 +43,8 @@ class BlogCard extends Component {
               <Share
                 postLink={`/blog/${data.slug}`}
                 buttonClass="social-btn"
+                media={imageUrl}
+                description={data.title}
               />
             </div>
           </div >

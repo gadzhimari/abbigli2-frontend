@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'components';
-import { DOMAIN_URL } from 'config';
+import { THUMBS_URL } from 'config';
 
 const UserItem = ({
   item,
@@ -24,7 +24,7 @@ const UserItem = ({
         {
           item.avatar
             ? <img
-              src={`${DOMAIN_URL}thumbs/unsafe/70x70/${item.avatar}`}
+              src={`${THUMBS_URL}/unsafe/70x70/${item.avatar}`}
               alt={item.profile_name}
             />
             : <img

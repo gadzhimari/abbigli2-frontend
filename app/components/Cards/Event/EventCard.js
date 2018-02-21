@@ -42,6 +42,8 @@ const EventCard = ({ data }) => {
             <Share
               postLink={`/event/${data.slug}`}
               buttonClass="social-btn"
+              media={imageUrl}
+              description={data.title}
             />
           </div>
         </div >

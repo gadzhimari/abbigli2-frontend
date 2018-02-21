@@ -26,16 +26,23 @@ const typesClass = {
 };
 
 class CardProduct extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      forced: {
-        like: null,
-        count: null,
-      },
-      imageLoaded: false,
-    };
-  }
+  static propTypes = {
+    editable: PropTypes.bool,
+    legacy: PropTypes.bool,
+    isAuthenticated: PropTypes.bool.isRequired,
+    data: PropTypes.object.isRequired,
+    delete: PropTypes.func,
+    deleteFromFavorites: PropTypes.func,
+    dispatch: PropTypes.func,
+  };
+
+  state = {
+    forced: {
+      like: null,
+      count: null,
+    },
+    imageLoaded: false,
+  };
 
   imageLoaded = () => {
     this.setState({
@@ -44,8 +51,15 @@ class CardProduct extends Component {
   }
 
   toggleLike = () => {
-    const { dispatch, isAuthenticated } = this.props;
-    const { liked, slug, likes_num } = this.props.data;
+    const {
+      dispatch,
+      isAuthenticated,
+      data: {
+        liked,
+        slug,
+        likes_num,
+      }
+    } = this.props;
 
     if (!isAuthenticated) {
       dispatch(stagedPopup('register'));
@@ -56,13 +70,12 @@ class CardProduct extends Component {
     const newLiked = this.state.forced.like === null
       ? !liked
       : !this.state.forced.like;
-    let count = this.state.forced.count === null
+
+    const count = this.state.forced.count === null
       ? likes_num
       : this.state.forced.count;
 
-    const newCount = newLiked
-      ? ++count
-      : --count;
+    const newCount = newLiked ? count + 1 : count - 1;
 
     this.setState({
       forced: {
@@ -76,27 +89,25 @@ class CardProduct extends Component {
 
   render() {
     const {
-      title,
-      slug,
-      liked,
-      price,
-      images,
-      type,
-      comments_num,
-      likes_num,
-      view_on_site_url: postUrl
-    } = this.props.data;
-
-    const {
       priceTemplate,
       deleteFromFavorites,
       editable,
       delete: deleteItem,
       me,
       full,
+      data: {
+        title,
+        slug,
+        liked,
+        price,
+        images,
+        type,
+        comments_num: commentsCount,
+        likes_num,
+      }
     } = this.props;
 
-    const user = editable == true ? me : this.props.data.user;
+    const user = editable === true ? me : this.props.data.user;
 
     const likeStatus = this.state.forced.like === null
       ? liked
@@ -106,6 +117,7 @@ class CardProduct extends Component {
       : this.state.forced.count;
 
     const formatedPrice = Number(price).toFixed(2);
+    const imageUrl = images && images[0] && images[0].file;
 
     return (
       <div className={`tag-card tag-card--${typesClass[type]} legacy`}>
@@ -120,10 +132,10 @@ class CardProduct extends Component {
               <img
                 className="card-img card-image__loaded"
                 alt={title}
-                src={`${THUMBS_URL}unsafe/350x${full ? 350 : 290}/` + (images[0] && images[0].file)}
+                src={`${THUMBS_URL}/unsafe/350x${full ? 350 : 290}/${imageUrl}`}
               />
             }
-            <div className="tag-card__overlay"></div>
+            <div className="tag-card__overlay" />
           </Link>
           <div className="share">
             <div className="share-button">
@@ -133,8 +145,10 @@ class CardProduct extends Component {
             </div>
 
             <Share
-              postLink={postUrl}
               buttonClass="share-button"
+              postLink={`/post/${slug}`}
+              media={imageUrl}
+              description={title}
             />
           </div>
           {
@@ -146,8 +160,9 @@ class CardProduct extends Component {
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
                 <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409
-                  l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z"/>
-</svg>
+                  l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z"
+                />
+              </svg>
             </Link>
           }
           {
@@ -159,8 +174,9 @@ class CardProduct extends Component {
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
                 <path d="M18,1.813L16.188,0L9,7.186L1.813,0L0,1.813L7.188,9L0,16.188L1.813,18L9,10.813L16.188,18L18,16.188L10.813,9
-                  L18,1.813z"/>
-</svg>
+                  L18,1.813z"
+                />
+              </svg>
             </div>
           }
           {
@@ -172,8 +188,9 @@ class CardProduct extends Component {
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
                 <path d="M18,1.813L16.188,0L9,7.186L1.813,0L0,1.813L7.188,9L0,16.188L1.813,18L9,10.813L16.188,18L18,16.188L10.813,9
-                  L18,1.813z"/>
-</svg>
+                  L18,1.813z"
+                />
+              </svg>
             </div>
           }
           <Link
@@ -207,12 +224,12 @@ class CardProduct extends Component {
           {
             user
             &&
-            (<Link className="tag-card__author" to={"/profile/" + user.id}>
+            (<Link className="tag-card__author" to={`/profile/${user.id}`}>
               <div className="tag-card__avatar">
                 {
                   user.avatar
                     ? <img
-                      src={`${THUMBS_URL}unsafe/30x30/${user.avatar}`}
+                      src={`${THUMBS_URL}/unsafe/30x30/${user.avatar}`}
                       alt={user.profile_name ? user.profile_name : 'ID' + user.id}
                     />
                     : <img
@@ -243,8 +260,9 @@ class CardProduct extends Component {
                   className={`icon ${likeStatus ? 'liked' : ''}`}
                 >
                   <path d="M17,31.193l-2.467-2.242C5.778,21.011,0,15.774,0,9.35C0,4.113,4.113,0,9.351,0C12.308,0,15.147,1.377,17,3.552
-                    C18.853,1.377,21.691,0,24.649,0C29.886,0,34,4.113,34,9.35c0,6.425-5.781,11.661-14.537,19.618L17,31.193z"/>
-              </svg>
+                    C18.853,1.377,21.691,0,24.649,0C29.886,0,34,4.113,34,9.35c0,6.425-5.781,11.661-14.537,19.618L17,31.193z"
+                  />
+                </svg>
               </div>
               {likeCount}
             </div>
@@ -257,7 +275,7 @@ class CardProduct extends Component {
                   <path d="M0,8V0.8C0,0.359,0.36,0,0.799,0h10.402C11.641,0,12,0.359,12,0.8V12L8.799,8.799h-8C0.36,8.799,0,8.44,0,8z" />
                 </svg>
               </Link>
-              {comments_num}
+              { commentsCount }
             </div>
           </div>
         </div>
@@ -265,15 +283,5 @@ class CardProduct extends Component {
     );
   }
 }
-
-CardProduct.propTypes = {
-  editable: PropTypes.bool,
-  legacy: PropTypes.bool,
-  isAuthenticated: PropTypes.bool.isRequired,
-  data: PropTypes.object.isRequired,
-  delete: PropTypes.func,
-  deleteFromFavorites: PropTypes.func,
-  dispatch: PropTypes.func,
-};
 
 export default CardProduct;

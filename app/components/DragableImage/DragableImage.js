@@ -95,7 +95,7 @@ class DragableImage extends Component {
       });
     });
 
-    image.src = `${THUMBS_URL}unsafe/276x184/${imageSrc}`;
+    image.src = `${THUMBS_URL}/unsafe/276x184/${imageSrc}`;
   }
 
   rotateImage = () => this.props

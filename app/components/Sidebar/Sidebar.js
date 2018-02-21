@@ -22,7 +22,13 @@ class Sidebar extends PureComponent {
 
   render() {
     const {
-      data,
+      data: {
+        tags,
+        type,
+        slug,
+        title,
+        images,
+      },
       newPosts,
       popularPosts,
       isFavorited,
@@ -31,6 +37,7 @@ class Sidebar extends PureComponent {
       newSectionTitle,
       popularSectionTitle,
     } = this.props;
+    const imageUrl = images && images[0] && images[0].file;
 
     return (
       <div className="sidebar">
@@ -41,13 +48,15 @@ class Sidebar extends PureComponent {
           />
         </div>
         <TagsList
-          tags={data.tags}
-          type={data.type}
+          tags={tags}
+          type={type}
         />
         <div className="sidebar__group sidebar__group_social">
           <Share
             buttonClass="social-btn"
-            postLink={`/${urls[data.type]}/${data.slug}`}
+            postLink={`/${urls[type]}/${slug}`}
+            media={imageUrl}
+            description={title}
           />
         </div>
         <SidebarList

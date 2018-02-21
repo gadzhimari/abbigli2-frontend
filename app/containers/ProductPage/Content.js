@@ -11,7 +11,7 @@ import TagsList from './TagsList';
 
 import { gaSendClickEvent } from '../../lib/analitics';
 
-export default class ProductContent extends PureComponent {
+class ProductContent extends PureComponent {
   static propTypes = {
     onWantClick: Type.func,
     onFavoriteClick: Type.func,
@@ -29,16 +29,29 @@ export default class ProductContent extends PureComponent {
   }
 
   render() {
-    const { data, onWantClick, userIsOwner } = this.props;
+    const {
+      onWantClick,
+      userIsOwner,
+      data: {
+        images,
+        tags,
+        title,
+        content,
+        favorite,
+        price,
+        slug,
+      }
+    } = this.props;
+    const imageUrl = images && images[0] && images[0].file;
 
     return (
       <div className="product__content" itemScope itemType="http://schema.org/Product">
         <div className="product__row">
           <div className="product__col product__col_size_5">
             <ProductPreview
-              images={data.images}
-              tags={data.tags}
-              title={data.title}
+              images={images}
+              tags={tags}
+              title={title}
             />
           </div>
           <div className="product__col product__col_size_7">
@@ -46,18 +59,18 @@ export default class ProductContent extends PureComponent {
               <div className="goods-post__favourite">
                 <FavoriteAdd
                   toggleFavorite={this.onFavoriteClick}
-                  isFavorited={data.favorite}
+                  isFavorited={favorite}
                 />
               </div>
 
-              <Title title={data.title} />
+              <Title title={title} />
 
               <p itemProp="description">
-                {data.content}
+                {content}
               </p>
 
               <div className="goods-post__buttons">
-                <Price price={data.price} />
+                <Price price={price} />
 
                 {!userIsOwner &&
                   <WantButton onClick={onWantClick} />
@@ -66,13 +79,15 @@ export default class ProductContent extends PureComponent {
                 <div className="social-networks">
                   <Share
                     buttonClass="social-btn"
-                    postLink={data.view_on_site_url}
+                    postLink={`/post/${slug}`}
                     onClick={this.onShareClick}
+                    media={imageUrl}
+                    description={title}
                   />
                 </div>
               </div>
 
-              <TagsList tags={data.tags} />
+              <TagsList tags={tags} />
             </div>
           </div>
         </div>
@@ -81,3 +96,5 @@ export default class ProductContent extends PureComponent {
     );
   }
 }
+
+export default ProductContent;

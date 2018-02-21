@@ -22,7 +22,7 @@ const PromoTags = ({ sections, url }) => {
       <div className="promo-tag__img-wrap">
         <img
           className="promo-tag__img"
-          src={`${THUMBS_URL}unsafe/251x207/${sections[0].preview}`}
+          src={`${THUMBS_URL}/unsafe/251x207/${sections[0].preview}`}
           alt={sections[0].title}
         />
       </div>
