@@ -31,7 +31,7 @@ build_com:
 build_dev:
   stage: build
   script:
-  - docker build --build-arg APP_ENV=prod -t $CONTAINER_DEV_IMAGE .
+  - docker build --build-arg APP_ENV=beta -t $CONTAINER_DEV_IMAGE .
   - docker push $CONTAINER_DEV_IMAGE
   only:
   - develop
