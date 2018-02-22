@@ -2,6 +2,82 @@
 @import 'mixin';
 @import 'variables';
 
+.comments {
+  &-list {
+    &__header {
+      margin-bottom: 20px;
+    }
+    &__footer {
+      text-align: center;
+    }
+    &__title {
+      font-family: 'ClearSansBold';
+      font-size: 20px;
+      line-height: 24px;
+    }
+    &__count {
+      font-family: 'ClearSansBold';
+      font-size: 16px;
+    }
+    &__show-all {
+      margin-top: 10px;
+      font-family: 'ClearSans';
+      font-size: 14px;
+      line-height: 18px;
+      text-align: center;
+      background-color: transparent;
+      color: #0090de;
+      border: none;
+      &:hover {
+        text-decoration: underline;
+      }
+      .icon {
+        &_view {
+          &_arrow {
+            display: inline-block;
+            width: 5px;
+            height: 9px;
+            margin-left: 5px;
+            vertical-align: middle;
+            fill: #0090de;
+          }
+        }
+      }
+    }
+  }
+
+  &__signup {
+    text-decoration: underline;
+    color: #1076ff;
+    font-size: 18px;
+    background: none;
+    border: none;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .default-button {
+    font-family: ClearSans;
+    font-size: 18px;
+    line-height: 22px;
+    padding: 7px 15px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    min-width: 85px;
+    background: none;
+    color: #007cc1;
+    border: 1px solid #0091e1;
+    margin: 0;
+    &:hover {
+      background-color: #0091e1;
+      color: #fff;
+    }
+  }
+}
+
 .comment {
   margin-bottom: 30px;
   position: relative;
@@ -31,7 +107,7 @@
       .triangle(left, 10px, 10px, @border);
     }
   }
-  &__user {
+  &__meta {
     position: absolute;
     left: 0;
     top: 5px;
@@ -49,42 +125,62 @@
       color: #007bbd;
     }
   }
-  &__signup {
-    text-decoration: underline;
-    color: #1076ff;
-    font-size: 18px;
-    background: none;
-    border: none;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
   .avatar {
-    width: 56px;
-    height: 56px;
-    left: 0;
+    width: 46px;
+    height: 46px;
+    left: 5px;
     .align-vertical;
   }
 }
 
-@media only screen and (min-width: 981px) {
-  .comments {
-    .show-more {
-      .show-more(down);
-      left: 270px;
+.comment-field {
+  &__wrapper {
+    margin-bottom: 20px;
+  }
+  &__textarea {
+    font-family: 'ClearSans';
+    font-size: 16px;
+    line-height: 20px;
+    border: 1px solid @border;
+    width: 100%;
+    border-radius: 3px;
+    padding: 15px 20px;
+    color: #000;
+    min-height: 110px;
+    resize: none;
+    display: block;
+
+    &-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: -8px;
+        left: 36px;
+        .triangle(bottom, 9px, 9px, #fff);
+      }
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: -9px;
+        left: 35px;
+        .triangle(bottom, 10px, 10px, @border);
+      }
     }
   }
 }
 
 @media only screen and (max-width: 980px) {
   .comment {
-    padding: 0;
     margin-bottom: 20px;
-    &__user {
+    padding: 0;
+    &__meta {
       position: relative;
-      margin-bottom: 20px;
       top: 0;
+      margin-bottom: 20px;
     }
     &__text {
       &:after {
@@ -107,42 +203,3 @@
   }
 }
 
-.textarea {
-  font-family: 'ClearSans';
-  font-size: 16px;
-  line-height: 20px;
-  border: 1px solid @border;
-  width: 100%;
-  border-radius: 3px;
-  padding: 15px 20px;
-  color: #000;
-  min-height: 110px;
-  resize: none;
-  display: block;
-
-  &-wrap {
-    position: relative;
-  }
-
-  &_comment {
-    .textarea {
-      margin-bottom: 25px;
-    }
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      bottom: -8px;
-      left: 36px;
-      .triangle(bottom, 9px, 9px, #fff);
-    }
-    &:before {
-      content: '';
-      display: block;
-      position: absolute;
-      bottom: -9px;
-      left: 35px;
-      .triangle(bottom, 10px, 10px, @border);
-    }
-  }
-}

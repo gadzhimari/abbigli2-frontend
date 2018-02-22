@@ -151,13 +151,16 @@ class ProductPage extends Component {
             onFavoriteClick={this.handleFavorite}
           />
 
-          <div className="section">
-            <CommentsField
-              onSend={this.sendComment}
-              canComment={isAuthenticated}
-              dispatch={dispatch}
-            />
-            <CommentsList comments={commentsList} />
+          <div className="comments">
+            <div className="comments__wrapper">
+              <CommentsField
+                onSend={this.sendComment}
+                canComment={isAuthenticated}
+                dispatch={dispatch}
+              />
+              <div className="divider" />
+              <CommentsList comments={commentsList} />
+            </div>
           </div>
 
           <RelativePosts

@@ -33,47 +33,50 @@ export default class ProductContent extends PureComponent {
 
     return (
       <div className="product__content" itemScope itemType="http://schema.org/Product">
-        <div className="product__col product__col_size_5">
-          <ProductPreview
-            images={data.images}
-            tags={data.tags}
-            title={data.title}
-          />
-        </div>
-        <div className="product__col product__col_size_7">
-          <div className="goods-post__info">
-            <div className="goods-post__favourite">
-              <FavoriteAdd
-                toggleFavorite={this.onFavoriteClick}
-                isFavorited={data.favorite}
-              />
-            </div>
-
-            <Title title={data.title} />
-
-            <p itemProp="description">
-              {data.content}
-            </p>
-
-            <div className="goods-post__buttons">
-              <Price price={data.price} />
-
-              {!userIsOwner &&
-                <WantButton onClick={onWantClick} />
-              }
-
-              <div className="social-networks">
-                <Share
-                  buttonClass="social-btn"
-                  postLink={data.view_on_site_url}
-                  onClick={this.onShareClick}
+        <div className="product__row">
+          <div className="product__col product__col_size_5">
+            <ProductPreview
+              images={data.images}
+              tags={data.tags}
+              title={data.title}
+            />
+          </div>
+          <div className="product__col product__col_size_7">
+            <div className="goods-post__info">
+              <div className="goods-post__favourite">
+                <FavoriteAdd
+                  toggleFavorite={this.onFavoriteClick}
+                  isFavorited={data.favorite}
                 />
               </div>
-            </div>
 
-            <TagsList tags={data.tags} />
+              <Title title={data.title} />
+
+              <p itemProp="description">
+                {data.content}
+              </p>
+
+              <div className="goods-post__buttons">
+                <Price price={data.price} />
+
+                {!userIsOwner &&
+                  <WantButton onClick={onWantClick} />
+                }
+
+                <div className="social-networks">
+                  <Share
+                    buttonClass="social-btn"
+                    postLink={data.view_on_site_url}
+                    onClick={this.onShareClick}
+                  />
+                </div>
+              </div>
+
+              <TagsList tags={data.tags} />
+            </div>
           </div>
         </div>
+        <div className="divider" />
       </div>
     );
   }
