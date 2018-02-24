@@ -23,7 +23,7 @@ import { Blog } from '../../components/Cards';
 import postLoader from '../../HOC/postLoader';
 
 import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite } from '../../ducks/PostPage/actions';
-import { fetchData as fetchDataComments, sendComment } from '../../ducks/Comments';
+import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { fetchData as fetchDataAuthors } from '../../ducks/ProfilePosts';
 
 import { __t } from '../../i18n/translator';
@@ -38,7 +38,7 @@ class BlogPage extends Component {
     dispatch(fetchNew({
       type: 4,
     })),
-    dispatch(fetchDataComments(params.slug)),
+    dispatch(fetchComments(params.slug)),
     dispatch(fetchDataAuthors({
       type: 'posts',
       excludeId: data.id,
@@ -250,8 +250,8 @@ const mapStateToProps = state => ({
   isFetchingRelative: state.PostPage.isFetchingRelative,
   itemsAuthors: state.ProfilePosts.items,
   isFetchingAuthors: state.ProfilePosts.isFetching,
-  itemsComments: state.Comments.items,
-  isFetchingComments: state.Comments.isFetching,
+  itemsComments: state.Comments.comments,
+  isFetchingComments: state.Comments.commentFetchingState,
   isAuthenticated: state.Auth.isAuthenticated,
   me: state.Auth.me,
 });

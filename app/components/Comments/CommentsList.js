@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import CommentItem from './CommentItem';
 
 import { __t } from '../../i18n/translator';
 
 class CommentsList extends Component {
+  static propTypes = {
+    comments: PropTypes.arrayOf(PropTypes.shape({
+      comment: PropTypes.string,
+      created: PropTypes.string,
+      id: PropTypes.number,
+      user: PropTypes.any,
+    })).isRequired,
+  };
+
   state = {
     showAll: false,
   };
