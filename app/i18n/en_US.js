@@ -3,6 +3,7 @@ export default {
   'sign.up.to.leave.comment': 'Sign up to leave comment',
   'You can upload maximum images': 'You can upload images in JPEG, PNG format',
   'Popular in blogs': 'Popular in blogs',
+  'Popular in events': 'Popular in events',
   'Show more': 'Show more',
   'Relative posts': 'Related posts',
   'Add to favorites': 'Add to favorites',

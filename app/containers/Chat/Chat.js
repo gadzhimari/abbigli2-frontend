@@ -6,19 +6,17 @@ import DialogsList from './DialogsList';
 import MessagesList from './MessagesList';
 
 import { openPopup } from 'ducks/Popup/actions';
-import { getDialogs, sendPrivateMessage, setActiveDialog, loadMessages } from 'ducks/Dialogs';
+import { getDialogs, sendPrivateMessage, setActiveDialog, loadMessages } from 'ducks/Dialogs/actions';
 
 import { __t } from '../../i18n/translator';
 
 import './Chat.less';
 
 class Chat extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      search: '',
-    };
-  }
+  state = {
+    search: '',
+  };
+
   componentDidMount() {
     this.props.getDialogs();
 

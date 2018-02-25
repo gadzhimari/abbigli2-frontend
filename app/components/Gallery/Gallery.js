@@ -1,24 +1,20 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import ImageGallery from 'react-image-gallery';
-import "react-image-gallery/styles/css/image-gallery.css";
-import "./Gallery.styl";
+import 'react-image-gallery/styles/css/image-gallery.css';
+import './Gallery.less';
 
-class Gallery extends Component {
-  shouldComponentUpdate(nextProps) {
-    return nextProps !== this.props;
-  }
-  
+class Gallery extends PureComponent {
   render() {
     const shouldShowDots = this.props.images.length > 1;
-    return <ImageGallery
+    return (<ImageGallery
       items={this.props.images}
       showThumbnails={false}
       showFullscreenButton={false}
       showPlayButton={false}
       showBullets={shouldShowDots}
       slideInterval={2000}
-    />;
+    />);
   }
 }
 

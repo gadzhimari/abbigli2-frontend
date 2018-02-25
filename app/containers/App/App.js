@@ -29,7 +29,6 @@ import './App.styl';
 import './_concat.styl';
 import './main.styl';
 import './responsive.styl';
-import './slider-pro.css';
 
 class App extends Component {
   static propTypes = {

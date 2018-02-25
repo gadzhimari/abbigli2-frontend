@@ -7,6 +7,11 @@ export default class Button extends PureComponent {
     onClick: Type.func,
     name: Type.string,
     dataset: Type.shape(),
+    type: Type.oneOf(['button', 'reset', 'submit']),
+  }
+
+  static defaultProps = {
+    type: 'button',
   }
 
   onClick = (e) => {

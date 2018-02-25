@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import Recipient from '../MessagePopup/Recipient';
 
-import { deleteDialog } from 'ducks/Dialogs';
+import { deleteDialog } from 'ducks/Dialogs/actions';
 import { __t } from '../../../i18n/translator';
 
 import './DeleteMessagePopup.styl';

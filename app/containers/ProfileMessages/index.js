@@ -7,7 +7,7 @@ import {
   Loading,
 } from 'components';
 
-import { getDialogs } from 'ducks/Dialogs';
+import { getDialogs } from 'ducks/Dialogs/actions';
 
 import './index.styl';
 

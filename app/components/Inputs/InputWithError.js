@@ -1,13 +1,12 @@
-import Type from 'prop-types';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import omit from 'lodash/omit';
+
 import Input from './Input';
 
 class InputWithError extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showError: false,
-    };
+  state = {
+    showError: false,
   }
 
   componentDidUpdate(prevProps) {
@@ -38,10 +37,10 @@ class InputWithError extends Component {
       errors,
       errorClass,
       label,
+      id,
       Icon,
       labelRequired,
       wrapperErrorClass,
-      ...inputProps
     } = this.props;
 
     const inputClass = this.state.showError
@@ -52,32 +51,48 @@ class InputWithError extends Component {
       ? `${wrapperClass} ${wrapperErrorClass}`
       : wrapperClass;
 
+    const omitedProps = omit(
+      this.props,
+      ['className', 'component', 'wrapperClass', 'wrapperErrorClass', 'errors', 'errorClass', 'label', 'labelRequired']
+    );
+
     return (
       <div className={wrapper}>
-        {label &&
-          <label className="label" htmlFor={inputProps.id}>
+        {
+          label
+          &&
+          <label className="label" htmlFor={id}>
             {label}
-
-            {labelRequired &&
+            {
+              labelRequired
+              &&
               <span className="label__required">*</span>
             }
           </label>
         }
-
-        {!!Icon && Icon}
-
-        <RenderInput
-          onFocus={this.hideError}
-          className={inputClass}
-          {...inputProps}
-        />
-
-        {this.mustShowErrors && errors.map(error => (
-          <div className={errorClass} key={error}>
-            {error}
-          </div>
-          ))
-        }
+        <If condition={Icon}>
+          {Icon}
+        </If>
+        <span className="input__box">
+          <RenderInput
+            onFocus={this.hideError}
+            className={inputClass}
+            {...omitedProps}
+          />
+          <If condition={this.mustShowErrors}>
+            <span className="input__icon input__icon_error">!</span>
+          </If>
+        </span>
+        <If condition={this.mustShowErrors}>
+          {
+            errors.map(error => (<div
+              className={errorClass}
+              key={error}
+            >
+              {error}
+            </div>))
+          }
+        </If>
       </div>
     );
   }
@@ -96,22 +111,20 @@ InputWithError.defaultProps = {
 };
 
 InputWithError.propTypes = {
-  wrapperClass: Type.oneOfType([Type.string, Type.func]),
-  className: Type.string.isRequired,
-  errorClass: Type.string,
-  wrapperErrorClass: Type.string,
-  label: Type.string,
-  id: Type.string,
-  labelRequired: Type.bool,
-  component: Type.oneOfType([
-    Type.string,
-    Type.array,
-    Type.element,
-    Type.func,
-    Type.node
+  wrapperClass: PropTypes.string,
+  className: PropTypes.string.isRequired,
+  errorClass: PropTypes.string,
+  wrapperErrorClass: PropTypes.string,
+  label: PropTypes.string,
+  id: PropTypes.string,
+  labelRequired: PropTypes.bool,
+  component: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+    PropTypes.element,
   ]),
-  errors: Type.any,
-  Icon: Type.node,
+  errors: PropTypes.any,
+  Icon: PropTypes.node,
 };
 
 
