@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
-import { location } from 'config';
+import toLocaleDateString from '../../../lib/date/toLocaleDateString';
+import { MESSAGE_DATE_SHORT_FORMAT } from '../../../lib/date/formats';
 
 import MessageItem from './MessageItem';
 
@@ -22,9 +22,8 @@ class MessageGroup extends PureComponent {
       <div className="messages__group">
         <div className="messages__group-day">
           {
-            moment(data.messages[0].sent_at)
-              .locale(location)
-              .format('D MMMM')
+            toLocaleDateString(data.messages[0].sent_at,
+              MESSAGE_DATE_SHORT_FORMAT)
           }
         </div>
         {

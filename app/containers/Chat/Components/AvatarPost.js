@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { DOMAIN_URL } from 'config';
 import Avatar from './Avatar';
+import Image from '../../../components/Image';
 
 class AvatarPost extends PureComponent {
   static propTypes = {
@@ -17,10 +17,9 @@ class AvatarPost extends PureComponent {
 
     return (
       <div>
-        <Avatar
+        <Image
           className="avatar"
-          avatar={postImg}
-          imgClassName="avatar__img"
+          src={postImg}
           thumbSize="113x113"
           alt={postAlt}
         />
