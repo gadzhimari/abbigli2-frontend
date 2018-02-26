@@ -10,7 +10,6 @@ export { default as Profile } from './Profile/Profile';
 export { default as ProfileMyabbigli } from './ProfileMyabbigli';
 export { default as ProfileFavorites } from './ProfileFavorites';
 export { default as ProfileFeed } from './ProfileFeed';
-export { default as ProfileMessages } from './ProfileMessages';
 export { default as ProfileAbout } from './ProfileAbout';
 export { default as BlogsPage } from './BlogsPage/BlogsPage';
 export { default as BlogPage } from './BlogPage/BlogPage';
