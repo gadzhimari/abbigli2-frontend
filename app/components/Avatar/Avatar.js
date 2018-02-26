@@ -22,14 +22,16 @@ class Avatar extends PureComponent {
   }
 
   render() {
-    const { avatar,
-            thumbSize,
-            className,
-            imgClassName,
-            onClick,
-            Component,
-            componentProps,
-            ...imgProps } = this.props;
+    const {
+      avatar,
+      thumbSize,
+      className,
+      imgClassName,
+      onClick,
+      Component,
+      componentProps,
+      ...imgProps,
+    } = this.props;
 
     const url = avatar || '/images/svg/avatar.svg';
     const avatarSize = avatar ? thumbSize : null;

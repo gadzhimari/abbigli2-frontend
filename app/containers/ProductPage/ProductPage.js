@@ -12,7 +12,7 @@ import {
 
 import Content from './Content';
 import { Product } from '../../components/Cards';
-import { CommentsField, CommentsList } from '../../components/Comments';
+import { Comments } from '../../components/Comments';
 
 import postLoader from '../../HOC/postLoader';
 
@@ -151,17 +151,12 @@ class ProductPage extends Component {
             onFavoriteClick={this.handleFavorite}
           />
 
-          <div className="comments">
-            <div className="comments__wrapper">
-              <CommentsField
-                onSend={this.sendComment}
-                canComment={isAuthenticated}
-                dispatch={dispatch}
-              />
-              <div className="divider" />
-              <CommentsList comments={commentsList} />
-            </div>
-          </div>
+          <Comments
+            onSend={this.sendComment}
+            canComment={isAuthenticated}
+            dispatch={dispatch}
+            comments={commentsList}
+          />
 
           <RelativePosts
             items={relativePosts}

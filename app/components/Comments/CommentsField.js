@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '../../components/Button/Button';
+import Textarea from '../../components/Inputs/Textarea';
 
 import { __t } from '../../i18n/translator';
 
@@ -42,14 +43,14 @@ class CommentsField extends Component {
   renderCommentsField() {
     return (
       <div>
-        <div className="comment-field__textarea-wrapper">
-          <textarea
-            className="comment-field__textarea"
-            placeholder={__t('Your comment')}
-            onChange={this.changeComment}
-            value={this.state.comment}
-          />
-        </div>
+        <Textarea
+          wrapperClass="comment-field__textarea-wrapper"
+          className="textarea comment-field__textarea"
+          onChange={this.changeComment}
+          name="content"
+          value={this.state.comment}
+          placeholder={__t('Your comment')}
+        />
         <button
           className="default-button"
           type="button"

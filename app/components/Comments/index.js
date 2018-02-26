@@ -1,2 +1,1 @@
-export { default as CommentsField } from './CommentsField';
-export { default as CommentsList } from './CommentsList';
+export { default as Comments } from './Comments';

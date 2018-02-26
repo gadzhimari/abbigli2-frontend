@@ -11,7 +11,7 @@ import {
   FavoriteAdd,
   RelativePosts,
 } from '../../components';
-import { CommentsField, CommentsList } from '../../components/Comments';
+import { Comments } from '../../components/Comments';
 import { Event } from '../../components/Cards';
 import DateRange from '../../components/DateRange';
 import City from '../../components-lib/City';
@@ -165,19 +165,12 @@ class EventPage extends Component {
               isFavorited={data.favorite}
             />
 
-            <div className="comments">
-              <div className="comments__wrapper">
-                <CommentsField
-                  onSend={this.sendComment}
-                  canComment={isAuthenticated}
-                  dispatch={dispatch}
-                />
-                <div className="divider" />
-                <CommentsList
-                  comments={commentsList}
-                />
-              </div>
-            </div>
+            <Comments
+              onSend={this.sendComment}
+              canComment={isAuthenticated}
+              dispatch={dispatch}
+              comments={commentsList}
+            />
           </div>
           <Sidebar
             data={data}

@@ -1,52 +1,58 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import { Link } from 'react-router';
-import { pure } from 'recompose';
 
-import { location, THUMBS_URL } from 'config';
+import Avatar from '../../components/Avatar';
+import Link from '../../components/Link';
 
-const CommentItem = ({ data }) => (
-  <div className="comment">
-    <div className="comment__wrapper">
-      <div className="comment__meta">
-        <Link
-          className="avatar"
-          to={`/profile/${data.user.id}`}
-        >
-          {
-            data.user.avatar
-              ? <img className="avatar__img" src={`${THUMBS_URL}unsafe/113x113/${data.user.avatar}`} alt={data.user.profile_name} />
-              : <img className="avatar__img" src="/images/svg/avatar.svg" alt={data.user.profile_name} />
-          }
-        </Link>
-        <div className="comment__date">
-          {
-            moment(data.created)
-              .locale(location)
-              .format('LLL')
-          }
+import toLocaleDateString from '../../lib/date/toLocaleDateString';
+import { COMMENT_DATE_FORMAT } from '../../lib/date/formats';
+import createProfileLink from '../../lib/links/profile-link';
+
+class CommentItem extends PureComponent {
+  static propTypes = {
+    data: PropTypes.shape({
+      comment: PropTypes.string,
+      created: PropTypes.string,
+      user: PropTypes.object,
+    }).isRequired,
+  };
+
+  render() {
+    const { data } = this.props;
+    return (
+      <div className="comment">
+        <div className="comment__wrapper">
+          <div className="comment__meta">
+            <Link
+              to={createProfileLink({ profile: data.user.id })}
+            >
+              <Avatar
+                className="avatar comment__avatar"
+                imgClassName="avatar__img"
+                avatar={data.user.avatar}
+                thumbSize="113x113"
+                alt={data.user.profile_name}
+              />
+            </Link>
+            <div className="comment__date">
+              {
+                toLocaleDateString(data.created, COMMENT_DATE_FORMAT)
+              }
+            </div>
+            <Link
+              className="comment__author"
+              to={createProfileLink({ profile: data.user.id })}
+            >
+              {data.user.profile_name}
+            </Link>
+          </div>
+          <div className="comment__text">
+            {data.comment}
+          </div>
         </div>
-        <Link
-          className="comment__author"
-          to={`/profile/${data.user.id}`}
-        >
-          {data.user.profile_name}
-        </Link>
       </div>
-      <div className="comment__text">
-        {data.comment}
-      </div>
-    </div>
-  </div>
-);
+    );
+  }
+}
 
-CommentItem.propTypes = {
-  data: PropTypes.shape({
-    comment: PropTypes.string,
-    created: PropTypes.string,
-    user: PropTypes.object,
-  }).isRequired,
-};
-
-export default pure(CommentItem);
+export default CommentItem;

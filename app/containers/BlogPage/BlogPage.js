@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import Link from '../../components/Link/Link';
 import { processBlogContent } from '../../lib/process-html';
 import createPostEditLink from '../../lib/links/edit-post-link';
+import toLocaleDateString from '../../lib/date/toLocaleDateString';
 
 import {
   Gallery,
@@ -17,7 +17,7 @@ import {
   RelativePosts,
 } from '../../components';
 
-import { CommentsField, CommentsList } from '../../components/Comments';
+import { Comments } from '../../components/Comments';
 import { Blog } from '../../components/Cards';
 
 import postLoader from '../../HOC/postLoader';
@@ -27,7 +27,6 @@ import { fetchData as fetchDataComments, sendComment } from '../../ducks/Comment
 import { fetchData as fetchDataAuthors } from '../../ducks/ProfilePosts';
 
 import { __t } from '../../i18n/translator';
-import { location } from '../../config';
 import { POST_DATE_FORMAT } from '../../lib/date/formats';
 
 import './BlogPage.less';
@@ -159,9 +158,9 @@ class BlogPage extends Component {
               </h1>
 
               <div className="article__date">
-                {moment(data.created)
-                  .locale(location)
-                  .format(POST_DATE_FORMAT)
+                {
+                  toLocaleDateString(data.created,
+                    POST_DATE_FORMAT)
                 }
               </div>
 
@@ -183,21 +182,13 @@ class BlogPage extends Component {
               isFavorited={data.favorite}
             />
 
-            <div className="comments">
-              <div className="comments__wrapper">
-                <CommentsField
-                  onSend={this.sendComment}
-                  canComment={isAuthenticated}
-                  dispatch={dispatch}
-                />
-
-                <CommentsList
-                  comments={commentsList}
-                />
-              </div>
-            </div>
+            <Comments
+              onSend={this.sendComment}
+              canComment={isAuthenticated}
+              dispatch={dispatch}
+              comments={commentsList}
+            />
           </div>
-
           <Sidebar
             data={data}
             newPosts={itemsBlogs}
