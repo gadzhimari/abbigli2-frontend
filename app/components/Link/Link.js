@@ -4,7 +4,7 @@ import RouterLink from 'react-router/lib/Link';
 
 import './Link.styl';
 
-export default class Link extends PureComponent {
+class Link extends PureComponent {
   static propTypes = {
     to: Type.string,
     children: Type.oneOfType([Type.node, Type.arrayOf(Type.node)]),
@@ -38,3 +38,5 @@ export default class Link extends PureComponent {
     );
   }
 }
+
+export default Link;

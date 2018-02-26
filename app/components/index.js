@@ -29,7 +29,6 @@ export { default as Like } from './Like/Like';
 export { default as HomeSlider } from './HomeSlider';
 export { default as SliderBar } from './SliderBar';
 export { default as UserSearch } from './UserSearch';
-export { default as DialogsBlock } from './DialogsBlock';
 export { default as DragableImage } from './DragableImage';
 export { default as FetchingButton } from './FetchingButton';
 export { default as SocialLogin } from './SocialLogin';

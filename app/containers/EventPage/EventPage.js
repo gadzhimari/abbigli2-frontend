@@ -11,7 +11,7 @@ import {
   FavoriteAdd,
   RelativePosts,
 } from '../../components';
-import { CommentsField, CommentsList } from '../../components/Comments';
+import { Comments } from '../../components/Comments';
 import { Event } from '../../components/Cards';
 import DateRange from '../../components/DateRange';
 import City from '../../components-lib/City';
@@ -131,31 +131,33 @@ class EventPage extends Component {
           <BreadCrumbs crumbs={crumbs} />
 
           <div className="content">
-            <h1 className="section-title">
-              <svg className="icon icon-event" viewBox="0 0 27 26">
-                <path d="M22.2,3v2.1c0,2-1.6,3.5-3.5,3.5S15.1,7,15.1,5.1V3h-2.9v2.1c0,2-1.6,3.5-3.5,3.5 S5.1,7,5.1,5.1V3H0V26h27V3H22.2z M8.8,22.8H4.2v-4h4.5V22.8z M8.8,15.7H4.2v-4h4.5V15.7z M15.8,22.8h-4.5v-4h4.5V22.8z M15.8,15.7 h-4.5v-4h4.5V15.7z M18.2,22.8v-4h4.5L18.2,22.8z M22.8,15.7h-4.5v-4h4.5V15.7z" />
-                <path d="M8.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8S6.8,0.8,6.8,1.8v3.3 C6.8,6.1,7.6,6.9,8.6,6.9z" />
-                <path d="M18.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8s-1.8,0.8-1.8,1.8v3.3 C16.8,6.1,17.6,6.9,18.6,6.9z" />
-              </svg>
-              {data.title}
-            </h1>
+            <div className="article__wrapper">
+              <h1 className="section-title">
+                <svg className="icon icon-event" viewBox="0 0 27 26">
+                  <path d="M22.2,3v2.1c0,2-1.6,3.5-3.5,3.5S15.1,7,15.1,5.1V3h-2.9v2.1c0,2-1.6,3.5-3.5,3.5 S5.1,7,5.1,5.1V3H0V26h27V3H22.2z M8.8,22.8H4.2v-4h4.5V22.8z M8.8,15.7H4.2v-4h4.5V15.7z M15.8,22.8h-4.5v-4h4.5V22.8z M15.8,15.7 h-4.5v-4h4.5V15.7z M18.2,22.8v-4h4.5L18.2,22.8z M22.8,15.7h-4.5v-4h4.5V15.7z" />
+                  <path d="M8.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8S6.8,0.8,6.8,1.8v3.3 C6.8,6.1,7.6,6.9,8.6,6.9z" />
+                  <path d="M18.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8s-1.8,0.8-1.8,1.8v3.3 C16.8,6.1,17.6,6.9,18.6,6.9z" />
+                </svg>
+                {data.title}
+              </h1>
 
-            <div className="article__date">
-              <DateRange
-                start={data.date_start}
-                end={data.date_end}
+              <div className="article__date">
+                <DateRange
+                  start={data.date_start}
+                  end={data.date_end}
+                />
+              </div>
+
+              <City
+                className="article__city"
+                city={city}
               />
-            </div>
 
-            <City
-              className="article__city"
-              city={city}
-            />
+              {this.renderSlider()}
 
-            {this.renderSlider()}
-
-            <div>
-              {data.content}
+              <div>
+                {data.content}
+              </div>
             </div>
 
             <FavoriteAdd
@@ -163,13 +165,10 @@ class EventPage extends Component {
               isFavorited={data.favorite}
             />
 
-            <CommentsField
+            <Comments
               onSend={this.sendComment}
               canComment={isAuthenticated}
               dispatch={dispatch}
-            />
-
-            <CommentsList
               comments={commentsList}
             />
           </div>

@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import bindMethods from '../../lib/bindMethods';
 
 import './redactor/redactor.css';
+import './Textarea.less';
 
 export default class Textarea extends PureComponent {
   static propTypes = {
