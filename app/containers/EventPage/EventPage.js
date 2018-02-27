@@ -22,7 +22,7 @@ import {
   fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite, fetchUsersPosts,
 } from '../../ducks/PostPage/actions';
 
-import { fetchData as fetchDataComments, sendComment } from '../../ducks/Comments';
+import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 
 import { __t } from '../../i18n/translator';
 
@@ -33,7 +33,7 @@ class EventPage extends Component {
     dispatch(fetchNew({
       type: 3,
     })),
-    dispatch(fetchDataComments(params.slug)),
+    dispatch(fetchComments(params.slug)),
     dispatch(fetchUsersPosts(3, data.user.id)),
     dispatch(fetchPopular(3)),
     dispatch(fetchRelative(params.slug)),
@@ -214,7 +214,6 @@ EventPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const comments = state.Comments;
   const auth = state.Auth || {
     isAuthenticated: false,
   };
@@ -226,8 +225,8 @@ function mapStateToProps(state) {
     isDefined: state.PostPage.isDefined,
     itemsEvents: state.PostPage.newPosts,
     isFetchingEvents: state.PostPage.isFetchingNew,
-    itemsComments: comments.items,
-    isFetchingComments: comments.isFetching,
+    itemsComments: state.Comments.comments,
+    isFetchingComments: state.Comments.commentFetchingState,
     isAuthenticated: auth.isAuthenticated,
     popularPosts: state.PostPage.popularPosts,
     relativePosts: state.PostPage.relativePosts,
