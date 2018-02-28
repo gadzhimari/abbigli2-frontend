@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import { Link } from 'react-router';
 
-import { Share } from 'components';
+import { Share, Like } from 'components';
 import { ProductsIcons } from 'components/Icons';
 
 import { setLike } from 'actions/like';
@@ -53,36 +53,10 @@ class CardProduct extends Component {
   toggleLike = () => {
     const {
       dispatch,
-      isAuthenticated,
       data: {
-        liked,
-        slug,
-        likes_num,
+        slug
       }
     } = this.props;
-
-    if (!isAuthenticated) {
-      dispatch(stagedPopup('register'));
-
-      return;
-    }
-
-    const newLiked = this.state.forced.like === null
-      ? !liked
-      : !this.state.forced.like;
-
-    const count = this.state.forced.count === null
-      ? likes_num
-      : this.state.forced.count;
-
-    const newCount = newLiked ? count + 1 : count - 1;
-
-    this.setState({
-      forced: {
-        like: newLiked,
-        count: newCount,
-      },
-    });
 
     dispatch(setLike(slug));
   }
@@ -103,19 +77,11 @@ class CardProduct extends Component {
         images,
         type,
         comments_num: commentsCount,
-        likes_num,
+        likes_num: likesCount,
       }
     } = this.props;
 
     const user = editable === true ? me : this.props.data.user;
-
-    const likeStatus = this.state.forced.like === null
-      ? liked
-      : this.state.forced.like;
-    const likeCount = this.state.forced.count === null
-      ? likes_num
-      : this.state.forced.count;
-
     const formatedPrice = Number(price).toFixed(2);
     const imageUrl = images && images[0] && images[0].file;
 
@@ -194,10 +160,10 @@ class CardProduct extends Component {
             </div>
           }
           <Link
-            className="tag-card__name-wrap"
+            className="tag-card__title-wrap"
             to={`/${typesUrl[type]}/${slug}`}
           >
-            <div className="tag-card__name legacy">
+            <div className="tag-card__title legacy">
               <div className="icon-wrap">
                 {
                   type === 1 && <ProductsIcons.service />
@@ -220,12 +186,12 @@ class CardProduct extends Component {
             }
           </Link>
         </div>
-        <div className="tag-card__info">
+        <div className="tag-card__footer">
           {
             user
             &&
             (<Link className="tag-card__author" to={`/profile/${user.id}`}>
-              <div className="tag-card__avatar">
+              <span className="tag-card__avatar">
                 {
                   user.avatar
                     ? <img
@@ -238,8 +204,8 @@ class CardProduct extends Component {
                     />
 
                 }
-              </div>
-              <span>
+              </span>
+              <span className="tag-card__name">
                 {
                   user.profile_name
                     ? user.profile_name
@@ -249,23 +215,12 @@ class CardProduct extends Component {
             </Link>)
           }
 
-          <div className="like-comment">
-            <div
-              className="like-comment__button likes"
+          <div className="tag-card__actions">
+            <Like
+              liked={liked}
               onClick={this.toggleLike}
-            >
-              <div className="icon-wrap">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 31.193"
-                  className={`icon ${likeStatus ? 'liked' : ''}`}
-                >
-                  <path d="M17,31.193l-2.467-2.242C5.778,21.011,0,15.774,0,9.35C0,4.113,4.113,0,9.351,0C12.308,0,15.147,1.377,17,3.552
-                    C18.853,1.377,21.691,0,24.649,0C29.886,0,34,4.113,34,9.35c0,6.425-5.781,11.661-14.537,19.618L17,31.193z"
-                  />
-                </svg>
-              </div>
-              {likeCount}
-            </div>
+              count={likesCount}
+            />
             <div className="like-comment__button message">
               <Link
                 className="icon-wrap"

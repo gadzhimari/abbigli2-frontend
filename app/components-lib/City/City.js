@@ -2,7 +2,7 @@ import { React, Component, B, mix } from '../__base';
 
 const b = B('City');
 
-export default class City extends Component {
+class City extends Component {
   render() {
     const { className, city, showCountry } = this.props;
 
@@ -20,3 +20,5 @@ export default class City extends Component {
     );
   }
 }
+
+export default City;
