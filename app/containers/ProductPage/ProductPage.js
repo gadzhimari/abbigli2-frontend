@@ -12,11 +12,11 @@ import {
 
 import Content from './Content';
 import { Product } from '../../components/Cards';
-import { CommentsField, CommentsList } from '../../components/Comments';
+import { Comments } from '../../components/Comments';
 
 import postLoader from '../../HOC/postLoader';
 
-import { sendComment, fetchData as fetchDataComments } from '../../ducks/Comments';
+import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { sendPostMessage } from '../../ducks/Dialogs/actions';
 
 import { fetchPost, resetPost, fetchRelative, fetchUsersPosts, toggleFavorite } from '../../ducks/PostPage/actions';
@@ -32,7 +32,7 @@ class ProductPage extends Component {
   static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, token));
 
   static fetchSubData = (dispatch, data) => Promise.all([
-    dispatch(fetchDataComments(data.slug)),
+    dispatch(fetchComments(data.slug)),
     dispatch(fetchUsersPosts(1, data.user.id)),
     dispatch(fetchRelative(data.slug)),
   ])
@@ -151,14 +151,12 @@ class ProductPage extends Component {
             onFavoriteClick={this.handleFavorite}
           />
 
-          <div className="section">
-            <CommentsField
-              onSend={this.sendComment}
-              canComment={isAuthenticated}
-              dispatch={dispatch}
-            />
-            <CommentsList comments={commentsList} />
-          </div>
+          <Comments
+            onSend={this.sendComment}
+            canComment={isAuthenticated}
+            dispatch={dispatch}
+            comments={commentsList}
+          />
 
           <RelativePosts
             items={relativePosts}
@@ -193,8 +191,8 @@ const mapStateToProps = state => ({
   isFetchingBlogs: state.PostPage.isFetchingNew,
   isFetchingRelative: state.PostPage.isFetchingRelative,
   itemsAuthors: state.PostPage.usersPosts,
-  itemsComments: state.Comments.items,
-  isFetchingComments: state.Comments.isFetching,
+  itemsComments: state.Comments.comments,
+  isFetchingComments: state.Comments.commentFetchingState,
   isAuthenticated: state.Auth.isAuthenticated,
   priceTemplate: state.Settings.data.CURRENCY,
   me: state.Auth.me,

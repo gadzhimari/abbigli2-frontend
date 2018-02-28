@@ -1,32 +1,42 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
-import { location } from 'config';
+import toLocaleDateString from '../../../lib/date/toLocaleDateString';
+import { MESSAGE_DATE_SHORT_FORMAT } from '../../../lib/date/formats';
 
 import MessageItem from './MessageItem';
 
-const MessageGroup = ({ data, userId }) => {
+class MessageGroup extends PureComponent {
+  static propTypes = {
+    data: PropTypes.shape({
+      date: PropTypes.string,
+      messages: PropTypes.array,
+    }).isRequired,
+    userId: PropTypes.number.isRequired,
+  };
 
-  return (
-    <div className="messages__group">
-      <div className="messages__group-day">
+  render() {
+    const { data, userId } = this.props;
+
+    return (
+      <div className="messages__group">
+        <div className="messages__group-day">
+          {
+            toLocaleDateString(data.messages[0].sent_at,
+              MESSAGE_DATE_SHORT_FORMAT)
+          }
+        </div>
         {
-          moment(data.messages[0].sent_at)
-            .locale(location)
-            .format('D MMMM')
+          data.messages
+            .map((message, idx) => <MessageItem
+              key={idx}
+              userId={userId}
+              data={message}
+            />)
         }
       </div>
-      {
-        data.messages
-          .map((message, idx) => <MessageItem
-            key={idx}
-            userId={userId}
-            data={message}
-          />)
-      }
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default MessageGroup;

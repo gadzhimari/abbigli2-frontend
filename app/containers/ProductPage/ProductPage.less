@@ -15,6 +15,12 @@
 }
 
 .product {
+  &__content {
+    margin-bottom: 20px;
+  }
+  &__row {
+    margin-bottom: 20px;
+  }
   &__col {
     display: inline-block;
     &_size {
@@ -160,7 +166,7 @@
       display: block;
       &_size {
         &_5,
-        &_8 {
+        &_7 {
           width: 100%;
           margin: 0 auto;
         }
@@ -198,10 +204,10 @@
   }
 }
 
-@media only screen and (width: 320px) {
+@media only screen and (max-width: 320px) {
   .goods-post {
     .want-button {
-      margin-right: 35px;
+      margin-bottom: 20px;
     }
   }
 }

@@ -15,7 +15,6 @@ import {
   ProfileMyabbigli,
   ProfileFavorites,
   ProfileFeed,
-  ProfileMessages,
   EventsPage,
   EventPage,
   BlogPage,
@@ -69,7 +68,6 @@ const routes = (store, token, shouldPreload) => {
         <Route path="favorites" component={ProfileFavorites} />
         <Route path="feed" component={ProfileFeed} />
         <Route path="about" component={ProfileAbout} />
-        <Route path="messages" component={ProfileMessages} />
       </Route>
 
       <Route path="settings" component={SettingsPage} onEnter={handleNoAuth} />

@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import moment from 'moment';
-
-import { location } from '../../config';
 import { POST_DATE_FORMAT } from '../../lib/date/formats';
+import toLocaleDateString from '../../lib/date/toLocaleDateString';
 
 class DateRange extends PureComponent {
   static propTypes = {
@@ -21,8 +19,8 @@ class DateRange extends PureComponent {
 
     return (
       <span>
-        {moment(start).locale(location).format(POST_DATE_FORMAT)}
-        {end && ` - ${moment(end).locale(location).format(POST_DATE_FORMAT)}`}
+        { toLocaleDateString(start, POST_DATE_FORMAT) }
+        { end && ` - ${toLocaleDateString(end, POST_DATE_FORMAT)}`}
       </span>
     );
   }

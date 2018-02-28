@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import Link from '../../components/Link/Link';
 import { processBlogContent } from '../../lib/process-html';
 import createPostEditLink from '../../lib/links/edit-post-link';
+import toLocaleDateString from '../../lib/date/toLocaleDateString';
 
 import {
   Gallery,
@@ -17,17 +17,16 @@ import {
   RelativePosts,
 } from '../../components';
 
-import { CommentsField, CommentsList } from '../../components/Comments';
+import { Comments } from '../../components/Comments';
 import { Blog } from '../../components/Cards';
 
 import postLoader from '../../HOC/postLoader';
 
 import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite } from '../../ducks/PostPage/actions';
-import { fetchData as fetchDataComments, sendComment } from '../../ducks/Comments';
+import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { fetchData as fetchDataAuthors } from '../../ducks/ProfilePosts';
 
 import { __t } from '../../i18n/translator';
-import { location } from '../../config';
 import { POST_DATE_FORMAT } from '../../lib/date/formats';
 
 import './BlogPage.less';
@@ -39,7 +38,7 @@ class BlogPage extends Component {
     dispatch(fetchNew({
       type: 4,
     })),
-    dispatch(fetchDataComments(params.slug)),
+    dispatch(fetchComments(params.slug)),
     dispatch(fetchDataAuthors({
       type: 'posts',
       excludeId: data.id,
@@ -145,54 +144,51 @@ class BlogPage extends Component {
           <BreadCrumbs crumbs={crumbs} />
 
           <div className="content">
-            <h1 className="section-title">
+            <div className="article__wrapper">
+              <h1 className="section-title">
+                {userIsOwner &&
+                  <Link to={createPostEditLink({ profile: data.user.id, slug: data.slug })}>
+                    <svg className="icon icon-blog" viewBox="0 0 51 52.7">
+                      <path d="M51,9.4L41.5,0L31,10.4H4.1c-2.3,0-4.1,1.8-4.1,4.1v27.8c0,2.3,1.8,4.1,4.1,4.1h1.4l0.7,6.3 l8.3-6.3H38c2.3,0,4.1-1.8,4.1-4.1V18.1L51,9.4z M16.2,34.4l1-6.3l5.3,5.4L16.2,34.4z M47.2,9.4L24,32.2l-5.6-5.6l23-22.8L47.2,9.4z " />
+                    </svg>
+                  </Link>
+                }
+
+                {data.title}
+              </h1>
+
+              <div className="article__date">
+                {
+                  toLocaleDateString(data.created,
+                    POST_DATE_FORMAT)
+                }
+              </div>
+
+              {this.renderSlider()}
+
+              <div>{processBlogContent(data.content)}</div>
+
               {userIsOwner &&
-                <Link to={createPostEditLink({ profile: data.user.id, slug: data.slug })}>
-                  <svg className="icon icon-blog" viewBox="0 0 51 52.7">
-                    <path d="M51,9.4L41.5,0L31,10.4H4.1c-2.3,0-4.1,1.8-4.1,4.1v27.8c0,2.3,1.8,4.1,4.1,4.1h1.4l0.7,6.3 l8.3-6.3H38c2.3,0,4.1-1.8,4.1-4.1V18.1L51,9.4z M16.2,34.4l1-6.3l5.3,5.4L16.2,34.4z M47.2,9.4L24,32.2l-5.6-5.6l23-22.8L47.2,9.4z " />
+                <Link to={createPostEditLink({ profile: data.user.id, slug: data.slug })} className="edit-btn">
+                  <svg className="icon icon-edit" viewBox="0 0 18 18">
+                    <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
                   </svg>
+                  {__t('Edit')}
                 </Link>
               }
-
-              {data.title}
-            </h1>
-
-            <div className="article__date">
-              {moment(data.created)
-                .locale(location)
-                .format(POST_DATE_FORMAT)
-              }
             </div>
-
-            {this.renderSlider()}
-
-            <div>{processBlogContent(data.content)}</div>
-
-            {userIsOwner &&
-              <Link to={createPostEditLink({ profile: data.user.id, slug: data.slug })} className="edit-btn">
-                <svg className="icon icon-edit" viewBox="0 0 18 18">
-                  <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
-                </svg>
-                {__t('Edit')}
-              </Link>
-            }
-
             <FavoriteAdd
               toggleFavorite={this.handleFavorite}
               isFavorited={data.favorite}
             />
 
-            <CommentsField
+            <Comments
               onSend={this.sendComment}
               canComment={isAuthenticated}
               dispatch={dispatch}
-            />
-
-            <CommentsList
               comments={commentsList}
             />
           </div>
-
           <Sidebar
             data={data}
             newPosts={itemsBlogs}
@@ -254,8 +250,8 @@ const mapStateToProps = state => ({
   isFetchingRelative: state.PostPage.isFetchingRelative,
   itemsAuthors: state.ProfilePosts.items,
   isFetchingAuthors: state.ProfilePosts.isFetching,
-  itemsComments: state.Comments.items,
-  isFetchingComments: state.Comments.isFetching,
+  itemsComments: state.Comments.comments,
+  isFetchingComments: state.Comments.commentFetchingState,
   isAuthenticated: state.Auth.isAuthenticated,
   me: state.Auth.me,
 });

@@ -408,5 +408,7 @@ Information consists of all materials and information provided by the User to AB
       </ul>
     </li>
   </ul>
-</div>`
-}
+</div>`,
+  'Show.all': 'Show all',
+  'Hide.all': 'Hide all',
+};
