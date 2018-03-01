@@ -101,23 +101,17 @@ class TagSearchResults extends Component {
       <h1 className="section-title">
         <span>{__t('Search results')}</span>
         {routing && ` "${routing.query.tags.split(',').join(' ')}"`}
-        {' '}
-        {
-          routing
-          &&
-          `"${routing.query.tags.split(',').join(' ')}"`
-        }
-        <div className="section-title__subscribe">
-          {/* <button className="default-button" type="button">
-            + {__t('Subscribe')}
-          </button> */}
+        {/* <div className="section-title__subscribe">
+          {<button className="default-button" type="button">
+            {__t('Subscribe')}
+          </button>}
           <a
             className="filter-open"
             onClick={this.openMobileFilters}
           >
             {__t('Filters')}
           </a>
-        </div>
+        </div>*/}
       </h1>
     );
   }
@@ -163,7 +157,7 @@ class TagSearchResults extends Component {
           <BreadCrumbs />
           <div className="content">
             { this.renderResultsOfSearch() }
-            <Filters
+            {/* <Filters
               sections={sections}
               activeFilters={filters}
               updateFilter={updateFilter}
@@ -171,7 +165,8 @@ class TagSearchResults extends Component {
               reversePriceRange={reversePriceRange}
               changeFiltersType={changeFiltersType}
               openCityPopup={this.openSelectPopup}
-            /> */}
+            />
+            */}
             {
               isFetching
                 ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
