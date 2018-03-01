@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import dateFormat from 'dateformat';
 import { Link } from 'react-router';
 
-import { Share, Like } from '../../../components';
+import { Share } from '../../../components';
+import { Like } from '../../../components-lib';
 import Image from '../../../components/Image';
 import setLike from '../../../ducks/Like/actions';
 import Avatar from '../../Avatar';

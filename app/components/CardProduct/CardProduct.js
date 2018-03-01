@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 
 import { Link } from 'react-router';
 
-import { Share, Like } from 'components';
+import { Share } from 'components';
+import { Like } from '../../components-lib';
 import { ProductsIcons } from 'components/Icons';
 
 import { setLike } from 'actions/like';

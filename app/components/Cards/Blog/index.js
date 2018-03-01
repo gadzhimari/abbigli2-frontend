@@ -6,7 +6,8 @@ import dateFormat from 'dateformat';
 
 import Image from '../../../components/Image';
 import Avatar from '../../Avatar';
-import { Share, Link, Like } from '../../../components';
+import { Share, Link } from '../../../components';
+import { Like } from '../../../components-lib';
 
 import setLike from '../../../ducks/Like/actions';
 

@@ -6,7 +6,8 @@ import { pure } from 'recompose';
 
 import moment from 'moment';
 
-import { Share, Like } from '../../../components';
+import { Share } from '../../../components';
+import { Like } from '../../../components-lib';
 import Image from '../../Image';
 import Avatar from '../../Avatar';
 

@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 
 import { Link } from 'react-router';
 
-import { Share, Like } from '../../../components';
+import { Share } from '../../../components';
+import { Like } from '../../../components-lib';
 import Image from '../../../components/Image';
 import Avatar from '../../Avatar';
 
