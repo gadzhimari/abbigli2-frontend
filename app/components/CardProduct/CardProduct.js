@@ -6,19 +6,17 @@ import { Link } from 'react-router';
 import { Share } from 'components';
 import { Like } from '../../components-lib';
 import { ProductsIcons } from 'components/Icons';
+import Avatar from '../Avatar';
+import Image from '../Image';
 
 import { setLike } from 'actions/like';
 import { stagedPopup } from 'ducks/Auth/authActions';
 
-import { THUMBS_URL } from 'config';
+import createPostLink from '../../lib/links/post-link';
+import createPostEditLink from '../../lib/links/edit-post-link';
+import createProfileLink from '../../lib/links/profile-link';
 
 import './CardProduct.styl';
-
-const typesUrl = {
-  1: 'post',
-  3: 'event',
-  4: 'blog',
-};
 
 const typesClass = {
   1: 'product',
@@ -70,38 +68,37 @@ class CardProduct extends Component {
       delete: deleteItem,
       me,
       full,
-      data: {
-        title,
-        slug,
-        liked,
-        price,
-        images,
-        type,
-        comments_num: commentsCount,
-        likes_num: likesCount,
-      }
     } = this.props;
+
+    const {
+      title,
+      slug,
+      liked,
+      price,
+      images,
+      type,
+      comments_num: commentsCount,
+      likes_num: likesCount,
+    } = this.props.data;
 
     const user = editable === true ? me : this.props.data.user;
     const formatedPrice = Number(price).toFixed(2);
     const imageUrl = images && images[0] && images[0].file;
+    const thumbSize = `350x${full ? 350 : 290}`;
 
     return (
       <div className={`tag-card tag-card--${typesClass[type]} legacy`}>
         <div className="tag-card__img">
           <Link
-            to={`/${typesUrl[type]}/${slug}`}
+            to={createPostLink(this.props.data)}
             className="card-producr__img-link"
           >
-            {
-              images
-              &&
-              <img
-                className="card-img card-image__loaded"
-                alt={title}
-                src={`${THUMBS_URL}/unsafe/350x${full ? 350 : 290}/${imageUrl}`}
-              />
-            }
+            <Image
+              className="blog-card__img"
+              alt={title}
+              thumbSize={thumbSize}
+              src={imageUrl}
+            />
             <div className="tag-card__overlay" />
           </Link>
           <div className="share">
@@ -123,7 +120,7 @@ class CardProduct extends Component {
             &&
             <Link
               className="card-action-button card-edit"
-              to={`/profile/${user.id}/post/edit/${slug}`}
+              to={createPostEditLink({ id: user.id, slug })}
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
                 <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409
@@ -162,7 +159,7 @@ class CardProduct extends Component {
           }
           <Link
             className="tag-card__title-wrap"
-            to={`/${typesUrl[type]}/${slug}`}
+            to={createPostLink(this.props.data)}
           >
             <div className="tag-card__title legacy">
               <div className="icon-wrap">
@@ -191,19 +188,16 @@ class CardProduct extends Component {
           {
             user
             &&
-            (<Link className="tag-card__author" to={`/profile/${user.id}`}>
+            (<Link className="tag-card__author" to={createProfileLink(user.id)}>
               <span className="tag-card__avatar">
                 {
-                  user.avatar
-                    ? <img
-                      src={`${THUMBS_URL}/unsafe/30x30/${user.avatar}`}
-                      alt={user.profile_name ? user.profile_name : 'ID' + user.id}
-                    />
-                    : <img
-                      src={'/images/svg/avatar.svg'}
-                      alt={user.profile_name ? user.profile_name : 'ID' + user.id}
-                    />
-
+                  <Avatar
+                    className="avatar"
+                    imgClassName="avatar__img"
+                    avatar={user.avatar}
+                    thumbSize="30x30"
+                    alt={user.profile_name}
+                  />
                 }
               </span>
               <span className="tag-card__name">
@@ -225,7 +219,7 @@ class CardProduct extends Component {
             <div className="like-comment__button message">
               <Link
                 className="icon-wrap"
-                to={`/${typesUrl[type]}/${slug}`}
+                to={createPostLink(this.props.data)}
               >
                 <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
                   <path d="M0,8V0.8C0,0.359,0.36,0,0.799,0h10.402C11.641,0,12,0.359,12,0.8V12L8.799,8.799h-8C0.36,8.799,0,8.44,0,8z" />

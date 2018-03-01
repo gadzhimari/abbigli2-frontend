@@ -1,10 +1,9 @@
-import { React, Component, B, mix } from '../__base';
+import { React, Component, cn } from '../__base';
 
-const b = B('City');
-
+@cn('City')
 class City extends Component {
-  render() {
-    const { className, city, showCountry } = this.props;
+  render(cn) {
+    const { city, showCountry } = this.props;
 
     if (!city) {
       return null;
@@ -14,7 +13,7 @@ class City extends Component {
       .filter(Boolean).join(', ');
 
     return (
-      <div className={mix(b(), className)}>
+      <div className={cn()}>
         {text}
       </div>
     );

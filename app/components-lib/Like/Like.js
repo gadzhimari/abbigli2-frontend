@@ -2,7 +2,7 @@ import { React, PureComponent, Type, cn } from '../__base';
 
 import './Like.less';
 
-@cn('like')
+@cn('Like')
 class Like extends PureComponent {
   static propTypes = {
     count: Type.number,

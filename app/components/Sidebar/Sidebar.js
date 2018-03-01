@@ -7,12 +7,9 @@ import SidebarList from './SidebarList';
 
 import { __t } from '../../i18n/translator';
 
-import './Sidebar.less';
+import createPostLink from '../../lib/links/post-link';
 
-const urls = {
-  4: 'blog',
-  3: 'event',
-};
+import './Sidebar.less';
 
 class Sidebar extends PureComponent {
   static propTypes = {
@@ -22,13 +19,6 @@ class Sidebar extends PureComponent {
 
   render() {
     const {
-      data: {
-        tags,
-        type,
-        slug,
-        title,
-        images,
-      },
       newPosts,
       popularPosts,
       isFavorited,
@@ -37,6 +27,13 @@ class Sidebar extends PureComponent {
       newSectionTitle,
       popularSectionTitle,
     } = this.props;
+
+    const {
+      tags,
+      type,
+      title,
+      images,
+    } = this.props.data;
     const imageUrl = images && images[0] && images[0].file;
 
     return (
@@ -54,7 +51,7 @@ class Sidebar extends PureComponent {
         <div className="sidebar__group sidebar__group_social">
           <Share
             buttonClass="social-btn"
-            postLink={`/${urls[type]}/${slug}`}
+            postLink={createPostLink(this.props.data)}
             media={imageUrl}
             description={title}
           />

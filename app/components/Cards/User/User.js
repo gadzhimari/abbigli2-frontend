@@ -4,19 +4,32 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { FetchingButton } from 'components';
 
-import { THUMBS_URL } from 'config';
+import Avatar from '../../../components/Avatar';
+
 import { __t } from '../../../i18n/translator';
+
+import createProfileLink from '../../../lib/links/profile-link';
 
 import './User.less';
 
 class User extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSubscribed: props.user.is_subscribed,
-      fetchingFollow: false,
-    };
-  }
+  static propTypes = {
+    user: PropTypes.shape({
+      id: PropTypes.number,
+      city: PropTypes.object,
+      profile_name: PropTypes.string,
+      avatar: PropTypes.string,
+      is_subscribed: PropTypes.bool,
+    }).isRequired,
+    follow: PropTypes.func.isRequired,
+    openPopup: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+  };
+
+  state = {
+    isSubscribed: this.props.user.is_subscribed,
+    fetchingFollow: false,
+  };
 
   handleFollow = () => {
     if (this.props.isAuthenticated) {
@@ -36,26 +49,22 @@ class User extends PureComponent {
   }
 
   render() {
+    const { user } = this.props;
+
     return (
       <div className="user-card">
-        <Link to={`/profile/${this.props.user.id}`} >
+        <Link to={createProfileLink({ id: user.id })} >
           <div className="user-card__avatar">
-            {
-              this.props.user.avatar
-                ? <img
-                  className="user-card__avatar-img"
-                  src={`${THUMBS_URL}/unsafe/86x86/${this.props.user.avatar}`}
-                  alt={this.props.user.profile_name}
-                />
-                : <img
-                  className="user-card__avatar-img"
-                  src={'/images/svg/avatar.svg'}
-                  alt={this.props.user.profile_name}
-                />
-            }
+            <Avatar
+              className="avatar"
+              imgClassName="avatar__img"
+              avatar={user.avatar}
+              thumbSize="86x86"
+              alt={user.profile_name}
+            />
           </div>
         </Link>
-        <Link to={`/profile/${this.props.user.id}`} >
+        <Link to={createProfileLink({ id: user.id })} >
           <div className="user-card__name">
             {this.props.user.profile_name}
           </div>
@@ -92,18 +101,5 @@ class User extends PureComponent {
     );
   }
 }
-
-User.propTypes = {
-  user: PropTypes.shape({
-    id: PropTypes.number,
-    city: PropTypes.object,
-    profile_name: PropTypes.string,
-    avatar: PropTypes.string,
-    is_subscribed: PropTypes.bool,
-  }).isRequired,
-  follow: PropTypes.func.isRequired,
-  openPopup: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-};
 
 export default User;

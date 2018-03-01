@@ -1,13 +1,13 @@
 import { React, PureComponent, Type, cn } from '../__base';
 
-@cn('icon')
+@cn('Icon')
 class Icon extends PureComponent {
   static propTypes = {
     className: Type.string,
     colored: Type.bool,
     name: Type.string,
     size: Type.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-    theme: Type.oneOf(['alfa-on-color', 'alfa-on-white']),
+    theme: Type.oneOf(['abbigli-light', 'abbigli-dark']),
   };
 
   static defaultProps = {
@@ -15,19 +15,15 @@ class Icon extends PureComponent {
   }
 
   render(cn) {
-    const mods = { size: this.props.size };
-
-    if (this.props.name) {
-      mods.name = this.props.name;
-    }
-
-    if (this.props.colored) {
-      mods.colored = true;
-    }
+    const { size, name, colored } = this.props;
 
     return (
       <span
-        className={cn(mods)}
+        className={cn({
+          size,
+          name,
+          colored,
+        })}
       />
     );
   }

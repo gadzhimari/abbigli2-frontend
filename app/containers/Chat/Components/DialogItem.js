@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import AvatarPost from './AvatarPost';
 import Avatar from './Avatar';
 
-import { location } from 'config';
+import toLocaleDateString from '../../../lib/date/toLocaleDateString';
+import { DIALOG_DATE_SHORT_FORMAT } from '../../../lib/date/formats';
 
 const DialogItem = ({
   data,
@@ -61,9 +60,8 @@ const DialogItem = ({
         }
         <div className="dialog__date">
           {
-            moment(data.last_message_sent)
-              .locale(location)
-              .format('D MMM')
+            toLocaleDateString(data.last_message_sent,
+              DIALOG_DATE_SHORT_FORMAT)
           }
         </div>
       </div>
