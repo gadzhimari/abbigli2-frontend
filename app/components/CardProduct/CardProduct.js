@@ -190,15 +190,13 @@ class CardProduct extends Component {
             &&
             (<Link className="tag-card__author" to={createProfileLink(user.id)}>
               <span className="tag-card__avatar">
-                {
-                  <Avatar
-                    className="avatar"
-                    imgClassName="avatar__img"
-                    avatar={user.avatar}
-                    thumbSize="30x30"
-                    alt={user.profile_name}
-                  />
-                }
+                <Avatar
+                  className="avatar"
+                  imgClassName="avatar__img"
+                  avatar={user.avatar}
+                  thumbSize="30x30"
+                  alt={user.profile_name}
+                />
               </span>
               <span className="tag-card__name">
                 {

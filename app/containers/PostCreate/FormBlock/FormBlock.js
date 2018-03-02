@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import Type from 'prop-types';
-import block from 'bem-cn';
+import cn from '../../../lib/cn';
 
 import './FormBlock.less';
 
-const b = block('FormBlock');
-
+@cn('FormBlock')
 class FormBlock extends Component {
   static propTypes = {
     children: Type.oneOfType([Type.node, Type.arrayOf(Type.node)]),
   }
 
-  render() {
+  render(cn) {
     return (
-      <fieldset className={b}>
+      <fieldset className={cn()}>
         {this.props.children}
       </fieldset>
     );

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import Image from '../../../Image';
+import { __t } from '../../../../i18n/translator';
 
 import './Big.less';
 
@@ -53,7 +54,7 @@ class Big extends PureComponent {
           className="promo-tag__link promo-tag__link--all"
           to={`${url}/${item.slug}`}
         >
-          {'Show all >'}
+          {`${__t('Show.all')} >`}
         </Link>
       </div>
     );

@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
+import debounce from 'lodash/debounce';
 
 import CityItem from './CityItem';
-import { debounce, getJsonFromStorage } from 'utils/functions';
+import { getJsonFromStorage } from 'utils/functions';
 import { __t } from '../../../i18n/translator';
 
 import './SelectPopup.styl';
 
 class SelectPopup extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: props.options.items,
-      displayItems: props.options.items || [],
-      value: '',
-      isFetching: false,
-    };
-  }
+  state = {
+    items: this.props.options.items,
+    displayItems: this.props.options.items || [],
+    value: '',
+    isFetching: false,
+  };
 
   componentDidMount() {
     if (this.props.options.async) {

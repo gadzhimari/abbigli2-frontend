@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Type from 'prop-types';
-import block from 'bem-cn';
 
+import cn from '../../../lib/cn';
 import Button from '../../Button';
 
-const b = block('Color');
-
+@cn('Color')
 class Color extends Component {
   static propTypes = {
     color: Type.string,
@@ -22,12 +21,12 @@ class Color extends Component {
     }
   }
 
-  render() {
+  render(cn) {
     const { color, isActive } = this.props;
 
     return (
       <Button
-        className={b({ isActive, color })}
+        className={cn({ isActive, color })}
         onClick={this.onClick}
         type="button"
       />
