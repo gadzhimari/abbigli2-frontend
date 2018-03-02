@@ -1,7 +1,9 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import debounce from 'lodash/debounce';
 
 import ResultsTags from './ResultsTags';
 import ResultsUsers from './ResultsUsers';
@@ -9,7 +11,6 @@ import ResultsUsers from './ResultsUsers';
 import { changeValue, clearValue } from 'ducks/Search';
 
 import { API_URL } from 'config';
-import { debounce } from 'utils/functions';
 import { __t } from '../../../i18n/translator';
 
 import './SearchPopup.styl';
@@ -33,19 +34,22 @@ const parseQuery = (query) => {
 };
 
 class SearchPopup extends Component {
-  constructor() {
-    super();
-    this.state = {
-      mode: 'tags',
-      showSwitcherDropdown: false,
-      results: [],
-      requestQuery: {},
-      usersValue: '',
-      isFetching: true,
-      isFetchingUsers: true,
-      resultsUsers: [],
-    };
-  }
+  static propTypes = {
+    closePopup: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    tagsValue: PropTypes.string.isRequired,
+  };
+
+  state = {
+    mode: 'tags',
+    showSwitcherDropdown: false,
+    results: [],
+    requestQuery: {},
+    usersValue: '',
+    isFetching: true,
+    isFetchingUsers: true,
+    resultsUsers: [],
+  };
 
   switchMode = ({ currentTarget }) => this.setState({
     mode: currentTarget.dataset.mode,
@@ -333,12 +337,6 @@ class SearchPopup extends Component {
     );
   }
 }
-
-SearchPopup.propTypes = {
-  closePopup: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  tagsValue: PropTypes.string.isRequired,
-};
 
 const mapStateToProps = ({ Search }) => ({
   tagsValue: Search.tagsValue,

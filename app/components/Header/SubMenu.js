@@ -1,13 +1,11 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
+import debounce from 'lodash/debounce';
 
 import SubMenuItem from './SubMenuItem';
 import CategoryList from './CategoryList';
 import MoreList from './MoreList';
-
-import { debounce } from 'utils/functions';
 
 import { __t } from '../../i18n/translator';
 
@@ -22,7 +20,7 @@ class SubMenu extends PureComponent {
       mustRecalculateVisibility: false,
     };
 
-    this.debouncedResetInvisible = debounce(this.resetInvisible, 600, this);
+    this.debouncedResetInvisible = debounce(this.resetInvisible, 600);
   }
 
   componentDidMount() {

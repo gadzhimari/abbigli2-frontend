@@ -2,10 +2,10 @@
 
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
+import debounce from 'lodash/debounce';
+
 import ComponentsList from './components/ComponentsList';
 import SliderButtons from './components/SliderButtons';
-
-import { debounce } from 'utils/functions';
 
 import './index.less';
 
@@ -29,7 +29,7 @@ class TagsBar extends PureComponent {
     factor: typeof window !== 'undefined' && window.innerWidth > 500 ? 3 : 1,
   };
 
-  calculateOnResize = debounce(this.calculateMaxSlided, 300, this);
+  calculateOnResize = debounce(this.calculateMaxSlided, 300);
 
   /** @type {HTMLElement} */
   root;

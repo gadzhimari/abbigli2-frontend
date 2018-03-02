@@ -80,19 +80,6 @@ export function formatDate(date) {
   return `${prependWithZero(date.getDate())}/${prependWithZero(date.getMonth() + 1)}/${date.getFullYear()}`;
 }
 
-export function debounce(callback, wait, context = this) {
-  let timeout = null;
-  let callbackArgs = null;
-
-  const later = () => callback.apply(context, callbackArgs);
-
-  return function () {
-    callbackArgs = arguments;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
 export const createQuery = (queryObj) => {
   const keys = Object.keys(queryObj);
 
