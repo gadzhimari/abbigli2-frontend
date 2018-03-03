@@ -6,6 +6,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
 import update from 'react/lib/update';
+import merge from 'lodash/merge';
 
 import ProductForm from './ProductForm/ProductForm';
 import BlogForm from './BlogForm/BlogForm';
@@ -18,7 +19,6 @@ import { openPopup } from '../../ducks/Popup/actions';
 
 import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
 import bindMethods from '../../lib/bindMethods';
-import { mergeObjects } from '../../lib/merge-objects';
 import { __t } from '../../i18n/translator';
 
 import './index.less';
@@ -27,7 +27,7 @@ class PostCreate extends Component {
   constructor(props) {
     super(props);
 
-    this.state = mergeObjects({
+    this.state = merge({
       type: PRODUCT_TYPE,
       images: []
     }, props.data);

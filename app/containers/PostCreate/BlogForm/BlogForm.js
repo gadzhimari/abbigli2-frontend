@@ -1,5 +1,7 @@
 import React from 'react';
 
+import merge from 'lodash/merge';
+
 import CreateForm from '../CreateForm/CreateForm';
 import FormBlock from '../FormBlock';
 import { ErrorInput } from '../../../components/Inputs';
@@ -10,15 +12,13 @@ import Redactor from '../../../components/Inputs/Redactor';
 import Select from '../../../components/Inputs/Select';
 
 import categoriesAdapter from '../../../lib/adapters/categories-to-options';
-import { mergeObjects } from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
 
-
-export default class BlogForm extends CreateForm {
+class BlogForm extends CreateForm {
   constructor(props) {
     super(props);
 
-    this.state = mergeObjects({
+    this.state = merge({
       title: '',
       content: '',
       tags: '',
@@ -28,12 +28,14 @@ export default class BlogForm extends CreateForm {
   }
 
   render() {
-    const { visible,
-            errors,
-            sections,
-            isSaving,
-            imageZoneActions,
-            ...imageZoneProps } = this.props;
+    const {
+      visible,
+      errors,
+      sections,
+      isSaving,
+      imageZoneActions,
+      ...imageZoneProps,
+    } = this.props;
 
     const { title, content, tags, categories } = this.state;
 
@@ -122,3 +124,5 @@ export default class BlogForm extends CreateForm {
     );
   }
 }
+
+export default BlogForm;

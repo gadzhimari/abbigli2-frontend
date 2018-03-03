@@ -1,5 +1,7 @@
 import React from 'react';
 
+import merge from 'lodash/merge';
+
 import CreateForm from '../CreateForm/CreateForm';
 import { ErrorInput } from '../../../components/Inputs';
 import { ChoiceColor } from '../../../components/FiltersSelects';
@@ -10,7 +12,6 @@ import ImageUploadZone from '../../../components/ImageUploadZone';
 import FetchingButton from '../../../components/FetchingButton';
 import Button from '../../../components/Button';
 
-import { mergeObjects } from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
 
 import './ProductForm.less';
@@ -22,7 +23,7 @@ class ProductForm extends CreateForm {
   constructor(props) {
     super(props);
 
-    this.state = mergeObjects({
+    this.state = merge({
       title: '',
       price: '',
       content: '',

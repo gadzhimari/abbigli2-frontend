@@ -1,5 +1,7 @@
 import React from 'react';
 
+import merge from 'lodash/merge';
+
 import CreateForm from '../CreateForm/CreateForm';
 import FormBlock from '../FormBlock';
 import { ErrorInput } from '../../../components/Inputs';
@@ -12,14 +14,13 @@ import DateInput from '../../../components/Inputs/DateInput';
 import CitySelect from '../../../components/Inputs/CitySelect/';
 
 import categoriesAdapter from '../../../lib/adapters/categories-to-options';
-import { mergeObjects } from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
 
-export default class EventForm extends CreateForm {
+class EventForm extends CreateForm {
   constructor(props) {
     super(props);
 
-    this.state = mergeObjects({
+    this.state = merge({
       title: '',
       content: '',
       tags: '',
@@ -180,3 +181,5 @@ export default class EventForm extends CreateForm {
     );
   }
 }
+
+export default EventForm;
