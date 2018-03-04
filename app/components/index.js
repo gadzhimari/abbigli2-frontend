@@ -25,7 +25,6 @@ export { default as Gallery } from './Gallery/Gallery';
 export { default as Loading } from './Loading';
 export { default as HR } from './HR';
 export { default as Share } from './Share/Share';
-export { default as Like } from './Like/Like';
 export { default as HomeSlider } from './HomeSlider';
 export { default as SliderBar } from './SliderBar';
 export { default as UserSearch } from './UserSearch';

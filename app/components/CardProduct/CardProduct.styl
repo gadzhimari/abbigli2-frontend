@@ -32,12 +32,12 @@
   left: 0;
   transform: none;
 
-  &:hover .tag-card__name-wrap {
+  &:hover .tag-card__title-wrap {
     color: #0090de;
   }
 }
 
-.tag-card__name-wrap {
+.tag-card__title-wrap {
   position: absolute;
   left: 0;
   width: 100%;
@@ -46,7 +46,7 @@
   padding: 0 20px;
 }
 
-.legacy .tag-card__name {
+.legacy .tag-card__title {
   font-family: 'clear_sansbold';
   font-size: 22px;
   line-height: 26px;
@@ -55,13 +55,13 @@
   text-align: left;
 }
 
-.tag-card--product .tag-card__name {
+.tag-card--product .tag-card__title {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.tag-card__name .icon-wrap {
+.tag-card__title .icon-wrap {
   background-color: #fff;
   border: 1px solid #aebcc3;
   display: inline-block;
@@ -74,7 +74,7 @@
   margin-right: 5px;
 }
 
-.tag-card__name .icon {
+.tag-card__title .icon {
   left: 50%;
   top: 50%;
   position: absolute;
@@ -82,21 +82,21 @@
   transform: translate(-50%, -50%);
 }
 
-.tag-card--product .tag-card__name .icon {
+.tag-card--product .tag-card__title .icon {
   fill: #ff5722;
   background-size: 20px 16px;
   width: 20px;
   height: 16px;
 }
 
-.tag-card--blog .tag-card__name .icon {
+.tag-card--blog .tag-card__title .icon {
   fill: #02a511;
   background-size: 14px 16px;
   width: 14px;
   height: 16px;
 }
 
-.tag-card--event .tag-card__name .icon {
+.tag-card--event .tag-card__title .icon {
   fill: #65048b;
   background-size: 14px 16px;
   width: 14px;
@@ -110,45 +110,49 @@
   margin-top: 7px;
 }
 
-.tag-card__info {
+.tag-card__footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 60px;
+  padding: 0 10px;
   font-size: 12px;
   line-height: 16px;
   color: #92989b;
-  height: 60px;
   overflow: hidden;
-  position: relative;
-  width: 100%;
 }
 
 .tag-card__author {
+  display: flex;
+  align-items: center;
   color: #92989b;
-  max-width: 100%;
-  padding-left: 45px;
-  padding-right: 90px;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  -webkit-transform: translate(0,-50%);
-  transform: translate(0,-50%);
 }
 
 .tag-card__avatar {
+  display: inline-block;
+  flex-shrink: 0;
   width: 30px;
   height: 30px;
   overflow: hidden;
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  -webkit-transform: translate(0,-50%);
-  transform: translate(0,-50%);
-  -webkit-border-radius: 50%;
   border-radius: 50%;
 }
 
-.tag-card__info .like-comment {
-  position: absolute;
-  right: 10px;
-  top: 22px;
+.tag-card__name {
+  margin-left: 5px;
+}
+
+.tag-card__actions {
+  display: flex;
+  align-items: center;
+  .Like {
+    flex-shrink: 0;
+    margin-right: 5px;
+  }
+  .like-comment__button {
+    flex-shrink: 0;
+  }
 }
 
 .legacy {

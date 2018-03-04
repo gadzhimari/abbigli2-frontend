@@ -16,7 +16,7 @@ const Recipient = ({
         {
           data.avatar
             ? <img
-              src={`${THUMBS_URL}unsafe/70x70/${data.avatar}`}
+              src={`${THUMBS_URL}/unsafe/70x70/${data.avatar}`}
               alt={data.name || data.profile_name || `User id: ${data.id}`}
             />
             : <img

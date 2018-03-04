@@ -70,7 +70,7 @@ class ProfileAvatar extends PureComponent {
             className="profile-avatar__img"
             src={
               src
-                ? `${THUMBS_URL}unsafe/180x180/${src}`
+                ? `${THUMBS_URL}/unsafe/180x180/${src}`
                 : '/images/svg/avatar.svg'
             }
             alt={alt}

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import Type from 'prop-types';
-import block from 'bem-cn';
 
 import Color from './Color';
 
 import { colors } from '../../../lib/constants/colors';
 import { __t } from '../../../i18n/translator';
+import cn from '../../../lib/cn';
 
-const b = block('ChoiceColor');
-
+@cn('ChoiceColor')
 class ChoiceColor extends Component {
   static propTypes = {
     activeColor: Type.string,
@@ -16,16 +15,16 @@ class ChoiceColor extends Component {
     onChange: Type.func,
   }
 
-  render() {
+  render(cn) {
     const { activeColor, onChange, className } = this.props;
 
     return (
-      <div className={b.mix(className)}>
-        <div className={b('label')}>
+      <div className={cn(className)}>
+        <div className={cn('label')}>
           {__t('Pick a color')}
         </div>
 
-        <div className={b('wrap')}>
+        <div className={cn('wrap')}>
           {colors.map(color => <Color
             key={color}
             color={color}

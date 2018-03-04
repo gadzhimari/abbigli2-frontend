@@ -16,7 +16,7 @@ const BlogSection = ({ item, baseUrl, isBlog }) => (
     to={`${baseUrl ? `${baseUrl}?category=${item.slug}` : item.view_on_site_url}`}
   >
     <img
-      src={`${THUMBS_URL}unsafe/180x153/${item.images[0]}`}
+      src={`${THUMBS_URL}/unsafe/180x153/${item.images[0]}`}
       alt={item.title}
     />
     <div className="slider-category__name">{item.title}</div>

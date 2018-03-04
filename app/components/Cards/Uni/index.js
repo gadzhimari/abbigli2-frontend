@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import Type from 'prop-types';
 import { connect } from 'react-redux';
 
-import dateFormat from 'dateformat';
 import { Link } from 'react-router';
 
-import { Share, Like } from '../../../components';
+import { Share } from '../../../components';
+import { Like } from '../../../components-lib';
 import Image from '../../../components/Image';
 import setLike from '../../../ducks/Like/actions';
 import Avatar from '../../Avatar';
+
+import createPostLink from '../../../lib/links/post-link';
+import createProfileLink from '../../../lib/links/profile-link';
+import toLocaleDateString from '../../../lib/date/toLocaleDateString';
+import { EVENT_DATE_FORMAT } from '../../../lib/date/formats';
 
 import './index.styl';
 
@@ -17,28 +21,20 @@ class Uni extends Component {
 
   render() {
     const {
-      title,
-      created,
-      comments_num,
-      likes_num,
-      price,
-      images,
-      city,
-      user,
-      date_start,
-      date_end,
-      type,
-      slug,
-      liked
-    } = this.props.item;
-
-    const { dispatch, priceTemplate } = this.props;
-
-    const types_url = {
-      1: 'post',
-      3: 'event',
-      4: 'blog',
-    };
+      item: {
+        title,
+        comments_num: commentsCount,
+        price,
+        images,
+        city,
+        user,
+        date_start,
+        date_end: dateEnd,
+        type,
+        liked,
+      },
+      priceTemplate,
+    } = this.props;
 
     const type_icon = {
       1: 'bag',
@@ -49,14 +45,8 @@ class Uni extends Component {
 
     return (
       <div className="tile">
-        {/*
-          Hided for this relise
-          <Subscription />
-        */}
-        <div
-          className="tile__image-holder"
-        >
-          <Link to={`/${types_url[type]}/${slug}`}>
+        <div className="tile__image-holder">
+          <Link to={createPostLink(this.props.item)}>
             <Image
               className="tile__image"
               alt={title}
@@ -74,15 +64,17 @@ class Uni extends Component {
             <div className="dropdown-corner" />
             <div className="dropdown">
               <Share
-                postLink={`/${types_url[type]}/${slug}`}
+                postLink={createPostLink(this.props.item)}
                 buttonClass="social-btn"
+                media={imageUrl}
+                description={title}
               />
             </div>
           </div>
         </div>
         <div className="tile__info">
           <Link
-            to={`/${types_url[type]}/${slug}`}
+            to={createPostLink(this.props.item)}
             className="tile__title"
           >
             <div
@@ -96,8 +88,8 @@ class Uni extends Component {
             <div
               className="tile__date"
             >
-              {dateFormat(date_start, 'dd.mm.yy')}
-              {date_end ? ' - ' + dateFormat(date_end, 'dd.mm.yy') : ''}
+              {toLocaleDateString(date_start, EVENT_DATE_FORMAT)}
+              {dateEnd ? ` - ${toLocaleDateString(date_start, EVENT_DATE_FORMAT)}` : ''}
               <span className="tile__city">
                 {
                   city
@@ -108,7 +100,7 @@ class Uni extends Component {
             </div>
           }
           <Link
-            to={`/profile/${user.id}`}
+            to={createProfileLink(user.id)}
             className="tile__author"
           >
             <Avatar
@@ -125,8 +117,8 @@ class Uni extends Component {
             (type === 4)
             &&
             <div className="tile__comment-count">
-              <div className="icon"></div>
-              {comments_num > 0 && comments_num}
+              <div className="icon" />
+                { commentsCount > 0 && commentsCount }
             </div>
           }
           {

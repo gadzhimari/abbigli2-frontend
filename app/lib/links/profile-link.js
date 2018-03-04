@@ -1,3 +1,3 @@
-export default function createProfileLink({ profile }) {
-  return `/profile/${profile}`;
+export default function createProfileLink({ id }) {
+  return `/profile/${id}`;
 }

@@ -2,7 +2,7 @@ export const location = process.env.LOCATION;
 export const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
 export const DOMAIN_URL = process.env.DOMAIN_URL;
-export const API_URL = `${DOMAIN_URL}api/v1/`;
+export const API_URL = `${DOMAIN_URL}/api/v1/`;
 export const THUMBS_URL = process.env.THUMBS_URL;
 
 export const IS_HOT_DEVELOPMENT = IS_DEVELOPMENT && module.hot;
@@ -14,7 +14,7 @@ export const appConfig = {
     titleTemplate: '%s',
     meta: [
       { property: 'og:site_name', content: 'Abbilgi' },
-      { property: 'og:image', content: `${DOMAIN_URL}media/og-image.jpg` },
+      { property: 'og:image', content: `${DOMAIN_URL}/media/og-image.jpg` },
       { property: 'og:locale', content: 'ru_RU' },
       { property: 'og:title', content: 'Abbilgi' },
     ],

@@ -18,7 +18,7 @@ import { openPopup } from '../../ducks/Popup/actions';
 
 import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
 import bindMethods from '../../lib/bindMethods';
-import { mergeObjects } from '../../lib/merge-objects';
+import mergeObjects from '../../lib/merge-objects';
 import { __t } from '../../i18n/translator';
 
 import './index.less';

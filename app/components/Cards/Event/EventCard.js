@@ -6,7 +6,8 @@ import { pure } from 'recompose';
 
 import moment from 'moment';
 
-import { Share, Like } from '../../../components';
+import { Share } from '../../../components';
+import { Like } from '../../../components-lib';
 import Image from '../../Image';
 import Avatar from '../../Avatar';
 
@@ -42,6 +43,8 @@ const EventCard = ({ data }) => {
             <Share
               postLink={`/event/${data.slug}`}
               buttonClass="social-btn"
+              media={imageUrl}
+              description={data.title}
             />
           </div>
         </div >

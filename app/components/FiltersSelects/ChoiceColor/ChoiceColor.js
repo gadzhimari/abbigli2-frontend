@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
-import block from 'bem-cn';
 
 import Button from '../../Button';
 import Color from './Color';
@@ -12,10 +11,22 @@ import { isClickOutside } from '../../../lib/window';
 import { __t } from '../../../i18n/translator';
 import './ChoiceColor.less';
 import bindMethods from '../../../lib/bindMethods';
+import cn from '../../../lib/cn';
 
-const b = block('ChoiceColor');
-
+@cn('ChoiceColor')
 class ChoiceColor extends PureComponent {
+  static propTypes = {
+    onChange: Type.func.isRequired,
+    activeColor: Type.string,
+    className: Type.oneOfType([Type.string, Type.func]),
+    isMobile: Type.bool,
+  };
+
+  static defaultProps = {
+    activeColor: '',
+    isMobile: false,
+  };
+
   constructor(props) {
     super(props);
 
@@ -55,7 +66,7 @@ class ChoiceColor extends PureComponent {
     this.setState({ openedDropdown: true });
   }
 
-  render() {
+  render(cn) {
     const { onChange, activeColor, isMobile, className } = this.props;
     const { openedDropdown } = this.state;
 
@@ -64,7 +75,7 @@ class ChoiceColor extends PureComponent {
     }
 
     return (
-      <div className={b.mix(className)} ref={root => (this.root = root)}>
+      <div className={cn(className)} ref={root => (this.root = root)}>
         <Button
           className="input"
           onClick={this.openDropdown}
@@ -87,7 +98,7 @@ class ChoiceColor extends PureComponent {
         }
 
         {openedDropdown &&
-          <div className={b('dropdown')}>
+          <div className={cn('dropdown')}>
             {colors.map(color => <Color
               key={color}
               color={color}
@@ -101,17 +112,5 @@ class ChoiceColor extends PureComponent {
     );
   }
 }
-
-ChoiceColor.defaultProps = {
-  activeColor: '',
-  isMobile: false,
-};
-
-ChoiceColor.propTypes = {
-  onChange: Type.func.isRequired,
-  activeColor: Type.string,
-  className: Type.oneOfType([Type.string, Type.func]),
-  isMobile: Type.bool,
-};
 
 export default ChoiceColor;

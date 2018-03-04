@@ -18,10 +18,6 @@ try {
   storage = new storagePolyfill;
 }
 
-export function toUpperSnake(string) {
-  return string.replace(/([A-Z])/g, $1 => `_${$1}`).toUpperCase();
-}
-
 export function setJsonToStorage(key, data) {
   storage.setItem(key, JSON.stringify(data));
   return data;
@@ -61,36 +57,6 @@ export function assignIds(array) {
 
 export function reverse(string) {
   return string.split('').reverse().join('');
-}
-
-function prependWithZero(date) {
-  if (`${date}`.length === 2) return date;
-  return `0${date}`
-}
-
-export function parseDate(formattedDate) {
-  const format = /^(\d{1,2})([\/|\.])(\d{1,2})([\/|\.]\d{2,4})$/;
-  if (!format.test(formattedDate)) return null;
-  return new Date(formattedDate.replace(format, ($0, $1, $2, $3, $4) => $3 + $2 + $1 + $4));
-}
-
-export function formatDate(date) {
-  if (!date) return '';
-  date = new Date(date);
-  return `${prependWithZero(date.getDate())}/${prependWithZero(date.getMonth() + 1)}/${date.getFullYear()}`;
-}
-
-export function debounce(callback, wait, context = this) {
-  let timeout = null;
-  let callbackArgs = null;
-
-  const later = () => callback.apply(context, callbackArgs);
-
-  return function () {
-    callbackArgs = arguments;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
 }
 
 export const createQuery = (queryObj) => {

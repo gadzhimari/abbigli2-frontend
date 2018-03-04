@@ -24,7 +24,7 @@ class CommentItem extends PureComponent {
         <div className="comment__wrapper">
           <div className="comment__meta">
             <Link
-              to={createProfileLink({ profile: data.user.id })}
+              to={createProfileLink(data.user.id)}
             >
               <Avatar
                 className="avatar comment__avatar"
@@ -41,7 +41,7 @@ class CommentItem extends PureComponent {
             </div>
             <Link
               className="comment__author"
-              to={createProfileLink({ profile: data.user.id })}
+              to={createProfileLink(data.user.id)}
             >
               {data.user.profile_name}
             </Link>
