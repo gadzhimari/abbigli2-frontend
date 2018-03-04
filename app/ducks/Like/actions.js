@@ -7,12 +7,12 @@ const setLikeSuccess = createAction('LIKE_SET_SUCCESS');
 const setLikeFailure = createAction('LIKE_SET_FAILED');
 
 const setLike = slug => async (dispatch) => {
-  dispatch(setLikeRequest);
+  dispatch(setLikeRequest());
   try {
     await Posts.likePost(slug);
     dispatch(setLikeSuccess());
   } catch (e) {
-    dispatch(setLikeFailure);
+    dispatch(setLikeFailure());
   }
 };
 

@@ -11,6 +11,14 @@ export function isClickOutside(element, target) {
   return element !== target && !element.contains(target);
 }
 
+
+/**
+ * Загружает указанный ресурс в новое окно(iframe или табу)
+ * @param {String} url - путь до ресурса
+ * @param {windowFeatures} windowFeatures - список опций окна
+ * @returns {Window} объект представляющий только что созданное окно
+ * {@link https://github.com/nygardk/react-share/blob/master/src/utils/createShareButton.jsx}
+ */
 export function windowOpen(url, { name, width = 550, height = 400 }) {
   /* eslint-disable no-mixed-operators */
   const left = (window.outerWidth / 2)
