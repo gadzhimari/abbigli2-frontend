@@ -15,8 +15,7 @@ cluster.on('exit', (worker, code) => {
 });
 
 if (cluster.isMaster) {
-  for (let i = 0; i < cfg.cpus; i++) {
-    console.log('fooork');
+  for (let i = 0; i < cfg.cpus; i += 1) {
     cluster.fork();
   }
 } else {

@@ -3,10 +3,10 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import { FetchingButton } from '../../../../components';
+import Link from '../../../Link/Link';
 
 import follow from '../../../../ducks/Profile/actions/follow';
 import { __t } from '../../../../i18n/translator';

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import { Link } from 'react-router';
+import Link from '../../components/Link/Link';
 
 import { PageSwitcher, ListWithNew } from '../../components';
 import { Product, SubCategoryList } from '../../components/Cards';

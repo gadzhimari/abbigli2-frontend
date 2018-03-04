@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Link from 'react-router/lib/Link';
+import Link from '../Link/Link';
 
 class SubMenuItem extends PureComponent {
   static propTypes = {

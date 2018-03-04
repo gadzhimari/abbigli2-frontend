@@ -3,9 +3,9 @@ import pages from '../../app/lib/pages';
 
 const router = express.Router();
 
-const routes = [
-  pages.BLOG_PAGE
-];
+const routes = Object.keys(pages)
+  .map(page => pages[page])
+  .filter(page => page.action);
 
 function createRoute(action) {
   return (req, res, next) => {

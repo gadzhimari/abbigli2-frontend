@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 
-import { Link } from 'react-router';
+import Link from '../../Link/Link';
 
 import Image from '../../../components/Image';
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
-import { Link } from 'react-router';
+
+import Link from '../Link/Link';
 
 const TagsList = ({ tags, type }) => (
   <div className="sidebar__group">

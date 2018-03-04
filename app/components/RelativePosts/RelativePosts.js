@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+
+import Link from '../Link/Link';
 
 import { __t } from '../../i18n/translator';
 

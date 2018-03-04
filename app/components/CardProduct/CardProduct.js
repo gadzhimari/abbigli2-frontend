@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { Link } from 'react-router';
+import Link from '../Link/Link';
 
 import { Share } from 'components';
 import { Like } from '../../components-lib';

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import Link from 'react-router/lib/Link';
+import Link from '../Link/Link';
 import Avatar from '../Avatar';
 import SubscribeButton from '../SubscribeButton';
 

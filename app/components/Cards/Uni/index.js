@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { Link } from 'react-router';
-
 import { Share } from '../../../components';
 import { Like } from '../../../components-lib';
 import Image from '../../../components/Image';
 import setLike from '../../../ducks/Like/actions';
 import Avatar from '../../Avatar';
+import Link from '../../Link/Link';
 
 import createPostLink from '../../../lib/links/post-link';
 import createProfileLink from '../../../lib/links/profile-link';
