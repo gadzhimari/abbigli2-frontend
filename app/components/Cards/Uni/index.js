@@ -100,7 +100,7 @@ class Uni extends Component {
             </div>
           }
           <Link
-            to={createProfileLink(user.id)}
+            to={createProfileLink(user)}
             className="tile__author"
           >
             <Avatar

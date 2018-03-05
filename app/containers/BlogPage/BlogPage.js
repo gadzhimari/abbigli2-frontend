@@ -54,11 +54,11 @@ class BlogPage extends Component {
 
   componentDidMount() {
     this.globalWrapper = document.querySelector('.global-wrapper');
-    this.globalWrapper.classList.add('blog', 'article');
+    this.globalWrapper.classList.add('blog');
   }
 
   componentWillUnmount() {
-    this.globalWrapper.classList.remove('blog', 'article');
+    this.globalWrapper.classList.remove('blog');
   }
 
   handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
@@ -140,7 +140,7 @@ class BlogPage extends Component {
           </div>
         </div>
 
-        <div className="main">
+        <div className="main article">
           <BreadCrumbs crumbs={crumbs} />
 
           <div className="content">
