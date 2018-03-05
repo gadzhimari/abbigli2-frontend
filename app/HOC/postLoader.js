@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 
-import { Loading } from '../components';
+import { Spin } from '../components';
 
 const postLoader = WrappedComponent => class extends Component {
   static propTypes = {
@@ -62,7 +62,7 @@ const postLoader = WrappedComponent => class extends Component {
       />
       {
         isFetching
-          ? <div><Loading loading={isFetching} /></div>
+          ? <div className="spin-wrapper"><Spin visible={isFetching} /></div>
           : <WrappedComponent {...this.props} />
       }
     </div>);

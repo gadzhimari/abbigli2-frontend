@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Loading } from 'components';
+import { Spin } from 'components';
 
 const preloader = WrappedComponent => class extends PureComponent {
   static propTypes = {
@@ -31,7 +31,9 @@ const preloader = WrappedComponent => class extends PureComponent {
     const { isFetching } = this.props;
 
     if (isFetching) {
-      return <Loading loading={isFetching} />;
+      return (<div className="spin-wrapper">
+        <Spin visible={isFetching} />;
+      </div>);
     }
 
     return (<WrappedComponent {...this.props} />);

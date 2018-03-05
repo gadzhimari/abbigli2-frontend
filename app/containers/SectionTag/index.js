@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import {
   BreadCrumbs,
   SliderBar,
-  Loading,
+  Spin,
 } from '../../components';
 
 import Content from './Content';
@@ -70,7 +70,9 @@ class SectionTag extends Component {
             </h1>
 
             {isFetching &&
-              <Loading loading={isFetching} />
+              <div className="spin-wrapper">
+                <Spin visible={isFetching} />
+              </div>
             }
 
             {!isFetching &&

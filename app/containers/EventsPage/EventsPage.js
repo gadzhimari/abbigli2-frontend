@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { BreadCrumbs, SliderBar, ListWithNew, Loading, PageSwitcher } from 'components';
+import { BreadCrumbs, SliderBar, ListWithNew, Spin, PageSwitcher } from 'components';
 import { Event } from 'components/Cards';
 import { EventsFilters } from 'components/Filters';
 import BlogSection from 'components/SliderBar/components/BlogSection';
@@ -149,7 +149,11 @@ class EventsPage extends Component {
           /> */}
           {
             isFetching
-              ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
+            ? <div className="cards-wrap">
+              <div className="spin-wrapper">
+                <Spin visible={isFetching} />
+              </div>
+            </div>
               : <ListWithNew
                 items={items}
                 itemsType={3}

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { BreadCrumbs, Loading } from '../../components';
+import { BreadCrumbs, Spin } from '../../components';
 import Content from './SectionContent';
 import paginateHOC from '../../HOC/paginate';
 
@@ -48,7 +48,9 @@ class Sections extends Component {
           </h1>
 
           {isFetching &&
-            <Loading loading={isFetching} />
+            <div className="spin-wrapper">
+              <Spin visible={isFetching} />
+            </div>
           }
 
           {!isFetching &&

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Loading } from '../../../../components';
+import { Spin } from '../../../../components';
 
 import { THUMBS_URL } from '../../../../config';
 import { gaSendClickEvent } from '../../../../lib/analitics';
@@ -93,7 +93,9 @@ class ProfileAvatar extends PureComponent {
             &&
             <div className="profile-avatar__loader-wrapper">
               <div className="profile-avatar__loader">
-                <Loading loading={isFetching} />
+                <div className="spin-wrapper">
+                  <Spin visible={isFetching} />
+                </div>
               </div>
             </div>
           }

@@ -8,7 +8,7 @@ import {
   BreadCrumbs,
   SliderBar,
   Filters,
-  Loading,
+  Spin,
   ListWithNew,
   PageSwitcher,
 } from 'components';
@@ -169,7 +169,11 @@ class TagSearchResults extends Component {
             */}
             {
               isFetching
-                ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
+              ? <div className="cards-wrap">
+                <div className="spin-wrapper">
+                  <Spin visible={isFetching} />
+                </div>
+              </div>
                 : <ListWithNew
                   items={items}
                   count={4}

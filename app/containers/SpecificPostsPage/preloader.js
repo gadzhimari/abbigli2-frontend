@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Loading } from 'components';
+import { Spin } from 'components';
 
 import { __t } from '../../i18n/translator';
 
@@ -55,7 +55,9 @@ const preloader = WrappedComponent => class extends PureComponent {
     const { isFetching, route } = this.props;
 
     if (isFetching) {
-      return <Loading loading={isFetching} />;
+      return (<div className="spin-wrapper">
+        <Spin visible={isFetching} />
+      </div>);
     }
 
     return (<WrappedComponent

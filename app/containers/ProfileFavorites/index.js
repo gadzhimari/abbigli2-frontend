@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
   CardsWrap,
   CardProduct,
-  Loading,
+  Spin,
 } from 'components';
 
 import TogglePrivacy from 'components/TogglePrivacy';
@@ -67,7 +67,7 @@ class ProfileFavorites extends Component {
       },
       body: formData,
     };
-    
+
     if (token) { config.headers.Authorization = `JWT ${token}`; }
 
     fetch(`${API_URL}my-profile/`, config);
@@ -84,7 +84,10 @@ class ProfileFavorites extends Component {
       isAuth,
     } = this.props;
 
-    const infiniteScrollLoader = (<Loading loading={isFetchingMore} />);
+    const infiniteScrollLoader = (
+      <div className="spin-wrapper">
+        <Spin loading={isFetchingMore} />
+      </div>);
 
     const contentTemplate = () => (<div>
       <TogglePrivacy
@@ -165,9 +168,9 @@ class ProfileFavorites extends Component {
       <div className="profile_content">
         {
           isFetchingPosts
-            ? <Loading
-              loading={isFetchingPosts}
-            />
+          ? (<div className="spin-wrapper">
+            <Spin visible={isFetchingPosts} />
+          </div>)
             : contentTemplate()
         }
       </div>);

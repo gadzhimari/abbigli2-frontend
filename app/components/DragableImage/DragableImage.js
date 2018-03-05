@@ -4,7 +4,7 @@ import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 
-import { Loading } from 'components';
+import { Spin } from 'components';
 import ModalGallery from 'components/ProductPreview/Components/ModalGallery';
 
 import { THUMBS_URL } from 'config';
@@ -144,7 +144,11 @@ class DragableImage extends Component {
         }
         {
           isFetching
-            ? <div className="draggable-image__loader"><Loading loading={isFetching} /></div>
+          ? (<div className="draggable-image__loader">
+            <div className="spin-wrapper">
+              <Spin visible={isFetching} />
+            </div>
+          </div>)
             : (<div>
               <div className="photo-upload__img" ref={wrapper => (this.wrapper = wrapper)} />
               <div className="photo-upload__controls">

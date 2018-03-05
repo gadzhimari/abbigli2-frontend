@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Loading } from 'components';
+import { Spin } from 'components';
 
 const postLoader = WrappedComponent => class extends Component {
   static propTypes = {
@@ -40,7 +40,9 @@ const postLoader = WrappedComponent => class extends Component {
   render() {
     const { isFetching, params } = this.props;
     return params.slug && isFetching
-      ? <Loading loading={isFetching} />
+      ? (<div className="spin-wrapper">
+        <Spin visible={isFetching} />
+      </div>)
       : <WrappedComponent {...this.props} />;
   }
 };

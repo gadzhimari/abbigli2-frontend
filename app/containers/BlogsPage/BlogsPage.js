@@ -6,7 +6,7 @@ import { compose } from 'recompose';
 
 import {
   BreadCrumbs,
-  Loading,
+  Spin,
   ListWithNew,
   PageSwitcher,
   SliderBar,
@@ -186,7 +186,11 @@ class BlogsPage extends PureComponent {
           </div>
           {
             isFetching
-              ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
+            ? <div className="cards-wrap">
+              <div className="spin-wrapper">
+                <Spin visible={isFetching} />
+              </div>
+            </div>
               : <ListWithNew
                 items={items}
                 itemsType={4}

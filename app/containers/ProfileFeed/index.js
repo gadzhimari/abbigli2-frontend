@@ -6,7 +6,7 @@ import { getJsonFromStorage } from 'utils/functions';
 
 import {
   CardProduct,
-  Loading,
+  Spin,
 } from 'components';
 
 import TogglePrivacy from 'components/TogglePrivacy';
@@ -89,7 +89,9 @@ class ProfileFeed extends Component {
     if (isFetchingPosts) {
       return (
         <div className="profile_content">
-          <Loading loading={isFetchingPosts} />
+          <div className="spin-wrapper">
+            <Spin visible={isFetchingPosts} />
+          </div>
         </div>
       );
     }
@@ -102,7 +104,9 @@ class ProfileFeed extends Component {
       </div>);
     }
 
-    const infiniteScrollLoader = (<Loading loading={isFetchingMore} />);
+    const infiniteScrollLoader = (<div className="spin-wrapper">
+      <Spin visible={isFetchingMore} />
+    </div>);
 
     return (
       <div className="profile_content">

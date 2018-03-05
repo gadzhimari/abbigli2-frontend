@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {
   TileWrap,
   Banner,
-  Loading,
+  Spin,
   HR,
   BannerBlue,
   Link,
@@ -47,6 +47,7 @@ class Home extends Component {
 
   render() {
     const {
+      isFetchingSections,
       isFetchingBlogs,
       isFetchingEvents,
       itemsBlogs,
@@ -62,6 +63,10 @@ class Home extends Component {
         <Banner
           handleOpenCreating={this.handleOpenCreating}
         />
+
+        <div className="spin-wrapper">
+          <Spin visible={isFetchingSections} />
+        </div>
 
         <BannerBlue
           hideJoin={isAuthenticated}
@@ -89,7 +94,9 @@ class Home extends Component {
               />)
           }
         </TileWrap>
-        <Loading loading={isFetchingProducts} />
+        <div className="spin-wrapper">
+          <Spin visible={isFetchingProducts} />
+        </div>
 
         <Link to="/new-products/" className="show-more">
           {__t('Explore')}
@@ -114,7 +121,9 @@ class Home extends Component {
               />)
           }
         </TileWrap>
-        <Loading loading={isFetchingBlogs} />
+        <div className="spin-wrapper">
+          <Spin visible={isFetchingBlogs} />
+        </div>
 
         <Link to="/blogs" className="show-more">
           {__t('read more')}
@@ -140,7 +149,9 @@ class Home extends Component {
               />)
           }
         </TileWrap>
-        <Loading loading={isFetchingEvents} />
+        <div className="spin-wrapper">
+          <Spin visible={isFetchingEvents} />
+        </div>
 
         <Link to="/events" className="show-more">
           {__t('Continue')}
