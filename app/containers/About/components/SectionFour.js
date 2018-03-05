@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 
 import { __t } from '../../../i18n/translator';
 
@@ -57,7 +59,7 @@ class SectionFour extends Component {
               <div className="about-slide__bg bg-corner-white"></div>
               <div className="about-slide__text">
                 {__t('about.page.slider3.slide3')}
-                
+
                   </div>
               <div className="about-slide__images">
                 <div className="about-slide__image pic-17"></div>
@@ -71,7 +73,7 @@ class SectionFour extends Component {
             <div className="slide-container">
               <div className="about-slide__text">
                 {__t('about.page.slider3.slide4')}
-                
+
                   </div>
               <div className="about-slide__images">
                 <div className="about-slide__image pic-21"></div>

@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 
 import { __t } from '../../../i18n/translator';
 
 const leftArrow = (
   <span className="slides-navigation__item prev">
-    <svg className="icon" >
-      <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="#prev"></use>
+    <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+      <path
+        d="M7.66,8.001l5.202-5.357c0.191-0.197,0.191-0.518,0-0.715l-1.734-1.786 c-0.191-0.197-0.502-0.197-0.693,0L4.886,5.858c0,0-0.001,0-0.001,0L3.151,7.644c-0.191,0.197-0.191,0.518,0,0.715l1.733,1.786
+        c0,0,0,0,0.001,0.001l5.548,5.714c0.191,0.197,0.502,0.197,0.693,0l1.734-1.785c0.191-0.197,0.191-0.518,0-0.715L7.66,8.001z"
+      />
     </svg>
   </span>
 );
 
 const rightArrow = (
   <span className="slides-navigation__item next">
-    <svg className="icon" >
-      <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="#next"></use>
+    <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+      <path
+        d="M12.861,7.645l-7.282-7.5c-0.191-0.197-0.502-0.197-0.693,0L3.151,1.93 c-0.191,0.197-0.191,0.518,0,0.715l5.202,5.357l-5.202,5.357c-0.191,0.197-0.191,0.518,0,0.715l1.734,1.786
+        c0.191,0.197,0.502,0.197,0.693,0l5.548-5.714c0-0.001,0.001-0.001,0.001-0.001l1.733-1.786 C13.053,8.163,13.053,7.842,12.861,7.645z"
+      />
     </svg>
   </span>
 );
