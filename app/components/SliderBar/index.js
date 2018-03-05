@@ -29,7 +29,7 @@ class TagsBar extends PureComponent {
     factor: typeof window !== 'undefined' && window.innerWidth > 500 ? 3 : 1,
   };
 
-  calculateOnResize = debounce(this.calculateMaxSlided, 300);
+  calculateOnResize = debounce(() => this.calculateMaxSlided, 300);
 
   /** @type {HTMLElement} */
   root;

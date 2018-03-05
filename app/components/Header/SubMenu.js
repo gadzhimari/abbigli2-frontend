@@ -12,16 +12,11 @@ import { __t } from '../../i18n/translator';
 import './SubMenu.less';
 
 class SubMenu extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sections: props.sections,
-      invisibleSections: [],
-      mustRecalculateVisibility: false,
-    };
-
-    this.debouncedResetInvisible = debounce(this.resetInvisible, 600);
-  }
+  state = {
+    sections: this.props.sections,
+    invisibleSections: [],
+    mustRecalculateVisibility: false,
+  };
 
   componentDidMount() {
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
@@ -42,6 +37,8 @@ class SubMenu extends PureComponent {
   componentWillUnmount() {
     window.removeEventListener('resize', this.debouncedResetInvisible);
   }
+
+  debouncedResetInvisible = debounce(() => this.resetInvisible, 600);
 
   checkVisibility = () => {
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
