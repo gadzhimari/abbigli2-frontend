@@ -45,11 +45,11 @@ class EventPage extends Component {
 
   componentDidMount() {
     this.globalWrapper = document.querySelector('.global-wrapper');
-    this.globalWrapper.classList.add('event', 'article');
+    this.globalWrapper.classList.add('event');
   }
 
   componentWillUnmount() {
-    this.globalWrapper.classList.remove('event', 'article');
+    this.globalWrapper.classList.remove('event');
   }
 
   handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
@@ -127,7 +127,7 @@ class EventPage extends Component {
             <OtherArticles articles={usersPosts} />
           </div>
         </div>
-        <div className="main">
+        <div className="main article">
           <BreadCrumbs crumbs={crumbs} />
 
           <div className="content">
