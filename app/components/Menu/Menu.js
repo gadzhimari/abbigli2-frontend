@@ -81,9 +81,7 @@ class Menu extends PureComponent {
 
         </div>
         <div className="main-menu__footer">
-          {/*
-            <Link className="main-menu__footer-item" to="/page/about">{__t('About')}</Link>
-          */}
+          <Link className="main-menu__footer-item" to="/page/about">{__t('About')}</Link>
           <Link className="main-menu__footer-item" to="/page/faq">{__t('FAQ')}</Link>
 
           <Button
