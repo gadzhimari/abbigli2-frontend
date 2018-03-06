@@ -6,8 +6,9 @@ import { getJsonFromStorage } from 'utils/functions';
 
 import {
   CardProduct,
-  Spin,
 } from 'components';
+
+import { Spin } from '../../components-lib';
 
 import TogglePrivacy from 'components/TogglePrivacy';
 

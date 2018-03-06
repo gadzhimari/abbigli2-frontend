@@ -6,7 +6,6 @@ import { compose } from 'recompose';
 
 import {
   BreadCrumbs,
-  Spin,
   ListWithNew,
   PageSwitcher,
   SliderBar,
@@ -14,6 +13,7 @@ import {
 } from 'components';
 
 import { Blog } from 'components/Cards';
+import { Spin } from '../../components-lib';
 
 import paginateHOC from '../../HOC/paginate';
 import BlogSection from 'components/SliderBar/components/BlogSection';

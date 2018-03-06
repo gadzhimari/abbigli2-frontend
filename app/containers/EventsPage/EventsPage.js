@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { BreadCrumbs, SliderBar, ListWithNew, Spin, PageSwitcher } from 'components';
+import { BreadCrumbs, SliderBar, ListWithNew, PageSwitcher } from 'components';
+import { Spin } from '../../components-lib';
 import { Event } from 'components/Cards';
 import { EventsFilters } from 'components/Filters';
 import BlogSection from 'components/SliderBar/components/BlogSection';

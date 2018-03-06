@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Spin } from 'components';
+import { Spin } from '../../components-lib';
 
 const postLoader = WrappedComponent => class extends Component {
   static propTypes = {

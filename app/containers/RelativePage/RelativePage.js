@@ -11,11 +11,11 @@ import * as actions from 'ducks/Relative/actions';
 
 import {
   BreadCrumbs,
-  Spin,
   PageSwitcher,
   ListWithNew,
 } from 'components';
 
+import { Spin } from '../../components-lib';
 import { Blog } from 'components/Cards';
 
 const typesUrl = {

@@ -4,7 +4,7 @@ import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 
-import { Spin } from 'components';
+import { Spin } from '../../components-lib';
 import ModalGallery from 'components/ProductPreview/Components/ModalGallery';
 
 import { THUMBS_URL } from 'config';

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 
-import { Spin } from '../components';
+import { Spin } from '../components-lib';
 
 const postLoader = WrappedComponent => class extends Component {
   static propTypes = {

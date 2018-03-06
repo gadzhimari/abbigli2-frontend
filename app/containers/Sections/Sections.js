@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { BreadCrumbs, Spin } from '../../components';
+import { BreadCrumbs } from '../../components';
+import { Spin } from '../../components-lib';
 import Content from './SectionContent';
 import paginateHOC from '../../HOC/paginate';
 

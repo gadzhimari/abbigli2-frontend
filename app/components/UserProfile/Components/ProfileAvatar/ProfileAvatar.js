@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Spin } from '../../../../components';
+import { Spin } from '../../../../components-lib';
 
 import { THUMBS_URL } from '../../../../config';
 import { gaSendClickEvent } from '../../../../lib/analitics';

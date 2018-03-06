@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import Helmet from 'react-helmet';
 
-import { Spin } from '../../../components';
+import { Spin } from '../../../components-lib';
 
 const NOFOLLOW_CHILDREN_TYPES = ['feed', 'messages', 'favorites', 'about'];
 const mustNofollow = type => NOFOLLOW_CHILDREN_TYPES.some(item => item === type);

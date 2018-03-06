@@ -1,17 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
-import cn from 'utils/cn';
+import { React, Component, Type, cn } from '../__base';
 
 import './Spin.less';
 
 @cn('spin')
 class Spin extends Component {
   static propTypes = {
-    visible: PropTypes.bool,
-    size: PropTypes.oneOf(['s', 'm', 'l', 'xl']),
-    className: PropTypes.string,
-    theme: PropTypes.oneOf(['abbigli-light', 'abbigli-dark']),
+    visible: Type.bool,
+    size: Type.oneOf(['s', 'm', 'l', 'xl']),
+    className: Type.string,
+    theme: Type.oneOf(['abbigli-light', 'abbigli-dark']),
   };
 
   static defaultProps = {

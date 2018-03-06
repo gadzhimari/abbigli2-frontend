@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import {
   TileWrap,
   Banner,
-  Spin,
   HR,
   BannerBlue,
   Link,
 } from '../../components';
 
 import { Uni, Goods } from '../../components/Cards';
+import { Spin } from '../../components-lib';
 
 import { fetchData as fetchDataBlogs } from '../../ducks/Blogs';
 import { fetchData as fetchDataEvents } from '../../ducks/Events';

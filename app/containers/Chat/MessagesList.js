@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MessageGroup from './Components/MessageGroup';
 import MessageField from './Components/MessageField';
 import RecipientInfo from './Components/RecipientInfo';
-import { Spin } from 'components';
+import { Spin } from '../../components-lib';
 
 import { getMessagesGroups } from 'utils/functions';
 

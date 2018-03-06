@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Spin } from 'components';
+import { Spin } from '../../components-lib';
 
 const preloader = WrappedComponent => class extends PureComponent {
   static propTypes = {
