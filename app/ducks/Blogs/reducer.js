@@ -20,10 +20,7 @@ const blogsFetchingState = handleActions({
 const page = handleActions({
   [actions.fetchBlogsSuccess](state, { payload: { results, count } }) {
     const pageCount = Math.ceil(count / PAGE_SIZE);
-    return Object.assign({}, state, {
-      items: results,
-      count: pageCount,
-    });
+    return { ...state, items: results, count: pageCount };
   },
 }, {
   items: [],

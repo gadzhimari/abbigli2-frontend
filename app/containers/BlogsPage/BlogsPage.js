@@ -10,15 +10,16 @@ import {
   PageSwitcher,
   SliderBar,
   ChoiseFilter,
-} from 'components';
+} from '../../components';
 
-import { Blog } from 'components/Cards';
 import { Spin } from '../../components-lib';
+import { Blog } from '../../components/Cards';
+import BlogSection from '../../components/SliderBar/components/BlogSection';
 
 import paginateHOC from '../../HOC/paginate';
-import BlogSection from 'components/SliderBar/components/BlogSection';
 
-import { fetchBlogs, changeBlogsSearchValue } from 'ducks/Blogs/actions';
+import { fetchBlogs, changeBlogsSearchValue } from '../../ducks/Blogs/actions';
+
 import { __t } from '../../i18n/translator';
 
 import './BlogsPage.less';

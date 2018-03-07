@@ -3,16 +3,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import moment from 'moment';
-
-import { Share } from '../../../components';
+import { Share, Image, Avatar } from '../../../components';
 import { Like } from '../../../components-lib';
-import Image from '../../Image';
-import Avatar from '../../Avatar';
 import createPostLink from '../../../lib/links/post-link';
 import createProfileLink from '../../../lib/links/profile-link';
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
-import { EVENT_DATE_LONG_FORMAT } from '../../../lib/date/formats';
+import { EVENT_DATE_FORMAT } from '../../../lib/date/formats';
 
 import setLike from '../../../ducks/Like/actions';
 
@@ -82,9 +78,9 @@ class EventCard extends PureComponent {
           />
           <div className="event-card__date">
             {
-              toLocaleDateString(data.date_start, EVENT_DATE_LONG_FORMAT)
+              toLocaleDateString(data.date_start, EVENT_DATE_FORMAT)
             }
-            { data.date_end ? ` - ${toLocaleDateString(data.data_end, EVENT_DATE_LONG_FORMAT)}` : ''}
+            { data.date_end ? ` - ${toLocaleDateString(data.data_end, EVENT_DATE_FORMAT)}` : ''}
             <div className="event-card__city">
               {data.city && data.city.name}
             </div>
