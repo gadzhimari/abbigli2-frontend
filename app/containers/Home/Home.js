@@ -14,7 +14,7 @@ import { Uni, Goods } from '../../components/Cards';
 import { Spin } from '../../components-lib';
 
 import { fetchBlogs } from '../../ducks/Blogs/actions';
-import { fetchData as fetchDataEvents } from '../../ducks/Events';
+import { fetchEvents } from '../../ducks/Events/actions';
 import { fetchData as fetchDataProducts } from '../../ducks/Products';
 import { stagedPopup } from '../../ducks/Auth/authActions';
 import { __t } from './../../i18n/translator';
@@ -27,7 +27,7 @@ class Home extends Component {
     const { dispatch } = this.props;
 
     dispatch(fetchBlogs({ type: 4 }));
-    dispatch(fetchDataEvents({ type: 3 }));
+    dispatch(fetchEvents({ type: 3 }));
     dispatch(fetchDataProducts());
   }
 
@@ -214,8 +214,8 @@ function mapStateToProps(state) {
     itemsBlogs: blogs.page.items,
     isFetchingBlogs: blogs.blogsFetchingState,
 
-    itemsEvents: events.items,
-    isFetchingEvents: events.isFetching,
+    itemsEvents: events.page.items,
+    isFetchingEvents: events.eventsFetchingState,
 
     itemsProducts: products.items,
     isFetchingProducts: products.isFetching,

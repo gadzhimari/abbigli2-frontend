@@ -15,7 +15,7 @@ import paginateHOC from '../../HOC/paginate';
 
 
 import { openPopup } from 'ducks/Popup/actions';
-import { fetchData, changeSearchField } from 'ducks/Events';
+import { fetchEvents } from 'ducks/Events/actions';
 import { API_URL } from 'config';
 import { __t } from './../../i18n/translator';
 
@@ -54,11 +54,8 @@ class EventsPage extends Component {
       type: 3,
     });
 
-    dispatch(fetchData(options));
+    dispatch(fetchEvents(options));
   }
-
-  handleChangeField = ({ target }) => this.props
-    .dispatch(changeSearchField(target.name, target.value));
 
   changeCity = city => this.props
     .updateFieldByName('city', city.name);
@@ -192,19 +189,13 @@ function mapStateToProps(state) {
   const auth = state.Auth;
 
   return {
-    items: events.items,
-    isFetching: events.isFetching,
-    next: events.next,
-    isFetchingMore: events.isFetchingMore,
+    items: events.page.items,
+    isFetching: events.eventsFetchingState,
     isAuthenticated: auth.isAuthenticated,
-    page: events.page,
-    city: events.searchFields.city,
-    start: events.searchFields.start,
-    end: events.searchFields.end,
     geoCity: state.Geo.city,
     sections: state.Sections.items,
     routing: state.routing.locationBeforeTransitions,
-    pages: events.pages,
+    pages: events.page.count,
   };
 }
 

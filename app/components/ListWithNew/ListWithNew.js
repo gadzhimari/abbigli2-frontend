@@ -133,7 +133,6 @@ class ListWithNew extends PureComponent {
       newPosts,
     } = this.props;
     const newItems = getNewItems(itemsType, newPosts);
-    console.log('newItems ', newItems);
 
     return (
       <div style={{ marginBottom: '30px' }}>
