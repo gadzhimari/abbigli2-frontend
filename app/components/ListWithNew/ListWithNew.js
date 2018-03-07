@@ -46,13 +46,8 @@ class ListWithNew extends PureComponent {
     itemsType: 1,
   };
 
-  renderNoMatchPage() {
-    const {
-      itemsType,
-      newPosts,
-      query,
-    } = this.props;
-    const newItems = getNewItems(itemsType, newPosts);
+  renderNoMatchPage(newItems) {
+    const { query } = this.props;
 
     return (
       <div>
@@ -77,16 +72,13 @@ class ListWithNew extends PureComponent {
     );
   }
 
-  renderCards() {
+  renderCards(newItems) {
     const {
       items,
       itemProps,
-      itemsType,
-      newPosts,
       count,
       ItemComponent,
     } = this.props;
-    const newItems = getNewItems(itemsType, newPosts);
 
     return (
       <div>
@@ -135,11 +127,17 @@ class ListWithNew extends PureComponent {
   }
 
   render() {
-    const { items } = this.props;
+    const {
+      items,
+      itemsType,
+      newPosts,
+    } = this.props;
+    const newItems = getNewItems(itemsType, newPosts);
+    console.log('newItems ', newItems);
 
     return (
       <div style={{ marginBottom: '30px' }}>
-        { items.length === 0 ? this.renderNoMatchPage() : this.renderCards() }
+        { items.length === 0 ? this.renderNoMatchPage(newItems) : this.renderCards(newItems) }
       </div>
     );
   }
