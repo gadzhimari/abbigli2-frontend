@@ -18,17 +18,22 @@ import { Spin } from '../../components-lib';
 import paginateHOC from '../../HOC/paginate';
 import BlogSection from 'components/SliderBar/components/BlogSection';
 
-import * as actions from 'ducks/Blogs';
+import { fetchBlogs, changeBlogsSearchValue } from 'ducks/Blogs/actions';
 import { __t } from '../../i18n/translator';
 
 import './BlogsPage.less';
 
 class BlogsPage extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchValue: (props.routing && props.routing.query.search) || '',
-    };
+  static propTypes = {
+    changeSearchValue: PropTypes.func.isRequired,
+    fetchBlogs: PropTypes.func.isRequired,
+    pages: PropTypes.number.isRequired,
+    activePage: PropTypes.number.isRequired,
+    paginate: PropTypes.func.isRequired,
+  };
+
+  state = {
+    searchValue: (this.props.routing && this.props.routing.query.search) || '',
   }
 
   componentDidMount() {
@@ -215,26 +220,18 @@ class BlogsPage extends PureComponent {
   }
 }
 
-BlogsPage.propTypes = {
-  changeSearchValue: PropTypes.func.isRequired,
-  fetchBlogs: PropTypes.func.isRequired,
-  pages: PropTypes.number.isRequired,
-  activePage: PropTypes.number.isRequired,
-  paginate: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = ({ Blogs, Sections, routing }) => ({
-  isFetching: Blogs.isFetching,
-  items: Blogs.items,
+  isFetching: Blogs.blogsFetchingState,
+  items: Blogs.page.items,
   searchValue: Blogs.searchValue,
   sections: Sections.items,
   routing: routing.locationBeforeTransitions,
-  pages: Blogs.pages,
+  pages: Blogs.page.count,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchBlogs: (page, searchValue, popular) => dispatch(actions.fetchData(page, searchValue, popular)),
-  changeSearchValue: value => dispatch(actions.changeSearchValue(value)),
+  fetchBlogs: (page, searchValue, popular) => dispatch(fetchBlogs(page, searchValue, popular)),
+  changeSearchValue: value => dispatch(changeBlogsSearchValue(value)),
 });
 
 const enhance = compose(connect(mapStateToProps, mapDispatchToProps), paginateHOC);
