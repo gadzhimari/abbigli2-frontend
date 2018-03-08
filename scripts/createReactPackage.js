@@ -1,11 +1,4 @@
 const lodash = require('lodash');
-const transform = require('babel-core').transform;
-
-// Transform code to ES5
-const getTransformedSourceCode = originalSource => transform(originalSource, {
-  presets: ['es2015', 'stage-0', 'react'],
-  plugins: ['transform-object-rest-spread'],
-}).code;
 
 // Get the contents of the optimized SVG
 // by trimming leading and tailing <svg> tags
@@ -14,29 +7,53 @@ const getSVGContent = source => source.slice(source.indexOf('>') + 1).slice(0, -
 /**
  * Template: React components
  */
-const getReactSource = ({ componentName, height, width, svgPaths }) => getTransformedSourceCode(`
+const getReactSource = ({ componentName, height, width, svgPaths }) => `
 import createIconComponent from './utils/createIconComponent';
 import React from 'react';
 const ${componentName} = createIconComponent({ content: <g>${svgPaths}</g>, height: ${height}, width: ${width} });
 ${componentName}.displayName = '${componentName}';
 export default ${componentName};
-`);
+`;
 
 /**
  * Template: createIconComponent
  */
-const getCreateIconSource = () => getTransformedSourceCode(`
-  import React, { createElement } from 'react';
-const createIconComponent = ({ content, height, width }) =>
-  (props) => createElement('svg', {
-    ...props,
-    style: { ...styles, ...props.style },
-    viewBox: \`0 0 \${width} \${height}\`
-  },
-  content);
+const getCreateIconSource = () => (`
+import { React, PureComponent, Type, cn } from '../../components-lib/__base';
+import '../../components-lib/Icon/Icon.less';
 
-const styles = {
-  fill: 'currentcolor',
+const createIconComponent = ({ content, height, width }) =>
+  @cn('Icon')
+  class extends PureComponent {
+    static propTypes = {
+      className: Type.string,
+      name: Type.string,
+      size: Type.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
+      theme: Type.oneOf(['abbigli-light', 'abbigli-dark']),
+    };
+
+    static defaultProps = {
+      size: 'm',
+    }
+
+    render(cn) {
+      const { size, name } = this.props;
+
+      return (
+        <span
+          className={cn({
+            size,
+            name,
+          })}
+        >
+          <svg
+            viewBox={\`0 0 \${width} \${height}\`}
+          >
+            { content }
+          </svg>
+        </span>
+      );
+    }
 };
 
 export default createIconComponent;

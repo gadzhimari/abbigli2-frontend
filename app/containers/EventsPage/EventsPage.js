@@ -12,6 +12,7 @@ import BlogSection from 'components/SliderBar/components/BlogSection';
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 import paginateHOC from '../../HOC/paginate';
 
+import IconCamera from '../../icons/camera';
 
 import { openPopup } from 'ducks/Popup/actions';
 import { fetchData, changeSearchField } from 'ducks/Events';
@@ -110,6 +111,7 @@ class EventsPage extends Component {
         <BreadCrumbs
           crumbs={crumbs}
         />
+        <IconCamera size="s" name="camera" />
         <div className="content">
           <h1 className="section-title">
             <svg className="icon icon-event" viewBox="0 0 27 26">
