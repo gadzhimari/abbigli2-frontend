@@ -4,19 +4,8 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
 import { SectionTag } from '../../containers';
-import { fetchCrumbs } from '../../ducks/CatalogPage/actions';
 
 const preloader = WrappedComponent => class extends PureComponent {
-  static fetchData = (dispatch, params) => {
-    let slugs = [params.section];
-
-    if (params.splat) {
-      slugs = params.splat.split('/').concat(slugs);
-    }
-
-    return dispatch(fetchCrumbs({ slugs }));
-  }
-
   static propTypes = {
     fetchSectionTags: PropTypes.func.isRequired,
     fetchPosts: PropTypes.func.isRequired,

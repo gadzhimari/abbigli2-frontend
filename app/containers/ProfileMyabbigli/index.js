@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { CardProduct, Link } from '../../components';
 import { Spin } from '../../components-lib';
-import { fetchData as fetchDataPosts, removePost } from '../../ducks/ProfilePosts';
+import * as actions from '../../ducks/ProfilePosts/actions';
 
 import { gaSendClickEvent } from '../../lib/analitics';
 import { __t } from './../../i18n/translator';
@@ -12,18 +12,6 @@ import { __t } from './../../i18n/translator';
 import './index.styl';
 
 class ProfileMyabbigli extends Component {
-  static prerenderData = ({ store }, nextState, replace, callback) => {
-    Promise.all([
-      store.dispatch(fetchDataPosts({
-        isMe: false,
-        profileId: nextState.params.profile,
-        type: 'posts',
-        page: 1,
-        isAuth: false,
-      })),
-    ]).then(() => callback());
-  }
-
   componentDidMount() {
     this.fetchPosts();
   }
@@ -39,16 +27,16 @@ class ProfileMyabbigli extends Component {
   }
 
   fetchPosts = (page) => {
-    const { isMe, dispatch, params, isAuth } = this.props;
-    const options = {
-      isMe,
-      profileId: params.profile,
-      type: 'posts',
-      page,
-      isAuth,
-    };
+    // const { isMe, dispatch, params, isAuth } = this.props;
+    // const options = {
+    //   isMe,
+    //   profileId: params.profile,
+    //   type: 'posts',
+    //   page,
+    //   isAuth,
+    // };
 
-    dispatch(fetchDataPosts(options));
+    // dispatch(fetchDataPosts(options));
   }
 
   render() {
@@ -147,4 +135,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ProfileMyabbigli);
+export default connect(mapStateToProps, actions)(ProfileMyabbigli);

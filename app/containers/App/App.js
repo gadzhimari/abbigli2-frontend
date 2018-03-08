@@ -17,6 +17,7 @@ import { fetchGeo } from '../../ducks/Settings';
 import loadNewIn from '../../ducks/NewIn/actions';
 import toggleMobileMenu, { closeMenu } from '../../ducks/Menu/actions';
 import { clearNetworkError } from '../../ducks/NetworkErrors/reducer';
+import { fetchSections } from '../../ducks/Sections';
 
 import * as Popups from '../../components/Popups';
 import getComponentFromObject from '../../utils/getComponent';
@@ -43,6 +44,7 @@ class App extends Component {
 
     props.dispatch(fetchGeo());
     props.dispatch(loadNewIn());
+    props.dispatch(fetchSections());
   }
 
   componentDidMount() {

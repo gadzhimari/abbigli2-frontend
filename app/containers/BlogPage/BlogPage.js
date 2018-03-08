@@ -24,32 +24,15 @@ import postLoader from '../../HOC/postLoader';
 
 import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite } from '../../ducks/PostPage/actions';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
-import { fetchData as fetchDataAuthors } from '../../ducks/ProfilePosts';
+import { loadPosts as loadProfilePosts } from '../../ducks/ProfilePosts/actions';
 
 import { __t } from '../../i18n/translator';
 import { POST_DATE_FORMAT } from '../../lib/date/formats';
+import { BLOG_TYPE } from '../../lib/constants/posts-types';
 
 import './BlogPage.less';
 
 class BlogPage extends Component {
-  static fetchSubData = (dispatch, data, params) => Promise.all([
-    dispatch(fetchNew({
-      type: 4,
-    })),
-    dispatch(fetchComments(params.slug)),
-    dispatch(fetchDataAuthors({
-      type: 'posts',
-      excludeId: data.id,
-      profileId: data.user.id,
-    })),
-    dispatch(fetchPopular(4)),
-    dispatch(fetchRelative(params.slug)),
-  ])
-
-  static onUnmount = (dispatch) => {
-    dispatch(resetPost());
-  }
-
   componentDidMount() {
     this.globalWrapper = document.querySelector('.global-wrapper');
     this.globalWrapper.classList.add('blog');
@@ -58,8 +41,6 @@ class BlogPage extends Component {
   componentWillUnmount() {
     this.globalWrapper.classList.remove('blog');
   }
-
-  handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
 
   sendComment = (comment) => {
     const { dispatch, params } = this.props;
@@ -94,19 +75,16 @@ class BlogPage extends Component {
     const commentsList = this.props.itemsComments;
 
     const {
-      isFetchingBlogs,
       itemsBlogs,
-      isFetchingAuthors,
       itemsAuthors,
       data,
-      isDefined,
       isAuthenticated,
       dispatch,
-      isFetchingComments,
       popularPosts,
       author,
       relativePosts,
       me,
+      handleFavorite
     } = this.props;
 
     const crumbs = [{
@@ -176,7 +154,8 @@ class BlogPage extends Component {
               }
             </div>
             <FavoriteAdd
-              toggleFavorite={this.handleFavorite}
+              toggleFavorite={handleFavorite}
+              slug={data.slug}
               isFavorited={data.favorite}
             />
 
@@ -191,7 +170,7 @@ class BlogPage extends Component {
             data={data}
             newPosts={itemsBlogs}
             popularPosts={popularPosts}
-            toggleFavorite={this.handleFavorite}
+            toggleFavorite={handleFavorite}
             isFavorited={data.favorite}
             seeAllUrl="/blogs"
             newSectionTitle={__t('New in blogs')}
@@ -224,16 +203,11 @@ class BlogPage extends Component {
 
 
 BlogPage.propTypes = {
-  router: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
-  routeParams: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  isDefined: PropTypes.bool.isRequired,
+  data: PropTypes.shape().isRequired,
   dispatch: PropTypes.func.isRequired,
-  isFetchingBlogs: PropTypes.bool,
-  itemsBlogs: PropTypes.array,
-  isFetchingAuthors: PropTypes.bool,
-  itemsAuthors: PropTypes.array,
+  handleFavorite: PropTypes.func.isRequired,
+  itemsBlogs: PropTypes.arrayOf(PropTypes.object),
+  itemsAuthors: PropTypes.arrayOf(PropTypes.object)
 };
 
 const mapStateToProps = state => ({
@@ -254,4 +228,21 @@ const mapStateToProps = state => ({
   me: state.Auth.me,
 });
 
-export default connect(mapStateToProps)(postLoader(BlogPage));
+const mapDispatch = dispatch => ({
+  fetchPost: (...args) => dispatch(fetchPost(...args)),
+  fetchSubData: (data, params) => {
+    dispatch(fetchNew({ type: BLOG_TYPE }));
+    dispatch(fetchComments(params.slug));
+    dispatch(loadProfilePosts({
+      type: 'posts',
+      excludeId: data.id,
+      profileId: data.user.id,
+    }));
+    dispatch(fetchPopular(BLOG_TYPE));
+    dispatch(fetchRelative(params.slug));
+  },
+  onUnmount: () => dispatch(resetPost()),
+  handleFavorite: slug => dispatch(toggleFavorite(slug))
+});
+
+export default connect(mapStateToProps, mapDispatch)(postLoader(BlogPage));

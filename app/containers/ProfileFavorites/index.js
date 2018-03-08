@@ -1,33 +1,27 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import InfiniteScroll from 'react-infinite-scroller';
+
 import {
   CardsWrap,
-  CardProduct,
-} from 'components';
-
-import TogglePrivacy from 'components/TogglePrivacy';
+  CardProduct
+} from '../../components';
+import TogglePrivacy from '../../components/TogglePrivacy';
 import { Spin } from '../../components-lib';
 
-import './index.styl';
-import { connect } from 'preact-redux';
-import InfiniteScroll from 'react-infinite-scroller';
-import { fetchData as fetchDataPosts, removeFromFavorites } from 'ducks/ProfilePosts';
-import { getJsonFromStorage } from 'utils/functions';
-
-import { withRouter } from 'react-router';
+import * as actions from '../../ducks/ProfilePosts/actions';
 
 import redirectHOC from '../../HOC/redirectHOC';
 
-import { API_URL } from 'config';
-
+import { API_URL } from '../../config';
 import { __t } from './../../i18n/translator';
 
-class ProfileFavorites extends Component {
-  constructor(props) {
-    super(props);
-    this.page = 1;
-  }
+import './index.styl';
 
+class ProfileFavorites extends Component {
   componentDidMount() {
     this.fetchPosts();
   }
@@ -38,8 +32,10 @@ class ProfileFavorites extends Component {
     }
   }
 
+  page = 0;
+
   fetchPosts = () => {
-    const { isMe, dispatch, params, isAuth, isFetchingMore } = this.props;
+    const { isMe, params, isFetchingMore, loadPosts } = this.props;
 
     if (isFetchingMore) return;
 
@@ -47,30 +43,10 @@ class ProfileFavorites extends Component {
       isMe,
       profileId: params.profile,
       type: 'favorites',
-      page: this.page++,
-      isAuth,
+      page: this.page += 1,
     };
 
-    dispatch(fetchDataPosts(options));
-  }
-
-  toggelePrivacy = (status) => {
-    const token = getJsonFromStorage('id_token');
-    const formData = new FormData();
-
-    formData.append('is_favorite_visible', status);
-
-    const config = {
-      method: 'PATCH',
-      headers: {
-        'Accept': 'application/json',
-      },
-      body: formData,
-    };
-
-    if (token) { config.headers.Authorization = `JWT ${token}`; }
-
-    fetch(`${API_URL}my-profile/`, config);
+    loadPosts(options);
   }
 
   render() {
@@ -140,7 +116,7 @@ class ProfileFavorites extends Component {
                   <CardProduct
                     data={item}
                     key={`${item.slug}--favorites`}
-                    deleteFromFavorites={() => dispatch(removeFromFavorites(item.slug))}
+                    deleteFromFavorites={() => {}}
                     legacy
                     isAuthenticated={isAuth}
                     dispatch={dispatch}
@@ -190,7 +166,7 @@ ProfileFavorites.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const posts = (state.ProfilePosts) || { isFetching: true, isFetchingMore: false, items: [] };
+  const posts = state.ProfilePosts;
 
   return {
     itemsPosts: posts.items,
@@ -205,4 +181,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(withRouter(redirectHOC('is_favorite_visible')(ProfileFavorites)));
+export default connect(mapStateToProps, actions)(
+  withRouter(redirectHOC('is_favorite_visible')(ProfileFavorites))
+);

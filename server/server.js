@@ -7,7 +7,8 @@ import useragent from 'express-useragent';
 
 import Raven from 'raven';
 
-import renderOnServer from './middlewares/renderOnServer';
+import renderHtml from './middlewares/renderHtml';
+import getRenderProps from './middlewares/getRenderProps';
 import geoLocation from './middlewares/geoLocation';
 import configureRedux from './middlewares/configureRedux';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
@@ -17,8 +18,8 @@ import redirectManager from './middlewares/redirect-manager';
 import setupUseragent from './middlewares/setupUseragent';
 import setupIsTouch from './middlewares/setupIsTouch';
 import setupDataRequests from './middlewares/setupDataRequests';
+import setupClientDataRequests from './middlewares/setupClientDataRequests';
 import handleRequests from './middlewares/handleRequests';
-import setupClientRoutes from './lib/setupClientRoutes';
 
 import routes from './api';
 import cfg from './config';
@@ -41,6 +42,7 @@ app.use(compression());
 app.use(Raven.requestHandler());
 app.use(useragent.express());
 
+app.use(handleGoogleCahceUrl);
 app.use(routes);
 app.use(redirectManager);
 app.use(trimSlash);
@@ -50,12 +52,11 @@ app.use(geoLocation);
 app.use(setupUseragent);
 app.use(setupDataRequests);
 app.use(setupIsTouch);
-
-setupClientRoutes(app);
+app.use(getRenderProps);
+app.use(setupClientDataRequests);
 
 app.use(handleRequests);
-app.use(handleGoogleCahceUrl);
-app.use(renderOnServer);
+app.use(renderHtml);
 
 if (cfg.isProduction && cfg.sentryDns) {
   app.use(Raven.errorHandler());

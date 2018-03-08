@@ -16,8 +16,7 @@ import { withRouter } from 'react-router';
 
 import redirectHOC from '../../HOC/redirectHOC';
 
-import { fetchData as fetchDataPosts } from 'ducks/ProfilePosts';
-
+import * as actions from '../../ducks/ProfilePosts/actions';
 import { API_URL } from 'config';
 
 import { __t } from './../../i18n/translator';

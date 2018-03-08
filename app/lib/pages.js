@@ -1,4 +1,5 @@
 import { fetchPost } from '../ducks/PostPage/actions';
+import { fetchCrumbs } from '../ducks/CatalogPage/actions';
 
 export default {
   ROOT_PAGE: {
@@ -51,22 +52,27 @@ export default {
   },
   BLOG_PAGE: {
     path: 'blog/:slug',
-    action: fetchPost
+    action: fetchPost,
+    actionArgs: ['params.slug', 'token']
   },
   EVENTS_PAGE: {
     path: 'events'
   },
   EVENT_PAGE: {
-    path: 'event/:slug'
+    path: 'event/:slug',
+    action: fetchPost,
+    actionArgs: ['params.slug', 'token']
   },
   PRODUCT_PAGE: {
-    path: 'post/:slug'
+    path: 'post/:slug',
+    action: fetchPost,
+    actionArgs: ['params.slug', 'token']
   },
   RELATIVE_PRODUCTS_PAGE: {
     path: 'relative/:slug'
   },
   NEW_PRODUCTS_PAGE: {
-    path: 'new-product'
+    path: 'new-products'
   },
   POPULAR_PRODUCTS_PAGE: {
     path: 'popular-products'
@@ -78,6 +84,15 @@ export default {
     path: 'nearest-products'
   },
   CATALOG_PAGE: {
-    path: '(**/):section'
+    path: '(**/):section',
+    action(params) {
+      let slugs = [params.section];
+      if (params[0]) {
+        slugs = params[0].split('/').concat(slugs);
+      }
+
+      return dispatch => dispatch(fetchCrumbs({ slugs }));
+    },
+    actionArgs: ['params']
   },
 };

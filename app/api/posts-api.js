@@ -58,9 +58,17 @@ const Posts = {
       data,
     });
   },
-  getSpecificPosts(specific, params) {
+  deletePost(slug) {
     return request({
-      url: `posts/${specific}/`,
+      url: `/posts/${slug}/`,
+      mustApplyToken: true,
+      method: 'DELETE',
+    });
+  },
+  getSpecificPosts(specific, params) {
+    const url = specific ? `posts/${specific}/` : 'posts/';
+    return request({
+      url,
       canApplyToken: true,
       params,
     });
