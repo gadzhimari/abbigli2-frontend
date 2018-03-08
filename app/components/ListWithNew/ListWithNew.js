@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { pure } from 'recompose';
 
-import { NewPost, NoMatch } from 'components';
-import { Product, Event, Blog } from 'components/Cards';
-
-const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+import { NewPost, NoMatch } from '../../components';
+import { Product, Event, Blog } from '../../components/Cards';
+import getRandomInt from '../../lib/math/getRandomInt';
 
 const cardsByType = {
   1: Product,
@@ -27,18 +25,30 @@ const getNewItems = (type, props) => {
   return types.map(item => props[item][getRandomInt(0, props[item].length - 1)]);
 };
 
-const ListWithNew = ({
-  items,
-  itemProps,
-  query,
-  count,
-  ItemComponent,
-  itemsType,
-  newPosts,
-}) => {
-  const newItems = getNewItems(itemsType, newPosts);
+class ListWithNew extends PureComponent {
+  static propTypes = {
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    itemProps: PropTypes.shape(),
+    itemsType: PropTypes.number,
+    count: PropTypes.number.isRequired,
+    ItemComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.any])
+      .isRequired,
+    query: PropTypes.string,
+    newPosts: PropTypes.shape({
+      posts: PropTypes.array,
+      events: PropTypes.array,
+      blogs: PropTypes.array,
+    }).isRequired,
+  };
 
-  if (items.length === 0) {
+  static defaultProps = {
+    itemProps: {},
+    itemsType: 1,
+  };
+
+  renderNoMatchPage(newItems) {
+    const { query } = this.props;
+
     return (
       <div>
         <div className="cards-wrap">
@@ -62,73 +72,77 @@ const ListWithNew = ({
     );
   }
 
-  return (
-    <div style={{ marginBottom: '30px' }}>
-      <div className="cards-wrap">
-        {
-          items.slice(0, count).map((item) => {
-            const Component = ItemComponent || cardsByType[item.type];
+  renderCards(newItems) {
+    const {
+      items,
+      itemProps,
+      count,
+      ItemComponent,
+    } = this.props;
 
-            return (<Component
-              key={item.id}
-              data={item}
-              {...itemProps}
-            />);
-          })
-        }
+    return (
+      <div>
+        <div className="cards-wrap">
+          {
+            items.slice(0, count).map((item) => {
+              const Component = ItemComponent || cardsByType[item.type];
+
+              return (<Component
+                key={item.id}
+                data={item}
+                {...itemProps}
+              />);
+            })
+          }
+        </div>
+        <div className="cards-wrap">
+          {
+            newItems.map((item) => {
+              if (!item) {
+                return null;
+              }
+
+              return (<NewPost
+                data={item}
+                key={item.id}
+              />);
+            })
+          }
+        </div>
+        <div className="cards-wrap">
+          {
+            items.slice(count).map((item) => {
+              const Component = ItemComponent || cardsByType[item.type];
+
+              return (<Component
+                key={item.id}
+                data={item}
+                {...itemProps}
+              />);
+            })
+          }
+        </div>
       </div>
-      <div className="cards-wrap">
-        {
-          newItems.map((item) => {
-            if (!item) {
-              return null;
-            }
+    );
+  }
 
-            return (<NewPost
-              data={item}
-              key={item.id}
-            />);
-          })
-        }
+  render() {
+    const {
+      items,
+      itemsType,
+      newPosts,
+    } = this.props;
+    const newItems = getNewItems(itemsType, newPosts);
+
+    return (
+      <div style={{ marginBottom: '30px' }}>
+        { items.length === 0 ? this.renderNoMatchPage(newItems) : this.renderCards(newItems) }
       </div>
-      <div className="cards-wrap">
-        {
-          items.slice(count).map((item) => {
-            const Component = ItemComponent || cardsByType[item.type];
+    );
+  }
+}
 
-            return (<Component
-              key={item.id}
-              data={item}
-              {...itemProps}
-            />);
-          })
-        }
-      </div>
-    </div>
-  );
-};
-
-ListWithNew.defaultProps = {
-  itemProps: {},
-  itemsType: 1,
-};
-
-ListWithNew.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  itemProps: PropTypes.shape(),
-  itemsType: PropTypes.number,
-  count: PropTypes.number.isRequired,
-  ItemComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.any])
-    .isRequired,
-  query: PropTypes.string,
-  newPosts: PropTypes.shape({
-    posts: PropTypes.array,
-    events: PropTypes.array,
-    blogs: PropTypes.array,
-  }).isRequired,
-};
-
-const mapStore = store => ({
+const mapStateToProps = store => ({
   newPosts: {
     posts: store.NewIn.posts,
     events: store.NewIn.events,
@@ -136,4 +150,4 @@ const mapStore = store => ({
   },
 });
 
-export default connect(mapStore)(pure(ListWithNew));
+export default connect(mapStateToProps)(ListWithNew);

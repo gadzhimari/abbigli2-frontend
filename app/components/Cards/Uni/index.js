@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { Link } from 'react-router';
@@ -16,7 +16,7 @@ import { EVENT_DATE_FORMAT } from '../../../lib/date/formats';
 
 import './index.styl';
 
-class Uni extends Component {
+class Uni extends PureComponent {
   like = () => setLike(this.props.item.slug)
 
   render() {
@@ -28,7 +28,7 @@ class Uni extends Component {
         images,
         city,
         user,
-        date_start,
+        date_start: dateStart,
         date_end: dateEnd,
         type,
         liked,
@@ -88,8 +88,8 @@ class Uni extends Component {
             <div
               className="tile__date"
             >
-              {toLocaleDateString(date_start, EVENT_DATE_FORMAT)}
-              {dateEnd ? ` - ${toLocaleDateString(date_start, EVENT_DATE_FORMAT)}` : ''}
+              {toLocaleDateString(dateStart, EVENT_DATE_FORMAT)}
+              {dateEnd ? ` - ${toLocaleDateString(dateEnd, EVENT_DATE_FORMAT)}` : ''}
               <span className="tile__city">
                 {
                   city

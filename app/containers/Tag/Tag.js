@@ -8,11 +8,12 @@ import {
   BreadCrumbs,
   SliderBar,
   Filters,
-  Spin,
   ListWithNew,
   PageSwitcher,
 } from 'components';
+
 import Tag from 'components/SliderBar/components/Tag';
+import { Spin } from '../../components-lib';
 
 import { openPopup } from 'ducks/Popup/actions';
 import { fetchPosts, fetchTags } from 'ducks/TagSearch/actions';

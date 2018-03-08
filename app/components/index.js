@@ -23,9 +23,8 @@ export { default as ProductPreview } from './ProductPreview/ProductPreview';
 export { default as UserProfile } from './UserProfile/UserProfile';
 export { default as Gallery } from './Gallery/Gallery';
 export { default as Loading } from './Loading';
-export { default as Spin } from './Spin';
 export { default as HR } from './HR';
-export { default as Share } from './Share/Share';
+export { default as Share } from './Share';
 export { default as HomeSlider } from './HomeSlider';
 export { default as SliderBar } from './SliderBar';
 export { default as UserSearch } from './UserSearch';
@@ -48,4 +47,6 @@ export { default as FavoriteAdd } from './FavoriteAdd';
 export { default as RelativePosts } from './RelativePosts';
 export { default as ChoiseFilter } from './ChoiseFilter';
 export { default as NoMatch } from './NoMatch';
+export { default as Avatar } from './Avatar';
+export { default as Image } from './Image';
 

@@ -1,41 +1,49 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 
 import { Link } from 'react-router';
 
-import { THUMBS_URL } from 'config';
+import Image from '../../../components/Image';
 
-const BlogSection = ({ item, baseUrl, isBlog }) => (
-  <Link
-    className={classNames({
-      'slider-category__item': true,
-      'slider-category__item_blog': isBlog,
-    })}
-    to={`${baseUrl ? `${baseUrl}?category=${item.slug}` : item.view_on_site_url}`}
-  >
-    <img
-      src={`${THUMBS_URL}/unsafe/180x153/${item.images[0]}`}
-      alt={item.title}
-    />
-    <div className="slider-category__name">{item.title}</div>
-  </Link>
-);
+class BlogSection extends PureComponent {
+  static propTypes = {
+    item: PropTypes.shape({
+      slug: PropTypes.string,
+      title: PropTypes.string,
+      images: PropTypes.arrayOf(PropTypes.string),
+    }).isRequired,
+    baseUrl: PropTypes.string,
+    isBlog: PropTypes.bool,
+  };
 
-BlogSection.defaultProps = {
-  baseUrl: '',
-  isBlog: false,
-};
+  static defaultProps = {
+    baseUrl: '',
+    isBlog: false,
+  };
 
-BlogSection.propTypes = {
-  item: PropTypes.shape({
-    slug: PropTypes.string,
-    title: PropTypes.string,
-    images: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
-  baseUrl: PropTypes.string,
-  isBlog: PropTypes.bool,
-};
+  render() {
+    const { baseUrl, item, isBlog } = this.props;
+    const imageUrl = item.images && item.images[0];
+
+    return (
+      <Link
+        className={classNames({
+          'slider-category__item': true,
+          'slider-category__item_blog': isBlog,
+        })}
+        to={`${baseUrl ? `${baseUrl}?category=${item.slug}` : item.view_on_site_url}`}
+      >
+        <Image
+          alt={item.title}
+          thumbSize="180x153"
+          src={imageUrl}
+        />
+        <div className="slider-category__name">{item.title}</div>
+      </Link>
+    );
+  }
+}
 
 export default BlogSection;

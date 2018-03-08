@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 import {
   TileWrap,
   Banner,
-  Spin,
   HR,
   BannerBlue,
   Link,
 } from '../../components';
 
 import { Uni, Goods } from '../../components/Cards';
+import { Spin } from '../../components-lib';
 
-import { fetchData as fetchDataBlogs } from '../../ducks/Blogs';
-import { fetchData as fetchDataEvents } from '../../ducks/Events';
+import { fetchBlogs } from '../../ducks/Blogs/actions';
+import { fetchEvents } from '../../ducks/Events/actions';
 import { fetchData as fetchDataProducts } from '../../ducks/Products';
 import { stagedPopup } from '../../ducks/Auth/authActions';
 import { __t } from './../../i18n/translator';
@@ -26,8 +26,8 @@ class Home extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch(fetchDataBlogs({ type: 4 }));
-    dispatch(fetchDataEvents({ type: 3 }));
+    dispatch(fetchBlogs({ type: 4 }));
+    dispatch(fetchEvents({ type: 3 }));
     dispatch(fetchDataProducts());
   }
 
@@ -211,11 +211,11 @@ function mapStateToProps(state) {
     itemsSections: sections.items,
     isFetchingSections: sections.isFetching,
 
-    itemsBlogs: blogs.items,
-    isFetchingBlogs: blogs.isFetching,
+    itemsBlogs: blogs.page.items,
+    isFetchingBlogs: blogs.blogsFetchingState,
 
-    itemsEvents: events.items,
-    isFetchingEvents: events.isFetching,
+    itemsEvents: events.page.items,
+    isFetchingEvents: events.eventsFetchingState,
 
     itemsProducts: products.items,
     isFetchingProducts: products.isFetching,

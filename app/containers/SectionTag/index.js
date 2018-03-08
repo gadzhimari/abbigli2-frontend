@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 import {
   BreadCrumbs,
   SliderBar,
-  Spin,
 } from '../../components';
 
+import { Spin } from '../../components-lib';
 import Content from './Content';
 import paginateHOC from '../../HOC/paginate';
 import Tag from '../../components/SliderBar/components/Tag';

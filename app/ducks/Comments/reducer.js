@@ -13,7 +13,7 @@ const commentsFetchingState = handleActions({
   [actions.fetchCommentsFailure]() {
     return false;
   },
-}, false);
+}, true);
 
 const commentSendingState = handleActions({
   [actions.sendCommentRequest]() {

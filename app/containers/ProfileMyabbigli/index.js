@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { CardProduct, Spin, Link } from '../../components';
+import { CardProduct, Link } from '../../components';
+import { Spin } from '../../components-lib';
 import { fetchData as fetchDataPosts, removePost } from '../../ducks/ProfilePosts';
 
 import { gaSendClickEvent } from '../../lib/analitics';

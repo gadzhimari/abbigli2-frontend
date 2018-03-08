@@ -87,15 +87,14 @@ class CardProduct extends Component {
     const thumbSize = `350x${full ? 350 : 290}`;
 
     return (
-      <div className={`tag-card tag-card--${typesClass[type]} legacy`}>
-        <div className="tag-card__img">
+      <div className={`tag-card tag-card--${typesClass[type]}`}>
+        <div className="tag-card__cover">
           <Link
             to={createPostLink(this.props.data)}
-            className="card-producr__img-link"
           >
             <Image
-              className="blog-card__img"
               alt={title}
+              className="tag-card__img"
               thumbSize={thumbSize}
               src={imageUrl}
             />

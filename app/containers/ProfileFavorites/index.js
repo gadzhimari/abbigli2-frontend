@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import {
   CardsWrap,
   CardProduct,
-  Spin,
 } from 'components';
 
 import TogglePrivacy from 'components/TogglePrivacy';
+import { Spin } from '../../components-lib';
 
 import './index.styl';
 import { connect } from 'preact-redux';
