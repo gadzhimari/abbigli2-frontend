@@ -48,6 +48,7 @@ const createIconComponent = ({ content, height, width }) =>
         >
           <svg
             viewBox={\`0 0 \${width} \${height}\`}
+            className={cn('icon')}
           >
             { content }
           </svg>
