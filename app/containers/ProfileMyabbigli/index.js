@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -27,24 +26,28 @@ class ProfileMyabbigli extends Component {
   }
 
   fetchPosts = (page) => {
-    // const { isMe, dispatch, params, isAuth } = this.props;
-    // const options = {
-    //   isMe,
-    //   profileId: params.profile,
-    //   type: 'posts',
-    //   page,
-    //   isAuth,
-    // };
+    const { isMe, params, loadPosts } = this.props;
 
-    // dispatch(fetchDataPosts(options));
+    loadPosts({
+      isMe,
+      profileId: params.profile,
+      type: 'posts',
+      page,
+    });
   }
 
   render() {
-    const { isFetchingPosts, itemsPosts, dispatch, isAuth, isMe } = this.props;
+    const {
+      isFetchingPosts,
+      itemsPosts,
+      dispatch,
+      isAuth,
+      isMe,
+      deletePost
+    } = this.props;
 
     return (
       <div className="profile_content">
-
         {isMe &&
           <h5 className="my-abbigli__text">
             {__t('My.abbigly.propfile')}
@@ -97,9 +100,7 @@ class ProfileMyabbigli extends Component {
                 dispatch={dispatch}
                 priceTemplate={this.props.priceTemplate}
                 isAuthenticated={isAuth}
-                delete={() => {
-                  dispatch(removePost(item.slug));
-                }}
+                delete={deletePost}
                 full
               />
             ))
@@ -114,18 +115,8 @@ class ProfileMyabbigli extends Component {
   }
 }
 
-
-ProfileMyabbigli.propTypes = {
-  itemsPosts: PropTypes.array.isRequired,
-  isFetchingPosts: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  isMe: PropTypes.bool,
-  isAuth: PropTypes.bool,
-  me: PropTypes.object,
-};
-
 function mapStateToProps(state) {
-  const posts = (state.ProfilePosts) || { isFetching: true, items: [] };
+  const posts = state.ProfilePosts;
 
   return {
     itemsPosts: posts.items,

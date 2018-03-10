@@ -13,6 +13,7 @@ import { nofollow } from '../lib/etc/meta';
 import prepareState from '../lib/prepareState';
 
 const domain = process.env.DOMAIN_URL.slice(0, -1);
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = (req, res) => {
   const store = req.redux;
@@ -35,7 +36,7 @@ module.exports = (req, res) => {
     res.status(state.NetworkErrors.status);
   }
 
-  const componentHTML = ReactDOM.renderToString(
+  const markup = ReactDOM.renderToString(
     <Provider store={store} >
       <RouterContext {...renderProps} />
     </Provider>);
@@ -51,10 +52,10 @@ module.exports = (req, res) => {
     seo.meta = `${nofollow}${seo.meta}`;
   }
 
-  const initialState = prepareState(store.getState());
+  const initialState = isProduction ? prepareState(state) : state;
 
   res.render('index', {
-    markup: componentHTML,
+    markup,
     store: encodeURI(JSON.stringify(initialState)),
     seo,
     canonical: `${domain}${req.path}`,

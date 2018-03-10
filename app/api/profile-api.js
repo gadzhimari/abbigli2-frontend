@@ -40,7 +40,7 @@ const Profile = {
       method: 'POST',
       mustApplyToken: true,
     });
-  },
+  }
 };
 
 export default Profile;
