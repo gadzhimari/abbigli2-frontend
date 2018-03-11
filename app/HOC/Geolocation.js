@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import { Component, Children } from 'react';
-
 import { connect } from 'react-redux';
-import { Geo } from '../api';
 
-import { saveCity } from '../ducks/Geo';
+import { getCity } from '../ducks/Geo';
 
 class Geolocation extends Component {
   componentDidMount() {
@@ -27,13 +25,8 @@ class Geolocation extends Component {
     this.fetchCityByCoords(this.props.coordinates);
   }
 
-  fetchCityByCoords = ({ latitude, longitude }) => {
-    Geo.getCities({ latitude, longitude })
-      .then((res) => {
-        const { dispatch } = this.props;
-
-        dispatch(saveCity(res.data.results[0]));
-      });
+  fetchCityByCoords = (coordinates) => {
+    this.props.getCity(coordinates);
   }
 
   render() {
@@ -46,8 +39,7 @@ Geolocation.propTypes = {
   coordinates: PropTypes.shape({
     latitude: PropTypes.number,
     longitude: PropTypes.number,
-  }).isRequired,
-  dispatch: PropTypes.func.isRequired,
+  }).isRequired
 };
 
 Geolocation.defaultProps = {
@@ -60,4 +52,4 @@ const mapStateToProps = ({ Geo: GeoStore, Auth }) => ({
   user: Auth.me,
 });
 
-export default connect(mapStateToProps)(Geolocation);
+export default connect(mapStateToProps, { getCity })(Geolocation);
