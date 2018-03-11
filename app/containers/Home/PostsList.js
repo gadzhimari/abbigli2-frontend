@@ -1,9 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 
-import { TileWrap,
-         Loading,
-         HR,
-         Link } from '../../components';
+import { TileWrap, HR, Link } from '../../components';
+import Spin from '../../components-lib/Spin';
 
 export default class PostsList extends PureComponent {
   render() {
@@ -27,7 +25,7 @@ export default class PostsList extends PureComponent {
         </div>
 
         <TileWrap>
-          {isFetching ? <Loading loading={isFetching} /> :
+          {isFetching ? <Spin visible={isFetching} /> :
             posts
               .slice(0, 8)
               .map(item => (
