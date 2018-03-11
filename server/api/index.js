@@ -9,8 +9,9 @@ import setupAccessHeader from '../middlewares/setupAccessHeader';
 
 const router = express.Router();
 
-router.get('/node-api/catalog', setupAccessHeader, getCatalog);
-router.get('/node-api/category-tree', setupAccessHeader, getCrumbs);
+router.use('/node-api/*', setupAccessHeader);
+router.get('/node-api/catalog', getCatalog);
+router.get('/node-api/category-tree', getCrumbs);
 router.get('/away', away);
 router.get('/oauth/:social', oauth);
 
