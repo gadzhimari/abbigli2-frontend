@@ -18,10 +18,6 @@ export default class ProfileSubMenu extends PureComponent {
     }),
   }
 
-  componentDidUpdate() {
-    this.scrollToMenu();
-  }
-
   onLinkClick = (e, { name }) => {
     gaSendClickEvent('profile', name);
   }
