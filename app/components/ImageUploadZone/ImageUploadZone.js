@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 
-import { DragableImage } from 'components';
+import { DragableImage } from '../../components';
 import { Spin } from '../../components-lib';
 import { __t } from './../../i18n/translator';
 

@@ -13,28 +13,30 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionsTypes.AUTH_REQUEST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: action.status,
-      });
+      };
     case actionsTypes.AUTH_SUCCESS:
-      return Object.assign({}, state, action.payload, {
+      return {
+        ...state,
+        ...action.payload,
         isFetching: false,
         errors: {},
-      });
+      };
     case actionsTypes.AUTH_FAILURE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         errors: action.errors,
-      });
-    case actionsTypes.ME_STORE:
-      return Object.assign({}, state, {
-        me: {
-          ...state.me,
-          ...action.data,
-        },
+      };
+    case actionsTypes.SET_ME:
+      return {
+        ...state,
+        me: { ...action.payload },
         isFetching: false,
         isAuthenticated: true,
-      });
+      };
     case actionsTypes.SET_ME_ERROR:
       return {
         ...state,

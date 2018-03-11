@@ -1,10 +1,20 @@
 import request from './instance';
 
 const Profile = {
-  getData(id, isMe, isAuth) {
+  getData(id, isMe) {
     return request({
       url: isMe ? 'my-profile/' : `profiles/${id}/`,
-      canApplyToken: isAuth,
+      canApplyToken: true,
+      mustApplyToken: isMe,
+    });
+  },
+  getProfilePosts(isMe, userId, type, params) {
+    const url = isMe ? `my-profile/${type}/` : `profiles/${userId}/${type}`;
+
+    return request({
+      url,
+      params,
+      canApplyToken: true,
       mustApplyToken: isMe,
     });
   },
@@ -30,7 +40,7 @@ const Profile = {
       method: 'POST',
       mustApplyToken: true,
     });
-  },
+  }
 };
 
 export default Profile;

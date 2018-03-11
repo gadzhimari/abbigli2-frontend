@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { Link } from 'react-router';
-
-import { location, THUMBS_URL } from 'config';
+import Link from '../../../components/Link/Link';
+import { location, THUMBS_URL } from '../../../config';
 
 const MessageItem = ({
   data,

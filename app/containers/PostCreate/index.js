@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Type from 'prop-types';
 
+import update from 'react-addons-update';
+
 import { withRouter } from 'react-router';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-
-import update from 'react/lib/update';
 
 import ProductForm from './ProductForm/ProductForm';
 import BlogForm from './BlogForm/BlogForm';

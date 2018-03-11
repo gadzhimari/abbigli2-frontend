@@ -12,11 +12,11 @@ if (typeof window !== 'undefined' && window.PRELOADED_STATE) {
   preloadedState = {};
 }
 
-const configureStore = () => {
+const configureStore = (logger) => {
   const store = createStore(
     reducers,
     preloadedState,
-    composeWithDevTools(applyMiddleware(thunk)),
+    composeWithDevTools(applyMiddleware(thunk.withExtraArgument(logger))),
   );
   return store;
 };

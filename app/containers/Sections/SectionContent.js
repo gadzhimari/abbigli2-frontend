@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import { Link } from 'react-router';
+import Link from '../../components/Link/Link';
 
 import { PageSwitcher, ListWithNew } from '../../components';
 import { Product, SubCategoryList } from '../../components/Cards';
@@ -81,6 +81,7 @@ class SectionContent extends PureComponent {
             .map(item => <Link
               to={item.view_on_site_url}
               className="category-buttons__link"
+              key={item.id}
             >
               {item.title}
             </Link>)
@@ -99,6 +100,7 @@ class SectionContent extends PureComponent {
             .map(item => <Link
               to={item.view_on_site_url}
               className="category-buttons__link"
+              key={item.id}
             >
               {item.title}
             </Link>)

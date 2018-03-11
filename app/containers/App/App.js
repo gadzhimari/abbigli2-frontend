@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import Type from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -13,11 +13,11 @@ import scrollOnRoute from '../../HOC/scrollOnRoute';
 
 import { fetchMe, logoutUser } from '../../ducks/Auth/authActions';
 import { closePopup, openPopup } from '../../ducks/Popup/actions';
-import { fetchData as settingsFetch, fetchGeo } from '../../ducks/Settings';
+import { fetchGeo } from '../../ducks/Settings';
 import loadNewIn from '../../ducks/NewIn/actions';
 import toggleMobileMenu, { closeMenu } from '../../ducks/Menu/actions';
-import { fetchData as fetchDataSections } from '../../ducks/Sections';
 import { clearNetworkError } from '../../ducks/NetworkErrors/reducer';
+import { fetchSections } from '../../ducks/Sections';
 
 import * as Popups from '../../components/Popups';
 import getComponentFromObject from '../../utils/getComponent';
@@ -32,29 +32,8 @@ import './responsive.styl';
 
 class App extends Component {
   static propTypes = {
-    children: PropTypes.any.isRequired,
+    children: Type.oneOfType(Type.node, Type.arrayOf(Type.node))
   };
-
-  static fetchData = ({ store, token, shouldPreload }, nextState, replace, callback) => {
-    if (!shouldPreload) return callback();
-
-    const promises = [store.dispatch(fetchDataSections())];
-    const child = nextState.routes[nextState.routes.length - 1].component;
-    const childFetch = child.fetchData ||
-      (child.WrappedComponent && child.WrappedComponent.fetchData);
-
-    if (token) {
-      promises.push(store.dispatch(fetchMe(token)));
-    }
-
-    if (childFetch) {
-      promises.push(childFetch(store.dispatch, nextState.params, token));
-    }
-
-    return Promise.all(promises)
-      .then(() => callback())
-      .catch(err => console.log(err));
-  }
 
   constructor(props) {
     super(props);
@@ -62,9 +41,10 @@ class App extends Component {
     if (props.itemsSections.length === 0) {
       props.dispatch(fetchDataSections());
     }
-    props.dispatch(settingsFetch());
+
     props.dispatch(fetchGeo());
     props.dispatch(loadNewIn());
+    props.dispatch(fetchSections());
   }
 
   componentDidMount() {
@@ -180,12 +160,12 @@ class App extends Component {
 }
 
 App.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string,
-  errors: PropTypes.shape({
-    status: PropTypes.oneOfType([PropTypes.number, PropTypes.any]),
-    message: PropTypes.oneOfType([PropTypes.string, PropTypes.any]),
+  dispatch: Type.func.isRequired,
+  isAuthenticated: Type.bool.isRequired,
+  errorMessage: Type.string,
+  errors: Type.shape({
+    status: Type.oneOfType([Type.number, Type.any]),
+    message: Type.oneOfType([Type.string, Type.any]),
   }),
 };
 

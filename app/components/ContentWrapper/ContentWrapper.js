@@ -13,7 +13,6 @@ class ContentWrapper extends Component {
       children,
       modalButtonClick,
       itemsSections,
-      isFetchingSections,
       isOpenMenu,
       closeMenu,
       openPopup,
@@ -39,7 +38,6 @@ class ContentWrapper extends Component {
             <Menu
               modalButtonClick={modalButtonClick}
               itemsSections={itemsSections}
-              isFetchingSections={isFetchingSections}
               wrapperClass={menuWrapperClass}
               closeMenu={closeMenu}
             />
@@ -67,8 +65,7 @@ ContentWrapper.propTypes = {
   ]).isRequired,
   closeMenu: PropTypes.func.isRequired,
   modalButtonClick: PropTypes.func.isRequired,
-  itemsSections: PropTypes.array.isRequired,
-  isFetchingSections: PropTypes.bool.isRequired,
+  itemsSections: PropTypes.arrayOf(PropTypes.object).isRequired,
   isOpenMenu: PropTypes.bool.isRequired,
 };
 

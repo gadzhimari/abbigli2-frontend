@@ -1,62 +1,50 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+
 import { connect } from 'react-redux';
 
 import {
-  TileWrap,
   Banner,
   HR,
   BannerBlue,
-  Link,
 } from '../../components';
-
 import { Uni, Goods } from '../../components/Cards';
-import { Spin } from '../../components-lib';
+import PostsList from './PostsList';
 
 import { fetchBlogs } from '../../ducks/Blogs/actions';
 import { fetchEvents } from '../../ducks/Events/actions';
 import { fetchData as fetchDataProducts } from '../../ducks/Products';
 import { stagedPopup } from '../../ducks/Auth/authActions';
+
 import { __t } from './../../i18n/translator';
 
 import './Home.styl';
 
-
-class Home extends Component {
+class Home extends PureComponent {
   componentDidMount() {
-    const { dispatch } = this.props;
-
-    dispatch(fetchBlogs({ type: 4 }));
-    dispatch(fetchEvents({ type: 3 }));
-    dispatch(fetchDataProducts());
-  }
-
-  showRegister = () => {
-    const { dispatch } = this.props;
-
-    dispatch(stagedPopup('register'));
+    this.props.fetchData();
   }
 
   handleOpenCreating = () => {
-    if (this.props.isAuthenticated) {
-      this.props.router.push('/post/new');
+    const { isAuthenticated,
+            router,
+            showRegister } = this.props;
+
+    if (isAuthenticated) {
+      router.push('/post/new');
     } else {
-      this.showRegister();
+      showRegister();
     }
   }
 
   render() {
-    const {
-      isFetchingSections,
-      isFetchingBlogs,
-      isFetchingEvents,
-      itemsBlogs,
-      itemsEvents,
-      isFetchingProducts,
-      itemsProducts,
-      isAuthenticated,
-      priceTemplate,
-    } = this.props;
+    const { isFetchingBlogs,
+            isFetchingEvents,
+            itemsBlogs,
+            itemsEvents,
+            isFetchingProducts,
+            itemsProducts,
+            isAuthenticated,
+            priceTemplate } = this.props;
 
     return (
       <div className="container-fluid main-page">
@@ -64,123 +52,72 @@ class Home extends Component {
           handleOpenCreating={this.handleOpenCreating}
         />
 
-        <div className="spin-wrapper">
-          <Spin visible={isFetchingSections} />
-        </div>
-
         <BannerBlue
           hideJoin={isAuthenticated}
           join={this.showRegister}
         />
 
-        <HR color={'blue'} />
+        <PostsList
+          Component={Goods}
+          isFetching={isFetchingProducts}
+          posts={itemsProducts}
 
-        <div className="home__title-wrapper">
-          <h3 className="home__section-text">
-            {__t('Display.for.sale.their.works')}
-          </h3>
-        </div>
-        <TileWrap>
-          {
-            (!isFetchingProducts && itemsProducts.length > 0)
-            &&
-            itemsProducts
-              .slice(0, 8)
-              .map(item => <Goods
-                item={item}
-                key={`${item.slug}--top`}
-                priceTemplate={priceTemplate}
-                isAuth={isAuthenticated}
-              />)
-          }
-        </TileWrap>
-        <div className="spin-wrapper">
-          <Spin visible={isFetchingProducts} />
-        </div>
+          title={__t('Display.for.sale.their.works')}
+          hrColor="blue"
 
-        <Link to="/new-products/" className="show-more">
-          {__t('Explore')}
-        </Link>
+          moreLinkText={__t('Explore')}
+          moreLinkUrl="/new-products"
 
-        <HR color={'green'} />
-        <TileWrap>
-          <div className="home__title-wrapper">
-            <h3 className="home__section-text">
-              {__t('Share.with.the.world.the.thoughts.and.ideas.of.his.work')}
-            </h3>
-          </div>
-          {
-            (!isFetchingBlogs && itemsBlogs.length > 0)
-            &&
-            itemsBlogs
-              .slice(0, 8)
-              .map(item => <Uni
-                item={item}
-                key={`${item.slug}--blogs`}
-                isAuth={isAuthenticated}
-              />)
-          }
-        </TileWrap>
-        <div className="spin-wrapper">
-          <Spin visible={isFetchingBlogs} />
-        </div>
+          priceTemplate={priceTemplate}
+          isAuth={isAuthenticated}
+        />
 
-        <Link to="/blogs" className="show-more">
-          {__t('read more')}
-        </Link>
+        <PostsList
+          Component={Uni}
+          isFetching={isFetchingBlogs}
+          posts={itemsBlogs}
 
-        <HR color={'purple'} />
+          title={__t('Share.with.the.world.the.thoughts.and.ideas.of.his.work')}
+          hrColor="green"
 
-        <TileWrap>
-          <div className="home__title-wrapper">
-            <h3 className="home__section-text">
-              {__t('Share.information.about.your.master.class.creative.event.exhibition')}
-            </h3>
-          </div>
-          {
-            (!isFetchingEvents && itemsEvents.length > 0)
-            &&
-            itemsEvents
-              .slice(0, 8)
-              .map(item => <Uni
-                item={item}
-                key={`${item.slug}--events`}
-                isAuth={isAuthenticated}
-              />)
-          }
-        </TileWrap>
-        <div className="spin-wrapper">
-          <Spin visible={isFetchingEvents} />
-        </div>
+          moreLinkText={__t('read more')}
+          moreLinkUrl="/blogs"
 
-        <Link to="/events" className="show-more">
-          {__t('Continue')}
-        </Link>
+          isAuth={isAuthenticated}
+        />
+
+        <PostsList
+          Component={Uni}
+          isFetching={isFetchingEvents}
+          posts={itemsEvents}
+
+          title={__t('Share.information.about.your.master.class.creative.event.exhibition')}
+          hrColor="purple"
+
+          moreLinkText={__t('Continue')}
+          moreLinkUrl="/events"
+
+          isAuth={isAuthenticated}
+        />
 
         <HR color={'orange'} />
 
         <div className="map">
-          <img alt="" className="map-img" src="/images/map.jpg" />
+          <img
+            className="map-img"
+            src="/images/map.jpg"
+            alt=""
+          />
         </div>
 
         <div className="pre-footer">
           <div className="w-inner">
             <h1>{__t('abbigli.about.header')}</h1>
-            <p>
-              {__t('abbigli.about.p1')}
-            </p>
-            <p>
-              {__t('abbigli.about.p2')}
-            </p>
-            <p>
-              {__t('abbigli.about.p3')}
-            </p>
-            <p>
-              {__t('abbigli.about.p4')}
-            </p>
-            <p>
-              {__t('abbigli.about.p5')}
-            </p>
+            <p>{__t('abbigli.about.p1')}</p>
+            <p>{__t('abbigli.about.p2')}</p>
+            <p>{__t('abbigli.about.p3')}</p>
+            <p>{__t('abbigli.about.p4')}</p>
+            <p>{__t('abbigli.about.p5')}</p>
           </div>
         </div>
       </div>
@@ -188,41 +125,29 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = {
-  itemsBlogs: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isFetchingBlogs: PropTypes.bool.isRequired,
-  itemsEvents: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isFetchingEvents: PropTypes.bool.isRequired,
-  itemsProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isFetchingProducts: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  priceTemplate: PropTypes.string,
-};
+const mapState = state => ({
+  itemsSections: state.Sections.items,
 
-function mapStateToProps(state) {
-  const sections = state.Sections;
-  const blogs = state.Blogs;
-  const events = state.Events;
-  const products = state.Products;
-  const auth = state.Auth || {};
-  const settings = state.Settings || {};
+  itemsBlogs: state.Blogs.page.items,
+  isFetchingBlogs: state.Blogs.blogsFetchingState,
 
-  return {
-    itemsSections: sections.items,
-    isFetchingSections: sections.isFetching,
+  itemsEvents: state.Events.page.items,
+  isFetchingEvents: state.Events.eventsFetchingState,
 
-    itemsBlogs: blogs.page.items,
-    isFetchingBlogs: blogs.blogsFetchingState,
+  itemsProducts: state.Products.items,
+  isFetchingProducts: state.Products.isFetching,
 
-    itemsEvents: events.page.items,
-    isFetchingEvents: events.eventsFetchingState,
+  isAuthenticated: state.Auth.isAuthenticated,
+  priceTemplate: state.Settings.data.CURRENCY,
+});
 
-    itemsProducts: products.items,
-    isFetchingProducts: products.isFetching,
-    isAuthenticated: auth.isAuthenticated,
+const mapDispatch = dispatch => ({
+  showRegister: () => dispatch(stagedPopup('register')),
+  fetchData: () => {
+    dispatch(fetchBlogs({ type: 4 }));
+    dispatch(fetchEvents({ type: 3 }));
+    dispatch(fetchDataProducts());
+  }
+});
 
-    priceTemplate: settings.data.CURRENCY,
-  };
-}
-
-export default connect(mapStateToProps)(Home);
+export default connect(mapState, mapDispatch)(Home);

@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router';
-
-import { SubCategoryList } from '../../../components/Cards';
+import { SubCategoryList } from '../../Cards';
+import Link from '../../Link/Link';
 
 import { THUMBS_URL } from '../../../config';
 import './PromoTags.less';

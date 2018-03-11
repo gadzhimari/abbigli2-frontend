@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Link from 'react-router/lib/Link';
+import Link from '../../components/Link/Link';
 import {
   AuthorInfo,
   OtherArticles,
@@ -20,28 +20,15 @@ import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { sendPostMessage } from '../../ducks/Dialogs/actions';
 
 import { fetchPost, resetPost, fetchRelative, fetchUsersPosts, toggleFavorite } from '../../ducks/PostPage/actions';
-
 import { openPopup } from '../../ducks/Popup/actions';
 
 import onlyAuthAction from '../../lib/redux/onlyAuthAction';
+import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
 
 import { __t } from './../../i18n/translator';
 import './ProductPage.less';
 
 class ProductPage extends Component {
-  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, token));
-
-  static fetchSubData = (dispatch, data) => Promise.all([
-    dispatch(fetchComments(data.slug)),
-    dispatch(fetchUsersPosts(1, data.user.id)),
-    dispatch(fetchRelative(data.slug)),
-  ])
-    .catch(console.log)
-
-  static onUnmount = (dispatch) => {
-    dispatch(resetPost());
-  }
-
   componentDidMount() {
     this.globalWrapper = document.body;
     this.globalWrapper.classList.add('goods-post');
@@ -49,10 +36,6 @@ class ProductPage extends Component {
 
   componentWillUnmount() {
     this.globalWrapper.classList.remove('goods-post');
-  }
-
-  handleFavorite = () => {
-    this.props.dispatch(toggleFavorite(this.props.data.slug));
   }
 
   sendComment = (comment) => {
@@ -98,6 +81,7 @@ class ProductPage extends Component {
       priceTemplate,
       me,
       isAuthenticated,
+      handleFavorite
     } = this.props;
     const crumbs = [];
 
@@ -148,7 +132,7 @@ class ProductPage extends Component {
             data={data}
             onWantClick={this.handleWantsClick}
             userIsOwner={userIsOwner}
-            onFavoriteClick={this.handleFavorite}
+            onFavoriteClick={handleFavorite}
           />
 
           <Comments
@@ -171,8 +155,6 @@ class ProductPage extends Component {
 }
 
 ProductPage.propTypes = {
-  data: PropTypes.object.isRequired,
-  me: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
   priceTemplate: PropTypes.string.isRequired,
   author: PropTypes.shape({
@@ -198,4 +180,15 @@ const mapStateToProps = state => ({
   me: state.Auth.me,
 });
 
-export default connect(mapStateToProps)(postLoader(ProductPage));
+const mapDispatch = dispatch => ({
+  fetchPost: (...args) => dispatch(fetchPost(...args)),
+  fetchSubData: (data) => {
+    dispatch(fetchComments(data.slug));
+    dispatch(fetchUsersPosts(PRODUCT_TYPE, data.user.id));
+    dispatch(fetchRelative(data.slug));
+  },
+  onUnmount: () => dispatch(resetPost()),
+  handleFavorite: slug => dispatch(toggleFavorite(slug))
+});
+
+export default connect(mapStateToProps, mapDispatch)(postLoader(ProductPage));

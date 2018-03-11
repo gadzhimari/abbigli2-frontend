@@ -1,16 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { Link } from 'react-router';
-
-import { Share } from 'components';
+import Link from '../Link/Link';
+import { Share } from '../../components';
+import { ProductsIcons } from '../../components/Icons';
 import { Like } from '../../components-lib';
-import { ProductsIcons } from 'components/Icons';
 import Avatar from '../Avatar';
 import Image from '../Image';
 
-import { setLike } from 'actions/like';
-import { stagedPopup } from 'ducks/Auth/authActions';
+import { setLike } from '../../actions/like';
 
 import createPostLink from '../../lib/links/post-link';
 import createPostEditLink from '../../lib/links/edit-post-link';
@@ -58,6 +56,12 @@ class CardProduct extends Component {
     } = this.props;
 
     dispatch(setLike(slug));
+  }
+
+  deletePost = () => {
+    const { slug } = this.props.data;
+
+    this.props.delete(slug);
   }
 
   render() {

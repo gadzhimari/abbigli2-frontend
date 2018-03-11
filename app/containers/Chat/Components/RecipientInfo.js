@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router';
+import Link from '../../../components/Link/Link';
 
 import AvatarPost from './AvatarPost';
 import Avatar from './Avatar';

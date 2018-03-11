@@ -7,8 +7,6 @@ class Spin extends Component {
   static propTypes = {
     visible: Type.bool,
     size: Type.oneOf(['s', 'm', 'l', 'xl']),
-    className: Type.string,
-    theme: Type.oneOf(['abbigli-light', 'abbigli-dark']),
   };
 
   static defaultProps = {
@@ -26,8 +24,8 @@ class Spin extends Component {
           visible,
         })}
       >
-        <spin className={cn('spinning')} />
-        <spin className={cn('icon')} />
+        <span className={cn('spinning')} />
+        <span className={cn('icon')} />
       </span>
     );
   }

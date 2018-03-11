@@ -17,13 +17,9 @@ const domain = process.env.DOMAIN_URL.slice(0, -1);
 
 module.exports = (req, res) => {
   const store = req.redux;
-  const renderRoutes = routes(store, req.cookies.id_token, true);
+  const location = req.newPath || req.url;
 
-  match({
-    routes: renderRoutes,
-    location: req.newPath || req.url,
-  },
-  (error, redirectLocation, renderProps) => {
+  match({ routes, location }, (error, redirectLocation, renderProps) => {
     const state = store.getState();
 
     if (redirectLocation) {

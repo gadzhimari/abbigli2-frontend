@@ -23,15 +23,8 @@ class SubMenu extends PureComponent {
 
     setTimeout(this.checkVisibility, 0);
 
-    catList.forEach((item) => {
-      item.addEventListener('mouseover', this.showCategory);
-    });
+    catList.forEach((item) => { item.addEventListener('mouseover', this.showCategory); });
     window.addEventListener('resize', this.debouncedResetInvisible);
-//    window.addEventListener('load', this.checkVisibility); // Если глюков не обнаружено, то можно удалить
-  }
-
-  shouldComponentUpdate() {
-    return false;
   }
 
   componentWillUnmount() {
@@ -44,8 +37,6 @@ class SubMenu extends PureComponent {
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
 
     const checkItemBounds = (item) => {
-      // top у первого ряда 71, у второго ряда 115
-      // оставляем немного на всякий случай для погрешности браузеров
       const itemBounds = item.getBoundingClientRect();
       const res = itemBounds.top > 100;
       return res;
@@ -77,7 +68,6 @@ class SubMenu extends PureComponent {
     });
 
     if (checkRes) {
-      // выходит за границы
       this.elseBtn.classList.remove('hide');
       catList.forEach(setItemVisibility);
     } else {

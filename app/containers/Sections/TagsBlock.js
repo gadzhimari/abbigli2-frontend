@@ -5,7 +5,7 @@ import Type from 'prop-types';
 
 import { connect } from 'react-redux';
 
-import { Link } from 'react-router';
+import Link from '../../components/Link/Link';
 import { FetchingButton } from '../../components';
 
 import { fetchMoreTags } from '../../ducks/CatalogPage/actions';

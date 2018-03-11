@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router';
 import { FetchingButton } from 'components';
+import Link from '../../Link/Link';
 
 import Avatar from '../../../components/Avatar';
 

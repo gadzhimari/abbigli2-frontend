@@ -5,7 +5,6 @@ import Button from '../../components/Button/Button';
 import Textarea from '../../components/Inputs/Textarea';
 
 import { __t } from '../../i18n/translator';
-
 import { openPopup } from '../../ducks/Popup/actions';
 
 import './Comments.less';

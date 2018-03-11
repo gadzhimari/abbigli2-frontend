@@ -7,7 +7,8 @@ import useragent from 'express-useragent';
 
 import Raven from 'raven';
 
-import renderOnServer from './middlewares/renderOnServer';
+import renderHtml from './middlewares/renderHtml';
+import getRenderProps from './middlewares/getRenderProps';
 import geoLocation from './middlewares/geoLocation';
 import configureRedux from './middlewares/configureRedux';
 import handleGoogleCahceUrl from './middlewares/handleGoogleCahceUrl';
@@ -15,14 +16,16 @@ import trimSlash from './middlewares/trim-url-slash';
 import setLocals from './middlewares/set-locals';
 import redirectManager from './middlewares/redirect-manager';
 import setupUseragent from './middlewares/setupUseragent';
+import setupDataRequests from './middlewares/setupDataRequests';
+import setupClientDataRequests from './middlewares/setupClientDataRequests';
+import handleRequests from './middlewares/handleRequests';
 
 import routes from './api';
+import cfg from './config';
 
 const app = express();
-const PORT = process.env.SERVER_PORT;
-const ravenDSN = process.env.SENTRY_DNS;
 
-Raven.config(ravenDSN).install();
+Raven.config(cfg.sentryDns).install();
 
 // Enable ip from proxy
 app.enable('trust proxy');
@@ -38,6 +41,7 @@ app.use(compression());
 app.use(Raven.requestHandler());
 app.use(useragent.express());
 
+app.use(handleGoogleCahceUrl);
 app.use(routes);
 app.use(redirectManager);
 app.use(trimSlash);
@@ -45,14 +49,15 @@ app.use(setLocals);
 app.use(configureRedux);
 app.use(geoLocation);
 app.use(setupUseragent);
-app.use(handleGoogleCahceUrl);
-app.use(renderOnServer);
+app.use(setupDataRequests);
+app.use(getRenderProps);
+app.use(setupClientDataRequests);
 
-if (process.env.NODE_ENV === 'production' && ravenDSN) {
+app.use(handleRequests);
+app.use(renderHtml);
+
+if (cfg.isProduction && cfg.sentryDns) {
   app.use(Raven.errorHandler());
 }
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`server listening on port ${PORT}`);
-});
+export default app;

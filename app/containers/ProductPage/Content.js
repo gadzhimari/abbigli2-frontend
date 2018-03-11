@@ -20,8 +20,9 @@ class ProductContent extends PureComponent {
   }
 
   onFavoriteClick = () => {
+    const { onFavoriteClick, data } = this.props;
     gaSendClickEvent('product', 'add_to_favotites');
-    this.props.onFavoriteClick();
+    onFavoriteClick(data.slug);
   }
 
   onShareClick = (e, { socialCode }) => {

@@ -18,7 +18,7 @@ const MoreList = ({ sections, hideCategory }) => (
 );
 
 MoreList.propTypes = {
-  sections: PropTypes.arrayOf(React.PropTypes.shape({
+  sections: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     children: PropTypes.array,
   })).isRequired,

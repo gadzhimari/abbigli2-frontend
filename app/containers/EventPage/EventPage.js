@@ -24,25 +24,11 @@ import {
 
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 
+import { EVENT_TYPE } from '../../lib/constants/posts-types';
+
 import { __t } from '../../i18n/translator';
 
 class EventPage extends Component {
-  static fetchData = (dispatch, params, token) => dispatch(fetchPost(params.slug, token))
-
-  static fetchSubData = (dispatch, data, params) => Promise.all([
-    dispatch(fetchNew({
-      type: 3,
-    })),
-    dispatch(fetchComments(params.slug)),
-    dispatch(fetchUsersPosts(3, data.user.id)),
-    dispatch(fetchPopular(3)),
-    dispatch(fetchRelative(params.slug)),
-  ])
-
-  static onUnmount = (dispatch) => {
-    dispatch(resetPost());
-  }
-
   componentDidMount() {
     this.globalWrapper = document.querySelector('.global-wrapper');
     this.globalWrapper.classList.add('event');
@@ -51,8 +37,6 @@ class EventPage extends Component {
   componentWillUnmount() {
     this.globalWrapper.classList.remove('event');
   }
-
-  handleFavorite = () => this.props.dispatch(toggleFavorite(this.props.data.slug))
 
   sendComment = (comment) => {
     const { dispatch, params } = this.props;
@@ -88,7 +72,6 @@ class EventPage extends Component {
     const commentsList = this.props.itemsComments;
 
     const {
-      isFetchingEvents,
       itemsEvents,
       dispatch,
       data,
@@ -98,6 +81,7 @@ class EventPage extends Component {
       usersPosts,
       me,
       isAuthenticated,
+      handleFavorite
     } = this.props;
     const crumbs = [{
       title: __t('Events'),
@@ -161,7 +145,8 @@ class EventPage extends Component {
             </div>
 
             <FavoriteAdd
-              toggleFavorite={this.handleFavorite}
+              toggleFavorite={handleFavorite}
+              slug={data.slug}
               isFavorited={data.favorite}
             />
 
@@ -176,7 +161,7 @@ class EventPage extends Component {
             data={data}
             newPosts={itemsEvents}
             popularPosts={popularPosts}
-            toggleFavorite={this.handleFavorite}
+            toggleFavorite={handleFavorite}
             isFavorited={data.favorite}
             seeAllUrl="/events"
             newSectionTitle={__t('New in events')}
@@ -208,15 +193,12 @@ class EventPage extends Component {
 }
 
 EventPage.propTypes = {
-  data: Type.object.isRequired,
-  isFetching: Type.bool.isRequired,
+  data: Type.shape().isRequired,
   dispatch: Type.func.isRequired,
 };
 
 function mapStateToProps(state) {
-  const auth = state.Auth || {
-    isAuthenticated: false,
-  };
+  const auth = state.Auth;
 
   return {
     data: state.PostPage.post,
@@ -235,4 +217,17 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(postLoader(EventPage));
+const mapDispatch = dispatch => ({
+  fetchPost: (...args) => dispatch(fetchPost(...args)),
+  fetchSubData: (data, params) => {
+    dispatch(fetchNew({ type: EVENT_TYPE, }));
+    dispatch(fetchComments(params.slug));
+    dispatch(fetchUsersPosts(EVENT_TYPE, data.user.id));
+    dispatch(fetchPopular(EVENT_TYPE));
+    dispatch(fetchRelative(params.slug));
+  },
+  onUnmount: () => dispatch(resetPost()),
+  handleFavorite: slug => dispatch(toggleFavorite(slug))
+});
+
+export default connect(mapStateToProps, mapDispatch)(postLoader(EventPage));
