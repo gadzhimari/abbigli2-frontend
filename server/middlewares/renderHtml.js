@@ -52,7 +52,7 @@ module.exports = (req, res) => {
     seo.meta = `${nofollow}${seo.meta}`;
   }
 
-  const initialState = isProduction ? prepareState(state) : state;
+  const initialState = prepareState(state);
 
   res.render('index', {
     markup,
