@@ -128,11 +128,11 @@ class Home extends PureComponent {
 const mapState = state => ({
   itemsSections: state.Sections.items,
 
-  itemsBlogs: state.Blogs.items,
-  isFetchingBlogs: state.Blogs.isFetching,
+  itemsBlogs: state.Blogs.page.items,
+  isFetchingBlogs: state.Blogs.blogsFetchingState,
 
-  itemsEvents: state.Events.items,
-  isFetchingEvents: state.Events.isFetching,
+  itemsEvents: state.Events.page.items,
+  isFetchingEvents: state.Events.eventsFetchingState,
 
   itemsProducts: state.Products.items,
   isFetchingProducts: state.Products.isFetching,

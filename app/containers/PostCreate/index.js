@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Type from 'prop-types';
 
+import update from 'react-addons-update';
+
 import { withRouter } from 'react-router';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -54,14 +56,14 @@ class PostCreate extends Component {
     const { images } = this.state;
     const dragImage = images[dragIndex];
 
-    // this.setState(update(this.state, {
-    //   images: {
-    //     $splice: [
-    //       [dragIndex, 1],
-    //       [hoverIndex, 0, dragImage],
-    //     ],
-    //   },
-    // }));
+    this.setState(update(this.state, {
+      images: {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, dragImage],
+        ],
+      },
+    }));
   }
 
   getImageZoneActions() {
