@@ -7,8 +7,9 @@
     background-color: #fff;
     border: 1px solid #92989b;
     border-radius: 50%;
-    text-align: center;
-    vertical-align: middle;
+    position: relative;
+    padding: 0;
+
     &_size {
       &_s {
         width: 24px;
@@ -21,7 +22,14 @@
 
   &__icon {
     display: inline-block;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
     fill: #92989b;
+
     &_size {
       &_s {
         width: 14px;
@@ -35,7 +43,7 @@
     color: #a9aeb0;
   }
 
-  &_on,
+  &_liked,
   &:hover {
     .Like__icon {
       fill: #db0e16;

@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 
 import { CardProduct, Link } from '../../components';
 import { Spin } from '../../components-lib';
+
 import * as actions from '../../ducks/ProfilePosts/actions';
+import setLike from '../../ducks/Like/actions';
 
 import { gaSendClickEvent } from '../../lib/analitics';
 import { __t } from './../../i18n/translator';
@@ -40,10 +42,10 @@ class ProfileMyabbigli extends Component {
     const {
       isFetchingPosts,
       itemsPosts,
-      dispatch,
       isAuth,
       isMe,
-      deletePost
+      deletePost,
+      setLike
     } = this.props;
 
     return (
@@ -97,7 +99,7 @@ class ProfileMyabbigli extends Component {
                 key={`${item.slug}--myabbigli`}
                 editable={this.props.isMe}
                 me={this.props.me}
-                dispatch={dispatch}
+                setLike={setLike}
                 priceTemplate={this.props.priceTemplate}
                 isAuthenticated={isAuth}
                 delete={deletePost}
@@ -126,4 +128,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(ProfileMyabbigli);
+export default connect(mapStateToProps, { ...actions, setLike })(ProfileMyabbigli);

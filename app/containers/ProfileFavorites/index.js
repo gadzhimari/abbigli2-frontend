@@ -12,6 +12,7 @@ import TogglePrivacy from '../../components/TogglePrivacy';
 import { Spin } from '../../components-lib';
 
 import * as actions from '../../ducks/ProfilePosts/actions';
+import setLike from '../../ducks/Like/actions';
 
 import redirectHOC from '../../HOC/redirectHOC';
 
@@ -57,7 +58,9 @@ class ProfileFavorites extends Component {
       dispatch,
       isMe,
       user,
-      isAuth
+      isAuth,
+      deleteFromFavorite,
+      setLike
     } = this.props;
 
     const infiniteScrollLoader = (
@@ -97,7 +100,8 @@ class ProfileFavorites extends Component {
                   <CardProduct
                     data={item}
                     key={`${item.slug}--favorites`}
-                    deleteFromFavorites={() => { }}
+                    deleteFromFavorite={deleteFromFavorite}
+                    setLike={setLike}
                     legacy
                     isAuthenticated={isAuth}
                     dispatch={dispatch}
@@ -142,6 +146,6 @@ const mapState = state => ({
   priceTemplate: state.Settings.data.CURRENCY,
 });
 
-export default connect(mapState, actions)(
+export default connect(mapState, { ...actions, setLike })(
   withRouter(redirectHOC('is_favorite_visible')(ProfileFavorites))
 );

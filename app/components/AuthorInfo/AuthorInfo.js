@@ -5,8 +5,6 @@ import Link from '../Link/Link';
 import Avatar from '../Avatar';
 import SubscribeButton from '../SubscribeButton';
 
-import { setFollow } from '../../ducks/PostPage/actions';
-
 import { gaSendClickEvent } from '../../lib/analitics';
 
 import './AuthorInfo.less';
@@ -18,8 +16,10 @@ class AuthorInfo extends PureComponent {
   }
 
   onSubscribe = () => {
+    const { data, followUser } = this.props;
+
+    followUser(data.id);
     gaSendClickEvent('product', 'subscribe');
-    setFollow(this.props.data.id);
   }
 
   render() {

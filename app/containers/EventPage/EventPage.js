@@ -19,10 +19,18 @@ import City from '../../components-lib/City';
 import postLoader from '../../HOC/postLoader';
 
 import {
-  fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite, fetchUsersPosts,
+  fetchPost,
+  fetchNew,
+  resetPost,
+  fetchPopular,
+  fetchRelative,
+  toggleFavorite,
+  fetchUsersPosts,
+  setFollow
 } from '../../ducks/PostPage/actions';
 
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
+
 
 import { EVENT_TYPE } from '../../lib/constants/posts-types';
 
@@ -81,7 +89,8 @@ class EventPage extends Component {
       usersPosts,
       me,
       isAuthenticated,
-      handleFavorite
+      handleFavorite,
+      followUser
     } = this.props;
     const crumbs = [{
       title: __t('Events'),
@@ -107,6 +116,7 @@ class EventPage extends Component {
               data={author}
               dispatch={dispatch}
               canSubscribe={!userIsOwner}
+              followUser={followUser}
             />
             <OtherArticles articles={usersPosts} />
           </div>
@@ -227,7 +237,8 @@ const mapDispatch = dispatch => ({
     dispatch(fetchRelative(params.slug));
   },
   onUnmount: () => dispatch(resetPost()),
-  handleFavorite: slug => dispatch(toggleFavorite(slug))
+  handleFavorite: slug => dispatch(toggleFavorite(slug)),
+  followUser: id => dispatch(setFollow(id))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(EventPage));

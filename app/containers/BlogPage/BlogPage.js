@@ -22,7 +22,7 @@ import { Blog } from '../../components/Cards';
 
 import postLoader from '../../HOC/postLoader';
 
-import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite } from '../../ducks/PostPage/actions';
+import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite, setFollow } from '../../ducks/PostPage/actions';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { loadPosts as loadProfilePosts } from '../../ducks/ProfilePosts/actions';
 
@@ -84,7 +84,8 @@ class BlogPage extends Component {
       author,
       relativePosts,
       me,
-      handleFavorite
+      handleFavorite,
+      followUser
     } = this.props;
 
     const crumbs = [{
@@ -110,6 +111,7 @@ class BlogPage extends Component {
               data={author}
               dispatch={dispatch}
               canSubscribe={!userIsOwner}
+              followUser={followUser}
             />
 
             <OtherArticles articles={itemsAuthors} />
@@ -242,7 +244,8 @@ const mapDispatch = dispatch => ({
     dispatch(fetchRelative(params.slug));
   },
   onUnmount: () => dispatch(resetPost()),
-  handleFavorite: slug => dispatch(toggleFavorite(slug))
+  handleFavorite: slug => dispatch(toggleFavorite(slug)),
+  followUser: id => dispatch(setFollow(id))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(BlogPage));

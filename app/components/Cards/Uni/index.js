@@ -16,8 +16,6 @@ import { EVENT_DATE_FORMAT } from '../../../lib/date/formats';
 import './index.styl';
 
 class Uni extends PureComponent {
-  like = () => setLike(this.props.item.slug)
-
   render() {
     const {
       item: {
@@ -31,11 +29,13 @@ class Uni extends PureComponent {
         date_end: dateEnd,
         type,
         liked,
+        slug
       },
       priceTemplate,
+      setLike
     } = this.props;
 
-    const type_icon = {
+    const typeIcon = {
       1: 'bag',
       3: 'event',
       4: 'blog',
@@ -56,7 +56,8 @@ class Uni extends PureComponent {
 
           <Like
             liked={liked}
-            onClick={this.like}
+            onClick={setLike}
+            slug={slug}
           />
           <div className="share">
             <div className="share__icon" />
@@ -77,7 +78,7 @@ class Uni extends PureComponent {
             className="tile__title"
           >
             <div
-              className={`tile__title-icon ${type_icon[type]}`}
+              className={`tile__title-icon ${typeIcon[type]}`}
             />
             {title}
           </Link>
@@ -133,4 +134,4 @@ class Uni extends PureComponent {
   }
 }
 
-export default connect()(Uni);
+export default connect(() => {}, { setLike })(Uni);

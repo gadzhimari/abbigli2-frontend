@@ -26,14 +26,11 @@ class Product extends PureComponent {
       images: PropTypes.array,
     }).isRequired,
     priceTemplate: PropTypes.string.isRequired,
-    isAuth: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired,
   };
 
   render() {
-    const { data, priceTemplate } = this.props;
+    const { data, priceTemplate, setLike } = this.props;
     const name = data.user.profile_name ? data.user.profile_name : `ID: ${data.user.id}`;
-    const like = () => setLike(data.slug);
     const imageUrl = data.images && data.images[0] && data.images[0].file;
 
     return (
@@ -46,10 +43,13 @@ class Product extends PureComponent {
               alt={data.title}
             />
           </Link>
+
           <Like
             liked={data.liked}
-            onClick={like}
+            onClick={setLike}
+            slug={data.slug}
           />
+
           <div className="share">
             <div className="share__icon" />
             <div className="dropdown-corner" />
@@ -61,16 +61,19 @@ class Product extends PureComponent {
                 description={data.title}
               />
             </div>
-          </div >
+          </div>
         </div>
+
         <div className="post-card__info">
           <Link
             className="post-card__title"
             to={`/post/${data.slug}`}
           >
             <ProductsIcons.service className="icon icon-bag" />
+
             {data.title}
           </Link>
+
           <Link
             className="user"
             to={`/profile/${data.user.id}`}
@@ -82,12 +85,12 @@ class Product extends PureComponent {
               thumbSize="30x30"
               alt={name}
             />
+
             {name}
           </Link>
+
           <div className="post-card__price">
-            {
-              priceTemplate.replace('?', data.price)
-            }
+            {priceTemplate.replace('?', data.price)}
           </div>
         </div>
       </div>
@@ -99,4 +102,4 @@ const mapStateToProps = state => ({
   isAuth: state.Auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps)(Product);
+export default connect(mapStateToProps, { setLike })(Product);

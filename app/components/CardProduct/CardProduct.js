@@ -7,8 +7,7 @@ import { ProductsIcons } from '../../components/Icons';
 import { Like } from '../../components-lib';
 import Avatar from '../Avatar';
 import Image from '../Image';
-
-import { setLike } from '../../actions/like';
+import Button from '../Button';
 
 import createPostLink from '../../lib/links/post-link';
 import createPostEditLink from '../../lib/links/edit-post-link';
@@ -25,53 +24,36 @@ const typesClass = {
 class CardProduct extends Component {
   static propTypes = {
     editable: PropTypes.bool,
-    legacy: PropTypes.bool,
-    isAuthenticated: PropTypes.bool.isRequired,
-    data: PropTypes.object.isRequired,
+    data: PropTypes.shape({}).isRequired,
     delete: PropTypes.func,
-    deleteFromFavorites: PropTypes.func,
-    dispatch: PropTypes.func,
   };
 
   state = {
-    forced: {
-      like: null,
-      count: null,
-    },
     imageLoaded: false,
   };
 
   imageLoaded = () => {
-    this.setState({
-      imageLoaded: true,
-    });
-  }
-
-  toggleLike = () => {
-    const {
-      dispatch,
-      data: {
-        slug
-      }
-    } = this.props;
-
-    dispatch(setLike(slug));
+    this.setState({ imageLoaded: true });
   }
 
   deletePost = () => {
     const { slug } = this.props.data;
-
     this.props.delete(slug);
+  }
+
+  deleteFromFavorite = () => {
+    const { slug } = this.props.data;
+    this.props.deleteFromFavorite(slug);
   }
 
   render() {
     const {
       priceTemplate,
-      deleteFromFavorites,
+      deleteFromFavorite,
       editable,
-      delete: deleteItem,
       me,
       full,
+      setLike
     } = this.props;
 
     const {
@@ -93,9 +75,7 @@ class CardProduct extends Component {
     return (
       <div className={`tag-card tag-card--${typesClass[type]}`}>
         <div className="tag-card__cover">
-          <Link
-            to={createPostLink(this.props.data)}
-          >
+          <Link to={createPostLink(this.props.data)}>
             <Image
               alt={title}
               className="tag-card__img"
@@ -104,6 +84,7 @@ class CardProduct extends Component {
             />
             <div className="tag-card__overlay" />
           </Link>
+
           <div className="share">
             <div className="share-button">
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.987 20">
@@ -118,80 +99,65 @@ class CardProduct extends Component {
               description={title}
             />
           </div>
-          {
-            editable
-            &&
+
+          {editable &&
             <Link
               className="card-action-button card-edit"
               to={createPostEditLink({ id: user.id, slug })}
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-                <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409
-                  l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z"
-                />
+                <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409 l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
               </svg>
             </Link>
           }
-          {
-            editable
-            &&
-            <div
+
+          {editable &&
+            <Button
               className="card-action-button card-delete"
-              onClick={deleteItem}
+              onClick={this.deletePost}
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-                <path d="M18,1.813L16.188,0L9,7.186L1.813,0L0,1.813L7.188,9L0,16.188L1.813,18L9,10.813L16.188,18L18,16.188L10.813,9
-                  L18,1.813z"
-                />
+                <path d="M18,1.813L16.188,0L9,7.186L1.813,0L0,1.813L7.188,9L0,16.188L1.813,18L9,10.813L16.188,18L18,16.188L10.813,9 L18,1.813z" />
               </svg>
-            </div>
+            </Button>
           }
-          {
-            deleteFromFavorites
-            &&
-            <div
+
+          {deleteFromFavorite &&
+            <Button
               className="card-action-button card-delete"
-              onClick={deleteFromFavorites}
+              onClick={this.deleteFromFavorite}
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-                <path d="M18,1.813L16.188,0L9,7.186L1.813,0L0,1.813L7.188,9L0,16.188L1.813,18L9,10.813L16.188,18L18,16.188L10.813,9
-                  L18,1.813z"
-                />
+                <path d="M18,1.813L16.188,0L9,7.186L1.813,0L0,1.813L7.188,9L0,16.188L1.813,18L9,10.813L16.188,18L18,16.188L10.813,9 L18,1.813z" />
               </svg>
-            </div>
+            </Button>
           }
+
           <Link
             className="tag-card__title-wrap"
             to={createPostLink(this.props.data)}
           >
             <div className="tag-card__title legacy">
               <div className="icon-wrap">
-                {
-                  type === 1 && <ProductsIcons.service />
-                }
-                {
-                  type === 3 && <ProductsIcons.blog />
-                }
-                {
-                  type === 4 && <ProductsIcons.event />
-                }
+                {type === 1 && <ProductsIcons.service />}
+                {type === 3 && <ProductsIcons.blog />}
+                {type === 4 && <ProductsIcons.event />}
               </div>
+
               {title}
             </div>
-            {
-              !!price
-              &&
+
+            {price &&
               <div className="tag-card__price">
                 {priceTemplate && priceTemplate.replace('?', formatedPrice)}
               </div>
             }
           </Link>
         </div>
+
         <div className="tag-card__footer">
-          {
-            user
-            &&
-            (<Link className="tag-card__author" to={createProfileLink(user.id)}>
+          {user &&
+            <Link className="tag-card__author" to={createProfileLink(user.id)}>
               <span className="tag-card__avatar">
                 <Avatar
                   className="avatar"
@@ -201,22 +167,21 @@ class CardProduct extends Component {
                   alt={user.profile_name}
                 />
               </span>
+
               <span className="tag-card__name">
-                {
-                  user.profile_name
-                    ? user.profile_name
-                    : `ID${user.id}`
-                }
+                {user.profile_name ? user.profile_name : `ID${user.id}`}
               </span>
-            </Link>)
+            </Link>
           }
 
           <div className="tag-card__actions">
             <Like
               liked={liked}
-              onClick={this.toggleLike}
+              onClick={setLike}
               count={likesCount}
+              slug={slug}
             />
+
             <div className="like-comment__button message">
               <Link
                 className="icon-wrap"
@@ -226,6 +191,7 @@ class CardProduct extends Component {
                   <path d="M0,8V0.8C0,0.359,0.36,0,0.799,0h10.402C11.641,0,12,0.359,12,0.8V12L8.799,8.799h-8C0.36,8.799,0,8.44,0,8z" />
                 </svg>
               </Link>
+
               { commentsCount }
             </div>
           </div>
