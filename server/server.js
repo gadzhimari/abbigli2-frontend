@@ -16,7 +16,6 @@ import trimSlash from './middlewares/trim-url-slash';
 import setLocals from './middlewares/set-locals';
 import redirectManager from './middlewares/redirect-manager';
 import setupUseragent from './middlewares/setupUseragent';
-import setupIsTouch from './middlewares/setupIsTouch';
 import setupDataRequests from './middlewares/setupDataRequests';
 import setupClientDataRequests from './middlewares/setupClientDataRequests';
 import handleRequests from './middlewares/handleRequests';
@@ -51,7 +50,6 @@ app.use(configureRedux);
 app.use(geoLocation);
 app.use(setupUseragent);
 app.use(setupDataRequests);
-app.use(setupIsTouch);
 app.use(getRenderProps);
 app.use(setupClientDataRequests);
 
