@@ -26,11 +26,10 @@ class EventCard extends PureComponent {
     }).isRequired,
   };
 
-  like = () => setLike(this.props.data.slug);
-
   render() {
-    const { data } = this.props;
+    const { data, setLike } = this.props;
     const imageUrl = data.images && data.images[0] && data.images[0].file;
+
     return (
       <div className="event-card">
         <div className="event-card__img-wrap">
@@ -44,10 +43,13 @@ class EventCard extends PureComponent {
               src={imageUrl}
             />
           </Link>
+
           <Like
             liked={data.liked}
-            onClick={this.like}
+            onClick={setLike}
+            slug={data.slug}
           />
+
           <div className="share">
             <div className="share__icon" />
             <div className="dropdown-corner" />
@@ -59,8 +61,9 @@ class EventCard extends PureComponent {
                 description={data.title}
               />
             </div>
-          </div >
+          </div>
         </div>
+
         <div className="event-card__info">
           <Link
             className="event-card__title"
@@ -71,21 +74,26 @@ class EventCard extends PureComponent {
               <path d="M8.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8S6.8,0.8,6.8,1.8v3.3 C6.8,6.1,7.6,6.9,8.6,6.9z" />
               <path d="M18.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8s-1.8,0.8-1.8,1.8v3.3 C16.8,6.1,17.6,6.9,18.6,6.9z" />
             </svg>
+
             {data.title}
           </Link>
+
           <div
             className="event-card__text"
             dangerouslySetInnerHTML={{ __html: data.seo_description }}
           />
+
           <div className="event-card__date">
             {
               toLocaleDateString(data.date_start, EVENT_DATE_FORMAT)
             }
             { data.date_end ? ` - ${toLocaleDateString(data.data_end, EVENT_DATE_FORMAT)}` : ''}
+
             <div className="event-card__city">
               {data.city && data.city.name}
             </div>
           </div>
+
           <Link
             className="user"
             to={createProfileLink(data.user)}
@@ -97,6 +105,7 @@ class EventCard extends PureComponent {
               thumbSize="36x36"
               alt={data.user.profile_name}
             />
+
             {data.user.profile_name}
           </Link>
         </div>
@@ -109,5 +118,5 @@ const mapStateToProps = state => ({
   isAuth: state.Auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps)(EventCard);
+export default connect(mapStateToProps, { setLike })(EventCard);
 

@@ -87,7 +87,7 @@ const mapStateToProps = ({ routing, Follow, Auth }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  follow: id => setFollow(id),
+  follow: id => dispatch(setFollow(id)),
   openPopup: (type, options) => dispatch(open(type, options)),
 });
 

@@ -11,6 +11,7 @@ import { Spin } from '../../components-lib';
 import redirectHOC from '../../HOC/redirectHOC';
 
 import * as actions from '../../ducks/ProfilePosts/actions';
+import setLike from '../../ducks/Like/actions';
 
 import { __t } from './../../i18n/translator';
 
@@ -55,6 +56,7 @@ class ProfileFeed extends Component {
       isMe,
       user,
       isAuth,
+      setLike
     } = this.props;
 
     if (isFetchingPosts) {
@@ -107,6 +109,7 @@ class ProfileFeed extends Component {
                     legacy
                     dispatch={dispatch}
                     isAuthenticated={isAuth}
+                    setLike={setLike}
                     priceTemplate={this.props.priceTemplate}
                   />
                 ))
@@ -143,8 +146,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(
-  withRouter(
-    redirectHOC('is_feed_visible')(ProfileFeed)
-  )
+export default connect(mapStateToProps, { ...actions, setLike })(
+  withRouter(redirectHOC('is_feed_visible')(ProfileFeed))
 );

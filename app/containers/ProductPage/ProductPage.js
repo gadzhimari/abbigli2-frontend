@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import pick from 'lodash/pick';
+
 import Link from '../../components/Link/Link';
 import {
   AuthorInfo,
@@ -19,7 +21,7 @@ import postLoader from '../../HOC/postLoader';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { sendPostMessage } from '../../ducks/Dialogs/actions';
 
-import { fetchPost, resetPost, fetchRelative, fetchUsersPosts, toggleFavorite } from '../../ducks/PostPage/actions';
+import { fetchPost, resetPost, fetchRelative, fetchUsersPosts, toggleFavorite, setFollow } from '../../ducks/PostPage/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
 import onlyAuthAction from '../../lib/redux/onlyAuthAction';
@@ -48,22 +50,14 @@ class ProductPage extends Component {
   }
 
   sendMessage = (message) => {
-    const { dispatch, data } = this.props;
-    const post = {
-      id: data.id,
-      title: data.title,
-      sections: data.sections,
-      images: data.images,
-      price: data.price,
-    };
+    const { data, sendPostMessage } = this.props;
+    const post = pick(data, ['id', 'title', 'sections', 'images', 'price']);
 
-    dispatch(sendPostMessage(data.user.id, post, message, this.showOrHideWants));
+    sendPostMessage(data.user.id, post, message);
   }
 
-  openWantsPopup = onlyAuthAction(openPopup)
-
   handleWantsClick = () => {
-    this.openWantsPopup('sendPost', {
+    this.props.openWantsPopup('sendPost', {
       name: this.props.author.profile_name,
       sendMessage: this.sendMessage,
     });
@@ -81,7 +75,8 @@ class ProductPage extends Component {
       priceTemplate,
       me,
       isAuthenticated,
-      handleFavorite
+      handleFavorite,
+      followUser
     } = this.props;
     const crumbs = [];
 
@@ -110,6 +105,7 @@ class ProductPage extends Component {
               data={author}
               dispatch={dispatch}
               canSubscribe={!userIsOwner}
+              followUser={followUser}
             />
             <OtherArticles articles={itemsAuthors} />
           </div>
@@ -188,7 +184,10 @@ const mapDispatch = dispatch => ({
     dispatch(fetchRelative(data.slug));
   },
   onUnmount: () => dispatch(resetPost()),
-  handleFavorite: slug => dispatch(toggleFavorite(slug))
+  handleFavorite: slug => dispatch(toggleFavorite(slug)),
+  followUser: id => dispatch(setFollow(id)),
+  openWantsPopup: (...args) => dispatch(onlyAuthAction(openPopup)(...args)),
+  sendPostMessage: (...args) => dispatch(sendPostMessage(...args))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(ProductPage));
