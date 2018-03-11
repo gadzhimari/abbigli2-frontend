@@ -12,12 +12,6 @@ import { __t } from '../../i18n/translator';
 import './SubMenu.less';
 
 class SubMenu extends PureComponent {
-  state = {
-    sections: this.props.sections,
-    invisibleSections: [],
-    mustRecalculateVisibility: false,
-  };
-
   componentDidMount() {
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
 
@@ -31,7 +25,7 @@ class SubMenu extends PureComponent {
     window.removeEventListener('resize', this.debouncedResetInvisible);
   }
 
-  debouncedResetInvisible = debounce(() => this.resetInvisible, 600);
+  debouncedResetInvisible = debounce(() => this.resetInvisible(), 600);
 
   checkVisibility = () => {
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
@@ -130,7 +124,7 @@ class SubMenu extends PureComponent {
   }
 
   render() {
-    const { sections } = this.state;
+    const { sections } = this.props;
 
     return (
       <div
