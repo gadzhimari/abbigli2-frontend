@@ -15,10 +15,7 @@ const preloader = WrappedComponent => class extends PureComponent {
     }).isRequired
   }
 
-  state = {
-    isFetching: true,
-    promo: []
-  };
+  state = { isFetching: true };
 
   componentDidMount() {
     this.fetchData();
@@ -61,58 +58,28 @@ const preloader = WrappedComponent => class extends PureComponent {
     }));
   }
 
-  getPromo = (currentSection) => {
-    if (currentSection.children.length === 0) return [];
-
-    const { promo } = this.props;
-    const promoCategories = promo.entities.categories;
-
-    const currentPromoParent = promoCategories[currentSection.slug];
-
-    const promoCat = getPromoFromCat(currentPromoParent.children);
-
-    return promoCat;
-
-    function getPromoFromCat(array) {
-      return array.reduce((prev, cur) => {
-        const currentCat = promoCategories[cur];
-
-        if (currentCat.is_promo) {
-          prev.push(currentCat);
-
-          return prev;
-        }
-
-        prev.push(...getPromoFromCat(currentCat.children));
-
-        return prev;
-      }, []);
-    }
-  }
-
   render() {
-    const { isFetching, promo } = this.state;
+    const { isFetching } = this.state;
     const { tree } = this.props;
     const currentSection = tree[tree.length - 1] || {};
-
-    if (isFetching) {
-      return (
-        <div className="spin-wrapper">
-          <Spin visible />
-        </div>
-      );
-    }
 
     return (<div>
       <Helmet>
         <title>{currentSection.seo_title}</title>
         <meta name="description" content={currentSection.seo_description} />
+
         {currentSection.posts_num === 0 &&
           <meta name="robots" content="noindex, nofollow" />
         }
       </Helmet>
 
-      {currentSection.children && currentSection.children.length === 0 &&
+      {isFetching &&
+        <div className="spin-wrapper">
+          <Spin visible />
+        </div>
+      }
+
+      {!isFetching && currentSection.children && currentSection.children.length === 0 &&
         <SectionTag
           isFetching={isFetching}
           {...this.props}
@@ -120,12 +87,11 @@ const preloader = WrappedComponent => class extends PureComponent {
         />
       }
 
-      {currentSection.children && currentSection.children.length !== 0 &&
+      {!isFetching && currentSection.children && currentSection.children.length !== 0 &&
         <WrappedComponent
           isFetching={isFetching}
           {...this.props}
           tree={tree}
-          promo={promo}
           section={currentSection}
         />
       }
