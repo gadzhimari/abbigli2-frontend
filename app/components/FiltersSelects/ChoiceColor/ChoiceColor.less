@@ -2,19 +2,9 @@
 @import 'mixin';
 @import 'variables';
 
-@colors-array:
-        red @red,
-        orange @orange,
-        yellow @yellow,
-        green @green,
-        skiey @skiey,
-        blue @blue,
-        violet @violet,
-        pink @pink,
-        white @white,
-        gray @gray,
-        black @black,
-        brown @brown;
+@colors-array: red @red, orange @orange, yellow @yellow, green @green,
+  dblue @dblue, blue @blue, purple @purple, pink @pink, white @white, gray @gray,
+  black @black, brown @brown;
 
 .color-bg-generator(@iterator: 1) when (@iterator <= length(@colors-array)) {
   @item: extract(@colors-array, @iterator);
@@ -46,7 +36,7 @@
     cursor: pointer;
     position: absolute;
     top: 50%;
-    transform: translate(0,-50%) rotate(90deg);
+    transform: translate(0, -50%) rotate(90deg);
   }
 
   &__dropdown {
@@ -66,7 +56,6 @@
       top: -8px;
       .triangle(top, 8px, 8px, @border);
       .align-horizontal;
-
     }
     &:after {
       content: '';
