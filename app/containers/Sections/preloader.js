@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Helmet from 'react-helmet';
 
+import { Spin } from '../../components-lib';
 import { SectionTag } from '../../containers';
 
 const preloader = WrappedComponent => class extends PureComponent {
@@ -11,24 +12,13 @@ const preloader = WrappedComponent => class extends PureComponent {
     fetchPosts: PropTypes.func.isRequired,
     params: PropTypes.shape({
       subsection: PropTypes.string,
-    }).isRequired,
-    sections: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired
   }
 
-  constructor(props) {
-    super(props);
-
-    const { params, sections } = this.props;
-    const tree = this.createTree(params, sections);
-    const currentSection = tree[tree.length - 1];
-    const promo = currentSection ? this.getPromo(currentSection) : null;
-
-    this.state = {
-      isFetching: true,
-      tree,
-      promo,
-    };
-  }
+  state = {
+    isFetching: true,
+    promo: []
+  };
 
   componentDidMount() {
     this.fetchData();
@@ -43,64 +33,32 @@ const preloader = WrappedComponent => class extends PureComponent {
   }
 
   fetchData = () => {
-    const { params, fetchSectionTags, fetchPosts, sections, routing } = this.props;
-    const tree = this.createTree(params, sections);
-    const currentSection = tree[tree.length - 1];
-    const promo = this.getPromo(currentSection);
+    const {
+      params,
+      fetchSectionTags,
+      fetchPosts,
+      routing,
+      fetchCrumbs
+    } = this.props;
 
-    this.setState({
-      isFetching: true,
-      tree,
-      promo,
-    });
+    this.setState({ isFetching: true });
+
+    const { section, splat } = params;
+    const { page, tag } = routing.query;
+
+    let slugs = [section];
+
+    if (splat) {
+      slugs = splat.split('/').concat(slugs);
+    }
 
     Promise.all([
-      fetchSectionTags(currentSection.slug),
-      fetchPosts(currentSection.slug, routing.query.page, routing.query.tag),
+      fetchSectionTags(section),
+      fetchPosts(section, page, tag),
+      fetchCrumbs({ slugs })
     ]).then(() => this.setState({
       isFetching: false,
     }));
-  }
-
-  createTree = (params) => {
-    const { normalizedSections, promo } = this.props;
-
-    let array = [params.section];
-    const categories = normalizedSections.entities.categories;
-    const promoCategories = promo.entities.categories;
-
-    if (params.splat) {
-      array = params.splat.split('/').concat(array);
-    }
-
-    return array.reduce((acc, cur) => {
-      let targetCategories = cur in categories ? categories : promoCategories;
-      const len = acc.length;
-
-      if (!targetCategories[cur] || (len > 0 && acc[len - 1] === null)) {
-        acc.push(null);
-        return acc;
-      }
-
-      let current = Object.assign({}, targetCategories[cur]);
-
-      if (current.is_promo) {
-        targetCategories = promoCategories;
-        current = Object.assign({}, targetCategories[cur]);
-      }
-
-      if (current.children && current.children.length === 0 && cur in promoCategories) {
-        targetCategories = promoCategories;
-        current = Object.assign({}, targetCategories[cur]);
-      }
-
-      current.children = current.children.map(catSlug => targetCategories[catSlug]);
-      current.url = current.view_on_site_url;
-
-      acc.push(current);
-
-      return acc;
-    }, []);
   }
 
   getPromo = (currentSection) => {
@@ -133,8 +91,17 @@ const preloader = WrappedComponent => class extends PureComponent {
   }
 
   render() {
-    const { isFetching, tree, promo } = this.state;
+    const { isFetching, promo } = this.state;
+    const { tree } = this.props;
     const currentSection = tree[tree.length - 1] || {};
+
+    if (isFetching) {
+      return (
+        <div className="spin-wrapper">
+          <Spin visible />
+        </div>
+      );
+    }
 
     return (<div>
       <Helmet>

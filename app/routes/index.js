@@ -42,7 +42,7 @@ const routes = (
     <Route path={pages.QUESTIONS_PAGE.path} component={Questions} />
     <Route path={pages.SEARCH_PAGE.path} component={Tag} />
     <Route path={pages.PEOPLE_SEARCH.path} component={PeopleSearch} />
-    <Route path={pages.SEARCH_PAGE.path} component={Chat} />
+    <Route path={pages.CHAT_PAGE.path} component={Chat} />
 
     <Route path={pages.CREATE_PAGE.path} component={PostCreate} />
     <Route path={pages.EDIT_PAGE.path} component={PostCreate} />
