@@ -80,10 +80,10 @@ Sections.propTypes = {
 const mapStateToProps = ({ CatalogPage, Sections, Settings, routing, NetworkErrors }) => ({
   tags: CatalogPage.tags,
   tree: CatalogPage.tree,
+  promo: CatalogPage.promo,
   pages: CatalogPage.postPagesCount,
   sections: Sections.items,
   normalizedSections: Sections.normalizedCategories,
-  promo: Sections.promo,
   posts: CatalogPage.posts,
   priceTemplate: Settings.data.CURRENCY,
   routing: routing.locationBeforeTransitions,

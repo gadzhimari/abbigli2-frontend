@@ -18,7 +18,8 @@ const initialState = {
   tags: [],
   postPagesCount: 0,
   nextTagsPage: 1,
-  tree: []
+  tree: [],
+  promo: []
 };
 
 export default handleActions({
@@ -67,7 +68,8 @@ export default handleActions({
   [setCurrentCategoryTree](state, { payload }) {
     return {
       ...state,
-      tree: payload.crumbs
+      tree: payload.crumbs,
+      promo: payload.promo
     };
   }
 }, initialState);
