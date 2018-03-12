@@ -13,7 +13,8 @@
     "start-prod-server": "pm2-docker start ./server.js",
     "start-cron": "pm2-docker start ./cron.js",
     "start": "pm2-docker start ./server.js",
-    "create-env": "cp example.env .env"
+    "create-env": "cp example.env .env",
+    "generate-icons": "node ./scripts/build.js"
   },
   "keywords": [
     "react",
@@ -42,11 +43,14 @@
     "cookies-js": "^1.2.3",
     "dateformat": "^2.0.0",
     "deep-equal": "^1.0.1",
+    "del": "^3.0.0",
     "dotenv": "^4.0.0",
     "ejs": "^2.5.5",
     "express": "^4.14.1",
     "express-useragent": "^1.0.12",
     "file-loader": "0.9.0",
+    "fs-extra": "^5.0.0",
+    "glob": "^7.1.2",
     "intel": "^1.2.0",
     "isomorphic-fetch": "^2.2.1",
     "json-hash": "^1.2.0",
@@ -96,6 +100,7 @@
     "slick-carousel": "^1.8.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
+    "svgo": "^1.0.4",
     "tree-flatter": "^1.0.2",
     "uniqid": "^4.1.1",
     "url-loader": "0.5.7"
