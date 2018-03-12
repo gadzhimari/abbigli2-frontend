@@ -2,10 +2,10 @@ import request from './instance';
 import { DOMAIN_URL } from '../config';
 
 const Catalog = {
-  getCategoryCrumbs(data) {
+  getCategoryCrumbs(params) {
     return request({
       baseURL: `${DOMAIN_URL}/node-api/`,
-      data,
+      params,
       url: 'category-tree',
     });
   },

@@ -208,7 +208,8 @@ const mapStateToProps = state => ({
   geoCity: state.Geo.city,
   isFetching: state.PostCreate.isPostFetching,
   data: state.PostCreate.data,
-  categories: state.Sections.normalizedCategories.entities.categories,
+  categories: state.Sections.normalizedCategories.entities &&
+    state.Sections.normalizedCategories.entities.categories,
   isTouch: state.isTouch,
 });
 

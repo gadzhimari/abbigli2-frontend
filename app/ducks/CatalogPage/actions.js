@@ -1,44 +1,26 @@
+import { createActions } from 'redux-actions';
+
 import { Posts, Tags, Catalog } from '../../api';
 import { setNetworkError } from '../NetworkErrors/reducer';
 
-export const REQUEST_POSTS = 'catalog-page/REQUEST_POSTS';
-export const RESPONSE_POSTS = 'catalog-page/RESPONSE_POSTS';
-
-export const REQUEST_TAGS = 'catalog-page/REQUEST_TAGS';
-export const RESPONSE_TAGS = 'catalog-page/RESPONSE_TAGS';
-
-export const REQUEST_MORE_TAGS = 'catalog-page/REQUEST_MORE_TAGS';
-export const RESPONSE_MORE_TAGS = 'catalog-page/RESPONSE_MORE_TAGS';
-
-const requestPosts = () => ({
-  type: REQUEST_POSTS,
-});
-
-const responsePosts = ({ count, results }) => ({
-  type: RESPONSE_POSTS,
-  count,
-  results,
-});
-
-const requestTags = () => ({
-  type: REQUEST_TAGS,
-});
-
-const responseTags = ({ next, results }) => ({
-  type: RESPONSE_TAGS,
-  next,
-  results,
-});
-
-const requestMoreTags = () => ({
-  type: REQUEST_MORE_TAGS,
-});
-
-const responseMoreTags = ({ next, results }) => ({
-  type: RESPONSE_MORE_TAGS,
-  next,
-  results,
-});
+export const {
+  responsePosts,
+  requestTags,
+  responseMoreTags,
+  requestPosts,
+  responseTags,
+  requestMoreTags,
+  setCurrentCategoryTree
+} = createActions(
+  'RESPONSE_POSTS',
+  'RESPONSE_TAGS',
+  'RESPONSE_MORE_TAGS',
+  'REQUEST_POSTS',
+  'REQUEST_TAGS',
+  'RESPONSE_TAGS',
+  'REQUEST_MORE_TAGS',
+  'SET_CURRENT_CATEGORY_TREE'
+);
 
 export const fetchPosts = options => (dispatch) => {
   dispatch(requestPosts());
@@ -61,12 +43,10 @@ export const fetchMoreTags = options => (dispatch) => {
     .then(res => dispatch(responseMoreTags(res.data)));
 };
 
-
-// TODO:
-// Сделать этот запрос основным способом загрузить массив текущих категори
-// Выпилить createTree из containers/Section/preloader
-// Сделать состояния для данного запроса
 export const fetchCrumbs = options => dispatch => Catalog.getCategoryCrumbs(options)
+  .then((res) => {
+    dispatch(setCurrentCategoryTree(res.data));
+  })
   .catch(({ response }) => {
     dispatch(setNetworkError(response));
   });

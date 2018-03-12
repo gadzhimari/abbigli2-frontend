@@ -30,10 +30,10 @@ class SectionTag extends Component {
     const {
       tags,
       isFetching,
-      sections,
       tree,
       routing,
     } = this.props;
+
     const currentSection = tree[tree.length - 1];
     const currentTag = routing && routing.query.tag;
     const crumbs = [...tree];
@@ -71,7 +71,7 @@ class SectionTag extends Component {
 
             {isFetching &&
               <div className="spin-wrapper">
-                <Spin visible={isFetching} />
+                <Spin visible />
               </div>
             }
 

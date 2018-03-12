@@ -3,7 +3,7 @@ import createCrumbs from '../lib/createCrumbs';
 
 export default (req, res) => {
   getCatalogStore(['normalizedCategories', 'promo'], (result) => {
-    const slugs = req.body.slugs;
+    const slugs = req.query.slugs;
     const crumbs = createCrumbs(slugs, ...result);
 
     if (!crumbs) {
