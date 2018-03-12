@@ -2,9 +2,9 @@ export const RED = 'red';
 export const ORANGE = 'orange';
 export const YELLOW = 'yellow';
 export const GREEN = 'green';
-export const SKIEY = 'skiey';
 export const BLUE = 'blue';
-export const VIOLET = 'violet';
+export const DBLUE = 'dblue';
+export const PURPLE = 'purple';
 export const PINK = 'pink';
 export const WHITE = 'white';
 export const GRAY = 'gray';
@@ -16,9 +16,9 @@ export const colors = [
   ORANGE,
   YELLOW,
   GREEN,
-  SKIEY,
   BLUE,
-  VIOLET,
+  DBLUE,
+  PURPLE,
   PINK,
   WHITE,
   GRAY,
