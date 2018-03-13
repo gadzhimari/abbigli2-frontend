@@ -28,6 +28,9 @@ const commentSendingState = handleActions({
 }, false);
 
 const comments = handleActions({
+  [actions.sendCommentRequest]() {
+    return [];
+  },
   [actions.fetchCommentsSuccess](state, { payload }) {
     return payload.comments;
   },
