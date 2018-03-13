@@ -25,6 +25,7 @@ import postLoader from '../../HOC/postLoader';
 import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite, setFollow } from '../../ducks/PostPage/actions';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { loadPosts as loadProfilePosts } from '../../ducks/ProfilePosts/actions';
+import { openPopup } from '../../ducks/Popup/actions';
 
 import { __t } from '../../i18n/translator';
 import { POST_DATE_FORMAT } from '../../lib/date/formats';
@@ -43,12 +44,8 @@ class BlogPage extends Component {
   }
 
   sendComment = (comment) => {
-    const { dispatch, params } = this.props;
-
-    dispatch(sendComment({
-      comment,
-      slug: params.slug,
-    }));
+    const { data: { slug }, sendComment } = this.props;
+    sendComment({ comment, slug });
   }
 
   renderSlider = () => {
@@ -79,13 +76,13 @@ class BlogPage extends Component {
       itemsAuthors,
       data,
       isAuthenticated,
-      dispatch,
       popularPosts,
       author,
       relativePosts,
       me,
       handleFavorite,
-      followUser
+      followUser,
+      openPopup
     } = this.props;
 
     const crumbs = [{
@@ -109,7 +106,6 @@ class BlogPage extends Component {
           <div className="subscription-article__container">
             <AuthorInfo
               data={author}
-              dispatch={dispatch}
               canSubscribe={!userIsOwner}
               followUser={followUser}
             />
@@ -137,8 +133,7 @@ class BlogPage extends Component {
 
               <div className="article__date">
                 {
-                  toLocaleDateString(data.created,
-                    POST_DATE_FORMAT)
+                  toLocaleDateString(data.created, POST_DATE_FORMAT)
                 }
               </div>
 
@@ -151,6 +146,7 @@ class BlogPage extends Component {
                   <svg className="icon icon-edit" viewBox="0 0 18 18">
                     <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
                   </svg>
+
                   {__t('Edit')}
                 </Link>
               }
@@ -164,10 +160,11 @@ class BlogPage extends Component {
             <Comments
               onSend={this.sendComment}
               canComment={isAuthenticated}
-              dispatch={dispatch}
               comments={commentsList}
+              openPopup={openPopup}
             />
           </div>
+
           <Sidebar
             data={data}
             newPosts={itemsBlogs}
@@ -206,7 +203,6 @@ class BlogPage extends Component {
 
 BlogPage.propTypes = {
   data: PropTypes.shape().isRequired,
-  dispatch: PropTypes.func.isRequired,
   handleFavorite: PropTypes.func.isRequired,
   itemsBlogs: PropTypes.arrayOf(PropTypes.object),
   itemsAuthors: PropTypes.arrayOf(PropTypes.object)
@@ -245,7 +241,9 @@ const mapDispatch = dispatch => ({
   },
   onUnmount: () => dispatch(resetPost()),
   handleFavorite: slug => dispatch(toggleFavorite(slug)),
-  followUser: id => dispatch(setFollow(id))
+  followUser: id => dispatch(setFollow(id)),
+  sendComment: data => dispatch(sendComment(data)),
+  openPopup: (...args) => dispatch(openPopup(...args))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(BlogPage));
