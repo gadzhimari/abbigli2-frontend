@@ -8,7 +8,7 @@ class Comments extends PureComponent {
   static propTypes = {
     onSend: PropTypes.func.isRequired,
     canComment: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired,
+    openPopup: PropTypes.func.isRequired,
     comments: PropTypes.arrayOf(PropTypes.shape({
       comment: PropTypes.string,
       created: PropTypes.string,
@@ -18,16 +18,18 @@ class Comments extends PureComponent {
   };
 
   render() {
-    const { onSend, canComment, comments, dispatch } = this.props;
+    const { onSend, canComment, comments, openPopup } = this.props;
     return (
       <div className="comments">
         <div className="comments__wrapper">
           <CommentsField
             onSend={onSend}
             canComment={canComment}
-            dispatch={dispatch}
+            openPopup={openPopup}
           />
+
           <div className="divider" />
+
           <CommentsList comments={comments} />
         </div>
       </div>

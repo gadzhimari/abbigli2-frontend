@@ -41,12 +41,8 @@ class ProductPage extends Component {
   }
 
   sendComment = (comment) => {
-    const { dispatch, params } = this.props;
-
-    dispatch(sendComment({
-      comment,
-      slug: params.slug,
-    }));
+    const { sendComment, data: { slug } } = this.props;
+    sendComment({ comment, slug });
   }
 
   sendMessage = (message) => {
@@ -69,14 +65,14 @@ class ProductPage extends Component {
     const {
       itemsAuthors,
       data,
-      dispatch,
       author,
       relativePosts,
       priceTemplate,
       me,
       isAuthenticated,
       handleFavorite,
-      followUser
+      followUser,
+      openPopup
     } = this.props;
     const crumbs = [];
 
@@ -103,7 +99,6 @@ class ProductPage extends Component {
           <div className="subscription-article__container">
             <AuthorInfo
               data={author}
-              dispatch={dispatch}
               canSubscribe={!userIsOwner}
               followUser={followUser}
             />
@@ -134,7 +129,7 @@ class ProductPage extends Component {
           <Comments
             onSend={this.sendComment}
             canComment={isAuthenticated}
-            dispatch={dispatch}
+            openPopup={openPopup}
             comments={commentsList}
           />
 
@@ -151,7 +146,6 @@ class ProductPage extends Component {
 }
 
 ProductPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   priceTemplate: PropTypes.string.isRequired,
   author: PropTypes.shape({
     profile_name: PropTypes.string,
@@ -187,7 +181,9 @@ const mapDispatch = dispatch => ({
   handleFavorite: slug => dispatch(toggleFavorite(slug)),
   followUser: id => dispatch(setFollow(id)),
   openWantsPopup: (...args) => dispatch(onlyAuthAction(openPopup)(...args)),
-  sendPostMessage: (...args) => dispatch(sendPostMessage(...args))
+  sendPostMessage: (...args) => dispatch(sendPostMessage(...args)),
+  sendComment: data => dispatch(sendComment(data)),
+  openPopup: (...args) => dispatch(openPopup(...args))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(ProductPage));

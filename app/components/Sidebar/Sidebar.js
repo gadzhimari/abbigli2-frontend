@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { FavoriteAdd, Share } from 'components';
+import { FavoriteAdd, Share } from '../';
 import TagsList from './TagsList';
 import SidebarList from './SidebarList';
-
-import { __t } from '../../i18n/translator';
 
 import createPostLink from '../../lib/links/post-link';
 
@@ -33,6 +31,7 @@ class Sidebar extends PureComponent {
       type,
       title,
       images,
+      slug
     } = this.props.data;
     const imageUrl = images && images[0] && images[0].file;
 
@@ -42,6 +41,7 @@ class Sidebar extends PureComponent {
           <FavoriteAdd
             toggleFavorite={toggleFavorite}
             isFavorited={isFavorited}
+            slug={slug}
           />
         </div>
         <TagsList

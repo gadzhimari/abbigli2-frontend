@@ -28,8 +28,8 @@ import {
   fetchUsersPosts,
   setFollow
 } from '../../ducks/PostPage/actions';
-
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
+import { openPopup } from '../../ducks/Popup/actions';
 
 
 import { EVENT_TYPE } from '../../lib/constants/posts-types';
@@ -47,12 +47,8 @@ class EventPage extends Component {
   }
 
   sendComment = (comment) => {
-    const { dispatch, params } = this.props;
-
-    dispatch(sendComment({
-      comment,
-      slug: params.slug,
-    }));
+    const { sendComment, data: { slug } } = this.props;
+    sendComment({ comment, slug });
   }
 
   renderSlider = () => {
@@ -81,7 +77,6 @@ class EventPage extends Component {
 
     const {
       itemsEvents,
-      dispatch,
       data,
       author,
       popularPosts,
@@ -90,8 +85,10 @@ class EventPage extends Component {
       me,
       isAuthenticated,
       handleFavorite,
-      followUser
+      followUser,
+      openPopup
     } = this.props;
+
     const crumbs = [{
       title: __t('Events'),
       url: '/events',
@@ -114,7 +111,6 @@ class EventPage extends Component {
           <div className="subscription-article__container">
             <AuthorInfo
               data={author}
-              dispatch={dispatch}
               canSubscribe={!userIsOwner}
               followUser={followUser}
             />
@@ -163,7 +159,7 @@ class EventPage extends Component {
             <Comments
               onSend={this.sendComment}
               canComment={isAuthenticated}
-              dispatch={dispatch}
+              openPopup={openPopup}
               comments={commentsList}
             />
           </div>
@@ -203,8 +199,7 @@ class EventPage extends Component {
 }
 
 EventPage.propTypes = {
-  data: Type.shape().isRequired,
-  dispatch: Type.func.isRequired,
+  data: Type.shape().isRequired
 };
 
 function mapStateToProps(state) {
@@ -238,7 +233,9 @@ const mapDispatch = dispatch => ({
   },
   onUnmount: () => dispatch(resetPost()),
   handleFavorite: slug => dispatch(toggleFavorite(slug)),
-  followUser: id => dispatch(setFollow(id))
+  followUser: id => dispatch(setFollow(id)),
+  sendComment: data => dispatch(sendComment(data)),
+  openPopup: (...args) => dispatch(openPopup(...args))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(EventPage));
