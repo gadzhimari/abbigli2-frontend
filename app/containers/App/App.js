@@ -1,10 +1,10 @@
-import Type from 'prop-types';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
 import Helmet from 'react-helmet';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
+
+import { connect } from 'react-redux';
+
+import { React, Component, Type } from '../../components-lib/__base';
 
 import { Header, Search, AvatarBlock, ContentWrapper } from '../../components';
 import NotFound from '../../containers/NotFound';
@@ -32,15 +32,18 @@ import './responsive.styl';
 
 class App extends Component {
   static propTypes = {
-    children: Type.oneOfType(Type.node, Type.arrayOf(Type.node))
+    children: Type.oneOfType(Type.node, Type.arrayOf(Type.node)),
+    dispatch: Type.func.isRequired,
+    isAuthenticated: Type.bool.isRequired,
+    errorMessage: Type.string,
+    errors: Type.shape({
+      status: Type.oneOfType([Type.number, Type.any]),
+      message: Type.oneOfType([Type.string, Type.any]),
+    }),
   };
 
   constructor(props) {
     super(props);
-
-    if (props.itemsSections.length === 0) {
-      props.dispatch(fetchDataSections());
-    }
 
     props.dispatch(fetchGeo());
     props.dispatch(loadNewIn());
@@ -102,7 +105,7 @@ class App extends Component {
       errors,
     } = this.props;
 
-    const seoData = seo.data.filter(item => item.url == location.pathname)[0];
+    const seoData = seo.data.filter(item => item.url === location.pathname)[0];
 
     const Popup = getComponentFromObject(openedPopup, Popups);
     const shouldOpenModal = openedPopup;
@@ -159,37 +162,17 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
-  dispatch: Type.func.isRequired,
-  isAuthenticated: Type.bool.isRequired,
-  errorMessage: Type.string,
-  errors: Type.shape({
-    status: Type.oneOfType([Type.number, Type.any]),
-    message: Type.oneOfType([Type.string, Type.any]),
-  }),
-};
-
-
 function mapStateToProps(state) {
-  const {
-          isAuthenticated,
-    errorMessage,
-  } = state.Auth || { isAuthenticated: false, errorMessage: '' };
-  const messages = state.Dialogs || {};
-
-  const seo = (state.Seo) || { isFetching: true, data: [] };
-  const settings = (state.Settings) || { isFetching: true, data: [] };
-
   return {
     openedPopup: state.Popup.openedPopup,
     popupOptions: state.Popup.options,
-    seo,
-    settings,
-    isAuthenticated,
-    errorMessage,
-    messagesSending: messages.isSending,
-    geo: settings.geo,
-    currentCountry: settings.currentCountry,
+    seo: state.Seo,
+    settings: state.Settings,
+    isAuthenticated: state.Auth.isAuthenticated,
+    errorMessage: state.Auth.errorMessage,
+    messagesSending: state.Dialogs.isSending,
+    geo: state.Settings.geo,
+    currentCountry: state.Settings.currentCountry,
     mobileMenuOpened: state.Menu.open,
     itemsSections: state.Sections.items,
     isFetchingSections: state.Sections.isFetching,
