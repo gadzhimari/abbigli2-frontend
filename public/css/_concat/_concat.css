@@ -6003,42 +6003,4 @@ body:not(.isDesktop) .sidebar__tags {
 
 .detail__text p {
   margin: 20px 0;
-}.error-page {
-  background: url("../../images/error-page-bg.png") no-repeat center bottom;
-  height: 100%;
-  background-size: contain;
-  text-align: center;
-}
-
-.error-page__title {
-  font-family: 'SegoeUIBold';
-  font-size: 48px;
-  line-height: 52px;
-  padding-top: 5%;
-}
-
-.error-page__back {
-  left: 50%;
-  top: 50%;
-  position: absolute;
-  -webkittransform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
-}
-
-.error-page__text {
-  font-size: 30px;
-  line-height: 34px;
-  margin-bottom: 30px;
-}
-
-.error-page .default-button {
-  margin: 0 auto;
-}
-
-body:not(.isMobile) .error-page .default-button {
-  font-size: 20px;
-  line-height: 24px;
-  padding: 15px 30px;
-  -webkit-border-radius: 40px;
-  border-radius: 40px;
 }

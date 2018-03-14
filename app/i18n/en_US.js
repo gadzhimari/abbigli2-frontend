@@ -413,4 +413,7 @@ Information consists of all materials and information provided by the User to AB
   'Hide.all': 'Hide all',
   More: 'More',
   Less: 'Less',
+  'Not.found': 'Sorry, this page not found',
+  'Go.back.home': 'Go back to home page',
+  Oops: 'Oops!',
 };
