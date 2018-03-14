@@ -1,6 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import { DOMAIN_URL } from '../../app/config';
 
+import logger from '../logger';
+
 const hashRegexp = /#.*/;
 
 export default (req, res) => {
@@ -15,6 +17,10 @@ export default (req, res) => {
   state = state.replace(hashRegexp, '');
 
   fetch(`${DOMAIN_URL}/api/social/${req.params.social}/`, config)
+    .then((res) => {
+      logger.error('oauth', res);
+      return res;
+    })
     .then(response => response.json())
     .then((data) => {
       if (!data.token) {
