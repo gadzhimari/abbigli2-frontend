@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
+import MomentLocaleUtils from 'react-day-picker/moment';
+import 'react-day-picker/lib/style.css';
 import moment from 'moment';
 
 import { location } from '../../config';
+import toLocaleDateString from '../../lib/date/toLocaleDateString';
 
-import 'react-day-picker/lib/style.css';
+const EN_DATE_FORMAT = 'MMMM Do YYYY';
+const RU_DATE_FORMAT = 'Do MMMM YYYY';
 
 const overlayStyle = {
   position: 'absolute',
@@ -16,6 +20,24 @@ const overlayStyle = {
 };
 
 class DateInput extends Component {
+  static propTypes = {
+    onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func,
+    placeholder: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    className: PropTypes.string.isRequired,
+    format: PropTypes.string,
+    mustFormat: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    onFocus: () => true,
+    mustFormat: true,
+    format: 'YYYY-MM-DDThh:mm',
+    placeholder: '',
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +60,7 @@ class DateInput extends Component {
     this.clickInside = false;
   }
 
-  handleDayClick = (event, day) => {
+  handleDayClick = (day) => {
     const { name, onChange } = this.props;
     const value = moment(day).format(this.props.format);
 
@@ -61,14 +83,9 @@ class DateInput extends Component {
       mustFormat,
     } = this.props;
 
-    const formate = location === 'en'
-      ? 'MMMM Do YYYY'
-      : 'Do MMMM YYYY';
+    const formate = location === 'en' ? EN_DATE_FORMAT : RU_DATE_FORMAT;
     const formatedValue = value && mustFormat
-      ? moment(value)
-        .locale(location)
-        .format(formate)
-      : value;
+      ? toLocaleDateString(value, formate) : value;
 
     return (
       <div
@@ -94,6 +111,8 @@ class DateInput extends Component {
                 initialMonth={this.state.selectedDay}
                 onDayClick={this.handleDayClick}
                 selectedDays={this.getSelectedDays}
+                localeUtils={MomentLocaleUtils}
+                locale={location}
               />
             </div>
           </div>)
@@ -102,23 +121,5 @@ class DateInput extends Component {
     );
   }
 }
-
-DateInput.defaultProps = {
-  onFocus: () => true,
-  mustFormat: true,
-  format: 'YYYY-MM-DDThh:mm',
-  placeholder: '',
-};
-
-DateInput.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func,
-  placeholder: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
-  format: PropTypes.string,
-  mustFormat: PropTypes.bool,
-};
 
 export default DateInput;
