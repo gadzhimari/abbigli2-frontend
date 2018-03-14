@@ -1,16 +1,17 @@
 import { createActions } from 'redux-actions';
-import { ME_STORE, SET_ME_ERROR } from '../actionsTypes';
-import { Auth } from '../../../api';
+import { SET_ME, SET_ME_ERROR } from '../actionsTypes';
+import { Auth, errorHandler } from '../../../api';
 
-export const setMe = data => ({
-  type: ME_STORE,
-  data,
-});
+export const {
+  setMe,
+  setMeError
+} = createActions(SET_ME, SET_ME_ERROR);
 
-export const { setMeError } = createActions(SET_ME_ERROR);
-
-const fetchMe = token => dispatch => Auth.getMyProfile(token)
+const fetchMe = token => (dispatch, getState, logger) => Auth.getMyProfile(token)
   .then(res => dispatch(setMe(res.data)))
-  .catch(() => { dispatch(setMeError()); });
+  .catch((err) => {
+    dispatch(setMeError());
+    errorHandler(err, logger);
+  });
 
 export default fetchMe;

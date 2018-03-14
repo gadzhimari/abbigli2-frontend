@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getJsonFromStorage as getToken } from '../utils/functions';
+import { getCookie } from '../lib/cookie';
 import { API_URL } from '../config';
 
 const instance = axios.create({
@@ -14,7 +14,7 @@ const request = (options) => {
     params = {},
     canApplyToken = false,
     mustApplyToken = false,
-    token = getToken(),
+    token = getCookie('id_token'),
     data = {},
     baseURL,
   } = options;

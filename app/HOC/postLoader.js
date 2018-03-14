@@ -2,46 +2,47 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 
-import { Loading } from '../components';
+import { Spin } from '../components-lib';
 
 const postLoader = WrappedComponent => class extends Component {
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
-    data: PropTypes.object.isRequired,
-    routeParams: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    routes: PropTypes.array.isRequired,
+    data: PropTypes.shape().isRequired,
+    routeParams: PropTypes.shape().isRequired,
+    fetchPost: PropTypes.func.isRequired,
+    onUnmount: PropTypes.func.isRequired,
+    fetchSubData: PropTypes.func.isRequired,
   };
 
-  static fetchData = (...data) => WrappedComponent.fetchData(...data)
-
   componentDidMount() {
-    const { data, routeParams, dispatch } = this.props;
+    const { data, routeParams, fetchPost, fetchSubData } = this.props;
 
     if (data.slug !== routeParams.slug) {
-      WrappedComponent.fetchData(dispatch, routeParams);
+      fetchPost(routeParams.slug);
     }
 
     if (data.id) {
-      WrappedComponent.fetchSubData(dispatch, data, routeParams);
+      fetchSubData(data, routeParams);
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { dispatch, routeParams, data } = this.props;
+    const { data, routeParams, fetchPost, fetchSubData } = this.props;
 
     if (prevProps.data.id !== data.id) {
-      WrappedComponent.fetchSubData(dispatch, data, routeParams);
+      fetchSubData(data, routeParams);
     }
 
     if (prevProps.routeParams.slug !== routeParams.slug) {
-      WrappedComponent.fetchData(dispatch, routeParams);
+      fetchPost(routeParams.slug);
     }
   }
 
   componentWillUnmount() {
-    if (WrappedComponent.onUnmount) {
-      WrappedComponent.onUnmount(this.props.dispatch);
+    const { onUnmount } = this.props;
+
+    if (onUnmount) {
+      onUnmount();
     }
   }
 
@@ -62,7 +63,7 @@ const postLoader = WrappedComponent => class extends Component {
       />
       {
         isFetching
-          ? <div><Loading loading={isFetching} /></div>
+          ? <div className="spin-wrapper"><Spin visible={isFetching} /></div>
           : <WrappedComponent {...this.props} />
       }
     </div>);

@@ -1,34 +1,23 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { connect } from 'preact-redux';
-import InfiniteScroll from 'react-infinite-scroller';
-import { getJsonFromStorage } from 'utils/functions';
 
-import {
-  CardProduct,
-  Loading,
-} from 'components';
-
-import TogglePrivacy from 'components/TogglePrivacy';
-
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+
+import InfiniteScroll from 'react-infinite-scroller';
+import { CardProduct } from '../../components';
+import TogglePrivacy from '../../components/TogglePrivacy';
+import { Spin } from '../../components-lib';
 
 import redirectHOC from '../../HOC/redirectHOC';
 
-import { fetchData as fetchDataPosts } from 'ducks/ProfilePosts';
-
-import { API_URL } from 'config';
+import * as actions from '../../ducks/ProfilePosts/actions';
+import setLike from '../../ducks/Like/actions';
 
 import { __t } from './../../i18n/translator';
 
 import './index.styl';
 
 class ProfileFeed extends Component {
-  constructor(props) {
-    super(props);
-    this.page = 1;
-  }
-
   componentDidMount() {
     this.fetchPosts();
   }
@@ -39,41 +28,24 @@ class ProfileFeed extends Component {
     }
   }
 
+  page = 0;
+
   fetchPosts = () => {
-    const { isMe, dispatch, params, isAuth, isFetchingMore } = this.props;
+    const { isMe, params, loadPosts, isFetchingMore } = this.props;
 
     if (isFetchingMore) return;
 
-    const options = {
+    loadPosts({
       isMe,
       profileId: params.profile,
       type: 'feed',
-      page: this.page++,
-      isAuth,
-    };
-
-    dispatch(fetchDataPosts(options));
+      page: this.page += 1,
+    });
   }
 
   toggelePrivacy = (status) => {
-    const token = getJsonFromStorage('id_token');
-    const formData = new FormData();
-
-    formData.append('is_feed_visible', status);
-
-    const config = {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-      },
-      body: formData,
-    };
-
-    if (token) { config.headers.Authorization = `JWT ${token}`; }
-
-    fetch(`${API_URL}my-profile/`, config);
+    this.props.togglePrivacy('feed', status);
   }
-
 
   render() {
     const {
@@ -84,12 +56,15 @@ class ProfileFeed extends Component {
       isMe,
       user,
       isAuth,
+      setLike
     } = this.props;
 
     if (isFetchingPosts) {
       return (
         <div className="profile_content">
-          <Loading loading={isFetchingPosts} />
+          <div className="spin-wrapper">
+            <Spin visible={isFetchingPosts} />
+          </div>
         </div>
       );
     }
@@ -102,7 +77,9 @@ class ProfileFeed extends Component {
       </div>);
     }
 
-    const infiniteScrollLoader = (<Loading loading={isFetchingMore} />);
+    const infiniteScrollLoader = (<div className="spin-wrapper">
+      <Spin visible={isFetchingMore} />
+    </div>);
 
     return (
       <div className="profile_content">
@@ -111,6 +88,7 @@ class ProfileFeed extends Component {
           onToggle={this.toggelePrivacy}
           status={this.props.user.is_feed_visible}
         />
+
         <div className="cards-wrap favorites legacy">
           {
             ((isMe && itemsPosts.length)
@@ -131,20 +109,19 @@ class ProfileFeed extends Component {
                     legacy
                     dispatch={dispatch}
                     isAuthenticated={isAuth}
+                    setLike={setLike}
                     priceTemplate={this.props.priceTemplate}
                   />
                 ))
               }
             </InfiniteScroll>
           }
-          {
-            isMe && !itemsPosts.length
-            &&
+
+          {isMe && !itemsPosts.length &&
             __t('Favorites.propfile')
           }
-          {
-            !isMe && !itemsPosts.length
-            &&
+
+          {!isMe && !itemsPosts.length &&
             __t('Nothing here yet')
           }
         </div>
@@ -153,20 +130,8 @@ class ProfileFeed extends Component {
   }
 }
 
-
-ProfileFeed.propTypes = {
-  itemsPosts: PropTypes.array.isRequired,
-  isFetchingPosts: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  isMe: PropTypes.bool.isRequired,
-  isAuth: PropTypes.bool.isRequired,
-  isFetchingMore: PropTypes.bool,
-  user: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired,
-};
-
 function mapStateToProps(state) {
-  const posts = (state.ProfilePosts) || { isFetching: true, isFetchingMore: false, items: [] };
+  const posts = state.ProfilePosts;
 
   return {
     itemsPosts: posts.items,
@@ -181,4 +146,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(withRouter(redirectHOC('is_feed_visible')(ProfileFeed)));
+export default connect(mapStateToProps, { ...actions, setLike })(
+  withRouter(redirectHOC('is_feed_visible')(ProfileFeed))
+);

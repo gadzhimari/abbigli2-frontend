@@ -77,7 +77,7 @@ class Avatar extends Component {
             &&
             <img
               className="user-profile__avatar"
-              src={`${THUMBS_URL}unsafe/140x140/${avatar}`}
+              src={`${THUMBS_URL}/unsafe/140x140/${avatar}`}
               onLoad={this.loaded}
             />
           }

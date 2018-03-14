@@ -1,18 +1,4 @@
-/**
- * Возвращает объект из свойст object указанных в keys
- * @param {Object} object
- * @param {Array} keys
- * @returns {Object}
- */
-export function pick(object, keys) {
-  return keys.reduce((acc, key) => {
-    if (object[key]) {
-      acc[key] = object[key];
-    }
-
-    return acc;
-  }, {});
-}
+import pick from 'lodash/pick';
 
 /**
  * Используется для перезаписи свойств объекта target свойствами объекта source
@@ -21,11 +7,7 @@ export function pick(object, keys) {
  * @param {Object} source
  * @returns {Object}
  */
-export function mergeObjects(target, source) {
-  if (!source) {
-    return target;
-  }
-
+export default function mergeObjects(target, source) {
   return {
     ...target,
     ...pick(source, Object.keys(target)),

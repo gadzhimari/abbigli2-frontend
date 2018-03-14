@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { location } from 'config';
+import { location } from '../../config';
 
 export default (date, format) =>
   moment(date)

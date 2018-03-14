@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MessageGroup from './Components/MessageGroup';
 import MessageField from './Components/MessageField';
 import RecipientInfo from './Components/RecipientInfo';
-import { Loading } from 'components';
+import { Spin } from '../../components-lib';
 
 import { getMessagesGroups } from 'utils/functions';
 
@@ -34,7 +34,9 @@ class MessagesList extends Component {
     return isFetching
       ? (<div className="messages__content">
         <div className="messages__preloader-wrapper">
-          <Loading loading={isFetching} />
+          <div className="spin-wrapper">
+            <Spin visible={isFetching} />
+          </div>
         </div>
       </div>)
       : (<div className="messages__content">

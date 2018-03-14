@@ -1,5 +1,4 @@
 import React from 'react';
-import block from 'bem-cn';
 
 import CreateForm from '../CreateForm/CreateForm';
 import { ErrorInput } from '../../../components/Inputs';
@@ -11,14 +10,14 @@ import ImageUploadZone from '../../../components/ImageUploadZone';
 import FetchingButton from '../../../components/FetchingButton';
 import Button from '../../../components/Button';
 
-import { mergeObjects } from '../../../lib/merge-objects';
+import mergeObjects from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
 
 import './ProductForm.less';
 import bindMethods from '../../../lib/bindMethods';
+import cn from '../../../lib/cn';
 
-const b = block('ProductForm');
-
+@cn('ProductForm')
 class ProductForm extends CreateForm {
   constructor(props) {
     super(props);
@@ -43,22 +42,23 @@ class ProductForm extends CreateForm {
     );
   }
 
-  render() {
+  render(cn) {
     const {
-        visible,
-        errors,
-        sections,
-        categories,
-        isSaving,
-        imageZoneActions,
-        ...imageZoneProps } = this.props;
+      visible,
+      errors,
+      sections,
+      categories,
+      isSaving,
+      imageZoneActions,
+    ...imageZoneProps,
+    } = this.props;
 
     const { title, price, colors, content, tags, currentCategory } = this.state;
 
     if (!visible) return null;
 
     return (
-      <form className={b}>
+      <form className={cn()}>
         <FormBlock>
           <ErrorInput
             className="input"
@@ -86,7 +86,7 @@ class ProductForm extends CreateForm {
               value={price}
               onChange={this.onChange}
               errors={errors.price}
-              wrapperClass={b('price').mix('input-wrap')}
+              wrapperClass={cn('price')}
               wrapperErrorClass="error"
               labelRequired
               label={__t('Price')}
@@ -96,7 +96,7 @@ class ProductForm extends CreateForm {
               isMobile
               onChange={this.onChange}
               activeColor={colors[0]}
-              className={b('choiceColor')}
+              className={cn('choiceColor')}
             />
           </div>
         </FormBlock>

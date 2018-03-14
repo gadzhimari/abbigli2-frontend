@@ -1,25 +1,29 @@
-// Sections.js
-import { API_URL } from 'config';
-import { getJsonFromStorage, createQuery } from 'utils/functions';
+import { createAction } from 'redux-actions';
+import { Posts } from '../api';
 
-// Actions
-const REQUEST = 'abbigli/PostsSpecific/REQUEST';
-const SET = 'abbigli/PostsSpecific/SET';
+const REQUEST = 'PostsSpecific/REQUEST';
+const SET = 'PostsSpecific/SET';
 
-// Reducer
-export default function (state = {
+const requestData = createAction(REQUEST);
+const setData = createAction(SET);
+
+const initialState = {
   isFetching: true,
   next: null,
   items: [],
   pages: 0,
-}, action = {}) {
+};
+
+const ITEMS_COUNT = 30;
+
+export default function (state = initialState, action = {}) {
   switch (action.type) {
     case SET:
       return Object.assign({}, state, {
-        items: action.data.results,
-        data: action.data,
-        next: action.data.next,
-        pages: Math.ceil(action.data.count / 30),
+        items: action.payload.results,
+        data: action.payload,
+        next: action.payload.next,
+        pages: Math.ceil(action.payload.count / ITEMS_COUNT),
         isFetching: false,
       });
     case REQUEST:
@@ -32,35 +36,13 @@ export default function (state = {
   }
 }
 
-// Action Creators
-export function requestData() {
-  return {
-    type: REQUEST,
-  };
-}
-
-export function setData(responseData) {
-  return { type: SET, data: responseData };
-}
-
 export function fetchData(specific = '', options = {}) {
-  const token = getJsonFromStorage('id_token') || null;
-  const config = { headers: {} };
-  const query = createQuery(options);
-
-  if (token) {
-    config.headers.Authorization = `JWT ${token}`;
-  }
-
   return (dispatch) => {
     dispatch(requestData());
 
-    return fetch(`${API_URL}posts/${specific}${query}`, config)
-      .then(res => res.json())
-      .then((responseData) => {
-        if (responseData.results) {
-          dispatch(setData(responseData));
-        }
+    return Posts.getSpecificPosts(specific, options)
+      .then((res) => {
+        dispatch(setData(res.data));
       });
   };
 }

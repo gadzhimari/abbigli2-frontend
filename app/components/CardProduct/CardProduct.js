@@ -1,23 +1,19 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { Link } from 'react-router';
+import Link from '../Link/Link';
+import { Share } from '../../components';
+import { ProductsIcons } from '../../components/Icons';
+import { Like } from '../../components-lib';
+import Avatar from '../Avatar';
+import Image from '../Image';
+import Button from '../Button';
 
-import { Share } from 'components';
-import { ProductsIcons } from 'components/Icons';
-
-import { setLike } from 'actions/like';
-import { stagedPopup } from 'ducks/Auth/authActions';
-
-import { THUMBS_URL } from 'config';
+import createPostLink from '../../lib/links/post-link';
+import createPostEditLink from '../../lib/links/edit-post-link';
+import createProfileLink from '../../lib/links/profile-link';
 
 import './CardProduct.styl';
-
-const typesUrl = {
-  1: 'post',
-  3: 'event',
-  4: 'blog',
-};
 
 const typesClass = {
   1: 'product',
@@ -26,55 +22,40 @@ const typesClass = {
 };
 
 class CardProduct extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      forced: {
-        like: null,
-        count: null,
-      },
-      imageLoaded: false,
-    };
-  }
+  static propTypes = {
+    editable: PropTypes.bool,
+    data: PropTypes.shape({}).isRequired,
+    delete: PropTypes.func,
+  };
+
+  state = {
+    imageLoaded: false,
+  };
 
   imageLoaded = () => {
-    this.setState({
-      imageLoaded: true,
-    });
+    this.setState({ imageLoaded: true });
   }
 
-  toggleLike = () => {
-    const { dispatch, isAuthenticated } = this.props;
-    const { liked, slug, likes_num } = this.props.data;
+  deletePost = () => {
+    const { slug } = this.props.data;
+    this.props.delete(slug);
+  }
 
-    if (!isAuthenticated) {
-      dispatch(stagedPopup('register'));
-
-      return;
-    }
-
-    const newLiked = this.state.forced.like === null
-      ? !liked
-      : !this.state.forced.like;
-    let count = this.state.forced.count === null
-      ? likes_num
-      : this.state.forced.count;
-
-    const newCount = newLiked
-      ? ++count
-      : --count;
-
-    this.setState({
-      forced: {
-        like: newLiked,
-        count: newCount,
-      },
-    });
-
-    dispatch(setLike(slug));
+  deleteFromFavorite = () => {
+    const { slug } = this.props.data;
+    this.props.deleteFromFavorite(slug);
   }
 
   render() {
+    const {
+      priceTemplate,
+      deleteFromFavorite,
+      editable,
+      me,
+      full,
+      setLike
+    } = this.props;
+
     const {
       title,
       slug,
@@ -82,49 +63,28 @@ class CardProduct extends Component {
       price,
       images,
       type,
-      comments_num,
-      likes_num,
-      view_on_site_url: postUrl
+      comments_num: commentsCount,
+      likes_num: likesCount,
     } = this.props.data;
 
-    const {
-      priceTemplate,
-      deleteFromFavorites,
-      editable,
-      delete: deleteItem,
-      me,
-      full,
-    } = this.props;
-
-    const user = editable == true ? me : this.props.data.user;
-
-    const likeStatus = this.state.forced.like === null
-      ? liked
-      : this.state.forced.like;
-    const likeCount = this.state.forced.count === null
-      ? likes_num
-      : this.state.forced.count;
-
+    const user = editable === true ? me : this.props.data.user;
     const formatedPrice = Number(price).toFixed(2);
+    const imageUrl = images && images[0] && images[0].file;
+    const thumbSize = `350x${full ? 350 : 290}`;
 
     return (
-      <div className={`tag-card tag-card--${typesClass[type]} legacy`}>
-        <div className="tag-card__img">
-          <Link
-            to={`/${typesUrl[type]}/${slug}`}
-            className="card-producr__img-link"
-          >
-            {
-              images
-              &&
-              <img
-                className="card-img card-image__loaded"
-                alt={title}
-                src={`${THUMBS_URL}unsafe/350x${full ? 350 : 290}/` + (images[0] && images[0].file)}
-              />
-            }
-            <div className="tag-card__overlay"></div>
+      <div className={`tag-card tag-card--${typesClass[type]}`}>
+        <div className="tag-card__cover">
+          <Link to={createPostLink(this.props.data)}>
+            <Image
+              alt={title}
+              className="tag-card__img"
+              thumbSize={thumbSize}
+              src={imageUrl}
+            />
+            <div className="tag-card__overlay" />
           </Link>
+
           <div className="share">
             <div className="share-button">
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.987 20">
@@ -133,131 +93,106 @@ class CardProduct extends Component {
             </div>
 
             <Share
-              postLink={postUrl}
               buttonClass="share-button"
+              postLink={`/post/${slug}`}
+              media={imageUrl}
+              description={title}
             />
           </div>
-          {
-            editable
-            &&
+
+          {editable &&
             <Link
               className="card-action-button card-edit"
-              to={`/profile/${user.id}/post/edit/${slug}`}
+              to={createPostEditLink({ id: user.id, slug })}
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-                <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409
-                  l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z"/>
-</svg>
+                <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409 l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
+              </svg>
             </Link>
           }
-          {
-            editable
-            &&
-            <div
+
+          {editable &&
+            <Button
               className="card-action-button card-delete"
-              onClick={deleteItem}
+              onClick={this.deletePost}
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-                <path d="M18,1.813L16.188,0L9,7.186L1.813,0L0,1.813L7.188,9L0,16.188L1.813,18L9,10.813L16.188,18L18,16.188L10.813,9
-                  L18,1.813z"/>
-</svg>
-            </div>
+                <path d="M18,1.813L16.188,0L9,7.186L1.813,0L0,1.813L7.188,9L0,16.188L1.813,18L9,10.813L16.188,18L18,16.188L10.813,9 L18,1.813z" />
+              </svg>
+            </Button>
           }
-          {
-            deleteFromFavorites
-            &&
-            <div
+
+          {deleteFromFavorite &&
+            <Button
               className="card-action-button card-delete"
-              onClick={deleteFromFavorites}
+              onClick={this.deleteFromFavorite}
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-                <path d="M18,1.813L16.188,0L9,7.186L1.813,0L0,1.813L7.188,9L0,16.188L1.813,18L9,10.813L16.188,18L18,16.188L10.813,9
-                  L18,1.813z"/>
-</svg>
-            </div>
+                <path d="M18,1.813L16.188,0L9,7.186L1.813,0L0,1.813L7.188,9L0,16.188L1.813,18L9,10.813L16.188,18L18,16.188L10.813,9 L18,1.813z" />
+              </svg>
+            </Button>
           }
+
           <Link
-            className="tag-card__name-wrap"
-            to={`/${typesUrl[type]}/${slug}`}
+            className="tag-card__title-wrap"
+            to={createPostLink(this.props.data)}
           >
-            <div className="tag-card__name legacy">
+            <div className="tag-card__title legacy">
               <div className="icon-wrap">
-                {
-                  type === 1 && <ProductsIcons.service />
-                }
-                {
-                  type === 3 && <ProductsIcons.blog />
-                }
-                {
-                  type === 4 && <ProductsIcons.event />
-                }
+                {type === 1 && <ProductsIcons.service />}
+                {type === 3 && <ProductsIcons.blog />}
+                {type === 4 && <ProductsIcons.event />}
               </div>
+
               {title}
             </div>
-            {
-              !!price
-              &&
+
+            {price &&
               <div className="tag-card__price">
                 {priceTemplate && priceTemplate.replace('?', formatedPrice)}
               </div>
             }
           </Link>
         </div>
-        <div className="tag-card__info">
-          {
-            user
-            &&
-            (<Link className="tag-card__author" to={"/profile/" + user.id}>
-              <div className="tag-card__avatar">
-                {
-                  user.avatar
-                    ? <img
-                      src={`${THUMBS_URL}unsafe/30x30/${user.avatar}`}
-                      alt={user.profile_name ? user.profile_name : 'ID' + user.id}
-                    />
-                    : <img
-                      src={'/images/svg/avatar.svg'}
-                      alt={user.profile_name ? user.profile_name : 'ID' + user.id}
-                    />
 
-                }
-              </div>
-              <span>
-                {
-                  user.profile_name
-                    ? user.profile_name
-                    : `ID${user.id}`
-                }
+        <div className="tag-card__footer">
+          {user &&
+            <Link className="tag-card__author" to={createProfileLink(user.id)}>
+              <span className="tag-card__avatar">
+                <Avatar
+                  className="avatar"
+                  imgClassName="avatar__img"
+                  avatar={user.avatar}
+                  thumbSize="30x30"
+                  alt={user.profile_name}
+                />
               </span>
-            </Link>)
+
+              <span className="tag-card__name">
+                {user.profile_name ? user.profile_name : `ID${user.id}`}
+              </span>
+            </Link>
           }
 
-          <div className="like-comment">
-            <div
-              className="like-comment__button likes"
-              onClick={this.toggleLike}
-            >
-              <div className="icon-wrap">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 31.193"
-                  className={`icon ${likeStatus ? 'liked' : ''}`}
-                >
-                  <path d="M17,31.193l-2.467-2.242C5.778,21.011,0,15.774,0,9.35C0,4.113,4.113,0,9.351,0C12.308,0,15.147,1.377,17,3.552
-                    C18.853,1.377,21.691,0,24.649,0C29.886,0,34,4.113,34,9.35c0,6.425-5.781,11.661-14.537,19.618L17,31.193z"/>
-              </svg>
-              </div>
-              {likeCount}
-            </div>
+          <div className="tag-card__actions">
+            <Like
+              liked={liked}
+              onClick={setLike}
+              count={likesCount}
+              slug={slug}
+            />
+
             <div className="like-comment__button message">
               <Link
                 className="icon-wrap"
-                to={`/${typesUrl[type]}/${slug}`}
+                to={createPostLink(this.props.data)}
               >
                 <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
                   <path d="M0,8V0.8C0,0.359,0.36,0,0.799,0h10.402C11.641,0,12,0.359,12,0.8V12L8.799,8.799h-8C0.36,8.799,0,8.44,0,8z" />
                 </svg>
               </Link>
-              {comments_num}
+
+              { commentsCount }
             </div>
           </div>
         </div>
@@ -265,15 +200,5 @@ class CardProduct extends Component {
     );
   }
 }
-
-CardProduct.propTypes = {
-  editable: PropTypes.bool,
-  legacy: PropTypes.bool,
-  isAuthenticated: PropTypes.bool.isRequired,
-  data: PropTypes.object.isRequired,
-  delete: PropTypes.func,
-  deleteFromFavorites: PropTypes.func,
-  dispatch: PropTypes.func,
-};
 
 export default CardProduct;

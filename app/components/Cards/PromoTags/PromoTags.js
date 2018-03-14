@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router';
-
-import { SubCategoryList } from '../../../components/Cards';
+import { SubCategoryList } from '../../Cards';
+import Link from '../../Link/Link';
 
 import { THUMBS_URL } from '../../../config';
 import './PromoTags.less';
@@ -22,7 +21,7 @@ const PromoTags = ({ sections, url }) => {
       <div className="promo-tag__img-wrap">
         <img
           className="promo-tag__img"
-          src={`${THUMBS_URL}unsafe/251x207/${sections[0].preview}`}
+          src={`${THUMBS_URL}/unsafe/251x207/${sections[0].preview}`}
           alt={sections[0].title}
         />
       </div>

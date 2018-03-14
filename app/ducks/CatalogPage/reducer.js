@@ -1,4 +1,14 @@
-import * as actions from './actions';
+import { handleActions } from 'redux-actions';
+
+import {
+  requestPosts,
+  responsePosts,
+  requestTags,
+  responseTags,
+  requestMoreTags,
+  responseMoreTags,
+  setCurrentCategoryTree
+} from './actions';
 
 const initialState = {
   isFetchingPosts: true,
@@ -8,55 +18,58 @@ const initialState = {
   tags: [],
   postPagesCount: 0,
   nextTagsPage: 1,
+  tree: [],
+  promo: []
 };
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case actions.REQUEST_POSTS: {
-      return {
-        ...state,
-        isFetchingPosts: true,
-      };
-    }
-    case actions.RESPONSE_POSTS: {
-      return {
-        ...state,
-        isFetchingPosts: false,
-        posts: action.results,
-        postPagesCount: Math.ceil(action.count / 30),
-      };
-    }
-    case actions.REQUEST_TAGS: {
-      return {
-        ...state,
-        isFetchingTags: true,
-      };
-    }
-    case actions.RESPONSE_TAGS: {
-      return {
-        ...state,
-        isFetchingTags: false,
-        tags: action.results,
-        nextTagsPage: action.next && (state.nextTagsPage + 1),
-      };
-    }
-    case actions.REQUEST_MORE_TAGS: {
-      return {
-        ...state,
-        isFetchingMoreTags: true,
-      };
-    }
-    case actions.RESPONSE_MORE_TAGS: {
-      return {
-        ...state,
-        isFetchingMoreTags: false,
-        tags: [...state.tags, ...action.results],
-        nextTagsPage: action.next && (state.nextTagsPage + 1),
-      };
-    }
-    default:
-      return state;
+export default handleActions({
+  [requestPosts](state) {
+    return {
+      ...state,
+      isFetchingPosts: true
+    };
+  },
+  [responsePosts](state, { payload }) {
+    return {
+      ...state,
+      isFetchingPosts: false,
+      posts: payload.results,
+      postPagesCount: Math.ceil(payload.count / 30),
+    };
+  },
+  [requestTags](state) {
+    return {
+      ...state,
+      isFetchingTags: true,
+    };
+  },
+  [responseTags](state, { payload }) {
+    return {
+      ...state,
+      isFetchingTags: false,
+      tags: payload.results,
+      nextTagsPage: payload.next && (state.nextTagsPage + 1),
+    };
+  },
+  [requestMoreTags](state) {
+    return {
+      ...state,
+      isFetchingMoreTags: true
+    };
+  },
+  [responseMoreTags](state, { payload }) {
+    return {
+      ...state,
+      isFetchingMoreTags: false,
+      tags: [...state.tags, ...payload.tags],
+      nextTagsPage: payload.next && (state.nextTagsPage + 1),
+    };
+  },
+  [setCurrentCategoryTree](state, { payload }) {
+    return {
+      ...state,
+      tree: payload.crumbs,
+      promo: payload.promo
+    };
   }
-};
-
-export default reducer;
+}, initialState);

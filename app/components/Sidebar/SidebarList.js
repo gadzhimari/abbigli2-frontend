@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import moment from 'moment';
 
-import { THUMBS_URL, location } from 'config';
+import Link from '../Link/Link';
+
+import { THUMBS_URL, location } from '../../config';
 import { __t } from '../../i18n/translator';
 
 const urls = {
@@ -32,7 +32,7 @@ class SidebarList extends PureComponent {
                     to={`/${urls[item.type]}/${item.slug}`}
                   >
                     <img
-                      src={`${THUMBS_URL}unsafe/120x103/${item.images[0].file}`}
+                      src={`${THUMBS_URL}/unsafe/120x103/${item.images[0].file}`}
                       alt={item.title}
                     />
                   </Link>

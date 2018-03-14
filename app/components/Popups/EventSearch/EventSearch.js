@@ -3,10 +3,9 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import { changeSearchField } from 'ducks/Events';
-import { openPopup } from 'ducks/Popup/actions';
+import { openPopup } from '../../../ducks/Popup/actions';
 
-import { API_URL } from 'config';
+import { API_URL } from '../../../config';
 import { __t } from '../../../i18n/translator';
 
 import './EventSearch.styl';
@@ -136,8 +135,4 @@ const mapStateToProps = ({ Events }) => ({
   end: Events.searchFields.end,
 });
 
-const mapDispatchToProps = dispatch => ({
-  changeField: (field, value) => dispatch(changeSearchField(field, value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(EventSearch);
+export default connect(mapStateToProps)(EventSearch);

@@ -13,6 +13,8 @@ import { uploadImage,
 } from '../../ducks/Profile/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
+import onlyAuthAction from '../../lib/redux/onlyAuthAction';
+
 import './Profile.styl';
 
 class Profile extends Component {
@@ -122,6 +124,9 @@ const mapDispatchToProps = dispatch => ({
   openPopup: (...args) => dispatch(openPopup(...args)),
   /** Используется для удаления выбранного изображения профиля */
   deleteImage: name => dispatch(deleteImage(name)),
+  /** Открывает попап только для зарегистрированных юзеров, в противном случае
+   * ведет на регистрацию */
+  onlyAuthPopup: (...args) => dispatch(onlyAuthAction(openPopup)(...args))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileLoader(Profile));

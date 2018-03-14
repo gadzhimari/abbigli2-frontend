@@ -1,7 +1,7 @@
-import bemCn from 'bem-cn-fast';
+import block from 'bem-cn-fast';
 
-export function mix(baseClass, className) {
-  return `${baseClass}, ${className}`;
+export const B = block;
+
+export function mix(baseClass, mixedClass) {
+  return `${baseClass} ${mixedClass}`;
 }
-
-export const B = bemCn;

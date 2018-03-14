@@ -4,7 +4,6 @@ import { routerReducer } from 'react-router-redux';
 
 import Follow from '../ducks/Follow';
 import Sections from '../ducks/Sections';
-import SubSections from '../ducks/SubSections';
 import Blogs from '../ducks/Blogs';
 import Events from '../ducks/Events';
 import Products from '../ducks/Products';
@@ -38,7 +37,6 @@ export default combineReducers({
   Auth,
   settlement,
   Sections,
-  SubSections,
   Blogs,
   Events,
   Products,

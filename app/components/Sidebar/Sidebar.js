@@ -1,18 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { FavoriteAdd, Share } from 'components';
+import { FavoriteAdd, Share } from '../';
 import TagsList from './TagsList';
 import SidebarList from './SidebarList';
 
-import { __t } from '../../i18n/translator';
+import createPostLink from '../../lib/links/post-link';
 
 import './Sidebar.less';
-
-const urls = {
-  4: 'blog',
-  3: 'event',
-};
 
 class Sidebar extends PureComponent {
   static propTypes = {
@@ -22,7 +17,6 @@ class Sidebar extends PureComponent {
 
   render() {
     const {
-      data,
       newPosts,
       popularPosts,
       isFavorited,
@@ -32,22 +26,34 @@ class Sidebar extends PureComponent {
       popularSectionTitle,
     } = this.props;
 
+    const {
+      tags,
+      type,
+      title,
+      images,
+      slug
+    } = this.props.data;
+    const imageUrl = images && images[0] && images[0].file;
+
     return (
       <div className="sidebar">
         <div className="sidebar__group sidebar__group_favourite">
           <FavoriteAdd
             toggleFavorite={toggleFavorite}
             isFavorited={isFavorited}
+            slug={slug}
           />
         </div>
         <TagsList
-          tags={data.tags}
-          type={data.type}
+          tags={tags}
+          type={type}
         />
         <div className="sidebar__group sidebar__group_social">
           <Share
             buttonClass="social-btn"
-            postLink={`/${urls[data.type]}/${data.slug}`}
+            postLink={createPostLink(this.props.data)}
+            media={imageUrl}
+            description={title}
           />
         </div>
         <SidebarList

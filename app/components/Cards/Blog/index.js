@@ -6,17 +6,16 @@ import dateFormat from 'dateformat';
 
 import Image from '../../../components/Image';
 import Avatar from '../../Avatar';
-import { Share, Link, Like } from '../../../components';
+import { Share, Link } from '../../../components';
+import { Like } from '../../../components-lib';
 
 import setLike from '../../../ducks/Like/actions';
 
 import './index.less';
 
 class BlogCard extends Component {
-  like = () => setLike(this.props.data.slug);
-
   render() {
-    const { data } = this.props;
+    const { data, setLike } = this.props;
     const imageUrl = data.images && data.images[0] && data.images[0].file;
 
     return (
@@ -32,10 +31,13 @@ class BlogCard extends Component {
               src={imageUrl}
             />
           </Link>
+
           <Like
             liked={data.liked}
-            onClick={this.like}
+            onClick={setLike}
+            slug={data.slug}
           />
+
           <div className="share">
             <div className="share__icon" />
             <div className="dropdown-corner" />
@@ -43,10 +45,13 @@ class BlogCard extends Component {
               <Share
                 postLink={`/blog/${data.slug}`}
                 buttonClass="social-btn"
+                media={imageUrl}
+                description={data.title}
               />
             </div>
-          </div >
-        </div >
+          </div>
+        </div>
+
         <div className="blog-card__info">
           <Link
             className="user"
@@ -59,21 +64,25 @@ class BlogCard extends Component {
               thumbSize="36x36"
               alt={data.user.profile_name}
             />
+
             {data.user.profile_name}
           </Link>
+
           <Link
             className="blog-card__title"
             to={`/blog/${data.slug}`}
           >
             <svg className="icon icon-blog" viewBox="0 0 51 52.7">
-              <path d="M51,9.4L41.5,0L31,10.4H4.1c-2.3,0-4.1,1.8-4.1,4.1v27.8c0,2.3,1.8,4.1,4.1,4.1h1.4l0.7,6.3 l8.3-6.3H38c2.3,0,4.1-1.8,4.1-4.1V18.1L51,9.4z M16.2,34.4l1-6.3l5.3,5.4L16.2,34.4z M47.2,9.4L24,32.2l-5.6-5.6l23-22.8L47.2,9.4z "/>
+              <path d="M51,9.4L41.5,0L31,10.4H4.1c-2.3,0-4.1,1.8-4.1,4.1v27.8c0,2.3,1.8,4.1,4.1,4.1h1.4l0.7,6.3 l8.3-6.3H38c2.3,0,4.1-1.8,4.1-4.1V18.1L51,9.4z M16.2,34.4l1-6.3l5.3,5.4L16.2,34.4z M47.2,9.4L24,32.2l-5.6-5.6l23-22.8L47.2,9.4z" />
             </svg>
             {data.title}
           </Link>
+
           <div
             className="blog-card__text"
             dangerouslySetInnerHTML={{ __html: data.seo_description }}
           />
+
           <div className="blog-card__date">
             {dateFormat(data.created, 'd mmmm yyyy')}
             <div className="comment-count">
@@ -83,7 +92,7 @@ class BlogCard extends Component {
               {data.comments_num}
             </div>
           </div>
-        </div >
+        </div>
       </div>
     );
   }
@@ -96,13 +105,11 @@ BlogCard.propTypes = {
     price: PropTypes.number,
     user: PropTypes.object,
     images: PropTypes.array,
-  }).isRequired,
-  isAuth: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
+  }).isRequired
 };
 
 const mapStateToProps = state => ({
   isAuth: state.Auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps)(BlogCard);
+export default connect(mapStateToProps, { setLike })(BlogCard);

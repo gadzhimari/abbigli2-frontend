@@ -58,6 +58,21 @@ const Posts = {
       data,
     });
   },
+  deletePost(slug) {
+    return request({
+      url: `/posts/${slug}/`,
+      mustApplyToken: true,
+      method: 'DELETE',
+    });
+  },
+  getSpecificPosts(specific, params) {
+    const url = specific ? `posts/${specific}/` : 'posts/';
+    return request({
+      url,
+      canApplyToken: true,
+      params,
+    });
+  },
 };
 
 export default Posts;

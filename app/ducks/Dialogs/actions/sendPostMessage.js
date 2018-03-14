@@ -1,5 +1,6 @@
-import { Dialogs } from 'API';
-import { openPopup } from 'ducks/Popup/actions';
+import { Dialogs } from '../../../api';
+import { openPopup } from '../../Popup/actions';
+
 import messageSending from './messageSending';
 import messageSended from './messageSended';
 

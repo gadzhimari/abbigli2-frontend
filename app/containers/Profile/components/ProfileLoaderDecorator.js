@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import Helmet from 'react-helmet';
 
-import { Loading } from '../../../components';
+import { Spin } from '../../../components-lib';
 
 const NOFOLLOW_CHILDREN_TYPES = ['feed', 'messages', 'favorites', 'about'];
 const mustNofollow = type => NOFOLLOW_CHILDREN_TYPES.some(item => item === type);
@@ -61,7 +61,9 @@ const ProfileLoaderDecorator = Profile => class extends Component {
 
         {isFetching &&
           <div className="container-fluid">
-            <Loading loading={isFetching} />
+            <div className="spin-wrapper">
+              <Spin visible={isFetching} />
+            </div>
           </div>
         }
 

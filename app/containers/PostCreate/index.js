@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Type from 'prop-types';
 
+import update from 'react-addons-update';
+
 import { withRouter } from 'react-router';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-
-import update from 'react/lib/update';
 
 import ProductForm from './ProductForm/ProductForm';
 import BlogForm from './BlogForm/BlogForm';
@@ -18,7 +18,7 @@ import { openPopup } from '../../ducks/Popup/actions';
 
 import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
 import bindMethods from '../../lib/bindMethods';
-import { mergeObjects } from '../../lib/merge-objects';
+import mergeObjects from '../../lib/merge-objects';
 import { __t } from '../../i18n/translator';
 
 import './index.less';
@@ -208,7 +208,8 @@ const mapStateToProps = state => ({
   geoCity: state.Geo.city,
   isFetching: state.PostCreate.isPostFetching,
   data: state.PostCreate.data,
-  categories: state.Sections.normalizedCategories.entities.categories,
+  categories: state.Sections.normalizedCategories.entities &&
+    state.Sections.normalizedCategories.entities.categories,
   isTouch: state.isTouch,
 });
 

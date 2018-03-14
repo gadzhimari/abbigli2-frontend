@@ -1,16 +1,15 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
-import B from 'bem-cn';
 
 import Select from '../../Inputs/Select';
 
 import bindMethods from '../../../lib/bindMethods';
+import cn from '../../../lib/cn';
 
 import './SelectPopup.less';
 
-const b = B('SelectPopup');
-
-export default class SelectPopup extends PureComponent {
+@cn('SelectPopup')
+class SelectPopup extends PureComponent {
   static propTypes = {
     options: Type.shape({
       title: Type.string
@@ -38,7 +37,7 @@ export default class SelectPopup extends PureComponent {
     this.props.closePopup();
   }
 
-  render() {
+  render(cn) {
     const { options } = this.props;
     const { title, ...selectOptions } = options;
 
@@ -65,8 +64,8 @@ export default class SelectPopup extends PureComponent {
           </header>
 
           <Select
-            wrapperClass={b('wrapper')}
-            className={b()}
+            wrapperClass={cn('wrapper')}
+            className={cn()}
             onChange={this.onChange}
             {...selectOptions}
           />
@@ -75,3 +74,5 @@ export default class SelectPopup extends PureComponent {
     );
   }
 }
+
+export default SelectPopup;

@@ -14,7 +14,7 @@ export default (req, res) => {
 
   state = state.replace(hashRegexp, '');
 
-  fetch(`${DOMAIN_URL}api/social/${req.params.social}/`, config)
+  fetch(`${DOMAIN_URL}/api/social/${req.params.social}/`, config)
     .then(response => response.json())
     .then((data) => {
       if (!data.token) {

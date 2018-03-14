@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Link from 'react-router/lib/Link';
 import Image from '../Image';
+import Link from '../Link/Link';
 
 import { __t } from '../../i18n/translator';
 

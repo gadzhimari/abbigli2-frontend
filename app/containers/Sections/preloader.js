@@ -3,43 +3,19 @@ import PropTypes from 'prop-types';
 
 import Helmet from 'react-helmet';
 
+import { Spin } from '../../components-lib';
 import { SectionTag } from '../../containers';
-import { fetchCrumbs } from '../../ducks/CatalogPage/actions';
 
 const preloader = WrappedComponent => class extends PureComponent {
-  static fetchData = (dispatch, params) => {
-    let slugs = [params.section];
-
-    if (params.splat) {
-      slugs = params.splat.split('/').concat(slugs);
-    }
-
-    return dispatch(fetchCrumbs({ slugs }));
-  }
-
   static propTypes = {
     fetchSectionTags: PropTypes.func.isRequired,
     fetchPosts: PropTypes.func.isRequired,
     params: PropTypes.shape({
       subsection: PropTypes.string,
-    }).isRequired,
-    sections: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired
   }
 
-  constructor(props) {
-    super(props);
-
-    const { params, sections } = this.props;
-    const tree = this.createTree(params, sections);
-    const currentSection = tree[tree.length - 1];
-    const promo = currentSection ? this.getPromo(currentSection) : null;
-
-    this.state = {
-      isFetching: true,
-      tree,
-      promo,
-    };
-  }
+  state = { isFetching: true };
 
   componentDidMount() {
     this.fetchData();
@@ -54,109 +30,56 @@ const preloader = WrappedComponent => class extends PureComponent {
   }
 
   fetchData = () => {
-    const { params, fetchSectionTags, fetchPosts, sections, routing } = this.props;
-    const tree = this.createTree(params, sections);
-    const currentSection = tree[tree.length - 1];
-    const promo = this.getPromo(currentSection);
+    const {
+      params,
+      fetchSectionTags,
+      fetchPosts,
+      routing,
+      fetchCrumbs
+    } = this.props;
 
-    this.setState({
-      isFetching: true,
-      tree,
-      promo,
-    });
+    this.setState({ isFetching: true });
+
+    const { section, splat } = params;
+    const { page, tag } = routing.query;
+
+    let slugs = [section];
+
+    if (splat) {
+      slugs = splat.split('/').concat(slugs);
+    }
 
     Promise.all([
-      fetchSectionTags(currentSection.slug),
-      fetchPosts(currentSection.slug, routing.query.page, routing.query.tag),
+      fetchSectionTags(section),
+      fetchPosts(section, page, tag),
+      fetchCrumbs({ slugs })
     ]).then(() => this.setState({
       isFetching: false,
     }));
   }
 
-  createTree = (params) => {
-    const { normalizedSections, promo } = this.props;
-
-    let array = [params.section];
-    const categories = normalizedSections.entities.categories;
-    const promoCategories = promo.entities.categories;
-
-    if (params.splat) {
-      array = params.splat.split('/').concat(array);
-    }
-
-    return array.reduce((acc, cur) => {
-      let targetCategories = cur in categories ? categories : promoCategories;
-      const len = acc.length;
-
-      if (!targetCategories[cur] || (len > 0 && acc[len - 1] === null)) {
-        acc.push(null);
-        return acc;
-      }
-
-      let current = Object.assign({}, targetCategories[cur]);
-
-      if (current.is_promo) {
-        targetCategories = promoCategories;
-        current = Object.assign({}, targetCategories[cur]);
-      }
-
-      if (current.children && current.children.length === 0 && cur in promoCategories) {
-        targetCategories = promoCategories;
-        current = Object.assign({}, targetCategories[cur]);
-      }
-
-      current.children = current.children.map(catSlug => targetCategories[catSlug]);
-      current.url = current.view_on_site_url;
-
-      acc.push(current);
-
-      return acc;
-    }, []);
-  }
-
-  getPromo = (currentSection) => {
-    if (currentSection.children.length === 0) return [];
-
-    const { promo } = this.props;
-    const promoCategories = promo.entities.categories;
-
-    const currentPromoParent = promoCategories[currentSection.slug];
-
-    const promoCat = getPromoFromCat(currentPromoParent.children);
-
-    return promoCat;
-
-    function getPromoFromCat(array) {
-      return array.reduce((prev, cur) => {
-        const currentCat = promoCategories[cur];
-
-        if (currentCat.is_promo) {
-          prev.push(currentCat);
-
-          return prev;
-        }
-
-        prev.push(...getPromoFromCat(currentCat.children));
-
-        return prev;
-      }, []);
-    }
-  }
-
   render() {
-    const { isFetching, tree, promo } = this.state;
+    const { isFetching } = this.state;
+    const { tree } = this.props;
     const currentSection = tree[tree.length - 1] || {};
 
     return (<div>
       <Helmet>
         <title>{currentSection.seo_title}</title>
         <meta name="description" content={currentSection.seo_description} />
+
         {currentSection.posts_num === 0 &&
           <meta name="robots" content="noindex, nofollow" />
         }
       </Helmet>
 
-      {currentSection.children && currentSection.children.length === 0 &&
+      {isFetching &&
+        <div className="spin-wrapper">
+          <Spin visible />
+        </div>
+      }
+
+      {!isFetching && currentSection.children && currentSection.children.length === 0 &&
         <SectionTag
           isFetching={isFetching}
           {...this.props}
@@ -164,12 +87,11 @@ const preloader = WrappedComponent => class extends PureComponent {
         />
       }
 
-      {currentSection.children && currentSection.children.length !== 0 &&
+      {!isFetching && currentSection.children && currentSection.children.length !== 0 &&
         <WrappedComponent
           isFetching={isFetching}
           {...this.props}
           tree={tree}
-          promo={promo}
           section={currentSection}
         />
       }

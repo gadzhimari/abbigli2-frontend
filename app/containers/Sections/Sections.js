@@ -6,13 +6,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { BreadCrumbs, Loading } from '../../components';
+import { BreadCrumbs } from '../../components';
+import { Spin } from '../../components-lib';
 import Content from './SectionContent';
 import paginateHOC from '../../HOC/paginate';
 
 import preloader from './preloader';
 
-import { fetchPosts, fetchTags } from '../../ducks/CatalogPage/actions';
+import { fetchPosts, fetchTags, fetchCrumbs } from '../../ducks/CatalogPage/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
 import './Sections.less';
@@ -48,7 +49,9 @@ class Sections extends Component {
           </h1>
 
           {isFetching &&
-            <Loading loading={isFetching} />
+            <div className="spin-wrapper">
+              <Spin visible />
+            </div>
           }
 
           {!isFetching &&
@@ -76,10 +79,11 @@ Sections.propTypes = {
 
 const mapStateToProps = ({ CatalogPage, Sections, Settings, routing, NetworkErrors }) => ({
   tags: CatalogPage.tags,
+  tree: CatalogPage.tree,
+  promo: CatalogPage.promo,
   pages: CatalogPage.postPagesCount,
   sections: Sections.items,
   normalizedSections: Sections.normalizedCategories,
-  promo: Sections.promo,
   posts: CatalogPage.posts,
   priceTemplate: Settings.data.CURRENCY,
   routing: routing.locationBeforeTransitions,
@@ -90,6 +94,7 @@ const mapDispatchToProps = dispatch => ({
   fetchSectionTags: (category, page) => dispatch(fetchTags({ category, page })),
   openMobileFilters: () => dispatch(openPopup('filtersPopup')),
   fetchPosts: (category, page, tags) => dispatch(fetchPosts({ category, page, tags })),
+  fetchCrumbs: data => dispatch(fetchCrumbs(data))
 });
 
 const enhance = compose(connect(mapStateToProps, mapDispatchToProps), preloader, paginateHOC);

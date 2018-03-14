@@ -5,8 +5,11 @@ import getCatalog from '../controllers/get-catalog';
 import getCrumbs from '../controllers/get-crumbs';
 import oauth from '../controllers/oauth';
 
+import setupAccessHeader from '../middlewares/setupAccessHeader';
+
 const router = express.Router();
 
+router.use('/node-api/*', setupAccessHeader);
 router.get('/node-api/catalog', getCatalog);
 router.get('/node-api/category-tree', getCrumbs);
 router.get('/away', away);

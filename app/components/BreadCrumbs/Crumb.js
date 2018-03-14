@@ -1,7 +1,7 @@
 import React from 'react';
 import Type from 'prop-types';
 
-import Link from 'react-router/lib/Link';
+import Link from '../Link/Link';
 
 const Crumb = ({ url, title, pos }) => (
   <li

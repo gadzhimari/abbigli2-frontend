@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import Link from 'react-router/lib/Link';
 import Button from '../Button/Button';
+import Link from '../Link/Link';
 
 import { SocialGroups } from '../../components';
 import { __t } from '../../i18n/translator';
@@ -81,9 +81,7 @@ class Menu extends PureComponent {
 
         </div>
         <div className="main-menu__footer">
-          {/*
-            <Link className="main-menu__footer-item" to="/page/about">{__t('About')}</Link>
-          */}
+          <Link className="main-menu__footer-item" to="/page/about">{__t('About')}</Link>
           <Link className="main-menu__footer-item" to="/page/faq">{__t('FAQ')}</Link>
 
           <Button

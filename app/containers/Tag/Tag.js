@@ -8,11 +8,12 @@ import {
   BreadCrumbs,
   SliderBar,
   Filters,
-  Loading,
   ListWithNew,
   PageSwitcher,
 } from 'components';
+
 import Tag from 'components/SliderBar/components/Tag';
+import { Spin } from '../../components-lib';
 
 import { openPopup } from 'ducks/Popup/actions';
 import { fetchPosts, fetchTags } from 'ducks/TagSearch/actions';
@@ -169,7 +170,11 @@ class TagSearchResults extends Component {
             */}
             {
               isFetching
-                ? <div className="cards-wrap"><Loading loading={isFetching} /></div>
+              ? <div className="cards-wrap">
+                <div className="spin-wrapper">
+                  <Spin visible={isFetching} />
+                </div>
+              </div>
                 : <ListWithNew
                   items={items}
                   count={4}

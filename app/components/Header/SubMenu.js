@@ -1,56 +1,36 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
+import debounce from 'lodash/debounce';
 
 import SubMenuItem from './SubMenuItem';
 import CategoryList from './CategoryList';
 import MoreList from './MoreList';
-
-import { debounce } from 'utils/functions';
 
 import { __t } from '../../i18n/translator';
 
 import './SubMenu.less';
 
 class SubMenu extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sections: props.sections,
-      invisibleSections: [],
-      mustRecalculateVisibility: false,
-    };
-
-    this.debouncedResetInvisible = debounce(this.resetInvisible, 600, this);
-  }
-
   componentDidMount() {
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
 
     setTimeout(this.checkVisibility, 0);
 
-    catList.forEach((item) => {
-      item.addEventListener('mouseover', this.showCategory);
-    });
+    catList.forEach((item) => { item.addEventListener('mouseover', this.showCategory); });
     window.addEventListener('resize', this.debouncedResetInvisible);
-//    window.addEventListener('load', this.checkVisibility); // Если глюков не обнаружено, то можно удалить
-  }
-
-  shouldComponentUpdate() {
-    return false;
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.debouncedResetInvisible);
   }
 
+  debouncedResetInvisible = debounce(() => this.resetInvisible(), 600);
+
   checkVisibility = () => {
     const catList = Array.from(this.catWrapper.querySelectorAll('.header-submenu__item'));
 
     const checkItemBounds = (item) => {
-      // top у первого ряда 71, у второго ряда 115
-      // оставляем немного на всякий случай для погрешности браузеров
       const itemBounds = item.getBoundingClientRect();
       const res = itemBounds.top > 100;
       return res;
@@ -82,7 +62,6 @@ class SubMenu extends PureComponent {
     });
 
     if (checkRes) {
-      // выходит за границы
       this.elseBtn.classList.remove('hide');
       catList.forEach(setItemVisibility);
     } else {
@@ -145,7 +124,7 @@ class SubMenu extends PureComponent {
   }
 
   render() {
-    const { sections } = this.state;
+    const { sections } = this.props;
 
     return (
       <div

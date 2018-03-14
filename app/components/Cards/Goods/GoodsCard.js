@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
 
-import Image from '../../../components/Image';
+import Link from '../../Link/Link';
+import Image from '../../Image';
 import Avatar from '../../Avatar';
 
 

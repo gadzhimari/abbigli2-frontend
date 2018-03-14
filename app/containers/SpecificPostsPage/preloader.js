@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
-import { Loading } from 'components';
+import { Spin } from '../../components-lib';
 
+import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
 import { __t } from '../../i18n/translator';
 
 const preloader = WrappedComponent => class extends PureComponent {
@@ -19,43 +19,26 @@ const preloader = WrappedComponent => class extends PureComponent {
   }
 
   fetchData = () => {
-    const { route, fetchPosts, routing } = this.props;
+    const { route: { filter }, fetchPosts, routing } = this.props;
+    const options = { ...routing.query, type: PRODUCT_TYPE };
 
-    const options = Object.assign({}, routing.query, {
-      type: 1,
-    });
+    const args = [
+      filter === 'Mood' && ['mood', options],
+      filter === 'New' && ['new', options],
+      filter === 'Popular' && ['', { ...options, popular: true }],
+      filter === 'Near' && ['', { ...options, distance: 100 }]
+    ].filter(Boolean)[0];
 
-    if (route.filter === 'Mood') {
-      fetchPosts('mood', options);
-      return;
-    }
-
-    if (route.filter === 'New') {
-      fetchPosts('new', options);
-      return;
-    }
-
-    if (route.filter === 'Popular') {
-      fetchPosts('', {
-        ...options,
-        popular: true,
-      });
-      return;
-    }
-
-    if (route.filter === 'Near') {
-      fetchPosts('', {
-        ...options,
-        distance: 100,
-      });
-    }
+    fetchPosts(...args);
   }
 
   render() {
     const { isFetching, route } = this.props;
 
     if (isFetching) {
-      return <Loading loading={isFetching} />;
+      return (<div className="spin-wrapper">
+        <Spin visible={isFetching} />
+      </div>);
     }
 
     return (<WrappedComponent

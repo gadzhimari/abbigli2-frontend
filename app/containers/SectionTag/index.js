@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 import {
   BreadCrumbs,
   SliderBar,
-  Loading,
 } from '../../components';
 
+import { Spin } from '../../components-lib';
 import Content from './Content';
 import paginateHOC from '../../HOC/paginate';
 import Tag from '../../components/SliderBar/components/Tag';
@@ -30,10 +30,10 @@ class SectionTag extends Component {
     const {
       tags,
       isFetching,
-      sections,
       tree,
       routing,
     } = this.props;
+
     const currentSection = tree[tree.length - 1];
     const currentTag = routing && routing.query.tag;
     const crumbs = [...tree];
@@ -70,7 +70,9 @@ class SectionTag extends Component {
             </h1>
 
             {isFetching &&
-              <Loading loading={isFetching} />
+              <div className="spin-wrapper">
+                <Spin visible />
+              </div>
             }
 
             {!isFetching &&

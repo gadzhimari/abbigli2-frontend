@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { Link } from 'react-router';
-
-import { location, DOMAIN_URL } from 'config';
+import Link from '../../../components/Link/Link';
+import { location, THUMBS_URL } from '../../../config';
 
 const MessageItem = ({
   data,
@@ -24,7 +23,7 @@ const MessageItem = ({
           <div className="avatar">
             {
               data.sender.avatar
-                ? <img className="avatar__img" src={`${DOMAIN_URL}thumbs/unsafe/113x113/${data.sender.avatar}`} alt={data.recipient.profile_name} />
+                ? <img className="avatar__img" src={`${THUMBS_URL}/unsafe/113x113/${data.sender.avatar}`} alt={data.recipient.profile_name} />
                 : <img className="avatar__img" src="/images/svg/avatar.svg" alt={data.sender.profile_name} />
             }
           </div>

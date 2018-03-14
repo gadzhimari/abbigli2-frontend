@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 
-import { ErrorInput } from 'components/Inputs';
-import { FetchingButton } from 'components';
+import { ErrorInput } from '../../Inputs';
+import { FetchingButton } from '../../';
 import Timer from './Timer';
 
 import { __t } from '../../../i18n/translator';
@@ -10,14 +10,11 @@ import { __t } from '../../../i18n/translator';
 import './ConfirmPopup.styl';
 
 class ConfirmPopup extends PureComponent {
-  constructor() {
-    super();
-    this.state = {
-      confirmCode: '',
-      againRequestDelay: 60,
-      againRequestFetching: false,
-      againErrors: {},
-    };
+  state = {
+    confirmCode: '',
+    againRequestDelay: 60,
+    againRequestFetching: false,
+    againErrors: {},
   }
 
   title = '';
@@ -65,7 +62,7 @@ class ConfirmPopup extends PureComponent {
   }
 
   goBack = () => {
-    throw new Error('ConfirmPopup: goBack method must be overrited in child class')
+    throw new Error('ConfirmPopup: goBack method must be overrited in child class');
   }
 
   render() {
@@ -115,7 +112,7 @@ class ConfirmPopup extends PureComponent {
                 onChange={this.confirmChange}
                 disabled={isFetching}
                 placeholder={__t('SMS code')}
-                errors={errors.code}
+                errors={errors && errors.code}
                 errorClass="login__form-error"
                 id="code"
               />
@@ -185,7 +182,6 @@ class ConfirmPopup extends PureComponent {
 
 ConfirmPopup.propTypes = {
   closePopup: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
   sendForm: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   errors: PropTypes.oneOfType([PropTypes.object, PropTypes.any]),

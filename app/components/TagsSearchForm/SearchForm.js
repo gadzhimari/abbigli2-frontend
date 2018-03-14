@@ -2,30 +2,31 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import uniqid from 'uniqid';
+import debounce from 'lodash/debounce';
+
 import { API_URL } from 'config';
 
 import ScrollBar from '../ScrollBar';
 
 import { __t } from './../../i18n/translator';
-import { debounce } from 'utils/functions';
 
 import './SearchForm.styl';
 
-const propTypes = {
-  onChange: PropTypes.func,
-  deleteTag: PropTypes.func,
-  deleteAllTags: PropTypes.func,
-  tags: PropTypes.string,
-  inputClass: PropTypes.string,
-  inputWrapperClass: PropTypes.string,
-  optionsWrapperClass: PropTypes.string,
-  optionListClass: PropTypes.string,
-  optionClass: PropTypes.string,
-  activeOptionClass: PropTypes.string,
-  searchFormClass: PropTypes.string,
-};
-
 class SearchForm extends Component {
+  static propTypes = {
+    onChange: PropTypes.func,
+    deleteTag: PropTypes.func,
+    deleteAllTags: PropTypes.func,
+    tags: PropTypes.string,
+    inputClass: PropTypes.string,
+    inputWrapperClass: PropTypes.string,
+    optionsWrapperClass: PropTypes.string,
+    optionListClass: PropTypes.string,
+    optionClass: PropTypes.string,
+    activeOptionClass: PropTypes.string,
+    searchFormClass: PropTypes.string,
+  };
+
   static defaultProps = {
     inputClass: 'form__input',
     inputWrapperClass: 'form__input-wrap',
@@ -447,7 +448,5 @@ class SearchForm extends Component {
     );
   }
 }
-
-SearchForm.propTypes = propTypes;
 
 export default SearchForm;

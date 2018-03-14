@@ -1,12 +1,20 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
+
 import './index.styl';
 
-export default (props) => (
-  <div
-    className="loader"
-    style={{ display: props.loading ? 'block' : 'none' }}
-  >
-    <div className="loader__spinner"></div>
-    <div className="loader__logo"></div>
-  </div>);
+export default class Loading extends Component {
+  render() {
+    const { loading } = this.props;
+
+    if (!loading) {
+      return null;
+    }
+
+    return (
+      <div className="loader">
+        <div className="loader__spinner" />
+        <div className="loader__logo" />
+      </div>
+    );
+  }
+}

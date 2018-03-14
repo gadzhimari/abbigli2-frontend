@@ -1,9 +1,11 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { CardProduct, Loading, Link } from '../../components';
-import { fetchData as fetchDataPosts, removePost } from '../../ducks/ProfilePosts';
+import { CardProduct, Link } from '../../components';
+import { Spin } from '../../components-lib';
+
+import * as actions from '../../ducks/ProfilePosts/actions';
+import setLike from '../../ducks/Like/actions';
 
 import { gaSendClickEvent } from '../../lib/analitics';
 import { __t } from './../../i18n/translator';
@@ -11,18 +13,6 @@ import { __t } from './../../i18n/translator';
 import './index.styl';
 
 class ProfileMyabbigli extends Component {
-  static prerenderData = ({ store }, nextState, replace, callback) => {
-    Promise.all([
-      store.dispatch(fetchDataPosts({
-        isMe: false,
-        profileId: nextState.params.profile,
-        type: 'posts',
-        page: 1,
-        isAuth: false,
-      })),
-    ]).then(() => callback());
-  }
-
   componentDidMount() {
     this.fetchPosts();
   }
@@ -38,24 +28,28 @@ class ProfileMyabbigli extends Component {
   }
 
   fetchPosts = (page) => {
-    const { isMe, dispatch, params, isAuth } = this.props;
-    const options = {
+    const { isMe, params, loadPosts } = this.props;
+
+    loadPosts({
       isMe,
       profileId: params.profile,
       type: 'posts',
       page,
-      isAuth,
-    };
-
-    dispatch(fetchDataPosts(options));
+    });
   }
 
   render() {
-    const { isFetchingPosts, itemsPosts, dispatch, isAuth, isMe } = this.props;
+    const {
+      isFetchingPosts,
+      itemsPosts,
+      isAuth,
+      isMe,
+      deletePost,
+      setLike
+    } = this.props;
 
     return (
       <div className="profile_content">
-
         {isMe &&
           <h5 className="my-abbigli__text">
             {__t('My.abbigly.propfile')}
@@ -105,36 +99,26 @@ class ProfileMyabbigli extends Component {
                 key={`${item.slug}--myabbigli`}
                 editable={this.props.isMe}
                 me={this.props.me}
-                dispatch={dispatch}
+                setLike={setLike}
                 priceTemplate={this.props.priceTemplate}
                 isAuthenticated={isAuth}
-                delete={() => {
-                  dispatch(removePost(item.slug));
-                }}
+                delete={deletePost}
                 full
               />
             ))
           }
 
-          <Loading loading={isFetchingPosts} />
+          <div className="spin-wrapper">
+            <Spin visible={isFetchingPosts} />
+          </div>
         </div>
       </div>
     );
   }
 }
 
-
-ProfileMyabbigli.propTypes = {
-  itemsPosts: PropTypes.array.isRequired,
-  isFetchingPosts: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  isMe: PropTypes.bool,
-  isAuth: PropTypes.bool,
-  me: PropTypes.object,
-};
-
 function mapStateToProps(state) {
-  const posts = (state.ProfilePosts) || { isFetching: true, items: [] };
+  const posts = state.ProfilePosts;
 
   return {
     itemsPosts: posts.items,
@@ -144,4 +128,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ProfileMyabbigli);
+export default connect(mapStateToProps, { ...actions, setLike })(ProfileMyabbigli);

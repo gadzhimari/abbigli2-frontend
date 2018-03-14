@@ -37,8 +37,8 @@ export default class CitySelect extends PureComponent {
     this.props.onChange(e, { label, ...otherFields });
   }
 
-  getOptions(input) {
-    return Geo.getCitiesByName(input)
+  getOptions(name) {
+    return Geo.getCities({ name })
       .then(({ data }) => ({ options: citiesToOpts(data.results) }));
   }
 

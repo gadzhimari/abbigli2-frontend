@@ -13,7 +13,7 @@ const UPLOAD_INPUT_NAME = 'banner_main';
 
 const ProfileHeader = ({ background, isEditing, uploadImage, uploadingImage }) => {
   const headerStyle = background
-    ? { backgroundImage: `url(${THUMBS_URL}unsafe/1600x500/${background})` }
+    ? { backgroundImage: `url(${THUMBS_URL}/unsafe/1600x500/${background})` }
     : {};
 
   const isFetching = uploadingImage === UPLOAD_INPUT_NAME;

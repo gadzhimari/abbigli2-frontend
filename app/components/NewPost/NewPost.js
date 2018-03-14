@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router';
+import Link from '../Link/Link';
+
 import { __t } from '../../i18n/translator';
 import { THUMBS_URL } from 'config';
 
@@ -23,7 +24,7 @@ const NewPost = ({ data }) => {
       <Link className="new-post__img-wrap" to={data.view_on_site_url}>
         <img
           className="new-post__img"
-          src={`${THUMBS_URL}unsafe/592x140/${data.images[0].file}`}
+          src={`${THUMBS_URL}/unsafe/592x140/${data.images[0].file}`}
           alt={data.title}
         />
       </Link>
