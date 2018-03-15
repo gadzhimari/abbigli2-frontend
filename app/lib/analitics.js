@@ -32,3 +32,13 @@ export function gaSendClickEvent(eventCategory, eventLabel) {
     ga('send', 'event', eventCategory, 'click', eventLabel);
   }
 }
+
+/**
+ * Отправляет в аналитику событие в виде объекта
+ * @param {Object} eventObject - объект события
+ */
+export function gaSend(eventObject) {
+  if (typeof ga !== 'undefined') {
+    ga('send', eventObject);
+  }
+}

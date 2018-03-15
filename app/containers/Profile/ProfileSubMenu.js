@@ -58,7 +58,7 @@ export default class ProfileSubMenu extends PureComponent {
         {(isMe || showFavorites) &&
           <Link
             to={`/profile/${data.id}/favorites`}
-            onClick={this.onClickFavorites}
+            onClick={this.onLinkClick}
             className={classNames(commonClass, 'my-favorites',
               { active: path === 'favorites' })
             }
@@ -76,7 +76,7 @@ export default class ProfileSubMenu extends PureComponent {
         {(isMe || showFeed) &&
           <Link
             to={`/profile/${data.id}/feed`}
-            onClick={this.onClickFeed}
+            onClick={this.onLinkClick}
             className={classNames(commonClass, 'feed',
               { active: path === 'feed' })
             }
@@ -94,7 +94,7 @@ export default class ProfileSubMenu extends PureComponent {
         {isMe &&
           <Link
             to="/chat"
-            onClick={this.onClickMessages}
+            onClick={this.onLinkClick}
             className={classNames(commonClass, 'feed',
               { active: path === 'messages' })
             }
@@ -111,7 +111,7 @@ export default class ProfileSubMenu extends PureComponent {
 
         <Link
           to={`/profile/${data.id}/about`}
-          onClick={this.onClickAbout}
+          onClick={this.onLinkClick}
           className={classNames(commonClass, 'feed',
             { active: path === 'about' })
           }
