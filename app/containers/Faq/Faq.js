@@ -1,31 +1,20 @@
-import Helmet from 'react-helmet';
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { connect } from 'preact-redux';
-import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import { openPopup } from 'ducks/Popup/actions';
-
+import { openPopup } from '../../ducks/Popup/actions';
+import { React, Component } from '../../components-lib/__base';
 import Banner from './components/Banner';
 import FaqTabs from './components/FaqTabs';
 
-import './Faq.styl';
-
-const propTypes = {
-  loginPopup: PropTypes.func.isRequired,
-};
+import './Faq.less';
 
 class Faq extends Component {
-  constructor() {
-    super();
-    this.state = {
-      activeBanner: 1,
-    };
-  }
+  state = {
+    activeBanner: 1,
+  };
 
   componentDidMount() {
     const banner = document.querySelector('.faq-page__banner');
-    banner.addEventListener('animationend', e => {
+    banner.addEventListener('animationend', (e) => {
       if (e.animationName === 'flashIn') {
         banner.classList.remove('flash-in');
       } else {
@@ -45,7 +34,7 @@ class Faq extends Component {
     }
 
     this.setState({
-      activeBanner: ++activeBanner,
+      activeBanner: activeBanner + 1,
     });
   }
 
@@ -71,8 +60,5 @@ class Faq extends Component {
     );
   }
 }
-
-Faq.propTypes = propTypes;
-
 
 export default connect()(Faq);

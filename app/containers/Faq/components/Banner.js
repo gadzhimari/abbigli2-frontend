@@ -1,13 +1,14 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import { React, Component, Type } from '../../../components-lib/__base';
 import { __t } from './../../../i18n/translator';
 
-const propTypes = {
-  bannerId: PropTypes.number.isRequired,
-  showLoginPopup: PropTypes.func.isRequired,
-};
+import './Banner.less';
 
 class Banner extends Component {
+  static propTypes = {
+    bannerId: Type.number.isRequired,
+    showLoginPopup: Type.func.isRequired,
+  };
+
   componentDidUpdate() {
     const banner = document.querySelector('.faq-page__banner');
     banner.classList.add('flash-in');
@@ -15,29 +16,28 @@ class Banner extends Component {
 
   render() {
     const { bannerId } = this.props;
+
     return (
       <div
         className={`faq-page__banner banner-${bannerId}`}
         id="banner"
-        ref={banner => (this.banner = banner)}
+        ref={(banner) => { this.banner = banner; }}
       >
         <div className="faq-page__banner-text">
           <div>
-              { __t('abigli.is.platform') }
+            { __t('abigli.is.platform') }
           </div>
           <button
-            className="legacy button-banner"
+            className="button-faq-banner"
             type="button"
             onClick={this.props.showLoginPopup}
           >
-              { __t('get.connect!') }
+            { __t('get.connect!') }
           </button>
         </div>
       </div>
     );
   }
 }
-
-Banner.propTypes = propTypes;
 
 export default Banner;
