@@ -37,6 +37,7 @@ export default class SocialButton extends PureComponent {
       <a
         className={`button-social ${className}`}
         href={`${socialLink}${DOMAIN_URL}/oauth/${provider}/`}
+        onClick={this.onClick}
         {...elementProps}
       >
         <div className="icon-wrap">
