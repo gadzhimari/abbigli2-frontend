@@ -1,37 +1,40 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { React, Component, Type } from '../../../../components-lib/__base';
 
-const ProfileField = ({ isEditing, placeholder, children, value, className }) => {
-  if (!children && !isEditing && !placeholder) {
-    return null;
+class ProfileField extends Component {
+  static propTypes = {
+    isEditing: Type.bool,
+    children: Type.element,
+    placeholder: Type.string,
+    className: Type.string,
+    value: Type.any,
+  };
+
+  static defaultProps = {
+    isEditing: false,
+    children: null,
+    placeholder: null,
+    value: null,
+    className: '',
+  };
+
+  render() {
+    const { isEditing, placeholder, children, value, className } = this.props;
+
+    if (!children && !isEditing && !placeholder) {
+      return null;
+    }
+
+    return (
+      <div className={className}>
+        {children}
+        {
+          !children
+          &&
+          placeholder
+        }
+      </div>
+    );
   }
-
-  return (
-    <div className={className}>
-      {children}
-      {
-        !children
-        &&
-        placeholder
-      }
-    </div>
-  );
-};
-
-ProfileField.propTypes = {
-  isEditing: PropTypes.bool,
-  children: PropTypes.element,
-  placeholder: PropTypes.string,
-  className: PropTypes.string,
-  value: PropTypes.any,
-};
-
-ProfileField.defaultProps = {
-  isEditing: false,
-  children: null,
-  placeholder: null,
-  value: null,
-  className: '',
-};
+}
 
 export default ProfileField;
