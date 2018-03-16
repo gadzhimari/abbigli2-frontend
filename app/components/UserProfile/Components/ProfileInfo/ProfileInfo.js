@@ -1,4 +1,5 @@
 import { React, Component } from '../../../../components-lib/__base';
+import { ReadMore } from '../../../../components-lib';
 
 import ProfileAvatar from '../ProfileAvatar';
 import ProfileLinks from '../ProfileLinks';
@@ -61,7 +62,11 @@ class ProfileInfo extends Component {
                   value={data.info}
                   placeholder={__t('Profile description')}
                 >
-                  {data.info}
+                  <ReadMore lines={4}>
+                    <p>
+                      {data.info}
+                    </p>
+                  </ReadMore>
                 </ProfileField>
                 <ProfileField
                   className="profile__address"

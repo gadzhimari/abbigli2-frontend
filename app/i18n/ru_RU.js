@@ -20,7 +20,6 @@ export default {
   'message.to': 'Сообщение для',
   'send.message': 'ОТПРАВИТЬ СООБЩЕНИЕ',
   'Searching on Abbigli': 'Поиск на Abbigli',
-  'sign.up.to.leave.comment': 'Войдите чтобы оставить комментарий',
 
   'banner.button.create': 'Создать свою витрину',
   'banner.header': ' ',
@@ -104,9 +103,7 @@ export default {
   'new.in.blogs': 'Новое в блогах',
   'other.articles.of.the.author': 'другие статьи автора',
   'The.selection.of.participants': 'Выбор участников',
-  New: 'Новое',
   Blogs: 'Блоги',
-  Popular: 'Популярное',
   'Search.blogs': 'Поиск в блогах',
   'recent.events': 'последние события',
   'Find.the.event': 'Найти событие',
@@ -119,7 +116,6 @@ export default {
   'Recover via Email': 'Восстановить с помощью email',
   'Via your email': 'Через email',
   'Recover via phone number': 'Восстановить с помощью номера телефона',
-  Subscribe: 'Подписаться',
   'Display for sale.their.works': 'Выставляйте на продажу свое творчество',
   'Share.with.the.world.the.thoughts.and.ideas.of.his.work':
     'Делитесь с миром мыслями и идеями своего творчества',
@@ -132,7 +128,6 @@ export default {
   'Product.Service': 'Изделие / Услуга',
   'You.publish.your.own.Blog.the.story.of.creation':
     'Вы публикуете собственный Блог, историю создания творения',
-  Blog: 'Блог',
   'You.publish.information.about.creative.Event':
     'Вы публикуете  информацию о творческом Событии',
   event: 'Событие',
@@ -215,7 +210,6 @@ export default {
   'New in posts': 'Новое в товарах',
   Explore: 'Увидеть больше',
   'Send code': 'Отправить код',
-  Explore: 'Изучить',
   'Display.for.sale.their.works': 'Выставляйте на продажу своё творчество',
   'Log In': 'Войти',
   'Sign In': 'Войти',
@@ -282,7 +276,6 @@ export default {
   Phone: 'Номер телефона',
   Unsubscribe: 'Отписаться',
   Subscribe: 'Подписаться',
-  Subscribe: 'Подписаться',
   'My Abbigli': 'Мой Abbigli',
   Favorites: 'Избранное',
   'Nothing here yet': 'Здесь пока ничего нет',
@@ -290,7 +283,6 @@ export default {
   'Remove privacy': 'Открыть доступ',
   'You should load at least one image':
     'Вы должны загрузить как минимум одну фотографию',
-  Price: 'Цена',
   Title: 'Заголовок',
   City: 'Город',
   Description: 'Описание',
@@ -335,7 +327,6 @@ export default {
   'The user has not yet filled out information about themselves':
     'Пользователь еще не предоставил информацию о себе',
   'My messages': 'Мои сообщения',
-  'Type a message...': 'Ваше сообщение...',
   'Send a ticket': 'Отправить заявку',
   'Description of problem': 'Описание проблемы',
   'Send!': 'Отправить',
@@ -361,14 +352,11 @@ export default {
   'Enter new password': 'Введите новый пароль',
   'New password': 'Новый пароль',
   'Re-enter new password': 'Повторите ввод пароля',
-  'Re-enter new password': 'Повторите ввод пароля',
   'Set password': 'Установить пароль',
   'Set up your password': 'Установить новый пароль',
   'Go back to dialogs list': 'Назад к списку диалогов',
   'In this section you see your correspondence with other ABBIGLI members.':
     'В этом разделе отображается переписка с другими участниками проекта ABBIGLI.',
-  'Favorites.propfile':
-    'В этом разделе отображается посты со страниц участников на которые вы подписаны.',
   'Favorites.propfile':
     'В Этом разделе отображается информация об всех ИЗДЕЛИЯХ/УСЛУГАХ , БЛОГАХ , СОБЫТИЯХ которые вы отметили ЛАЙКОМ или ПРОКОММЕНТИРОВАЛИ.',
   'My.abbigly.propfile':
@@ -565,4 +553,5 @@ export default {
   'No.following': 'Пока нет подписок,',
   'Show.all': 'Показать все',
   'Hide.all': 'Скрыть все',
+  Less: 'Свернуть',
 };
