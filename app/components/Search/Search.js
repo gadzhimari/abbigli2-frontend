@@ -34,10 +34,8 @@ class Search extends Component {
       const search = document.querySelector('.search');
       const { usersOpen } = this.state;
 
-      if (!search.contains(target) && usersOpen) {
-        this.setState({
-          usersOpen: false,
-        });
+      if ((search && !search.contains(target)) && usersOpen) {
+        this.setState({ usersOpen: false });
       }
     });
   }
