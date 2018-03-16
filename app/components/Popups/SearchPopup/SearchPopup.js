@@ -60,11 +60,7 @@ class SearchPopup extends Component {
   });
 
   shouldSwitchHide = ({ target }) => {
-    if (
-      target !== this.switcher
-      ||
-      !this.switcher.includes(target)
-    ) {
+    if (target !== this.switcher || !this.switcher.contains(target)) {
       this.setState({
         showSwitcherDropdown: false,
       });
