@@ -1,14 +1,17 @@
-import req from './instance';
+import { request } from './instance';
+import { DOMAIN_URL } from '../config';
 
 const Geo = {
   getCities(params) {
-    return req({
+    return request({
+      baseURL: `${DOMAIN_URL}/api/`,
       url: 'geo/cities/',
       params,
     });
   },
   getCountries(params) {
-    return req({
+    return request({
+      baseURL: `${DOMAIN_URL}/api/`,
       url: 'geo/countries/',
       params,
     });

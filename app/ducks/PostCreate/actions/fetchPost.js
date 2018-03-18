@@ -12,6 +12,7 @@ const fetchPostRes = data => ({
   data,
 });
 
+// TODO: new api
 const fetchPost = slug => (dispatch) => {
   dispatch(fetchPostReq);
 

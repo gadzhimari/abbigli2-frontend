@@ -21,7 +21,7 @@ class EventCard extends PureComponent {
       title: PropTypes.string,
       slug: PropTypes.string,
       price: PropTypes.number,
-      user: PropTypes.object,
+      author: PropTypes.object,
       images: PropTypes.array,
     }).isRequired,
   };
@@ -96,17 +96,17 @@ class EventCard extends PureComponent {
 
           <Link
             className="user"
-            to={createProfileLink(data.user)}
+            to={createProfileLink(data.author)}
           >
             <Avatar
               className="avatar"
               imgClassName="avatar__img"
-              avatar={data.user.avatar}
+              avatar={data.author.avatar}
               thumbSize="36x36"
-              alt={data.user.profile_name}
+              alt={data.author.profile_name}
             />
 
-            {data.user.profile_name}
+            {data.author.profile_name}
           </Link>
         </div>
       </div >

@@ -26,13 +26,13 @@ import {
   resetPost,
   fetchPopular,
   fetchRelative,
-  toggleFavorite,
   fetchUsersPosts,
-  setFollow
+  setFollow,
+  addBookmark,
+  deleteBookmark
 } from '../../ducks/PostPage/actions';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { openPopup } from '../../ducks/Popup/actions';
-
 
 import { EVENT_TYPE } from '../../lib/constants/posts-types';
 
@@ -91,9 +91,11 @@ class EventPage extends Component {
       usersPosts,
       me,
       isAuthenticated,
-      handleFavorite,
       followUser,
-      openPopup
+      openPopup,
+      isFetchingBookmarks,
+      addBookmark,
+      deleteBookmark
     } = this.props;
 
     const crumbs = [{
@@ -101,8 +103,8 @@ class EventPage extends Component {
       url: '/events',
     },
     {
-      title: data.user.profile_name || `User ID: ${data.user.id}`,
-      url: `/profile/${data.user.id}`,
+      title: author.profile_name || `User ID: ${author.id}`,
+      url: `/profile/${author.id}`,
     },
     {
       title: data.title,
@@ -111,6 +113,14 @@ class EventPage extends Component {
 
     const userIsOwner = author.id === me.id;
     const { city } = data;
+
+    const favoriteAddProps = {
+      isFetching: isFetchingBookmarks,
+      addBookmark,
+      deleteBookmark,
+      bookmarkId: data.bookmark_id,
+      id: data.id
+    };
 
     return (
       <main>
@@ -170,11 +180,7 @@ class EventPage extends Component {
               }
             </div>
 
-            <FavoriteAdd
-              toggleFavorite={handleFavorite}
-              slug={data.slug}
-              isFavorited={data.favorite}
-            />
+            <FavoriteAdd {...favoriteAddProps} />
 
             <Comments
               onSend={this.sendComment}
@@ -187,11 +193,12 @@ class EventPage extends Component {
             data={data}
             newPosts={itemsEvents}
             popularPosts={popularPosts}
-            toggleFavorite={handleFavorite}
-            isFavorited={data.favorite}
+
             seeAllUrl="/events"
             newSectionTitle={__t('New in events')}
             popularSectionTitle={__t('Popular in events')}
+
+            {...favoriteAddProps}
           />
           {
             relativePosts.length > 0
@@ -235,23 +242,30 @@ function mapStateToProps(state) {
     relativePosts: state.PostPage.relativePosts,
     usersPosts: state.PostPage.usersPosts,
     me: state.Auth.me,
+    isFetchingBookmarks: state.PostPage.isFetchingBookmarks,
   };
 }
 
+// TODO: тип поста (event) можно сохранить в при первом запросе посте (fetchPost)
+// и при последующих запросах брать оттуда не пробрасывая в каждый экшен
 const mapDispatch = dispatch => ({
-  fetchPost: (...args) => dispatch(fetchPost(...args)),
+  fetchPost: (...args) => dispatch(fetchPost(EVENT_TYPE, ...args)),
   fetchSubData: (data, params) => {
-    dispatch(fetchNew({ type: EVENT_TYPE, }));
-    dispatch(fetchComments(params.slug));
-    dispatch(fetchUsersPosts(EVENT_TYPE, data.user.id));
+    dispatch(fetchNew(EVENT_TYPE));
+    dispatch(fetchComments(EVENT_TYPE, params.slug));
+    dispatch(fetchUsersPosts(EVENT_TYPE, data.author.id));
     dispatch(fetchPopular(EVENT_TYPE));
-    dispatch(fetchRelative(params.slug));
+    dispatch(fetchRelative(EVENT_TYPE, params.slug));
   },
-  onUnmount: () => dispatch(resetPost()),
-  handleFavorite: slug => dispatch(toggleFavorite(slug)),
+
   followUser: id => dispatch(setFollow(id)),
-  sendComment: data => dispatch(sendComment(data)),
-  openPopup: (...args) => dispatch(openPopup(...args))
+  sendComment: data => dispatch(sendComment(EVENT_TYPE, data)),
+  openPopup: (...args) => dispatch(openPopup(...args)),
+
+  addBookmark: id => dispatch(addBookmark(EVENT_TYPE, id)),
+  deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId)),
+
+  onUnmount: () => dispatch(resetPost()),
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(EventPage));

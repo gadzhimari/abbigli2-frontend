@@ -1,4 +1,4 @@
-import request from './instance';
+import { request } from './instance';
 
 const Tags = {
   getTags(params) {

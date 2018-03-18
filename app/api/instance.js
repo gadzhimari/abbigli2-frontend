@@ -1,13 +1,12 @@
 import axios from 'axios';
 
 import { getCookie } from '../lib/cookie';
-import { API_URL } from '../config';
+import { API_URL, API_URL_V2 } from '../config';
 
-const instance = axios.create({
-  baseURL: API_URL,
-});
+const API_V1 = axios.create({ baseURL: API_URL });
+const API_V2 = axios.create({ baseURL: API_URL_V2 });
 
-const request = (options) => {
+const getRequestHandler = instance => (options) => {
   const {
     url,
     method = 'GET',
@@ -36,4 +35,5 @@ const request = (options) => {
   return instance.request(config);
 };
 
-export default request;
+export const request = getRequestHandler(API_V1);
+export const requestV2 = getRequestHandler(API_V2);

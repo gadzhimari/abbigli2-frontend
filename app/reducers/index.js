@@ -9,7 +9,6 @@ import Events from '../ducks/Events';
 import Products from '../ducks/Products';
 import PostsSpecific from '../ducks/PostsSpecific';
 import ProfilePosts from '../ducks/ProfilePosts';
-import TopAuthors from '../ducks/TopAuthors';
 import Auth from '../ducks/Auth';
 import Popup from '../ducks/Popup';
 import Comments from '../ducks/Comments';
@@ -42,7 +41,6 @@ export default combineReducers({
   Products,
   PostsSpecific,
   ProfilePosts,
-  TopAuthors,
   Popup,
   Comments,
   Dialogs,

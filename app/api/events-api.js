@@ -1,65 +1,65 @@
 import { requestV2 } from './instance';
 
 export default {
-  getPosts(params) {
+  getEvents(params) {
     return requestV2({
-      url: '/posts/',
+      url: 'events/',
       params,
       canApplyToken: true
     });
   },
-  getPostsCategories() {
+  getEventsCategories() {
     return requestV2({
-      url: '/posts/categories/',
+      url: 'events/categories/',
       canApplyToken: true
     });
   },
-  getPost(slug, token) {
+  getEvent(slug, token) {
     return requestV2({
-      url: `/posts/${slug}/`,
+      url: `events/${slug}/`,
       canApplyToken: true,
       token
     });
   },
-  likePost(slug) {
+  likeEvent(slug) {
     return requestV2({
       method: 'POST',
-      url: `/posts/${slug}/like/`,
+      url: `events/${slug}/like/`,
       mustApplyToken: true,
     });
   },
-  createPost(data) {
+  createEvent(data) {
     return requestV2({
-      url: '/posts/',
+      url: '/events/',
       mustApplyToken: true,
       method: 'POST',
       data,
     });
   },
-  editPost(data, slug) {
+  editEvent(data, slug) {
     return requestV2({
-      url: `/posts/${slug}/`,
+      url: `/events/${slug}/`,
       mustApplyToken: true,
       method: 'PATCH',
       data,
     });
   },
-  deletePost(slug) {
+  deleteEvent(slug) {
     return requestV2({
-      url: `/posts/${slug}/`,
+      url: `/events/${slug}/`,
       mustApplyToken: true,
       method: 'DELETE',
     });
   },
-  getSimilarPosts(slug) {
+  getSimilarEvents(slug) {
     return requestV2({
-      url: `/posts/${slug}/similar/`,
+      url: `/events/${slug}/similar/`,
       canApplyToken: true,
     });
   },
   createComment(slug, data) {
     return requestV2({
-      url: `/posts/${slug}/comments/`,
+      url: `/events/${slug}/comments/`,
       method: 'POST',
       data,
       mustApplyToken: true,
@@ -67,7 +67,7 @@ export default {
   },
   getComments(slug) {
     return requestV2({
-      url: `/posts/${slug}/comments/`,
+      url: `/events/${slug}/comments/`,
       canApplyToken: true,
     });
   }

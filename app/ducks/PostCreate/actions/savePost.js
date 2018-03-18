@@ -19,6 +19,7 @@ const savePostRes = (errors = {}) => ({
   errors,
 });
 
+// TODO: new api
 const savePost = (data, slug = null) => (dispatch) => {
   dispatch(savePostReq());
 

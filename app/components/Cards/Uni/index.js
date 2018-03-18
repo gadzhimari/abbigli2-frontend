@@ -22,35 +22,34 @@ class Uni extends PureComponent {
         title,
         comments_num: commentsCount,
         price,
-        images,
+        image,
         city,
-        user,
+        author,
         date_start: dateStart,
         date_end: dateEnd,
-        type,
         liked,
         slug
       },
       priceTemplate,
-      setLike
+      setLike,
+      type
     } = this.props;
 
     const typeIcon = {
-      1: 'bag',
-      3: 'event',
-      4: 'blog',
+      product: 'bag',
+      event: 'event',
+      post: 'blog',
     };
-    const imageUrl = images && images[0] && images[0].file;
 
     return (
       <div className="tile">
         <div className="tile__image-holder">
-          <Link to={createPostLink(this.props.item)}>
+          <Link to={createPostLink({ type, slug })}>
             <Image
               className="tile__image"
               alt={title}
               thumbSize="400x300"
-              src={imageUrl}
+              src={image}
             />
           </Link>
 
@@ -64,9 +63,9 @@ class Uni extends PureComponent {
             <div className="dropdown-corner" />
             <div className="dropdown">
               <Share
-                postLink={createPostLink(this.props.item)}
+                postLink={createPostLink({ type, slug })}
                 buttonClass="social-btn"
-                media={imageUrl}
+                media={image}
                 description={title}
               />
             </div>
@@ -74,7 +73,7 @@ class Uni extends PureComponent {
         </div>
         <div className="tile__info">
           <Link
-            to={createPostLink(this.props.item)}
+            to={createPostLink({ type, slug })}
             className="tile__title"
           >
             <div
@@ -83,7 +82,7 @@ class Uni extends PureComponent {
             {title}
           </Link>
           {
-            (type === 3)
+            (type === 'event')
             &&
             <div
               className="tile__date"
@@ -100,21 +99,21 @@ class Uni extends PureComponent {
             </div>
           }
           <Link
-            to={createProfileLink(user)}
+            to={createProfileLink(author)}
             className="tile__author"
           >
             <Avatar
               className="tile__author-avatar"
-              avatar={user.avatar}
+              avatar={author.avatar}
               thumbSize="25x25"
-              alt={user.profile_name}
+              alt={author.profile_name}
             />
             <div className="tile__author-name">
-              {user.profile_name}
+              {author.profile_name}
             </div>
           </Link>
           {
-            (type === 4)
+            (type === 'post')
             &&
             <div className="tile__comment-count">
               <div className="icon" />

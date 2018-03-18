@@ -1,24 +1,16 @@
-import { createActions } from 'redux-actions';
-import { Products } from '../../../api';
+import { Bookmarks } from '../../../api';
 
-export const {
+import {
   setPosts,
   setMorePosts,
   requestPosts,
   requestMorePosts,
   setPrivateStatus
-} = createActions(
-  {
-    SET_POSTS: (posts, next) => ({ posts, next }),
-    SET_MORE_POSTS: (posts, next) => ({ posts, next }),
-  },
-  'REQUEST_POSTS',
-  'REQUEST_MORE_POSTS',
-  'SET_PRIVATE_STATUS'
-);
+} from './loadPosts';
 
-export default function loadPosts(options) {
-  const { page = 1, author } = options;
+export default function loadBookmarks(options) {
+  const { isMe, page = 1, profileId } = options;
+  const params = { page };
 
   const [requestAction, responseAction] = page === 1 ?
     [requestPosts, setPosts] :
@@ -27,7 +19,7 @@ export default function loadPosts(options) {
   return (dispatch) => {
     dispatch(requestAction());
 
-    return Products.getProducts({ page, author })
+    return Bookmarks.getBookmarks(isMe, profileId, params)
       .then(({ data }) => {
         dispatch(responseAction(data.results, data.next));
       })

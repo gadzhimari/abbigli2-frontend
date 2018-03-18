@@ -22,7 +22,7 @@ class Product extends PureComponent {
       title: PropTypes.string,
       slug: PropTypes.string,
       price: PropTypes.number,
-      user: PropTypes.object,
+      author: PropTypes.object,
       images: PropTypes.array,
     }).isRequired,
     priceTemplate: PropTypes.string.isRequired,
@@ -30,7 +30,7 @@ class Product extends PureComponent {
 
   render() {
     const { data, priceTemplate, setLike } = this.props;
-    const name = data.user.profile_name ? data.user.profile_name : `ID: ${data.user.id}`;
+    const name = data.author.profile_name ? data.author.profile_name : `ID: ${data.author.id}`;
     const imageUrl = data.images && data.images[0] && data.images[0].file;
 
     return (
@@ -77,12 +77,12 @@ class Product extends PureComponent {
 
           <Link
             className="user"
-            to={`/profile/${data.user.id}`}
+            to={`/profile/${data.author.id}`}
           >
             <Avatar
               className="avatar"
               imgClassName="avatar__img"
-              avatar={data.user.avatar}
+              avatar={data.author.avatar}
               thumbSize="30x30"
               alt={name}
             />

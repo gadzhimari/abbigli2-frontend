@@ -20,26 +20,24 @@ const GoodsCard = ({
 
   return (
     <div className="goods-card">
-      <div className="goods-card__header">
-        <div className="goods-card__author">
-          <Link
-            to={`/profile/${item.user.id}`}
-            className="avatar"
-          >
-            <Avatar
-              imgClassName="avatar__img"
-              avatar={item.user.avatar}
-              thumbSize="60x60"
-              alt={item.user.profile_name}
-            />
-          </Link>
-          <Link
-            to={`/profile/${item.user.id}`}
-            className="goods-card__name"
-          >
-            {item.user.profile_name}
-          </Link>
-        </div>
+      <div className="goods-card__author">
+        <Link
+          to={`/profile/${item.author.id}`}
+          className="avatar"
+        >
+          <Avatar
+            imgClassName="avatar__img"
+            avatar={item.author.avatar}
+            thumbSize="60x60"
+            alt={item.author.profile_name}
+          />
+        </Link>
+        <Link
+          to={`/profile/${item.author.id}`}
+          className="goods-card__name"
+        >
+          {item.author.profile_name}
+        </Link>
       </div>
       <div className="goods-card__img-wrap">
         <Link
@@ -47,7 +45,7 @@ const GoodsCard = ({
         >
           <Image
             className="goods-card__img"
-            alt={item.user.profile_name}
+            alt={item.author.profile_name}
             thumbSize="251x207"
             src={imageUrl}
           />

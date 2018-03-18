@@ -1,9 +1,9 @@
-import { Posts } from '../../../api';
+import { Bookmarks } from '../../../api';
 import { deletePostFromPage } from './deletePost';
 
-export default function deleteFromFavorite(slug) {
+export default function deleteFromFavorite(id) {
   return (dispatch) => {
-    dispatch(deletePostFromPage(slug));
-    return Posts.toggleFavorite(slug);
+    dispatch(deletePostFromPage(id));
+    return Bookmarks.deleteBookmark(id);
   };
 }

@@ -1,11 +1,9 @@
+import { createAction } from 'redux-actions';
 import { Profile } from '../../../api';
-import { SET_FOLLOWING } from '../actionTypes';
 
 import onlyAuthAction from '../../../lib/redux/onlyAuthAction';
 
-const updateFollow = () => ({
-  type: SET_FOLLOWING,
-});
+export const updateFollow = createAction('UPDATE_FOLLOW');
 
 const setFollow = id => (dispatch) => {
   dispatch(updateFollow());

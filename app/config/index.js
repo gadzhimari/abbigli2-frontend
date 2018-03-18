@@ -3,6 +3,7 @@ export const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
 export const DOMAIN_URL = process.env.DOMAIN_URL;
 export const API_URL = `${DOMAIN_URL}/api/v1/`;
+export const API_URL_V2 = `${DOMAIN_URL}/api/v2/`;
 export const THUMBS_URL = process.env.THUMBS_URL;
 
 export const IS_HOT_DEVELOPMENT = IS_DEVELOPMENT && module.hot;

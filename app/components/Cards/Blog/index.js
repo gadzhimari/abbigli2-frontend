@@ -22,10 +22,10 @@ class BlogCard extends Component {
       title: Type.string,
       slug: Type.string,
       price: Type.number,
-      user: Type.object,
+      author: Type.object,
       images: Type.array,
     }).isRequired
-  };
+  };;
 
   render() {
     const { data, setLike } = this.props;
@@ -68,17 +68,17 @@ class BlogCard extends Component {
         <div className="blog-card__info">
           <Link
             className="user"
-            to={createProfileLink(data.user)}
+            to={createProfileLink(data.author)}
           >
             <Avatar
               className="avatar"
               imgClassName="avatar__img"
-              avatar={data.user.avatar}
+              avatar={data.author.avatar}
               thumbSize="36x36"
-              alt={data.user.profile_name}
+              alt={data.author.profile_name}
             />
 
-            {data.user.profile_name}
+            {data.author.profile_name}
           </Link>
 
           <Link

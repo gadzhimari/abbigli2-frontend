@@ -22,6 +22,7 @@ export const {
   'SET_CURRENT_CATEGORY_TREE'
 );
 
+// TODO: new api
 export const fetchPosts = options => (dispatch) => {
   dispatch(requestPosts());
 

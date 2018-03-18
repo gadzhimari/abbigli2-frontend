@@ -16,6 +16,8 @@ import { fetchEvents } from '../../ducks/Events/actions';
 import { fetchData as fetchDataProducts } from '../../ducks/Products';
 import { stagedPopup } from '../../ducks/Auth/authActions';
 
+import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
+
 import { __t } from './../../i18n/translator';
 
 import './Home.styl';
@@ -74,6 +76,7 @@ class Home extends PureComponent {
 
           priceTemplate={priceTemplate}
           isAuth={isAuthenticated}
+          type={PRODUCT_TYPE}
         />
 
         <PostsList
@@ -89,6 +92,7 @@ class Home extends PureComponent {
           moreLinkUrl="/blogs"
 
           isAuth={isAuthenticated}
+          type={BLOG_TYPE}
         />
 
         <PostsList
@@ -104,6 +108,7 @@ class Home extends PureComponent {
           moreLinkUrl="/events"
 
           isAuth={isAuthenticated}
+          type={EVENT_TYPE}
         />
 
         <HR color={'orange'} />
@@ -150,8 +155,8 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   showRegister: () => dispatch(stagedPopup('register')),
   fetchData: () => {
-    dispatch(fetchBlogs({ type: 4 }));
-    dispatch(fetchEvents({ type: 3 }));
+    dispatch(fetchBlogs());
+    dispatch(fetchEvents());
     dispatch(fetchDataProducts());
   }
 });

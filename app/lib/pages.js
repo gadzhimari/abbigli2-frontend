@@ -52,7 +52,7 @@ export default {
   },
   BLOG_PAGE: {
     path: 'blog/:slug',
-    action: fetchPost,
+    action: fetchPost.bind(null, 'post'),
     actionArgs: ['params.slug', 'token']
   },
   EVENTS_PAGE: {
@@ -60,12 +60,12 @@ export default {
   },
   EVENT_PAGE: {
     path: 'event/:slug',
-    action: fetchPost,
+    action: fetchPost.bind(null, 'event'),
     actionArgs: ['params.slug', 'token']
   },
   PRODUCT_PAGE: {
     path: 'post/:slug',
-    action: fetchPost,
+    action: fetchPost.bind(null, 'product'),
     actionArgs: ['params.slug', 'token']
   },
   RELATIVE_PRODUCTS_PAGE: {

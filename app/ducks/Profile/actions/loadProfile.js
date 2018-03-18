@@ -1,5 +1,5 @@
 import * as types from './types';
-import { Profile } from 'API';
+import { Profile } from '../../../api';
 
 const loadProfileRequest = () => ({
   type: types.PROFILE_LOAD_REQUEST,
