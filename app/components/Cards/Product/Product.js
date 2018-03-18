@@ -15,8 +15,6 @@ import { PRODUCT_TYPE } from '../../../lib/constants/posts-types';
 
 import setLike from '../../../ducks/Like/actions';
 
-import './Product.less';
-
 class Product extends PureComponent {
   static propTypes = {
     data: PropTypes.shape({

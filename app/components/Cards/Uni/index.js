@@ -13,8 +13,6 @@ import createProfileLink from '../../../lib/links/profile-link';
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
 import { EVENT_DATE_FORMAT } from '../../../lib/date/formats';
 
-import './index.styl';
-
 class Uni extends PureComponent {
   render() {
     const {

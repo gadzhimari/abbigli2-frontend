@@ -15,7 +15,6 @@ import { BLOG_TYPE } from '../../../lib/constants/posts-types';
 
 import setLike from '../../../ducks/Like/actions';
 
-import './index.less';
 
 class BlogCard extends Component {
   static propTypes = {
