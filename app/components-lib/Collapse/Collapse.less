@@ -1,0 +1,22 @@
+.Collapse {
+  &__content {
+    position: relative;
+  }
+
+  &__link {
+    outline: none;
+  }
+
+  &__content {
+    overflow: hidden;
+    visibility: hidden;
+    height: 0;
+    transition: height 0.2s;
+  }
+
+  &_expanded &__content {
+    visibility: visible;
+    height: auto;
+    margin-bottom: 15px;
+  }
+}

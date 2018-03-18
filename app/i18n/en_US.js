@@ -411,4 +411,6 @@ Information consists of all materials and information provided by the User to AB
 </div>`,
   'Show.all': 'Show all',
   'Hide.all': 'Hide all',
+  More: 'More',
+  Less: 'Less',
 };
