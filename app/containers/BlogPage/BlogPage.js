@@ -149,7 +149,7 @@ class BlogPage extends Component {
 
                   {__t('Edit')}
                 </Link>
-              }
+                }
             </div>
             <FavoriteAdd
               toggleFavorite={handleFavorite}
