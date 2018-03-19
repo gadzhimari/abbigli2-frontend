@@ -13,7 +13,7 @@ import createPostLink from '../../lib/links/post-link';
 import createPostEditLink from '../../lib/links/edit-post-link';
 import createProfileLink from '../../lib/links/profile-link';
 
-import './CardProduct.styl';
+import './CardProduct.less';
 
 const typesClass = {
   1: 'product',
