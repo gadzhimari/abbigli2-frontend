@@ -1,0 +1,108 @@
+.faq-page__banner {
+  width: 100%;
+  position: relative;
+  height: 240px;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+
+  &.flash-in {
+    animation-name: flashIn;
+    animation-duration: 0.5s;
+  }
+
+  &.flash-out {
+    animation-name: flashOut;
+    animation-duration: 0.5s;
+  }
+
+  &-text {
+    color: #fff;
+    font-family: "clear_sansbold";
+    font-size: 44px;
+    line-height: 48px;
+    left: 50%;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100%;
+    max-width: 800px;
+    text-shadow: 1px 2px 3px #000;
+    transform: translate(-50%, -50%);
+  }
+
+  &.banner {
+    &-1 {
+      background-image: url("/images/banner/faq-banner-1.jpg");
+    }
+    &-2 {
+      background-image: url("/images/banner/faq-banner-2.jpg");
+      .button-banner {
+        margin-top: 50px;
+      }
+    }
+    &-3 {
+      background-image: url("/images/banner/faq-banner-3.jpg");
+    }
+    &-4 {
+      background-image: url("/images/banner/faq-banner-4.jpg");
+      .button-banner {
+        margin-top: 50px;
+      }
+    }
+  }
+
+  .button-faq-banner {
+    background-color: #fff;
+    font-family: 'SegoeUIBold', sans-serif;
+    font-size: 26px;
+    line-height: 25px;
+    color: #1076ff;
+    border: 0;
+    padding: 9px 40px 11px;
+    cursor: pointer;
+    margin: 20px auto 0;
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 30px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .faq-page__banner {
+    .button-faq-banner {
+      height: auto;
+      margin-top: 10px;
+      padding: 6px 15px 7px;
+      font-size: 12px;
+      line-height: 12px;
+    }
+
+    &-text {
+      font-size: 38px;
+      line-height: 42px;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .faq-page__banner {
+    height: 110px;
+    &-text {
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
+}
+
+@keyframes flashIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes flashOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
