@@ -25,7 +25,6 @@ export default class Button extends PureComponent {
   render() {
     const { children, ...buttonProps } = this.props;
 
-    delete buttonProps.name;
     delete buttonProps.onClick;
     delete buttonProps.dataset;
 

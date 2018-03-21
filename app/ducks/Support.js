@@ -27,7 +27,7 @@ export default handleActions({
       isFetching: false
     };
   },
-  [supportFailure](state, payload) {
+  [supportFailure](state, { payload }) {
     return {
       ...state,
       isFetching: false,
