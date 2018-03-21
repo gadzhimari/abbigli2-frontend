@@ -32,7 +32,7 @@ export function fetchData() {
   return (dispatch) => {
     dispatch(requestData());
 
-    return Posts.getPosts()
+    return Posts.getPosts({ type: 1, main: true })
       .then((res) => {
         dispatch(setData(res.data));
       });
