@@ -14,8 +14,6 @@ import createPostEditLink from '../../lib/links/edit-post-link';
 import createProfileLink from '../../lib/links/profile-link';
 import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
 
-import './CardProduct.less';
-
 const typesClass = {
   1: 'product',
   3: 'event',
