@@ -25,7 +25,6 @@
   background-color: #b0bec5;
   position: relative;
   overflow: hidden;
-  height: 290px;
   display: block;
   transform: none;
 
@@ -291,6 +290,13 @@
   100% {
     transform: rotate(360deg); } }
 
+@media only screen and (max-width: 760px) {
+  .tag-card {
+    &__title {
+      font-size: 20px;
+    }
+  }
+}
 
 @media only screen and (max-width: 414px) {
   .tag-card {
