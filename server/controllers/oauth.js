@@ -1,7 +1,4 @@
-import fetch from 'isomorphic-fetch';
 import { DOMAIN_URL } from '../../app/config';
-
-import logger from '../logger';
 
 const hashRegexp = /#.*/;
 
