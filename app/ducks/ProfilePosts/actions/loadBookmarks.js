@@ -21,7 +21,7 @@ export default function loadBookmarks(options) {
 
     return Bookmarks.getBookmarks(isMe, profileId, params)
       .then(({ data }) => {
-        dispatch(responseAction(data.results, data.next));
+        dispatch(responseAction(data.results.map(item => item.object), data.next));
       })
       .catch((err) => {
         if (err.status === 403) {

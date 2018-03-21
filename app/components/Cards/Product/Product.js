@@ -31,7 +31,6 @@ class Product extends PureComponent {
   render() {
     const { data, priceTemplate, setLike } = this.props;
     const name = data.author.profile_name ? data.author.profile_name : `ID: ${data.author.id}`;
-    const imageUrl = data.images && data.images[0] && data.images[0].file;
 
     return (
       <div className="post-card">
@@ -39,7 +38,7 @@ class Product extends PureComponent {
           <Link to={`/post/${data.slug}`}>
             <Image
               thumbSize="292x221"
-              src={imageUrl}
+              src={data.image}
               alt={data.title}
               className="post-card__img"
             />
@@ -58,7 +57,7 @@ class Product extends PureComponent {
               <Share
                 postLink={`/post/${data.slug}`}
                 buttonClass="social-btn"
-                media={imageUrl}
+                media={data.image}
                 description={data.title}
               />
             </div>

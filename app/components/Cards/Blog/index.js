@@ -29,8 +29,6 @@ class BlogCard extends Component {
 
   render() {
     const { data, setLike } = this.props;
-    const imageUrl = data.images && data.images[0] && data.images[0].file;
-
     return (
       <div className="blog-card">
         <div className="blog-card__img-wrap">
@@ -41,7 +39,7 @@ class BlogCard extends Component {
               className="blog-card__img"
               alt={data.title}
               thumbSize="360x250"
-              src={imageUrl}
+              src={data.image}
             />
           </Link>
 
@@ -58,7 +56,7 @@ class BlogCard extends Component {
               <Share
                 postLink={createPostLink(data)}
                 buttonClass="social-btn"
-                media={imageUrl}
+                media={data.image}
                 description={data.title}
               />
             </div>

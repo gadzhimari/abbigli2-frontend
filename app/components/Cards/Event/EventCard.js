@@ -28,7 +28,6 @@ class EventCard extends PureComponent {
 
   render() {
     const { data, setLike } = this.props;
-    const imageUrl = data.images && data.images[0] && data.images[0].file;
 
     return (
       <div className="event-card">
@@ -40,7 +39,7 @@ class EventCard extends PureComponent {
               className="blog-card__img"
               alt={data.title}
               thumbSize="360x250"
-              src={imageUrl}
+              src={data.image}
             />
           </Link>
 
@@ -57,7 +56,7 @@ class EventCard extends PureComponent {
               <Share
                 postLink={createPostLink(data)}
                 buttonClass="social-btn"
-                media={imageUrl}
+                media={data.image}
                 description={data.title}
               />
             </div>

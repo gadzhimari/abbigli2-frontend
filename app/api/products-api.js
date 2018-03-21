@@ -28,7 +28,7 @@ export default {
       mustApplyToken: true,
     });
   },
-  createProduct(data) {
+  create(data) {
     return requestV2({
       url: '/products/',
       mustApplyToken: true,
@@ -36,7 +36,7 @@ export default {
       data,
     });
   },
-  editProduct(data, slug) {
+  edit(data, slug) {
     return requestV2({
       url: `/products/${slug}/`,
       mustApplyToken: true,
@@ -44,7 +44,7 @@ export default {
       data,
     });
   },
-  deleteProduct(slug) {
+  delete(slug) {
     return requestV2({
       url: `/products/${slug}/`,
       mustApplyToken: true,

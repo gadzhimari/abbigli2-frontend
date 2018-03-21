@@ -6,6 +6,7 @@ const setLikeRequest = createAction('LIKE_SET_REQUEST');
 const setLikeSuccess = createAction('LIKE_SET_SUCCESS');
 const setLikeFailure = createAction('LIKE_SET_FAILED');
 
+// TODO: new api
 const setLike = slug => async (dispatch) => {
   dispatch(setLikeRequest());
   try {

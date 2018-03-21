@@ -22,13 +22,14 @@ export default {
     });
   },
   likePost(slug) {
+    console.log(slug);
     return requestV2({
       method: 'POST',
       url: `/posts/${slug}/like/`,
       mustApplyToken: true,
     });
   },
-  createPost(data) {
+  create(data) {
     return requestV2({
       url: '/posts/',
       mustApplyToken: true,
@@ -36,7 +37,7 @@ export default {
       data,
     });
   },
-  editPost(data, slug) {
+  edit(data, slug) {
     return requestV2({
       url: `/posts/${slug}/`,
       mustApplyToken: true,
@@ -44,7 +45,7 @@ export default {
       data,
     });
   },
-  deletePost(slug) {
+  delete(slug) {
     return requestV2({
       url: `/posts/${slug}/`,
       mustApplyToken: true,

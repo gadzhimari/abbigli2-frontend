@@ -25,7 +25,7 @@ class ProductForm extends CreateForm {
     this.state = mergeObjects({
       title: '',
       price: '',
-      content: '',
+      description: '',
       colors: ['red'],
       tags: '',
       images: [],
@@ -53,7 +53,7 @@ class ProductForm extends CreateForm {
     ...imageZoneProps,
     } = this.props;
 
-    const { title, price, colors, content, tags, currentCategory } = this.state;
+    const { title, price, colors, description, tags, currentCategory } = this.state;
 
     if (!visible) return null;
 
@@ -115,8 +115,8 @@ class ProductForm extends CreateForm {
             wrapperClass="add-tabs__form-field"
             className="textarea"
             onChange={this.onChange}
-            name="content"
-            value={content}
+            name="description"
+            value={description}
             label={__t('Description')}
           />
 

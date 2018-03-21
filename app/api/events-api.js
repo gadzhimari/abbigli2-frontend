@@ -28,7 +28,7 @@ export default {
       mustApplyToken: true,
     });
   },
-  createEvent(data) {
+  create(data) {
     return requestV2({
       url: '/events/',
       mustApplyToken: true,
@@ -36,7 +36,7 @@ export default {
       data,
     });
   },
-  editEvent(data, slug) {
+  edit(data, slug) {
     return requestV2({
       url: `/events/${slug}/`,
       mustApplyToken: true,
@@ -44,7 +44,7 @@ export default {
       data,
     });
   },
-  deleteEvent(slug) {
+  delete(slug) {
     return requestV2({
       url: `/events/${slug}/`,
       mustApplyToken: true,

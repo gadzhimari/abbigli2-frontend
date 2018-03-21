@@ -6,7 +6,6 @@ import Link from '../Link/Link';
 
 import { __t } from '../../i18n/translator';
 
-
 import './OtherArticles.less';
 
 const urls = {
@@ -36,7 +35,7 @@ const OtherArticles = ({ articles }) => {
               to={`/${urls[article.type]}/${article.slug}`}
             >
               <Image
-                src={article.images[0] && article.images[0].file}
+                src={article.image}
                 thumbSize="120x103"
                 alt={article.title}
               />
