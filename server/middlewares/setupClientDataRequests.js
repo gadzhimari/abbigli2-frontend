@@ -24,7 +24,14 @@ function dataAdapter(req) {
 }
 
 export default function setupClientDataRequests(req, res, next) {
-  const { renderProps: { routes } } = req.renderProps;
+  const { renderProps } = req.renderProps;
+
+  if (!renderProps) {
+    next();
+    return;
+  }
+
+  const { routes } = renderProps;
   const { path } = routes[routes.length - 1];
   const page = routesMap.get(path);
 

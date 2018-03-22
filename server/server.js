@@ -19,6 +19,7 @@ import setupUseragent from './middlewares/setupUseragent';
 import setupDataRequests from './middlewares/setupDataRequests';
 import setupClientDataRequests from './middlewares/setupClientDataRequests';
 import handleRequests from './middlewares/handleRequests';
+import fetchUserProfile from './middlewares/fetchUserProfile';
 
 import routes from './api';
 import cfg from './config';
@@ -50,6 +51,7 @@ app.use(configureRedux);
 app.use(geoLocation);
 app.use(setupUseragent);
 app.use(setupDataRequests);
+app.use(fetchUserProfile);
 app.use(getRenderProps);
 app.use(setupClientDataRequests);
 
