@@ -528,7 +528,7 @@ and (orientation : landscape) {
   .about-section {
     padding: 10px;
   }
-  
+
   .footer .logo {
     background-size: 118px 30px;
     width: 118px;
@@ -653,13 +653,6 @@ and (orientation : landscape) {
 @media only screen and (width : 320px) {
   .header__content {
     margin: 0 10px;
-  }
-}
-
-@media only screen and (orientation: landscape) {
-  .isMobile .error-page__title,
-  .isMobile .error-page__text {
-    display: none;
   }
 }
 
@@ -1559,9 +1552,4 @@ and (orientation : landscape) {
 
 .isMobile .tab-bar__next {
   font-size: 0;
-}
-
-.isMobile .error-page__text {
-  font-size: 20px;
-  line-height: 24px;
 }
