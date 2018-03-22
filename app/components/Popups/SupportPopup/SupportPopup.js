@@ -17,7 +17,7 @@ class SupportPopup extends Component {
     file: null,
     title: '',
     email: '',
-    text: '',
+    description: ''
   };
 
   onDrop = ([file]) => this.setState({ file });
@@ -123,7 +123,7 @@ class SupportPopup extends Component {
                 className="register-popup__textarea"
                 value={this.state.text}
                 onChange={this.onChangeInput}
-                name="text"
+                name="description"
                 component="textarea"
                 errors={errors.description}
                 placeholder={__t('Description of problem')}
@@ -159,7 +159,7 @@ SupportPopup.propTypes = {
   closePopup: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.shape().isRequired,
 };
 
 const mapDispatchToProps = ({ Support }) => ({
