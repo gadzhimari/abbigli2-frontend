@@ -16,13 +16,18 @@ import preloader from './preloader';
 import { fetchPosts, fetchTags, fetchCrumbs } from '../../ducks/CatalogPage/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
+import { catalogSelector } from '../../ducks/CatalogPage/selectors';
+
 import './Sections.less';
 
 class Sections extends Component {
-  render() {
-    const { tree, routing, isFetching } = this.props;
+  static propTypes = {
+    isFetching: PropTypes.bool.isRequired,
+    tree: PropTypes.arrayOf(PropTypes.object),
+  };
 
-    const currentSection = tree[tree.length - 1];
+  render() {
+    const { tree, routing, currentSection, isFetching } = this.props;
     const currentTag = routing && routing.query.tag;
     const crumbs = [...tree];
 
@@ -32,9 +37,6 @@ class Sections extends Component {
         url: `${location.pathname}?tag=${currentTag}`,
       });
     }
-
-    currentSection.children = currentSection.children
-      .filter(item => item.posts_num !== 0);
 
     return (
       <main className="main">
@@ -72,23 +74,21 @@ class Sections extends Component {
   }
 }
 
-Sections.propTypes = {
-  isFetching: PropTypes.bool.isRequired,
-  tree: PropTypes.arrayOf(PropTypes.object),
-};
-
-const mapStateToProps = ({ CatalogPage, Sections, Settings, routing, NetworkErrors }) => ({
-  tags: CatalogPage.tags,
-  tree: CatalogPage.tree,
-  promo: CatalogPage.promo,
-  pages: CatalogPage.postPagesCount,
-  sections: Sections.items,
-  normalizedSections: Sections.normalizedCategories,
-  posts: CatalogPage.posts,
-  priceTemplate: Settings.data.CURRENCY,
-  routing: routing.locationBeforeTransitions,
-  errors: NetworkErrors,
-});
+const mapStateToProps = ({ CatalogPage, Sections, Settings, routing, NetworkErrors }) => {
+  return {
+    tags: CatalogPage.tags,
+    tree: CatalogPage.tree,
+    promo: CatalogPage.promo,
+    pages: CatalogPage.postPagesCount,
+    sections: Sections.items,
+    normalizedSections: Sections.normalizedCategories,
+    posts: CatalogPage.posts,
+    priceTemplate: Settings.data.CURRENCY,
+    routing: routing.locationBeforeTransitions,
+    errors: NetworkErrors,
+    currentSection: catalogSelector(CatalogPage.tree),
+  };
+}
 
 const mapDispatchToProps = dispatch => ({
   fetchSectionTags: (category, page) => dispatch(fetchTags({ category, page })),
