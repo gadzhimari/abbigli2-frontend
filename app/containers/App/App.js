@@ -45,9 +45,9 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    props.dispatch(fetchSections());
     props.dispatch(fetchGeo());
     props.dispatch(loadNewIn());
-    props.dispatch(fetchSections());
   }
 
   componentDidMount() {

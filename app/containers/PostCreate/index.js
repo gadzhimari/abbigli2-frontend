@@ -211,6 +211,7 @@ const mapStateToProps = state => ({
   categories: state.Sections.normalizedCategories.entities &&
     state.Sections.normalizedCategories.entities.categories,
   isTouch: state.isTouch,
+  isFetchingCategories: state.Sections.isFetching
 });
 
 const mapDispatchToProps = dispatch => ({

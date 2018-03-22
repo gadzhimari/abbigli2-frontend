@@ -38,10 +38,12 @@ const postLoader = WrappedComponent => class extends Component {
   }
 
   render() {
-    const { isFetching, params } = this.props;
-    return params.slug && isFetching
+    const { isFetching, params, isFetchingCategories } = this.props;
+    const isLoading = (params.slug && isFetching) || isFetchingCategories;
+
+    return isLoading
       ? (<div className="spin-wrapper">
-        <Spin visible={isFetching} />
+        <Spin visible={isLoading} />
       </div>)
       : <WrappedComponent {...this.props} />;
   }
