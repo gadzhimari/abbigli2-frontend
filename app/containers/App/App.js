@@ -84,8 +84,9 @@ class App extends Component {
 
   logoutUser = () => this.props.dispatch(logoutUser())
 
-  modalButtonClick = ({ currentTarget }) => this.props
-    .dispatch(openPopup(currentTarget.dataset.type || currentTarget.name))
+  modalButtonClick = (e, { name }) => {
+    this.props.dispatch(openPopup(name));
+  }
 
   closePopup = () => this.props.dispatch(closePopup())
 

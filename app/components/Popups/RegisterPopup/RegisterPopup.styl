@@ -12,6 +12,15 @@
   align-items: center;
   justify-content: center;
   padding: 20px 0;
+  .add-dropzone {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+
+    & + .input__icon_error {
+      top: 45px;
+    }
+  }
 }
 
 .register-popup__content {
@@ -57,6 +66,9 @@
   font-weight: 100;
   margin-top: 8px;
   padding: 0;
+  & + .input__icon_error {
+    transform: translateY(-50%);
+  }
 }
 
 .register-popup__input--phone {
@@ -252,3 +264,4 @@ color: #000;
   font-size: 14px;
   color: #686868;
 }
+
