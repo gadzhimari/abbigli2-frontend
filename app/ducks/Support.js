@@ -39,10 +39,9 @@ export default handleActions({
 export function getSupport(data) {
   const formData = new FormData();
 
-  formData.append('title', data.title);
-  formData.append('email', data.email);
-  formData.append('description', data.text);
-  formData.append('file', data.file);
+  Object.keys(data)
+    .filter(key => data[key])
+    .forEach(key => formData.append(key, data[key]));
 
   return (dispatch) => {
     dispatch(supportRequest());
