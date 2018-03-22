@@ -44,9 +44,10 @@ class SectionContent extends PureComponent {
       priceTemplate,
       pages,
       paginate,
-      activePage } = this.props;
+      activePage
+    } = this.props;
 
-    const isPromo = section.is_promo || section.children[0].is_promo;
+    const isPromo = section.is_promo || (section.children[0] && section.children[0].is_promo);
 
     return (
       <div>
