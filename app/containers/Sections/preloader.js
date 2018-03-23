@@ -89,7 +89,6 @@ const preloader = WrappedComponent => class extends PureComponent {
         <WrappedComponent
           isFetching={isFetching}
           {...this.props}
-          section={currentSection}
         />
       }
     </div>);
