@@ -1,7 +1,6 @@
 /* eslint react/sort-comp: 0 */
 
 import React, { PureComponent } from 'react';
-import Type from 'prop-types';
 
 import { connect } from 'react-redux';
 
@@ -17,7 +16,7 @@ class ProfileLinks extends PureComponent {
   handleFollow = () => {
     const { is_subscribed, id } = this.props.data;
 
-    follow(id, is_subscribed);
+    this.props.dispatch(follow(id, is_subscribed));
   }
 
   openFollowers = () => {
@@ -29,7 +28,7 @@ class ProfileLinks extends PureComponent {
   }
 
   render() {
-    const { data, isMe} = this.props;
+    const { data, isMe } = this.props;
 
     if (!isMe) {
       return this.renderForVisitors();
@@ -134,10 +133,15 @@ class ProfileLinks extends PureComponent {
         onClick={this.handleFollow}
       >
         {
-          this.props.data.is_subscribed
-            ? `- ${__t('Unsubscribe')}`
-            : `+ ${__t('Subscribe')}`
+          this.props.data.is_subscribed ? '-' : '+'
         }
+        <span className="profile-my__item-subscribe">
+          {
+            this.props.data.is_subscribed
+              ? ` ${__t('Unsubscribe')}`
+              : ` ${__t('Subscribe')}`
+          }
+        </span>
       </FetchingButton>
     </div>
   );

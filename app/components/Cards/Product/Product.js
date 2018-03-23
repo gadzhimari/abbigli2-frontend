@@ -41,6 +41,7 @@ class Product extends PureComponent {
               thumbSize="292x221"
               src={imageUrl}
               alt={data.title}
+              className="post-card__img"
             />
           </Link>
 
