@@ -3,6 +3,54 @@
 @import 'variables';
 
 .profile {
+  &__submenu {
+    margin: 0px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 850px;
+  }
+  &-submenu {
+    &__item {
+      font-size: 16px;
+      line-height: 20px;
+      color: #78909c;
+      display: inline-block;
+      vertical-align: top;
+      width: 20%;
+      &:hover,
+      &.active {
+        .icon {
+          filter: grayscale(0%);
+          fill: #1076ff;
+        }
+      }
+      &.my-abbigli .icon {
+        background: url("/images/icons/abbigli.svg") no-repeat;
+        width: 40px;
+        height: 40px;
+        background-size: 40px;
+      }
+
+      &.back {
+        display: none;
+      }
+      .icon-wrap {
+        position: relative;
+        height: 40px;
+        width: 40px;
+        margin: 0 auto 5px;
+      }
+
+      .icon {
+        fill: #78909c;
+        left: 50%;
+        top: 50%;
+        position: absolute;
+        transform: translate(-50%,-50%);
+        filter: grayscale(0%);
+      }
+    }
+  }
   &-form {
     position: relative;
     .textarea {
