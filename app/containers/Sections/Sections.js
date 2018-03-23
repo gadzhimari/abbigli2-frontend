@@ -16,8 +16,6 @@ import preloader from './preloader';
 import { fetchPosts, fetchTags, fetchCrumbs } from '../../ducks/CatalogPage/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
-import { catalogSelector } from '../../ducks/CatalogPage/selectors';
-
 import './Sections.less';
 
 class Sections extends Component {
@@ -74,21 +72,19 @@ class Sections extends Component {
   }
 }
 
-const mapStateToProps = ({ CatalogPage, Sections, Settings, routing, NetworkErrors }) => {
-  return {
-    tags: CatalogPage.tags,
-    tree: CatalogPage.tree,
-    promo: CatalogPage.promo,
-    pages: CatalogPage.postPagesCount,
-    sections: Sections.items,
-    normalizedSections: Sections.normalizedCategories,
-    posts: CatalogPage.posts,
-    priceTemplate: Settings.data.CURRENCY,
-    routing: routing.locationBeforeTransitions,
-    errors: NetworkErrors,
-    currentSection: catalogSelector(CatalogPage.tree),
-  };
-}
+const mapStateToProps = ({ CatalogPage, Sections, Settings, routing, NetworkErrors }) => ({
+  tags: CatalogPage.tags,
+  tree: CatalogPage.tree,
+  promo: CatalogPage.promo,
+  pages: CatalogPage.postPagesCount,
+  sections: Sections.items,
+  normalizedSections: Sections.normalizedCategories,
+  posts: CatalogPage.posts,
+  priceTemplate: Settings.data.CURRENCY,
+  routing: routing.locationBeforeTransitions,
+  errors: NetworkErrors,
+  currentSection: CatalogPage.currentCategory,
+});
 
 const mapDispatchToProps = dispatch => ({
   fetchSectionTags: (category, page) => dispatch(fetchTags({ category, page })),

@@ -60,7 +60,7 @@ const preloader = WrappedComponent => class extends PureComponent {
 
   render() {
     const { isFetching } = this.state;
-    const { tree, currentSection } = this.props;
+    const { currentSection } = this.props;
 
     return (<div>
       <Helmet>
@@ -82,7 +82,6 @@ const preloader = WrappedComponent => class extends PureComponent {
         <SectionTag
           isFetching={isFetching}
           {...this.props}
-          tree={tree}
         />
       }
 
@@ -90,7 +89,6 @@ const preloader = WrappedComponent => class extends PureComponent {
         <WrappedComponent
           isFetching={isFetching}
           {...this.props}
-          tree={tree}
           section={currentSection}
         />
       }
