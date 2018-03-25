@@ -53,6 +53,14 @@ const Auth = {
       data,
     });
   },
+  oauth(network, data) {
+    return request({
+      baseURL: DOMAIN_URL,
+      url: `api/social/${network}/`,
+      method: 'POST',
+      data
+    });
+  }
 };
 
 export default Auth;
