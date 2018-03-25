@@ -5,12 +5,12 @@ import cfg from './config';
 import logger from './logger';
 
 cluster.on('disconnect', (worker) => {
-  logger.error(`Worker ${worker.id} died`);
+  logger.error('server/index', `Worker ${worker.id} died`);
   cluster.fork();
 });
 
 cluster.on('exit', (worker, code) => {
-  logger.error(`Worker ${worker.id} died with code: ${code}`);
+  logger.error('server/index', `Worker ${worker.id} died with code: ${code}`);
   cluster.fork();
 });
 

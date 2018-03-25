@@ -1,6 +1,6 @@
 import { createActions } from 'redux-actions';
 
-import { Posts, Tags, Catalog } from '../../api';
+import { Products, Tags, Catalog } from '../../api';
 import { setNetworkError } from '../NetworkErrors/reducer';
 
 export const {
@@ -22,11 +22,10 @@ export const {
   'SET_CURRENT_CATEGORY_TREE'
 );
 
-// TODO: new api
 export const fetchPosts = options => (dispatch) => {
   dispatch(requestPosts());
 
-  return Posts.getPosts({ type: 1, ...options })
+  return Products.getProducts(options)
     .then(res => dispatch(responsePosts(res.data)));
 };
 

@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { digest } from 'json-hash';
 
-import { API_URL } from '../../../app/config';
+import { DOMAIN_URL } from '../../../app/config';
 
-import setCatalogItem, { normalizer, justReturn } from './setCatalogStore';
+import setCatalogItem, { normalizer, unflattenTree } from './setCatalogStore';
 
 const instance = axios.create({
-  baseURL: API_URL,
+  baseURL: `${DOMAIN_URL}/api/v2`,
 });
 
 const hashes = {
@@ -18,29 +18,36 @@ const hashes = {
 
 const catalogTypes = [
   {
-    path: 'categories/',
+    path: 'products/categories/',
     aggregators: [{
       saveAs: 'categories',
-      func: justReturn,
+      func: unflattenTree
     }, {
       saveAs: 'normalizedCategories',
-      func: normalizer,
-    }],
+      func: normalizer
+    }]
   },
   {
-    path: 'categories/?promo=1',
+    path: 'posts/categories/',
+    aggregators: [{
+      saveAs: 'blogsCategories',
+      func: unflattenTree
+    }]
+  },
+  {
+    path: 'events/categories/',
+    aggregators: [{
+      saveAs: 'eventsCategories',
+      func: unflattenTree
+    }]
+  },
+  {
+    path: 'products/categories/?promo=1',
     aggregators: [{
       saveAs: 'promo',
       func: normalizer,
     }],
-  },
-  {
-    path: 'sections/',
-    aggregators: [{
-      saveAs: 'sections',
-      func: justReturn,
-    }],
-  },
+  }
 ];
 
 const loadCatalog = (urls, callback) => {
@@ -72,7 +79,7 @@ const loadCatalog = (urls, callback) => {
       }))
       .catch((err) => {
         errorCallback();
-        console.error(`error at: ${url.path}`, err.message);
+        console.error(`error at: ${url.path}`, err.stack);
       });
   });
 };
