@@ -106,6 +106,7 @@ class ProfileFavorites extends Component {
                     isAuthenticated={isAuth}
                     dispatch={dispatch}
                     priceTemplate={this.props.priceTemplate}
+                    isMe={isMe}
                   />
                 ))
               }
