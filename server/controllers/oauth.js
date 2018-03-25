@@ -4,7 +4,7 @@ import logger from '../logger';
 export default (req, res) => {
   const { state } = req.query;
 
-  Auth.oauth(req.params.social, JSON.stringify({ code: req.query.code }))
+  Auth.oauth(req.params.social, { code: req.query.code })
     .then(({ data }) => {
       if (!data.token) {
         throw new Error(JSON.stringify(data));
