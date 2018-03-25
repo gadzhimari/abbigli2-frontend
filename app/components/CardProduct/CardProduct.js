@@ -53,7 +53,8 @@ class CardProduct extends Component {
       editable,
       me,
       full,
-      setLike
+      setLike,
+      isMe
     } = this.props;
 
     const {
@@ -64,7 +65,7 @@ class CardProduct extends Component {
       images,
       type,
       comments_num: commentsCount,
-      likes_num: likesCount,
+      likes_num: likesCount
     } = this.props.data;
 
     const user = editable === true ? me : this.props.data.user;
@@ -100,7 +101,7 @@ class CardProduct extends Component {
             />
           </div>
 
-          {editable &&
+          {isMe && editable &&
             <Link
               className="card-action-button card-edit"
               to={createPostEditLink({ id: user.id, slug })}
@@ -111,7 +112,7 @@ class CardProduct extends Component {
             </Link>
           }
 
-          {editable &&
+          {isMe && editable &&
             <Button
               className="card-action-button card-delete"
               onClick={this.deletePost}
@@ -122,7 +123,7 @@ class CardProduct extends Component {
             </Button>
           }
 
-          {deleteFromFavorite &&
+          {isMe && deleteFromFavorite &&
             <Button
               className="card-action-button card-delete"
               onClick={this.deleteFromFavorite}
