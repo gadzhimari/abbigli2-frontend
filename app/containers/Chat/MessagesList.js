@@ -6,7 +6,7 @@ import MessageField from './Components/MessageField';
 import RecipientInfo from './Components/RecipientInfo';
 import { Spin } from '../../components-lib';
 
-import { getMessagesGroups } from 'utils/functions';
+import { getMessagesGroups } from '../../utils/functions';
 
 class MessagesList extends Component {
 
@@ -15,7 +15,9 @@ class MessagesList extends Component {
   }
 
   scrollChatToBottom = () => {
-    this.chat.scrollTop = this.chat.scrollHeight - this.chat.offsetHeight;
+    if (this.chat) {
+      this.chat.scrollTop = this.chat.scrollHeight - this.chat.offsetHeight;
+    }
   }
 
   render() {
@@ -47,7 +49,7 @@ class MessagesList extends Component {
         />
         <div
           className="messages__chat"
-          ref={chat => (this.chat = chat)}
+          ref={(chat) => { this.chat = chat; }}
         >
           {
             groups
