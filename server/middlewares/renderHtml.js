@@ -13,7 +13,6 @@ import { nofollow } from '../lib/etc/meta';
 import prepareState from '../lib/prepareState';
 
 const domain = process.env.DOMAIN_URL.slice(0, -1);
-const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = (req, res) => {
   const store = req.redux;
@@ -21,7 +20,7 @@ module.exports = (req, res) => {
   const state = store.getState();
 
   if (redirectLocation) {
-    return res.redirect(301, redirectLocation.pathname + redirectLocation.search);
+    return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
   }
 
   if (error) {

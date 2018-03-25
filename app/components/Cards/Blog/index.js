@@ -1,19 +1,30 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import dateFormat from 'dateformat';
 
+import { React, Component, Type } from '../../../components-lib/__base';
 import Image from '../../../components/Image';
 import Avatar from '../../Avatar';
 import { Share, Link } from '../../../components';
 import { Like } from '../../../components-lib';
+import createProfileLink from '../../../lib/links/profile-link';
+import createPostLink from '../../../lib/links/post-link';
 
 import setLike from '../../../ducks/Like/actions';
 
 import './index.less';
 
 class BlogCard extends Component {
+  static propTypes = {
+    data: Type.shape({
+      title: Type.string,
+      slug: Type.string,
+      price: Type.number,
+      user: Type.object,
+      images: Type.array,
+    }).isRequired
+  };
+
   render() {
     const { data, setLike } = this.props;
     const imageUrl = data.images && data.images[0] && data.images[0].file;
@@ -22,7 +33,7 @@ class BlogCard extends Component {
       <div className="blog-card">
         <div className="blog-card__img-wrap">
           <Link
-            to={`/blog/${data.slug}`}
+            to={createPostLink(data)}
           >
             <Image
               className="blog-card__img"
@@ -43,7 +54,7 @@ class BlogCard extends Component {
             <div className="dropdown-corner" />
             <div className="dropdown">
               <Share
-                postLink={`/blog/${data.slug}`}
+                postLink={createPostLink(data)}
                 buttonClass="social-btn"
                 media={imageUrl}
                 description={data.title}
@@ -55,7 +66,7 @@ class BlogCard extends Component {
         <div className="blog-card__info">
           <Link
             className="user"
-            to={`/profile/${data.user.id}`}
+            to={createProfileLink(data.user)}
           >
             <Avatar
               className="avatar"
@@ -70,7 +81,7 @@ class BlogCard extends Component {
 
           <Link
             className="blog-card__title"
-            to={`/blog/${data.slug}`}
+            to={createPostLink(data)}
           >
             <svg className="icon icon-blog" viewBox="0 0 51 52.7">
               <path d="M51,9.4L41.5,0L31,10.4H4.1c-2.3,0-4.1,1.8-4.1,4.1v27.8c0,2.3,1.8,4.1,4.1,4.1h1.4l0.7,6.3 l8.3-6.3H38c2.3,0,4.1-1.8,4.1-4.1V18.1L51,9.4z M16.2,34.4l1-6.3l5.3,5.4L16.2,34.4z M47.2,9.4L24,32.2l-5.6-5.6l23-22.8L47.2,9.4z" />
@@ -97,16 +108,6 @@ class BlogCard extends Component {
     );
   }
 }
-
-BlogCard.propTypes = {
-  data: PropTypes.shape({
-    title: PropTypes.string,
-    slug: PropTypes.string,
-    price: PropTypes.number,
-    user: PropTypes.object,
-    images: PropTypes.array,
-  }).isRequired
-};
 
 const mapStateToProps = state => ({
   isAuth: state.Auth.isAuthenticated,

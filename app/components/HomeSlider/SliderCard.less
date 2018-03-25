@@ -1,0 +1,50 @@
+.SliderCard {
+  width: calc(33% - 8px);
+
+  box-sizing: border-box;
+  margin-right: 8px;
+  margin-bottom: 8px;
+
+  background-color: #fff;
+  display: inline-block;
+  position: relative;
+  box-shadow: 0 0 4px #8f8e8e;
+  border: 1px solid #b2b2b2;
+  border-radius: 3px;
+
+  &__image {
+    width: 100%;
+  }
+
+  &__title {
+    height: 46px;
+    padding: 0 5px;
+
+    font-family: 'clear_sansbold', sans-serif;
+    font-size: 17px;
+    line-height: 46px;
+    color: #263238;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+@media only screen and (min-width: 701px) {
+    .SliderCard {
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .SliderCard {
+      width: calc(50% - 8px);
+
+      &:nth-child(2n) {
+        margin-right: 0;
+      }
+    }
+}

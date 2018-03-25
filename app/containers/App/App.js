@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { React, Component, Type } from '../../components-lib/__base';
 
 import { Header, Search, AvatarBlock, ContentWrapper } from '../../components';
-import NotFound from '../../containers/NotFound';
+import { NotFound } from '../../components-lib';
 
 import scrollOnRoute from '../../HOC/scrollOnRoute';
 
@@ -84,8 +84,9 @@ class App extends Component {
 
   logoutUser = () => this.props.dispatch(logoutUser())
 
-  modalButtonClick = ({ currentTarget }) => this.props
-    .dispatch(openPopup(currentTarget.dataset.type || currentTarget.name))
+  modalButtonClick = (e, { name }) => {
+    this.props.dispatch(openPopup(name));
+  }
 
   closePopup = () => this.props.dispatch(closePopup())
 

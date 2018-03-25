@@ -14,7 +14,7 @@ import './lib/raven';
 
 import Geolocation from './HOC/Geolocation';
 
-import routes from './routes';
+import getRoutes from './routes';
 import store from './store/store';
 
 import parseQuery from './lib/parse-query';
@@ -32,6 +32,7 @@ function renderApp() {
   }
 
   const history = syncHistoryWithStore(browserHistory, store);
+  const routes = getRoutes(store);
 
   const routerParams = {
     routes,

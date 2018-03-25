@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import DialogsList from './DialogsList';
 import MessagesList from './MessagesList';
 
-import { openPopup } from 'ducks/Popup/actions';
-import { getDialogs, sendPrivateMessage, setActiveDialog, loadMessages } from 'ducks/Dialogs/actions';
+import { openPopup } from '../../ducks/Popup/actions';
+import { getDialogs, sendPrivateMessage, setActiveDialog, loadMessages } from '../../ducks/Dialogs/actions';
 
 import { __t } from '../../i18n/translator';
 
@@ -91,7 +90,7 @@ class Chat extends Component {
       <main className="main">
         <div
           className="messages__container"
-          ref={container => (this.container = container)}
+          ref={(container) => { this.container = container; }}
         >
           <DialogsList
             dialogs={filtredDialogs}
@@ -141,7 +140,8 @@ const mapDispatchToProps = dispatch => ({
   getDialogs: () => dispatch(getDialogs()),
   setActive: id => dispatch(
     dispatch(setActiveDialog(id)),
-    dispatch(loadMessages(id))),
+    dispatch(loadMessages(id))
+  ),
   deleteDialog: (id, userID, name, avatar, city) => dispatch(openPopup('deleteMessagePopup', {
     id,
     name: name || `User ID: ${userID}`,
@@ -149,7 +149,9 @@ const mapDispatchToProps = dispatch => ({
     city,
   })),
   closeDialog: () => dispatch(setActiveDialog(null)),
-  sendMessage: (sender, message, dialogID) => dispatch(sendPrivateMessage(sender, message, dialogID)),
+  sendMessage: (sender, message, dialogID) => dispatch(
+    sendPrivateMessage(sender, message, dialogID)
+  ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

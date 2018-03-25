@@ -126,15 +126,17 @@ class SupportPopup extends Component {
                 name="description"
                 component="textarea"
                 errors={errors.description}
-                placeholder={__t('Descrption of problem...')}
+                placeholder={__t('Description of problem')}
               />
             </div>
-            <ErrorInput
-              onDrop={this.onDrop}
-              file={this.state.file}
-              component={dropZone}
-              errors={errors.file}
-            />
+            <div className="register-popup__field">
+              <ErrorInput
+                onDrop={this.onDrop}
+                file={this.state.file}
+                component={dropZone}
+                errors={errors.file}
+              />
+            </div>
 
             <div className="buttons-wrap">
               <FetchingButton

@@ -1,10 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { React, PureComponent, Type } from '../../components-lib/__base';
 
 import Link from '../Link/Link';
 
 import { __t } from '../../i18n/translator';
-import { THUMBS_URL } from 'config';
+import Avatar from '../Avatar';
+import Image from '../../components/Image';
+import createProfileLink from '../../lib/links/profile-link';
+import createPostLink from '../../lib/links/post-link';
 
 import './NewPost.less';
 
@@ -14,53 +16,70 @@ const rubricByType = {
   1: __t('New in posts'),
 };
 
-const NewPost = ({ data }) => {
-  if (!data) return null;
+class NewPost extends PureComponent {
+  static propTypes = {
+    data: Type.shape({
+      title: Type.string,
+      slug: Type.string,
+      price: Type.number,
+      user: Type.object,
+      images: Type.array,
+    }).isRequired
+  };
 
-  const userName = data.user.profile_name || `user id: ${data.user.id}`;
+  render() {
+    const { data } = this.props;
+    const imageUrl = data.images && data.images[0] && data.images[0].file;
 
-  return (
-    <div className="new-post">
-      <Link className="new-post__img-wrap" to={data.view_on_site_url}>
-        <img
-          className="new-post__img"
-          src={`${THUMBS_URL}/unsafe/592x140/${data.images[0].file}`}
-          alt={data.title}
-        />
-      </Link>
-      <div className="new-post__info">
-        <div className="new-post__rubric">
-          {rubricByType[data.type]}
-        </div>
-        <Link className="new-post__title" to={data.view_on_site_url}>
-          {data.title}
+    return (
+      <div className="new-post">
+        <Link
+          className="new-post__img-wrap"
+          to={createPostLink(data)}
+        >
+          <Image
+            className="new-post__img"
+            alt={data.title}
+            thumbSize="592x140"
+            src={imageUrl}
+          />
         </Link>
-        <div className="new-post__date">
-          {
-            !!data.date
-            &&
-            data.date
-          }
-        </div>
-        <div className="user-wrap">
-          <a className="user">
-            <div className="avatar">
-              <img
-                className="avatar__img"
-                src="/images/temp/3.png"
-                alt={userName}
-              />
-            </div>
-            {userName}
-          </a>
+        <div className="new-post__info">
+          <div className="new-post__rubric">
+            {rubricByType[data.type]}
+          </div>
+          <Link
+            className="new-post__title"
+            to={createPostLink(data)}
+          >
+            {data.title}
+          </Link>
+          <div className="new-post__date">
+            {
+              !!data.date
+              &&
+              data.date
+            }
+          </div>
+
+          <Link
+            className="user"
+            to={createProfileLink(data.user)}
+          >
+            <Avatar
+              className="avatar"
+              imgClassName="avatar__img"
+              avatar={data.user.avatar}
+              thumbSize="25x25"
+              alt={data.user.profile_name}
+            />
+
+            {data.user.profile_name}
+          </Link>
         </div>
       </div>
-    </div>
-  );
-};
-
-NewPost.propTypes = {
-  data: PropTypes.object.isRequired,
-};
+    );
+  }
+}
 
 export default NewPost;
