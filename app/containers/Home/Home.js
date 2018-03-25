@@ -6,6 +6,7 @@ import {
   Banner,
   HR,
   BannerBlue,
+  HomeSlider
 } from '../../components';
 import { Uni, Goods } from '../../components/Cards';
 import PostsList from './PostsList';
@@ -44,13 +45,16 @@ class Home extends PureComponent {
             isFetchingProducts,
             itemsProducts,
             isAuthenticated,
-            priceTemplate } = this.props;
+            priceTemplate,
+            itemsSections } = this.props;
 
     return (
       <div className="container-fluid main-page">
         <Banner
           handleOpenCreating={this.handleOpenCreating}
         />
+
+        <HomeSlider items={itemsSections} />
 
         <BannerBlue
           hideJoin={isAuthenticated}

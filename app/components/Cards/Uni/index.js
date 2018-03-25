@@ -134,4 +134,4 @@ class Uni extends PureComponent {
   }
 }
 
-export default connect(() => {}, { setLike })(Uni);
+export default connect(() => ({}), { setLike })(Uni);
