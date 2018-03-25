@@ -1,21 +1,11 @@
-import { DOMAIN_URL } from '../../app/config';
-
-const hashRegexp = /#.*/;
+import { Auth } from '../../app/api';
+import logger from '../logger';
 
 export default (req, res) => {
-  const config = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code: req.query.code }),
-  };
+  const { state } = req.query;
 
-  let { state } = req.query;
-
-  state = state.replace(hashRegexp, '');
-
-  fetch(`${DOMAIN_URL}api/social/${req.params.social}/`, config)
-    .then(response => response.json())
-    .then((data) => {
+  Auth.oauth(req.params.social, JSON.stringify({ code: req.query.code }))
+    .then(({ data }) => {
       if (!data.token) {
         throw new Error(JSON.stringify(data));
       }
@@ -27,6 +17,7 @@ export default (req, res) => {
         .redirect(302, state);
     })
     .catch((err) => {
+      logger.error('oauth', err.stack || err);
       res
         .cookie('oauth_error', err.message)
         .redirect(302, state);
