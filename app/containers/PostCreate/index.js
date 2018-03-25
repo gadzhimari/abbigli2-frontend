@@ -28,7 +28,7 @@ class PostCreate extends Component {
     super(props);
 
     this.state = mergeObjects({
-      type: PRODUCT_TYPE,
+      type: props.params.type || PRODUCT_TYPE,
       images: []
     }, props.data);
 

@@ -10,6 +10,8 @@ import createPostLink from '../../../lib/links/post-link';
 import createProfileLink from '../../../lib/links/profile-link';
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
 import { EVENT_DATE_FORMAT } from '../../../lib/date/formats';
+import { EVENT_TYPE } from '../../../lib/constants/posts-types';
+
 
 import setLike from '../../../ducks/Like/actions';
 
@@ -47,6 +49,7 @@ class EventCard extends PureComponent {
             liked={data.liked}
             onClick={setLike}
             slug={data.slug}
+            type={EVENT_TYPE}
           />
 
           <div className="share">

@@ -141,7 +141,7 @@ class EventPage extends Component {
             <div className="article__wrapper">
               <h1 className="section-title">
                 {userIsOwner &&
-                  <Link to={createPostEditLink({ id: data.user.id, slug: data.slug })}>
+                  <Link to={createPostEditLink({ slug: data.slug, type: EVENT_TYPE })}>
                     <svg className="icon icon-event" viewBox="0 0 27 26">
                       <path d="M22.2,3v2.1c0,2-1.6,3.5-3.5,3.5S15.1,7,15.1,5.1V3h-2.9v2.1c0,2-1.6,3.5-3.5,3.5 S5.1,7,5.1,5.1V3H0V26h27V3H22.2z M8.8,22.8H4.2v-4h4.5V22.8z M8.8,15.7H4.2v-4h4.5V15.7z M15.8,22.8h-4.5v-4h4.5V22.8z M15.8,15.7 h-4.5v-4h4.5V15.7z M18.2,22.8v-4h4.5L18.2,22.8z M22.8,15.7h-4.5v-4h4.5V15.7z" />
                       <path d="M8.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8S6.8,0.8,6.8,1.8v3.3 C6.8,6.1,7.6,6.9,8.6,6.9z" />
@@ -170,7 +170,7 @@ class EventPage extends Component {
               <div>{processBlogContent(data.content)}</div>
 
               {userIsOwner &&
-                <Link to={createPostEditLink({ id: data.user.id, slug: data.slug })} className="edit-btn">
+                <Link to={createPostEditLink({ slug: data.slug, type: EVENT_TYPE })} className="edit-btn">
                   <svg className="icon icon-edit" viewBox="0 0 18 18">
                     <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
                   </svg>

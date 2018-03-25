@@ -12,6 +12,7 @@ import Button from '../Button';
 import createPostLink from '../../lib/links/post-link';
 import createPostEditLink from '../../lib/links/edit-post-link';
 import createProfileLink from '../../lib/links/profile-link';
+import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
 
 import './CardProduct.less';
 
@@ -62,11 +63,12 @@ class CardProduct extends Component {
       liked,
       price,
       image,
-      type,
       comments_num: commentsCount,
       likes_num: likesCount,
       author
     } = this.props.data;
+
+    const type = this.props.data.type || PRODUCT_TYPE;
 
     const formatedPrice = Number(price).toFixed(2);
     const thumbSize = `350x${full ? 350 : 290}`;
@@ -102,7 +104,7 @@ class CardProduct extends Component {
           {editable &&
             <Link
               className="card-action-button card-edit"
-              to={createPostEditLink({ id: author.id, slug })}
+              to={createPostEditLink({ slug, type })}
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
                 <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409 l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
@@ -179,6 +181,7 @@ class CardProduct extends Component {
               onClick={setLike}
               count={likesCount}
               slug={slug}
+              type={type}
             />
 
             <div className="like-comment__button message">

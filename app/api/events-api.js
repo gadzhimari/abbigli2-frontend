@@ -21,7 +21,7 @@ export default {
       token
     });
   },
-  likeEvent(slug) {
+  like(slug) {
     return requestV2({
       method: 'POST',
       url: `events/${slug}/like/`,

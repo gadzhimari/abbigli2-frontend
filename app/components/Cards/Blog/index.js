@@ -11,6 +11,7 @@ import createProfileLink from '../../../lib/links/profile-link';
 import createPostLink from '../../../lib/links/post-link';
 import localeDateString from '../../../lib/date/toLocaleDateString';
 import { MESSAGE_DATE_FORMAT } from '../../../lib/date/formats';
+import { BLOG_TYPE } from '../../../lib/constants/posts-types';
 
 import setLike from '../../../ducks/Like/actions';
 
@@ -47,6 +48,7 @@ class BlogCard extends Component {
             liked={data.liked}
             onClick={setLike}
             slug={data.slug}
+            type={BLOG_TYPE}
           />
 
           <div className="share">

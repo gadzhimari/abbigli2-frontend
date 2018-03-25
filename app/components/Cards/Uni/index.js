@@ -57,6 +57,7 @@ class Uni extends PureComponent {
             liked={liked}
             onClick={setLike}
             slug={slug}
+            type={type}
           />
           <div className="share">
             <div className="share__icon" />

@@ -9,8 +9,9 @@ import { Share } from '../../../components';
 import { Like } from '../../../components-lib';
 import Image from '../../../components/Image';
 import Avatar from '../../Avatar';
-
 import { ProductsIcons } from '../../../components/Icons';
+
+import { PRODUCT_TYPE } from '../../../lib/constants/posts-types';
 
 import setLike from '../../../ducks/Like/actions';
 
@@ -48,6 +49,7 @@ class Product extends PureComponent {
             liked={data.liked}
             onClick={setLike}
             slug={data.slug}
+            type={PRODUCT_TYPE}
           />
 
           <div className="share">

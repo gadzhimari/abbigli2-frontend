@@ -30,7 +30,7 @@ export default {
     path: 'post/new'
   },
   EDIT_PAGE: {
-    path: 'profile/:profile/post/edit/:slug'
+    path: '/edit/:type/:slug'
   },
   PROFILE_PAGE: {
     path: 'profile/(:profile)'

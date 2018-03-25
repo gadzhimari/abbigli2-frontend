@@ -21,8 +21,7 @@ export default {
       token
     });
   },
-  likePost(slug) {
-    console.log(slug);
+  like(slug) {
     return requestV2({
       method: 'POST',
       url: `/posts/${slug}/like/`,

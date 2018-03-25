@@ -21,7 +21,7 @@ export default {
       token
     });
   },
-  likeProduct(slug) {
+  like(slug) {
     return requestV2({
       method: 'POST',
       url: `/products/${slug}/like/`,
