@@ -101,7 +101,7 @@ class CardProduct extends Component {
             />
           </div>
 
-          {isMe && editable &&
+          {editable &&
             <Link
               className="card-action-button card-edit"
               to={createPostEditLink({ id: user.id, slug })}
@@ -112,7 +112,7 @@ class CardProduct extends Component {
             </Link>
           }
 
-          {isMe && editable &&
+          {editable &&
             <Button
               className="card-action-button card-delete"
               onClick={this.deletePost}

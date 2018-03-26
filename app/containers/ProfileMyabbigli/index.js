@@ -97,13 +97,14 @@ class ProfileMyabbigli extends Component {
                 data={item}
                 legacy
                 key={`${item.slug}--myabbigli`}
-                editable={this.props.isMe}
+                editable={isMe}
                 me={this.props.me}
                 setLike={setLike}
                 priceTemplate={this.props.priceTemplate}
                 isAuthenticated={isAuth}
                 delete={deletePost}
                 full
+                isMe={isMe}
               />
             ))
           }
