@@ -48,7 +48,11 @@ class TagSearchResults extends Component {
   };
 
   componentDidMount() {
-    const { location, items } = this.props;
+    const { location, router, items } = this.props;
+
+    if (!window.location.search.includes('?tags')) {
+      router.push('/');
+    }
 
     if (location.action === 'POP' && items.length === 0) {
       this.loadItems();
