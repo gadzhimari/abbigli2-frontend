@@ -1,6 +1,6 @@
 import * as actions from '../actionsTypes';
 
-import { Posts } from 'API';
+import { Posts } from '../../../api';
 
 const request = () => ({
   type: actions.POSTS_REQUEST,
