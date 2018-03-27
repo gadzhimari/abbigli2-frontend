@@ -95,8 +95,8 @@ class TagSearchResults extends Component {
 
   clickOnTag = (tag) => {
     const { router, filters } = this.props;
-    const newTags = filters.tags.split(',');
-    newTags.push(tag);
+    const tags = filters.tags.split(',');
+    const newTags = [...tags, tag];
 
     router.push({
       pathname: '/find',
