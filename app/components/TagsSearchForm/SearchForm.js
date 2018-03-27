@@ -10,7 +10,7 @@ import ScrollBar from '../ScrollBar';
 
 import { __t } from './../../i18n/translator';
 
-import './SearchForm.styl';
+import './SearchForm.less';
 
 class SearchForm extends Component {
   static propTypes = {
@@ -374,28 +374,30 @@ class SearchForm extends Component {
     );
 
     const tagsTemplate = () => (
-      <ScrollBar
-        onClick={this.focusedOnInput}
-      >
-        {
-          tags.map((tag, idx) => (
-            <div key={`${tag.id}--tagsearch`} className="form__tag tag-search">
-              <div
-                className="tag__text"
-              >
-                {tag.text}
+      <div className="form__tags-wrap">
+        <ScrollBar
+          onClick={this.focusedOnInput}
+        >
+          {
+            tags.map((tag, idx) => (
+              <div key={`${tag.id}--tagsearch`} className="form__tag tag-search">
+                <div
+                  className="tag__text"
+                >
+                  {tag.text}
+                </div>
+                <div
+                  className="tag__delete"
+                  onClick={() => this.props.deleteTag(idx)}
+                >
+                  ×
+                </div>
               </div>
-              <div
-                className="tag__delete"
-                onClick={() => this.props.deleteTag(idx)}
-              >
-                ×
-              </div>
-            </div>
-          ))
-        }
+            ))
+          }
+        </ScrollBar>
         {clearInputButton()}
-      </ScrollBar>
+      </div>
     );
     const inputTemplate = () => (
       <div className={inputWrapperClass}>
