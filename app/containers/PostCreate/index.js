@@ -97,7 +97,7 @@ class PostCreate extends Component {
       ...data,
       ...this.state,
       images: this.state.images.map(img => img.id),
-      categories: [data.categories],
+      categories: data.categories ? [data.categories] : [],
       // legacy: нужно до тех пор, пока сервер требует это поле
       sections: [1]
     }, slug);

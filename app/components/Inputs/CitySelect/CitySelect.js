@@ -6,7 +6,6 @@ import Button from '../../Button';
 
 import { Geo } from '../../../api';
 import citiesToOpts from '../../../lib/adapters/cities-to-opts';
-import bindMethods from '../../../lib/bindMethods';
 
 import './CitySelect.less';
 
@@ -18,20 +17,15 @@ export default class CitySelect extends PureComponent {
     name: Type.string
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      label: ''
-    };
-
-    bindMethods(this, [
-      'openPopup',
-      'onChange'
-    ]);
+  static defaultProps = {
+    options: []
   }
 
-  onChange(e, { label, ...otherFields }) {
+  state = {
+    label: this.props.options[0] && this.props.options[0].label
+  }
+
+  onChange = (e, { label, ...otherFields }) => {
     this.setState({ label });
 
     this.props.onChange(e, { label, ...otherFields });
@@ -42,7 +36,7 @@ export default class CitySelect extends PureComponent {
       .then(({ data }) => ({ options: citiesToOpts(data.results) }));
   }
 
-  openPopup() {
+  openPopup = () => {
     this.props.openPopup('selectPopup', {
       async: true,
       loadOptions: this.getOptions,
