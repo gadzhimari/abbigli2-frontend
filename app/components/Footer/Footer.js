@@ -22,7 +22,7 @@ class Footer extends PureComponent {
         <div className="footer__content">
           <Link
             className="logo-gray"
-            to={pages.ROOT_PAGE}
+            to={pages.ROOT_PAGE.path}
           />
           <div className="footer__links">
             <span className="footer__copyright">

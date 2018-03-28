@@ -70,7 +70,7 @@ export default handleActions({
     return {
       ...state,
       isFetchingMoreTags: false,
-      tags: [...state.tags, ...payload.tags],
+      tags: [...state.tags, ...payload.results],
       nextTagsPage: payload.next && (state.nextTagsPage + 1),
     };
   },
