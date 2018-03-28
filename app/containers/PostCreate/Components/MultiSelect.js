@@ -39,6 +39,21 @@ class MultiSelect extends PureComponent {
     }
   }
 
+  getCategoriesByCurrentSlug = () => {
+    const { currentCategory: slug, categories } = this.props;
+    const currentCategories = [];
+
+    let current = { parent: slug };
+
+    while (current.parent) {
+      current = categories[current.parent];
+
+      currentCategories.unshift(current);
+    }
+
+    return currentCategories;
+  }
+
   /* Возвращает последний индекс стэка вложенности */
   get lastStackIndex() {
     return this.state.stack.length - 1;
@@ -54,21 +69,6 @@ class MultiSelect extends PureComponent {
     return this.lastStackIndex === this.lastValuesIndex
       ? this.state.values[this.lastStackIndex]
       : null;
-  }
-
-  getCategoriesByCurrentSlug = () => {
-    const { currentCategory: slug, categories } = this.props;
-    const currentCategories = [];
-
-    let current = { parent: slug };
-
-    while (current.parent) {
-      current = categories[current.parent];
-
-      currentCategories.unshift(current);
-    }
-
-    return currentCategories;
   }
 
   genetateInitialStack = () => {
@@ -123,23 +123,29 @@ class MultiSelect extends PureComponent {
   }
 
   render() {
+    const { stack, values } = this.state;
+    const { categories, errors } = this.props;
+    const lastStackIdx = stack.length - 1;
+    const showError = errors && errors.length !== 0;
+
     return (
       <div className="add-tabs__form-field">
-        <label className="label">
+        <div className="label">
           {__t('Choose category')}
-        </label>
+        </div>
 
-        {
-          this.state.stack
-            .map((group, idx) => <MultiSelectItem
-              options={group.children}
-              index={idx}
-              onChange={this.sectionsChange}
-              value={this.state.values[idx]}
-              categories={this.props.categories}
-              key={idx}
-              label={group.label}
-            />)
+        {stack
+          .map((group, idx) => <MultiSelectItem
+            options={group.children}
+            index={idx}
+            onChange={this.sectionsChange}
+            value={values[idx]}
+            categories={categories}
+            key={idx}
+            label={__t('Choose category')}
+            errorState={showError && idx === lastStackIdx}
+            errors={errors}
+          />)
         }
       </div>
     );

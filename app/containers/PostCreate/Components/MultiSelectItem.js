@@ -1,6 +1,6 @@
 /* eslint react/require-default-props: 0 */
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import Type from 'prop-types';
 
 import Select from 'react-select';
@@ -31,6 +31,19 @@ class MultiSelectItem extends PureComponent {
 
   state = {
     value: '',
+    showError: false
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errorState !== this.props.errorState) {
+      this.setState({
+        showError: nextProps.errorState,
+      });
+    }
+  }
+
+  handleFocus = () => {
+    this.setState({ showError: false });
   }
 
   handleChange = (option) => {
@@ -44,9 +57,12 @@ class MultiSelectItem extends PureComponent {
   }
 
   render() {
-    const { options, label, index, value, categories } = this.props;
-    const formatedOptions = options.map(option => {
+    const { showError } = this.state;
+    const { options, label, index, value, categories, errors } = this.props;
+
+    const formatedOptions = options.map((option) => {
       if (typeof option === 'string') {
+        // eslint-disable-next-line
         option = categories[option];
       }
 
@@ -58,17 +74,31 @@ class MultiSelectItem extends PureComponent {
       });
     });
 
+    const className = showError ?
+      'add-tabs__select post-create__error-input' : 'add-tabs__select';
+
     return (
-      <Select
-        options={formatedOptions}
-        className="add-tabs__select"
-        name="form-field-name"
-        value={value}
-        onChange={this.handleChange}
-        clearable={false}
-        placeholder={label}
-        autosize={false}
-      />
+      <Fragment>
+        <Select
+          options={formatedOptions}
+          className={className}
+          name="form-field-name"
+          value={value}
+          onChange={this.handleChange}
+          clearable={false}
+          placeholder={label}
+          autosize={false}
+          onFocus={this.handleFocus}
+        />
+
+        {showError &&
+          errors.map((error, idx) => (
+            <div className="post-create__error" key={idx}>
+              {error}
+            </div>
+          ))
+        }
+      </Fragment>
     );
   }
 }
