@@ -39,5 +39,5 @@ export const socialGroupsUrl = {
   pinterest: location === 'en'
     ? 'https://ru.pinterest.com/abbiglicom/'
     : 'https://ru.pinterest.com/Abbigliru/?etslf=5789&eq=abbi',
-  youtube: 'https://www.youtube.com/channel/UC0P3XK_o0B-aRJFMMap7gLA',
+  youtube: 'https://www.youtube.com/channel/UCc_9xmwk6hVaT1IZaMo4f2Q'
 };
