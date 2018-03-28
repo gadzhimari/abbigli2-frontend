@@ -39,6 +39,7 @@ class Textarea extends Component {
           xhr.setRequestHeader('Authorization', `JWT ${token}`);
         },
         imageUpload: (image, json) => {
+          // eslint-disable-next-line
           image[0].src = json.file;
         },
         change() {
