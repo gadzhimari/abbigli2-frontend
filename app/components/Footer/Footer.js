@@ -44,7 +44,7 @@ class Footer extends PureComponent {
             </Link>
             <Link
               className="footer__link footer__link_help"
-              data-type="supportPopup"
+              name="supportPopup"
               onClick={openPopup}
               rel="nofollow"
             >
