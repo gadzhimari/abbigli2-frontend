@@ -50,10 +50,12 @@ class Footer extends PureComponent {
             >
               {__t('Support')}
             </Link>
-            <Link
+            <a
               className="footer__youtube"
-              to={socialGroupsUrl.youtube}
-            />
+              href={socialGroupsUrl.youtube}
+            >
+              YouTube
+            </a>
           </div>
           <SocialGroups
             wrapperClassName="social-networks"
