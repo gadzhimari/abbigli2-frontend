@@ -53,6 +53,8 @@ class Footer extends PureComponent {
             <a
               className="footer__youtube"
               href={socialGroupsUrl.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               YouTube
             </a>
