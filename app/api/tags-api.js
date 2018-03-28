@@ -11,7 +11,7 @@ const Tags = {
     return request({
       url: 'tags/',
       params: {
-        related_tags: tags,
+        related_with: tags,
       },
     });
   },

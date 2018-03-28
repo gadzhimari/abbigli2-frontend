@@ -8,7 +8,7 @@ import TagsSearchForm from '../TagsSearchForm';
 import UserSearch from '../UserSearch';
 
 import { __t } from './../../i18n/translator';
-import './Search.styl';
+import './Search.less';
 
 const propTypes = {
   router: PropTypes.object,

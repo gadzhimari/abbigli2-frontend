@@ -10,26 +10,49 @@ import {
   Filters,
   ListWithNew,
   PageSwitcher,
-} from 'components';
+} from '../../components';
 
-import Tag from 'components/SliderBar/components/Tag';
+import Tag from '../../components/SliderBar/components/Tag';
 import { Spin } from '../../components-lib';
 
-import { openPopup } from 'ducks/Popup/actions';
-import { fetchPosts, fetchTags } from 'ducks/TagSearch/actions';
+import { openPopup } from '../../ducks/Popup/actions';
+import { fetchPosts, fetchTags } from '../../ducks/TagSearch/actions';
 
 import paginateHOC from '../../HOC/paginate';
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 
-import { API_URL } from 'config';
+import { API_URL } from '../../config';
 
 import { __t } from './../../i18n/translator';
 
 import './Tag.styl';
 
 class TagSearchResults extends Component {
+  static propTypes = {
+    routeParams: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    applyFilters: PropTypes.func.isRequired,
+    updateFilter: PropTypes.func.isRequired,
+    changeFiltersType: PropTypes.func.isRequired,
+    updateFieldByName: PropTypes.func.isRequired,
+    paginate: PropTypes.func.isRequired,
+    reversePriceRange: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    filters: PropTypes.shape({
+      price_from: PropTypes.string,
+      price_to: PropTypes.string,
+      section: PropTypes.string,
+      color: PropTypes.string,
+      distance: PropTypes.string,
+    }).isRequired,
+  };
+
   componentDidMount() {
-    const { location, items } = this.props;
+    const { location, router, items } = this.props;
+
+    if (!window.location.search.includes('?tags')) {
+      router.push('/');
+    }
 
     if (location.action === 'POP' && items.length === 0) {
       this.loadItems();
@@ -76,8 +99,8 @@ class TagSearchResults extends Component {
 
   clickOnTag = (tag) => {
     const { router, filters } = this.props;
-    const newTags = filters.tags.split(',');
-    newTags.push(tag);
+    const tags = filters.tags.split(',');
+    const newTags = [...tags, tag];
 
     router.push({
       pathname: '/find',
@@ -197,25 +220,6 @@ class TagSearchResults extends Component {
     );
   }
 }
-
-TagSearchResults.propTypes = {
-  routeParams: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  applyFilters: PropTypes.func.isRequired,
-  updateFilter: PropTypes.func.isRequired,
-  changeFiltersType: PropTypes.func.isRequired,
-  updateFieldByName: PropTypes.func.isRequired,
-  paginate: PropTypes.func.isRequired,
-  reversePriceRange: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  filters: PropTypes.shape({
-    price_from: PropTypes.string,
-    price_to: PropTypes.string,
-    section: PropTypes.string,
-    color: PropTypes.string,
-    distance: PropTypes.string,
-  }).isRequired,
-};
 
 const mapStateToProps = ({
   Auth,

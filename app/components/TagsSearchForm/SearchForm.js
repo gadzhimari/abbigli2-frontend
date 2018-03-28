@@ -4,13 +4,13 @@ import React, { Component } from 'react';
 import uniqid from 'uniqid';
 import debounce from 'lodash/debounce';
 
-import { API_URL } from 'config';
+import { API_URL } from '../../config';
 
 import ScrollBar from '../ScrollBar';
 
 import { __t } from './../../i18n/translator';
 
-import './SearchForm.styl';
+import './SearchForm.less';
 
 class SearchForm extends Component {
   static propTypes = {
@@ -157,7 +157,7 @@ class SearchForm extends Component {
     }
   }
 
-  handleInpute = ({ target }) => {
+  handleInput = ({ target }) => {
     this.changeValue(target);
     this.loadOptions(target);
   }
@@ -300,14 +300,17 @@ class SearchForm extends Component {
     ) return;
 
     this.setState({
-      currentValue: `${currentValue}${' '}`,
+      currentValue: `${currentValue.trim()}${' '}`,
     });
 
     this.toggleFocusStatus(true);
   }
 
-  inputOnFocus = () => {
+  handleFocus = (e) => {
     const { isFocused } = this.state;
+    const val = e.target.value;
+    e.target.value = '';
+    e.target.value = val;
 
     if (!isFocused) {
       this.toggleFocusStatus();
@@ -371,40 +374,42 @@ class SearchForm extends Component {
     );
 
     const tagsTemplate = () => (
-      <ScrollBar
-        onClick={this.focusedOnInput}
-      >
-        {
-          tags.map((tag, idx) => (
-            <div key={`${tag.id}--tagsearch`} className="form__tag tag-search">
-              <div
-                className="tag__text"
-              >
-                {tag.text}
+      <div className="form__tags-wrap">
+        <ScrollBar
+          onClick={this.focusedOnInput}
+        >
+          {
+            tags.map((tag, idx) => (
+              <div key={`${tag.id}--tagsearch`} className="form__tag tag-search">
+                <div
+                  className="tag__text"
+                >
+                  {tag.text}
+                </div>
+                <div
+                  className="tag__delete"
+                  onClick={() => this.props.deleteTag(idx)}
+                >
+                  ×
+                </div>
               </div>
-              <div
-                className="tag__delete"
-                onClick={() => this.props.deleteTag(idx)}
-              >
-                ×
-              </div>
-            </div>
-          ))
-        }
+            ))
+          }
+        </ScrollBar>
         {clearInputButton()}
-      </ScrollBar>
+      </div>
     );
     const inputTemplate = () => (
       <div className={inputWrapperClass}>
         <input
           className={inputClass}
-          onInput={this.handleInpute}
+          onInput={this.handleInput}
           onBlur={this.handleLoseFocus}
-          onFocus={this.inputOnFocus}
+          onFocus={this.handleFocus}
           onKeyDown={this.handleKeydown}
           value={value}
           placeholder={__t('tag.for.search')}
-          ref={input => (this.input = input)}
+          ref={(input) => { this.input = input; }}
         />
       </div>
     );
@@ -424,7 +429,7 @@ class SearchForm extends Component {
 
               <div
                 className={`search-form__options-wrapper ${optionsWrapperClass}`}
-                ref={optionsList => (this.optionsList = optionsList)}
+                ref={(optionsList) => { this.optionsList = optionsList; }}
               >
                 <ul className={optionListClass}>
                   {

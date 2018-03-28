@@ -1,6 +1,6 @@
 import * as actions from '../actionsTypes';
 
-import { Tags } from 'API';
+import { Tags } from '../../../api';
 
 const response = data => ({
   type: actions.TAGS_RESPONSE,
