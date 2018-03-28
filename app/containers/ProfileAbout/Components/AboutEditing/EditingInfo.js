@@ -1,20 +1,25 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
+import Redactor from '../../../../components/Inputs/Redactor';
+
 import { __t } from '../../../../i18n/translator';
 
 class EditingInfo extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: props.info,
-    };
+  static propTypes = {
+    info: Type.string
   }
 
-  handleChange = ({ target }) => {
-    this.setState({
-      value: target.value,
-    });
+  static defaultProps = {
+    info: ''
+  }
+
+  state = {
+    value: this.props.info
+  }
+
+  handleChange = (e, { value }) => {
+    this.setState({ value });
   }
 
   get value() {
@@ -28,7 +33,7 @@ class EditingInfo extends PureComponent {
           {__t('Your contact information')}
         </h3>
 
-        <textarea
+        <Redactor
           className="profile-about__info-textarea"
           value={this.state.value}
           placeholder={__t('Information about your page')}
@@ -38,13 +43,5 @@ class EditingInfo extends PureComponent {
     );
   }
 }
-
-EditingInfo.propTypes = {
-  info: Type.string,
-};
-
-EditingInfo.defaultProps = {
-  info: '',
-};
 
 export default EditingInfo;

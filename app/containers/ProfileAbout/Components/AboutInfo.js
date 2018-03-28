@@ -1,48 +1,54 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import { pure } from 'recompose';
-
+import { processBlogContent } from '../../../lib/process-html';
 import { __t } from '../../../i18n/translator';
 
-const AboutInfo = ({ info, isMe, handleEditing }) => {
-  const edit = () => handleEditing(true);
+class AboutInfo extends PureComponent {
+  static propTypes = {
+    info: Type.string,
+    isMe: Type.bool,
+    handleEditing: Type.func,
+  }
 
-  return (
-    <div className="profile-about__info">
-      {isMe &&
-        <button
-          className="default-button"
-          type="button"
-          onClick={edit}
-        >
-          {__t('Edit')}
-        </button>
-      }
+  static defaultProps = {
+    info: null,
+    isMe: false,
+    handleEditing: () => { },
+  }
 
-      <h3 className="profile-about__header">
-        { isMe ? __t('Your contact information') : __t('User contact information') }
-      </h3>
+  handleEditing = () => {
+    this.props.handleEditing(true);
+  }
 
-      <p className="profile-about__text">
-        {info || (isMe ?
-          __t('You did not provide your contact information yet') :
-          __t('The user has not yet filled out information about themselves'))}
-      </p>
-    </div>
-  );
-};
+  render() {
+    const { info, isMe } = this.props;
+    const noContentText = isMe ?
+      __t('You did not provide your contact information yet') :
+      __t('The user has not yet filled out information about themselves')
 
-AboutInfo.propTypes = {
-  info: Type.string,
-  isMe: Type.bool,
-  handleEditing: Type.func,
-};
+    return (
+      <div className="profile-about__info">
+        {isMe &&
+          <button
+            className="default-button"
+            type="button"
+            onClick={this.handleEditing}
+          >
+            {__t('Edit')}
+          </button>
+        }
 
-AboutInfo.defaultProps = {
-  info: null,
-  isMe: false,
-  handleEditing: () => {},
-};
+        <h3 className="profile-about__header">
+          {isMe ? __t('Your contact information') : __t('User contact information')}
+        </h3>
 
-export default pure(AboutInfo);
+        <p className="profile-about__text">
+          {info ? processBlogContent(info) : noContentText}
+        </p>
+      </div>
+    );
+  }
+}
+
+export default AboutInfo;
