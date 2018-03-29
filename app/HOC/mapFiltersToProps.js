@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { updateOptions } from '../ducks/Popup/actions';
@@ -16,7 +16,8 @@ const omitInvalidData = (object) => {
   return newObject;
 };
 
-const mapFiltersToProps = WrappedComponent => class MapFilters extends PureComponent {
+const mapFiltersToProps = WrappedComponent => class MapFilters extends
+Component {
   static propTypes = {
     routing: PropTypes.shape({
       query: PropTypes.object,
@@ -101,6 +102,10 @@ const mapFiltersToProps = WrappedComponent => class MapFilters extends PureCompo
     this.props.dispatch(updateOptions({ filters: options }));
 
     return options;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(nextProps.routing.query);
   }
 
   render() {

@@ -15,6 +15,7 @@ const reducer = (state = initialState, action) => {
     case (actions.SAVE_POST_REQ): {
       return {
         ...state,
+        errors: {},
         isSaving: true,
       };
     }

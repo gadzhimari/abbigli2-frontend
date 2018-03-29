@@ -74,9 +74,10 @@ class ProductForm extends CreateForm {
 
           <MultiSelect
             options={sections}
-            ref={sectionSelect => (this.sectionSelect = sectionSelect)}
+            ref={(sectionSelect) => { this.sectionSelect = sectionSelect; }}
             currentCategory={currentCategory}
             categories={categories}
+            errors={errors.categories}
           />
 
           <div className="add-tabs__form-field">

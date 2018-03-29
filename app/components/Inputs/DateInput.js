@@ -5,6 +5,8 @@ import MomentLocaleUtils from 'react-day-picker/moment';
 import 'react-day-picker/lib/style.css';
 import moment from 'moment';
 
+import 'moment/locale/ru';
+
 import { location } from '../../config';
 import toLocaleDateString from '../../lib/date/toLocaleDateString';
 

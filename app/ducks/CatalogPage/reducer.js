@@ -19,7 +19,16 @@ const initialState = {
   postPagesCount: 0,
   nextTagsPage: 1,
   tree: [],
-  promo: []
+  promo: [],
+  currentCategory: {},
+};
+
+const getCurrentCategory = (categories) => {
+  const category = categories[categories.length - 1];
+  return {
+    ...category,
+    children: category.children.filter(item => item.posts_num !== 0)
+  };
 };
 
 export default handleActions({
@@ -61,15 +70,16 @@ export default handleActions({
     return {
       ...state,
       isFetchingMoreTags: false,
-      tags: [...state.tags, ...payload.tags],
+      tags: [...state.tags, ...payload.results],
       nextTagsPage: payload.next && (state.nextTagsPage + 1),
     };
   },
-  [setCurrentCategoryTree](state, { payload }) {
+  [setCurrentCategoryTree](state, { payload: { crumbs, promo } }) {
     return {
       ...state,
-      tree: payload.crumbs,
-      promo: payload.promo
+      tree: crumbs,
+      promo,
+      currentCategory: getCurrentCategory(crumbs)
     };
   }
 }, initialState);

@@ -9,12 +9,10 @@
   position: relative;
   margin: 0 auto;
   max-width: 620px;
-  -webkit-flex-grow: 1;
-  -ms-flex-grow: 1;
   flex-grow: 1;
-  -webkit-align-self: center;
   align-self: center;
   width: 100%;
+  min-width: 0;
 
   &-submit {
     background-color: #0090de;
@@ -25,7 +23,7 @@
     height: 100%;
     padding: 0 20px;
     line-height: 2;
-    border-radius 0 3px 3px 0;
+    border-radius: 0 3px 3px 0;
     font-size: 18px;
     cursor: pointer;
 
@@ -52,12 +50,10 @@
     width: 100%;
     margin: 0 -100px 0 -80px;
     padding: 4px 99px 4px 79px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     position: relative;
-    -webkit-box-sizing: content-box;
     box-sizing: content-box;
-    box-shadow: inset 0 1px 1px rgba(#cecece,.5);
+    box-shadow: inset 0 1px 1px rgba(206, 206, 206, 0.5);
   }
 }
 
@@ -102,28 +98,26 @@
 }
 
 .search-users {
-    display: inline-block;
-    vertical-align: top;
-    cursor: pointer;
-    margin-top: 10px;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+  margin-top: 10px;
 
+  .icon {
+    background-image: url("/images/icons_with_bg/user.svg"), url("/images/icons_with_bg/user_active.svg");
+    background-position: 0 0, -17px 0;
+    background-repeat: no-repeat;
+    background-size: 17px 19px;
+    width: 17px;
+    height: 19px;
+  }
+
+  &.active {
     .icon {
-        background-image: url("/images/icons_with_bg/user.svg"), url("/images/icons_with_bg/user_active.svg");
-        background-position: 0 0, -17px 0;
-        background-repeat: no-repeat;
-        background-size: 17px 19px;
-        width: 17px;
-        height: 19px;
+      background-position: -17px 0, 0 0;
     }
-
-    &.active {
-        .icon {
-            background-position: -17px 0, 0 0;
-        }
-    }
+  }
 }
-
-
 
 .search-icon {
   fill: #90a4ae;
@@ -133,20 +127,15 @@
   position: absolute;
   right: 10px;
   top: 50%;
-  -webkit-transform: translate(0px, -50%);
   transform: translate(0px, -50%);
   width: 16px;
 }
 
-
-
-
-
 .search-results {
   background-color: #fff;
   position: absolute;
-  opacity 0
-  transition all .3s;
+  opacity: 0;
+  transition: all .3s;
   top: 35px;
   left: 0;
   text-align: center;
@@ -154,9 +143,7 @@
   right: 0;
   max-height: 310px;
   overflow-y: auto;
-  -webkit-box-shadow: 0 4px 6px #6a7377;
   box-shadow: 0 4px 6px #6a7377;
-  -webkit-border-radius: 0 0 2px 2px;
   border-radius: 0 0 2px 2px;
 }
 
@@ -184,7 +171,6 @@
   height: 70px;
   margin: 0 auto 5px;
   overflow: hidden;
-  -webkit-border-radius: 50%;
   border-radius: 50%;
 }
 
@@ -200,7 +186,7 @@
 
 .open-result .search-results {
   padding: 25px 0 10px;
-  opacity 1
+  opacity: 1;
 }
 
 .search-result_tag {
