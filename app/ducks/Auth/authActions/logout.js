@@ -1,8 +1,8 @@
 import { handleSucces } from './common';
+import { deleteCookie } from '../../../lib/cookie';
 
 const logout = () => (dispatch) => {
-  localStorage.removeItem('id_token');
-  document.cookie = 'id_token=; expires=-1';
+  deleteCookie('id_token');
 
   dispatch(handleSucces({
     isAuthenticated: false,

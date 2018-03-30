@@ -10,10 +10,6 @@ import { gaSendClickEvent } from '../../lib/analitics';
 import { __t } from './../../i18n/translator';
 
 class UserMenu extends Dropdown {
-  componentDidMount() {
-    this.setupOutsideClickHandler(this.close);
-  }
-
   onDropdownClick = ({ target, currentTarger }) => {
     if (target !== currentTarger) {
       this.close();
@@ -39,7 +35,7 @@ class UserMenu extends Dropdown {
     return (
       <div
         className="header__menu-item you"
-        ref={root => (this.root = root)}
+        ref={(root) => { this.root = root; }}
       >
         <Avatar
           avatar={user.avatar}
