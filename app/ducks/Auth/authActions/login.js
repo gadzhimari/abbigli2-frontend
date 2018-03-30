@@ -1,15 +1,17 @@
 import { setFetchingStatus, setError, handleSucces } from './common';
-import { Auth } from 'API';
+import { Auth } from '../../../api';
+
+import { setCookie } from '../../../lib/cookie';
+
+// Куки живут 10 дней
+const COOKIES_EXPIRES = 3600 * 24 * 10;
 
 const login = (creds, callback) => (dispatch) => {
   dispatch(setFetchingStatus());
 
   return Auth.signIn(creds)
     .then((res) => {
-      const data = new Date();
-      data.setTime(data.getTime() + (60 * 60 * 24 * 1000 * 1000));
-
-      document.cookie = `id_token=${res.data.token}; expires=${data.toUTCString()}`;
+      setCookie('id_token', res.data.token, { expires: COOKIES_EXPIRES });
 
       dispatch(handleSucces({ isAuthenticated: true }));
       callback();

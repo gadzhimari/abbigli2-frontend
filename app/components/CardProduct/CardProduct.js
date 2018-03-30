@@ -51,7 +51,6 @@ class CardProduct extends Component {
       priceTemplate,
       deleteFromFavorite,
       editable,
-      me,
       full,
       setLike,
       isMe
@@ -65,10 +64,10 @@ class CardProduct extends Component {
       images,
       type,
       comments_num: commentsCount,
-      likes_num: likesCount
+      likes_num: likesCount,
+      user
     } = this.props.data;
 
-    const user = editable === true ? me : this.props.data.user;
     const formatedPrice = Number(price).toFixed(2);
     const imageUrl = images && images[0] && images[0].file;
     const thumbSize = `350x${full ? 350 : 290}`;

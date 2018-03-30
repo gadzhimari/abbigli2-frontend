@@ -8,14 +8,11 @@ const Profile = {
       mustApplyToken: isMe,
     });
   },
-  getProfilePosts(isMe, userId, type, params) {
-    const url = isMe ? `my-profile/${type}/` : `profiles/${userId}/${type}`;
-
+  getProfilePosts(userId, type, params) {
     return request({
-      url,
+      url: `profiles/${userId}/${type}`,
       params,
       canApplyToken: true,
-      mustApplyToken: isMe,
     });
   },
   getFollowers(id, isMe, isAuth, type, params) {

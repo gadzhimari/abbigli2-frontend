@@ -15,10 +15,6 @@ class MenuDropdown extends Dropdown {
     bindMethods(this, ['toggle', 'onOpen', 'onDropdownClick']);
   }
 
-  componentDidMount() {
-    this.setupOutsideClickHandler(this.close);
-  }
-
   onOpen() {
     gaSendClickEvent('menu', 'menu');
   }
@@ -47,7 +43,7 @@ class MenuDropdown extends Dropdown {
     return (
       <div
         className={dropdownClass}
-        ref={root => (this.root = root)}
+        ref={(root) => { this.root = root; }}
       >
         <button
           className="main-menu__opener"
