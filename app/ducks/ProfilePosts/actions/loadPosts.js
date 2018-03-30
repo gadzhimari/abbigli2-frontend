@@ -18,7 +18,7 @@ export const {
 );
 
 export default function loadPosts(option) {
-  const { isMe, type = 'posts', excludeId, page = 1, profileId } = option;
+  const { type = 'posts', excludeId, page = 1, profileId } = option;
   const params = {
     exclude_id: excludeId,
     page
@@ -31,7 +31,7 @@ export default function loadPosts(option) {
   return (dispatch) => {
     dispatch(requestAction());
 
-    return Profile.getProfilePosts(isMe, profileId, type, params)
+    return Profile.getProfilePosts(profileId, type, params)
       .then(({ data }) => {
         dispatch(responseAction(data.results, data.next));
       })
