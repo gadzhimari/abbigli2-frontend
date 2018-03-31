@@ -45,7 +45,7 @@ class Input extends PureComponent {
     }
   }
 
-  getValue() {
+  getValue = () => {
     const { value } = this.props;
 
     return typeof value === 'undefined' ?
