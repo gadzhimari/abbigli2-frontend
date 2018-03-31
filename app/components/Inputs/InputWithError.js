@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import omit from 'lodash/omit';
 
 import Input from './Input';
 
@@ -41,6 +40,8 @@ class InputWithError extends Component {
       Icon,
       labelRequired,
       wrapperErrorClass,
+
+      ...inputProps
     } = this.props;
 
     const inputClass = this.state.showError
@@ -51,48 +52,44 @@ class InputWithError extends Component {
       ? `${wrapperClass} ${wrapperErrorClass}`
       : wrapperClass;
 
-    const omitedProps = omit(
-      this.props,
-      ['className', 'component', 'wrapperClass', 'wrapperErrorClass', 'errors', 'errorClass', 'label', 'labelRequired']
-    );
-
     return (
       <div className={wrapper}>
-        {
-          label
-          &&
+        {label &&
           <label className="label" htmlFor={id}>
             {label}
-            {
-              labelRequired
-              &&
+
+            {labelRequired &&
               <span className="label__required">*</span>
             }
           </label>
         }
-        <If condition={Icon}>
-          {Icon}
-        </If>
+        {Icon &&
+          <div className="input__icon-wrapper">
+            {Icon}
+          </div>
+        }
+
         <span className="input__box">
           <RenderInput
             onFocus={this.hideError}
             className={inputClass}
-            {...omitedProps}
+            id={id}
+
+            {...inputProps}
           />
-          <If condition={this.mustShowErrors}>
+
+          {this.mustShowErrors &&
             <span className="input__icon input__icon_error">!</span>
-          </If>
-        </span>
-        <If condition={this.mustShowErrors}>
-          {
-            errors.map(error => (<div
-              className={errorClass}
-              key={error}
-            >
-              {error}
-            </div>))
           }
-        </If>
+        </span>
+
+        {this.mustShowErrors &&
+          errors.map(error => (
+            <div className={errorClass} key={error}>
+              {error}
+            </div>
+          ))
+        }
       </div>
     );
   }
@@ -118,12 +115,6 @@ InputWithError.propTypes = {
   label: PropTypes.string,
   id: PropTypes.string,
   labelRequired: PropTypes.bool,
-  component: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-    PropTypes.element,
-  ]),
-  errors: PropTypes.any,
   Icon: PropTypes.node,
 };
 
