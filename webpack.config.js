@@ -5,6 +5,7 @@ const path = require('path');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
+const LessListPlugin = require('less-plugin-lists');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -120,6 +121,9 @@ module.exports = {
                 path.resolve(__dirname, 'app/containers/App/base'),
               ],
               sourceMap: true,
+              plugins: [
+                new LessListPlugin()
+              ]
             },
           }],
         }),

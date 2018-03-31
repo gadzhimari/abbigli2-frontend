@@ -1,7 +1,7 @@
 import React from 'react';
 import Type from 'prop-types';
 
-import { FetchingButton } from 'components';
+import { FetchingButton } from '../../../../components';
 
 import { __t } from '../../../../i18n/translator';
 
@@ -14,6 +14,7 @@ const SaveButtons = ({ handleSave, handleCancel, isSaving }) => (
     >
       {__t('Save')}
     </FetchingButton>
+
     <button
       className="default-button"
       type="button"
