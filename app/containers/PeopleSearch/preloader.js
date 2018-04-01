@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { Spin } from '../../components-lib';
-import { createQuery, getJsonFromStorage } from 'utils/functions';
+import { createQuery } from '../../utils/functions';
 
-import { API_URL } from 'config';
+import { API_URL } from '../../config';
+import { getCookie } from '../../lib/cookie';
 
 const preloader = WrappedComponent => class extends PureComponent {
   static propTypes = {
@@ -37,7 +38,7 @@ const preloader = WrappedComponent => class extends PureComponent {
 
   fetchUsers = () => {
     const { routing } = this.props;
-    const token = getJsonFromStorage('id_token');
+    const token = getCookie('id_token2');
     const config = { headers: {} };
     const currentQuery = (routing && routing.query) || {
       user: '',
