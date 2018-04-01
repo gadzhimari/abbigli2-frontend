@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
 
-import dateFormat from 'dateformat';
-
 import { React, Component, Type } from '../../../components-lib/__base';
+
 import Image from '../../../components/Image';
 import Avatar from '../../Avatar';
 import { Share, Link } from '../../../components';
 import { Like } from '../../../components-lib';
+
 import createProfileLink from '../../../lib/links/profile-link';
 import createPostLink from '../../../lib/links/post-link';
+import localeDateString from '../../../lib/date/toLocaleDateString';
+import { MESSAGE_DATE_FORMAT } from '../../../lib/date/formats';
 
 import setLike from '../../../ducks/Like/actions';
 
@@ -95,11 +97,13 @@ class BlogCard extends Component {
           />
 
           <div className="blog-card__date">
-            {dateFormat(data.created, 'd mmmm yyyy')}
+            {localeDateString(data.created, MESSAGE_DATE_FORMAT)}
+
             <div className="comment-count">
               <svg className="icon icon-comment" viewBox="0 0 16.1 16.1">
                 <polygon points="6.9,11.6 16.1,11.6 16.1,0 0,0 0,11.6 2.1,11.6 2.1,16.1 " />
               </svg>
+
               {data.comments_num}
             </div>
           </div>
