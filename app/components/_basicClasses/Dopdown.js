@@ -1,8 +1,15 @@
 import { PureComponent } from 'react';
+
 import { isClickOutside } from '../../lib/window';
+import bindMethods from '../../lib/bindMethods';
 
 class Dropdown extends PureComponent {
-  state = { opened: false };
+  constructor(props) {
+    super(props);
+
+    this.state = { opened: false };
+    bindMethods(this, ['toggle']);
+  }
 
   componentDidMount() {
     window.addEventListener('click', this.outsideClickHandler);
@@ -24,7 +31,7 @@ class Dropdown extends PureComponent {
     }
   }
 
-  toggle = () => {
+  toggle() {
     const opened = !this.state.opened;
     this.setState({ opened });
 
