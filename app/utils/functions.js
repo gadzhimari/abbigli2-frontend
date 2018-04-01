@@ -27,7 +27,7 @@ export function deleteFromStorage(key) {
   storage.removeItem(key);
 }
 
-export function getJsonFromStorage(value = 'id_token') {
+export function getJsonFromStorage(value = 'id_token2') {
   if (typeof document === 'undefined') {
     return null;
   }

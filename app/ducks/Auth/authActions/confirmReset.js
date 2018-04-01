@@ -1,15 +1,19 @@
 import { setFetchingStatus, setError, handleSucces } from './common';
 
-import { openPopup } from 'ducks/Popup/actions';
+import { openPopup } from '../../Popup/actions';
 
-import { Auth } from 'API';
+import { Auth } from '../../../api';
+import { setCookie } from '../../../lib/cookie';
+
+// Куки живут 10 дней
+const COOKIES_EXPIRES = 3600 * 24 * 10;
 
 const confirmReset = creds => (dispatch) => {
   dispatch(setFetchingStatus());
 
   Auth.resetPasswordConfirm(creds)
     .then((res) => {
-      document.cookie = `id_token=${res.data.token}`;
+      setCookie('id_token2', res.data.token, { expires: COOKIES_EXPIRES });
 
       dispatch(handleSucces({ resetStage: 'password' }));
       dispatch(openPopup('passwordPopup'));
