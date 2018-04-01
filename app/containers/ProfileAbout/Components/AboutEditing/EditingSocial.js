@@ -62,7 +62,7 @@ class EditingSocial extends PureComponent {
     return (
       <div className="profile-about__contact">
         <h4 className="profile-about__contact-header">
-          {__t('Contact')}
+          {__t('You in social networks')}
         </h4>
 
         <InputsGroup gap="medium">
