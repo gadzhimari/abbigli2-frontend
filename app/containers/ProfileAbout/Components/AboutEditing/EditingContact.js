@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import { ErrorInput } from 'components/Inputs';
+import { Input, InputsGroup } from '../../../../components-lib';
+
 
 import { __t } from '../../../../i18n/translator';
 
@@ -16,10 +17,8 @@ class EditingContact extends PureComponent {
     };
   }
 
-  handleChange = ({ target }) => {
-    this.setState({
-      [target.name]: target.value,
-    });
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value });
   }
 
   get value() {
@@ -35,37 +34,34 @@ class EditingContact extends PureComponent {
         <h4 className="profile-about__contact-header">
           {__t('Contact')}
         </h4>
-        <div className="profile-about__contact-items">
-          <ErrorInput
-            className="input"
+
+        <InputsGroup gap="medium">
+          <Input
             value={phone}
             placeholder={__t('Your phone number')}
             type="tel"
             name="phone_info"
             onChange={this.handleChange}
-            wrapperClass="edit-contact__wrapper"
             errors={errors.phone}
           />
-          <ErrorInput
-            className="input"
+
+          <Input
             value={email}
             placeholder={__t('Your email')}
             type="email"
             name="email_info"
             onChange={this.handleChange}
-            wrapperClass="edit-contact__wrapper"
             errors={errors.email}
           />
-          <ErrorInput
-            className="input"
+
+          <Input
             value={skype}
             placeholder={__t('Your skype')}
             name="skype"
             onChange={this.handleChange}
-            wrapperClass="edit-contact__wrapper"
             errors={errors.skype}
           />
-        </div>
+        </InputsGroup>
       </div>
     );
   }

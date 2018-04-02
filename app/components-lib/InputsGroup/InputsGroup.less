@@ -1,0 +1,28 @@
+@gaps:
+  small 10px,
+  medium 15px,
+  large 20px;
+
+.InputsGroup {
+  display: flex;
+  flex-wrap: wrap;
+
+  &_gap {
+    .for-each(@pair in @gaps) {
+      @key: at(@pair, 1);
+      @value: at(@pair, 2);
+
+      &_@{key} {
+        .Input {
+          &__wrapper {
+            margin-right: @value;
+
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

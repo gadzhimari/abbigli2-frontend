@@ -3,29 +3,29 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import ShareButton from '../../../../components/Share/Buttons/ShareButton';
-
-import { ErrorInput } from 'components/Inputs';
+import { Input, InputsGroup } from '../../../../components-lib';
+import { SocialIcons } from '../../../../components/Icons';
 
 import { __t } from '../../../../i18n/translator';
-
-import { location } from 'config';
+import { location } from '../../../../config';
 
 class EditingSocial extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      vk_account: props.data.vk_account,
-      google_account: props.data.google_account,
-      ok_account: props.data.ok_account,
-      fb_account: props.data.fb_account,
-    };
+  state = {
+    vk_account: this.props.data.vk_account,
+    google_account: this.props.data.google_account,
+    ok_account: this.props.data.ok_account,
+    fb_account: this.props.data.fb_account,
   }
 
-  handleChange = ({ target }) => {
+  getIcon = ({ Icon, iconClass }) => (
+    <div className={`social-btn ${iconClass}`}>
+      <Icon />
+    </div>
+  );
+
+  handleChange = (e, { name, value }) => {
     this.setState({
-      [target.name]: target.value,
+      [`${name}_account`]: value
     });
   }
 
@@ -33,48 +33,41 @@ class EditingSocial extends PureComponent {
     return this.state;
   }
 
-  renderSocialLinks() {
+  renderInputs() {
     const { errors } = this.props;
     const { vk_account, ok_account, fb_account, google_account } = this.state;
 
     const socials = [
-      location === 'ru' && { name: 'vk', provider: 'vk', value: vk_account, cls: 'vkontakte' },
-      location === 'ru' && { name: 'ok', provider: 'odnoklassniki', value: ok_account, cls: '' },
-      { name: 'fb', provider: 'facebook', value: fb_account, cls: '' },
-      { name: 'google', provider: 'google', value: google_account, cls: 'google-plus' },
-    ].filter(Boolean);
+      location === 'ru' &&
+        { name: 'vk', Icon: SocialIcons.vk, value: vk_account, iconClass: 'vkontakte' },
+      location === 'ru' &&
+        { name: 'ok', Icon: SocialIcons.odnoklassniki, value: ok_account, iconClass: 'odnoklassniki' },
 
-    return (
-      <div>
-        {
-          socials.map(social => (
-            <ErrorInput
-              key={social.name}
-              className="input"
-              value={social.value}
-              name={`${social.name}_account`}
-              onChange={this.handleChange}
-              wrapperClass="edit-contact__wrapper"
-              errors={errors[`${social.name}_account`]}
-              Icon={<ShareButton
-                className={`social-btn ${social.cls}`}
-                provider={social.provider}
-                link={null}
-              />}
-            />
-          ))
-        }
-      </div>
-    );
+      { name: 'fb', Icon: SocialIcons.facebook, value: fb_account, iconClass: 'facebook' },
+      { name: 'google', Icon: SocialIcons.google, value: google_account, iconClass: 'google-plus' },
+    ].filter(Boolean).map(social => ({ ...social, Icon: this.getIcon(social) }));
+
+    return socials.map(social => (
+      <Input
+        key={social.name}
+        onChange={this.handleChange}
+        errors={errors[`${social.name}_account`]}
+
+        {...social}
+      />
+    ));
   }
 
   render() {
     return (
       <div className="profile-about__contact">
         <h4 className="profile-about__contact-header">
-          {__t('Contact')}
+          {__t('You in social networks')}
         </h4>
-        { this.renderSocialLinks() }
+
+        <InputsGroup gap="medium">
+          {this.renderInputs()}
+        </InputsGroup>
       </div>
     );
   }

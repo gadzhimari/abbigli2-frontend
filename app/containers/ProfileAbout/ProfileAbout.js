@@ -71,7 +71,7 @@ class ProfileAbout extends PureComponent {
     const { data, isMe, isSaving, errors } = this.props;
 
     return (
-      <div className="profile_content">
+      <div className="profile_content profile-about">
         <If condition={!this.state.isEditing}>
           <AboutInfo
             handleEditing={this.handleEditing}

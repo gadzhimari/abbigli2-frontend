@@ -11,10 +11,23 @@
   border-radius: 3px;
   width: 100%;
   padding: 9px 15px;
+
   &__box {
     position: relative;
   }
+
   &__icon {
+    &-wrapper {
+      width: 24px;
+      height: 24px;
+
+      position: absolute;
+      top: 50%;
+      left: 5px;
+
+      transform: translateY(-50%);
+    }
+
     &_error {
       position: absolute;
       top: -1px;

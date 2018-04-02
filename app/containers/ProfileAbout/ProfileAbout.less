@@ -33,6 +33,14 @@
 
   &__text {
     color: #8b8b8b;
+
+    figure {
+      margin: 10px 0;
+    }
+
+    img {
+      width: 100%;
+    }
   }
 
   &__contact {
@@ -107,31 +115,16 @@
       }
     }
   }
-}
 
-.edit-contact__wrapper {
-  width: 100%;
-  max-width: 280px;
-  position: relative;
-  display: inline-block;
-  margin-right: 22px;
-  margin-bottom: 10px;
-  vertical-align: top;
+  .Input {
+    &__wrapper {
+      width: 100%;
+      max-width: 280px;
+    }
 
-  .input {
-    height: 40px;
-  }
-
-  .social-btn {
-    width: 27px;
-    height: 27px;
-    position: absolute;
-    left: 10px;
-    top: 20px;
-    transform: translateY(-50%);
-
-    & + .input {
-      padding-left: 50px;
+    .social-btn {
+      width: 27px;
+      height: 27px;
     }
   }
 

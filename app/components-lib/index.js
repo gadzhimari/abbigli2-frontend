@@ -5,3 +5,5 @@ export { default as Collapse } from './Collapse';
 export { default as ResizeSensor } from './ResizeSensor';
 export { default as ReadMore } from './ReadMore';
 export { default as NotFound } from './NotFound';
+export { default as Input } from './Input';
+export { default as InputsGroup } from './InputsGroup';
