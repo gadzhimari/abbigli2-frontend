@@ -1,11 +1,12 @@
 import Type from 'prop-types';
 import React, { Component } from 'react';
 
-import { getJsonFromStorage } from '../../utils/functions';
+
 import { API_URL } from '../../config';
 import { __t } from '../../i18n/translator';
 
 import './redactor/redactor.css';
+import { getCookie } from '../../lib/cookie';
 
 class Textarea extends Component {
   static propTypes = {
@@ -26,7 +27,7 @@ class Textarea extends Component {
 
   activateRedactor = () => {
     const { onChange, name } = this.props;
-    const token = getJsonFromStorage('id_token');
+    const token = getCookie('id_token2');
 
     window.jQuery('#redactor').redactor({
       linkNofollow: true,

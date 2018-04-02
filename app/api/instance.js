@@ -14,7 +14,7 @@ const request = (options) => {
     params = {},
     canApplyToken = false,
     mustApplyToken = false,
-    token = getCookie('id_token'),
+    token = getCookie('id_token2'),
     data = {},
     baseURL,
   } = options;

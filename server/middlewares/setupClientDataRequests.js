@@ -19,7 +19,7 @@ function dataAdapter(req) {
   const { renderProps: { router } } = req.renderProps;
   return {
     params: router.params,
-    token: req.cookies.id_token
+    token: req.cookies.id_token2
   };
 }
 

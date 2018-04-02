@@ -11,7 +11,7 @@ export default (req, res) => {
       }
 
       res
-        .cookie('id_token', data.token, {
+        .cookie('id_token2', data.token, {
           maxAge: (1000 * 3600 * 24 * 1000),
         })
         .redirect(302, state);

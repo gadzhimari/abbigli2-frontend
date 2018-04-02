@@ -11,7 +11,7 @@ const login = (creds, callback) => (dispatch) => {
 
   return Auth.signIn(creds)
     .then((res) => {
-      setCookie('id_token', res.data.token, { expires: COOKIES_EXPIRES });
+      setCookie('id_token2', res.data.token, { expires: COOKIES_EXPIRES });
 
       dispatch(handleSucces({ isAuthenticated: true }));
       callback();
