@@ -1,0 +1,110 @@
+@import 'mixin';
+@import 'variables';
+@import '../__base/variables/colors';
+
+@blockName: Link;
+
+.Link {
+  .buttonBase();
+  &__text {
+    .buttonBaseText();
+  }
+
+  &__icon {
+    .buttonIcon();
+  }
+
+  &__icon + &__text,
+  &__text + &__icon {
+    margin-left: 6px;
+  }
+
+  &_disabled {
+    .disabled();
+  }
+
+  &_view {
+    &_default {
+      .setType(button);
+    }
+    &_outline {
+      .setType(button);
+    }
+    &_link {
+      .setType(link);
+      &:hover {
+        .Link__text {
+          .linkText();
+        }
+      }
+    }
+
+    &_default,
+    &_outline {
+      &.Link_size {
+        &_s {
+          .setSize(button, s);
+        }
+        &_m {
+          .setSize(button, m);
+        }
+        &_l {
+          .setSize(button, l);
+        }
+      }
+    }
+  }
+}
+
+.buttonViewMixin(
+  @blockName,
+  view,
+  default,
+  @btn-primary-bg,
+  @btn-primary-bg-hover,
+  @btn-primary-bg-active,
+  @btn-primary-color,
+  @btn-primary-color,
+  @btn-primary-color,
+  none,
+  none,
+  @btn-primary-box-shadow-active,
+  transparent,
+  transparent,
+  transparent,
+  0,
+  none,
+  3px,
+);
+
+.buttonViewMixin(
+  @blockName,
+  view,
+  outline,
+  transparent,
+  @btn-outline-primary-bg-hover,
+  @btn-outline-primary-bg-active,
+  @btn-outline-primary-color,
+  @btn-outline-primary-color-hover,
+  @btn-outline-primary-color-hover,
+  none,
+  none,
+  @btn-outline-primary-box-shadow-active,
+  @btn-outline-primary-border-color,
+  @btn-outline-primary-border-color,
+  @btn-outline-primary-border-color-active,
+  1px,
+  solid,
+  3px
+);
+
+.buttonSizeMixin(@blockName, size, s, @link-font-small);
+.buttonSizeMixin(@blockName, size, m, @link-font-medium);
+.buttonSizeMixin(@blockName, size, l, @link-font-large);
+
+.for-each(@pair in @colors) {
+  @key: at(@pair, 1);
+  @value: at(@pair, 2);
+
+  .buttonColorMixin(@blockName, color, @key, fill, @value);
+}
