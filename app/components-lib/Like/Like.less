@@ -1,42 +1,15 @@
+@import '../__base/variables/colors';
+
 .Like {
-  display: inline-block;
-  cursor: pointer;
-
   &__button {
-    display: inline-block;
-    background-color: #fff;
-    border: 1px solid #92989b;
-    border-radius: 50%;
-    position: relative;
-    padding: 0;
-    vertical-align: middle;
-
-    &_size {
-      &_s {
-        width: 24px;
-        height: 24px;
-        font-size: 16px;
-        line-height: 24px;
-      }
+    &:hover {
+      fill: @attention;
     }
   }
 
   &__icon {
     display: inline-block;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
     fill: #92989b;
-
-    &_size {
-      &_s {
-        width: 14px;
-        height: 14px;
-      }
-    }
   }
 
   &__counter {
@@ -44,10 +17,9 @@
     color: #a9aeb0;
   }
 
-  &_liked,
-  &:hover {
-    .Like__icon {
-      fill: #db0e16;
+  &_liked {
+    .Like__button {
+      fill: @attention;
     }
   }
 }

@@ -6,7 +6,7 @@ import { compose } from 'recompose';
 
 import { BreadCrumbs, SliderBar, ListWithNew, PageSwitcher } from 'components';
 import { Spin } from '../../components-lib';
-import { Event } from 'components/Cards';
+import { Event } from '../../components-lib/Cards';
 import { EventsFilters } from 'components/Filters';
 import BlogSection from 'components/SliderBar/components/BlogSection';
 

@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Hammer from 'react-hammerjs';
 
-import { Menu, Footer } from '../../components';
+import { Menu } from '../../components';
+import { Footer } from '../../components-lib';
 
 class ContentWrapper extends Component {
   onSwipeHandler = () => this.props.closeMenu();

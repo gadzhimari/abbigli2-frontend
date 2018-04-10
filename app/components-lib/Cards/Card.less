@@ -1,0 +1,366 @@
+@import 'base';
+@import 'variables';
+@import 'mixin';
+@import '../__base/variables/colors';
+
+.cards-wrapper,
+.cards-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 -0.5%;
+}
+
+.Card {
+  position: relative;
+  display: flex;
+  flex: 0 0 24%;
+  flex-direction: column;
+  margin: 0 0.5% 1%;
+  overflow: hidden;
+  border: 1px solid @card-border-color;
+  border-radius: 5px;
+  background-color: @card-background;
+  &:hover {
+    box-shadow: 0 0 4px #8f8e8e;
+  }
+  &_type {
+    &_product {
+
+    }
+    &_event {
+
+    }
+    &_blog {
+      &.Card_view {
+        &_1 {
+          .Card {
+            &__body {
+              padding-top: 36px;
+            }
+            &__text {
+              margin-bottom: 6px;
+            }
+          }
+        }
+      }
+    }
+    &_attach {
+      min-height: 275px;
+      padding: 10px;
+    }
+  }
+
+
+  &_view {
+    &_blog {
+      .Card {
+        &__wrapper {
+          padding-top: 45px;
+        }
+        &__avatar {
+          width: 36px;
+          height: 36px;
+        }
+      }
+    }
+    &_goods {
+      .Card {
+        &__header {
+          padding: 8px 0 18px 0;
+        }
+        &__footer {
+          padding: 18px 0 8px 0;
+        }
+        &__avatar {
+          width: 60px;
+          height: 60px;
+        }
+        &__title {
+          margin-bottom: 0;
+          color: @grayText;
+        }
+        &__price {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  &__wrapper {
+    position: relative;
+    padding: 10px;
+  }
+  &__header,
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    &_align {
+      &_vertical {
+        align-items: center;
+      }
+      &_horizontal {
+        justify-content: center;
+      }
+      &_both {
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    &_direction {
+      &_column {
+        flex-direction: column;
+      }
+    }
+  }
+  &__footer {
+    .Card {
+      &__title {
+        margin-bottom: 0;
+      }
+    }
+  }
+  &__actions {
+    position: absolute;
+    &_align {
+      &_top-left {
+        top: 10px;
+        left: 10px;
+      }
+      &_top-right {
+        top: 10px;
+        right: 10px;
+      }
+      &_bottom-left {
+        bottom: 10px;
+        left: 10px;
+      }
+      &_bottom-right {
+        bottom: 10px;
+        right: 10px;
+      }
+    }
+  }
+  &__button {
+    &_share,
+    &_delete {
+      &:hover {
+        fill: #c7c7c7;
+      }
+    }
+    &_like {
+      margin-left: 10px;
+    }
+    &_attach {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      font-family: 'ClearSansBold';
+      color: #000;
+      .Link__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        margin-bottom: 26px;
+        border-radius: 50%;
+        background-color: @primary;
+      }
+      &:hover {
+        .Link__text {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  &__img {
+    min-height: 100%;
+    width: 100%;
+    .align-full;
+    &-wrapper {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+  }
+  &__title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    font-family: ClearSans;
+    color: #000;
+    &_weight {
+      &_bold {
+        font-family: ClearSansBold;
+      }
+    }
+    &_align {
+      &_center {
+        text-align: center;
+        justify-content: center;
+      }
+    }
+    .truncate-text();
+    .Link__text {
+      overflow: hidden;
+    }
+  }
+  &__avatar {
+    overflow: hidden;
+    border-radius: 50%;
+    &_bordered {
+      border: 2px solid #fff;
+    }
+    &_size {
+      &_s {
+        width: 25px;
+        height: 25px;
+      }
+      &_m {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  }
+  &__text {
+    font-family: 'ClearSans';
+    height: 75px;
+    font-size: 16px;
+    line-height: 18px;
+    text-align: center;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  &__date {
+    flex: 0 0 auto;
+    font-family: 'ClearSans';
+    font-size: 16px;
+    color: @grayText;
+    text-align: center;
+    &_short {
+      width: 60px;
+      font-family: 'ClearSansLight';
+      font-size: 13px;
+      line-height: 18px;
+    }
+    &-range {
+      white-space: nowrap;
+      font-family: 'ClearSansLight';
+      font-size: 14px;
+      &_weight {
+        &_bold {
+          font-family: 'ClearSansBold';
+        }
+      }
+      &_has-margin {
+        margin-left: 30px;
+      }
+    }
+  }
+  &__event {
+    &-info {
+      display: flex;
+      justify-content: space-between;
+      &_align {
+        &_left {
+          justify-content: flex-start;
+        }
+        &_center {
+          justify-content: center;
+        }
+      }
+    }
+  }
+  &__city {
+    margin-left: 10px;
+    font-family: 'ClearSans';
+    font-size: 14px;
+    .truncate-text();
+  }
+  &__comments {
+    flex: 0 0 auto;
+    &-icon {
+      vertical-align: middle;
+      fill: @grayText;
+    }
+    &-count {
+      font-family: 'ClearSansLight';
+      margin-left: 6px;
+      vertical-align: middle;
+      font-size: 16px;
+      color: @grayText;
+    }
+  }
+  &__user {
+    .truncate-text();
+    text-align: left;
+    font-size: 16px;
+    color: @grayText;
+    &_align {
+      &_center {
+        text-align: center;
+      }
+    }
+    &_position {
+      &_float {
+        position: absolute;
+        left: 50%;
+        top: -20px;
+        transform: translate(-50%, 0);
+      }
+    }
+    &_block {
+      display: block;
+      width: 100%;
+      .Link__text {
+        display: block;
+        overflow: hidden;
+      }
+    }
+  }
+  &__price {
+    flex: 0 0 auto;
+    margin-left: 10px;
+    font-family: 'ClearSansLight';
+    font-size: 16px;
+  }
+  &__attach {
+    width: 100%;
+    height: 100%;
+    border: 1px dashed @bluish;
+  }
+}
+
+@media screen and (min-width: 761px) and (max-width: 980px) {
+  .cards-wrapper {
+    .Card {
+      &:nth-child(3n) {
+        display: none;
+      }
+    }
+  }
+
+  .Card {
+    flex-basis: 32.3%;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 760px) {
+  .Card {
+    flex-basis: 49%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .cards-wrapper {
+    margin: 0;
+  }
+
+  .Card {
+    flex-basis: 100%;
+    margin: 0 0 10px;
+  }
+}

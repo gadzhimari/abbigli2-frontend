@@ -8,7 +8,7 @@ import {
   BannerBlue,
   HomeSlider
 } from '../../components';
-import { Uni, Goods } from '../../components/Cards';
+import { Goods, Uni } from '../../components-lib/Cards';
 import PostsList from './PostsList';
 
 import { fetchBlogs } from '../../ducks/Blogs/actions';

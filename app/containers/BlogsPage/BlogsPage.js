@@ -13,7 +13,7 @@ import {
 } from '../../components';
 
 import { Spin } from '../../components-lib';
-import { Blog } from '../../components/Cards';
+import { Blog } from '../../components-lib/Cards';
 import BlogSection from '../../components/SliderBar/components/BlogSection';
 
 import paginateHOC from '../../HOC/paginate';
