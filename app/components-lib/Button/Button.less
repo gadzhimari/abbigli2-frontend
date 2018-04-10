@@ -1,0 +1,150 @@
+@import 'mixin';
+@import 'variables';
+@import '../__base/variables/colors';
+
+@blockName: Button;
+
+.Button {
+  .buttonBase();
+  &__text {
+    .buttonBaseText();
+  }
+
+  &__icon {
+    .buttonIcon();
+  }
+
+  &__icon + &__text,
+  &__text + &__icon {
+    margin-left: 6px;
+  }
+
+  &_fullwidth {
+    width: 100%;
+  }
+
+  &_disabled {
+    .disabled();
+  }
+
+  &_view {
+    &_default {
+      .setType(button);
+    }
+    &_outline {
+      .setType(button);
+    }
+    &_link {
+      .setType(link);
+      .Button__text {
+        .linkText();
+      }
+      &:hover {
+        .Button__text {
+          border-color: @link-primary-color;
+        }
+      }
+    }
+
+    &_default,
+    &_outline {
+      &.Button_size {
+        &_s {
+          .setSize(button, s);
+        }
+        &_m {
+          .setSize(button, m);
+        }
+        &_l {
+          .setSize(button, l);
+        }
+      }
+      .Button__text {
+        .buttonText();
+      }
+    }
+
+    &_fab {
+      width: 30px;
+      height: 30px;
+      .Button__icon {
+        line-height: 15px;
+      }
+    }
+  }
+}
+
+.buttonViewMixin(
+  @blockName,
+  view,
+  default,
+  @btn-primary-bg,
+  @btn-primary-bg-hover,
+  @btn-primary-bg-active,
+  @btn-primary-color,
+  @btn-primary-color,
+  @btn-primary-color,
+  none,
+  none,
+  @btn-primary-box-shadow-active,
+  transparent,
+  transparent,
+  transparent,
+  0,
+  none,
+  3px
+);
+
+.buttonViewMixin(
+  @blockName,
+  view,
+  outline,
+  transparent,
+  @btn-outline-primary-bg-hover,
+  @btn-outline-primary-bg-active,
+  @btn-outline-primary-color,
+  @btn-outline-primary-color-hover,
+  @btn-outline-primary-color-hover,
+  none,
+  none,
+  @btn-outline-primary-box-shadow-active,
+  @btn-outline-primary-border-color,
+  @btn-outline-primary-border-color,
+  @btn-outline-primary-border-color-active,
+  1px,
+  solid,
+  3px
+);
+
+
+.buttonViewMixin(
+  @blockName,
+  view,
+  fab,
+  #fff,
+  #fff,
+  #fff,
+  #fff,
+  #fff,
+  #fff,
+  none,
+  none,
+  none,
+  #92989b,
+  none,
+  none,
+  1px,
+  solid,
+  50%,
+);
+
+.buttonSizeMixin(@blockName, size, s, @btn-font-small);
+.buttonSizeMixin(@blockName, size, m, @btn-font-medium);
+.buttonSizeMixin(@blockName, size, l, @btn-font-large);
+
+.for-each(@pair in @colors) {
+  @key: at(@pair, 1);
+  @value: at(@pair, 2);
+
+  .buttonColorMixin(@blockName, color, @key, fill, @value);
+}
