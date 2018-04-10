@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import ShareButton from './Buttons/ShareButton';
-import { DOMAIN_URL, location as lang } from '../../config';
+import { DOMAIN_URL, location } from '../../config';
 
 import {
   FACEBOOK_PROVIDER,
@@ -42,7 +42,7 @@ class Share extends PureComponent {
           href={`https://www.pinterest.com/pin/create/button/?url=${url}&media=${media}&description=${description}`}
         />
         {
-          lang === 'ru'
+          location === 'ru'
           &&
           <ShareButton
             className={`${buttonClass} vkontakte`}

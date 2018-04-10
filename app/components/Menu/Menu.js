@@ -1,14 +1,15 @@
 /* eslint react/require-default-props: 0 */
-import React, { PureComponent } from 'react';
-import Type from 'prop-types';
+import { React, PureComponent, Type, cn } from '../../components-lib/__base';
 
 import Button from '../Button/Button';
 import Link from '../Link/Link';
 
-import { SocialGroups } from '../../components';
+import { SocialNetworks, Link as PostLink } from '../../components-lib';
+import { socialGroupsUrl } from '../../config';
+import IconYoutube from '../../icons/youtube';
 import { __t } from '../../i18n/translator';
 
-import './Menu.styl';
+import './Menu.less';
 
 class Menu extends PureComponent {
   static propTypes = {
@@ -38,7 +39,7 @@ class Menu extends PureComponent {
     return (
       <div
         className={wrapperClass}
-        ref={wrapper => (this.wrapper = wrapper)}
+        ref={(wrapper) => { (this.wrapper = wrapper); }}
         onClick={closeMenu}
       >
         <div className="main-menu__items">
@@ -78,22 +79,42 @@ class Menu extends PureComponent {
             </Link>
           ))
           }
-
         </div>
         <div className="main-menu__footer">
-          <Link className="main-menu__footer-item" to="/page/about">{__t('About')}</Link>
-          <Link className="main-menu__footer-item" to="/page/faq">{__t('FAQ')}</Link>
-
-          <Button
-            className="main-menu__footer-item"
-            onClick={modalButtonClick}
-            name="supportPopup"
-          >
-            {__t('Support')}
-          </Button>
-
-          <SocialGroups />
-
+          <div className="main-menu__links">
+            <Link
+              className="main-menu__footer-item"
+              to="/page/about"
+            >
+              {__t('About')}
+            </Link>
+            <Link
+              className="main-menu__footer-item"
+              to="/page/faq"
+            >
+              {__t('FAQ')}
+            </Link>
+            <Button
+              className="main-menu__footer-item"
+              onClick={modalButtonClick}
+              name="supportPopup"
+            >
+              {__t('Support')}
+            </Button>
+          </div>
+          <SocialNetworks
+            className="main-menu__social-networks"
+          />
+          <PostLink
+            className="main-menu__link_youtube"
+            to={socialGroupsUrl.youtube}
+            label="YouTube"
+            target={'_blank'}
+            external
+            icon={
+              <IconYoutube />
+            }
+          />
         </div>
       </div>
     );
