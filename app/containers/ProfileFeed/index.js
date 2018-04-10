@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import InfiniteScroll from 'react-infinite-scroller';
-import { CardProduct } from '../../components';
 import TogglePrivacy from '../../components/TogglePrivacy';
 import { Spin } from '../../components-lib';
+import { Card } from '../../components-lib/Cards';
 
 import redirectHOC from '../../HOC/redirectHOC';
 
@@ -15,7 +14,9 @@ import setLike from '../../ducks/Like/actions';
 
 import { __t } from './../../i18n/translator';
 
-import './index.styl';
+import './index.less';
+
+const IS_FEED_VISIBLE = 'is_feed_visible';
 
 class ProfileFeed extends Component {
   componentDidMount() {
@@ -43,8 +44,8 @@ class ProfileFeed extends Component {
     });
   }
 
-  toggelePrivacy = (status) => {
-    this.props.togglePrivacy('feed', status);
+  togglePrivacy = (status) => {
+    this.props.togglePrivacy(IS_FEED_VISIBLE, status);
   }
 
   render() {
@@ -85,17 +86,18 @@ class ProfileFeed extends Component {
       <div className="profile_content">
         <TogglePrivacy
           isVisible={isMe}
-          onToggle={this.toggelePrivacy}
+          onToggle={this.togglePrivacy}
           status={this.props.user.is_feed_visible}
         />
 
-        <div className="cards-wrap favorites legacy">
+        <div>
           {
             ((isMe && itemsPosts.length)
               ||
               (!isMe && user.is_feed_visible))
             &&
             <InfiniteScroll
+              className="cards-row"
               pageStart={1}
               loadMore={this.fetchPosts}
               loader={infiniteScrollLoader}
@@ -103,14 +105,14 @@ class ProfileFeed extends Component {
             >
               {
                 itemsPosts.map(item => (
-                  <CardProduct
+                  <Card
                     data={item}
-                    key={`${item.slug}--feed`}
-                    legacy
-                    dispatch={dispatch}
-                    isAuthenticated={isAuth}
+                    key={item.slug}
                     setLike={setLike}
                     priceTemplate={this.props.priceTemplate}
+                    isAuthenticated={isAuth}
+                    dispatch={dispatch}
+                    view={3}
                   />
                 ))
               }
@@ -147,5 +149,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { ...actions, setLike })(
-  withRouter(redirectHOC('is_feed_visible')(ProfileFeed))
+  withRouter(redirectHOC(IS_FEED_VISIBLE)(ProfileFeed))
 );

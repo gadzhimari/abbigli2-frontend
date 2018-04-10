@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
@@ -7,22 +6,13 @@ import { compose } from 'recompose';
 import paginateHOC from '../../HOC/paginate';
 
 import { __t } from '../../i18n/translator';
-import * as actions from 'ducks/Relative/actions';
+import * as actions from '../../ducks/Relative/actions';
+import createPostLink from '../../lib/links/post-link';
 
-import {
-  BreadCrumbs,
-  PageSwitcher,
-  ListWithNew,
-} from 'components';
+import { BreadCrumbs, PageSwitcher, Link } from '../../components';
 
 import { Spin } from '../../components-lib';
-import { Blog } from 'components/Cards';
-
-const typesUrl = {
-  1: 'post',
-  3: 'event',
-  4: 'blog',
-};
+import { Card } from '../../components-lib/Cards';
 
 class RelativePage extends Component {
   componentDidMount() {
@@ -51,9 +41,11 @@ class RelativePage extends Component {
             <h1 className="section-title">
               {__t('Relative posts for')}
               {' '}
-              <a href={`/${typesUrl[post.type]}/${post.slug}`}>
+              <Link
+                to={createPostLink(post)}
+              >
                 {post.title}
-              </a>
+              </Link>
             </h1>
           }
           {
@@ -63,12 +55,14 @@ class RelativePage extends Component {
                 <Spin visible={isFetching} />
               </div>
             </div>
-              : <div className="cards-wrap">
+              : <div className="cards-row">
                 {
-                  items.map(item => <Blog
-                    key={item.id}
+                  items.map(item => <Card
                     data={item}
-                  />)
+                    key={item.id}
+                    view={1}
+                  />
+                  )
                 }
               </div>
           }

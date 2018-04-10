@@ -2,7 +2,7 @@ import { React, Component, Type, cn } from '../__base';
 
 import './Spin.less';
 
-@cn('spin')
+@cn('Spin')
 class Spin extends Component {
   static propTypes = {
     visible: Type.bool,
