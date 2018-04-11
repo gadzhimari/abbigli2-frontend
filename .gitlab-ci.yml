@@ -4,37 +4,78 @@ stages:
   - build
   - deploy
 
-variables:
-  CONTAINER_RU_IMAGE: registry.abbigli.com/abbigli/abbigli2-frontend/image:ru
-  CONTAINER_COM_IMAGE: registry.abbigli.com/abbigli/abbigli2-frontend/image:com
-  CONTAINER_DEV_IMAGE: registry.abbigli.com/abbigli/abbigli2-frontend/image:beta
-
 before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.abbigli.com
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  
+build_alpha:
+  stage: build
+  script:
+  - docker build --build-arg APP_ENV=alpha -t $CI_REGISTRY/$CI_PROJECT_PATH/alpha:$CI_COMMIT_SHA -t $CI_REGISTRY/$CI_PROJECT_PATH/alpha:latest .
+  - docker push $CI_REGISTRY/$CI_PROJECT_PATH/alpha
+  only:
+  - develop
+
+build_beta:
+  stage: build
+  script:
+  - docker build --build-arg APP_ENV=beta -t $CI_REGISTRY/$CI_PROJECT_PATH/beta:$CI_COMMIT_SHA -t $CI_REGISTRY/$CI_PROJECT_PATH/beta:latest .
+  - docker push $CI_REGISTRY/$CI_PROJECT_PATH/beta
+  only:
+  - staging
 
 build_ru:
   stage: build
   script:
-  - docker build --build-arg APP_ENV=prod-ru -t $CONTAINER_RU_IMAGE .
-  - docker push $CONTAINER_RU_IMAGE
+  - docker build --build-arg APP_ENV=prod-ru -t $CI_REGISTRY/$CI_PROJECT_PATH/stable:$CI_COMMIT_SHA -t $CI_REGISTRY/$CI_PROJECT_PATH/stable-ru:latest .
+  - docker push $CI_REGISTRY/$CI_PROJECT_PATH/stable-ru
   only:
   - master
 
 build_com:
   stage: build
   script:
-  - docker build --build-arg APP_ENV=prod -t $CONTAINER_COM_IMAGE .
-  - docker push $CONTAINER_COM_IMAGE
+  - docker build --build-arg APP_ENV=prod -t $CI_REGISTRY/$CI_PROJECT_PATH/stable:$CI_COMMIT_SHA -t $CI_REGISTRY/$CI_PROJECT_PATH/stable:latest .
+  - docker push $CI_REGISTRY/$CI_PROJECT_PATH/stable
   only:
   - master
-
-build_dev:
-  stage: build
+  
+deploy_alpha:
+  stage: deploy
+  before_script:
+  - apk add --no-cache openssh-client
+  - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa.pub && chmod 600 ~/.ssh/id_rsa.pub
+  - ssh-add ~/.ssh/id_rsa.pub
+  - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
   script:
-  - docker build --build-arg APP_ENV=beta -t $CONTAINER_DEV_IMAGE .
-  - docker push $CONTAINER_DEV_IMAGE
+  - ssh -t abbigli@us.abbigli.com -p 733 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/us && docker-compose pull --ignore-pull-failures app-frontend-alpha"
+  - ssh -t abbigli@us.abbigli.com -p 733 "cd ~/us && docker-compose up --no-deps -d app-frontend-alpha && docker exec -i app-frontend-alpha ash -c 'cp -r /app/public/* /public/'"
+  environment:
+    name: alpha
+    url: http://alpha.abbigli.com
+  when: manual
   only:
   - develop
+
+deploy_beta:
+  stage: deploy
+  before_script:
+  - apk add --no-cache openssh-client
+  - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa.pub && chmod 600 ~/.ssh/id_rsa.pub
+  - ssh-add ~/.ssh/id_rsa.pub
+  - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
+  script:
+  - ssh -t abbigli@us.abbigli.com -p 733 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/us && docker-compose pull --ignore-pull-failures app-frontend-beta"
+  - ssh -t abbigli@us.abbigli.com -p 733 "cd ~/us && docker-compose up --no-deps -d app-frontend-beta && docker exec -i app-frontend-beta ash -c 'cp -r /app/public/* /public/'"
+  environment:
+    name: beta
+    url: http://beta.abbigli.com
+  when: manual
+  only:
+  - staging
 
 deploy_prod_ru:
   stage: deploy
@@ -46,7 +87,7 @@ deploy_prod_ru:
   - ssh-add ~/.ssh/id_rsa.pub
   - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
   script:
-  - ssh -t abbigli@abbigli.ru -p 811 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/deploy && docker-compose pull --ignore-pull-failures"
+  - ssh -t abbigli@abbigli.ru -p 811 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/deploy && docker-compose pull --ignore-pull-failures app-frontend"
   - ssh -t abbigli@abbigli.ru -p 811 "docker exec -i nginx touch /etc/nginx/maintenance.front"
   - ssh -t abbigli@abbigli.ru -p 811 "cd ~/deploy && docker-compose up --no-deps -d app-frontend && docker exec -i app-frontend ash -c 'cp -r /app/public/* /public/'"
   - ssh -t abbigli@abbigli.ru -p 811 "docker exec -i nginx rm /etc/nginx/maintenance.front"
@@ -67,7 +108,7 @@ deploy_prod_com:
   - ssh-add ~/.ssh/id_rsa.pub
   - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
   script:
-  - ssh -t abbigli@us2.abbigli.com -p 655 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/deploy && docker-compose pull --ignore-pull-failures"
+  - ssh -t abbigli@us2.abbigli.com -p 655 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/deploy && docker-compose pull --ignore-pull-failures app-frontend"
   - ssh -t abbigli@us2.abbigli.com -p 655 "docker exec -i nginx touch /etc/nginx/maintenance.front"
   - ssh -t abbigli@us2.abbigli.com -p 655 "cd ~/deploy && docker-compose up --no-deps -d app-frontend && docker exec -i app-frontend ash -c 'cp -r /app/public/* /public/'"
   - ssh -t abbigli@us2.abbigli.com -p 655 "docker exec -i nginx rm /etc/nginx/maintenance.front"
@@ -77,22 +118,3 @@ deploy_prod_com:
   when: manual
   only:
   - master
-  
-deploy_dev:
-  stage: deploy
-  before_script:
-  - apk add --no-cache openssh-client
-  - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa.pub && chmod 600 ~/.ssh/id_rsa.pub
-  - ssh-add ~/.ssh/id_rsa.pub
-  - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
-  script:
-  - ssh -t abbigli@us.abbigli.com -p 733 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/us && docker-compose pull --ignore-pull-failures"
-  - ssh -t abbigli@us.abbigli.com -p 733 "cd ~/us && docker-compose up --no-deps -d app-frontend-beta && docker exec -i app-frontend-beta ash -c 'cp -r /app/public/* /public/'"
-  environment:
-    name: beta/dev
-    url: http://beta.abbigli.com
-  when: manual
-  only:
-  - develop
