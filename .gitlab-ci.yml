@@ -10,7 +10,7 @@ before_script:
 build_alpha:
   stage: build
   script:
-  - docker build --build-arg APP_ENV=alpha -t $CI_REGISTRY/$CI_PROJECT_PATH/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA -t $CI_REGISTRY/$CI_PROJECT_PATH/$CI_COMMIT_REF_NAME:latest .
+  - docker build --build-arg APP_ENV=alpha -t $CI_REGISTRY/$CI_PROJECT_PATH/alpha:$CI_COMMIT_SHA -t $CI_REGISTRY/$CI_PROJECT_PATH/alpha:latest .
   - docker push $CI_REGISTRY/$CI_PROJECT_PATH/alpha
   only:
   - develop
@@ -18,7 +18,7 @@ build_alpha:
 build_beta:
   stage: build
   script:
-  - docker build --build-arg APP_ENV=beta -t $CI_REGISTRY/$CI_PROJECT_PATH/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA -t $CI_REGISTRY/$CI_PROJECT_PATH/$CI_COMMIT_REF_NAME:latest .
+  - docker build --build-arg APP_ENV=beta -t $CI_REGISTRY/$CI_PROJECT_PATH/beta:$CI_COMMIT_SHA -t $CI_REGISTRY/$CI_PROJECT_PATH/beta:latest .
   - docker push $CI_REGISTRY/$CI_PROJECT_PATH/beta
   only:
   - staging
