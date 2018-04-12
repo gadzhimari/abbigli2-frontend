@@ -49,6 +49,8 @@ class SearchForm extends Component {
       tags: [],
     };
 
+    this.formTags = React.createRef();
+
     this.nextTagId = 0;
   }
 
@@ -63,6 +65,7 @@ class SearchForm extends Component {
   componentDidUpdate(prevProps) {
     const { mustFocus } = this.state;
     const { tags } = this.props;
+    const formTags = this.formTags.current;
 
     if (mustFocus && prevProps.tags === tags) {
       this.input.focus();
@@ -70,6 +73,11 @@ class SearchForm extends Component {
 
     if (prevProps.tags !== tags) {
       this.getTagsFromProps();
+    }
+
+    if (formTags) {
+      const scrollbarWidth = formTags.clientWidth + formTags.scrollWidth;
+      formTags.scroll(scrollbarWidth, 0);
     }
 
     const optionsList = this.optionsList;
@@ -377,6 +385,7 @@ class SearchForm extends Component {
       <div className="form__tags-wrap">
         <ScrollBar
           onClick={this.focusedOnInput}
+          scrollbarRef={this.formTags}
         >
           {
             tags.map((tag, idx) => (
