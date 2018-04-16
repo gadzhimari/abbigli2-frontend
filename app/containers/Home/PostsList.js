@@ -31,13 +31,13 @@ class PostsList extends PureComponent {
             {
               posts
                 .slice(0, 8)
-                .map(item => (
-                  <Component
+                .map(item => {
+                  return (<Component
                     key={item.slug}
-                    item={item}
+                    data={item}
                     {...itemProps}
-                  />
-                ))
+                  />);
+                })
             }
           </div>
           }

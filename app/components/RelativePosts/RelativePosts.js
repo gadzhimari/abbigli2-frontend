@@ -18,8 +18,9 @@ class RelativePosts extends PureComponent {
 
   render() {
     const { items, Component, slug, itemProps } = this.props;
+    if (items.length === 0) return null;
 
-    return (items.length !== 0 &&
+    return (
       <div className="section">
         <h2 className="section__name">
           {__t('Relative posts')}

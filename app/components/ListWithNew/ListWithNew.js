@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -81,7 +81,7 @@ class ListWithNew extends PureComponent {
     } = this.props;
 
     return (
-      <div>
+      <Fragment>
         <div className="cards-wrapper">
           {
             items.slice(0, count).map((item) => {
@@ -122,7 +122,7 @@ class ListWithNew extends PureComponent {
             })
           }
         </div>
-      </div>
+      </Fragment>
     );
   }
 

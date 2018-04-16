@@ -45,7 +45,7 @@ const outlineButtonStr = `
 const fabButton = () => (
   <Button
     view={'fab'}
-    label="Редактировать"
+    aria-label="Редактировать"
     color="attention"
     icon={<IconHeart
       size={'xs'}
@@ -55,14 +55,13 @@ const fabButton = () => (
 const fabButtonStr = `
 # Документация
 Данный тип кнопки не имеет текста, поэтому необходимо дополнительно передавать
-св-во label, который служит aria-атрибутом для людей с ограниченными
-возможностями.
+аттрибут aria-label для людей с ограниченными возможностями.
 [FAB-кнопка из Material Design](https://material.io/guidelines/components/buttons-floating-action-button.html#buttons-floating-action-button-transitions)
 ## Пример
 ~~~js
 <Button
   view={'fab'}
-  label="Поставить лайк"
+  aria-label="Поставить лайк"
   color="attention"
   icon={<IconHeart
     size={'xs'}
@@ -154,7 +153,7 @@ const fullWidthButton = () => (
     <Button
       text="Редактировать"
       color="attention"
-      fullwidth
+      fullWidth
       icon={<IconHeart
         size={'xs'}
       />}
@@ -163,7 +162,7 @@ const fullWidthButton = () => (
       view={'outline'}
       text="Редактировать"
       color="attention"
-      fullwidth
+      fullWidth
       icon={<IconHeart
         size={'xs'}
       />}
@@ -178,7 +177,7 @@ const fullWidthButtonStr = `
 <Button
   text="Редактировать"
   color="attention"
-  fullwidth
+  fullWidth
   icon={<IconHeart
     size={'xs'}
   />}
@@ -188,7 +187,7 @@ const fullWidthButtonStr = `
   view={'outline'}
   text="Редактировать"
   color="attention"
-  fullwidth
+  fullWidth
   icon={<IconHeart
     size={'xs'}
   />}

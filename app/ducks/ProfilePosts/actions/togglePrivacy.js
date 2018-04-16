@@ -1,8 +1,10 @@
 import { Profile } from '../../../api';
 
-export default (name, status) => () => {
+const togglePrivacy = (name, status) => () => {
   const formData = new FormData();
   formData.append(name, status);
 
   return Profile.saveChanges(formData);
 };
+
+export default togglePrivacy;

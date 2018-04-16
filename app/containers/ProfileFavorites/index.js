@@ -103,7 +103,6 @@ class ProfileFavorites extends Component {
                   isAuthenticated={isAuth}
                   dispatch={dispatch}
                   delete={deleteFromFavorite}
-                  isMe={isMe}
                   view={2}
                 />
               ))

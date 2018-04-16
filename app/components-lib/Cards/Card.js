@@ -1,4 +1,4 @@
-import { React, PureComponent, Fragment, Type } from '../__base';
+import { React, PureComponent, Type } from '../__base';
 import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
 
 import BlogCard from './Blog/BlogCard';
@@ -41,11 +41,7 @@ class Card extends PureComponent {
 
   render() {
     return (
-      <Fragment>
-        {
-          this.renderCards()
-        }
-      </Fragment>
+      this.renderCards()
     );
   }
 }

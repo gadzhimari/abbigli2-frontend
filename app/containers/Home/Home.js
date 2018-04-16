@@ -8,7 +8,7 @@ import {
   BannerBlue,
   HomeSlider
 } from '../../components';
-import { Goods, Uni } from '../../components-lib/Cards';
+import { Card, Goods } from '../../components-lib/Cards';
 import PostsList from './PostsList';
 
 import { fetchBlogs } from '../../ducks/Blogs/actions';
@@ -77,9 +77,10 @@ class Home extends PureComponent {
         />
 
         <PostsList
-          Component={Uni}
+          Component={Card}
           isFetching={isFetchingBlogs}
           posts={itemsBlogs}
+          view={2}
 
           title={__t('Share.with.the.world.the.thoughts.and.ideas.of.his.work')}
           hrColor="green"
@@ -91,9 +92,10 @@ class Home extends PureComponent {
         />
 
         <PostsList
-          Component={Uni}
+          Component={Card}
           isFetching={isFetchingEvents}
           posts={itemsEvents}
+          view={2}
 
           title={__t('Share.information.about.your.master.class.creative.event.exhibition')}
           hrColor="purple"

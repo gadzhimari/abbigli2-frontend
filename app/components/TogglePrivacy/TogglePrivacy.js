@@ -29,6 +29,9 @@ class TogglePrivacy extends PureComponent {
   }
 
   render() {
+    if (!this.props.isVisible) {
+      return null;
+    }
     let btnText;
     let Icon;
 
@@ -41,7 +44,6 @@ class TogglePrivacy extends PureComponent {
     }
 
     return (
-      this.props.isVisible &&
       <div className="profile__privacy">
         <Button
           onClick={this.handleToggle}
@@ -49,7 +51,7 @@ class TogglePrivacy extends PureComponent {
           text={btnText}
           color="primary"
           icon={<Icon
-            size={'s'}
+            size="s"
           />}
         />
       </div>

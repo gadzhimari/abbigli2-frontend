@@ -53,7 +53,6 @@ class Footer extends PureComponent {
               to={socialGroupsUrl.youtube}
               label="YouTube"
               target={'_blank'}
-              external
               icon={
                 <IconYoutube />
               }

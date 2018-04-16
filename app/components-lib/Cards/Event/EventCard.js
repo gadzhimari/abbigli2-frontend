@@ -10,6 +10,7 @@ import IconEvent from '../../../icons/event';
 import IconClose from '../../../icons/close';
 import IconShare from '../../../icons/share';
 
+import getUserName from '../../../lib/getUserName';
 import createPostLink from '../../../lib/links/post-link';
 import createProfileLink from '../../../lib/links/profile-link';
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
@@ -107,7 +108,7 @@ class EventCard extends PureComponent {
         text={title}
         color="event"
         icon={<IconEvent
-          size={'s'}
+          size="s"
         />}
       />
     );
@@ -116,7 +117,7 @@ class EventCard extends PureComponent {
   renderAvatar(cn) {
     const { view, isMe } = this.props;
     const { user } = this.props.data;
-    const name = user.profile_name ? user.profile_name : `ID: ${user.id}`;
+    const name = getUserName(user);
     const { size, ratio } = avatar.sizes[view];
 
     return (
@@ -184,13 +185,13 @@ class EventCard extends PureComponent {
           <div className={cn('actions', { align: 'top-left' })}>
             <div className="share">
               <Button
-                size={'s'}
+                size="s"
                 view="fab"
                 color="outline"
                 className={cn('button', { share: true })}
-                label={__t('Share')}
+                aria-label={__t('Share')}
                 icon={<IconShare
-                  size={'xs'}
+                  size="xs"
                 />}
               />
               <div className="dropdown-corner" />
@@ -207,14 +208,14 @@ class EventCard extends PureComponent {
           <div className={cn('actions', { align: 'top-right' })}>
             { isMe &&
               <Button
-                size={'s'}
+                size="s"
                 onClick={this.handleDelete}
                 view="fab"
                 color="outline"
                 className={cn('button', { delete: true })}
                 label={__t('Delete')}
                 icon={<IconClose
-                  size={'xs'}
+                  size="xs"
                 />}
               />}
             <Like

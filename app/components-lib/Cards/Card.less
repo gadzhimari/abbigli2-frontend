@@ -1,7 +1,9 @@
-@import 'base';
-@import 'variables';
-@import 'mixin';
+@import '../../containers/App/base/base';
+@import '../../containers/App/base/mixin';
+@import '../../containers/App/base/variables';
 @import '../__base/variables/colors';
+
+@cardImageHeight: 200px;
 
 .cards-wrapper,
 .cards-row {
@@ -51,16 +53,14 @@
     }
   }
 
-
   &_view {
-    &_blog {
+    &_2 {
       .Card {
         &__wrapper {
-          padding-top: 45px;
-        }
-        &__avatar {
-          width: 36px;
-          height: 36px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: calc(~'100% - @{cardImageHeight}');
         }
       }
     }
@@ -182,7 +182,7 @@
     .align-full;
     &-wrapper {
       position: relative;
-      height: 200px;
+      height: @cardImageHeight;
       overflow: hidden;
     }
   }

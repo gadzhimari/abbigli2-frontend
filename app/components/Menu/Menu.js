@@ -1,5 +1,5 @@
 /* eslint react/require-default-props: 0 */
-import { React, PureComponent, Type, cn } from '../../components-lib/__base';
+import { React, PureComponent, Type } from '../../components-lib/__base';
 
 import Button from '../Button/Button';
 import Link from '../Link/Link';
@@ -102,15 +102,16 @@ class Menu extends PureComponent {
               {__t('Support')}
             </Button>
           </div>
+
           <SocialNetworks
             className="main-menu__social-networks"
           />
+
           <PostLink
             className="main-menu__link_youtube"
             to={socialGroupsUrl.youtube}
             label="YouTube"
             target={'_blank'}
-            external
             icon={
               <IconYoutube />
             }

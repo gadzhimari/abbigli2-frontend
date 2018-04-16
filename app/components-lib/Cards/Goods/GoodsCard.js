@@ -5,6 +5,7 @@ import Image from '../../../components/Image';
 import Avatar from '../../../components/Avatar';
 import IconBag from '../../../icons/bag';
 
+import getUserName from '../../../lib/getUserName';
 import createProfileLink from '../../../lib/links/profile-link';
 import createPostLink from '../../../lib/links/post-link';
 
@@ -13,7 +14,7 @@ import '../Card.less';
 @cn('Card')
 class GoodsCard extends PureComponent {
   static propTypes = {
-    item: Type.shape({
+    data: Type.shape({
       title: Type.string,
       slug: Type.string,
       price: Type.number,
@@ -24,9 +25,9 @@ class GoodsCard extends PureComponent {
   };
 
   render(cn) {
-    const { item, priceTemplate } = this.props;
-    const imageUrl = item.images && item.images[0] && item.images[0].file;
-    const name = item.user.profile_name ? item.user.profile_name : `ID: ${item.user.id}`;
+    const { data, priceTemplate } = this.props;
+    const imageUrl = data.images && data.images[0] && data.images[0].file;
+    const name = getUserName(data.user);
 
     return (
       <div className={cn({ view: 'goods' })}>
@@ -34,13 +35,13 @@ class GoodsCard extends PureComponent {
           <div className={cn('header')}>
             <Link
               className={cn('user')}
-              to={createProfileLink(item.user)}
+              to={createProfileLink(data.user)}
               text={name}
               icon={
                 <Avatar
                   className="avatar Card__avatar"
                   imgClassName="avatar__img"
-                  avatar={item.user.avatar}
+                  avatar={data.user.avatar}
                   thumbSize="60x60"
                   alt={name}
                 />
@@ -49,11 +50,11 @@ class GoodsCard extends PureComponent {
           </div>
           <div className={cn('img-wrapper')}>
             <Link
-              to={createPostLink(item)}
+              to={createPostLink(data)}
             >
               <Image
                 className={cn('img')}
-                alt={item.title}
+                alt={data.title}
                 thumbSize="360x250"
                 src={imageUrl}
               />
@@ -62,16 +63,16 @@ class GoodsCard extends PureComponent {
           <div className={cn('footer', { align: 'vertical' })}>
             <Link
               className={cn('title')}
-              to={createPostLink(item)}
-              text={item.title}
-              size={'s'}
+              to={createPostLink(data)}
+              text={data.title}
+              size="s"
               color="goods"
               icon={<IconBag
-                size={'xs'}
+                size="xs"
               />}
             />
             <div className={cn('price')}>
-              {priceTemplate.replace('?', item.price)}
+              {priceTemplate.replace('?', data.price)}
             </div>
           </div>
         </div>
