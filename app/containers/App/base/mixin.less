@@ -250,7 +250,9 @@
 }
 
 .btn() {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   user-select: none;
   text-align: center;
@@ -270,7 +272,7 @@
 }
 
 .link() {
-  display: inline;
+  vertical-align: middle;
   text-decoration: none;
   color: @link-primary-color;
 }
@@ -385,6 +387,6 @@
 
 .buttonIcon() {
   display: inline-block;
-  vertical-align: middle;
   line-height: 0;
+  vertical-align: middle;
 }

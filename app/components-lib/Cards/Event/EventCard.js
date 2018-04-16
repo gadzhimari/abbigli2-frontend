@@ -10,6 +10,7 @@ import IconEvent from '../../../icons/event';
 import IconClose from '../../../icons/close';
 import IconShare from '../../../icons/share';
 
+import getImageUrl from '../../../lib/getImageUrl';
 import getUserName from '../../../lib/getUserName';
 import createPostLink from '../../../lib/links/post-link';
 import createProfileLink from '../../../lib/links/profile-link';
@@ -155,7 +156,7 @@ class EventCard extends PureComponent {
       date_start: dateStart,
       date_end: dateEnd,
     } = this.props.data;
-    const imageUrl = images && images[0] && images[0].file;
+    const imageUrl = getImageUrl(images);
 
     return (
       <div className={cn({ type: POST_PATH_BY_TYPE[type], view })}>

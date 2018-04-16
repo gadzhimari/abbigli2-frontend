@@ -6,6 +6,7 @@ import Avatar from '../../../components/Avatar';
 import IconBag from '../../../icons/bag';
 
 import getUserName from '../../../lib/getUserName';
+import getImageUrl from '../../../lib/getImageUrl';
 import createProfileLink from '../../../lib/links/profile-link';
 import createPostLink from '../../../lib/links/post-link';
 
@@ -26,7 +27,7 @@ class GoodsCard extends PureComponent {
 
   render(cn) {
     const { data, priceTemplate } = this.props;
-    const imageUrl = data.images && data.images[0] && data.images[0].file;
+    const imageUrl = getImageUrl(data.images);
     const name = getUserName(data.user);
 
     return (

@@ -12,6 +12,7 @@ import IconComment from '../../../icons/comment';
 import IconShare from '../../../icons/share';
 
 import getUserName from '../../../lib/getUserName';
+import getImageUrl from '../../../lib/getImageUrl';
 import createProfileLink from '../../../lib/links/profile-link';
 import createPostLink from '../../../lib/links/post-link';
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
@@ -147,7 +148,7 @@ class BlogCard extends PureComponent {
       seo_description,
       comments_num: commentsCount,
     } = this.props.data;
-    const imageUrl = images && images[0] && images[0].file;
+    const imageUrl = getImageUrl(images);
 
     return (
       <div className={cn({ type: POST_PATH_BY_TYPE[type], view })}>

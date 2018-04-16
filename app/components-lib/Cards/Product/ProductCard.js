@@ -10,6 +10,7 @@ import IconBag from '../../../icons/bag';
 import IconClose from '../../../icons/close';
 import IconShare from '../../../icons/share';
 
+import getImageUrl from '../../../lib/getImageUrl';
 import getUserName from '../../../lib/getUserName';
 import createProfileLink from '../../../lib/links/profile-link';
 import createPostLink from '../../../lib/links/post-link';
@@ -128,7 +129,7 @@ class ProductCard extends PureComponent {
       created,
       price,
     } = this.props.data;
-    const imageUrl = images && images[0] && images[0].file;
+    const imageUrl = getImageUrl(images);
 
     return (
       <div className={cn({ type: POST_PATH_BY_TYPE[type], view })}>
