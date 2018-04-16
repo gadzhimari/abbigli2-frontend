@@ -49,7 +49,7 @@ deploy_alpha:
   - ssh-add ~/.ssh/id_rsa.pub
   - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
   script:
-  - ssh -t abbigli@de1.abbigli.com -p 799 "cd ./dev-server && ./deploy.sh --token=$CI_BUILD_TOKEN --env=app-frontend-alpha"
+  - ssh -t abbigli@de1.abbigli.com -p 799 "cd ./dev-server && ./deploy.sh -f --token=$CI_BUILD_TOKEN --env=app-frontend-alpha"
   environment:
     name: alpha
     url: http://alpha.abbigli.com
@@ -67,7 +67,7 @@ deploy_beta:
   - ssh-add ~/.ssh/id_rsa.pub
   - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
   script:
-  - ssh -t abbigli@de1.abbigli.com -p 799 "cd ./dev-server && ./deploy.sh --token=$CI_BUILD_TOKEN --env=app-frontend-beta"
+  - ssh -t abbigli@de1.abbigli.com -p 799 "cd ./dev-server && ./deploy.sh -f --token=$CI_BUILD_TOKEN --env=app-frontend-beta"
   environment:
     name: beta
     url: http://beta.abbigli.com
