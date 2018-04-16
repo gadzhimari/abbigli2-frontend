@@ -49,8 +49,7 @@ deploy_alpha:
   - ssh-add ~/.ssh/id_rsa.pub
   - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
   script:
-  - ssh -t abbigli@us.abbigli.com -p 733 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/us && docker-compose pull --ignore-pull-failures app-frontend-alpha"
-  - ssh -t abbigli@us.abbigli.com -p 733 "cd ~/us && docker-compose up --no-deps -d app-frontend-alpha && docker exec -i app-frontend-alpha ash -c 'cp -r /app/public/* /public/'"
+  - ssh -t abbigli@de1.abbigli.com -p 799 "cd ./dev-server && ./deploy.sh --token=$CI_BUILD_TOKEN --env=app-frontend-alpha"
   environment:
     name: alpha
     url: http://alpha.abbigli.com
@@ -68,8 +67,7 @@ deploy_beta:
   - ssh-add ~/.ssh/id_rsa.pub
   - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
   script:
-  - ssh -t abbigli@us.abbigli.com -p 733 "docker login registry.abbigli.com -u gitlab-ci-token -p $CI_BUILD_TOKEN && cd ~/us && docker-compose pull --ignore-pull-failures app-frontend-beta"
-  - ssh -t abbigli@us.abbigli.com -p 733 "cd ~/us && docker-compose up --no-deps -d app-frontend-beta && docker exec -i app-frontend-beta ash -c 'cp -r /app/public/* /public/'"
+  - ssh -t abbigli@de1.abbigli.com -p 799 "cd ./dev-server && ./deploy.sh --token=$CI_BUILD_TOKEN --env=app-frontend-beta"
   environment:
     name: beta
     url: http://beta.abbigli.com
