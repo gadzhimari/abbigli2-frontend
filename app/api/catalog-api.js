@@ -4,14 +4,14 @@ import { DOMAIN_URL } from '../config';
 const Catalog = {
   getCategoryCrumbs(params) {
     return request({
-      baseURL: `http://beta.abbigli.ru/node-api/`,
+      baseURL: `${DOMAIN_URL}/node-api/`,
       params,
       url: 'category-tree',
     });
   },
   getCatalog() {
     return request({
-      baseURL: `http://beta.abbigli.ru/node-api/`,
+      baseURL: `${DOMAIN_URL}/node-api/`,
       url: 'catalog/',
     });
   },
