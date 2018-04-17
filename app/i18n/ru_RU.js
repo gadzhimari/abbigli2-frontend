@@ -557,4 +557,5 @@ export default {
   'Not.found': 'Извините, такой страницы нет',
   'Go.back.home': 'Вернуться на главную',
   Oops: 'Упсс!',
+  'Relative posts for': 'Похожие посты для',
 };

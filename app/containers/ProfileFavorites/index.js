@@ -4,12 +4,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import {
-  CardsWrap,
-  CardProduct
-} from '../../components';
 import TogglePrivacy from '../../components/TogglePrivacy';
 import { Spin } from '../../components-lib';
+import { Card } from '../../components-lib/Cards';
 
 import * as actions from '../../ducks/ProfilePosts/actions';
 import setLike from '../../ducks/Like/actions';
@@ -18,7 +15,9 @@ import redirectHOC from '../../HOC/redirectHOC';
 
 import { __t } from './../../i18n/translator';
 
-import './index.styl';
+import './index.less';
+
+const IS_FAVORITE_VISIBLE = 'is_favorite_visible';
 
 class ProfileFavorites extends Component {
   componentDidMount() {
@@ -46,7 +45,7 @@ class ProfileFavorites extends Component {
   }
 
   togglePrivacy = (status) => {
-    this.props.togglePrivacy('favorites', status);
+    this.props.togglePrivacy(IS_FAVORITE_VISIBLE, status);
   }
 
   render() {
@@ -85,32 +84,30 @@ class ProfileFavorites extends Component {
         </div>
       }
 
-      <div className="cards-wrap favorites legacy">
+      <div>
         {showContent &&
-          <CardsWrap legacy>
-            <InfiniteScroll
-              pageStart={1}
-              loadMore={this.fetchPosts}
-              loader={infiniteScrollLoader}
-              hasMore={this.props.next != null}
-            >
-              {
-                itemsPosts.map(item => (
-                  <CardProduct
-                    data={item}
-                    key={`${item.slug}--favorites`}
-                    deleteFromFavorite={deleteFromFavorite}
-                    setLike={setLike}
-                    legacy
-                    isAuthenticated={isAuth}
-                    dispatch={dispatch}
-                    priceTemplate={this.props.priceTemplate}
-                    isMe={isMe}
-                  />
-                ))
-              }
-            </InfiniteScroll>
-          </CardsWrap>
+          <InfiniteScroll
+            className="cards-row"
+            pageStart={1}
+            loadMore={this.fetchPosts}
+            loader={infiniteScrollLoader}
+            hasMore={this.props.next != null}
+          >
+            {
+              itemsPosts.map(item => (
+                <Card
+                  data={item}
+                  key={item.slug}
+                  setLike={setLike}
+                  priceTemplate={this.props.priceTemplate}
+                  isAuthenticated={isAuth}
+                  dispatch={dispatch}
+                  delete={deleteFromFavorite}
+                  view={2}
+                />
+              ))
+            }
+          </InfiniteScroll>
         }
 
         {isMe && !itemsPosts.length &&
@@ -134,7 +131,7 @@ class ProfileFavorites extends Component {
   }
 }
 
-const mapState = state => ({
+const mapStateToProps = state => ({
   itemsPosts: state.ProfilePosts.items,
   next: state.ProfilePosts.next,
   isFetchingPosts: state.ProfilePosts.isFetching,
@@ -146,6 +143,6 @@ const mapState = state => ({
   priceTemplate: state.Settings.data.CURRENCY,
 });
 
-export default connect(mapState, { ...actions, setLike })(
-  withRouter(redirectHOC('is_favorite_visible')(ProfileFavorites))
+export default connect(mapStateToProps, { ...actions, setLike })(
+  withRouter(redirectHOC(IS_FAVORITE_VISIBLE)(ProfileFavorites))
 );

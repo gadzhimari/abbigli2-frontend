@@ -20,4 +20,4 @@ const createPackages = (svgDataList) => {
   });
 };
 
-svgOptimize('public/images/icons/*.svg', createPackages);
+svgOptimize('public/images/ic/*.svg', createPackages);

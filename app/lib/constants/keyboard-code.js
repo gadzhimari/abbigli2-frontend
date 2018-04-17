@@ -1,0 +1,17 @@
+export default {
+  SPACE: 32,
+  BACKSPACE: 8,
+  TAB: 9,
+  ENTER: 13,
+  SHIFT: 16,
+  CTRL: 17,
+  ALT: 18,
+  CAPS_LOCK: 20,
+  ESCAPE: 27,
+  LEFT_ARROW: 37,
+  UP_ARROW: 38,
+  RIGHT_ARROW: 39,
+  DOWN_ARROW: 40,
+  INSERT: 45,
+  DELETE: 46,
+};

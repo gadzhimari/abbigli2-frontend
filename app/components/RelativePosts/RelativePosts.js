@@ -1,17 +1,14 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import Link from '../Link/Link';
-
+import { React, PureComponent, Type } from '../../components-lib/__base';
+import { Link } from '../../components-lib';
 import { __t } from '../../i18n/translator';
 
 class RelativePosts extends PureComponent {
   static propTypes = {
-    items: PropTypes.arrayOf(PropTypes.object).isRequired,
-    Component: PropTypes.oneOfType([PropTypes.element, PropTypes.func, PropTypes.node]),
-    slug: PropTypes.string.isRequired,
-    itemProps: PropTypes.shape({
-      priceTemplate: PropTypes.string,
+    items: Type.arrayOf(Type.object).isRequired,
+    Component: Type.oneOfType([Type.element, Type.func, Type.node]),
+    slug: Type.string.isRequired,
+    itemProps: Type.shape({
+      priceTemplate: Type.string,
     }),
   }
 
@@ -21,7 +18,6 @@ class RelativePosts extends PureComponent {
 
   render() {
     const { items, Component, slug, itemProps } = this.props;
-
     if (items.length === 0) return null;
 
     return (
@@ -30,7 +26,7 @@ class RelativePosts extends PureComponent {
           {__t('Relative posts')}
         </h2>
 
-        <div className="cards-wrap">
+        <div className="cards-wrapper">
           {items.slice(0, 4)
             .map(post => <Component
               data={post}
@@ -39,16 +35,17 @@ class RelativePosts extends PureComponent {
               {...itemProps}
             />)
           }
-          {items.length > 4 &&
+        </div>
+        {items.length > 4 &&
+          <div className="section__show-more">
             <Link
-              className="default-button showmore-button"
-              type="button"
+              view={'outline'}
               to={`/relative/${slug}`}
             >
               {__t('Show more')}
             </Link>
-          }
-        </div>
+          </div>
+        }
       </div>
     );
   }

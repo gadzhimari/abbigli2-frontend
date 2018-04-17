@@ -4,7 +4,8 @@ import Type from 'prop-types';
 import Link from '../../components/Link/Link';
 
 import { PageSwitcher, ListWithNew } from '../../components';
-import { Product, SubCategoryList } from '../../components/Cards';
+import { SubCategoryList } from '../../components/Cards';
+import { Product } from '../../components-lib/Cards';
 import ShowMiddleCards from './ShowMiddleCards';
 import TagsBlock from './TagsBlock';
 

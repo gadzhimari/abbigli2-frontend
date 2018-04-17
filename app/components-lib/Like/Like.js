@@ -1,6 +1,7 @@
 import { React, PureComponent, Type, cn } from '../__base';
-
-import Button from '../../components/Button';
+import { Button } from '../../components-lib';
+import IconHeart from '../../icons/heart';
+import { __t } from '../../i18n/translator';
 
 import './Like.less';
 
@@ -42,13 +43,16 @@ class Like extends PureComponent {
     return (
       <span className={cn({ liked })}>
         <Button
-          className={cn('button', { size })}
+          size={size}
           onClick={this.handleClick}
-        >
-          <svg className={cn('icon', { size })} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.4 12.2">
-            <path d="M14 2.1C13.4.8 12.3.1 10.9 0 9.4-.1 8.1.5 7.3 1.8c0 .1-.1.2-.1.2-.1 0-.1-.1-.1-.2C6.2.5 5-.1 3.4 0 2 .1.9.8.3 2.1c-.5 1.1-.4 2.2 0 3.2.5 1.2 1.2 2.2 2.2 3.1 1.4 1.4 3 2.5 4.5 3.7l.1.1s.1 0 .1-.1c1.5-1.2 3.1-2.4 4.5-3.7.9-.9 1.7-1.9 2.2-3.1.5-1 .6-2.1.1-3.2z" />
-          </svg>
-        </Button>
+          view={'fab'}
+          color="outline"
+          className={cn('button')}
+          aria-label={__t('Like')}
+          icon={<IconHeart
+            size="xs"
+          />}
+        />
 
         {this.props.count !== undefined &&
           <span className={cn('counter')}>
