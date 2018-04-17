@@ -1,0 +1,125 @@
+import { React, Component, Type, cn } from '../__base';
+import './Button.less';
+
+@cn('Button')
+class Button extends Component {
+  static propTypes = {
+    text: Type.node,
+    icon: Type.node,
+    iconPosition: Type.oneOf(['left', 'right']),
+    label: Type.string,
+    view: Type.oneOf(['default', 'outline', 'link', 'fab']),
+    type: Type.oneOf(['button', 'reset', 'submit']),
+    color: Type.string,
+    fullwidth: Type.bool,
+    size: Type.oneOf(['s', 'm', 'l']),
+    disabled: Type.bool,
+    formNoValidate: Type.bool,
+    name: Type.string,
+    title: Type.string,
+    togglable: Type.oneOf(['check', 'radio']),
+    checked: Type.bool,
+    children: Type.oneOfType([Type.arrayOf(Type.node), Type.node]),
+    className: Type.string,
+    dataset: Type.shape(),
+    onClick: Type.func,
+  };
+
+  static defaultProps = {
+    type: 'button',
+    size: 'm',
+    view: 'default',
+    iconPosition: 'left',
+  };
+
+  /**
+  * Возвращает корневой `HTMLElement` компонента.
+  *
+  * @public
+  * @returns {HTMLElement}
+  */
+  getNode() {
+    return this.control;
+  }
+
+  /**
+   * @type {HTMLButtonElement|HTMLSpanElement}
+   */
+  control;
+
+  handleClick = (e) => {
+    const { name, dataset, onClick } = this.props;
+
+    if (onClick) {
+      onClick(e, { name, dataset });
+    }
+  }
+
+  render(cn) {
+    const {
+      children,
+      name,
+      type,
+      icon,
+      iconPosition,
+      text,
+      title,
+      disabled,
+      view,
+      color,
+      size,
+      fullWidth,
+      togglable,
+      checked,
+      onClick,
+      ...restProps
+    } = this.props;
+    const buttonProps = {
+      ...restProps,
+      ref: (control) => { this.control = control; },
+      role: 'button',
+      name,
+      type,
+      title,
+      disabled,
+      className: cn({
+        disabled,
+        view,
+        color,
+        size,
+        fullWidth,
+        togglable,
+        checked,
+      }),
+    };
+
+    const iconTemplate = (
+      icon &&
+        <span key="icon" className={cn('icon')}>
+          { icon }
+        </span>
+    );
+    const textTemplate = (
+      text &&
+        <span key="text" className={cn('text')}>
+          { children || text }
+        </span>
+    );
+    const buttonContent = [
+      iconPosition === 'left' && iconTemplate,
+      textTemplate,
+      iconPosition === 'right' && iconTemplate
+    ];
+
+    return (
+      <button
+        onClick={this.handleClick}
+        {...buttonProps}
+      >
+        {buttonContent}
+      </button>
+    );
+  }
+}
+
+export default Button;

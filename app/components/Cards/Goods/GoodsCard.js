@@ -4,7 +4,6 @@ import Link from '../../Link/Link';
 import Image from '../../Image';
 import Avatar from '../../Avatar';
 
-
 import './GoodsCard.less';
 
 const typesUrl = {

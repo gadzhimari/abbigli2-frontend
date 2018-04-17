@@ -10,7 +10,7 @@ import {
 } from 'components';
 
 import Filters from './Filters';
-import { Product } from 'components/Cards';
+import { Product } from '../../components-lib/Cards';
 import { fetchData } from 'ducks/PostsSpecific';
 import { ProductsIcons } from 'components/Icons';
 

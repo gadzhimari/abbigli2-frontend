@@ -13,7 +13,7 @@ import {
 } from '../../components';
 
 import Content from './Content';
-import { Product } from '../../components/Cards';
+import { Product } from '../../components-lib/Cards';
 import { Comments } from '../../components/Comments';
 
 import postLoader from '../../HOC/postLoader';

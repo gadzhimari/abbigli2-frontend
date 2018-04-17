@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { React, Component, Type } from '../../components-lib/__base';
 
 import Link from '../../components/Link/Link';
 import { processBlogContent } from '../../lib/process-html';
@@ -18,7 +17,7 @@ import {
 } from '../../components';
 
 import { Comments } from '../../components/Comments';
-import { Blog } from '../../components/Cards';
+import { Blog } from '../../components-lib/Cards';
 
 import postLoader from '../../HOC/postLoader';
 
@@ -34,6 +33,13 @@ import { BLOG_TYPE } from '../../lib/constants/posts-types';
 import './BlogPage.less';
 
 class BlogPage extends Component {
+  static propTypes = {
+    data: Type.shape().isRequired,
+    handleFavorite: Type.func.isRequired,
+    itemsBlogs: Type.arrayOf(Type.object),
+    itemsAuthors: Type.arrayOf(Type.object)
+  };
+
   componentDidMount() {
     this.globalWrapper = document.querySelector('.global-wrapper');
     this.globalWrapper.classList.add('blog');
@@ -199,14 +205,6 @@ class BlogPage extends Component {
     );
   }
 }
-
-
-BlogPage.propTypes = {
-  data: PropTypes.shape().isRequired,
-  handleFavorite: PropTypes.func.isRequired,
-  itemsBlogs: PropTypes.arrayOf(PropTypes.object),
-  itemsAuthors: PropTypes.arrayOf(PropTypes.object)
-};
 
 const mapStateToProps = state => ({
   data: state.PostPage.post,

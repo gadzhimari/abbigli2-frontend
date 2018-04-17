@@ -7,3 +7,8 @@ export { default as ReadMore } from './ReadMore';
 export { default as NotFound } from './NotFound';
 export { default as Input } from './Input';
 export { default as InputsGroup } from './InputsGroup';
+export { default as Button } from './Button';
+export { default as Link } from './Link';
+export { default as Cards } from './Cards';
+export { default as SocialNetworks } from './SocialNetworks';
+export { default as Footer } from './Footer';

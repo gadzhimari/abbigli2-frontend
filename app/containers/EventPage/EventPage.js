@@ -1,6 +1,5 @@
-import Type from 'prop-types';
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { React, Component, Type } from '../../components-lib/__base';
 
 import {
   Gallery,
@@ -12,7 +11,7 @@ import {
   RelativePosts,
 } from '../../components';
 import { Comments } from '../../components/Comments';
-import { Event } from '../../components/Cards';
+import { Event } from '../../components-lib/Cards';
 import DateRange from '../../components/DateRange';
 import City from '../../components-lib/City';
 

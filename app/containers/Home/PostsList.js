@@ -1,18 +1,19 @@
-import React, { PureComponent, Fragment } from 'react';
-
+import { React, PureComponent, Fragment } from '../../components-lib/__base';
 import { TileWrap, HR, Link } from '../../components';
-import Spin from '../../components-lib/Spin';
+import { Spin } from '../../components-lib';
 
-export default class PostsList extends PureComponent {
+class PostsList extends PureComponent {
   render() {
-    const { Component,
-            posts,
-            isFetching,
-            hrColor,
-            title,
-            moreLinkText,
-            moreLinkUrl,
-            ...itemProps } = this.props;
+    const {
+      Component,
+      posts,
+      isFetching,
+      hrColor,
+      title,
+      moreLinkText,
+      moreLinkUrl,
+      ...itemProps
+    } = this.props;
 
     return (
       <Fragment>
@@ -26,15 +27,19 @@ export default class PostsList extends PureComponent {
 
         <TileWrap>
           {isFetching ? <Spin visible={isFetching} /> :
-            posts
-              .slice(0, 8)
-              .map(item => (
-                <Component
-                  key={item.slug}
-                  item={item}
-                  {...itemProps}
-                />
-              ))
+          <div className="cards-wrapper">
+            {
+              posts
+                .slice(0, 8)
+                .map(item => {
+                  return (<Component
+                    key={item.slug}
+                    data={item}
+                    {...itemProps}
+                  />);
+                })
+            }
+          </div>
           }
         </TileWrap>
 
@@ -45,3 +50,5 @@ export default class PostsList extends PureComponent {
     );
   }
 }
+
+export default PostsList;
