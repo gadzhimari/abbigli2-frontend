@@ -1,5 +1,5 @@
 import { createActions } from 'redux-actions';
-import { Profile } from '../../../api';
+import { Products } from '../../../api';
 
 export const {
   setPosts,
@@ -17,12 +17,8 @@ export const {
   'SET_PRIVATE_STATUS'
 );
 
-export default function loadPosts(option) {
-  const { type = 'posts', excludeId, page = 1, profileId } = option;
-  const params = {
-    exclude_id: excludeId,
-    page
-  };
+export default function loadPosts(options) {
+  const { page = 1, author } = options;
 
   const [requestAction, responseAction] = page === 1 ?
     [requestPosts, setPosts] :
@@ -31,7 +27,7 @@ export default function loadPosts(option) {
   return (dispatch) => {
     dispatch(requestAction());
 
-    return Profile.getProfilePosts(profileId, type, params)
+    return Products.getProducts({ page, author })
       .then(({ data }) => {
         dispatch(responseAction(data.results, data.next));
       })

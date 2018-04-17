@@ -12,6 +12,7 @@ import Button from '../Button';
 import createPostLink from '../../lib/links/post-link';
 import createPostEditLink from '../../lib/links/edit-post-link';
 import createProfileLink from '../../lib/links/profile-link';
+import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
 
 import './CardProduct.less';
 
@@ -61,15 +62,15 @@ class CardProduct extends Component {
       slug,
       liked,
       price,
-      images,
-      type,
+      image,
       comments_num: commentsCount,
       likes_num: likesCount,
-      user
+      author
     } = this.props.data;
 
+    const type = this.props.data.type || PRODUCT_TYPE;
+
     const formatedPrice = Number(price).toFixed(2);
-    const imageUrl = images && images[0] && images[0].file;
     const thumbSize = `350x${full ? 350 : 290}`;
 
     return (
@@ -80,7 +81,7 @@ class CardProduct extends Component {
               alt={title}
               className="tag-card__img"
               thumbSize={thumbSize}
-              src={imageUrl}
+              src={image}
             />
             <div className="tag-card__overlay" />
           </Link>
@@ -95,7 +96,7 @@ class CardProduct extends Component {
             <Share
               buttonClass="share-button"
               postLink={`/post/${slug}`}
-              media={imageUrl}
+              media={image}
               description={title}
             />
           </div>
@@ -103,7 +104,7 @@ class CardProduct extends Component {
           {editable &&
             <Link
               className="card-action-button card-edit"
-              to={createPostEditLink({ id: user.id, slug })}
+              to={createPostEditLink({ slug, type })}
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
                 <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409 l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
@@ -156,20 +157,20 @@ class CardProduct extends Component {
         </div>
 
         <div className="tag-card__footer">
-          {user &&
-            <Link className="tag-card__author" to={createProfileLink(user.id)}>
+          {author &&
+            <Link className="tag-card__author" to={createProfileLink(author.id)}>
               <span className="tag-card__avatar">
                 <Avatar
                   className="avatar"
                   imgClassName="avatar__img"
-                  avatar={user.avatar}
+                  avatar={author.avatar}
                   thumbSize="30x30"
-                  alt={user.profile_name}
+                  alt={author.profile_name}
                 />
               </span>
 
               <span className="tag-card__name">
-                {user.profile_name ? user.profile_name : `ID${user.id}`}
+                {author.profile_name ? author.profile_name : `ID${author.id}`}
               </span>
             </Link>
           }
@@ -180,6 +181,7 @@ class CardProduct extends Component {
               onClick={setLike}
               count={likesCount}
               slug={slug}
+              type={type}
             />
 
             <div className="like-comment__button message">

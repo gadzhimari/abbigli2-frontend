@@ -11,6 +11,7 @@ import createProfileLink from '../../../lib/links/profile-link';
 import createPostLink from '../../../lib/links/post-link';
 import localeDateString from '../../../lib/date/toLocaleDateString';
 import { MESSAGE_DATE_FORMAT } from '../../../lib/date/formats';
+import { BLOG_TYPE } from '../../../lib/constants/posts-types';
 
 import setLike from '../../../ducks/Like/actions';
 
@@ -22,15 +23,13 @@ class BlogCard extends Component {
       title: Type.string,
       slug: Type.string,
       price: Type.number,
-      user: Type.object,
+      author: Type.object,
       images: Type.array,
     }).isRequired
-  };
+  };;
 
   render() {
     const { data, setLike } = this.props;
-    const imageUrl = data.images && data.images[0] && data.images[0].file;
-
     return (
       <div className="blog-card">
         <div className="blog-card__img-wrap">
@@ -41,7 +40,7 @@ class BlogCard extends Component {
               className="blog-card__img"
               alt={data.title}
               thumbSize="360x250"
-              src={imageUrl}
+              src={data.image}
             />
           </Link>
 
@@ -49,6 +48,7 @@ class BlogCard extends Component {
             liked={data.liked}
             onClick={setLike}
             slug={data.slug}
+            type={BLOG_TYPE}
           />
 
           <div className="share">
@@ -58,7 +58,7 @@ class BlogCard extends Component {
               <Share
                 postLink={createPostLink(data)}
                 buttonClass="social-btn"
-                media={imageUrl}
+                media={data.image}
                 description={data.title}
               />
             </div>
@@ -68,17 +68,17 @@ class BlogCard extends Component {
         <div className="blog-card__info">
           <Link
             className="user"
-            to={createProfileLink(data.user)}
+            to={createProfileLink(data.author)}
           >
             <Avatar
               className="avatar"
               imgClassName="avatar__img"
-              avatar={data.user.avatar}
+              avatar={data.author.avatar}
               thumbSize="36x36"
-              alt={data.user.profile_name}
+              alt={data.author.profile_name}
             />
 
-            {data.user.profile_name}
+            {data.author.profile_name}
           </Link>
 
           <Link

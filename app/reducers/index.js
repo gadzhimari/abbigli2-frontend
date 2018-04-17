@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { routerReducer } from 'react-router-redux';
+import { paramsReducer } from 'react-router-redux-sync';
 
 import Follow from '../ducks/Follow';
 import Sections from '../ducks/Sections';
@@ -9,7 +10,6 @@ import Events from '../ducks/Events';
 import Products from '../ducks/Products';
 import PostsSpecific from '../ducks/PostsSpecific';
 import ProfilePosts from '../ducks/ProfilePosts';
-import TopAuthors from '../ducks/TopAuthors';
 import Auth from '../ducks/Auth';
 import Popup from '../ducks/Popup';
 import Comments from '../ducks/Comments';
@@ -42,7 +42,6 @@ export default combineReducers({
   Products,
   PostsSpecific,
   ProfilePosts,
-  TopAuthors,
   Popup,
   Comments,
   Dialogs,
@@ -64,5 +63,6 @@ export default combineReducers({
   NewIn,
   CatalogPage,
   NetworkErrors,
-  isTouch
+  isTouch,
+  params: paramsReducer
 });

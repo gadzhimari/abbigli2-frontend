@@ -9,8 +9,9 @@ import { Share } from '../../../components';
 import { Like } from '../../../components-lib';
 import Image from '../../../components/Image';
 import Avatar from '../../Avatar';
-
 import { ProductsIcons } from '../../../components/Icons';
+
+import { PRODUCT_TYPE } from '../../../lib/constants/posts-types';
 
 import setLike from '../../../ducks/Like/actions';
 
@@ -22,7 +23,7 @@ class Product extends PureComponent {
       title: PropTypes.string,
       slug: PropTypes.string,
       price: PropTypes.number,
-      user: PropTypes.object,
+      author: PropTypes.object,
       images: PropTypes.array,
     }).isRequired,
     priceTemplate: PropTypes.string.isRequired,
@@ -30,8 +31,7 @@ class Product extends PureComponent {
 
   render() {
     const { data, priceTemplate, setLike } = this.props;
-    const name = data.user.profile_name ? data.user.profile_name : `ID: ${data.user.id}`;
-    const imageUrl = data.images && data.images[0] && data.images[0].file;
+    const name = data.author.profile_name ? data.author.profile_name : `ID: ${data.author.id}`;
 
     return (
       <div className="post-card">
@@ -39,7 +39,7 @@ class Product extends PureComponent {
           <Link to={`/post/${data.slug}`}>
             <Image
               thumbSize="292x221"
-              src={imageUrl}
+              src={data.image}
               alt={data.title}
               className="post-card__img"
             />
@@ -49,6 +49,7 @@ class Product extends PureComponent {
             liked={data.liked}
             onClick={setLike}
             slug={data.slug}
+            type={PRODUCT_TYPE}
           />
 
           <div className="share">
@@ -58,7 +59,7 @@ class Product extends PureComponent {
               <Share
                 postLink={`/post/${data.slug}`}
                 buttonClass="social-btn"
-                media={imageUrl}
+                media={data.image}
                 description={data.title}
               />
             </div>
@@ -77,12 +78,12 @@ class Product extends PureComponent {
 
           <Link
             className="user"
-            to={`/profile/${data.user.id}`}
+            to={`/profile/${data.author.id}`}
           >
             <Avatar
               className="avatar"
               imgClassName="avatar__img"
-              avatar={data.user.avatar}
+              avatar={data.author.avatar}
               thumbSize="30x30"
               alt={name}
             />

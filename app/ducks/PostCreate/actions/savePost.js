@@ -1,6 +1,6 @@
 import browserHistory from 'react-router/lib/browserHistory';
 
-import { Posts } from '../../../api';
+import { Posts, Products, Events } from '../../../api';
 import * as actions from '../actionTypes';
 
 import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../../lib/constants/posts-types';
@@ -13,24 +13,30 @@ const gaActionsByPostType = {
   [EVENT_TYPE]: 'addevent_successful',
 };
 
+const saveActionsByPostType = {
+  [PRODUCT_TYPE]: Products,
+  [BLOG_TYPE]: Posts,
+  [EVENT_TYPE]: Events
+};
+
 const savePostReq = () => ({ type: actions.SAVE_POST_REQ });
 const savePostRes = (errors = {}) => ({
   type: actions.SAVE_POST_RES,
   errors,
 });
 
-const savePost = (data, slug = null) => (dispatch) => {
+const savePost = (data, slug = null, type) => (dispatch) => {
   dispatch(savePostReq());
-
-  const apiMethod = slug ? Posts.editPost : Posts.createPost;
+  const action = saveActionsByPostType[type];
+  const apiMethod = slug ? action.edit : action.create;
 
   return apiMethod(data, slug)
     .then((res) => {
       dispatch(savePostRes());
-      browserHistory.push(createPostLink(res.data));
+      browserHistory.push(createPostLink({ slug: res.data.slug, type }));
 
       if (slug) {
-        const action = gaActionsByPostType[data.type];
+        const action = gaActionsByPostType[type];
 
         gaSend({
           hitType: 'pageview',

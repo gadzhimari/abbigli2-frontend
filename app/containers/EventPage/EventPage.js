@@ -26,13 +26,13 @@ import {
   resetPost,
   fetchPopular,
   fetchRelative,
-  toggleFavorite,
   fetchUsersPosts,
-  setFollow
+  setFollow,
+  addBookmark,
+  deleteBookmark
 } from '../../ducks/PostPage/actions';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { openPopup } from '../../ducks/Popup/actions';
-
 
 import { EVENT_TYPE } from '../../lib/constants/posts-types';
 
@@ -91,9 +91,11 @@ class EventPage extends Component {
       usersPosts,
       me,
       isAuthenticated,
-      handleFavorite,
       followUser,
-      openPopup
+      openPopup,
+      isFetchingBookmarks,
+      addBookmark,
+      deleteBookmark
     } = this.props;
 
     const crumbs = [{
@@ -101,8 +103,8 @@ class EventPage extends Component {
       url: '/events',
     },
     {
-      title: data.user.profile_name || `User ID: ${data.user.id}`,
-      url: `/profile/${data.user.id}`,
+      title: author.profile_name || `User ID: ${author.id}`,
+      url: `/profile/${author.id}`,
     },
     {
       title: data.title,
@@ -111,6 +113,14 @@ class EventPage extends Component {
 
     const userIsOwner = author.id === me.id;
     const { city } = data;
+
+    const favoriteAddProps = {
+      isFetching: isFetchingBookmarks,
+      addBookmark,
+      deleteBookmark,
+      bookmarkId: data.bookmark_id,
+      id: data.id
+    };
 
     return (
       <main>
@@ -131,7 +141,7 @@ class EventPage extends Component {
             <div className="article__wrapper">
               <h1 className="section-title">
                 {userIsOwner &&
-                  <Link to={createPostEditLink({ id: data.user.id, slug: data.slug })}>
+                  <Link to={createPostEditLink({ slug: data.slug, type: EVENT_TYPE })}>
                     <svg className="icon icon-event" viewBox="0 0 27 26">
                       <path d="M22.2,3v2.1c0,2-1.6,3.5-3.5,3.5S15.1,7,15.1,5.1V3h-2.9v2.1c0,2-1.6,3.5-3.5,3.5 S5.1,7,5.1,5.1V3H0V26h27V3H22.2z M8.8,22.8H4.2v-4h4.5V22.8z M8.8,15.7H4.2v-4h4.5V15.7z M15.8,22.8h-4.5v-4h4.5V22.8z M15.8,15.7 h-4.5v-4h4.5V15.7z M18.2,22.8v-4h4.5L18.2,22.8z M22.8,15.7h-4.5v-4h4.5V15.7z" />
                       <path d="M8.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8S6.8,0.8,6.8,1.8v3.3 C6.8,6.1,7.6,6.9,8.6,6.9z" />
@@ -160,7 +170,7 @@ class EventPage extends Component {
               <div>{processBlogContent(data.content)}</div>
 
               {userIsOwner &&
-                <Link to={createPostEditLink({ id: data.user.id, slug: data.slug })} className="edit-btn">
+                <Link to={createPostEditLink({ slug: data.slug, type: EVENT_TYPE })} className="edit-btn">
                   <svg className="icon icon-edit" viewBox="0 0 18 18">
                     <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
                   </svg>
@@ -170,11 +180,7 @@ class EventPage extends Component {
               }
             </div>
 
-            <FavoriteAdd
-              toggleFavorite={handleFavorite}
-              slug={data.slug}
-              isFavorited={data.favorite}
-            />
+            <FavoriteAdd {...favoriteAddProps} />
 
             <Comments
               onSend={this.sendComment}
@@ -187,11 +193,12 @@ class EventPage extends Component {
             data={data}
             newPosts={itemsEvents}
             popularPosts={popularPosts}
-            toggleFavorite={handleFavorite}
-            isFavorited={data.favorite}
+
             seeAllUrl="/events"
             newSectionTitle={__t('New in events')}
             popularSectionTitle={__t('Popular in events')}
+
+            {...favoriteAddProps}
           />
           {
             relativePosts.length > 0
@@ -235,23 +242,30 @@ function mapStateToProps(state) {
     relativePosts: state.PostPage.relativePosts,
     usersPosts: state.PostPage.usersPosts,
     me: state.Auth.me,
+    isFetchingBookmarks: state.PostPage.isFetchingBookmarks,
   };
 }
 
+// TODO: тип поста (event) можно сохранить в при первом запросе посте (fetchPost)
+// и при последующих запросах брать оттуда не пробрасывая в каждый экшен
 const mapDispatch = dispatch => ({
-  fetchPost: (...args) => dispatch(fetchPost(...args)),
+  fetchPost: (...args) => dispatch(fetchPost(EVENT_TYPE, ...args)),
   fetchSubData: (data, params) => {
-    dispatch(fetchNew({ type: EVENT_TYPE, }));
-    dispatch(fetchComments(params.slug));
-    dispatch(fetchUsersPosts(EVENT_TYPE, data.user.id));
+    dispatch(fetchNew(EVENT_TYPE));
+    dispatch(fetchComments(EVENT_TYPE, params.slug));
+    dispatch(fetchUsersPosts(EVENT_TYPE, data.author.id));
     dispatch(fetchPopular(EVENT_TYPE));
-    dispatch(fetchRelative(params.slug));
+    dispatch(fetchRelative(EVENT_TYPE, params.slug));
   },
-  onUnmount: () => dispatch(resetPost()),
-  handleFavorite: slug => dispatch(toggleFavorite(slug)),
+
   followUser: id => dispatch(setFollow(id)),
-  sendComment: data => dispatch(sendComment(data)),
-  openPopup: (...args) => dispatch(openPopup(...args))
+  sendComment: data => dispatch(sendComment(EVENT_TYPE, data)),
+  openPopup: (...args) => dispatch(openPopup(...args)),
+
+  addBookmark: id => dispatch(addBookmark(EVENT_TYPE, id)),
+  deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId)),
+
+  onUnmount: () => dispatch(resetPost()),
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(EventPage));

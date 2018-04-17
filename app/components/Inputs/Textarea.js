@@ -1,10 +1,10 @@
 import Type from 'prop-types';
 import React, { PureComponent } from 'react';
 
-import bindMethods from '../../lib/bindMethods';
-
 import './redactor/redactor.css';
 import './Textarea.less';
+
+let textateaIds = 0;
 
 export default class Textarea extends PureComponent {
   static propTypes = {
@@ -15,28 +15,38 @@ export default class Textarea extends PureComponent {
     label: Type.string,
   };
 
-  constructor(props) {
-    super(props);
-
-    /* TODO: сделать нормально */
-    this.id = Math.random() * Math.random();
-
-    bindMethods(this, ['onChange']);
+  state = {
+    id: textateaIds++,
+    value: ''
   }
 
   onChange(e) {
     const { onChange, name } = this.props;
+    const { value } = e.target;
+
+    this.setState({ value });
 
     if (onChange) {
-      onChange(e, { name, value: e.target.value });
+      onChange(e, { name, value });
     }
+  }
+
+  getValue = () => {
+    const { value } = this.props;
+
+    return typeof value === 'undefined' ?
+      this.state.value : value;
   }
 
   render() {
     const { wrapperClass, label, ...textareaProps } = this.props;
 
-    delete textareaProps.name;
-    delete textareaProps.onChange;
+    const props = {
+      ...textareaProps,
+      onChange: this.onChange,
+      id: this.state.id,
+      value: this.getValue()
+    };
 
     return (
       <div className={wrapperClass}>
@@ -47,9 +57,7 @@ export default class Textarea extends PureComponent {
         }
 
         <textarea
-          id={this.id}
-          onChange={this.onChange}
-          {...textareaProps}
+          {...props}
         />
       </div>
     );

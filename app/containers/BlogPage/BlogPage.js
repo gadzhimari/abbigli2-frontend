@@ -21,9 +21,18 @@ import { Blog } from '../../components-lib/Cards';
 
 import postLoader from '../../HOC/postLoader';
 
-import { fetchPost, fetchNew, resetPost, fetchPopular, fetchRelative, toggleFavorite, setFollow } from '../../ducks/PostPage/actions';
+import {
+  fetchPost,
+  fetchNew,
+  resetPost,
+  fetchPopular,
+  fetchRelative,
+  setFollow,
+  fetchUsersPosts,
+  addBookmark,
+  deleteBookmark
+} from '../../ducks/PostPage/actions';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
-import { loadPosts as loadProfilePosts } from '../../ducks/ProfilePosts/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
 import { __t } from '../../i18n/translator';
@@ -86,9 +95,11 @@ class BlogPage extends Component {
       author,
       relativePosts,
       me,
-      handleFavorite,
       followUser,
-      openPopup
+      openPopup,
+      isFetchingBookmarks,
+      addBookmark,
+      deleteBookmark
     } = this.props;
 
     const crumbs = [{
@@ -96,8 +107,8 @@ class BlogPage extends Component {
       url: '/blogs',
     },
     {
-      title: data.user.profile_name || `User ID: ${data.user.id}`,
-      url: `/profile/${data.user.id}`,
+      title: author.profile_name || `User ID: ${author.id}`,
+      url: `/profile/${author.id}`,
     },
     {
       title: data.title,
@@ -105,6 +116,14 @@ class BlogPage extends Component {
     }];
 
     const userIsOwner = author.id === me.id;
+
+    const favoriteAddProps = {
+      isFetching: isFetchingBookmarks,
+      addBookmark,
+      deleteBookmark,
+      bookmarkId: data.bookmark_id,
+      id: data.id
+    };
 
     return (
       <main>
@@ -127,7 +146,7 @@ class BlogPage extends Component {
             <div className="article__wrapper">
               <h1 className="section-title">
                 {userIsOwner &&
-                  <Link to={createPostEditLink({ id: data.user.id, slug: data.slug })}>
+                  <Link to={createPostEditLink({ slug: data.slug, type: BLOG_TYPE })}>
                     <svg className="icon icon-blog" viewBox="0 0 51 52.7">
                       <path d="M51,9.4L41.5,0L31,10.4H4.1c-2.3,0-4.1,1.8-4.1,4.1v27.8c0,2.3,1.8,4.1,4.1,4.1h1.4l0.7,6.3 l8.3-6.3H38c2.3,0,4.1-1.8,4.1-4.1V18.1L51,9.4z M16.2,34.4l1-6.3l5.3,5.4L16.2,34.4z M47.2,9.4L24,32.2l-5.6-5.6l23-22.8L47.2,9.4z " />
                     </svg>
@@ -148,7 +167,7 @@ class BlogPage extends Component {
               <div>{processBlogContent(data.content)}</div>
 
               {userIsOwner &&
-                <Link to={createPostEditLink({ id: data.user.id, slug: data.slug })} className="edit-btn">
+                <Link to={createPostEditLink({ slug: data.slug, type: BLOG_TYPE })} className="edit-btn">
                   <svg className="icon icon-edit" viewBox="0 0 18 18">
                     <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
                   </svg>
@@ -157,11 +176,8 @@ class BlogPage extends Component {
                 </Link>
                 }
             </div>
-            <FavoriteAdd
-              toggleFavorite={handleFavorite}
-              slug={data.slug}
-              isFavorited={data.favorite}
-            />
+
+            <FavoriteAdd {...favoriteAddProps} />
 
             <Comments
               onSend={this.sendComment}
@@ -175,11 +191,11 @@ class BlogPage extends Component {
             data={data}
             newPosts={itemsBlogs}
             popularPosts={popularPosts}
-            toggleFavorite={handleFavorite}
-            isFavorited={data.favorite}
             seeAllUrl="/blogs"
             newSectionTitle={__t('New in blogs')}
             popularSectionTitle={__t('Popular in blogs')}
+
+            {...favoriteAddProps}
           />
 
           {relativePosts.length > 0 &&
@@ -210,6 +226,7 @@ const mapStateToProps = state => ({
   data: state.PostPage.post,
   author: state.PostPage.author,
   isFetching: state.PostPage.isFetchingPost,
+  isFetchingBookmarks: state.PostPage.isFetchingBookmarks,
   isDefined: state.PostPage.isDefined,
   itemsBlogs: state.PostPage.newPosts,
   popularPosts: state.PostPage.popularPosts,
@@ -225,23 +242,20 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  fetchPost: (...args) => dispatch(fetchPost(...args)),
+  fetchPost: (...args) => dispatch(fetchPost(BLOG_TYPE, ...args)),
   fetchSubData: (data, params) => {
-    dispatch(fetchNew({ type: BLOG_TYPE }));
-    dispatch(fetchComments(params.slug));
-    dispatch(loadProfilePosts({
-      type: 'posts',
-      excludeId: data.id,
-      profileId: data.user.id,
-    }));
+    dispatch(fetchNew(BLOG_TYPE));
+    dispatch(fetchComments(BLOG_TYPE, params.slug));
+    fetchUsersPosts(BLOG_TYPE, data.author.id);
     dispatch(fetchPopular(BLOG_TYPE));
-    dispatch(fetchRelative(params.slug));
+    dispatch(fetchRelative(BLOG_TYPE, params.slug));
   },
   onUnmount: () => dispatch(resetPost()),
-  handleFavorite: slug => dispatch(toggleFavorite(slug)),
   followUser: id => dispatch(setFollow(id)),
   sendComment: data => dispatch(sendComment(data)),
-  openPopup: (...args) => dispatch(openPopup(...args))
+  openPopup: (...args) => dispatch(openPopup(...args)),
+  addBookmark: id => dispatch(addBookmark(BLOG_TYPE, id)),
+  deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(BlogPage));

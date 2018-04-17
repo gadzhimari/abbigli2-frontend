@@ -1,3 +1,3 @@
-export default function createPostEditLink({ id, slug }) {
-  return `/profile/${id}/post/edit/${slug}`;
+export default function createPostEditLink({ slug, type }) {
+  return `/edit/${type}/${slug}`;
 }

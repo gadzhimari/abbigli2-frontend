@@ -28,7 +28,7 @@ class PostCreate extends Component {
     super(props);
 
     this.state = mergeObjects({
-      type: PRODUCT_TYPE,
+      type: props.params.type || PRODUCT_TYPE,
       images: []
     }, props.data);
 
@@ -95,12 +95,11 @@ class PostCreate extends Component {
 
     savePost({
       ...data,
-      ...this.state,
       images: this.state.images.map(img => img.id),
       categories: data.categories ? [data.categories] : [],
       // legacy: нужно до тех пор, пока сервер требует это поле
       sections: [1]
-    }, slug);
+    }, slug, this.state.type);
   }
 
   handleClose = () => {
@@ -198,7 +197,7 @@ PostCreate.propTypes = {
   }),
   isTouch: Type.bool
 };
-
+// TODO: Подключить разные типы каталогов для разных типов постов
 const mapStateToProps = state => ({
   sections: state.Sections.items,
   isSaving: state.PostCreate.isSaving,
@@ -218,7 +217,7 @@ const mapDispatchToProps = dispatch => ({
   fetchPost: slug => dispatch(actions.fetchPost(slug)),
   clearData: () => dispatch(actions.clearData()),
   uploadImages: (images, callback) => dispatch(actions.uploadImages(images, callback)),
-  savePost: (body, slug) => dispatch(actions.savePost(body, slug)),
+  savePost: (body, slug, postType) => dispatch(actions.savePost(body, slug, postType)),
   openPopup: (popup, options) => dispatch(openPopup(popup, options)),
 });
 

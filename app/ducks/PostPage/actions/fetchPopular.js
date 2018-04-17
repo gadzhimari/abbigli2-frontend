@@ -1,20 +1,33 @@
-import { Posts } from 'API';
-import * as actions from '../actionTypes';
+import { createActions } from 'redux-actions';
+import { Posts, Products, Events } from '../../../api';
 
-const request = () => ({
-  type: actions.REQUEST_POPULAR,
-});
+const actionsByType = {
+  post: Posts.getPosts,
+  product: Products.getProducts,
+  event: Events.getEvents
+};
 
-const response = popularPosts => ({
-  type: actions.RESPONSE_POPULAR,
-  popularPosts,
-});
+export const {
+  requestPopularPosts,
+  responsePopularPosts,
+  failurePopularPosts
+} = createActions(
+  'REQUEST_POPULAR_POSTS',
+  'RESPONSE_POPULAR_POSTS',
+  'FAILURE_POPULAR_POSTS'
+);
 
-const fetchPopular = type => (dispatch) => {
-  dispatch(request);
+const fetchPopular = postType => async (dispatch) => {
+  dispatch(requestPopularPosts());
 
-  return Posts.getPosts({ type, popular: true })
-    .then(res => dispatch(response(res.data.results)));
+  const action = actionsByType[postType];
+
+  try {
+    const res = await action({ popular: true });
+    dispatch(responsePopularPosts(res.data.results));
+  } catch (e) {
+    dispatch(failurePopularPosts());
+  }
 };
 
 export default fetchPopular;

@@ -1,4 +1,4 @@
-import { Images } from 'API';
+import { Images } from '../../../api';
 
 import * as actions from '../actionTypes';
 

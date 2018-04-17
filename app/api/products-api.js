@@ -1,22 +1,22 @@
 import { requestV2 } from './instance';
 
 export default {
-  getPosts(params) {
+  getProducts(params) {
     return requestV2({
-      url: '/posts/',
+      url: '/products/',
       params,
       canApplyToken: true
     });
   },
-  getPostsCategories() {
+  getProductsCategories() {
     return requestV2({
-      url: '/posts/categories/',
+      url: '/products/categories/',
       canApplyToken: true
     });
   },
-  getPost(slug, token) {
+  getProduct(slug, token) {
     return requestV2({
-      url: `/posts/${slug}/`,
+      url: `/products/${slug}/`,
       canApplyToken: true,
       token
     });
@@ -24,13 +24,13 @@ export default {
   like(slug) {
     return requestV2({
       method: 'POST',
-      url: `/posts/${slug}/like/`,
+      url: `/products/${slug}/like/`,
       mustApplyToken: true,
     });
   },
   create(data) {
     return requestV2({
-      url: '/posts/',
+      url: '/products/',
       mustApplyToken: true,
       method: 'POST',
       data,
@@ -38,7 +38,7 @@ export default {
   },
   edit(data, slug) {
     return requestV2({
-      url: `/posts/${slug}/`,
+      url: `/products/${slug}/`,
       mustApplyToken: true,
       method: 'PATCH',
       data,
@@ -46,20 +46,20 @@ export default {
   },
   delete(slug) {
     return requestV2({
-      url: `/posts/${slug}/`,
+      url: `/products/${slug}/`,
       mustApplyToken: true,
       method: 'DELETE',
     });
   },
-  getSimilarPosts(slug) {
+  getSimilarProducts(slug) {
     return requestV2({
-      url: `/posts/${slug}/similar/`,
+      url: `/products/${slug}/similar/`,
       canApplyToken: true,
     });
   },
   createComment(slug, data) {
     return requestV2({
-      url: `/posts/${slug}/comments/`,
+      url: `/products/${slug}/comments/`,
       method: 'POST',
       data,
       mustApplyToken: true,
@@ -67,7 +67,7 @@ export default {
   },
   getComments(slug) {
     return requestV2({
-      url: `/posts/${slug}/comments/`,
+      url: `/products/${slug}/comments/`,
       canApplyToken: true,
     });
   }

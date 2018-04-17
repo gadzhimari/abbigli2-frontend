@@ -1,4 +1,4 @@
-import request from './instance';
+import { request } from './instance';
 import { DOMAIN_URL } from '../config';
 
 const Auth = {

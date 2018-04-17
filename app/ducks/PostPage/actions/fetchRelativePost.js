@@ -1,20 +1,33 @@
-import { Posts } from 'API';
-import * as actions from '../actionTypes';
+import { createActions } from 'redux-actions';
+import { Posts, Products, Events } from '../../../api';
 
-const request = () => ({
-  type: actions.REQUEST_RELATIVE,
-});
+const actionsByType = {
+  post: Posts.getSimilarPosts,
+  product: Products.getSimilarProducts,
+  event: Events.getSimilarEvents
+};
 
-const response = relativePosts => ({
-  type: actions.RESPONSE_RELATIVE,
-  relativePosts,
-});
+export const {
+  requestRelativePosts,
+  responseRelativePosts,
+  failureRelativePosts
+} = createActions(
+  'REQUEST_RELATIVE_POSTS',
+  'RESPONSE_RELATIVE_POSTS',
+  'FAILURE_RELATIVE_POSTS'
+);
 
-const fetchRelative = slug => (dispatch) => {
-  dispatch(request());
+const fetchRelative = (postType, slug) => async (dispatch) => {
+  dispatch(requestRelativePosts());
 
-  return Posts.getSimilarPosts(slug)
-    .then(res => dispatch(response(res.data.results)));
+  const action = actionsByType[postType];
+
+  try {
+    const res = await action(slug);
+    dispatch(responseRelativePosts(res.data.results));
+  } catch ({ response }) {
+    dispatch(failureRelativePosts());
+  }
 };
 
 export default fetchRelative;

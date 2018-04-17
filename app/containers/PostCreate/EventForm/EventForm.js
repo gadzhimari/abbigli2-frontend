@@ -21,7 +21,7 @@ class EventForm extends CreateForm {
 
     this.state = mergeObjects({
       title: '',
-      content: '',
+      description: '',
       tags: '',
       images: [],
       categories: null,
@@ -45,11 +45,11 @@ class EventForm extends CreateForm {
             ...imageZoneProps } = this.props;
 
     const { title,
-            content,
+            description,
             tags,
             categories,
-            date_start: dateStart,
-            date_end: dateEnd,
+            start: dateStart,
+            end: dateEnd,
             city,
             cityOptions } = this.state;
 
@@ -103,8 +103,8 @@ class EventForm extends CreateForm {
               wrapperErrorClass="error"
               value={dateStart || ''}
               onChange={this.onChange}
-              name="date_start"
-              errors={errors.date_start}
+              name="start"
+              errors={errors.start}
               component={DateInput}
               className="input"
               label={__t('Start.date')}
@@ -116,8 +116,8 @@ class EventForm extends CreateForm {
               wrapperErrorClass="error"
               value={dateEnd || ''}
               onChange={this.onChange}
-              name="date_end"
-              errors={errors.date_end}
+              name="end"
+              errors={errors.end}
               component={DateInput}
               className="input"
               label={__t('End.date')}
@@ -138,8 +138,8 @@ class EventForm extends CreateForm {
             wrapperClass="add-tabs__form-field"
             className="textarea"
             onChange={this.onChange}
-            name="content"
-            value={content}
+            name="description"
+            value={description}
             label={__t('Description')}
           />
 

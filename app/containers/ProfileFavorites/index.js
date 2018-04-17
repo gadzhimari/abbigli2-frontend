@@ -33,13 +33,13 @@ class ProfileFavorites extends Component {
   page = 0;
 
   fetchPosts = () => {
-    const { user, isFetchingMore, loadPosts } = this.props;
+    const { isMe, params, isFetchingMore, loadBookmarks } = this.props;
 
     if (isFetchingMore) return;
 
-    loadPosts({
-      profileId: user.id,
-      type: 'favorites',
+    loadBookmarks({
+      isMe,
+      profileId: params.profile,
       page: this.page += 1,
     });
   }

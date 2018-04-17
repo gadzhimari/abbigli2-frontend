@@ -21,7 +21,15 @@ import postLoader from '../../HOC/postLoader';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { sendPostMessage } from '../../ducks/Dialogs/actions';
 
-import { fetchPost, resetPost, fetchRelative, fetchUsersPosts, toggleFavorite, setFollow } from '../../ducks/PostPage/actions';
+import {
+  fetchPost,
+  resetPost,
+  fetchRelative,
+  fetchUsersPosts,
+  setFollow,
+  addBookmark,
+  deleteBookmark
+} from '../../ducks/PostPage/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
 import onlyAuthAction from '../../lib/redux/onlyAuthAction';
@@ -46,10 +54,10 @@ class ProductPage extends Component {
   }
 
   sendMessage = (message) => {
-    const { data, sendPostMessage } = this.props;
+    const { data, author, sendPostMessage } = this.props;
     const post = pick(data, ['id', 'title', 'sections', 'images', 'price']);
 
-    sendPostMessage(data.user.id, post, message);
+    sendPostMessage(author.id, post, message);
   }
 
   handleWantsClick = () => {
@@ -70,9 +78,11 @@ class ProductPage extends Component {
       priceTemplate,
       me,
       isAuthenticated,
-      handleFavorite,
       followUser,
-      openPopup
+      openPopup,
+      isFetchingBookmarks,
+      addBookmark,
+      deleteBookmark
     } = this.props;
     const crumbs = [];
 
@@ -85,13 +95,21 @@ class ProductPage extends Component {
 
     crumbs.push({
       title: author.profile_name || `User ID: ${author.id}`,
-      url: `/profile/${data.user.id}`,
+      url: `/profile/${author.id}`,
     }, {
       title: data.title,
       url: `/post/${data.slug}`,
     });
 
     const userIsOwner = author.id === me.id;
+
+    const favoriteAddProps = {
+      isFetching: isFetchingBookmarks,
+      addBookmark,
+      deleteBookmark,
+      bookmarkId: data.bookmark_id,
+      id: data.id
+    };
 
     return (
       <main className="product">
@@ -123,7 +141,8 @@ class ProductPage extends Component {
             data={data}
             onWantClick={this.handleWantsClick}
             userIsOwner={userIsOwner}
-            onFavoriteClick={handleFavorite}
+
+            {...favoriteAddProps}
           />
 
           <Comments
@@ -168,22 +187,27 @@ const mapStateToProps = state => ({
   isAuthenticated: state.Auth.isAuthenticated,
   priceTemplate: state.Settings.data.CURRENCY,
   me: state.Auth.me,
+  isFetchingBookmarks: state.PostPage.isFetchingBookmarks,
 });
 
 const mapDispatch = dispatch => ({
-  fetchPost: (...args) => dispatch(fetchPost(...args)),
+  fetchPost: (...args) => dispatch(fetchPost(PRODUCT_TYPE, ...args)),
   fetchSubData: (data) => {
-    dispatch(fetchComments(data.slug));
-    dispatch(fetchUsersPosts(PRODUCT_TYPE, data.user.id));
-    dispatch(fetchRelative(data.slug));
+    dispatch(fetchComments(PRODUCT_TYPE, data.slug));
+    dispatch(fetchUsersPosts(PRODUCT_TYPE, data.author.id));
+    dispatch(fetchRelative(PRODUCT_TYPE, data.slug));
   },
-  onUnmount: () => dispatch(resetPost()),
-  handleFavorite: slug => dispatch(toggleFavorite(slug)),
+
   followUser: id => dispatch(setFollow(id)),
   openWantsPopup: (...args) => dispatch(onlyAuthAction(openPopup)(...args)),
   sendPostMessage: (...args) => dispatch(sendPostMessage(...args)),
   sendComment: data => dispatch(sendComment(data)),
-  openPopup: (...args) => dispatch(openPopup(...args))
+  openPopup: (...args) => dispatch(openPopup(...args)),
+
+  addBookmark: id => dispatch(addBookmark(PRODUCT_TYPE, id)),
+  deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId)),
+
+  onUnmount: () => dispatch(resetPost())
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(ProductPage));

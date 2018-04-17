@@ -20,6 +20,7 @@ import setupDataRequests from './middlewares/setupDataRequests';
 import setupClientDataRequests from './middlewares/setupClientDataRequests';
 import handleRequests from './middlewares/handleRequests';
 import fetchUserProfile from './middlewares/fetchUserProfile';
+import syncQuery from './middlewares/syncQuery';
 
 import routes from './api';
 import cfg from './config';
@@ -48,6 +49,7 @@ app.use(redirectManager);
 app.use(trimSlash);
 app.use(setLocals);
 app.use(configureRedux);
+app.use(syncQuery);
 app.use(geoLocation);
 app.use(setupUseragent);
 app.use(setupDataRequests);

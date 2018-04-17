@@ -1,6 +1,6 @@
-export const PRODUCT_TYPE = 1;
-export const BLOG_TYPE = 4;
-export const EVENT_TYPE = 3;
+export const PRODUCT_TYPE = 'product';
+export const BLOG_TYPE = 'post';
+export const EVENT_TYPE = 'event';
 
 export const POST_PATH_BY_TYPE = {
   [PRODUCT_TYPE]: 'post',

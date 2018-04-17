@@ -19,7 +19,7 @@ class BlogForm extends CreateForm {
 
     this.state = mergeObjects({
       title: '',
-      content: '',
+      text: '',
       tags: '',
       images: [],
       categories: null
@@ -36,7 +36,7 @@ class BlogForm extends CreateForm {
       ...imageZoneProps,
     } = this.props;
 
-    const { title, content, tags, categories } = this.state;
+    const { title, text, tags, categories } = this.state;
 
     if (!visible) return null;
 
@@ -81,8 +81,8 @@ class BlogForm extends CreateForm {
             wrapperClass="add-tabs__form-field"
             className="textarea"
             onChange={this.onChange}
-            name="content"
-            value={content}
+            name="text"
+            value={text}
             label={__t('Description')}
           />
 
