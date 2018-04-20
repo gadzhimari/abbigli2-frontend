@@ -28,7 +28,6 @@ export { default as HomeSlider } from './HomeSlider';
 export { default as SliderBar } from './SliderBar';
 export { default as UserSearch } from './UserSearch';
 export { default as DragableImage } from './DragableImage';
-export { default as FetchingButton } from './FetchingButton';
 export { default as SocialLogin } from './SocialLogin';
 export { default as Icons } from './Icons';
 export { default as Menu } from './Menu';

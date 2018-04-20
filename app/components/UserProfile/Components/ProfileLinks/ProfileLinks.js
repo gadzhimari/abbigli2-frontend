@@ -1,10 +1,10 @@
 /* eslint react/sort-comp: 0 */
 
-import React, { PureComponent } from 'react';
-
 import { connect } from 'react-redux';
 
-import { FetchingButton } from '../../../../components';
+import { React, PureComponent } from '../../../../components-lib/__base';
+import { Button } from '../../../../components-lib';
+
 import Link from '../../../Link/Link';
 
 import follow from '../../../../ducks/Profile/actions/follow';
@@ -126,11 +126,11 @@ class ProfileLinks extends PureComponent {
           {this.props.data.likes_num}
         </div>
       </div>
-      <FetchingButton
-        className="default-button"
+
+      <Button
         isFetching={this.props.isFetchingFollow}
-        type="button"
         onClick={this.handleFollow}
+        fullWidth
       >
         {
           this.props.data.is_subscribed ? '-' : '+'
@@ -142,13 +142,13 @@ class ProfileLinks extends PureComponent {
               : ` ${__t('Subscribe')}`
           }
         </span>
-      </FetchingButton>
+      </Button>
     </div>
   );
 }
 
-const mapState = ({ Profile }) => ({
+const mapStateToProps = ({ Profile }) => ({
   isFetchingFollow: Profile.isFollowing,
 });
 
-export default connect(mapState)(ProfileLinks);
+export default connect(mapStateToProps)(ProfileLinks);

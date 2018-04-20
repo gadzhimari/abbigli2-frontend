@@ -1,19 +1,24 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { FetchingButton } from 'components';
+import { React, Component, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
 import { __t } from '../../../i18n/translator';
 
 class SendPost extends Component {
-  constructor() {
-    super();
-    this.state = {
-      message: '',
-      messageError: false,
-    };
-  }
+  static propTypes = {
+    closePopup: Type.func.isRequired,
+    isFetching: Type.bool.isRequired,
+    options: Type.shape({
+      name: Type.string,
+      sendMessage: Type.func,
+    }).isRequired,
+  };
+
+  state = {
+    message: '',
+    messageError: false,
+  };
 
   onUpdate = ({ target }) => this.setState({
     message: target.value,
@@ -82,13 +87,12 @@ class SendPost extends Component {
               }
             </div>
             <div className="buttons-wrap">
-              <FetchingButton
-                className="register-popup__fetch-button"
+              <Button
+                className="register-popup__fetch-button-new"
                 onClick={this.validateMessage}
                 isFetching={isFetching}
-              >
-                {__t('send.message')}
-              </FetchingButton>
+                text={__t('send.message')}
+              />
             </div>
           </form>
         </div>
@@ -96,15 +100,6 @@ class SendPost extends Component {
     );
   }
 }
-
-SendPost.propTypes = {
-  closePopup: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  options: PropTypes.shape({
-    name: PropTypes.string,
-    sendMessage: PropTypes.func,
-  }).isRequired,
-};
 
 const mapStateToProps = ({ Dialogs }) => ({
   isFetching: Dialogs.isFetching,

@@ -81,33 +81,13 @@
         transition: opacity .3s;
       }
       &_goods {
-        .add-tabs__buttons {
-          .default-button {
-            &:first-child {
-              .button(default);
-            }
-            &:last-child {
-              .button(cancelgoods);
-            }
-          }
-        }
         .photo-upload__item {
           &:before {
-            border-color: @bluish;
+            border-color: @blue;
           }
         }
       }
       &_blog {
-        .add-tabs__buttons {
-          .default-button {
-            &:first-child {
-              .button(blog);
-            }
-            &:last-child {
-              .button(cancelblog);
-            }
-          }
-        }
         .photo-upload__item {
           &:before {
             border-color: @blog;
@@ -115,16 +95,6 @@
         }
       }
       &_event {
-        .add-tabs__buttons {
-          .default-button {
-            &:first-child {
-              .button(event);
-            }
-            &:last-child {
-              .button(cancelevent);
-            }
-          }
-        }
         .photo-upload__item {
           &:before {
             border-color: @event;
@@ -161,19 +131,8 @@
         min-height: 200px;
       }
     }
-
-    &__buttons {
-      font-size: 0;
-      padding-left: 25px;
-      .default-button {
-        position: relative;
-        display: inline-block;
-        min-height: 37px;
-        &:first-child {
-          width: 172px;
-          margin-right: 20px;
-        }
-      }
+    .Button:nth-child(2) {
+      margin-left: 15px;
     }
   }
 }

@@ -1,40 +1,39 @@
-import React from 'react';
-import Type from 'prop-types';
-
-import { FetchingButton } from '../../../../components';
+import { React, PureComponent, Type } from '../../../../components-lib/__base';
+import { Button } from '../../../../components-lib';
 
 import { __t } from '../../../../i18n/translator';
 
-const SaveButtons = ({ handleSave, handleCancel, isSaving }) => (
-  <div className="profile-about__save-buttons">
-    <FetchingButton
-      className="default-button"
-      onClick={handleSave}
-      isFetching={isSaving}
-    >
-      {__t('Save')}
-    </FetchingButton>
+class SaveButtons extends PureComponent {
+  static propTypes = {
+    handleCancel: Type.func,
+    handleSave: Type.func,
+    isSaving: Type.bool,
+  };
 
-    <button
-      className="default-button"
-      type="button"
-      onClick={handleCancel}
-    >
-      {__t('Cancel')}
-    </button>
-  </div>
-);
+  static defaultProps = {
+    handleCancel: () => { },
+    handleSave: () => { },
+    isSaving: false,
+  };
 
-SaveButtons.propTypes = {
-  handleCancel: Type.func,
-  handleSave: Type.func,
-  isSaving: Type.bool,
-};
+  render() {
+    const { handleSave, handleCancel, isSaving } = this.props;
 
-SaveButtons.defaultProps = {
-  handleCancel: () => { },
-  handleSave: () => { },
-  isSaving: false,
-};
+    return (
+      <div className="profile-about__save-buttons">
+        <Button
+          onClick={handleSave}
+          isFetching={isSaving}
+          text={__t('Save')}
+        />
+        <Button
+          onClick={handleCancel}
+          text={__t('Cancel')}
+          color="secondary"
+        />
+      </div>
+    );
+  }
+}
 
 export default SaveButtons;
