@@ -104,6 +104,7 @@ class BlogCard extends PureComponent {
         <Link
           className={cn('user', { block: avatar.block[view], align: avatar.align[view], position: avatarPos })}
           to={createProfileLink(user)}
+          color="gray-600"
           text={name}
           icon={
             <Avatar
@@ -127,9 +128,10 @@ class BlogCard extends PureComponent {
         className={cn('title', { align: titleText.align[view], weight: 'bold' })}
         to={createPostLink(this.props.data)}
         text={title}
-        color="blog"
+        color="black"
         icon={<IconBlog
           size="s"
+          color="green"
         />}
       />
     );
@@ -139,7 +141,6 @@ class BlogCard extends PureComponent {
     const { setLike, view, isMe, canEdit, deleteFromFavorite } = this.props;
     const {
       user,
-      images,
       liked,
       title,
       type,
@@ -148,7 +149,7 @@ class BlogCard extends PureComponent {
       seo_description,
       comments_num: commentsCount,
     } = this.props.data;
-    const imageUrl = getImageUrl(images);
+    const imageUrl = getImageUrl(this.props.data);
 
     return (
       <div className={cn({ type: POST_PATH_BY_TYPE[type], view })}>
@@ -178,13 +179,12 @@ class BlogCard extends PureComponent {
           <div className={cn('actions', { align: 'top-left' })}>
             <div className="share">
               <Button
-                size="s"
                 view="fab"
-                color="outline"
                 className={cn('button', { share: true })}
                 aria-label={__t('Share')}
                 icon={<IconShare
                   size="xs"
+                  color="gray-400"
                 />}
               />
               <div className="dropdown-corner" />
@@ -201,14 +201,13 @@ class BlogCard extends PureComponent {
           <div className={cn('actions', { align: 'top-right' })}>
             { isMe &&
               <Button
-                size="s"
                 onClick={this.handleDelete}
                 view="fab"
-                color="outline"
                 className={cn('button', { delete: true })}
                 label={__t('Delete')}
                 icon={<IconClose
                   size="xs"
+                  color="gray-400"
                 />}
               />}
             <Like

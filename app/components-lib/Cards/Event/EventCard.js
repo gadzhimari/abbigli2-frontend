@@ -107,9 +107,10 @@ class EventCard extends PureComponent {
         className={cn('title', { align: titleText.align[view], weight: 'bold' })}
         to={createPostLink(this.props.data)}
         text={title}
-        color="event"
+        color="black"
         icon={<IconEvent
           size="s"
+          color="pink"
         />}
       />
     );
@@ -128,6 +129,7 @@ class EventCard extends PureComponent {
           className={cn('user')}
           to={createProfileLink(user)}
           text={name}
+          color="gray-600"
           icon={
             <Avatar
               className={cn('avatar', { bordered: avatar.bordered[view], size })}
@@ -145,7 +147,6 @@ class EventCard extends PureComponent {
     const { setLike, view, canEdit, isMe } = this.props;
     const {
       user,
-      images,
       liked,
       title,
       type,
@@ -156,7 +157,7 @@ class EventCard extends PureComponent {
       date_start: dateStart,
       date_end: dateEnd,
     } = this.props.data;
-    const imageUrl = getImageUrl(images);
+    const imageUrl = getImageUrl(this.props.data);
 
     return (
       <div className={cn({ type: POST_PATH_BY_TYPE[type], view })}>
@@ -186,13 +187,12 @@ class EventCard extends PureComponent {
           <div className={cn('actions', { align: 'top-left' })}>
             <div className="share">
               <Button
-                size="s"
                 view="fab"
-                color="outline"
                 className={cn('button', { share: true })}
                 aria-label={__t('Share')}
                 icon={<IconShare
                   size="xs"
+                  color="gray-400"
                 />}
               />
               <div className="dropdown-corner" />
@@ -209,14 +209,13 @@ class EventCard extends PureComponent {
           <div className={cn('actions', { align: 'top-right' })}>
             { isMe &&
               <Button
-                size="s"
                 onClick={this.handleDelete}
                 view="fab"
-                color="outline"
                 className={cn('button', { delete: true })}
                 label={__t('Delete')}
                 icon={<IconClose
                   size="xs"
+                  color="gray-400"
                 />}
               />}
             <Like
@@ -230,7 +229,7 @@ class EventCard extends PureComponent {
             { canEdit &&
               <Link
                 to={createPostEditLink({ id: user.id, slug })}
-                size={'s'}
+                size="s"
                 view={'default'}
                 text={__t('Edit')}
               />
