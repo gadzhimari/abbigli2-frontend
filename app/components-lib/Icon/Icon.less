@@ -1,29 +1,23 @@
+@import '../__base/variables/variables';
+@import '../__base/variables/colors';
+
 .Icon {
   display: inline-block;
-  &_size {
-    &_xs {
-      width: 16px;
-      height: 16px;
+  .for-each(@pair in @icon-sizes) {
+    @key: at(@pair, 1);
+    @value: at(@pair, 2);
+
+    &_size_@{key} {
+      width: @value;
+      height: @value;
     }
-    &_s {
-      width: 24px;
-      height: 24px;
-    }
-    &_m {
-      width: 32px;
-      height: 32px;
-    }
-    &_l {
-      width: 48px;
-      height: 48px;
-    }
-    &_xl {
-      width: 64px;
-      height: 64px;
-    }
-    &_xxl {
-      width: 128px;
-      height: 128px;
+  }
+  .for-each(@pair in @palette) {
+    @key: at(@pair, 1);
+    @value: at(@pair, 2);
+
+    &_color_@{key} {
+      fill: @value;
     }
   }
 }

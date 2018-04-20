@@ -7,11 +7,10 @@ class Button extends Component {
     text: Type.node,
     icon: Type.node,
     iconPosition: Type.oneOf(['left', 'right']),
-    label: Type.string,
     view: Type.oneOf(['default', 'outline', 'link', 'fab']),
     type: Type.oneOf(['button', 'reset', 'submit']),
     color: Type.string,
-    fullwidth: Type.bool,
+    fullWidth: Type.bool,
     size: Type.oneOf(['s', 'm', 'l']),
     disabled: Type.bool,
     formNoValidate: Type.bool,
@@ -23,13 +22,16 @@ class Button extends Component {
     className: Type.string,
     dataset: Type.shape(),
     onClick: Type.func,
+    isFetching: Type.bool,
   };
 
   static defaultProps = {
     type: 'button',
     size: 'm',
+    color: 'primary',
     view: 'default',
     iconPosition: 'left',
+    isFetching: false,
   };
 
   /**
@@ -48,9 +50,9 @@ class Button extends Component {
   control;
 
   handleClick = (e) => {
-    const { name, dataset, onClick } = this.props;
+    const { name, dataset, isFetching, onClick } = this.props;
 
-    if (onClick) {
+    if (onClick && !isFetching) {
       onClick(e, { name, dataset });
     }
   }
@@ -72,6 +74,7 @@ class Button extends Component {
       togglable,
       checked,
       onClick,
+      isFetching,
       ...restProps
     } = this.props;
     const buttonProps = {
@@ -100,7 +103,7 @@ class Button extends Component {
         </span>
     );
     const textTemplate = (
-      text &&
+      (children || text) &&
         <span key="text" className={cn('text')}>
           { children || text }
         </span>
@@ -116,7 +119,10 @@ class Button extends Component {
         onClick={this.handleClick}
         {...buttonProps}
       >
-        {buttonContent}
+        {isFetching ?
+          <span className={cn('fetching')} />
+          : buttonContent
+        }
       </button>
     );
   }

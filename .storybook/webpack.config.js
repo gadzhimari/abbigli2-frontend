@@ -6,6 +6,7 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const LessListPlugin = require('less-plugin-lists');
+const LessFunctionPlugin = require('less-plugin-functions');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -122,7 +123,8 @@ module.exports = {
               ],
               sourceMap: true,
               plugins: [
-                new LessListPlugin()
+                new LessListPlugin(),
+                new LessFunctionPlugin(),
               ]
             },
           }],
