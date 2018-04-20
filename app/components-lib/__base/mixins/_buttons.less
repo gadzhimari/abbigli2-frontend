@@ -1,0 +1,124 @@
+@import '../functions';
+@import '../variables/typography';
+
+.button-variant(@background, @color, @border) {
+  color: color-yiq(@color);
+  background-color: @background;
+  border-color: @border;
+  &:hover {
+    background-color: darken(@background, 9%);
+  }
+  &:active {
+    background-color: darken(@background, 14%);
+    box-shadow: 0 0 2px darken(@background, 14%), inset;
+  }
+}
+
+.button-outline-variant(@background, @color, @border) {
+  color: @color;
+  background-color: transparent;
+  border-color: @border;
+  &:hover {
+    color: color-yiq(@color);
+    background-color: @background;
+  }
+  &:active {
+    color: color-yiq(@color);
+    background-color: darken(@background, 14%);
+    box-shadow: 0 0 2px darken(@background, 14%), inset;
+    border-color: darken(@border, 14%);
+  }
+}
+
+.button-fab-variant(@background, @border, @color-name, @color-value) {
+  border-color: @border;
+  background-color: @background;
+  &:hover {
+    .Icon_color_@{color-name} {
+      fill: lighten(@color-value, 5%);
+    }
+  }
+}
+
+.button-link-variant(@color) {
+  color: @color;
+  background-color: transparent;
+}
+
+.button-size(@padding-y, @padding-x, @height, @font-size, @line-height, @border-radius) {
+  height: @height;
+  padding: @padding-y @padding-x;
+  font-size: @font-size;
+  line-height: @line-height;
+  border-radius: @border-radius;
+}
+
+.link-size(@font-size) {
+  font-size: @font-size;
+}
+
+.button-base() {
+  cursor: pointer;
+  outline: 0;
+  border: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: @font;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button() {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+  white-space: nowrap;
+  touch-action: manipulation;
+  transition: color 200ms ease-out, background-color 200ms ease-out, border-color 200ms ease-out;
+
+  &::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+  }
+
+  &:focus {
+    z-index: 1;
+  }
+}
+
+.link() {
+  vertical-align: middle;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.button-disabled() {
+  opacity: 0.65;
+  cursor: default;
+  pointer-events: none;
+}
+
+.button-base-text() {
+  font-weight: 400;
+  text-overflow: ellipsis;
+}
+
+.button-text() {
+  overflow: hidden;
+}
+
+.link-text() {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.button-icon() {
+  display: inline-block;
+  line-height: 0;
+  vertical-align: middle;
+}
