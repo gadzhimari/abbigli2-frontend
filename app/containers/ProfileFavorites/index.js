@@ -104,6 +104,7 @@ class ProfileFavorites extends Component {
                   dispatch={dispatch}
                   delete={deleteFromFavorite}
                   view={2}
+                  isMe
                 />
               ))
             }
