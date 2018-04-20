@@ -106,9 +106,10 @@ class EventCard extends PureComponent {
         className={cn('title', { align: titleText.align[view], weight: 'bold' })}
         to={postUrl}
         text={title}
-        color="event"
+        color="black"
         icon={<IconEvent
           size="s"
+          color="pink"
         />}
       />
     );
@@ -186,13 +187,12 @@ class EventCard extends PureComponent {
           <div className={cn('actions', { align: 'top-left' })}>
             <div className="share">
               <Button
-                size="s"
                 view="fab"
-                color="outline"
                 className={cn('button', { share: true })}
                 aria-label={__t('Share')}
                 icon={<IconShare
                   size="xs"
+                  color="gray-400"
                 />}
               />
               <div className="dropdown-corner" />
@@ -209,14 +209,13 @@ class EventCard extends PureComponent {
           <div className={cn('actions', { align: 'top-right' })}>
             {isMe &&
               <Button
-                size="s"
                 onClick={this.handleDelete}
                 view="fab"
-                color="outline"
                 className={cn('button', { delete: true })}
                 label={__t('Delete')}
                 icon={<IconClose
                   size="xs"
+                  color="gray-400"
                 />}
               />}
             <Like

@@ -51,6 +51,7 @@ class TogglePrivacy extends PureComponent {
           icon={<Icon
             glyph={glyph}
             size="s"
+            color="blue"
           />}
         />
       </div>
