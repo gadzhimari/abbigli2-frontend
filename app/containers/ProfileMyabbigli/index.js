@@ -54,9 +54,9 @@ class ProfileMyabbigli extends Component {
                 <Link
                   className="Card__button Card__button_attach"
                   onClick={this.onCreateLinkClick}
-                  to={'/post/new'}
+                  to="/post/new"
                   text={__t('add.on.abbigli')}
-                  color="white"
+                  color="black"
                   size={'l'}
                   icon={<Icon
                     glyph="plus"

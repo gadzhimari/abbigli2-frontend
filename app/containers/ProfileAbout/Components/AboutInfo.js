@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import Type from 'prop-types';
+import { React, PureComponent, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
 import { processBlogContent } from '../../../lib/process-html';
 import { __t } from '../../../i18n/translator';
@@ -25,18 +25,15 @@ class AboutInfo extends PureComponent {
     const { info, isMe } = this.props;
     const noContentText = isMe ?
       __t('You did not provide your contact information yet') :
-      __t('The user has not yet filled out information about themselves')
+      __t('The user has not yet filled out information about themselves');
 
     return (
       <div className="profile-about__info">
         {isMe &&
-          <button
-            className="default-button"
-            type="button"
+          <Button
             onClick={this.handleEditing}
-          >
-            {__t('Edit')}
-          </button>
+            text={__t('Edit')}
+          />
         }
 
         <h3 className="profile-about__header">
