@@ -16,7 +16,7 @@ import getImageUrl from '../../../lib/getImageUrl';
 import createProfileLink from '../../../lib/links/profile-link';
 import createPostLink from '../../../lib/links/post-link';
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
-import { POST_PATH_BY_TYPE } from '../../../lib/constants/posts-types';
+import { BLOG_TYPE } from '../../../lib/constants/posts-types';
 import createPostEditLink from '../../../lib/links/edit-post-link';
 
 import {
@@ -92,29 +92,29 @@ class BlogCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view, isMe } = this.props;
-    const { user } = this.props.data;
-    const name = getUserName(user);
+    const { view, isMe, data } = this.props;
+    const { author } = data;
+
+    const name = getUserName(data);
+
     const avatarPos = avatar.position[view] || '';
     const { size, ratio } = avatar.sizes[view];
 
-    return (
-      isMe ?
-        <div /> :
-        <Link
-          className={cn('user', { block: avatar.block[view], align: avatar.align[view], position: avatarPos })}
-          to={createProfileLink(user)}
-          text={name}
-          icon={
-            <Avatar
-              className={cn('avatar', { bordered: avatar.bordered[view], size })}
-              imgClassName="avatar__img"
-              avatar={user.avatar}
-              thumbSize={ratio}
-              alt={name}
-            />
-          }
-        />
+    return isMe || (
+      <Link
+        className={cn('user', { block: avatar.block[view], align: avatar.align[view], position: avatarPos })}
+        to={createProfileLink(author)}
+        text={name}
+        icon={
+          <Avatar
+            className={cn('avatar', { bordered: avatar.bordered[view], size })}
+            imgClassName="avatar__img"
+            avatar={author.avatar}
+            thumbSize={ratio}
+            alt={name}
+          />
+        }
+      />
     );
   }
 
@@ -136,37 +136,41 @@ class BlogCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, view, isMe, canEdit, deleteFromFavorite } = this.props;
+    const { setLike, view, isMe, canEdit, deleteFromFavorite, data } = this.props;
     const {
-      user,
-      images,
+      author,
       liked,
       title,
-      type,
       slug,
       created,
       seo_description,
       comments_num: commentsCount,
-    } = this.props.data;
-    const imageUrl = getImageUrl(images);
+    } = data;
+
+    const type = BLOG_TYPE;
+    const imageUrl = getImageUrl(data);
+    const postUrl = createPostLink(data);
+    const postEditingUrl = createPostEditLink({ id: author.id, slug });
+
+    const mods = { type, view };
 
     return (
-      <div className={cn({ type: POST_PATH_BY_TYPE[type], view })}>
-        { view === 3 &&
+      <div className={cn(mods)}>
+        {view === 3 &&
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
-              {
-                this.renderAvatar(cn)
-              }
+              {this.renderAvatar(cn)}
+
               <div className={cn('date', { short: true })}>
                 {toLocaleDateString(created, CARD_DATE_SHORT_FORMAT)}
               </div>
             </div>
           </div>
         }
+
         <div className={cn('img-wrapper')}>
           <Link
-            to={createPostLink(this.props.data)}
+            to={postUrl}
           >
             <Image
               className={cn('img')}
@@ -175,6 +179,7 @@ class BlogCard extends PureComponent {
               src={imageUrl}
             />
           </Link>
+
           <div className={cn('actions', { align: 'top-left' })}>
             <div className="share">
               <Button
@@ -187,10 +192,12 @@ class BlogCard extends PureComponent {
                   size="xs"
                 />}
               />
+
               <div className="dropdown-corner" />
+
               <div className="dropdown">
                 <Share
-                  postLink={createPostLink(this.props.data)}
+                  postLink={postUrl}
                   buttonClass="social-btn"
                   media={imageUrl}
                   description={title}
@@ -198,8 +205,9 @@ class BlogCard extends PureComponent {
               </div>
             </div>
           </div>
+
           <div className={cn('actions', { align: 'top-right' })}>
-            { isMe &&
+            {isMe &&
               <Button
                 size="s"
                 onClick={this.handleDelete}
@@ -210,7 +218,9 @@ class BlogCard extends PureComponent {
                 icon={<IconClose
                   size="xs"
                 />}
-              />}
+              />
+            }
+
             <Like
               liked={liked}
               onClick={setLike}
@@ -218,20 +228,22 @@ class BlogCard extends PureComponent {
               className={cn('button', { like: true })}
             />
           </div>
+
           <div className={cn('actions', { align: 'bottom-right' })}>
-            { canEdit &&
+            {canEdit &&
               <Link
-                to={createPostEditLink({ id: user.id, slug })}
+                to={postEditingUrl}
                 size="s"
                 view={'default'}
                 text={__t('Edit')}
               />
             }
           </div>
+
           <div className={cn('actions', { align: 'bottom-right' })}>
-            { isMe && deleteFromFavorite &&
+            {isMe && deleteFromFavorite &&
               <Link
-                to={createPostEditLink({ id: user.id, slug })}
+                to={postEditingUrl}
                 size="s"
                 view={'default'}
                 text={__t('Edit')}
@@ -239,27 +251,33 @@ class BlogCard extends PureComponent {
             }
           </div>
         </div>
+
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
-            { view === 1 && this.renderAvatar(cn) }
-            { view !== 3 && this.renderTitle(cn) }
-            { view === 1 &&
+            {view === 1 && this.renderAvatar(cn)}
+            {view !== 3 && this.renderTitle(cn)}
+            {view === 1 &&
               <div
                 className={cn('text')}
                 dangerouslySetInnerHTML={{ __html: seo_description }}
               />
             }
           </div>
+
           <div className={cn('footer', { align: 'vertical' })}>
-            { view === 1 &&
+            {view === 1 &&
               <div className={cn('date')}>
                 {toLocaleDateString(created, MESSAGE_DATE_FORMAT)}
               </div>
             }
-            { view === 2 && this.renderAvatar(cn) }
-            { view === 3 && this.renderTitle(cn) }
+
+            {view === 2 && this.renderAvatar(cn)}
+
+            {view === 3 && this.renderTitle(cn)}
+
             <div className={cn('comments')}>
               <IconComment size="xs" className={cn('comments-icon')} />
+
               <span className={cn('comments-count')}>
                 {commentsCount}
               </span>

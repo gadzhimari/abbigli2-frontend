@@ -20,6 +20,7 @@ import paginateHOC from '../../HOC/paginate';
 
 import { fetchBlogs, changeBlogsSearchValue } from '../../ducks/Blogs/actions';
 
+import { BLOG_TYPE } from '../../lib/constants/posts-types';
 import { __t } from '../../i18n/translator';
 
 import './BlogsPage.less';
@@ -59,11 +60,13 @@ class BlogsPage extends PureComponent {
     const { routing, fetchBlogs } = this.props;
 
     const options = {
-      popular: routing.query.popular === 'true',
       category: routing.query.category,
-      type: 4,
       search: routing.query.search,
     };
+
+    if (routing.query.popular === 'true') {
+      options.popular = true;
+    }
 
     if (routing.query.page && routing.query.page !== '1') {
       options.page = routing.query.page;
@@ -114,8 +117,14 @@ class BlogsPage extends PureComponent {
   }
 
   render() {
-    const { isFetching, items, sections, params, routing, router, pages, paginate, activePage } = this.props;
     const { searchValue } = this.state;
+    const { isFetching,
+            items,
+            sections,
+            routing,
+            pages,
+            paginate,
+            activePage } = this.props;
 
     const section = sections.filter(item => routing && item.slug === routing.query.category)[0];
 
@@ -199,7 +208,7 @@ class BlogsPage extends PureComponent {
             </div>
               : <ListWithNew
                 items={items}
-                itemsType={4}
+                itemsType={BLOG_TYPE}
                 itemProps={{ legacy: true }}
                 count={8}
                 ItemComponent={Blog}
@@ -226,12 +235,13 @@ const mapStateToProps = ({ Blogs, Sections, routing }) => ({
   items: Blogs.page.items,
   searchValue: Blogs.searchValue,
   sections: Sections.items,
-  routing: routing.locationBeforeTransitions,
   pages: Blogs.page.count,
+
+  routing: routing.locationBeforeTransitions,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchBlogs: (page, searchValue, popular) => dispatch(fetchBlogs(page, searchValue, popular)),
+  fetchBlogs: opts => dispatch(fetchBlogs(opts)),
   changeSearchValue: value => dispatch(changeBlogsSearchValue(value)),
 });
 

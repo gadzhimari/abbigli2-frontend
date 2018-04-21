@@ -1,3 +1,4 @@
-export default function getUserName(user) {
-  return user.profile_name ? user.profile_name : `ID: ${user.id}`;
+export default function getUserName({ author }) {
+  const { profile_name: name, id } = author;
+  return name || `ID: ${id}`;
 }
