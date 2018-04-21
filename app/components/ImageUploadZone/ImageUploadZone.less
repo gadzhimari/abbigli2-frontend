@@ -1,6 +1,5 @@
-@import 'icons';
-@import 'mixin';
-@import 'variables';
+@import '../../containers/App/base/variables';
+@import '../../containers/App/base/mixin';
 
 .photo-upload {
   font-size: 0;
@@ -55,10 +54,7 @@
 
     &-message {
       width: 80%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      .align-full();
     }
   }
 

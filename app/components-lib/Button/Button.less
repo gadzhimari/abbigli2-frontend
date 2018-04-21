@@ -1,17 +1,16 @@
-@import '../../containers/App/base/mixin';
-@import '../../containers/App/base/variables';
 @import '../__base/variables/colors';
-
-@blockName: Button;
+@import '../__base/variables/variables';
+@import '../__base/animation';
+@import '../__base/mixins';
 
 .Button {
-  .buttonBase();
+  .button-base();
   &__text {
-    .buttonBaseText();
+    .button-base-text();
   }
 
   &__icon {
-    .buttonIcon();
+    .button-icon();
   }
 
   &__icon + &__text,
@@ -19,32 +18,44 @@
     margin-left: 6px;
   }
 
-  &_fullWidth {
-    width: 100%;
-  }
-
-  &_disabled {
-    .disabled();
+  &__fetching {
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    border: 3px solid #fff;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: rotate 1s linear infinite;
   }
 
   &_view {
-    &_default {
-      .setType(button);
-    }
-    &_outline {
-      .setType(button);
-    }
+    &_default,
+    &_outline,
     &_fab {
-      .setType(button);
+      .button();
+      border-width: @btn-border-width;
+      border-style: @btn-border-style;
     }
     &_link {
-      .setType(link);
-      .Button__text {
-        .linkText();
+      .link();
+    }
+
+    &_default {
+      .for-each(@pair in @theme-colors) {
+        @key: at(@pair, 1);
+        @value: at(@pair, 2);
+        &.Button_color_@{key} {
+          .button-variant(@value, @value, transparent);
+        }
       }
-      &:hover {
-        .Button__text {
-          border-color: @link-primary-color;
+    }
+
+    &_outline {
+      .for-each(@pair in @theme-colors) {
+        @key: at(@pair, 1);
+        @value: at(@pair, 2);
+        &.Button_color_@{key} {
+          .button-outline-variant(@value, @value, @value);
         }
       }
     }
@@ -53,99 +64,100 @@
     &_outline {
       &.Button_size {
         &_s {
-          .setSize(button, s);
+          .button-size(
+            @btn-padding-y-small,
+            @btn-padding-x-small,
+            @btn-height-small,
+            @font-size-small,
+            @btn-line-height-small,
+            @btn-border-radius
+          );
+          .Button {
+            &__fetching {
+              width: 16px;
+              height: 16px;
+            }
+          }
         }
         &_m {
-          .setSize(button, m);
+          .button-size(
+            @btn-padding-y-medium,
+            @btn-padding-x-medium,
+            @btn-height-medium,
+            @font-size-medium,
+            @btn-line-height-medium,
+            @btn-border-radius
+          );
+          .Button {
+            &__fetching {
+              width: 20px;
+              height: 20px;
+            }
+          }
         }
         &_l {
-          .setSize(button, l);
+          .button-size(
+            @btn-padding-y-large,
+            @btn-padding-x-large,
+            @btn-height-large,
+            @font-size-large,
+            @btn-line-height-large,
+            @btn-border-radius
+          );
+          .Button {
+            &__fetching {
+              width: 24px;
+              height: 24px;
+            }
+          }
+        }
+      }
+    }
+
+    &_link {
+      .for-each(@pair in @theme-colors) {
+        @key: at(@pair, 1);
+        @value: at(@pair, 2);
+        &.Button_color_@{key} {
+          .button-link-variant(@value);
+        }
+      }
+      &.Button_size {
+        &_s {
+          .link-size(@font-size-small);
+        }
+        &_m {
+          .link-size(@font-size-medium);
+        }
+        &_l {
+          .link-size(@font-size-large);
         }
       }
       .Button__text {
-        .buttonText();
+        .button-text();
       }
     }
 
     &_fab {
-      width: 30px;
-      height: 30px;
-      justify-content: center;
+      .for-each(@pair in @palette) {
+        @key: at(@pair, 1);
+        @value: at(@pair, 2);
+        .button-fab-variant(@white, @gray-500, @key, @value);
+      }
+      &.Button_size {
+        &_m {
+          width: 30px;
+          .button-size(0, 0, 30px, initial, normal, 50%);
+        }
+      }
     }
   }
-}
 
-.buttonViewMixin(
-  @blockName,
-  view,
-  default,
-  @btn-primary-bg,
-  @btn-primary-bg-hover,
-  @btn-primary-bg-active,
-  @btn-primary-color,
-  @btn-primary-color,
-  @btn-primary-color,
-  none,
-  none,
-  @btn-primary-box-shadow-active,
-  transparent,
-  transparent,
-  transparent,
-  0,
-  none,
-  3px
-);
+  &_fullWidth {
+    width: 100%;
+  }
 
-.buttonViewMixin(
-  @blockName,
-  view,
-  outline,
-  transparent,
-  @btn-outline-primary-bg-hover,
-  @btn-outline-primary-bg-active,
-  @btn-outline-primary-color,
-  @btn-outline-primary-color-hover,
-  @btn-outline-primary-color-hover,
-  none,
-  none,
-  @btn-outline-primary-box-shadow-active,
-  @btn-outline-primary-border-color,
-  @btn-outline-primary-border-color,
-  @btn-outline-primary-border-color-active,
-  1px,
-  solid,
-  3px
-);
-
-
-.buttonViewMixin(
-  @blockName,
-  view,
-  fab,
-  #fff,
-  #fff,
-  #fff,
-  #fff,
-  #fff,
-  #fff,
-  none,
-  none,
-  none,
-  #92989b,
-  none,
-  none,
-  1px,
-  solid,
-  50%,
-);
-
-.buttonSizeMixin(@blockName, size, s, @btn-font-small);
-.buttonSizeMixin(@blockName, size, m, @btn-font-medium);
-.buttonSizeMixin(@blockName, size, l, @btn-font-large);
-
-.for-each(@pair in @colors) {
-  @key: at(@pair, 1);
-  @value: at(@pair, 2);
-
-  .buttonColorMixin(@blockName, color, @key, fill, @value);
+  &_disabled {
+    .button-disabled();
+  }
 }

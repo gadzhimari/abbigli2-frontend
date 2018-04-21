@@ -1,23 +1,27 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { ErrorInput } from 'components/Inputs';
-import { FetchingButton } from 'components';
+import { React, Component, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
-import { setPassword } from 'ducks/Auth/authActions';
+import { ErrorInput } from '../../../components/Inputs';
+
+import { setPassword } from '../../../ducks/Auth/authActions';
 import { __t } from '../../../i18n/translator';
 
 import './PasswordPopup.styl';
 
 class PasswordPopup extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      password: '',
-      repassword: '',
-    };
-  }
+  static propTypes = {
+    closePopup: Type.func.isRequired,
+    dispatch: Type.func.isRequired,
+    isFetching: Type.bool.isRequired,
+    errors: Type.oneOfType([Type.object, Type.any]),
+  };
+
+  state = {
+    password: '',
+    repassword: '',
+  };
 
   handlePassword = ({ target }) => this.setState({
     password: target.value.trim(),
@@ -83,27 +87,18 @@ class PasswordPopup extends Component {
                 type="password"
               />
             </div>
-            <FetchingButton
-              className="register-popup__fetch-button"
-              type="button"
+            <Button
+              className="register-popup__fetch-button-new"
               onClick={this.handleSend}
               isFetching={isFetching}
-            >
-              {__t('Set password')}
-            </FetchingButton>
+              text={__t('Set password')}
+            />
           </form>
         </div>
       </div>
     );
   }
 }
-
-PasswordPopup.propTypes = {
-  closePopup: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  errors: PropTypes.oneOfType([PropTypes.object, PropTypes.any]),
-};
 
 const mapStateToProps = ({ Auth }) => ({
   isFetching: Auth.isFetching,

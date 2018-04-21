@@ -1,24 +1,27 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Recipient from './Recipient';
-import { FetchingButton } from 'components';
+import { React, Component, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
-import { sendPrivateMessage } from 'ducks/Dialogs/actions';
+import Recipient from './Recipient';
+
+import { sendPrivateMessage } from '../../../ducks/Dialogs/actions';
 
 import { __t } from '../../../i18n/translator';
 
 import './MessagePopup.styl';
 
 class MessagePopup extends Component {
-  constructor() {
-    super();
-    this.state = {
-      message: '',
-      messageError: false,
-    };
-  }
+  static propTypes = {
+    closePopup: Type.func.isRequired,
+    dispatch: Type.func.isRequired,
+    isFetching: Type.bool.isRequired,
+  };
+
+  state = {
+    message: '',
+    messageError: false,
+  };
 
   onUpdate = ({ target }) => this.setState({
     message: target.value,
@@ -95,13 +98,12 @@ class MessagePopup extends Component {
               }
             </div>
             <div className="buttons-wrap">
-              <FetchingButton
-                className="register-popup__fetch-button"
+              <Button
                 onClick={this.validateMessage}
                 isFetching={isFetching}
-              >
-                {__t('send.message')}
-              </FetchingButton>
+                className="register-popup__fetch-button-new"
+                text={__t('send.message')}
+              />
             </div>
           </form>
         </div>
@@ -109,12 +111,6 @@ class MessagePopup extends Component {
     );
   }
 }
-
-MessagePopup.propTypes = {
-  closePopup: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-};
 
 const mapStateToProps = ({ Dialogs }) => ({
   isFetching: Dialogs.isFetching,

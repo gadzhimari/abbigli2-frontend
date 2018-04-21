@@ -1,7 +1,7 @@
 @import '../../containers/App/base/base';
-@import '../../containers/App/base/mixin';
 @import '../../containers/App/base/variables';
 @import '../__base/variables/colors';
+@import '../__base/mixins';
 
 @cardImageHeight: 200px;
 
@@ -78,7 +78,7 @@
         }
         &__title {
           margin-bottom: 0;
-          color: @grayText;
+          color: @gray-600;
         }
         &__price {
           font-size: 14px;
@@ -158,7 +158,6 @@
       width: 100%;
       height: 100%;
       font-family: 'ClearSansBold';
-      color: #000;
       .Link__icon {
         display: flex;
         align-items: center;
@@ -191,7 +190,6 @@
     align-items: center;
     margin-bottom: 5px;
     font-family: ClearSans;
-    color: #000;
     &_weight {
       &_bold {
         font-family: ClearSansBold;
@@ -203,7 +201,7 @@
         justify-content: center;
       }
     }
-    .truncate-text();
+    .text-truncate();
     .Link__text {
       overflow: hidden;
     }
@@ -238,7 +236,7 @@
     flex: 0 0 auto;
     font-family: 'ClearSans';
     font-size: 16px;
-    color: @grayText;
+    color: @gray-600;
     text-align: center;
     &_short {
       width: 60px;
@@ -278,27 +276,26 @@
     margin-left: 10px;
     font-family: 'ClearSans';
     font-size: 14px;
-    .truncate-text();
+    .text-truncate();
   }
   &__comments {
     flex: 0 0 auto;
     &-icon {
       vertical-align: middle;
-      fill: @grayText;
+      fill: @gray-600;
     }
     &-count {
       font-family: 'ClearSansLight';
       margin-left: 6px;
       vertical-align: middle;
       font-size: 16px;
-      color: @grayText;
+      color: @gray-600;
     }
   }
   &__user {
-    .truncate-text();
+    .text-truncate();
     text-align: left;
     font-size: 16px;
-    color: @grayText;
     &_align {
       &_center {
         text-align: center;
@@ -330,7 +327,7 @@
   &__attach {
     width: 100%;
     height: 100%;
-    border: 1px dashed @bluish;
+    border: 1px dashed @blue;
   }
 }
 

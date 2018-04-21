@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { SocialLogin, FetchingButton } from '../../../components';
+import { React, Component, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
+
+import { SocialLogin } from '../../../components';
 import CountryItem from './CountryItem';
 
 import { registration } from '../../../ducks/Auth/authActions';
@@ -14,6 +15,13 @@ import { __t } from '../../../i18n/translator';
 import './RegisterPopup.styl';
 
 class RegisterPopup extends Component {
+  static propTypes = {
+    currentCountry: Type.any,
+    dispatch: Type.func.isRequired,
+    closePopup: Type.func.isRequired,
+    errors: Type.oneOfType([Type.object, Type.any]),
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -172,15 +180,13 @@ class RegisterPopup extends Component {
               </a>
             </div>
 
-            <FetchingButton
-              className="register-popup__fetch-button"
+            <Button
+              className="register-popup__fetch-button-new"
               onClick={this.onRegistrationClick}
               isFetching={isFetching}
               name="phone"
-              type="button"
-            >
-              {__t('Sign Up')}
-            </FetchingButton>
+              text={__t('Sign Up')}
+            />
 
             <div className="register-popup__notice">
               {__t('Or with social networks')}
@@ -203,13 +209,6 @@ class RegisterPopup extends Component {
     );
   }
 }
-
-RegisterPopup.propTypes = {
-  errors: PropTypes.object,
-  currentCountry: PropTypes.any,
-  dispatch: PropTypes.func.isRequired,
-  closePopup: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = ({ Auth, Settings }) => ({
   isFetching: Auth.isFetching,

@@ -27,7 +27,7 @@ class GoodsCard extends PureComponent {
 
   render(cn) {
     const { data, priceTemplate } = this.props;
-    const imageUrl = getImageUrl(data.images);
+    const imageUrl = getImageUrl(data);
     const name = getUserName(data.user);
 
     return (
@@ -38,6 +38,7 @@ class GoodsCard extends PureComponent {
               className={cn('user')}
               to={createProfileLink(data.user)}
               text={name}
+              color="gray-600"
               icon={
                 <Avatar
                   className="avatar Card__avatar"
@@ -67,9 +68,9 @@ class GoodsCard extends PureComponent {
               to={createPostLink(data)}
               text={data.title}
               size="s"
-              color="goods"
               icon={<IconBag
                 size="xs"
+                color="blue"
               />}
             />
             <div className={cn('price')}>

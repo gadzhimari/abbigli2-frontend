@@ -52,6 +52,7 @@ class TogglePrivacy extends PureComponent {
           color="primary"
           icon={<Icon
             size="s"
+            color="blue"
           />}
         />
       </div>

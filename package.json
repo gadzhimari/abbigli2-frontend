@@ -130,6 +130,7 @@
     "jsx-control-statements": "^3.2.6",
     "less": "^2.7.2",
     "less-loader": "^4.0.4",
+    "less-plugin-functions": "^1.0.0",
     "less-plugin-lists": "^1.1.1",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",

@@ -1,0 +1,19 @@
+@import './variables/colors';
+
+/* Ф-ия по вычислению цвета текста исходя из контраста */
+.function() {
+  .color-yiq(@color) {
+    @yiq-contrasted-threshold: 190;
+    @r: red(@color);
+    @g: green(@color);
+    @b: blue(@color);
+    @yiq: ((@r * 299) + (@g * 587) + (@b * 114)) / 1000;
+
+    & when (@yiq > @yiq-contrasted-threshold) {
+      return: @black;
+    }
+    & when (@yiq < @yiq-contrasted-threshold) {
+      return: @white;
+    }
+  }
+}

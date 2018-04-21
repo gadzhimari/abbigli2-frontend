@@ -5,53 +5,92 @@ import { React, Fragment } from '../__base';
 import Button from './Button';
 import IconHeart from '../../icons/heart';
 
-const primaryButton = () => (
-  <Button
-    onClick={action('onClick')}
-    text="Primary"
-  />
+const colors = {
+  primary: 'Primary',
+  secondary: 'Secondary',
+  success: 'Success',
+  danger: 'Danger',
+  warning: 'Warning',
+  info: 'Info',
+  light: 'Light',
+  dark: 'Dark',
+};
+
+const sizes = ['s', 'm', 'l'];
+
+const defaultButton = () => (
+  <Fragment>
+    {
+      Object.keys(colors).map(color =>
+        <Button
+          key={color}
+          text={colors[color]}
+          color={color}
+          onClick={action('onClick')}
+        />
+      )
+    }
+  </Fragment>
 );
-const primaryButtonStr = `
+
+const defaultButtonStr = `
 # Документация
-Дефолтное представление кнопки
+Дефолтное представление кнопки. Для указания цвета достаточно передать
+модификатор color с нужным значением. Цвета кнопка определены в файле
+colors.less в переменной @theme-colors.
 ## Пример
 ~~~js
 <Button
+  text="Danger"
+  color="danger"
   onClick={action('button-click')}
-  text="Primary"
 />
 ~~~
 `;
 
 const outlineButton = () => (
-  <Button
-    view={'outline'}
-    text="Outline"
-  />
+  <Fragment>
+    {
+      Object.keys(colors).map(color =>
+        <Button
+          key={color}
+          text={colors[color]}
+          color={color}
+          view="outline"
+          onClick={action('onClick')}
+        />
+      )
+    }
+  </Fragment>
 );
+
 const outlineButtonStr = `
 # Документация
-Дефолтный представление кнопки
+Кнопка без бэкграунда и с бордером. Для указания цвета достаточно передать
+модификатор color с нужным значением. Цвета кнопка определены в файле
+colors.less в переменной @theme-colors.
 ## Пример
 ~~~js
 <Button
-  view={'outline'}
-  text="Outline"
+  text="Warning"
+  color="warning"
+  view="outline"
+  onClick={action('onClick')}
 />
 ~~~
 `;
 
-
 const fabButton = () => (
   <Button
-    view={'fab'}
+    view="fab"
     aria-label="Редактировать"
-    color="attention"
     icon={<IconHeart
-      size={'xs'}
+      size="xs"
+      color="gray-400"
     />}
   />
 );
+
 const fabButtonStr = `
 # Документация
 Данный тип кнопки не имеет текста, поэтому необходимо дополнительно передавать
@@ -60,11 +99,11 @@ const fabButtonStr = `
 ## Пример
 ~~~js
 <Button
-  view={'fab'}
+  view="fab"
   aria-label="Поставить лайк"
   color="attention"
   icon={<IconHeart
-    size={'xs'}
+    size="xs"
   />}
 />
 ~~~
@@ -72,17 +111,19 @@ const fabButtonStr = `
 
 const linkButton = () => (
   <Button
-    view={'link'}
+    view="link"
     text="link"
   />
 );
+
 const linkButtonStr = `
 # Документация
-Кнопка имеющая визуальный вид похожий на ссылку
+Кнопка имеющая визуальный вид похожий на ссылку. Для указания цвета достаточно передать модификатор color с нужным значением. Цвета кнопка определены в файле
+colors.less в переменной @theme-colors.
 ## Пример
 ~~~js
 <Button
-  view={'link'}
+  view="link"
   text="link"
 />
 ~~~
@@ -90,29 +131,18 @@ const linkButtonStr = `
 
 const buttonSizes = () => (
   <Fragment>
-    <Button
-      size={'s'}
-      text="Редактировать"
-      color="white"
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
-    <Button
-      text="Редактировать"
-      color="white"
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
-    <Button
-      text="Редактировать"
-      size={'l'}
-      color="white"
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
+    {
+      sizes.map(size =>
+        <Button
+          size={size}
+          text="Редактировать"
+          icon={<IconHeart
+            size="xs"
+            color="white"
+          />}
+        />
+      )
+    }
   </Fragment>
 );
 const buttonSizesStr = `
@@ -121,54 +151,27 @@ const buttonSizesStr = `
 ## Пример
 ~~~js
 <Button
-  size={'s'}
+  size="s"
   text="Редактировать"
-  color="white"
   icon={<IconHeart
-    size={'xs'}
-  />}
-/>
-
-<Button
-  text="Редактировать"
-  color="white"
-  icon={<IconHeart
-    size={'xs'}
-  />}
-/>
-
-<Button
-  text="Редактировать"
-  size={'l'}
-  color="white"
-  icon={<IconHeart
-    size={'xs'}
+    size="xs"
+    color="white"
   />}
 />
 ~~~
 `;
 
 const fullWidthButton = () => (
-  <Fragment>
-    <Button
-      text="Редактировать"
-      color="attention"
-      fullWidth
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
-    <Button
-      view={'outline'}
-      text="Редактировать"
-      color="attention"
-      fullWidth
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
-  </Fragment>
+  <Button
+    text="Редактировать"
+    fullWidth
+    icon={<IconHeart
+      size="xs"
+      color="red"
+    />}
+  />
 );
+
 const fullWidthButtonStr = `
 # Документация
 Кнопка занимает 100% ширины контейнера, в котором находится.
@@ -176,20 +179,10 @@ const fullWidthButtonStr = `
 ~~~js
 <Button
   text="Редактировать"
-  color="attention"
   fullWidth
   icon={<IconHeart
-    size={'xs'}
-  />}
-/>
-
-<Button
-  view={'outline'}
-  text="Редактировать"
-  color="attention"
-  fullWidth
-  icon={<IconHeart
-    size={'xs'}
+    size="xs"
+    color="red"
   />}
 />
 ~~~
@@ -199,17 +192,17 @@ const buttonIconPosition = () => (
   <Fragment>
     <Button
       text="Редактировать"
-      color="white"
       icon={<IconHeart
-        size={'xs'}
+        size="xs"
+        color="white"
       />}
     />
     <Button
       text="Редактировать"
-      color="white"
-      iconPosition={'right'}
+      iconPosition="right"
       icon={<IconHeart
-        size={'xs'}
+        size="xs"
+        color="white"
       />}
     />
   </Fragment>
@@ -222,18 +215,10 @@ const buttonIconPositionStr = `
 ~~~js
 <Button
   text="Редактировать"
-  color="white"
+  iconPosition="right"
   icon={<IconHeart
-    size={'xs'}
-  />}
-/>
-
-<Button
-  text="Редактировать"
-  color="white"
-  iconPosition={'right'}
-  icon={<IconHeart
-    size={'xs'}
+    size="xs"
+    color="white"
   />}
 />
 ~~~
@@ -242,10 +227,10 @@ const buttonIconPositionStr = `
 const buttonDisabled = () => (
   <Button
     text="Редактировать"
-    color="white"
     disabled
     icon={<IconHeart
-      size={'xs'}
+      size="xs"
+      color="white"
     />}
   />
 );
@@ -257,59 +242,44 @@ const buttonDisabledStr = `
 ~~~js
 <Button
   text="Редактировать"
-  color="white"
   disabled
   icon={<IconHeart
-    size={'xs'}
+    size="xs"
+    color="white"
   />}
 />
 ~~~
 `;
 
-const buttonColor = () => (
+const buttonFetching = () => (
   <Fragment>
-    <Button
-      text="Редактировать"
-      color="white"
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
-    <Button
-      text="Редактировать"
-      color="event"
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
+    {
+      sizes.map(size =>
+        <Button
+          size={size}
+          text="Редактировать"
+          isFetching
+        />
+      )
+    }
   </Fragment>
 );
 
-const buttonColorStr = `
+const buttonFetchingStr = `
 # Документация
-Модификатор отвечающий за цвет иконки внутри кнопки. Название цвета берется из
-списка цветов определенных в файле colors.less
+Показывает спиннер при загрузке данных
 ## Пример
 ~~~js
 <Button
+  size="s"
   text="Редактировать"
-  color="white"
-  icon={<IconHeart
-    size={'xs'}
-  />}
-/>
-<Button
-  text="Редактировать"
-  color="event"
-  icon={<IconHeart
-    size={'xs'}
-  />}
+  isFetching
 />
 ~~~
 `;
 
 storiesOf('Button', module)
-  .add('Primary', withMarkdownNotes(primaryButtonStr)(primaryButton))
+  .add('Primary', withMarkdownNotes(defaultButtonStr)(defaultButton))
   .add('Outline', withMarkdownNotes(outlineButtonStr)(outlineButton))
   .add('Link', withMarkdownNotes(linkButtonStr)(linkButton))
   .add('Fab', withMarkdownNotes(fabButtonStr)(fabButton))
@@ -319,5 +289,5 @@ storiesOf('Button', module)
     withMarkdownNotes(buttonIconPositionStr)(buttonIconPosition))
   .add('Disabled',
     withMarkdownNotes(buttonDisabledStr)(buttonDisabled))
-  .add('Color',
-    withMarkdownNotes(buttonColorStr)(buttonColor));
+  .add('Fetching',
+    withMarkdownNotes(buttonFetchingStr)(buttonFetching));

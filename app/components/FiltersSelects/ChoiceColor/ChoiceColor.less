@@ -1,10 +1,19 @@
-@import 'icons';
-@import 'mixin';
-@import 'variables';
+@import '../../../containers/App/base/mixin';
+@import '../../../containers/App/base/variables';
 
-@colors-array: red @red, orange @orange, yellow @yellow, green @green,
-  dblue @dblue, blue @blue, purple @purple, pink @pink, white @white, gray @gray,
-  black @black, brown @brown;
+@colors-array:
+  red #ff0000,
+  orange #de8800,
+  yellow #ffff00,
+  green #00cc00,
+  dblue #7accff,
+  blue #0090de,
+  purple #762ca7,
+  pink #ff98bf,
+  white #fff,
+  gray #7c7c7c,
+  black #000,
+  brown #5f3e1b;
 
 .color-bg-generator(@iterator: 1) when (@iterator <= length(@colors-array)) {
   @item: extract(@colors-array, @iterator);

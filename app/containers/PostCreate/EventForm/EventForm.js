@@ -1,11 +1,10 @@
-import React from 'react';
+import { React } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
 import CreateForm from '../CreateForm/CreateForm';
 import FormBlock from '../FormBlock';
 import { ErrorInput } from '../../../components/Inputs';
 import ImageUploadZone from '../../../components/ImageUploadZone';
-import FetchingButton from '../../../components/FetchingButton';
-import Button from '../../../components/Button';
 import Textarea from '../../../components/Inputs/Textarea';
 import Select from '../../../components/Inputs/Select';
 import DateInput from '../../../components/Inputs/DateInput';
@@ -157,24 +156,18 @@ class EventForm extends CreateForm {
         </FormBlock>
 
         <div className="add-tabs__buttons">
-          <FetchingButton
-            className="default-button"
-            isFetching={isSaving}
-            onClick={this.onSave}
-            type="button"
-            name="add_event"
-          >
-            {__t('Publish')}
-          </FetchingButton>
-
           <Button
-            className="default-button"
+            onClick={this.onSave}
+            isFetching={isSaving}
+            text={__t('Publish')}
+            name="add_event"
+          />
+          <Button
             onClick={this.onCancel}
-            type="button"
             name="add_event_cancel"
-          >
-            {__t('Cancel')}
-          </Button>
+            text={__t('Cancel')}
+            color="secondary"
+          />
         </div>
       </form >
     );
