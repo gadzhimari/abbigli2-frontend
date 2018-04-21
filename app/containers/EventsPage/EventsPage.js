@@ -176,7 +176,7 @@ function mapStateToProps(state) {
     isAuthenticated: auth.isAuthenticated,
     geoCity: state.Geo.city,
     sections: state.Sections.items,
-    query: Location.query,
+    query: state.Location.query,
     pagesCount: events.page.count,
   };
 }

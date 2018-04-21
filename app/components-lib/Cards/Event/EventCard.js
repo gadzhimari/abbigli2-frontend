@@ -207,7 +207,7 @@ class EventCard extends PureComponent {
                 <div className="dropdown">
                   <div className="dropdown-corner" />
                   <Share
-                    postLink={createPostLink(this.props.data)}
+                    postLink={postUrl}
                     buttonClass="social-btn"
                     media={imageUrl}
                     description={title}

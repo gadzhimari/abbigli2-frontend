@@ -214,7 +214,7 @@ class BlogCard extends PureComponent {
           </div>
 
           <div className={cn('actions', { align: 'top-right' })}>
-            { showLike &&
+            {showLike &&
               <Like
                 liked={liked}
                 onClick={setLike}
