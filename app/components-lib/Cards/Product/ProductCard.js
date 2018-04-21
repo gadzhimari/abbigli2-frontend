@@ -15,7 +15,7 @@ import getUserName from '../../../lib/getUserName';
 import createProfileLink from '../../../lib/links/profile-link';
 import createPostLink from '../../../lib/links/post-link';
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
-import { POST_PATH_BY_TYPE } from '../../../lib/constants/posts-types';
+import { PRODUCT_TYPE } from '../../../lib/constants/posts-types';
 import createPostEditLink from '../../../lib/links/edit-post-link';
 
 import {
@@ -92,23 +92,24 @@ class ProductCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view, isMe } = this.props;
-    const { user } = this.props.data;
-    const name = getUserName(user);
+    const { view, isMe, data } = this.props;
+    const { author } = data;
     const { size, ratio } = avatar.sizes[view];
 
+    const name = getUserName(data);
+    const authorUrl = createProfileLink(author);
+
     return (
-      isMe ?
-        <div /> :
+      isMe ||
         <Link
           className={cn('user')}
-          to={createProfileLink(user)}
+          to={authorUrl}
           text={name}
           icon={
             <Avatar
               className={cn('avatar', { bordered: avatar.bordered[view], size })}
               imgClassName="avatar__img"
-              avatar={user.avatar}
+              avatar={author.avatar}
               thumbSize={ratio}
               alt={name}
             />
@@ -118,22 +119,26 @@ class ProductCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, priceTemplate, view, canEdit, isMe } = this.props;
+    const { setLike, priceTemplate, view, canEdit, isMe, data } = this.props;
     const {
-      user,
-      images,
+      author,
       liked,
       title,
-      type,
       slug,
       created,
       price,
-    } = this.props.data;
-    const imageUrl = getImageUrl(images);
+    } = data;
+
+    const type = PRODUCT_TYPE;
+    const imageUrl = getImageUrl(data);
+    const postUrl = createPostLink(data);
+    const postEditingUrl = createPostEditLink({ id: author.id, slug });
+
+    const mods = { view, type };
 
     return (
-      <div className={cn({ type: POST_PATH_BY_TYPE[type], view })}>
-        { view === 3 &&
+      <div className={cn(mods)}>
+        {view === 3 &&
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
@@ -147,7 +152,7 @@ class ProductCard extends PureComponent {
         }
         <div className={cn('img-wrapper')}>
           <Link
-            to={createPostLink(this.props.data)}
+            to={postUrl}
           >
             <Image
               className={cn('img')}
@@ -171,7 +176,7 @@ class ProductCard extends PureComponent {
               <div className="dropdown-corner" />
               <div className="dropdown">
                 <Share
-                  postLink={createPostLink(this.props.data)}
+                  postLink={postUrl}
                   buttonClass="social-btn"
                   media={imageUrl}
                   description={title}
@@ -180,7 +185,7 @@ class ProductCard extends PureComponent {
             </div>
           </div>
           <div className={cn('actions', { align: 'top-right' })}>
-            { isMe &&
+            {isMe &&
               <Button
                 size="s"
                 onClick={this.handleDelete}
@@ -200,9 +205,9 @@ class ProductCard extends PureComponent {
             />
           </div>
           <div className={cn('actions', { align: 'bottom-right' })}>
-            { canEdit &&
+            {canEdit &&
               <Link
-                to={createPostEditLink({ id: user.id, slug })}
+                to={postEditingUrl}
                 size="s"
                 view={'default'}
                 text={__t('Edit')}
@@ -217,9 +222,11 @@ class ProductCard extends PureComponent {
           <div className={cn('footer', { align: 'vertical' })}>
             { view !== 3 && this.renderAvatar(cn) }
             { view === 3 && this.renderTitle(cn) }
-            <div className={cn('price')}>
-              { priceTemplate && priceTemplate.replace('?', price)}
-            </div>
+            {priceTemplate &&
+              <div className={cn('price')}>
+                {priceTemplate.replace('?', price)}
+              </div>
+            }
           </div>
         </div>
       </div>

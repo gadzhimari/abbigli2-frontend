@@ -22,14 +22,14 @@ const preloader = WrappedComponent => class extends PureComponent {
     const { route: { filter }, fetchPosts, routing } = this.props;
     const options = { ...routing.query, type: PRODUCT_TYPE };
 
-    const args = [
-      filter === 'Mood' && ['mood', options],
-      filter === 'New' && ['new', options],
-      filter === 'Popular' && ['', { ...options, popular: true }],
-      filter === 'Near' && ['', { ...options, distance: 100 }]
+    const opts = [
+      filter === 'Mood' && { ...options, price_0: 0, price_1: 1000 },
+      filter === 'New' && options,
+      filter === 'Popular' && { ...options, popular: true },
+      filter === 'Near' && { ...options, distance: 100 }
     ].filter(Boolean)[0];
 
-    fetchPosts(...args);
+    fetchPosts(opts);
   }
 
   render() {

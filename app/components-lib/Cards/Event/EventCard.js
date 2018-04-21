@@ -15,7 +15,7 @@ import getUserName from '../../../lib/getUserName';
 import createPostLink from '../../../lib/links/post-link';
 import createProfileLink from '../../../lib/links/profile-link';
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
-import { POST_PATH_BY_TYPE } from '../../../lib/constants/posts-types';
+import { EVENT_TYPE } from '../../../lib/constants/posts-types';
 import createPostEditLink from '../../../lib/links/edit-post-link';
 import {
   EVENT_DATE_FORMAT,
@@ -116,51 +116,52 @@ class EventCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view, isMe } = this.props;
-    const { user } = this.props.data;
-    const name = getUserName(user);
+    const { view, isMe, data } = this.props;
+    const { author } = data;
+    const name = getUserName(data);
     const { size, ratio } = avatar.sizes[view];
 
-    return (
-      isMe ?
-        <div /> :
-        <Link
-          className={cn('user')}
-          to={createProfileLink(user)}
-          text={name}
-          icon={
-            <Avatar
-              className={cn('avatar', { bordered: avatar.bordered[view], size })}
-              imgClassName="avatar__img"
-              avatar={user.avatar}
-              thumbSize={ratio}
-              alt={name}
-            />
-          }
-        />
+    return isMe || (
+      <Link
+        className={cn('user')}
+        to={createProfileLink(author)}
+        text={name}
+        icon={
+          <Avatar
+            className={cn('avatar', { bordered: avatar.bordered[view], size })}
+            imgClassName="avatar__img"
+            avatar={author.avatar}
+            thumbSize={ratio}
+            alt={name}
+          />
+        }
+      />
     );
   }
 
   render(cn) {
-    const { setLike, view, canEdit, isMe } = this.props;
+    const { setLike, view, canEdit, isMe, data } = this.props;
     const {
-      user,
-      images,
+      author,
       liked,
       title,
-      type,
       slug,
       created,
       seo_description,
       city,
       date_start: dateStart,
       date_end: dateEnd,
-    } = this.props.data;
-    const imageUrl = getImageUrl(images);
+    } = data;
+
+    const type = EVENT_TYPE;
+    const imageUrl = getImageUrl(data);
+    const postUrl = createPostLink(data);
+
+    const mods = { type, view };
 
     return (
-      <div className={cn({ type: POST_PATH_BY_TYPE[type], view })}>
-        { view === 3 &&
+      <div className={cn(mods)}>
+        {view === 3 &&
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
@@ -174,7 +175,7 @@ class EventCard extends PureComponent {
         }
         <div className={cn('img-wrapper')}>
           <Link
-            to={createPostLink(this.props.data)}
+            to={postUrl}
           >
             <Image
               className={cn('img')}
@@ -198,7 +199,7 @@ class EventCard extends PureComponent {
               <div className="dropdown-corner" />
               <div className="dropdown">
                 <Share
-                  postLink={createPostLink(this.props.data)}
+                  postLink={postUrl}
                   buttonClass="social-btn"
                   media={imageUrl}
                   description={title}
@@ -207,7 +208,7 @@ class EventCard extends PureComponent {
             </div>
           </div>
           <div className={cn('actions', { align: 'top-right' })}>
-            { isMe &&
+            {isMe &&
               <Button
                 size="s"
                 onClick={this.handleDelete}
@@ -227,9 +228,9 @@ class EventCard extends PureComponent {
             />
           </div>
           <div className={cn('actions', { align: 'bottom-right' })}>
-            { canEdit &&
+            {canEdit &&
               <Link
-                to={createPostEditLink({ id: user.id, slug })}
+                to={createPostEditLink({ id: author.id, slug })}
                 size={'s'}
                 view={'default'}
                 text={__t('Edit')}
@@ -239,8 +240,8 @@ class EventCard extends PureComponent {
         </div>
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
-            { this.renderTitle(cn) }
-            { view === 1 &&
+            {this.renderTitle(cn)}
+            {view === 1 &&
               <div
                 className={cn('text')}
                 dangerouslySetInnerHTML={{ __html: seo_description }}
@@ -252,14 +253,14 @@ class EventCard extends PureComponent {
               <div
                 className={cn('date-range', { weight: dateRangeText.weight[view], 'has-margin': dateRangeText.marginLeft[view] })}
               >
-                { toLocaleDateString(dateStart, EVENT_DATE_FORMAT) }
-                { dateEnd ? ` - ${toLocaleDateString(dateEnd, EVENT_DATE_FORMAT)}` : ''}
+                {toLocaleDateString(dateStart, EVENT_DATE_FORMAT)}
+                {dateEnd ? ` - ${toLocaleDateString(dateEnd, EVENT_DATE_FORMAT)}` : ''}
               </div>
               <div className={cn('city')}>
                 {city && city.name}
               </div>
             </div>
-            { view !== 3 && this.renderAvatar(cn) }
+            {view !== 3 && this.renderAvatar(cn)}
           </div>
         </div>
       </div>

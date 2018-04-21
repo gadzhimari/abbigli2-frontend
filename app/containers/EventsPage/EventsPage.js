@@ -7,15 +7,16 @@ import { compose } from 'recompose';
 import { BreadCrumbs, SliderBar, ListWithNew, PageSwitcher } from 'components';
 import { Spin } from '../../components-lib';
 import { Event } from '../../components-lib/Cards';
-import { EventsFilters } from 'components/Filters';
-import BlogSection from 'components/SliderBar/components/BlogSection';
+import BlogSection from '../../components/SliderBar/components/BlogSection';
 
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 import paginateHOC from '../../HOC/paginate';
 
-import { openPopup } from 'ducks/Popup/actions';
-import { fetchEvents } from 'ducks/Events/actions';
-import { API_URL } from 'config';
+import { openPopup } from '../../ducks/Popup/actions';
+import { fetchEvents } from '../../ducks/Events/actions';
+
+import { EVENT_TYPE } from '../../lib/constants/posts-types';
+import { API_URL } from '../../config';
 import { __t } from './../../i18n/translator';
 
 import './EventPage.less';
@@ -49,9 +50,7 @@ class EventsPage extends Component {
 
   loadItems = () => {
     const { routing, dispatch } = this.props;
-    const options = Object.assign({}, routing.query, {
-      type: 3,
-    });
+    const options = routing.query;
 
     dispatch(fetchEvents(options));
   }
@@ -82,9 +81,6 @@ class EventsPage extends Component {
       routing,
       isFetching,
       items,
-      filters,
-      applyFilters,
-      updateFilter,
       pages,
       paginate,
     } = this.props;
@@ -153,7 +149,7 @@ class EventsPage extends Component {
             </div>
               : <ListWithNew
                 items={items}
-                itemsType={3}
+                itemsType={EVENT_TYPE}
                 itemProps={{ legacy: true }}
                 count={8}
                 ItemComponent={Event}
@@ -175,7 +171,6 @@ class EventsPage extends Component {
 }
 
 EventsPage.propTypes = {
-  items: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   updateFieldByName: PropTypes.func.isRequired,

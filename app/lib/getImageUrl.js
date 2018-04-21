@@ -1,3 +1,3 @@
-export default function getImageUrl(images) {
-  return images && images[0] && images[0].file;
+export default function getImageUrl({ image }) {
+  return image;
 }

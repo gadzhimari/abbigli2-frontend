@@ -1,4 +1,4 @@
-import { Posts } from 'API';
+import { Posts, Products, Events } from '../../api';
 
 export const LOADED_POSTS = 'newIn/LOADED_POSTS';
 
@@ -7,7 +7,7 @@ const loadedPosts = data => ({
   data,
 });
 
-const sourcesTypes = [1, 3, 4];
+const actions = [Products.getProducts, Events.getEvents, Posts.getPosts];
 
 const loadPosts = () => {
   const results = [];
@@ -27,9 +27,10 @@ const loadPosts = () => {
       }
     };
 
-    sourcesTypes.forEach((type, idx) => {
-      Posts.getPosts({ type })
-      .then(res => callback(res.data.results, idx));
+    actions.forEach((action, idx) => {
+      action()
+        .then(res => callback(res.data.results, idx))
+        .catch(() => callback([], idx));
     });
   };
 };

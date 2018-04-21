@@ -6,23 +6,34 @@ import { connect } from 'react-redux';
 import { NewPost, NoMatch } from '../../components';
 import { Product, Event, Blog } from '../../components-lib/Cards';
 import getRandomInt from '../../lib/math/getRandomInt';
+import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
 
 const cardsByType = {
-  1: Product,
-  4: Blog,
-  3: Event,
+  [PRODUCT_TYPE]: Product,
+  [BLOG_TYPE]: Blog,
+  [EVENT_TYPE]: Event,
 };
 
 const newItemsByType = {
-  1: ['blogs', 'events'],
-  4: ['posts', 'events'],
-  3: ['posts', 'blogs'],
+  [PRODUCT_TYPE]: [BLOG_TYPE, EVENT_TYPE],
+  [BLOG_TYPE]: [PRODUCT_TYPE, EVENT_TYPE],
+  [EVENT_TYPE]: [PRODUCT_TYPE, BLOG_TYPE],
 };
 
-const getNewItems = (type, props) => {
+const getNewItems = (type, postsMapByType) => {
   const types = newItemsByType[type];
 
-  return types.map(item => props[item][getRandomInt(0, props[item].length - 1)]);
+  return types.map((type) => {
+    const idx = getRandomInt(0, postsMapByType[type].length - 1);
+    const postData = postsMapByType[type][idx];
+
+    // Добавляем тип к данным поста
+    // Нужно тк в новом АПИ тип не возвращается.
+    return postData && {
+      ...postData,
+      type
+    };
+  });
 };
 
 class ListWithNew extends PureComponent {
@@ -43,7 +54,7 @@ class ListWithNew extends PureComponent {
 
   static defaultProps = {
     itemProps: {},
-    itemsType: 1,
+    itemsType: PRODUCT_TYPE,
   };
 
   renderNoMatchPage(newItems) {
@@ -144,9 +155,9 @@ class ListWithNew extends PureComponent {
 
 const mapStateToProps = store => ({
   newPosts: {
-    posts: store.NewIn.posts,
-    events: store.NewIn.events,
-    blogs: store.NewIn.blogs,
+    [PRODUCT_TYPE]: store.NewIn.posts,
+    [EVENT_TYPE]: store.NewIn.events,
+    [BLOG_TYPE]: store.NewIn.blogs,
   },
 });
 

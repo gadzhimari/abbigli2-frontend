@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { Posts } from '../api';
+import { Products } from '../api';
 
 const REQUEST = 'PostsSpecific/REQUEST';
 const SET = 'PostsSpecific/SET';
@@ -36,11 +36,11 @@ export default function (state = initialState, action = {}) {
   }
 }
 
-export function fetchData(specific = '', options = {}) {
+export function fetchData(options = {}) {
   return (dispatch) => {
     dispatch(requestData());
 
-    return Posts.getSpecificPosts(specific, options)
+    return Products.getProducts({ ...options })
       .then((res) => {
         dispatch(setData(res.data));
       });

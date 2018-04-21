@@ -15,6 +15,8 @@ class PostsList extends PureComponent {
       ...itemProps
     } = this.props;
 
+    const visiblePosts = posts.slice(0, 8);
+
     return (
       <Fragment>
         <HR color={hrColor} />
@@ -28,16 +30,12 @@ class PostsList extends PureComponent {
         <TileWrap>
           {isFetching ? <Spin visible={isFetching} /> :
           <div className="cards-wrapper">
-            {
-              posts
-                .slice(0, 8)
-                .map(item => {
-                  return (<Component
-                    key={item.slug}
-                    data={item}
-                    {...itemProps}
-                  />);
-                })
+            {visiblePosts
+                .map(item => <Component
+                  key={item.slug}
+                  data={item}
+                  {...itemProps}
+                />)
             }
           </div>
           }

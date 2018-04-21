@@ -27,22 +27,28 @@ class GoodsCard extends PureComponent {
 
   render(cn) {
     const { data, priceTemplate } = this.props;
-    const imageUrl = getImageUrl(data.images);
-    const name = getUserName(data.user);
+    const { author, title, price } = data;
+
+    const imageUrl = getImageUrl(data);
+    const name = getUserName(data);
+    const postUrl = createPostLink(data);
+    const profileUrl = createProfileLink(author);
+
+    const mods = { view: 'goods' };
 
     return (
-      <div className={cn({ view: 'goods' })}>
+      <div className={cn(mods)}>
         <div className={cn('wrapper')}>
           <div className={cn('header')}>
             <Link
               className={cn('user')}
-              to={createProfileLink(data.user)}
+              to={profileUrl}
               text={name}
               icon={
                 <Avatar
                   className="avatar Card__avatar"
                   imgClassName="avatar__img"
-                  avatar={data.user.avatar}
+                  avatar={author.avatar}
                   thumbSize="60x60"
                   alt={name}
                 />
@@ -50,12 +56,10 @@ class GoodsCard extends PureComponent {
             />
           </div>
           <div className={cn('img-wrapper')}>
-            <Link
-              to={createPostLink(data)}
-            >
+            <Link to={postUrl}>
               <Image
                 className={cn('img')}
-                alt={data.title}
+                alt={title}
                 thumbSize="360x250"
                 src={imageUrl}
               />
@@ -64,8 +68,8 @@ class GoodsCard extends PureComponent {
           <div className={cn('footer', { align: 'vertical' })}>
             <Link
               className={cn('title')}
-              to={createPostLink(data)}
-              text={data.title}
+              to={postUrl}
+              text={title}
               size="s"
               color="goods"
               icon={<IconBag
@@ -73,7 +77,7 @@ class GoodsCard extends PureComponent {
               />}
             />
             <div className={cn('price')}>
-              {priceTemplate.replace('?', data.price)}
+              {priceTemplate.replace('?', price)}
             </div>
           </div>
         </div>

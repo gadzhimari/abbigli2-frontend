@@ -9,11 +9,14 @@ import createProfileLink from '../../lib/links/profile-link';
 import createPostLink from '../../lib/links/post-link';
 
 import './NewPost.less';
+import { PRODUCT_TYPE, EVENT_TYPE, BLOG_TYPE } from '../../lib/constants/posts-types';
+import getImageUrl from '../../lib/getImageUrl';
+import getUserName from '../../lib/getUserName';
 
 const rubricByType = {
-  4: __t('New in blogs'),
-  3: __t('New in events'),
-  1: __t('New in posts'),
+  [BLOG_TYPE]: __t('New in blogs'),
+  [EVENT_TYPE]: __t('New in events'),
+  [PRODUCT_TYPE]: __t('New in posts'),
 };
 
 class NewPost extends PureComponent {
@@ -29,13 +32,17 @@ class NewPost extends PureComponent {
 
   render() {
     const { data } = this.props;
-    const imageUrl = data.images && data.images[0] && data.images[0].file;
+
+    const imageUrl = getImageUrl(data);
+    const postUrl = createPostLink(data);
+    const name = getUserName(data);
+    const authorUrl = createProfileLink(data.author);
 
     return (
       <div className="new-post">
         <Link
           className="new-post__img-wrap"
-          to={createPostLink(data)}
+          to={postUrl}
         >
           <Image
             className="new-post__img"
@@ -48,33 +55,33 @@ class NewPost extends PureComponent {
           <div className="new-post__rubric">
             {rubricByType[data.type]}
           </div>
+
           <Link
             className="new-post__title"
-            to={createPostLink(data)}
+            to={postUrl}
           >
             {data.title}
           </Link>
-          <div className="new-post__date">
-            {
-              !!data.date
-              &&
-              data.date
-            }
-          </div>
+
+          {data.date &&
+            <div className="new-post__date">
+              {data.date}
+            </div>
+          }
 
           <Link
             className="user"
-            to={createProfileLink(data.user)}
+            to={authorUrl}
           >
             <Avatar
               className="avatar"
               imgClassName="avatar__img"
-              avatar={data.user.avatar}
+              avatar={data.author.avatar}
               thumbSize="25x25"
-              alt={data.user.profile_name}
+              alt={name}
             />
 
-            {data.user.profile_name}
+            {name}
           </Link>
         </div>
       </div>
