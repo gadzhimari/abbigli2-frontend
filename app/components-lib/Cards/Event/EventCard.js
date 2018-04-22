@@ -98,14 +98,14 @@ class EventCard extends PureComponent {
     this.props.delete(slug);
   }
 
-  renderTitle(cn) {
+  renderTitle(cn, postUrl) {
     const { view } = this.props;
     const { title } = this.props.data;
 
     return (
       <Link
         className={cn('title', { align: titleText.align[view], weight: 'bold' })}
-        to={createPostLink(this.props.data)}
+        to={postUrl}
         text={title}
         color="event"
         icon={<IconEvent
@@ -155,7 +155,7 @@ class EventCard extends PureComponent {
 
     const type = EVENT_TYPE;
     const imageUrl = getImageUrl(data);
-    const postUrl = createPostLink(data);
+    const postUrl = createPostLink(data, type);
 
     const mods = { type, view };
 
@@ -240,7 +240,7 @@ class EventCard extends PureComponent {
         </div>
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
-            {this.renderTitle(cn)}
+            {this.renderTitle(cn, postUrl)}
             {view === 1 &&
               <div
                 className={cn('text')}

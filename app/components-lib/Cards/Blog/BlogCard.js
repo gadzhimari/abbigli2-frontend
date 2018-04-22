@@ -118,14 +118,14 @@ class BlogCard extends PureComponent {
     );
   }
 
-  renderTitle(cn) {
+  renderTitle(cn, postUrl) {
     const { view } = this.props;
     const { title } = this.props.data;
 
     return (
       <Link
         className={cn('title', { align: titleText.align[view], weight: 'bold' })}
-        to={createPostLink(this.props.data)}
+        to={postUrl}
         text={title}
         color="blog"
         icon={<IconBlog
@@ -149,7 +149,7 @@ class BlogCard extends PureComponent {
 
     const type = BLOG_TYPE;
     const imageUrl = getImageUrl(data);
-    const postUrl = createPostLink(data);
+    const postUrl = createPostLink(data, type);
     const postEditingUrl = createPostEditLink({ id: author.id, slug });
 
     const mods = { type, view };
@@ -255,7 +255,7 @@ class BlogCard extends PureComponent {
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
             {view === 1 && this.renderAvatar(cn)}
-            {view !== 3 && this.renderTitle(cn)}
+            {view !== 3 && this.renderTitle(cn, postUrl)}
             {view === 1 &&
               <div
                 className={cn('text')}
@@ -273,7 +273,7 @@ class BlogCard extends PureComponent {
 
             {view === 2 && this.renderAvatar(cn)}
 
-            {view === 3 && this.renderTitle(cn)}
+            {view === 3 && this.renderTitle(cn, postUrl)}
 
             <div className={cn('comments')}>
               <IconComment size="xs" className={cn('comments-icon')} />
