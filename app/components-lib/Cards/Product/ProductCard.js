@@ -75,13 +75,13 @@ class ProductCard extends PureComponent {
     this.props.delete(slug);
   }
 
-  renderTitle(cn) {
+  renderTitle(cn, postUrl) {
     const { title } = this.props.data;
 
     return (
       <Link
         className={cn('title', { weight: 'bold' })}
-        to={createPostLink(this.props.data)}
+        to={postUrl}
         text={title}
         color="goods"
         icon={<IconBag
@@ -131,7 +131,7 @@ class ProductCard extends PureComponent {
 
     const type = PRODUCT_TYPE;
     const imageUrl = getImageUrl(data);
-    const postUrl = createPostLink(data);
+    const postUrl = createPostLink(data, type);
     const postEditingUrl = createPostEditLink({ id: author.id, slug });
 
     const mods = { view, type };
@@ -217,11 +217,11 @@ class ProductCard extends PureComponent {
         </div>
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
-            { view !== 3 && this.renderTitle(cn) }
+            {view !== 3 && this.renderTitle(cn, postUrl)}
           </div>
           <div className={cn('footer', { align: 'vertical' })}>
             { view !== 3 && this.renderAvatar(cn) }
-            { view === 3 && this.renderTitle(cn) }
+            {view === 3 && this.renderTitle(cn, postUrl)}
             {priceTemplate &&
               <div className={cn('price')}>
                 {priceTemplate.replace('?', price)}

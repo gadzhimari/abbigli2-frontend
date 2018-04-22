@@ -11,6 +11,7 @@ import createProfileLink from '../../../lib/links/profile-link';
 import createPostLink from '../../../lib/links/post-link';
 
 import '../Card.less';
+import { PRODUCT_TYPE } from '../../../lib/constants/posts-types';
 
 @cn('Card')
 class GoodsCard extends PureComponent {
@@ -31,7 +32,7 @@ class GoodsCard extends PureComponent {
 
     const imageUrl = getImageUrl(data);
     const name = getUserName(data);
-    const postUrl = createPostLink(data);
+    const postUrl = createPostLink(data, PRODUCT_TYPE);
     const profileUrl = createProfileLink(author);
 
     const mods = { view: 'goods' };
