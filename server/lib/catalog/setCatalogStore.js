@@ -1,6 +1,7 @@
 import treeFlatter from 'tree-flatter';
 import { normalize, schema } from 'normalizr';
 import { unflatten } from 'un-flatten-tree';
+import groupBy from 'lodash/groupBy';
 
 import { saveToRedis } from '../../middlewares/redis-client';
 
@@ -16,10 +17,12 @@ export const unflattenTree = data => unflatten(
 
 export const normalizer = (data) => {
   let tree = unflattenTree(data);
-  tree = treeFlatter(data, { idKey: 'slug', itemsKey: 'children' });
+  tree = treeFlatter(tree, { idKey: 'slug', itemsKey: 'children' });
 
   return normalize(tree, categoryList);
 };
+
+export const groupByParentId = data => groupBy(data, item => item.parent);
 
 export const justReturn = data => data;
 

@@ -24,7 +24,7 @@ class NewPost extends PureComponent {
     data: Type.shape({
       title: Type.string,
       slug: Type.string,
-      price: Type.number,
+      price: Type.string,
       user: Type.object,
       images: Type.array,
     }).isRequired

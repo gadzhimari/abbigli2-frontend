@@ -3,7 +3,11 @@ import { digest } from 'json-hash';
 
 import { DOMAIN_URL } from '../../../app/config';
 
-import setCatalogItem, { normalizer, unflattenTree } from './setCatalogStore';
+import setCatalogItem, {
+  normalizer,
+  unflattenTree,
+  groupByParentId
+} from './setCatalogStore';
 
 const instance = axios.create({
   baseURL: `${DOMAIN_URL}/api/v2`,
@@ -19,10 +23,15 @@ const hashes = {
 const catalogTypes = [
   {
     path: 'products/categories/',
+    query: { is_promo: false },
     aggregators: [{
       saveAs: 'categories',
       func: unflattenTree
-    }, {
+    }]
+  },
+  {
+    path: 'products/categories/',
+    aggregators: [{
       saveAs: 'normalizedCategories',
       func: normalizer
     }]
@@ -42,13 +51,18 @@ const catalogTypes = [
     }]
   },
   {
-    path: 'products/categories/?promo=1',
+    path: 'products/categories/',
+    query: { is_promo: true },
     aggregators: [{
       saveAs: 'promo',
-      func: normalizer,
+      func: groupByParentId
     }],
   }
 ];
+
+const params = {
+  page_size: 10000
+};
 
 const loadCatalog = (urls, callback) => {
   let loaded = 0;
@@ -72,7 +86,13 @@ const loadCatalog = (urls, callback) => {
   };
 
   urls.forEach((url, idx) => {
-    instance.request({ url: url.path })
+    instance.request({
+      url: url.path,
+      params: {
+        ...params,
+        ...(url.query || {})
+      }
+    })
       .then(result => loadCallback(idx, {
         ...url,
         data: result.data.results,
