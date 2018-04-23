@@ -172,8 +172,8 @@ class ProductCard extends PureComponent {
                   color="gray-400"
                 />}
               />
-              <div className="dropdown-corner" />
               <div className="dropdown">
+                <div className="dropdown-corner" />
                 <Share
                   postLink={postUrl}
                   buttonClass="social-btn"
