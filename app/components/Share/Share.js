@@ -12,8 +12,6 @@ import {
 
 import './Share.styl';
 
-const style = { display: 'inline-block' };
-
 class Share extends PureComponent {
   static propTypes = {
     postLink: PropTypes.string.isRequired,
@@ -28,7 +26,7 @@ class Share extends PureComponent {
     const url = `${DOMAIN_URL}${postLink}`;
 
     return (
-      <div style={style}>
+      <div>
         <ShareButton
           className={buttonClass}
           provider={FACEBOOK_PROVIDER}
