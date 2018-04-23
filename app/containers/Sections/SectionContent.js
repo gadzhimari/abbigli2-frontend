@@ -26,10 +26,8 @@ class SectionContent extends PureComponent {
   static propTypes = {
     section: SECTION_TYPES,
     tags: Type.arrayOf(Type.string),
-    promo: SECTION_TYPES,
-    posts: Type.shape({
-      type: Type.string,
-    }),
+    promo: Type.arrayOf(SECTION_TYPES),
+    posts: Type.arrayOf(Type.object),
     priceTemplate: Type.string,
     pages: Type.number,
     paginate: Type.func,
