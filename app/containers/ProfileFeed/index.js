@@ -113,6 +113,8 @@ class ProfileFeed extends Component {
                     isAuthenticated={isAuth}
                     dispatch={dispatch}
                     view={3}
+                    showLike
+                    showShare
                   />
                 ))
               }

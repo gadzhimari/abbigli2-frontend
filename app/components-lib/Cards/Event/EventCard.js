@@ -85,12 +85,16 @@ class EventCard extends PureComponent {
     view: Type.number,
     isMe: Type.bool,
     canEdit: Type.bool,
+    showLike: Type.bool,
+    showShare: Type.bool,
   };
 
   static defaultProps = {
     view: 1,
     isMe: false,
     canEdit: false,
+    showLike: true,
+    showShare: false,
   };
 
   handleDelete = () => {
@@ -144,7 +148,7 @@ class EventCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, view, canEdit, isMe } = this.props;
+    const { setLike, showLike, showShare, view, canEdit, isMe } = this.props;
     const {
       user,
       liked,
@@ -185,28 +189,39 @@ class EventCard extends PureComponent {
             />
           </Link>
           <div className={cn('actions', { align: 'top-left' })}>
-            <div className="share">
-              <Button
-                view="fab"
-                className={cn('button', { share: true })}
-                aria-label={__t('Share')}
-                icon={<IconShare
-                  size="xs"
-                  color="gray-400"
-                />}
-              />
-              <div className="dropdown">
-                <div className="dropdown-corner" />
-                <Share
-                  postLink={createPostLink(this.props.data)}
-                  buttonClass="social-btn"
-                  media={imageUrl}
-                  description={title}
+            {
+              showShare &&
+              <div className="share">
+                <Button
+                  view="fab"
+                  className={cn('button', { share: true })}
+                  aria-label={__t('Share')}
+                  icon={<IconShare
+                    size="xs"
+                    color="gray-400"
+                  />}
                 />
+                <div className="dropdown">
+                  <div className="dropdown-corner" />
+                  <Share
+                    postLink={createPostLink(this.props.data)}
+                    buttonClass="social-btn"
+                    media={imageUrl}
+                    description={title}
+                  />
+                </div>
               </div>
-            </div>
+            }
           </div>
           <div className={cn('actions', { align: 'top-right' })}>
+            { showLike &&
+              <Like
+                liked={liked}
+                onClick={setLike}
+                slug={slug}
+                className={cn('button', { like: true })}
+              />
+            }
             { isMe &&
               <Button
                 onClick={this.handleDelete}
@@ -217,13 +232,8 @@ class EventCard extends PureComponent {
                   size="xs"
                   color="gray-400"
                 />}
-              />}
-            <Like
-              liked={liked}
-              onClick={setLike}
-              slug={slug}
-              className={cn('button', { like: true })}
-            />
+              />
+            }
           </div>
           <div className={cn('actions', { align: 'bottom-right' })}>
             { canEdit &&

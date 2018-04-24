@@ -105,6 +105,8 @@ class ProfileFavorites extends Component {
                   delete={deleteFromFavorite}
                   view={2}
                   isMe
+                  showLike
+                  showShare
                 />
               ))
             }
