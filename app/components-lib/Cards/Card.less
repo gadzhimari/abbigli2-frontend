@@ -25,6 +25,12 @@
   background-color: @card-background;
   &:hover {
     box-shadow: 0 0 4px #8f8e8e;
+    .Card__button {
+      &_like,
+      &_share {
+        opacity: 1;
+      }
+    }
   }
   &_type {
     &_product {
@@ -143,14 +149,19 @@
     }
   }
   &__button {
+    &_like,
+    &_share {
+      opacity: 0;
+      transition: opacity 0.1s ease-in-out;
+    }
+    &_delete {
+      margin-left: 10px;
+    }
     &_share,
     &_delete {
       &:hover {
         fill: #c7c7c7;
       }
-    }
-    &_like {
-      margin-left: 10px;
     }
     &_attach {
       display: flex;
