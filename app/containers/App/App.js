@@ -122,7 +122,7 @@ class App extends Component {
         closeMenu={this.closeMenu}
         isFetchingSections={isFetchingSections}
         openPopup={this.modalButtonClick}
-        hideFooter={!hideHeaderAndFooter}
+        showFooter={!hideHeaderAndFooter}
       >
         <Helmet
           {...appConfig.head.titleTemplate}
