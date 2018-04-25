@@ -21,3 +21,4 @@ export { default as Faq } from './Faq';
 export { default as Agreement } from './Agreement';
 export { default as RelativePage } from './RelativePage';
 export { default as PeopleSearch } from './PeopleSearch';
+export { default as ForMasters } from './ForMasters';

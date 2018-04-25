@@ -21,6 +21,7 @@ import { fetchSections } from '../../ducks/Sections';
 
 import * as Popups from '../../components/Popups';
 import getComponentFromObject from '../../utils/getComponent';
+import shouldHideHeaderAndFooter from '../../lib/hide-header-footer';
 
 import { appConfig } from '../../config';
 
@@ -110,6 +111,7 @@ class App extends Component {
 
     const Popup = getComponentFromObject(openedPopup, Popups);
     const shouldOpenModal = openedPopup;
+    const hideHeaderAndFooter = shouldHideHeaderAndFooter(location);
 
     return (
       <ContentWrapper
@@ -120,6 +122,7 @@ class App extends Component {
         closeMenu={this.closeMenu}
         isFetchingSections={isFetchingSections}
         openPopup={this.modalButtonClick}
+        showFooter={!hideHeaderAndFooter}
       >
         <Helmet
           {...appConfig.head.titleTemplate}
@@ -136,18 +139,20 @@ class App extends Component {
             ...appConfig.head.meta,
           ]}
         />
-        <Header>
-          <Search />
-          <AvatarBlock
-            isAuthenticated={isAuthenticated}
-            errorMessage={errorMessage}
-            dispatch={dispatch}
-            onLogoutClick={this.logoutUser}
-            toggleMenu={this.toggleMenu}
-            itemsSections={itemsSections}
-            isFetchingSections={isFetchingSections}
-          />
-        </Header>
+        { !hideHeaderAndFooter &&
+          <Header>
+            <Search />
+            <AvatarBlock
+              isAuthenticated={isAuthenticated}
+              errorMessage={errorMessage}
+              dispatch={dispatch}
+              onLogoutClick={this.logoutUser}
+              toggleMenu={this.toggleMenu}
+              itemsSections={itemsSections}
+              isFetchingSections={isFetchingSections}
+            />
+          </Header>
+        }
 
         <Popup
           dispatch={dispatch}
