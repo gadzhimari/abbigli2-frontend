@@ -43,6 +43,7 @@ const SocialLogin = ({ className, onButtonClick }) => {
             socialLink={googleLink}
             provider={GOOGLE_PROVIDER}
             className={`google-plus ${className}`}
+            onClick={onButtonClick}
           >
             {'Google Plus'}
           </SocialButton>
