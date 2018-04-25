@@ -19,7 +19,8 @@
 
   &_view {
     &_default,
-    &_outline {
+    &_outline,
+    &_fab {
       .button();
       border-width: @btn-border-width;
       border-style: @btn-border-style;
@@ -54,6 +55,20 @@
         @value: at(@pair, 2);
         &.Link_color_@{key} {
           .button-link-variant(@value);
+        }
+      }
+    }
+
+    &_fab {
+      .for-each(@pair in @palette) {
+        @key: at(@pair, 1);
+        @value: at(@pair, 2);
+        .button-fab-variant(@white, @gray-500, @key, @value);
+      }
+      &.Link_size {
+        &_m {
+          width: 30px;
+          .button-size(0, 0, 30px, inherit, 28px, 50%);
         }
       }
     }

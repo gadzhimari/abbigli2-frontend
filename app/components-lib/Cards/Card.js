@@ -16,16 +16,12 @@ class Card extends PureComponent {
     view: Type.number,
     isMe: Type.bool,
     canEdit: Type.bool,
-    showLike: Type.bool,
-    showShare: Type.bool,
   };
 
   static defaultProps = {
     view: 1,
     isMe: false,
     canEdit: false,
-    showLike: true,
-    showShare: false,
   };
 
   renderCards() {
