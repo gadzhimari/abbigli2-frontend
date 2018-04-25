@@ -563,4 +563,12 @@ export default {
   'Upload new': 'Загрузить новую',
   'Add product': 'Добавить товар',
   'Go back to Abbigli': 'Вернуться на Abbigli',
+  'Fast and easy registration': 'Быстрая и удобная регистрация',
+  'Free ad publishing': 'Бесплатная публикация объявлений',
+  'Search and purchase in one place': 'Продажа и покупка материалов в одном месте',
+  'Creating a storefront': 'Создание витрины',
+  'Without restrictions on publications': 'Без ограничений по публикациям',
+  'With us more than': 'С нами уже более',
+  'masters have published': 'мастеров опубликовавших',
+  'of their works': 'своих работ',
 };

@@ -49,31 +49,31 @@ class ForMasters extends Component {
               <div className={cn('feature')}>
                 <span className={cn('feature-icon', { fairy: true })} />
                 <span className={cn('feature-text')}>
-                  Быстрая и удобная регистрация
+                  {__t('Fast and easy registration')}
                 </span>
               </div>
               <div className={cn('feature')}>
                 <span className={cn('feature-icon', { badge: true })} />
                 <span className={cn('feature-text')}>
-                  Бесплатная публикация объявлений
+                  {__t('Free ad publishing')}
                 </span>
               </div>
               <div className={cn('feature')}>
                 <span className={cn('feature-icon', { sheep: true })} />
                 <span className={cn('feature-text')}>
-                  Продажа и покупка материалов в одном месте
+                  {__t('Search and purchase in one place')}
                 </span>
               </div>
               <div className={cn('feature')}>
                 <span className={cn('feature-icon', { shop: true })} />
                 <span className={cn('feature-text')}>
-                  Создание витрины
+                  {__t('Creating a storefront')}
                 </span>
               </div>
               <div className={cn('feature')}>
                 <span className={cn('feature-icon', { bubble: true })} />
                 <span className={cn('feature-text')}>
-                  Без ограничений по публикациям
+                  {__t('Without restrictions on publications')}
                 </span>
               </div>
             </div>
@@ -82,7 +82,7 @@ class ForMasters extends Component {
         <div className={cn('section-stats')}>
           <div className={cn('wrapper')}>
             <div className={cn('stats')}>
-              С нами уже более <span className={cn('stats-count')}>2 000</span> мастеров опубликовавших <span className={cn('stats-count')}>7 000</span> своих работ
+              {__t('With us more than')} <span className={cn('stats-count')}>2 000</span> {__t('masters have published')} <span className={cn('stats-count')}>7 000</span> {__t('of their works')}
             </div>
             <div className={cn('add-product')}>
               <Button
