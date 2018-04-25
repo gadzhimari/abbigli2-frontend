@@ -13,7 +13,7 @@ class Link extends Component {
     to: Type.string,
     target: Type.oneOf(['_self', '_blank', '_parent', '_top']),
     rel: Type.string,
-    view: Type.oneOf(['default', 'outline', 'link']),
+    view: Type.oneOf(['default', 'outline', 'link', 'fab']),
     disabled: Type.bool,
     size: Type.oneOf(['s', 'm', 'l']),
     children: Type.oneOfType([Type.arrayOf(Type.node), Type.node]),

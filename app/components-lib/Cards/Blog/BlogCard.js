@@ -10,6 +10,7 @@ import IconBlog from '../../../icons/blog';
 import IconClose from '../../../icons/close';
 import IconComment from '../../../icons/comment';
 import IconShare from '../../../icons/share';
+import IconPencil from '../../../icons/pencil';
 
 import getUserName from '../../../lib/getUserName';
 import getImageUrl from '../../../lib/getImageUrl';
@@ -142,7 +143,7 @@ class BlogCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, showLike, showShare, view, isMe, canEdit, deleteFromFavorite } = this.props;
+    const { setLike, showLike, showShare, view, isMe, canEdit } = this.props;
     const {
       user,
       liked,
@@ -181,8 +182,7 @@ class BlogCard extends PureComponent {
             />
           </Link>
           <div className={cn('actions', { align: 'top-left' })}>
-            {
-              showShare &&
+            { showShare &&
               <div className="share">
                 <Button
                   view="fab"
@@ -206,8 +206,7 @@ class BlogCard extends PureComponent {
             }
           </div>
           <div className={cn('actions', { align: 'top-right' })}>
-            {
-              showLike &&
+            { showLike &&
               <Like
                 liked={liked}
                 onClick={setLike}
@@ -215,37 +214,28 @@ class BlogCard extends PureComponent {
                 className={cn('button', { like: true })}
               />
             }
-            {
-              isMe &&
-              <Button
-                onClick={this.handleDelete}
+            { canEdit &&
+              <Link
+                to={createPostEditLink({ id: user.id, slug })}
                 view="fab"
-                className={cn('button', { delete: true })}
-                label={__t('Delete')}
-                icon={<IconClose
+                className={cn('button', { edit: true })}
+                aria-label={__t('Edit')}
+                icon={<IconPencil
                   size="xs"
                   color="gray-400"
                 />}
               />
             }
-          </div>
-          <div className={cn('actions', { align: 'bottom-right' })}>
-            { canEdit &&
-              <Link
-                to={createPostEditLink({ id: user.id, slug })}
-                size="s"
-                view={'default'}
-                text={__t('Edit')}
-              />
-            }
-          </div>
-          <div className={cn('actions', { align: 'bottom-right' })}>
-            { isMe && deleteFromFavorite &&
-              <Link
-                to={createPostEditLink({ id: user.id, slug })}
-                size="s"
-                view={'default'}
-                text={__t('Edit')}
+            { isMe &&
+              <Button
+                onClick={this.handleDelete}
+                view="fab"
+                className={cn('button', { delete: true })}
+                aria-label={__t('Delete')}
+                icon={<IconClose
+                  size="xs"
+                  color="gray-400"
+                />}
               />
             }
           </div>
