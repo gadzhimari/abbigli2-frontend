@@ -1,7 +1,7 @@
 import pages from './pages';
 
-const hideHeaderAndFooter = ({ pathname }) =>
+const shouldHideHeaderAndFooter = ({ pathname }) =>
   pathname === `/${pages.FOR_MASTERS_PAGE.path}`;
 
 
-export default hideHeaderAndFooter;
+export default shouldHideHeaderAndFooter;
