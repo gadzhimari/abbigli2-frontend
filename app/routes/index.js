@@ -28,7 +28,8 @@ import {
   ProfileAbout,
   ProfileBlogs,
   ProfileEvents,
-  About
+  About,
+  ForMasters,
 } from '../containers';
 
 import Chat from '../containers/Chat';
@@ -54,6 +55,7 @@ function getRoutes(store) {
       <Route path={pages.FAQ_PAGE.path} component={Faq} />
       <Route path={pages.ABOUT_PAGE.path} component={About} />
       <Route path={pages.AGREEMENT_PAGE.path} component={Agreement} />
+      <Route path={pages.FOR_MASTERS_PAGE.path} component={ForMasters} />
       <Route path={pages.QUESTIONS_PAGE.path} component={Questions} />
       <Route path={pages.SEARCH_PAGE.path} component={Tag} />
       <Route path={pages.PEOPLE_SEARCH.path} component={PeopleSearch} />

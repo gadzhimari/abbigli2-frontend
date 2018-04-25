@@ -1,0 +1,214 @@
+@import '../../components-lib/__base/variables/colors';
+@import '../../components-lib/__base/variables/variables';
+
+.for-masters-page {
+  .global-wrapper {
+    margin: 0;
+    padding: 0;
+    &::after {
+      content: none;
+    }
+  }
+}
+
+.ForMasters {
+  &__wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  &__section {
+    &-hero {
+      background-image: url('/images/pages/for-masters/bg.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 440px;
+    }
+    &-features {
+      padding: 55px 0 40px;
+      background-color: @white;
+    }
+    &-stats {
+      padding: 64px 0 90px;
+    }
+  }
+  &__logo {
+    display: inline-block;
+    background-image: url('/images/pages/for-masters/logo.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 980px;
+    height: 252px;
+    &-wrapper {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  &__stats {
+    margin-bottom: 48px;
+    font-family: 'Bitter';
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 48px;
+    text-align: center;
+    color: @black;
+    &-count {
+      color: @blue;
+    }
+  }
+  &__features {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  &__feature {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 33.333%;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 32px;
+    &-text {
+      font-family: 'Bitter';
+      font-size: 18px;
+      font-weight: 400;
+      color: @black;
+      max-width: 225px;
+    }
+    &-icon {
+      display: inline-block;
+      width: 109px;
+      height: 109px;
+      margin-bottom: 10px;
+      flex: 0 0 auto;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      &_fairy {
+        background-image: url('/images/pages/for-masters/fairy.png');
+      }
+      &_badge {
+        background-image: url('/images/pages/for-masters/badge.png');
+      }
+      &_sheep {
+        background-image: url('/images/pages/for-masters/sheep.png');
+      }
+      &_shop {
+        background-image: url('/images/pages/for-masters/shop.png');
+      }
+      &_bubble {
+        background-image: url('/images/pages/for-masters/bubble.png');
+      }
+    }
+  }
+  &__add-product {
+    margin-bottom: 20px;
+    text-align: center;
+    .Button_view_default.Button_size_l {
+      width: 278px;
+      height: 72px;
+      line-height: 72px;
+      font-size: 21px;
+    }
+  }
+  &__goto-home {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .ForMasters {
+    &__logo {
+      &-wrapper {
+        padding: 0 70px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: @breakpoint-l) {
+  .ForMasters {
+    &__wrapper {
+      padding: 0 25px;
+    }
+    &__section {
+      &-hero {
+        height: 370px;
+      }
+      &-features {
+        padding: 30px 0 0;
+      }
+      &-stats {
+        padding: 55px 0 70px;
+      }
+    }
+    &__logo {
+      &-wrapper {
+        padding: 0 100px;
+      }
+    }
+    &__feature {
+      margin-bottom: 70px;
+      &:nth-last-child(-n+2) {
+        margin-bottom: 50px;
+      }
+    }
+    &__stats {
+      margin-bottom: 40px;
+    }
+  }
+}
+
+@media screen and (max-width: @breakpoint-s) {
+  .ForMasters {
+    &__wrapper {
+      padding: 0 10px;
+    }
+    &__section {
+      &-hero {
+        height: 280px;
+      }
+      &-features {
+        padding: 20px 0;
+      }
+      &-stats {
+        padding: 26px 0 36px;
+      }
+    }
+    &__features {
+      flex-direction: column;
+    }
+    &__feature {
+      flex-direction: row;
+      text-align: left;
+      margin-bottom: 20px;
+      &:nth-last-child(-n+2) {
+        margin-bottom: 20px;
+      }
+      &-text {
+        max-width: none;
+        margin-left: 28px;
+        font-size: 15px;
+        line-height: 19px;
+      }
+      &-icon {
+        width: 65px;
+        height: 65px;
+        margin-bottom: 0;
+      }
+    }
+    &__stats {
+      font-size: 24px;
+      line-height: 36px;
+      margin-bottom: 38px;
+    }
+    &__logo {
+      &-wrapper {
+        padding: 0 10px;
+      }
+    }
+  }
+}

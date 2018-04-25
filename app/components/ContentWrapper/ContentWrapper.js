@@ -17,6 +17,7 @@ class ContentWrapper extends Component {
       isOpenMenu,
       closeMenu,
       openPopup,
+      hideFooter,
     } = this.props;
 
     const menuWrapperClass = isOpenMenu
@@ -47,11 +48,13 @@ class ContentWrapper extends Component {
         <div className={contentWrapperClass}>
           {children}
         </div>
-        <Footer
-          openPopup={openPopup}
-        >
-          Logo
-        </Footer>
+        { hideFooter &&
+          <Footer
+            openPopup={openPopup}
+          >
+            Logo
+          </Footer>
+        }
       </div>
     );
   }
