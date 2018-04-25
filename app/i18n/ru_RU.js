@@ -559,5 +559,8 @@ export default {
   Oops: 'Упсс!',
   'Relative posts for': 'Похожие посты для',
   'pages.next': 'Следующая',
-  'pages.previous': 'Предыдущая'
+  'pages.previous': 'Предыдущая',
+  'Profile name': 'Имя профиля',
+  'Profile description': 'Описание профиля',
+  'Upload new': 'Загрузить новую',
 };
