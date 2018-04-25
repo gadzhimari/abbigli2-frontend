@@ -136,8 +136,10 @@ class BlogPage extends Component {
               canSubscribe={!userIsOwner}
               followUser={followUser}
             />
-
-            <OtherArticles articles={itemsAuthors} />
+            <OtherArticles
+              articles={itemsAuthors}
+              data={author}
+            />
           </div>
         </div>
 
