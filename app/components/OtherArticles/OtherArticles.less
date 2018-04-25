@@ -1,6 +1,6 @@
 @import 'base';
-@import 'variables';
 @import 'mixin';
+@import '../../components-lib/__base/variables/variables';
 
 .other-articles {
   &__item {
@@ -14,6 +14,16 @@
     margin-left: 10px;
     position: relative;
     background-color: #fff;
+    &_more {
+      &.Link_view_link {
+        background-color: @white;
+      }
+      .Link__text {
+        line-height: 20px;
+        text-align: center;
+        .align-full;
+      }
+    }
 
     img {
       width: 100%;
@@ -24,16 +34,10 @@
       margin: 0;
     }
 
-    &-text {
-      line-height: 20px;
-      color: @grayText;
-      text-align: center;
-      .align-full;
-    }
 
     &:hover {
       box-shadow: 0 0 3px #c1c2c2;
-      .other-articles__item-text {
+      &.other-articles__item_more {
         color: #464646;
       }
     }
