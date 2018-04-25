@@ -66,20 +66,18 @@ class ProfileMyabbigli extends Component {
         <div className="cards-row">
           {isMe &&
             <div className="Card Card_type_attach">
-              <div className="Card__attach">
-                <Link
-                  className="Card__button Card__button_attach"
-                  onClick={this.onCreateLinkClick}
-                  to="/post/new"
-                  text={__t('add.on.abbigli')}
-                  size="l"
-                  color="black"
-                  icon={<IconPlus
-                    size={'s'}
-                    color="white"
-                  />}
-                />
-              </div>
+              <Link
+                className="Card__button Card__button_attach"
+                onClick={this.onCreateLinkClick}
+                to="/post/new"
+                text={__t('add.on.abbigli')}
+                size="l"
+                color="black"
+                icon={<IconPlus
+                  size={'s'}
+                  color="white"
+                />}
+              />
             </div>
           }
 
@@ -98,6 +96,8 @@ class ProfileMyabbigli extends Component {
                 isMe={isMe}
                 canEdit={isMe}
                 view={2}
+                showLike
+                showShare
               />
             ))
           }

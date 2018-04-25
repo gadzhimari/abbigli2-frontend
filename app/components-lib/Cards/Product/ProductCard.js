@@ -9,6 +9,7 @@ import { Button, Like, Link } from '../../../components-lib';
 import IconBag from '../../../icons/bag';
 import IconClose from '../../../icons/close';
 import IconShare from '../../../icons/share';
+import IconPencil from '../../../icons/pencil';
 
 import getImageUrl from '../../../lib/getImageUrl';
 import getUserName from '../../../lib/getUserName';
@@ -62,12 +63,16 @@ class ProductCard extends PureComponent {
     view: Type.number,
     isMe: Type.bool,
     canEdit: Type.bool,
+    showLike: Type.bool,
+    showShare: Type.bool,
   };
 
   static defaultProps = {
     view: 1,
     isMe: false,
     canEdit: false,
+    showLike: true,
+    showShare: false,
   };
 
   handleDelete = () => {
@@ -120,7 +125,7 @@ class ProductCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, priceTemplate, view, canEdit, isMe } = this.props;
+    const { setLike, showLike, showShare, priceTemplate, view, canEdit, isMe } = this.props;
     const {
       user,
       liked,
@@ -158,53 +163,60 @@ class ProductCard extends PureComponent {
             />
           </Link>
           <div className={cn('actions', { align: 'top-left' })}>
-            <div className="share">
-              <Button
+            { showShare &&
+              <div className="share">
+                <Button
+                  view="fab"
+                  className={cn('button', { share: true })}
+                  aria-label={__t('Share')}
+                  icon={<IconShare
+                    size="xs"
+                    color="gray-400"
+                  />}
+                />
+                <div className="dropdown">
+                  <div className="dropdown-corner" />
+                  <Share
+                    postLink={createPostLink(this.props.data)}
+                    buttonClass="social-btn"
+                    media={imageUrl}
+                    description={title}
+                  />
+                </div>
+              </div>
+            }
+          </div>
+          <div className={cn('actions', { align: 'top-right' })}>
+            { showLike &&
+              <Like
+                liked={liked}
+                onClick={setLike}
+                slug={slug}
+                className={cn('button', { like: true })}
+              />
+            }
+            { canEdit &&
+              <Link
+                to={createPostEditLink({ id: user.id, slug })}
                 view="fab"
-                className={cn('button', { share: true })}
-                aria-label={__t('Share')}
-                icon={<IconShare
+                className={cn('button', { edit: true })}
+                aria-label={__t('Edit')}
+                icon={<IconPencil
                   size="xs"
                   color="gray-400"
                 />}
               />
-              <div className="dropdown-corner" />
-              <div className="dropdown">
-                <Share
-                  postLink={createPostLink(this.props.data)}
-                  buttonClass="social-btn"
-                  media={imageUrl}
-                  description={title}
-                />
-              </div>
-            </div>
-          </div>
-          <div className={cn('actions', { align: 'top-right' })}>
+            }
             { isMe &&
               <Button
                 onClick={this.handleDelete}
                 view="fab"
                 className={cn('button', { delete: true })}
-                label={__t('Delete')}
+                aria-label={__t('Delete')}
                 icon={<IconClose
                   size="xs"
                   color="gray-400"
                 />}
-              />}
-            <Like
-              liked={liked}
-              onClick={setLike}
-              slug={slug}
-              className={cn('button', { like: true })}
-            />
-          </div>
-          <div className={cn('actions', { align: 'bottom-right' })}>
-            { canEdit &&
-              <Link
-                to={createPostEditLink({ id: user.id, slug })}
-                size="s"
-                view={'default'}
-                text={__t('Edit')}
               />
             }
           </div>

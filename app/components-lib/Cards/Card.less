@@ -18,13 +18,19 @@
   display: flex;
   flex: 0 0 24%;
   flex-direction: column;
-  margin: 0 0.5% 1%;
+  margin: 4px 0.5%;
   overflow: hidden;
   border: 1px solid @card-border-color;
   border-radius: 5px;
   background-color: @card-background;
   &:hover {
     box-shadow: 0 0 4px #8f8e8e;
+    .Card__button {
+      &_like,
+      &_share {
+        opacity: 1;
+      }
+    }
   }
   &_type {
     &_product {
@@ -50,6 +56,8 @@
     &_attach {
       min-height: 275px;
       padding: 10px;
+      outline: 1px dashed @blue;
+      outline-offset: -10px;
     }
   }
 
@@ -129,6 +137,9 @@
       &_top-right {
         top: 10px;
         right: 10px;
+        .Card__button:not(:first-child) {
+          margin-left: 10px;
+        }
       }
       &_bottom-left {
         bottom: 10px;
@@ -141,22 +152,23 @@
     }
   }
   &__button {
+    &_like,
+    &_share {
+      opacity: 0;
+      transition: opacity 0.1s ease-in-out;
+    }
     &_share,
     &_delete {
       &:hover {
         fill: #c7c7c7;
       }
     }
-    &_like {
-      margin-left: 10px;
-    }
     &_attach {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 100%;
-      height: 100%;
+      flex: 1;
       font-family: 'ClearSansBold';
       .Link__icon {
         display: flex;
@@ -323,11 +335,6 @@
     margin-left: 10px;
     font-family: 'ClearSansLight';
     font-size: 16px;
-  }
-  &__attach {
-    width: 100%;
-    height: 100%;
-    border: 1px dashed @blue;
   }
 }
 
