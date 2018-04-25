@@ -561,4 +561,6 @@ export default {
   'Profile name': 'Имя профиля',
   'Profile description': 'Описание профиля',
   'Upload new': 'Загрузить новую',
+  'Add product': 'Добавить товар',
+  'Go back to Abbigli': 'Вернуться на Abbigli',
 };
