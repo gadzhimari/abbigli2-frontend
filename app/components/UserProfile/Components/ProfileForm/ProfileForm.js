@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
-import { API_URL } from 'config';
+import { API_URL } from '../../../../config';
 
 import { __t } from '../../../../i18n/translator';
 

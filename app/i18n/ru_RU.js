@@ -558,4 +558,7 @@ export default {
   'Go.back.home': 'Вернуться на главную',
   Oops: 'Упсс!',
   'Relative posts for': 'Похожие посты для',
+  'Profile name': 'Имя профиля',
+  'Profile description': 'Описание профиля',
+  'Upload new': 'Загрузить новую',
 };
