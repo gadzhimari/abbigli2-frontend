@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import pick from 'lodash/pick';
 
-import Link from '../../components/Link/Link';
+import { React, Component, Type } from '../../components-lib/__base';
+
 import {
   AuthorInfo,
   OtherArticles,
@@ -13,9 +12,9 @@ import {
 } from '../../components';
 
 import Content from './Content';
+import { Link } from '../../components-lib';
 import { Product } from '../../components-lib/Cards';
 import { Comments } from '../../components/Comments';
-import createPostEditLink from '../../lib/links/edit-post-link';
 
 import postLoader from '../../HOC/postLoader';
 
@@ -35,11 +34,19 @@ import { openPopup } from '../../ducks/Popup/actions';
 
 import onlyAuthAction from '../../lib/redux/onlyAuthAction';
 import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
+import createPostEditLink from '../../lib/links/edit-post-link';
 
 import { __t } from './../../i18n/translator';
 import './ProductPage.less';
 
 class ProductPage extends Component {
+  static propTypes = {
+    priceTemplate: Type.string.isRequired,
+    author: Type.shape({
+      profile_name: Type.string,
+    }),
+  };
+
   componentDidMount() {
     this.globalWrapper = document.body;
     this.globalWrapper.classList.add('goods-post');
@@ -132,11 +139,10 @@ class ProductPage extends Component {
           {userIsOwner &&
             <div className="edit-post__container">
               <Link
+                view="default"
                 to={editingLink}
-                className="default-button edit-post-button"
-              >
-                {__t('Edit')}
-              </Link>
+                text={__t('Edit')}
+              />
             </div>
           }
 
@@ -166,13 +172,6 @@ class ProductPage extends Component {
     );
   }
 }
-
-ProductPage.propTypes = {
-  priceTemplate: PropTypes.string.isRequired,
-  author: PropTypes.shape({
-    profile_name: PropTypes.string,
-  }),
-};
 
 const mapStateToProps = state => ({
   data: state.PostPage.post,
