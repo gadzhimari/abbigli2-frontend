@@ -121,7 +121,10 @@ class EventPage extends Component {
               canSubscribe={!userIsOwner}
               followUser={followUser}
             />
-            <OtherArticles articles={usersPosts} />
+            <OtherArticles
+              articles={usersPosts}
+              data={author}
+            />
           </div>
         </div>
         <div className="main article">
