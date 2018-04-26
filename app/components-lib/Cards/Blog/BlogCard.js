@@ -109,7 +109,9 @@ class BlogCard extends PureComponent {
       <Link
         className={cn('user', { block: avatar.block[view], align: avatar.align[view], position: avatarPos })}
         to={createProfileLink(author)}
+        color="gray-600"
         text={name}
+        title={name}
         icon={
           <Avatar
             className={cn('avatar', { bordered: avatar.bordered[view], size })}
@@ -132,6 +134,7 @@ class BlogCard extends PureComponent {
         className={cn('title', { align: titleText.align[view], weight: 'bold' })}
         to={postUrl}
         text={title}
+        title={title}
         color="black"
         icon={<IconBlog
           size="s"

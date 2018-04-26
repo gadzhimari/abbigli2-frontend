@@ -88,6 +88,7 @@ class ProductCard extends PureComponent {
         to={postUrl}
         text={title}
         color="black"
+        title={title}
         icon={<IconBag
           size="s"
           color="blue"
@@ -110,6 +111,7 @@ class ProductCard extends PureComponent {
           className={cn('user')}
           to={authorUrl}
           text={name}
+          title={name}
           color="gray-600"
           icon={
             <Avatar
