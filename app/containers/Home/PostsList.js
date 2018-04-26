@@ -1,6 +1,6 @@
 import { React, PureComponent, Fragment } from '../../components-lib/__base';
-import { TileWrap, HR, Link } from '../../components';
-import { Spin } from '../../components-lib';
+import { TileWrap, HR } from '../../components';
+import { Link, Spin } from '../../components-lib';
 
 class PostsList extends PureComponent {
   render() {
@@ -43,9 +43,13 @@ class PostsList extends PureComponent {
           }
         </TileWrap>
 
-        <Link to={moreLinkUrl} className="show-more">
-          {moreLinkText}
-        </Link>
+        <div className="home__show-more">
+          <Link
+            view="outline"
+            to={moreLinkUrl}
+            text={moreLinkText}
+          />
+        </div>
       </Fragment>
     );
   }
