@@ -112,6 +112,7 @@ class EventCard extends PureComponent {
         className={cn('title', { align: titleText.align[view], weight: 'bold' })}
         to={createPostLink(this.props.data)}
         text={title}
+        title={title}
         color="black"
         icon={<IconEvent
           size="s"
@@ -134,6 +135,7 @@ class EventCard extends PureComponent {
           className={cn('user')}
           to={createProfileLink(user)}
           text={name}
+          title={name}
           color="gray-600"
           icon={
             <Avatar
@@ -266,7 +268,7 @@ class EventCard extends PureComponent {
                 { toLocaleDateString(dateStart, EVENT_DATE_FORMAT) }
                 { dateEnd ? ` - ${toLocaleDateString(dateEnd, EVENT_DATE_FORMAT)}` : ''}
               </div>
-              <div className={cn('city')}>
+              <div className={cn('city')} title={city.name}>
                 {city && city.name}
               </div>
             </div>

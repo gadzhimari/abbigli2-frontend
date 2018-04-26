@@ -51,6 +51,8 @@ class User extends PureComponent {
   render() {
     const { user } = this.props;
     const subscriptionState = this.state.isSubscribed ? `- ${__t('Unsubscribe')}` : `+ ${__t('Subscribe')}`;
+    const location = user.city &&
+      `${user.city.name}, ${user.city.country.name}`;
 
     return (
       <div className="user-card">
@@ -66,16 +68,18 @@ class User extends PureComponent {
           </div>
         </Link>
         <Link to={createProfileLink({ id: user.id })} >
-          <div className="user-card__name">
-            {this.props.user.profile_name}
+          <div
+            className="user-card__name"
+            title={user.profile_name}
+          >
+            {user.profile_name}
           </div>
         </Link>
-        <div className="user-card__city">
-          {
-            this.props.user.city
-            &&
-            `${this.props.user.city.name}, ${this.props.user.city.country.name}`
-          }
+        <div
+          className="user-card__city"
+          title={location}
+        >
+          { location }
         </div>
         <Button
           size="s"

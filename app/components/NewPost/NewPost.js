@@ -51,6 +51,7 @@ class NewPost extends PureComponent {
           <Link
             className="new-post__title"
             to={createPostLink(data)}
+            title={data.title}
           >
             {data.title}
           </Link>
