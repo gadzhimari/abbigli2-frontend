@@ -38,6 +38,7 @@ class GoodsCard extends PureComponent {
               className={cn('user')}
               to={createProfileLink(data.user)}
               text={name}
+              title={name}
               color="gray-600"
               icon={
                 <Avatar
@@ -67,6 +68,7 @@ class GoodsCard extends PureComponent {
               className={cn('title')}
               to={createPostLink(data)}
               text={data.title}
+              title={data.title}
               size="s"
               icon={<IconBag
                 size="xs"

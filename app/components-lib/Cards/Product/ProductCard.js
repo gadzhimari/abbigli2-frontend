@@ -89,6 +89,7 @@ class ProductCard extends PureComponent {
         to={createPostLink(this.props.data)}
         color="black"
         text={title}
+        title={title}
         icon={<IconBag
           size="s"
           color="blue"
@@ -110,6 +111,7 @@ class ProductCard extends PureComponent {
           className={cn('user')}
           to={createProfileLink(user)}
           text={name}
+          title={name}
           color="gray-600"
           icon={
             <Avatar
