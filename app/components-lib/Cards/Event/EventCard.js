@@ -151,7 +151,7 @@ class EventCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, showLike, showShare, view, canEdit, isMe } = this.props;
+    const { setLike, showLike, showShare, view, canEdit, isMe, isTouch } = this.props;
     const {
       user,
       liked,
@@ -196,7 +196,7 @@ class EventCard extends PureComponent {
               <div className="share">
                 <Button
                   view="fab"
-                  className={cn('button', { share: true })}
+                  className={cn('button', { share: true, hide: !isTouch })}
                   aria-label={__t('Share')}
                   icon={<IconShare
                     size="xs"
@@ -221,7 +221,7 @@ class EventCard extends PureComponent {
                 liked={liked}
                 onClick={setLike}
                 slug={slug}
-                className={cn('button', { like: true })}
+                className={cn('button', { like: true, hide: !isTouch })}
               />
             }
             { canEdit &&
@@ -282,6 +282,7 @@ class EventCard extends PureComponent {
 
 const mapStateToProps = state => ({
   isAuth: state.Auth.isAuthenticated,
+  isTouch: state.isTouch,
 });
 
 export default connect(mapStateToProps, { setLike })(EventCard);

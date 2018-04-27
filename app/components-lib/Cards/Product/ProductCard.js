@@ -127,7 +127,7 @@ class ProductCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, showLike, showShare, priceTemplate, view, canEdit, isMe } = this.props;
+    const { setLike, showLike, showShare, priceTemplate, view, canEdit, isMe, isTouch } = this.props;
     const {
       user,
       liked,
@@ -169,7 +169,7 @@ class ProductCard extends PureComponent {
               <div className="share">
                 <Button
                   view="fab"
-                  className={cn('button', { share: true })}
+                  className={cn('button', { share: true, hide: !isTouch })}
                   aria-label={__t('Share')}
                   icon={<IconShare
                     size="xs"
@@ -194,7 +194,7 @@ class ProductCard extends PureComponent {
                 liked={liked}
                 onClick={setLike}
                 slug={slug}
-                className={cn('button', { like: true })}
+                className={cn('button', { like: true, hide: !isTouch })}
               />
             }
             { canEdit &&
@@ -242,6 +242,7 @@ class ProductCard extends PureComponent {
 
 const mapStateToProps = state => ({
   isAuth: state.Auth.isAuthenticated,
+  isTouch: state.isTouch,
 });
 
 export default connect(mapStateToProps, { setLike })(ProductCard);
