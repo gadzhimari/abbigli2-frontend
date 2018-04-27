@@ -34,7 +34,7 @@ class SpecificPostsPage extends PureComponent {
   }
 
   render() {
-    const { page, priceTemplate, items, pages, paginate, routing, sections, route } = this.props;
+    const { page, priceTemplate, items, sections, route, renderPaginator } = this.props;
     const crumbs = [page];
 
     const gifts = sections.filter(item => giftsCategoriesSlugs.has(item.slug))[0];
@@ -69,24 +69,20 @@ class SpecificPostsPage extends PureComponent {
           itemProps={{ priceTemplate }}
         />
 
-        <PageSwitcher
-          count={pages}
-          active={(routing && Number(routing.query.page || 1)) || 1}
-          paginate={paginate}
-        />
+        {renderPaginator()}
+
       </main>
     );
   }
 }
 
-const mapStateToProps = ({ PostsSpecific, Settings, Auth, routing, Sections }) => ({
+const mapStateToProps = ({ PostsSpecific, Settings, Auth, Sections }) => ({
   next: PostsSpecific.next,
   items: PostsSpecific.items,
   isFetching: PostsSpecific.isFetching,
   isAuthenticated: Auth.isAuthenticated,
   priceTemplate: Settings.data.CURRENCY,
-  routing: routing.locationBeforeTransitions,
-  pages: PostsSpecific.pages,
+  pagesCount: PostsSpecific.pages,
   sections: Sections.items,
 });
 
