@@ -1,4 +1,3 @@
-
 import { React, PureComponent, Type, cn } from '../../components-lib/__base';
 import '../../components-lib/Icon/Icon.less';
 
