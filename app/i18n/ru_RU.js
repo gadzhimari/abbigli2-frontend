@@ -3,7 +3,7 @@ export default {
   'You can upload maximum images':
     'Вы можете загрузить изображения в формате JPEG, PNG',
   'sign.up.to.leave.comment': 'Войдите чтобы оставить комментарий',
-  'See all': 'Посмотреть все',
+  'See more': 'Посмотреть все',
   'Popular in blogs': 'Популярное в блогах',
   'Popular in events': 'Популярное в событиях',
   'Show more': 'Показать еще',
