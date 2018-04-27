@@ -572,4 +572,5 @@ export default {
   'artisans made publications of': 'мастеров опубликовавших',
   'own works': 'своих работ',
   'Make a real business from your art': 'Преврати своё творчество в бизнес',
+  Join: 'Присоединиться',
 };

@@ -36,18 +36,21 @@ class ForMasters extends Component {
   }
 
   render(cn) {
+    const btnText = this.props.isAuthenticated ? __t('Add product') : __t('Join');
+
     return (
       <div className={cn('')}>
         <div className={cn('section-hero')}>
           <div className={cn('hero-wrapper')}>
+            <span className={cn('logo')} />
             <span className={cn('hero-text')}>
               {__t('Make a real business from your art')}
             </span>
             <div>
               <Button
                 onClick={this.handleOpenCreating}
-                text={__t('Add product')}
-                name="Add product"
+                text={btnText}
+                name={btnText}
                 size="l"
                 icon={<IconPlus
                   size="xs"
@@ -101,8 +104,8 @@ class ForMasters extends Component {
             <div className={cn('add-product')}>
               <Button
                 onClick={this.handleOpenCreating}
-                text={__t('Add product')}
-                name="Add product"
+                text={btnText}
+                name={btnText}
                 size="l"
                 icon={<IconPlus
                   size="xs"
