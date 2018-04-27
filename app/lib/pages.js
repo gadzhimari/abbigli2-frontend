@@ -14,6 +14,9 @@ export default {
   AGREEMENT_PAGE: {
     path: 'page/agreement'
   },
+  FOR_MASTERS_PAGE: {
+    path: 'page/for-masters',
+  },
   QUESTIONS_PAGE: {
     path: 'questions'
   },

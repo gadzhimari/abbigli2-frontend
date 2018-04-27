@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { CardProduct, Link } from '../../components';
-import { Spin } from '../../components-lib';
+import { Spin, Link } from '../../components-lib';
+import { Card } from '../../components-lib/Cards';
+import IconPlus from '../../icons/plus';
 
 import * as actions from '../../ducks/ProfilePosts/actions';
 import setLike from '../../ducks/Like/actions';
@@ -10,7 +11,7 @@ import setLike from '../../ducks/Like/actions';
 import { gaSendClickEvent } from '../../lib/analitics';
 import { __t } from './../../i18n/translator';
 
-import './index.styl';
+import './index.less';
 
 class ProfileMyabbigli extends Component {
   componentDidMount() {
@@ -62,49 +63,41 @@ class ProfileMyabbigli extends Component {
           </h5>
         }
 
-        <div className="cards-wrap my-showcase legacy">
-
+        <div className="cards-row">
           {isMe &&
-            <Link
-              className="card-add-wrap"
-              onClick={this.onCreateLinkClick}
-              to={'/post/new'}
-            >
-              <img
-                className="card-img"
-                src="/images/card-bg.png"
-                style={{ opacity: 0 }}
-                alt=""
+            <div className="Card Card_type_attach">
+              <Link
+                className="Card__button Card__button_attach"
+                onClick={this.onCreateLinkClick}
+                to="/post/new"
+                text={__t('add.on.abbigli')}
+                size="l"
+                color="black"
+                icon={<IconPlus
+                  size={'s'}
+                  color="white"
+                />}
               />
-
-              <div className="card-add">
-                <div className="card-add__text">
-                  <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                    <path d="M16,7H9V0H7v7H0v2h7v7h2V9h7V7z" />
-                  </svg>
-                  {__t('add.on.abbigli')}
-                </div>
-              </div>
-            </Link>
+            </div>
           }
-
 
           {
             (!isFetchingPosts && itemsPosts.length > 0)
               &&
             itemsPosts.map(item => (
-              <CardProduct
+              <Card
                 data={item}
-                legacy
-                key={`${item.slug}--myabbigli`}
-                editable={isMe}
+                key={item.slug}
                 me={this.props.me}
                 setLike={setLike}
                 priceTemplate={this.props.priceTemplate}
                 isAuthenticated={isAuth}
                 delete={deletePost}
-                full
                 isMe={isMe}
+                canEdit={isMe}
+                view={2}
+                showLike
+                showShare
               />
             ))
           }

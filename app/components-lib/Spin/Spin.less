@@ -1,70 +1,18 @@
-.spin {
+@import '../__base/animation';
+@import '../__base/variables/colors';
+@import '../../containers/App/base/mixin';
+
+.Spin {
   display: inline-block;
   position: relative;
   &__spinning {
-    display: inline-block;
-    position: relative;
     transform: translateZ(0);
     vertical-align: middle;
-    background-image: url("/images/svg/loader.svg");
-    background-repeat: no-repeat;
-    animation: spin 1.4s infinite linear;
+    fill: @primary;
+    animation: rotate 1.4s infinite linear;
   }
 
   &__icon {
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    vertical-align: middle;
-    transform: translate(-50%,-50%);
-    background-image: url("/images/loader-logo.png");
-    background-repeat: no-repeat;
-  }
-
-  &_size {
-    &_m {
-      .spin {
-        &__spinning {
-          width: 50px;
-          height: 50px;
-          background-size: 50px 50px;
-        }
-        &__icon {
-          width: 28px;
-          height: 32px;
-        }
-      }
-    }
-  }
-}
-
-@media only screen and (max-width: 760px) {
-  .spin {
-    &_size {
-      &_m {
-        .spin {
-          &__spinning {
-            width: 35px;
-            height: 35px;
-            background-size: 35px 35px;
-          }
-          &__icon {
-            width: 20px;
-            height: 23px;
-            background-size: 20px 23px;
-          }
-        }
-      }
-    }
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
+    .align-full();
   }
 }

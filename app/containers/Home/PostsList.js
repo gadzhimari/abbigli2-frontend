@@ -1,18 +1,19 @@
-import React, { PureComponent, Fragment } from 'react';
+import { React, PureComponent, Fragment } from '../../components-lib/__base';
+import { TileWrap, HR } from '../../components';
+import { Link, Spin } from '../../components-lib';
 
-import { TileWrap, HR, Link } from '../../components';
-import Spin from '../../components-lib/Spin';
-
-export default class PostsList extends PureComponent {
+class PostsList extends PureComponent {
   render() {
-    const { Component,
-            posts,
-            isFetching,
-            hrColor,
-            title,
-            moreLinkText,
-            moreLinkUrl,
-            ...itemProps } = this.props;
+    const {
+      Component,
+      posts,
+      isFetching,
+      hrColor,
+      title,
+      moreLinkText,
+      moreLinkUrl,
+      ...itemProps
+    } = this.props;
 
     return (
       <Fragment>
@@ -26,22 +27,32 @@ export default class PostsList extends PureComponent {
 
         <TileWrap>
           {isFetching ? <Spin visible={isFetching} /> :
-            posts
-              .slice(0, 8)
-              .map(item => (
-                <Component
-                  key={item.slug}
-                  item={item}
-                  {...itemProps}
-                />
-              ))
+          <div className="cards-wrapper">
+            {
+              posts
+                .slice(0, 8)
+                .map(item => (
+                  <Component
+                    key={item.slug}
+                    data={item}
+                    {...itemProps}
+                  />)
+                )
+            }
+          </div>
           }
         </TileWrap>
 
-        <Link to={moreLinkUrl} className="show-more">
-          {moreLinkText}
-        </Link>
+        <div className="home__show-more">
+          <Link
+            view="outline"
+            to={moreLinkUrl}
+            text={moreLinkText}
+          />
+        </div>
       </Fragment>
     );
   }
 }
+
+export default PostsList;

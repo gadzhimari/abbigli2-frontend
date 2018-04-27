@@ -1,8 +1,23 @@
-node_modules
+# Generated folders
 public/assets
+storybook-static
+
+# Dependency directories
+node_modules
+
+# IDE
 .idea
+*.swp
+.vscode
+*.iml
+
+# Logs
 *.log
+
+# OS
 .DS_Store
+node-server.log
+
+# Dotenv environment variables file
 .env
 dev.env
-node-server.log

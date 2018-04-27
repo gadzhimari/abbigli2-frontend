@@ -7,8 +7,8 @@ const getSVGContent = source => source.slice(source.indexOf('>') + 1).slice(0, -
 /**
  * Template: React components
  */
-const getReactSource = ({ componentName, height, width, svgPaths }) => `
-import createIconComponent from './utils/createIconComponent';
+const getReactSource = ({ componentName, height, width, svgPaths }) =>
+`import createIconComponent from './utils/createIconComponent';
 import React from 'react';
 const ${componentName} = createIconComponent({ content: <g>${svgPaths}</g>, height: ${height}, width: ${width} });
 ${componentName}.displayName = '${componentName}';
@@ -28,6 +28,7 @@ const createIconComponent = ({ content, height, width }) =>
     static propTypes = {
       className: Type.string,
       name: Type.string,
+      color: Type.string,
       size: Type.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
       theme: Type.oneOf(['abbigli-light', 'abbigli-dark']),
     };
@@ -37,18 +38,20 @@ const createIconComponent = ({ content, height, width }) =>
     }
 
     render(cn) {
-      const { size, name } = this.props;
+      const { size, color, name } = this.props;
 
       return (
         <span
           className={cn({
             size,
             name,
+            color,
           })}
         >
           <svg
             viewBox={\`0 0 \${width} \${height}\`}
             className={cn('icon')}
+            role="presentation"
           >
             { content }
           </svg>

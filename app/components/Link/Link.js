@@ -2,7 +2,7 @@ import Type from 'prop-types';
 import React, { PureComponent } from 'react';
 import RouterLink from 'react-router/lib/Link';
 
-import './Link.styl';
+import './Link.less';
 
 class Link extends PureComponent {
   static propTypes = {

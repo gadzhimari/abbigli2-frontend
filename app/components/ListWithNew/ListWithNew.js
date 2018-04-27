@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 
 import { NewPost, NoMatch } from '../../components';
-import { Product, Event, Blog } from '../../components/Cards';
+import { Product, Event, Blog } from '../../components-lib/Cards';
 import getRandomInt from '../../lib/math/getRandomInt';
 
 const cardsByType = {
@@ -81,8 +81,8 @@ class ListWithNew extends PureComponent {
     } = this.props;
 
     return (
-      <div>
-        <div className="cards-wrap">
+      <Fragment>
+        <div className="cards-wrapper">
           {
             items.slice(0, count).map((item) => {
               const Component = ItemComponent || cardsByType[item.type];
@@ -95,7 +95,7 @@ class ListWithNew extends PureComponent {
             })
           }
         </div>
-        <div className="cards-wrap">
+        <div className="cards-wrapper">
           {
             newItems.map((item) => {
               if (!item) {
@@ -109,7 +109,7 @@ class ListWithNew extends PureComponent {
             })
           }
         </div>
-        <div className="cards-wrap">
+        <div className="cards-wrapper">
           {
             items.slice(count).map((item) => {
               const Component = ItemComponent || cardsByType[item.type];
@@ -122,7 +122,7 @@ class ListWithNew extends PureComponent {
             })
           }
         </div>
-      </div>
+      </Fragment>
     );
   }
 

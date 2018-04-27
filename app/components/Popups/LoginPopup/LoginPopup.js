@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { React, Component, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
+
 import { ErrorInput } from '../../../components/Inputs';
-import { SocialLogin, FetchingButton } from '../../../components';
+import { SocialLogin } from '../../../components';
 
 import { login, stagedPopup } from '../../../ducks/Auth/authActions';
 import { openPopup } from '../../../ducks/Popup/actions';
@@ -12,14 +13,17 @@ import { __t } from '../../../i18n/translator';
 import './LoginPopup.styl';
 
 class LoginPopup extends Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    closePopup: Type.func.isRequired,
+    dispatch: Type.func.isRequired,
+    isFetching: Type.bool.isRequired,
+    errors: Type.oneOfType([Type.object, Type.any]),
+  };
 
-    this.state = {
-      phone: '',
-      password: '',
-    };
-  }
+  state = {
+    phone: '',
+    password: '',
+  };
 
   onChangePhone = ({ target }) => this.setState({
     phone: target.value.trim(),
@@ -111,15 +115,12 @@ class LoginPopup extends Component {
               </a>
             </div>
 
-            <FetchingButton
-              className="register-popup__fetch-button"
-              type="button"
+            <Button
+              className="register-popup__fetch-button-new"
               onClick={this.onLogIn}
               isFetching={isFetching}
-            >
-              {__t('Log In')}
-            </FetchingButton>
-
+              text={__t('Log In')}
+            />
             <div className="register-popup__notice">
               {__t('Or with social networks')}
             </div>
@@ -140,13 +141,6 @@ class LoginPopup extends Component {
     );
   }
 }
-
-LoginPopup.propTypes = {
-  closePopup: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  errors: PropTypes.oneOfType([PropTypes.object, PropTypes.any]),
-};
 
 const mapStateToProps = ({ Auth }) => ({
   isFetching: Auth.isFetching,

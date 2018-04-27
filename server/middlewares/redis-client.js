@@ -8,7 +8,7 @@ let client = {};
 
 if (!disableRedis) {
   client = redis.createClient({
-    db: 1,
+    db: process.env.REDIS_DB,
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
   });

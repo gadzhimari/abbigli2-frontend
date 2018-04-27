@@ -1,23 +1,27 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { FetchingButton } from 'components';
-import { ErrorInput } from 'components/Inputs';
+import { React, Component, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
-import { reset } from 'ducks/Auth/authActions';
-import { openPopup } from 'ducks/Popup/actions';
+import { ErrorInput } from '../../../components/Inputs';
+
+import { reset } from '../../../ducks/Auth/authActions';
+import { openPopup } from '../../../ducks/Popup/actions';
 import { __t } from '../../../i18n/translator';
 
 import './ResetPopup.styl';
 
 class ResetPopup extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      contact: props.options.contact || '',
-    };
-  }
+  static propTypes = {
+    dispatch: Type.func.isRequired,
+    closePopup: Type.func.isRequired,
+    isFetching: Type.bool.isRequired,
+    errors: Type.oneOfType([Type.object, Type.any]),
+  };
+
+  state = {
+    contact: this.props.options.contact || '',
+  };
 
   handleChange = ({ target }) => this.setState({
     contact: target.value.trim(),
@@ -60,14 +64,12 @@ class ResetPopup extends Component {
                 errorClass="login__form-error"
               />
             </div>
-            <FetchingButton
-              className="register-popup__fetch-button"
-              type="button"
+            <Button
+              className="register-popup__fetch-button-new"
               onClick={this.handleClick}
               isFetching={isFetching}
-            >
-              {__t('Recover.your.password')}
-            </FetchingButton>
+              text={__t('Recover.your.password')}
+            />
             <button
               className="register-popup__button"
               type="button"
@@ -82,13 +84,6 @@ class ResetPopup extends Component {
     );
   }
 }
-
-ResetPopup.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  closePopup: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  errors: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = ({ Auth }) => ({
   isFetching: Auth.isFetching,

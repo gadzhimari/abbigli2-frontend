@@ -1,4 +1,5 @@
-import React from 'react';
+import { React } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
 import CreateForm from '../CreateForm/CreateForm';
 import { ErrorInput } from '../../../components/Inputs';
@@ -7,8 +8,6 @@ import FormBlock from '../FormBlock';
 import MultiSelect from '../Components/MultiSelect';
 import Textarea from '../../../components/Inputs/Textarea';
 import ImageUploadZone from '../../../components/ImageUploadZone';
-import FetchingButton from '../../../components/FetchingButton';
-import Button from '../../../components/Button';
 
 import mergeObjects from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
@@ -134,24 +133,18 @@ class ProductForm extends CreateForm {
         </FormBlock>
 
         <div className="add-tabs__buttons">
-          <FetchingButton
-            className="default-button"
-            isFetching={isSaving}
-            onClick={this.onSave}
-            type="button"
-            name="add_product"
-          >
-            {__t('Publish')}
-          </FetchingButton>
-
           <Button
-            className="default-button"
+            onClick={this.onSave}
+            isFetching={isSaving}
+            text={__t('Publish')}
+            name="add_product"
+          />
+          <Button
             onClick={this.onCancel}
-            type="button"
             name="add_product_cancel"
-          >
-            {__t('Cancel')}
-          </Button>
+            text={__t('Cancel')}
+            color="secondary"
+          />
         </div>
       </form>
     );

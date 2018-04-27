@@ -1,10 +1,22 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import Hammer from 'react-hammerjs';
-
-import { Menu, Footer } from '../../components';
+import { React, Component, Type } from '../../components-lib/__base';
+import { Menu } from '../../components';
+import { Footer } from '../../components-lib';
 
 class ContentWrapper extends Component {
+  static propTypes = {
+    contentWrapperClass: Type.string.isRequired,
+    children: Type.oneOfType([
+      Type.string,
+      Type.array,
+      Type.element,
+    ]).isRequired,
+    closeMenu: Type.func.isRequired,
+    modalButtonClick: Type.func.isRequired,
+    itemsSections: Type.arrayOf(Type.object).isRequired,
+    isOpenMenu: Type.bool.isRequired,
+  };
+
   onSwipeHandler = () => this.props.closeMenu();
 
   render() {
@@ -16,6 +28,7 @@ class ContentWrapper extends Component {
       isOpenMenu,
       closeMenu,
       openPopup,
+      showFooter,
     } = this.props;
 
     const menuWrapperClass = isOpenMenu
@@ -46,27 +59,16 @@ class ContentWrapper extends Component {
         <div className={contentWrapperClass}>
           {children}
         </div>
-        <Footer
-          openPopup={openPopup}
-        >
-          Logo
-        </Footer>
+        { showFooter &&
+          <Footer
+            openPopup={openPopup}
+          >
+            Logo
+          </Footer>
+        }
       </div>
     );
   }
 }
-
-ContentWrapper.propTypes = {
-  contentWrapperClass: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-    PropTypes.element,
-  ]).isRequired,
-  closeMenu: PropTypes.func.isRequired,
-  modalButtonClick: PropTypes.func.isRequired,
-  itemsSections: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isOpenMenu: PropTypes.bool.isRequired,
-};
 
 export default ContentWrapper;

@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import { React, PureComponent, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
 import { ErrorInput } from '../../Inputs';
-import { FetchingButton } from '../../';
 import Timer from './Timer';
 
 import { __t } from '../../../i18n/translator';
@@ -10,6 +9,18 @@ import { __t } from '../../../i18n/translator';
 import './ConfirmPopup.styl';
 
 class ConfirmPopup extends PureComponent {
+  static propTypes = {
+    closePopup: Type.func.isRequired,
+    sendForm: Type.func.isRequired,
+    isFetching: Type.bool.isRequired,
+    errors: Type.oneOfType([Type.object, Type.any]),
+    options: Type.shape({
+      callback: Type.func.isRequired,
+      previousPopup: Type.string,
+      contact: Type.string.isRequired,
+    }).isRequired,
+  };
+
   state = {
     confirmCode: '',
     againRequestDelay: 60,
@@ -158,14 +169,12 @@ class ConfirmPopup extends PureComponent {
                 </div>
               }
             </div>
-            <FetchingButton
-              className="register-popup__fetch-button"
-              type="button"
+            <Button
+              className="register-popup__fetch-button-new"
               onClick={this.handleClick}
               isFetching={isFetching}
-            >
-              {this.buttonText}
-            </FetchingButton>
+              text={this.buttonText}
+            />
             <button
               className="register-popup__button"
               type="button"
@@ -179,17 +188,5 @@ class ConfirmPopup extends PureComponent {
     );
   }
 }
-
-ConfirmPopup.propTypes = {
-  closePopup: PropTypes.func.isRequired,
-  sendForm: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  errors: PropTypes.oneOfType([PropTypes.object, PropTypes.any]),
-  options: PropTypes.shape({
-    callback: PropTypes.func.isRequired,
-    previousPopup: PropTypes.string,
-    contact: PropTypes.string.isRequired,
-  }).isRequired,
-};
 
 export default ConfirmPopup;

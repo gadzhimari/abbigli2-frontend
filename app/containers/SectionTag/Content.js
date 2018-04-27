@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
 import { ListWithNew, PageSwitcher } from '../../components';
-import { Product } from '../../components/Cards';
+import { Product } from '../../components-lib/Cards';
 
 class Content extends PureComponent {
   static propTypes = {
