@@ -3,9 +3,11 @@
 .Like {
   &__button {
     &.Button_view_fab {
-      &:hover {
-        .Icon {
-          fill: @red;
+      @media (hover: hover) {
+        &:hover {
+          .Icon {
+            fill: @red;
+          }
         }
       }
     }

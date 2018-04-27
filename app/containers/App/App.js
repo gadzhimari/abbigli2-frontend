@@ -183,6 +183,7 @@ function mapStateToProps(state) {
     itemsSections: state.Sections.items,
     isFetchingSections: state.Sections.isFetching,
     errors: state.NetworkErrors,
+    isTouch: state.isTouch,
   };
 }
 

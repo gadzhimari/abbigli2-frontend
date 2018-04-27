@@ -145,7 +145,7 @@ class BlogCard extends PureComponent {
   }
 
   render(cn) {
-    const { data, setLike, showLike, showShare, view, isMe, canEdit } = this.props;
+    const { data, setLike, showLike, showShare, view, isMe, canEdit, isTouch } = this.props;
     const {
       liked,
       title,
@@ -193,7 +193,7 @@ class BlogCard extends PureComponent {
               <div className="share">
                 <Button
                   view="fab"
-                  className={cn('button', { share: true })}
+                  className={cn('button', { share: true, hide: !isTouch })}
                   aria-label={__t('Share')}
                   icon={<IconShare
                     size="xs"
@@ -219,7 +219,7 @@ class BlogCard extends PureComponent {
                 liked={liked}
                 onClick={setLike}
                 slug={slug}
-                className={cn('button', { like: true })}
+                className={cn('button', { like: true, hide: !isTouch })}
               />
             }
             { canEdit &&
@@ -286,4 +286,4 @@ class BlogCard extends PureComponent {
   }
 }
 
-export default connect(() => ({}), { setLike })(BlogCard);
+export default connect(({ isTouch }) => ({ isTouch }), { setLike })(BlogCard);
