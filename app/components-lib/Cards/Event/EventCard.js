@@ -78,7 +78,6 @@ class EventCard extends PureComponent {
     data: Type.shape({
       title: Type.string,
       slug: Type.string,
-      price: Type.number,
       user: Type.object,
       images: Type.array,
     }).isRequired,
@@ -268,8 +267,4 @@ class EventCard extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuth: state.Auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { setLike })(EventCard);
+export default connect(() => ({}), { setLike })(EventCard);

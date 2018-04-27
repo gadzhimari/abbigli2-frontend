@@ -289,8 +289,4 @@ class BlogCard extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuth: state.Auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { setLike })(BlogCard);
+export default connect(() => ({}), { setLike })(BlogCard);

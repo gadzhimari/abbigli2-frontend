@@ -1,6 +1,6 @@
 import { React, PureComponent, Type, cn } from '../../__base';
 
-import { Link } from '../../../components-lib';
+import { Link, Price } from '../../../components-lib';
 import Image from '../../../components/Image';
 import Avatar from '../../../components/Avatar';
 import IconBag from '../../../icons/bag';
@@ -19,15 +19,14 @@ class GoodsCard extends PureComponent {
     data: Type.shape({
       title: Type.string,
       slug: Type.string,
-      price: Type.number,
+      price: Type.string,
       user: Type.object,
       images: Type.array,
-    }).isRequired,
-    priceTemplate: Type.string.isRequired,
+    }).isRequired
   };
 
   render(cn) {
-    const { data, priceTemplate } = this.props;
+    const { data } = this.props;
     const { author, title, price } = data;
 
     const imageUrl = getImageUrl(data);
@@ -77,9 +76,7 @@ class GoodsCard extends PureComponent {
                 size="xs"
               />}
             />
-            <div className={cn('price')}>
-              {priceTemplate.replace('?', price)}
-            </div>
+            <Price className={cn('price')} price={price} />
           </div>
         </div>
       </div>
