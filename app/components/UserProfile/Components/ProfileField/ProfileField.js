@@ -3,10 +3,8 @@ import { React, Component, Type } from '../../../../components-lib/__base';
 class ProfileField extends Component {
   static propTypes = {
     isEditing: Type.bool,
-    children: Type.element,
     placeholder: Type.string,
     className: Type.string,
-    value: Type.any,
   };
 
   static defaultProps = {
@@ -18,7 +16,7 @@ class ProfileField extends Component {
   };
 
   render() {
-    const { isEditing, placeholder, children, value, className } = this.props;
+    const { isEditing, placeholder, children, className } = this.props;
 
     if (!children && !isEditing && !placeholder) {
       return null;

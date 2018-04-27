@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { routerReducer } from 'react-router-redux';
-import { paramsReducer } from 'react-router-redux-sync';
+import { paramsReducer, locationReducer } from 'react-router-redux-sync';
 
 import Follow from '../ducks/Follow';
 import Sections from '../ducks/Sections';
@@ -64,5 +64,6 @@ export default combineReducers({
   CatalogPage,
   NetworkErrors,
   isTouch,
-  params: paramsReducer
+  params: paramsReducer,
+  location: locationReducer
 });
