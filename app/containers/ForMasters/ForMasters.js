@@ -36,11 +36,28 @@ class ForMasters extends Component {
   }
 
   render(cn) {
+    const btnText = this.props.isAuthenticated ? __t('Add product') : __t('Join');
+
     return (
       <div className={cn('')}>
         <div className={cn('section-hero')}>
-          <div className={cn('logo-wrapper')}>
+          <div className={cn('hero-wrapper')}>
             <span className={cn('logo')} />
+            <span className={cn('hero-text')}>
+              {__t('Make a real business from your art')}
+            </span>
+            <div>
+              <Button
+                onClick={this.handleOpenCreating}
+                text={btnText}
+                name={btnText}
+                size="l"
+                icon={<IconPlus
+                  size="xs"
+                  color="white"
+                />}
+              />
+            </div>
           </div>
         </div>
         <div className={cn('section-features')}>
@@ -49,31 +66,31 @@ class ForMasters extends Component {
               <div className={cn('feature')}>
                 <span className={cn('feature-icon', { fairy: true })} />
                 <span className={cn('feature-text')}>
-                  {__t('Fast and easy registration')}
+                  {__t('Quick and simple registration')}
                 </span>
               </div>
               <div className={cn('feature')}>
                 <span className={cn('feature-icon', { badge: true })} />
                 <span className={cn('feature-text')}>
-                  {__t('Free ad publishing')}
+                  {__t('Free ads publication')}
                 </span>
               </div>
               <div className={cn('feature')}>
                 <span className={cn('feature-icon', { sheep: true })} />
                 <span className={cn('feature-text')}>
-                  {__t('Search and purchase in one place')}
+                  {__t('Sale and purchase of material in one place')}
                 </span>
               </div>
               <div className={cn('feature')}>
                 <span className={cn('feature-icon', { shop: true })} />
                 <span className={cn('feature-text')}>
-                  {__t('Creating a storefront')}
+                  {__t('Creation of the personal shop')}
                 </span>
               </div>
               <div className={cn('feature')}>
                 <span className={cn('feature-icon', { bubble: true })} />
                 <span className={cn('feature-text')}>
-                  {__t('Without restrictions on publications')}
+                  {__t('No limitations publications')}
                 </span>
               </div>
             </div>
@@ -82,13 +99,13 @@ class ForMasters extends Component {
         <div className={cn('section-stats')}>
           <div className={cn('wrapper')}>
             <div className={cn('stats')}>
-              {__t('With us more than')} <span className={cn('stats-count')}>2 000</span> {__t('masters have published')} <span className={cn('stats-count')}>7 000</span> {__t('of their works')}
+              {__t('Now more than')} <span className={cn('stats-count')}>2 000</span> {__t('artisans made publications of')} <span className={cn('stats-count')}>7 000</span> {__t('own works')}
             </div>
             <div className={cn('add-product')}>
               <Button
                 onClick={this.handleOpenCreating}
-                text={__t('Add product')}
-                name="Add product"
+                text={btnText}
+                name={btnText}
                 size="l"
                 icon={<IconPlus
                   size="xs"
@@ -98,9 +115,9 @@ class ForMasters extends Component {
             </div>
             <div className={cn('goto-home')}>
               <Link
-                text={__t('Go back to Abbigli')}
-                name="Go back to Abbigli"
-                to={pages.ROOT_PAGE}
+                text={__t('Get back to Abbigli')}
+                name="Get back to Abbigli"
+                to={pages.ROOT_PAGE.path}
                 size="l"
               />
             </div>

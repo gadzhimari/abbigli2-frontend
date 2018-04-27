@@ -34,17 +34,31 @@
   }
   &__logo {
     display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 240px;
+    height: 64px;
     background-image: url('/images/pages/for-masters/logo.svg');
-    background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
-    width: 980px;
-    height: 252px;
+    background-position: center;
+  }
+  &__hero {
     &-wrapper {
       display: flex;
       height: 100%;
+      padding: 0 10px;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      text-align: center;
+    }
+    &-text {
+      margin-bottom: 30px;
+      font-family: 'Bitter';
+      font-size: 34px;
+      line-height: initial;
+      color: @white;
     }
   }
   &__stats {
@@ -119,16 +133,6 @@
   }
 }
 
-@media screen and (max-width: 1200px) {
-  .ForMasters {
-    &__logo {
-      &-wrapper {
-        padding: 0 70px;
-      }
-    }
-  }
-}
-
 @media screen and (max-width: @breakpoint-l) {
   .ForMasters {
     &__wrapper {
@@ -143,11 +147,6 @@
       }
       &-stats {
         padding: 55px 0 70px;
-      }
-    }
-    &__logo {
-      &-wrapper {
-        padding: 0 100px;
       }
     }
     &__feature {
@@ -178,6 +177,16 @@
         padding: 26px 0 36px;
       }
     }
+    &__hero {
+      &-text {
+        margin-top: 30px;
+        font-size: 26px;
+      }
+    }
+    &__logo {
+      width: 124px;
+      height: 32px;
+    }
     &__features {
       flex-direction: column;
     }
@@ -204,11 +213,6 @@
       font-size: 24px;
       line-height: 36px;
       margin-bottom: 38px;
-    }
-    &__logo {
-      &-wrapper {
-        padding: 0 10px;
-      }
     }
   }
 }
