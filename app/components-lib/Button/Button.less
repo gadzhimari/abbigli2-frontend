@@ -19,14 +19,22 @@
   }
 
   &__fetching {
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    box-sizing: border-box;
-    border: 3px solid #fff;
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: rotate 1s linear infinite;
+    display: inline-flex;
+    .align-full();
+    &:before {
+      content: '';
+      display: inline-block;
+      box-sizing: border-box;
+      border: 3px solid #fff;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: rotate 1s linear infinite;
+    }
+  }
+
+  &__text + &__fetching,
+  &__fetching + &__text {
+    opacity: 0;
   }
 
   &_view {
@@ -75,8 +83,10 @@
           );
           .Button {
             &__fetching {
-              width: 16px;
-              height: 16px;
+              &:before {
+                width: 16px;
+                height: 16px;
+              }
             }
           }
         }
@@ -91,8 +101,10 @@
           );
           .Button {
             &__fetching {
-              width: 20px;
-              height: 20px;
+              &:before {
+                width: 20px;
+                height: 20px;
+              }
             }
           }
         }
@@ -107,8 +119,10 @@
           );
           .Button {
             &__fetching {
-              width: 24px;
-              height: 24px;
+              &:before {
+                width: 24px;
+                height: 24px;
+              }
             }
           }
         }

@@ -5,8 +5,10 @@
   color: color-yiq(@color);
   background-color: @background;
   border-color: @border;
-  &:hover {
-    background-color: darken(@background, 9%);
+  @media (hover: hover) {
+    &:hover {
+      background-color: darken(@background, 9%);
+    }
   }
   &:active {
     background-color: darken(@background, 14%);
@@ -18,9 +20,11 @@
   color: @color;
   background-color: transparent;
   border-color: @border;
-  &:hover {
-    color: color-yiq(@color);
-    background-color: @background;
+  @media (hover: hover) {
+    &:hover {
+      color: color-yiq(@color);
+      background-color: @background;
+    }
   }
   &:active {
     color: color-yiq(@color);
@@ -33,9 +37,11 @@
 .button-fab-variant(@background, @border, @color-name, @color-value) {
   border-color: @border;
   background-color: @background;
-  &:hover {
-    .Icon_color_@{color-name} {
-      fill: lighten(@color-value, 5%);
+  @media (hover: hover) {
+    &:hover {
+      .Icon_color_@{color-name} {
+        fill: lighten(@color-value, 5%);
+      }
     }
   }
 }

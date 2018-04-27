@@ -119,9 +119,11 @@ class Button extends Component {
         onClick={this.handleClick}
         {...buttonProps}
       >
-        {isFetching ?
+        { isFetching &&
           <span className={cn('fetching')} />
-          : buttonContent
+        }
+        {
+          buttonContent
         }
       </button>
     );
