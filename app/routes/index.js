@@ -26,10 +26,10 @@ import {
   Agreement,
   PeopleSearch,
   ProfileAbout,
+  ForMasters,
   ProfileBlogs,
   ProfileEvents,
-  About,
-  ForMasters,
+  About
 } from '../containers';
 
 import Chat from '../containers/Chat';
