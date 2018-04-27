@@ -71,7 +71,7 @@ class Home extends PureComponent {
           title={__t('Display.for.sale.their.works')}
           hrColor="blue"
 
-          moreLinkText={__t('Explore')}
+          moreLinkText={__t('See more')}
           moreLinkUrl="/new-products"
 
           priceTemplate={priceTemplate}
@@ -88,7 +88,7 @@ class Home extends PureComponent {
           title={__t('Share.with.the.world.the.thoughts.and.ideas.of.his.work')}
           hrColor="green"
 
-          moreLinkText={__t('read more')}
+          moreLinkText={__t('See more')}
           moreLinkUrl="/blogs"
 
           isAuth={isAuthenticated}
@@ -104,7 +104,7 @@ class Home extends PureComponent {
           title={__t('Share.information.about.your.master.class.creative.event.exhibition')}
           hrColor="purple"
 
-          moreLinkText={__t('Continue')}
+          moreLinkText={__t('See more')}
           moreLinkUrl="/events"
 
           isAuth={isAuthenticated}
