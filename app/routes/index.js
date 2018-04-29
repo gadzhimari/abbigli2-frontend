@@ -27,6 +27,8 @@ import {
   Agreement,
   PeopleSearch,
   ProfileAbout,
+  ProfileBlogs,
+  ProfileEvents,
   About
 } from '../containers';
 
@@ -65,6 +67,8 @@ function getRoutes(store) {
         <IndexRoute component={ProfileMyabbigli} />
         <Route path={pages.FAVORITES_PAGE.path} component={ProfileFavorites} mustScroll={false} />
         <Route path={pages.FEED_PAGE.path} component={ProfileFeed} mustScroll={false} />
+        <Route path={pages.PROFILE_BLOGS_PAGE.path} component={ProfileBlogs} mustScroll={false} />
+        <Route path={pages.PROFILE_EVENTS_PAGE.path} component={ProfileEvents} mustScroll={false} />
         <Route path={pages.ABOUT_PROFILE_PAGE.path} component={ProfileAbout} mustScroll={false} />
       </Route>
 

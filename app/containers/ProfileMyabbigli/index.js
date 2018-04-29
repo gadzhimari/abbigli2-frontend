@@ -1,52 +1,36 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
-import { Spin, Link } from '../../components-lib';
-import { Card } from '../../components-lib/Cards';
-import IconPlus from '../../icons/plus';
+import { Link, Icon } from '../../components-lib';
+import { Product } from '../../components-lib/Cards';
 
-import * as actions from '../../ducks/ProfilePosts/actions';
-import setLike from '../../ducks/Like/actions';
+import wrapper from '../../HOC/profileSectionsWrapper';
+import paginateWrapper from '../../HOC/paginate';
 
 import { gaSendClickEvent } from '../../lib/analitics';
+import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
+
 import { __t } from './../../i18n/translator';
 
 import './index.less';
 
 class ProfileMyabbigli extends Component {
-  componentDidMount() {
-    this.fetchPosts();
-  }
+  static fetchPosts = (props) => {
+    const { params, loadPosts } = props;
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.params !== this.props.params) {
-      this.fetchPosts();
-    }
+    loadPosts({ author: params.profile }, PRODUCT_TYPE);
   }
 
   onCreateLinkClick = () => {
     gaSendClickEvent('profile', 'add');
   }
 
-  fetchPosts = (page) => {
-    const { isMe, params, loadPosts } = this.props;
-
-    loadPosts({
-      isMe,
-      profileId: params.profile,
-      type: 'posts',
-      page,
-    });
-  }
-
   render() {
     const {
-      isFetchingPosts,
-      itemsPosts,
-      isAuth,
+      posts,
       isMe,
       deletePost,
-      setLike
+      setLike,
+      renderPaginator
     } = this.props;
 
     return (
@@ -57,7 +41,7 @@ class ProfileMyabbigli extends Component {
           </h5>
         }
 
-        {(!isMe && !itemsPosts.length && !isFetchingPosts) &&
+        {!isMe && !posts.length &&
           <h5 className="my-abbigli__text">
             {__t('Nothing here yet')}
           </h5>
@@ -74,51 +58,33 @@ class ProfileMyabbigli extends Component {
                   text={__t('add.on.abbigli')}
                   color="white"
                   size={'l'}
-                  icon={<IconPlus
-                    size={'s'}
+                  icon={<Icon
+                    glyph="plus"
+                    size="s"
                   />}
                 />
               </div>
             </div>
           }
 
-          {
-            (!isFetchingPosts && itemsPosts.length > 0)
-              &&
-            itemsPosts.map(item => (
-              <Card
-                data={item}
-                key={item.slug}
-                me={this.props.me}
-                setLike={setLike}
-                priceTemplate={this.props.priceTemplate}
-                isAuthenticated={isAuth}
-                delete={deletePost}
-                isMe={isMe}
-                canEdit={isMe}
-                view={2}
-              />
-            ))
+          {posts.map(item => (
+            <Product
+              key={item.slug}
+              data={item}
+              setLike={setLike}
+              delete={deletePost}
+              isMe={isMe}
+              canEdit={isMe}
+              view={2}
+            />
+          ))
           }
-
-          <div className="spin-wrapper">
-            <Spin visible={isFetchingPosts} />
-          </div>
         </div>
+
+        {renderPaginator()}
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  const posts = state.ProfilePosts;
-
-  return {
-    itemsPosts: posts.items,
-    isFetchingPosts: posts.isFetching,
-    isAuth: state.Auth.isAuthenticated,
-    priceTemplate: state.Settings.data.CURRENCY,
-  };
-}
-
-export default connect(mapStateToProps, { ...actions, setLike })(ProfileMyabbigli);
+export default wrapper(ProfileMyabbigli.fetchPosts, paginateWrapper(ProfileMyabbigli));

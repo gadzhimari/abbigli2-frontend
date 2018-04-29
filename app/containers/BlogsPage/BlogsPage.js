@@ -7,7 +7,6 @@ import { compose } from 'recompose';
 import {
   BreadCrumbs,
   ListWithNew,
-  PageSwitcher,
   SliderBar,
   ChoiseFilter,
 } from '../../components';
@@ -122,9 +121,7 @@ class BlogsPage extends PureComponent {
             items,
             sections,
             routing,
-            pages,
-            paginate,
-            activePage } = this.props;
+            renderPaginator } = this.props;
 
     const section = sections.filter(item => routing && item.slug === routing.query.category)[0];
 
@@ -215,15 +212,8 @@ class BlogsPage extends PureComponent {
                 query={searchValue}
               />
           }
-          {
-            !isFetching
-            &&
-            <PageSwitcher
-              active={activePage}
-              count={pages}
-              paginate={paginate}
-            />
-          }
+
+          { !isFetching && renderPaginator() }
         </div>
       </main >
     );
@@ -235,7 +225,7 @@ const mapStateToProps = ({ Blogs, Sections, routing }) => ({
   items: Blogs.page.items,
   searchValue: Blogs.searchValue,
   sections: Sections.items,
-  pages: Blogs.page.count,
+  pagesCount: Blogs.page.count,
 
   routing: routing.locationBeforeTransitions,
 });

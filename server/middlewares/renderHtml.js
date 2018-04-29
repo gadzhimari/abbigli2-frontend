@@ -53,7 +53,7 @@ module.exports = (req, res) => {
 
   const initialState = prepareState(state);
 
-  res.render('index', {
+  return res.render('index', {
     markup,
     store: encodeURI(JSON.stringify(initialState)),
     seo,

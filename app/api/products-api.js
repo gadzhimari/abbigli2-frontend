@@ -1,10 +1,14 @@
 import { requestV2 } from './instance';
+import { pageSize } from '../lib/calculatePagesCount';
 
 export default {
   getProducts(params) {
     return requestV2({
       url: '/products/',
-      params,
+      params: {
+        page_size: pageSize,
+        ...params
+      },
       canApplyToken: true
     });
   },

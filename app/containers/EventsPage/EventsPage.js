@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { BreadCrumbs, SliderBar, ListWithNew, PageSwitcher } from 'components';
+import { BreadCrumbs, SliderBar, ListWithNew } from '../../components';
 import { Spin } from '../../components-lib';
 import { Event } from '../../components-lib/Cards';
 import BlogSection from '../../components/SliderBar/components/BlogSection';
@@ -81,9 +81,7 @@ class EventsPage extends Component {
       routing,
       isFetching,
       items,
-      pages,
-      paginate,
-    } = this.props;
+      renderPaginator } = this.props;
     const section = sections.filter(item => routing && item.slug === routing.query.category)[0];
 
     const crumbs = [{
@@ -155,15 +153,7 @@ class EventsPage extends Component {
                 ItemComponent={Event}
               />
           }
-          {
-            !isFetching
-            &&
-            <PageSwitcher
-              active={(routing && Number(routing.query.page || 1)) || 1}
-              count={pages}
-              paginate={paginate}
-            />
-          }
+          {!isFetching && renderPaginator()}
         </div>
       </main>
     );
@@ -189,7 +179,7 @@ function mapStateToProps(state) {
     geoCity: state.Geo.city,
     sections: state.Sections.items,
     routing: state.routing.locationBeforeTransitions,
-    pages: events.page.count,
+    pagesCount: events.page.count,
   };
 }
 

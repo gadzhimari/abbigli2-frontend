@@ -35,6 +35,12 @@ export default {
   PROFILE_PAGE: {
     path: 'profile/(:profile)'
   },
+  PROFILE_BLOGS_PAGE: {
+    path: 'blogs'
+  },
+  PROFILE_EVENTS_PAGE: {
+    path: 'events'
+  },
   FAVORITES_PAGE: {
     path: 'favorites'
   },

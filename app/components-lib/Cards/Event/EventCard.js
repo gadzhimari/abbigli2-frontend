@@ -78,7 +78,6 @@ class EventCard extends PureComponent {
     data: Type.shape({
       title: Type.string,
       slug: Type.string,
-      price: Type.number,
       user: Type.object,
       images: Type.array,
     }).isRequired,
@@ -147,7 +146,7 @@ class EventCard extends PureComponent {
       title,
       slug,
       created,
-      seo_description,
+      preview,
       city,
       date_start: dateStart,
       date_end: dateEnd,
@@ -156,6 +155,7 @@ class EventCard extends PureComponent {
     const type = EVENT_TYPE;
     const imageUrl = getImageUrl(data);
     const postUrl = createPostLink(data, type);
+    const postEditUrl = createPostEditLink({ id: author.id, slug });
 
     const mods = { type, view };
 
@@ -230,7 +230,7 @@ class EventCard extends PureComponent {
           <div className={cn('actions', { align: 'bottom-right' })}>
             {canEdit &&
               <Link
-                to={createPostEditLink({ id: author.id, slug })}
+                to={postEditUrl}
                 size={'s'}
                 view={'default'}
                 text={__t('Edit')}
@@ -244,7 +244,7 @@ class EventCard extends PureComponent {
             {view === 1 &&
               <div
                 className={cn('text')}
-                dangerouslySetInnerHTML={{ __html: seo_description }}
+                dangerouslySetInnerHTML={{ __html: preview }}
               />
             }
           </div>
@@ -268,8 +268,4 @@ class EventCard extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuth: state.Auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { setLike })(EventCard);
+export default connect(() => ({}), { setLike })(EventCard);

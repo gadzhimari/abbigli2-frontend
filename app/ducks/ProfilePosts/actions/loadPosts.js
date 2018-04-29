@@ -1,5 +1,13 @@
 import { createActions } from 'redux-actions';
-import { Products } from '../../../api';
+import { Products, Posts, Events } from '../../../api';
+
+import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../../lib/constants/posts-types';
+
+const actionsByType = {
+  [PRODUCT_TYPE]: Products.getProducts,
+  [BLOG_TYPE]: Posts.getPosts,
+  [EVENT_TYPE]: Events.getEvents
+};
 
 export const {
   setPosts,
@@ -17,8 +25,9 @@ export const {
   'SET_PRIVATE_STATUS'
 );
 
-export default function loadPosts(options) {
+export default function loadPosts(options, type) {
   const { page = 1, author } = options;
+  const action = actionsByType[type];
 
   const [requestAction, responseAction] = page === 1 ?
     [requestPosts, setPosts] :
@@ -27,7 +36,7 @@ export default function loadPosts(options) {
   return (dispatch) => {
     dispatch(requestAction());
 
-    return Products.getProducts({ page, author })
+    return action({ page, author })
       .then(({ data }) => {
         dispatch(responseAction(data.results, data.next));
       })

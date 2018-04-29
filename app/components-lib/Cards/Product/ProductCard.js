@@ -5,7 +5,7 @@ import { React, PureComponent, Type, cn } from '../../__base';
 import Image from '../../../components/Image';
 import Avatar from '../../../components/Avatar';
 import { Share } from '../../../components';
-import { Button, Like, Link } from '../../../components-lib';
+import { Button, Like, Link, Price } from '../../../components-lib';
 import IconBag from '../../../icons/bag';
 import IconClose from '../../../icons/close';
 import IconShare from '../../../icons/share';
@@ -54,11 +54,10 @@ class ProductCard extends PureComponent {
     data: Type.shape({
       title: Type.string,
       slug: Type.string,
-      price: Type.number,
+      price: Type.string,
       user: Type.object,
       images: Type.array,
     }).isRequired,
-    priceTemplate: Type.string.isRequired,
     view: Type.number,
     isMe: Type.bool,
     canEdit: Type.bool,
@@ -119,7 +118,7 @@ class ProductCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, priceTemplate, view, canEdit, isMe, data } = this.props;
+    const { setLike, view, canEdit, isMe, data } = this.props;
     const {
       author,
       liked,
@@ -222,11 +221,7 @@ class ProductCard extends PureComponent {
           <div className={cn('footer', { align: 'vertical' })}>
             { view !== 3 && this.renderAvatar(cn) }
             {view === 3 && this.renderTitle(cn, postUrl)}
-            {priceTemplate &&
-              <div className={cn('price')}>
-                {priceTemplate.replace('?', price)}
-              </div>
-            }
+            <Price className={cn('price')} price={price} />
           </div>
         </div>
       </div>
@@ -234,8 +229,4 @@ class ProductCard extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuth: state.Auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { setLike })(ProductCard);
+export default connect(() => ({}), { setLike })(ProductCard);

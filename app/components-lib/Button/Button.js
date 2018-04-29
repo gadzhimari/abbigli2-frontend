@@ -92,6 +92,7 @@ class Button extends Component {
         checked,
       }),
     };
+    const content = children || text;
 
     const iconTemplate = (
       icon &&
@@ -100,9 +101,9 @@ class Button extends Component {
         </span>
     );
     const textTemplate = (
-      text &&
+      content &&
         <span key="text" className={cn('text')}>
-          { children || text }
+          {content}
         </span>
     );
     const buttonContent = [

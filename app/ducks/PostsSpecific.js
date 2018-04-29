@@ -1,5 +1,6 @@
 import { createAction } from 'redux-actions';
 import { Products } from '../api';
+import { calculatePagesCount } from '../lib/calculatePagesCount';
 
 const REQUEST = 'PostsSpecific/REQUEST';
 const SET = 'PostsSpecific/SET';
@@ -14,8 +15,6 @@ const initialState = {
   pages: 0,
 };
 
-const ITEMS_COUNT = 30;
-
 export default function (state = initialState, action = {}) {
   switch (action.type) {
     case SET:
@@ -23,7 +22,7 @@ export default function (state = initialState, action = {}) {
         items: action.payload.results,
         data: action.payload,
         next: action.payload.next,
-        pages: Math.ceil(action.payload.count / ITEMS_COUNT),
+        pages: calculatePagesCount(action.payload.count),
         isFetching: false,
       });
     case REQUEST:
