@@ -268,9 +268,12 @@ class EventCard extends PureComponent {
                 { toLocaleDateString(dateStart, EVENT_DATE_FORMAT) }
                 { dateEnd ? ` - ${toLocaleDateString(dateEnd, EVENT_DATE_FORMAT)}` : ''}
               </div>
-              <div className={cn('city')} title={city.name}>
-                {city && city.name}
-              </div>
+
+              {city &&
+                <div className={cn('city')} title={city.name}>
+                  {city.name}
+                </div>
+              }
             </div>
             { view !== 3 && this.renderAvatar(cn) }
           </div>
