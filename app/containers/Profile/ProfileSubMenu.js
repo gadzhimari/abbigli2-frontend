@@ -27,14 +27,9 @@ class ProfileSubMenu extends PureComponent {
 
   render(cn) {
     const { data, isMe, path } = this.props;
-
-    const {
-      is_favorite_visible: favoritesVisible,
-      is_feed_visible: feedVisible,
-    } = data;
+    const { is_favorite_visible: favoritesVisible } = data;
 
     const showFavorites = isMe || favoritesVisible;
-    const showFeed = isMe || feedVisible;
 
     return (
       <div className={cn('')}>
@@ -62,31 +57,27 @@ class ProfileSubMenu extends PureComponent {
           </Link>
         }
 
-        {showFeed &&
-          <Link
-            to={`/profile/${data.id}/feed`}
-            onClick={this.onLinkClick}
-            className={cn('item', { active: path === 'feed' })}
-            name="feed"
-          >
-            <Icon glyph="feed" />
+        <Link
+          to={`/profile/${data.id}/blogs`}
+          onClick={this.onLinkClick}
+          className={cn('item', { active: path === 'blogs', blog: true })}
+          name="blogs"
+        >
+          <Icon glyph="blog" />
 
-            {__t('Feed')}
-          </Link>
-        }
+          {__t('Blogs')}
+        </Link>
 
-        {isMe &&
-          <Link
-            to="/chat"
-            onClick={this.onLinkClick}
-            className={cn('item')}
-            name="messages"
-          >
-            <Icon glyph="mail" />
+        <Link
+          to={`/profile/${data.id}/events`}
+          onClick={this.onLinkClick}
+          className={cn('item', { active: path === 'events', event: true })}
+          name="events"
+        >
+          <Icon glyph="event" />
 
-            {__t('Messages')}
-          </Link>
-        }
+          {__t('Events')}
+        </Link>
 
         <Link
           to={`/profile/${data.id}/about`}

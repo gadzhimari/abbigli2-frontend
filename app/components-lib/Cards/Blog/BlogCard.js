@@ -143,8 +143,8 @@ class BlogCard extends PureComponent {
       title,
       slug,
       created,
-      seo_description,
       comments_num: commentsCount,
+      preview
     } = data;
 
     const type = BLOG_TYPE;
@@ -259,7 +259,7 @@ class BlogCard extends PureComponent {
             {view === 1 &&
               <div
                 className={cn('text')}
-                dangerouslySetInnerHTML={{ __html: seo_description }}
+                dangerouslySetInnerHTML={{ __html: preview }}
               />
             }
           </div>

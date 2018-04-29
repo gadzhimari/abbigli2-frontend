@@ -1,4 +1,5 @@
 import { request } from './instance';
+import { pageSize } from '../lib/calculatePagesCount';
 
 export default {
   createBookmark(postType, postID) {
@@ -23,7 +24,10 @@ export default {
     const url = isMe ? '/my-profile/bookmarks/' : `/profiles/${id}/bookmarks/`;
     return request({
       url,
-      params,
+      params: {
+        page_size: pageSize,
+        ...params
+      },
       mustApplyToken: true
     });
   }

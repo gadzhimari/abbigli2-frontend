@@ -1,4 +1,5 @@
 import { RELATIVE_REQUEST, RELATIVE_RESPONSE } from './actions';
+import { calculatePagesCount } from '../../lib/calculatePagesCount';
 
 const initialState = {
   isFetching: true,
@@ -18,7 +19,7 @@ const reducer = (state = initialState, action) => {
         isFetching: false,
         items: action.data.results,
         post: action.post,
-        pages: Math.ceil(action.data.count / 30),
+        pages: calculatePagesCount(action.data.count),
       });
     }
     default: {

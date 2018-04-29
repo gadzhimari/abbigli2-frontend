@@ -21,7 +21,7 @@
       margin: 0 auto 5px;
 
       &__icon {
-        fill: @gray;
+        fill: #78909c;
       }
     }
 
@@ -35,10 +35,30 @@
       .Icon__icon {
         fill: @goods;
       }
+
+      &.ProfileSubMenu__item_blog {
+        .Icon__icon {
+          fill: @blog;
+        }
+      }
+
+      &.ProfileSubMenu__item_event {
+        .Icon__icon {
+          fill: @event;
+        }
+      }
     }
 
     &_back {
       display: none;
+    }
+  }
+}
+
+@media all and (max-width: 760px) {
+  .ProfileSubMenu {
+    &__item {
+      font-size: 0px;
     }
   }
 }

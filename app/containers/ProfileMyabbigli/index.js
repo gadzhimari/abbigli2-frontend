@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
-import { Link } from '../../components-lib';
+import { Link, Icon } from '../../components-lib';
 import { Product } from '../../components-lib/Cards';
-import IconPlus from '../../icons/plus';
 
 import wrapper from '../../HOC/profileSectionsWrapper';
 import paginateWrapper from '../../HOC/paginate';
@@ -59,8 +58,9 @@ class ProfileMyabbigli extends Component {
                   text={__t('add.on.abbigli')}
                   color="white"
                   size={'l'}
-                  icon={<IconPlus
-                    size={'s'}
+                  icon={<Icon
+                    glyph="plus"
+                    size="s"
                   />}
                 />
               </div>

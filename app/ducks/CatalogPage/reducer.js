@@ -9,6 +9,7 @@ import {
   responseMoreTags,
   setCurrentCategoryTree
 } from './actions';
+import { calculatePagesCount } from '../../lib/calculatePagesCount';
 
 const initialState = {
   isFetchingPosts: true,
@@ -43,7 +44,7 @@ export default handleActions({
       ...state,
       isFetchingPosts: false,
       posts: payload.results,
-      postPagesCount: Math.ceil(payload.count / 30),
+      postPagesCount: calculatePagesCount(payload.count)
     };
   },
   [requestTags](state) {
