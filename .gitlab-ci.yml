@@ -26,7 +26,7 @@ build_beta:
 build_ru:
   stage: build
   script:
-  - docker build --build-arg APP_ENV=prod-ru -t $CI_REGISTRY/$CI_PROJECT_PATH/stable:$CI_COMMIT_SHA -t $CI_REGISTRY/$CI_PROJECT_PATH/stable-ru:latest .
+  - docker build --build-arg APP_ENV=prod-ru -t $CI_REGISTRY/$CI_PROJECT_PATH/stable-ru:$CI_COMMIT_SHA -t $CI_REGISTRY/$CI_PROJECT_PATH/stable-ru:latest .
   - docker push $CI_REGISTRY/$CI_PROJECT_PATH/stable-ru
   only:
   - master
