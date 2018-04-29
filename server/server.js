@@ -24,6 +24,8 @@ import fetchUserProfile from './middlewares/fetchUserProfile';
 import routes from './api';
 import cfg from './config';
 
+global.document = null;
+
 const app = express();
 
 Raven.config(cfg.sentryDns).install();
