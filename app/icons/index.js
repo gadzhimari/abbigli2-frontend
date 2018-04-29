@@ -1,10 +1,12 @@
-export { default as arrow } from './arrow';
-export { default as bag } from './bag';
+export { default as abbigli } from './abbigli';
+export { default as arrowLeft } from './arrowLeft';
+export { default as arrowRight } from './arrowRight';
 export { default as blog } from './blog';
+export { default as bag } from './bag';
 export { default as bubbles } from './bubbles';
 export { default as close } from './close';
-export { default as event } from './event';
 export { default as comment } from './comment';
+export { default as event } from './event';
 export { default as exit } from './exit';
 export { default as eyeClosed } from './eyeClosed';
 export { default as eye } from './eye';

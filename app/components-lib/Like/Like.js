@@ -9,13 +9,13 @@ import './Like.less';
 class Like extends PureComponent {
   static propTypes = {
     count: Type.number,
-    liked: Type.bool.isRequired,
+    liked: Type.bool,
     onClick: Type.func.isRequired,
     size: Type.oneOf(['s', 'm', 'l']),
   };
 
   static defaultProps = {
-    size: 's',
+    size: 's'
   }
 
   state = {

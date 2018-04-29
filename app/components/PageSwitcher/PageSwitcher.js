@@ -57,7 +57,7 @@ class PageSwitcher extends PureComponent {
           onClick={paginate}
           page={active - 1}
         >
-          <Icon glyph="arrow" className={cn('arrow', { left: true })} size={false} />
+          <Icon glyph="arrowLeft" className={cn('arrow')} size={false} />
           Предыдущая
         </SwitcherItem>
 
@@ -69,7 +69,7 @@ class PageSwitcher extends PureComponent {
           page={active + 1}
         >
           Следующая
-          <Icon glyph="arrow" className={cn('arrow')} size={false} />
+          <Icon glyph="arrowRight" className={cn('arrow')} size={false} />
         </SwitcherItem>
       </div >
     );

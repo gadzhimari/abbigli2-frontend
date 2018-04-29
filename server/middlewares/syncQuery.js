@@ -1,6 +1,9 @@
-import { UPDATE_PARAMS } from 'react-router-redux-sync';
+import { UPDATE_LOCATION } from 'react-router-redux-sync';
 
 export default function (req, res, next) {
-  req.redux.dispatch({ type: UPDATE_PARAMS, payload: req.query });
+  req.redux.dispatch({
+    type: UPDATE_LOCATION,
+    payload: req.renderProps.renderProps.location
+  });
   next();
 }

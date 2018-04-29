@@ -49,12 +49,12 @@ app.use(redirectManager);
 app.use(trimSlash);
 app.use(setLocals);
 app.use(configureRedux);
-app.use(syncQuery);
 app.use(geoLocation);
 app.use(setupUseragent);
 app.use(setupDataRequests);
 app.use(fetchUserProfile);
 app.use(getRenderProps);
+app.use(syncQuery);
 app.use(setupClientDataRequests);
 
 app.use(handleRequests);
