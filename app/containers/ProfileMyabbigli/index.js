@@ -15,9 +15,9 @@ import './index.less';
 
 class ProfileMyabbigli extends Component {
   static fetchPosts = (props) => {
-    const { params, loadPosts } = props;
+    const { params, loadPosts, query } = props;
 
-    loadPosts({ author: params.profile }, PRODUCT_TYPE);
+    loadPosts({ ...query, author: params.profile }, PRODUCT_TYPE);
   }
 
   onCreateLinkClick = () => {

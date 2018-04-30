@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Type from 'prop-types';
 
-import { ListWithNew, PageSwitcher } from '../../components';
+import { ListWithNew } from '../../components';
 import { Product } from '../../components-lib/Cards';
 
 class Content extends PureComponent {
@@ -17,9 +17,8 @@ class Content extends PureComponent {
     const {
       posts,
       priceTemplate,
-      pages,
-      paginate,
-      activePage } = this.props;
+      renderPaginator
+    } = this.props;
 
     return (
       <div>
@@ -30,11 +29,7 @@ class Content extends PureComponent {
           itemProps={{ priceTemplate }}
         />
 
-        <PageSwitcher
-          count={pages}
-          paginate={paginate}
-          active={activePage}
-        />
+        {renderPaginator()}
       </div>
     );
   }

@@ -17,7 +17,6 @@ import * as actions from '../../ducks/PostCreate/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
 import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
-import bindMethods from '../../lib/bindMethods';
 import mergeObjects from '../../lib/merge-objects';
 import { __t } from '../../i18n/translator';
 
@@ -27,32 +26,23 @@ class PostCreate extends Component {
   constructor(props) {
     super(props);
 
+    const { params, query } = props;
+
     this.state = mergeObjects({
-      type: props.params.type || PRODUCT_TYPE,
+      type: params.type || query.type || PRODUCT_TYPE,
       images: []
     }, props.data);
-
-    bindMethods(this, [
-      'onImagesUploaded',
-      'onMoveImage',
-      'uploadImages',
-      'changeType',
-      'deleteImage',
-      'handleClose',
-      'getImageZoneActions',
-      'save'
-    ]);
 
     this.imageZoneActions = this.getImageZoneActions();
   }
 
-  onImagesUploaded(images) {
+  onImagesUploaded = (images) => {
     this.setState({
       images: [...this.state.images, ...images],
     });
   }
 
-  onMoveImage(dragIndex, hoverIndex) {
+  onMoveImage = (dragIndex, hoverIndex) => {
     const { images } = this.state;
     const dragImage = images[dragIndex];
 
@@ -75,30 +65,28 @@ class PostCreate extends Component {
     };
   }
 
-  uploadImages(images) {
+  uploadImages = (images) => {
     this.props.uploadImages(images, this.onImagesUploaded);
   }
 
-  deleteImage(id) {
+  deleteImage = (id) => {
     this.setState(({ images }) => ({
       images: images.filter(img => img.id !== id)
     }));
     actions.deleteImage(id);
   }
 
-  changeType(type) {
+  changeType = (type) => {
     this.setState({ type });
   }
 
-  save(data, slug) {
+  save = (data, slug) => {
     const { savePost } = this.props;
 
     savePost({
       ...data,
       images: this.state.images.map(img => img.id),
-      categories: data.categories ? [data.categories] : [],
-      // legacy: нужно до тех пор, пока сервер требует это поле
-      sections: [1]
+      categories: data.categories ? [data.categories] : []
     }, slug, this.state.type);
   }
 
@@ -107,24 +95,26 @@ class PostCreate extends Component {
   }
 
   render() {
-    const { sections,
-            isSaving,
-            errors,
-            params,
-            categories,
-            isTouch,
-            openPopup,
-            data,
-            isFetchingImage,
-            loadImageErrors } = this.props;
+    const {
+      sections,
+      categories,
+      eventsCategories,
+      blogsCategories,
+      isSaving,
+      errors,
+      params,
+      isTouch,
+      openPopup,
+      data,
+      isFetchingImage,
+      loadImageErrors
+    } = this.props;
 
     const { type, images } = this.state;
 
     const commonProps = {
       imageZoneActions: this.imageZoneActions,
       errors,
-      categories,
-      sections,
       onCancel: this.handleClose,
       isSaving,
       data,
@@ -149,16 +139,20 @@ class PostCreate extends Component {
             <div className="add-tabs__content-tab add-tabs__content_goods">
               <ProductForm
                 visible={type === PRODUCT_TYPE}
+                categories={categories}
+                sections={sections}
                 {...commonProps}
               />
 
               <BlogForm
                 visible={type === BLOG_TYPE}
+                sections={blogsCategories}
                 {...commonProps}
               />
 
               <EventForm
                 visible={type === EVENT_TYPE}
+                sections={eventsCategories}
                 isTouch={isTouch}
                 openPopup={openPopup}
                 {...commonProps}
@@ -197,6 +191,7 @@ PostCreate.propTypes = {
   }),
   isTouch: Type.bool
 };
+
 // TODO: Подключить разные типы каталогов для разных типов постов
 const mapStateToProps = state => ({
   sections: state.Sections.items,
@@ -210,7 +205,11 @@ const mapStateToProps = state => ({
   categories: state.Sections.normalizedCategories.entities &&
     state.Sections.normalizedCategories.entities.categories,
   isTouch: state.isTouch,
-  isFetchingCategories: state.Sections.isFetching
+  isFetchingCategories: state.Sections.isFetching,
+
+  query: state.Location.query,
+  eventsCategories: state.Sections.eventsCategories,
+  blogsCategories: state.Sections.blogsCategories
 });
 
 const mapDispatchToProps = dispatch => ({

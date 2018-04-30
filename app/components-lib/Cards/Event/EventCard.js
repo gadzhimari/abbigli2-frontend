@@ -141,7 +141,6 @@ class EventCard extends PureComponent {
   render(cn) {
     const { setLike, view, canEdit, isMe, data } = this.props;
     const {
-      author,
       liked,
       title,
       slug,
@@ -155,7 +154,7 @@ class EventCard extends PureComponent {
     const type = EVENT_TYPE;
     const imageUrl = getImageUrl(data);
     const postUrl = createPostLink(data, type);
-    const postEditUrl = createPostEditLink({ id: author.id, slug });
+    const postEditUrl = createPostEditLink(data, type);
 
     const mods = { type, view };
 

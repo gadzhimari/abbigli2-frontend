@@ -11,9 +11,9 @@ import { __t } from '../../i18n/translator';
 
 class ProfileBlogs extends PureComponent {
   static fetchPosts = (props) => {
-    const { params, loadPosts } = props;
+    const { params, loadPosts, query } = props;
 
-    loadPosts({ author: params.profile }, BLOG_TYPE);
+    loadPosts({ ...query, author: params.profile }, BLOG_TYPE);
   }
 
   render() {
@@ -28,7 +28,7 @@ class ProfileBlogs extends PureComponent {
                 <Link
                   className="Card__button Card__button_attach Card__button_attach_blog"
                   onClick={this.onCreateLinkClick}
-                  to={'/post/new'}
+                  to={`/post/new?type=${BLOG_TYPE}`}
                   text={__t('add.on.abbigli')}
                   color="white"
                   size={'l'}

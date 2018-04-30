@@ -12,3 +12,4 @@ export { default as Dialogs } from './dialogs-api';
 export { default as Comments } from './comments-api';
 export { default as Bookmarks } from './bookmarks-api';
 export { default as errorHandler } from './error-handler';
+export { default as Users } from './users-api';

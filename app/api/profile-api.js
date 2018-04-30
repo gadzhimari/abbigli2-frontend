@@ -15,6 +15,13 @@ const Profile = {
       canApplyToken: true,
     });
   },
+  getFeed(params) {
+    return request({
+      url: 'my-profile/feed/',
+      params,
+      mustApplyToken: true
+    });
+  },
   getFollowers(id, isMe, isAuth, type, params) {
     return request({
       url: isMe ? `my-profile/${type}/` : `profiles/${id}/${type}/`,

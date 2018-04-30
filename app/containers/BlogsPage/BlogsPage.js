@@ -26,15 +26,12 @@ import './BlogsPage.less';
 
 class BlogsPage extends PureComponent {
   static propTypes = {
-    changeSearchValue: PropTypes.func.isRequired,
-    fetchBlogs: PropTypes.func.isRequired,
-    pages: PropTypes.number.isRequired,
-    activePage: PropTypes.number.isRequired,
-    paginate: PropTypes.func.isRequired,
+    changeSearchValue: PropTypes.func,
+    fetchBlogs: PropTypes.func
   };
 
   state = {
-    searchValue: (this.props.routing && this.props.routing.query.search) || '',
+    searchValue: this.props.query.search || ''
   }
 
   componentDidMount() {
@@ -44,9 +41,9 @@ class BlogsPage extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { location } = this.props;
+    const { query } = this.props;
 
-    if (prevProps.location.query !== location.query) {
+    if (prevProps.query !== query) {
       this.fetchData();
     }
   }
@@ -56,34 +53,33 @@ class BlogsPage extends PureComponent {
   }
 
   fetchData = () => {
-    const { routing, fetchBlogs } = this.props;
+    const { query, fetchBlogs } = this.props;
 
     const options = {
-      category: routing.query.category,
-      search: routing.query.search,
+      category: query.category,
+      search: query.search,
     };
 
-    if (routing.query.popular === 'true') {
+    if (query.popular === 'true') {
       options.popular = true;
     }
 
-    if (routing.query.page && routing.query.page !== '1') {
-      options.page = routing.query.page;
+    if (query.page && query.page !== '1') {
+      options.page = query.page;
     }
 
     fetchBlogs(options);
   }
 
   changeFilter = ({ target }) => {
-    const { router, routing } = this.props;
-    const query = Object.assign({}, routing.query, {
-      popular: target.dataset.popular === 'true',
-      page: 1,
-    });
+    const { router, query } = this.props;
 
     router.push({
       pathname: '/blogs',
-      query,
+      query: {
+        ...query,
+        popular: target.dataset.popular === 'true'
+      }
     });
   }
 
@@ -92,18 +88,15 @@ class BlogsPage extends PureComponent {
   })
 
   doSearch = () => {
-    const { router, routing } = this.props;
+    const { router, query } = this.props;
     const { searchValue } = this.state;
+    const search = searchValue.trim();
 
-    if (searchValue.trim().length === 0) return;
-
-    const query = Object.assign({}, routing.query, {
-      search: searchValue.trim(),
-    });
+    if (search.length === 0) return;
 
     router.push({
       pathname: '/blogs',
-      query,
+      query: { ...query, search }
     });
   }
 
@@ -117,13 +110,15 @@ class BlogsPage extends PureComponent {
 
   render() {
     const { searchValue } = this.state;
-    const { isFetching,
-            items,
-            sections,
-            routing,
-            renderPaginator } = this.props;
+    const {
+      isFetching,
+      items,
+      sections,
+      renderPaginator,
+      query
+    } = this.props;
 
-    const section = sections.filter(item => routing && item.slug === routing.query.category)[0];
+    const section = sections.filter(item => item.slug === query.category)[0];
 
     const crumbs = [{
       title: __t('Blogs'),
@@ -137,7 +132,7 @@ class BlogsPage extends PureComponent {
       });
     }
 
-    const isActivePopular = routing && routing.query.popular === 'true';
+    const isActivePopular = query.popular === 'true';
 
     return (
       <main className="main blog">
@@ -198,11 +193,11 @@ class BlogsPage extends PureComponent {
           </div>
           {
             isFetching
-            ? <div className="cards-wrap">
-              <div className="spin-wrapper">
-                <Spin visible={isFetching} />
+              ? <div className="cards-wrap">
+                <div className="spin-wrapper">
+                  <Spin visible={isFetching} />
+                </div>
               </div>
-            </div>
               : <ListWithNew
                 items={items}
                 itemsType={BLOG_TYPE}
@@ -213,21 +208,21 @@ class BlogsPage extends PureComponent {
               />
           }
 
-          { !isFetching && renderPaginator() }
+          {!isFetching && renderPaginator()}
         </div>
       </main >
     );
   }
 }
 
-const mapStateToProps = ({ Blogs, Sections, routing }) => ({
+const mapStateToProps = ({ Blogs, Sections, Location }) => ({
   isFetching: Blogs.blogsFetchingState,
   items: Blogs.page.items,
   searchValue: Blogs.searchValue,
   sections: Sections.items,
   pagesCount: Blogs.page.count,
 
-  routing: routing.locationBeforeTransitions,
+  query: Location.query
 });
 
 const mapDispatchToProps = dispatch => ({

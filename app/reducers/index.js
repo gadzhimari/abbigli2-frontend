@@ -1,8 +1,5 @@
 import { combineReducers } from 'redux';
 
-import { routerReducer } from 'react-router-redux';
-import { paramsReducer, locationReducer } from 'react-router-redux-sync';
-
 import Follow from '../ducks/Follow';
 import Sections from '../ducks/Sections';
 import Blogs from '../ducks/Blogs';
@@ -32,6 +29,8 @@ import Menu from '../ducks/Menu';
 import NetworkErrors from '../ducks/NetworkErrors';
 import settlement from '../ducks/settlement';
 import isTouch from '../ducks/isTouch';
+import Location from '../ducks/Location';
+import PeopleSearch from '../ducks/PeopleSearch';
 
 export default combineReducers({
   Auth,
@@ -53,7 +52,6 @@ export default combineReducers({
   Settings,
   Search,
   Menu,
-  routing: routerReducer,
   Follow,
   PostCreate,
   PostPage,
@@ -64,6 +62,6 @@ export default combineReducers({
   CatalogPage,
   NetworkErrors,
   isTouch,
-  params: paramsReducer,
-  location: locationReducer
+  Location,
+  PeopleSearch
 });

@@ -6,7 +6,7 @@ import { setNetworkError } from '../../NetworkErrors/reducer';
 import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../../lib/constants/posts-types';
 import preparePostForEditing from '../../../lib/adapters/prepare-post-for-editing';
 
-const saveActionsByPostType = {
+const actionByType = {
   [PRODUCT_TYPE]: Products.getProduct,
   [BLOG_TYPE]: Posts.getPost,
   [EVENT_TYPE]: Events.getEvent
@@ -23,7 +23,7 @@ const fetchPostRes = data => ({
 
 const fetchPost = ({ slug, type }) => (dispatch) => {
   dispatch(fetchPostReq);
-  const action = saveActionsByPostType[type];
+  const action = actionByType[type];
 
   return action(slug)
     .then(({ data }) => {

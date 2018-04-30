@@ -8,7 +8,7 @@ class SwitcherItem extends Component {
 
     if (isDots) {
       return (
-        <div className={cn()}>
+        <div className={cn({ disabled: true })}>
           ...
         </div>
       );

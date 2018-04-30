@@ -44,7 +44,9 @@ const mapStateToProps = state => ({
   user: state.Profile.data,
   posts: state.ProfilePosts.items,
   pagesCount: state.ProfilePosts.pages,
-  isFetching: state.ProfilePosts.isFetching
+  isFetching: state.ProfilePosts.isFetching,
+
+  query: state.Location.query
 });
 
 const profileSectionsWrapperWithConnect = (fetchData, WrappedComponent) => connect(

@@ -17,9 +17,13 @@ const IS_FAVORITE_VISIBLE = 'is_favorite_visible';
 
 class ProfileFavorites extends PureComponent {
   static fetchPosts = (props) => {
-    const { isMe, params, loadBookmarks } = props;
+    const { isMe, params, loadBookmarks, query } = props;
 
-    loadBookmarks({ isMe, author: params.profile });
+    loadBookmarks({
+      ...query,
+      isMe,
+      author: params.profile
+    });
   }
 
   togglePrivacy = (status) => {

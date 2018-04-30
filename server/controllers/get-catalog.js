@@ -1,19 +1,21 @@
 import getCatalogStore from '../lib/catalog/getCatalogStore';
 
-const catalogList = ['categories', 'normalizedCategories', 'promo', 'sections'];
+const catalogList = [
+  'categories', 'normalizedCategories', 'promo', 'blogsCategories', 'eventsCategories'
+];
 
 export default (req, res) => {
-  getCatalogStore(catalogList, function getCat([
+  getCatalogStore(catalogList, ([
     categories,
     normalizedCategories,
     promo,
-    sections]
-  ) {
-    return res.send({
-      categories,
-      normalizedCategories,
-      promo,
-      sections,
-    });
-  });
+    blogsCategories,
+    eventsCategories
+  ]) => res.send({
+    categories,
+    normalizedCategories,
+    promo,
+    blogsCategories,
+    eventsCategories
+  }));
 };

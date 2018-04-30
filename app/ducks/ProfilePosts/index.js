@@ -1,13 +1,12 @@
 import { handleActions } from 'redux-actions';
 import {
   requestPosts,
-  requestMorePosts,
   setPosts,
-  setMorePosts,
   setPrivateStatus
 } from './actions/loadPosts';
 
 import { deletePostFromPage } from './actions/deletePost';
+import { calculatePagesCount } from '../../lib/calculatePagesCount';
 
 const initialState = {
   isFetching: false,
@@ -22,21 +21,12 @@ export default handleActions({
     ...state,
     isFetching: true
   }),
-  [requestMorePosts]: state => ({
-    ...state,
-    isFetchingMore: true
-  }),
   [setPosts]: (state, { payload }) => ({
     ...state,
     isFetching: false,
-    items: payload.posts,
-    next: payload.next
-  }),
-  [setMorePosts]: (state, { payload }) => ({
-    ...state,
-    isFetchingMore: false,
-    items: [...state.items, ...payload.posts],
-    next: payload.next
+    items: payload.results,
+    next: payload.next,
+    pagesCount: calculatePagesCount(payload.count)
   }),
   [setPrivateStatus]: (state, { payload }) => ({
     ...state,

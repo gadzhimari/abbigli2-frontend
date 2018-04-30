@@ -8,21 +8,27 @@
   margin: 30px 0;
 
   .SwitcherItem {
+    min-width: 30px;
+    height: 30px;
+
     font-size: 16px;
     line-height: 28px;
-    display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    margin: 0 5px;
-    height: 30px;
-    min-width: 30px;
     color: #1d1c1c;
+
+    display: inline-block;
+    margin: 0 5px;
+    padding: 0 5px;
+    vertical-align: middle;
+
+    position: relative;
+
     background-color: #fff;
     border: 1px solid #b8b8b8;
     border-radius: 3px;
-    padding: 0 5px;
 
-    &_active, &:hover {
+    cursor: pointer;
+
+    &_active, &:not(.SwitcherItem_disabled):hover {
       color: #fff;
       background-color: @goods;
       border-color: @goods;
@@ -34,19 +40,35 @@
       opacity: 0.3;
       cursor: default;
     }
+
+    &:first-child {
+      padding-left: 30px;
+    }
+
+    &:last-child {
+      padding-right: 30px;
+    }
   }
 
   &__arrow {
-    fill: #d0d0d0;
-    width: 9px;
-    height: 14px;
-    background-size: 9px 14px;
-    display: inline-block;
-    vertical-align: top;
-    margin-top: 8px;
-    
-    &_left {
-      transform: rotate(-180deg);
+    width: 30px;
+    height: 100%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &_right {
+      left: auto;
+      right: 0;
+    }
+
+    .Icon__icon {
+      fill: #d0d0d0;
     }
   }
 }
@@ -54,9 +76,13 @@
 @media only screen and (max-width: 480px) {
   .PageSwitcher {
     .SwitcherItem {
-      &:first-child &:last-child {
+      &:first-child, &:last-child {
         font-size: 0;
       }
+    }
+
+    &__arrow {
+      width: 100%;
     }
   }
 }

@@ -14,19 +14,16 @@ const paginate = WrappedComponent => class extends PureComponent {
   }
 
   paginate = (e, { name }) => {
-    const { router, location: { pathname, query } } = this.props;
+    const { router, location: { pathname }, query } = this.props;
 
     router.push({
       pathname,
-      query: {
-        ...query,
-        page: name
-      },
+      query: { ...query, page: name },
     });
   }
 
   renderPaginator = () => {
-    const { pagesCount, location: { query } } = this.props;
+    const { pagesCount, query } = this.props;
     const page = Number(query.page) || 1;
 
     return (
@@ -48,8 +45,13 @@ const paginate = WrappedComponent => class extends PureComponent {
   }
 };
 
-const mapState = state => ({ location: state.location });
+const mapState = state => ({
+  location: state.Location.location,
+  query: state.Location.query
+});
 
-const paginateWrapper = WrappedComponent => connect(mapState)(paginate(WrappedComponent));
+const paginateWrapper = WrappedComponent => connect(mapState)(
+  paginate(WrappedComponent)
+);
 
 export default paginateWrapper;

@@ -41,43 +41,36 @@ class Search extends Component {
   }
 
   onTagsCreated = (tags) => {
-    const { router, routing } = this.props;
-    let lastQuery = {};
-
-    if (routing.pathname.includes('/find')) {
-      lastQuery = routing.query;
-    }
+    const { router, location: { pathname }, query } = this.props;
+    const lastQuery = pathname.includes('/find') ? query : {};
 
     router.push({
       pathname: '/find',
-      query: Object.assign({}, lastQuery, {
-        tags,
-        type: 1,
-      }),
+      query: { ...lastQuery, tags }
     });
   }
 
   deleteTag = (index) => {
-    const { routing, router } = this.props;
+    const { router, query } = this.props;
+    const oldTags = (query.tags || '').split(',');
 
-    const tags = routing.query.tags.split(',');
-    const newTags = [...tags.slice(0, index), ...tags.slice(index + 1)];
+    const tags = [
+      ...oldTags.slice(0, index),
+      ...oldTags.slice(index + 1)
+    ].join(',');
 
-    if (newTags.length === 0) {
+    if (tags.length === 0) {
       router.push('/');
     } else {
       router.push({
         pathname: '/find',
-        query: Object.assign({}, routing.query, {
-          tags: newTags.join(','),
-        }),
+        query: { ...query, tags }
       });
     }
   }
 
   deleteAllTags = () => {
     const { router } = this.props;
-
     router.push('/');
   }
 
@@ -112,9 +105,11 @@ class Search extends Component {
   search = () => {
     const { mode } = this.state;
 
-    mode === 'tags'
-      ? this.searchByTags()
-      : this.searchUsers();
+    if (mode === 'tags') {
+      this.searchByTags();
+    } else {
+      this.searchUsers();
+    }
   }
 
   clearRes = () => {
@@ -126,9 +121,7 @@ class Search extends Component {
   }
 
   changeMode = (mode) => {
-    this.setState({
-      mode,
-    });
+    this.setState({ mode });
     this.clearRes();
   }
 
@@ -141,10 +134,10 @@ class Search extends Component {
 
   render() {
     const { mode, userRequest, results, usersOpen } = this.state;
-    const { routing } = this.props;
+    const { query } = this.props;
 
     const shouldResultsOpen = usersOpen && results.length > 0 && userRequest.length > 0;
-    const tagList = (routing && routing.query.tags) || '';
+    const tagList = query.tags || '';
 
     return (
       <div className={`search ${shouldResultsOpen ? 'open-result' : ''}`}>
@@ -199,7 +192,8 @@ Search.propTypes = propTypes;
 
 const mapStateToProps = state => ({
   tagList: state.Search.tagList,
-  routing: state.routing.locationBeforeTransitions,
+  location: state.Location.location,
+  query: state.Location.query,
 });
 
 export default withRouter(connect(mapStateToProps)(Search));

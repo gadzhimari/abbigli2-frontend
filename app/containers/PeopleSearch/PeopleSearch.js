@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { BreadCrumbs, PageSwitcher, NoMatch } from '../../components';
+import { BreadCrumbs, NoMatch } from '../../components';
 import { User } from '../../components/Cards';
 
 import { openPopup as open } from '../../ducks/Popup/actions';
 import { setFollow } from '../../ducks/Follow/actions';
+import { getUsers } from '../../ducks/PeopleSearch';
 
 import paginateHOC from '../../HOC/paginate';
 import preloader from './preloader';
@@ -29,12 +30,12 @@ class PeopleSearch extends PureComponent {
   }
 
   renderResultsOfSearch() {
-    const { users, request, usersCount } = this.props;
+    const { users, query, usersCount } = this.props;
 
-    return ((users.length === 0)
-      ? <NoMatch query={request} />
-      : <h1 className="section-title">
-        {`${__t('Results for request')} «${request}» `}
+    return users.length === 0 ? <NoMatch query={query.search} /> : (
+      <h1 className="section-title">
+        {`${__t('Results for request')} «${query.search}» `}
+
         <span>{usersCount}</span>
       </h1>
     );
@@ -47,16 +48,16 @@ class PeopleSearch extends PureComponent {
       isAuthenticated,
       openPopup,
       followFetching,
-      paginate,
-      activePage,
-      pages,
+      renderPaginator
     } = this.props;
 
     return (
       <main className="main">
         <BreadCrumbs />
+
         <div className="content">
           { this.renderResultsOfSearch() }
+
           <div className="cards-wrap cards-wrap_users">
             {
               users.map(user => <User
@@ -69,28 +70,33 @@ class PeopleSearch extends PureComponent {
               />)
             }
           </div>
-          <PageSwitcher
-            active={activePage}
-            count={pages}
-            paginate={paginate}
-          />
+
+          {renderPaginator()}
         </div>
       </main>
     );
   }
 }
 
-const mapStateToProps = ({ routing, Follow, Auth }) => ({
-  routing: routing.locationBeforeTransitions,
+const mapStateToProps = ({ Follow, Auth, PeopleSearch }) => ({
   followFetching: Follow.isFetching,
   isAuthenticated: Auth.isAuthenticated,
+  users: PeopleSearch.users,
+  usersCount: PeopleSearch.usersCount,
+  pagesCount: PeopleSearch.pagesCount,
+  isFetching: PeopleSearch.isFetching
 });
 
 const mapDispatchToProps = dispatch => ({
   follow: id => dispatch(setFollow(id)),
   openPopup: (type, options) => dispatch(open(type, options)),
+  getUsers: params => dispatch(getUsers(params))
 });
 
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps), preloader, paginateHOC);
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  paginateHOC,
+  preloader
+);
 
 export default enhance(PeopleSearch);

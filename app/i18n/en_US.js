@@ -416,4 +416,6 @@ Information consists of all materials and information provided by the User to AB
   'Not.found': 'Sorry, this page not found',
   'Go.back.home': 'Go back to home page',
   Oops: 'Oops!',
+  'pages.next': 'Next',
+  'pages.previous': 'Previous'
 };

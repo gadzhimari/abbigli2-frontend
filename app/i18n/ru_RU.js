@@ -558,4 +558,6 @@ export default {
   'Go.back.home': 'Вернуться на главную',
   Oops: 'Упсс!',
   'Relative posts for': 'Похожие посты для',
+  'pages.next': 'Следующая',
+  'pages.previous': 'Предыдущая'
 };
