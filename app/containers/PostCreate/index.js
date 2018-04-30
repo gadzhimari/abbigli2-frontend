@@ -95,24 +95,26 @@ class PostCreate extends Component {
   }
 
   render() {
-    const { sections,
-            isSaving,
-            errors,
-            params,
-            categories,
-            isTouch,
-            openPopup,
-            data,
-            isFetchingImage,
-            loadImageErrors } = this.props;
+    const {
+      sections,
+      categories,
+      eventsCategories,
+      blogsCategories,
+      isSaving,
+      errors,
+      params,
+      isTouch,
+      openPopup,
+      data,
+      isFetchingImage,
+      loadImageErrors
+    } = this.props;
 
     const { type, images } = this.state;
 
     const commonProps = {
       imageZoneActions: this.imageZoneActions,
       errors,
-      categories,
-      sections,
       onCancel: this.handleClose,
       isSaving,
       data,
@@ -137,16 +139,20 @@ class PostCreate extends Component {
             <div className="add-tabs__content-tab add-tabs__content_goods">
               <ProductForm
                 visible={type === PRODUCT_TYPE}
+                categories={categories}
+                sections={sections}
                 {...commonProps}
               />
 
               <BlogForm
                 visible={type === BLOG_TYPE}
+                sections={blogsCategories}
                 {...commonProps}
               />
 
               <EventForm
                 visible={type === EVENT_TYPE}
+                sections={eventsCategories}
                 isTouch={isTouch}
                 openPopup={openPopup}
                 {...commonProps}
@@ -201,7 +207,9 @@ const mapStateToProps = state => ({
   isTouch: state.isTouch,
   isFetchingCategories: state.Sections.isFetching,
 
-  query: state.Location.query
+  query: state.Location.query,
+  eventsCategories: state.Sections.eventsCategories,
+  blogsCategories: state.Sections.blogsCategories
 });
 
 const mapDispatchToProps = dispatch => ({
