@@ -11,17 +11,11 @@ const actionsByType = {
 
 export const {
   setPosts,
-  setMorePosts,
   requestPosts,
-  requestMorePosts,
   setPrivateStatus
 } = createActions(
-  {
-    SET_POSTS: (posts, next) => ({ posts, next }),
-    SET_MORE_POSTS: (posts, next) => ({ posts, next }),
-  },
+  'SET_POSTS',
   'REQUEST_POSTS',
-  'REQUEST_MORE_POSTS',
   'SET_PRIVATE_STATUS'
 );
 
@@ -29,16 +23,12 @@ export default function loadPosts(options, type) {
   const { page = 1, author } = options;
   const action = actionsByType[type];
 
-  const [requestAction, responseAction] = page === 1 ?
-    [requestPosts, setPosts] :
-    [requestMorePosts, setMorePosts];
-
   return (dispatch) => {
-    dispatch(requestAction());
+    dispatch(requestPosts());
 
     return action({ page, author })
       .then(({ data }) => {
-        dispatch(responseAction(data.results, data.next));
+        dispatch(setPosts(data));
       })
       .catch((err) => {
         if (err.status === 403) {

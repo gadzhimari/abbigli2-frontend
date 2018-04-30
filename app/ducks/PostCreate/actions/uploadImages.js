@@ -14,14 +14,10 @@ const imageUploadRes = (imageError = []) => ({
 const uploadImages = (files, callback) => (dispatch) => {
   dispatch(imageUploadReq());
 
-  const promises = files.map((file) => {
-    const formData = new FormData();
-    formData.append('file', file);
+  const formData = new FormData();
+  formData.append('files', files);
 
-    return Images.uploadImage(formData);
-  });
-
-  return Promise.all(promises)
+  return Images.uploadImage(formData)
     .then((res) => {
       callback(res.map(item => item.data));
       dispatch(imageUploadRes());

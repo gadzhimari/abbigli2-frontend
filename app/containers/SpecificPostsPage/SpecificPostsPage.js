@@ -5,7 +5,6 @@ import { compose } from 'recompose';
 import {
   BreadCrumbs,
   ListWithNew,
-  PageSwitcher,
   SliderBar,
 } from '../../components';
 import { Product } from '../../components-lib/Cards';

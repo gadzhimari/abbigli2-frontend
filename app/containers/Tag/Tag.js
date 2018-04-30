@@ -7,9 +7,7 @@ import Helmet from 'react-helmet';
 import {
   BreadCrumbs,
   SliderBar,
-  Filters,
   ListWithNew,
-  PageSwitcher,
 } from '../../components';
 
 import Tag from '../../components/SliderBar/components/Tag';
@@ -29,7 +27,7 @@ import './Tag.styl';
 
 class TagSearchResults extends Component {
   static propTypes = {
-    routeParams: PropTypes.object.isRequired,
+    routeParams: PropTypes.shape().isRequired,
     dispatch: PropTypes.func.isRequired,
     applyFilters: PropTypes.func.isRequired,
     updateFilter: PropTypes.func.isRequired,
@@ -75,16 +73,15 @@ class TagSearchResults extends Component {
   }
 
   loadRelativeTags = () => {
-    const { routing, dispatch } = this.props;
+    const { query, dispatch } = this.props;
 
-    dispatch(fetchTags(routing.query.tags));
+    dispatch(fetchTags(query.tags));
   }
 
   loadItems = () => {
-    const { routing, dispatch } = this.props;
-    const options = routing.query;
+    const { query, dispatch } = this.props;
 
-    dispatch(fetchPosts(options));
+    dispatch(fetchPosts(query));
   }
 
   changeCity = city => this.props.updateFieldByName('city', city.name);
@@ -119,12 +116,12 @@ class TagSearchResults extends Component {
     }));
 
   renderResultsOfSearch() {
-    const { items, routing } = this.props;
+    const { items, query } = this.props;
 
     return ((items.length !== 0) &&
       <h1 className="section-title">
         <span>{__t('Search results')}</span>
-        {routing && ` "${routing.query.tags.split(',').join(' ')}"`}
+        {` "${query.tags.split(',').join(' ')}"`}
         {/* <div className="section-title__subscribe">
           {<button className="default-button" type="button">
             {__t('Subscribe')}
@@ -142,22 +139,12 @@ class TagSearchResults extends Component {
 
   render() {
     const {
-      routeParams,
-      dispatch,
-      isAuthenticated,
       tags,
-      pageCount,
       items,
       isFetching,
       priceTemplate,
-      routing,
-      sections,
       filters,
-      updateFilter,
-      applyFilters,
-      reversePriceRange,
-      paginate,
-      changeFiltersType,
+      renderPaginator
     } = this.props;
 
     return (
@@ -205,15 +192,7 @@ class TagSearchResults extends Component {
                   query={filters.tags}
                 />
             }
-            {
-              !isFetching
-              &&
-              <PageSwitcher
-                count={pageCount}
-                paginate={paginate}
-                active={(routing && Number(routing.query.page)) || 1}
-              />
-            }
+            {!isFetching && renderPaginator()}
           </div>
         </main>
       </div>
@@ -225,18 +204,20 @@ const mapStateToProps = ({
   Auth,
   Settings,
   TagSearch,
-  routing,
   Sections }) => ({
     isAuthenticated: Auth.isAuthenticated,
     priceTemplate: Settings.data.CURRENCY,
     items: TagSearch.items,
     tags: TagSearch.tags,
     isFetching: TagSearch.isFetching,
-    pageCount: TagSearch.pageCount,
-    routing: routing.locationBeforeTransitions,
+    pagesCount: TagSearch.pageCount,
     sections: Sections.items,
   });
 
-const enhance = compose(connect(mapStateToProps), mapFiltersToProps, paginateHOC);
+const enhance = compose(
+  connect(mapStateToProps),
+  mapFiltersToProps,
+  paginateHOC
+);
 
 export default enhance(TagSearchResults);

@@ -16,9 +16,9 @@ const IS_FEED_VISIBLE = 'is_feed_visible';
 
 class ProfileFeed extends PureComponent {
   static fetchPosts = (props) => {
-    const { params, loadPosts } = props;
+    const { query, loadFeed } = props;
 
-    loadPosts({ author: params.profile });
+    loadFeed(query);
   }
 
   togglePrivacy = (status) => {

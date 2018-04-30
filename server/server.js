@@ -20,7 +20,7 @@ import setupDataRequests from './middlewares/setupDataRequests';
 import setupClientDataRequests from './middlewares/setupClientDataRequests';
 import handleRequests from './middlewares/handleRequests';
 import fetchUserProfile from './middlewares/fetchUserProfile';
-import syncQuery from './middlewares/syncQuery';
+import syncLocation from './middlewares/syncLocation';
 
 import routes from './api';
 import cfg from './config';
@@ -54,7 +54,7 @@ app.use(setupUseragent);
 app.use(setupDataRequests);
 app.use(fetchUserProfile);
 app.use(getRenderProps);
-app.use(syncQuery);
+app.use(syncLocation);
 app.use(setupClientDataRequests);
 
 app.use(handleRequests);

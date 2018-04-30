@@ -3,6 +3,8 @@ import { React, PureComponent, cn } from '../../components-lib/__base';
 import SwitcherItem from './SwithcherItem';
 import { Icon } from '../../components-lib';
 
+import { __t } from '../../i18n/translator';
+
 import './PageSwitcher.less';
 
 @cn('PageSwitcher')
@@ -57,8 +59,11 @@ class PageSwitcher extends PureComponent {
           onClick={paginate}
           page={active - 1}
         >
-          <Icon glyph="arrowLeft" className={cn('arrow')} size={false} />
-          Предыдущая
+          <div className={cn('arrow')}>
+            <Icon glyph="arrowLeft" size="xs" />
+          </div>
+
+          {__t('pages.previous')}
         </SwitcherItem>
 
         {this.renderPages()}
@@ -68,8 +73,11 @@ class PageSwitcher extends PureComponent {
           onClick={paginate}
           page={active + 1}
         >
-          Следующая
-          <Icon glyph="arrowRight" className={cn('arrow')} size={false} />
+          {__t('pages.next')}
+
+          <div className={cn('arrow', { right: true })}>
+            <Icon glyph="arrowRight" size="xs" />
+          </div>
         </SwitcherItem>
       </div >
     );

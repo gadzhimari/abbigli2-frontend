@@ -138,7 +138,6 @@ class BlogCard extends PureComponent {
   render(cn) {
     const { setLike, view, isMe, canEdit, deleteFromFavorite, data } = this.props;
     const {
-      author,
       liked,
       title,
       slug,
@@ -150,7 +149,7 @@ class BlogCard extends PureComponent {
     const type = BLOG_TYPE;
     const imageUrl = getImageUrl(data);
     const postUrl = createPostLink(data, type);
-    const postEditingUrl = createPostEditLink({ id: author.id, slug });
+    const postEditingUrl = createPostEditLink(data, type);
 
     const mods = { type, view };
 

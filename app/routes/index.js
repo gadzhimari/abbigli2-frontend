@@ -3,7 +3,6 @@
 import React from 'react';
 import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
-import { SyncRouting } from 'react-router-redux-sync';
 
 import {
   App,
@@ -50,7 +49,7 @@ function getRoutes(store) {
 
 
   return (
-    <Route path={pages.ROOT_PAGE.path} component={SyncRouting(App)}>
+    <Route path={pages.ROOT_PAGE.path} component={App}>
       <IndexRoute component={Home} />
       <Route path={pages.FAQ_PAGE.path} component={Faq} />
       <Route path={pages.ABOUT_PAGE.path} component={About} />

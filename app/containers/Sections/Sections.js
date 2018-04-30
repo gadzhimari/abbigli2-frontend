@@ -25,8 +25,8 @@ class Sections extends Component {
   };
 
   render() {
-    const { tree, routing, currentSection, isFetching } = this.props;
-    const currentTag = routing && routing.query.tag;
+    const { tree, query, currentSection, isFetching } = this.props;
+    const currentTag = query.tag;
     const crumbs = [...tree];
 
     if (currentTag) {
@@ -72,16 +72,15 @@ class Sections extends Component {
   }
 }
 
-const mapStateToProps = ({ CatalogPage, Sections, Settings, routing, NetworkErrors }) => ({
+const mapStateToProps = ({ CatalogPage, Sections, Settings, NetworkErrors }) => ({
   tags: CatalogPage.tags,
   tree: CatalogPage.tree,
   promo: CatalogPage.promo,
-  pages: CatalogPage.postPagesCount,
+  pagesCount: CatalogPage.postPagesCount,
   sections: Sections.items,
   normalizedSections: Sections.normalizedCategories,
   posts: CatalogPage.posts,
   priceTemplate: Settings.data.CURRENCY,
-  routing: routing.locationBeforeTransitions,
   errors: NetworkErrors,
   currentSection: CatalogPage.currentCategory,
 });
@@ -93,6 +92,6 @@ const mapDispatchToProps = dispatch => ({
   fetchCrumbs: data => dispatch(fetchCrumbs(data))
 });
 
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps), preloader, paginateHOC);
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps), paginateHOC, preloader);
 
 export default enhance(Sections);

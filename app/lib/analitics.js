@@ -4,22 +4,13 @@
 /**
  * Обрабатываем переходы по страницам для google аналитики
  * @param {Object} location
+ * @param {Strig} location.pathname
  */
-function googleSetPage(path) {
+export function googleSetPage({ pathname }) {
   if (typeof ga !== 'undefined') {
-    ga('set', 'page', path);
+    ga('set', 'page', pathname);
     ga('send', 'pageview');
   }
-}
-
-/**
- * Устанавливаем слушатель на браузерную историю
- * @param {Object} history - объект истории браузера
- */
-export function createHistoryListener(history) {
-  history.listen((location) => {
-    googleSetPage(location.pathname);
-  });
 }
 
 /**

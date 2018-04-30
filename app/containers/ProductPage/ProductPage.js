@@ -15,6 +15,7 @@ import {
 import Content from './Content';
 import { Product } from '../../components-lib/Cards';
 import { Comments } from '../../components/Comments';
+import createPostEditLink from '../../lib/links/edit-post-link';
 
 import postLoader from '../../HOC/postLoader';
 
@@ -111,6 +112,8 @@ class ProductPage extends Component {
       id: data.id
     };
 
+    const editingLink = createPostEditLink(data, PRODUCT_TYPE);
+
     return (
       <main className="product">
         <div className="subscription-article">
@@ -129,7 +132,7 @@ class ProductPage extends Component {
           {userIsOwner &&
             <div className="edit-post__container">
               <Link
-                to={`/profile/${author.id}/post/edit/${data.slug}`}
+                to={editingLink}
                 className="default-button edit-post-button"
               >
                 {__t('Edit')}

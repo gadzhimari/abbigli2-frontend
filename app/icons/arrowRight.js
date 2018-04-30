@@ -1,5 +1,5 @@
 import React from 'react';
 import createIconComponent from './utils/createIconComponent';
-const IconArrowRight = createIconComponent({ content: <g><path d="M.7.6c-.8.8-.9 2.1-.1 2.9l5.9 6.4-5.9 6.3c-.8.9-.8 2.2.1 2.9.9.7 2.1.7 2.9-.1l7.2-7.8.2-.2c.1-.1.1-.2.2-.3 0-.1.1-.2.1-.3v-.1-.2-.2-.2V9.4c0-.1-.1-.2-.1-.3-.1-.1-.1-.2-.2-.3-.1-.1-.1-.2-.2-.2L3.6.7C2.8-.2 1.5-.2.7.6z"/></g>, height: 19.6, width: 11.3 });
+const IconArrowRight = createIconComponent({ content: <g><path d="M12.861 7.645L5.579.145a.48.48 0 0 0-.693 0L3.151 1.93a.518.518 0 0 0 0 .715l5.202 5.357-5.202 5.357a.518.518 0 0 0 0 .715l1.734 1.786a.48.48 0 0 0 .693 0l5.548-5.714.001-.001 1.733-1.786a.514.514 0 0 0 .001-.714z"/></g>, height: 16, width: 16 });
 IconArrowRight.displayName = 'IconArrowRight';
 export default IconArrowRight;

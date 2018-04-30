@@ -11,9 +11,9 @@ import { __t } from '../../i18n/translator';
 
 class ProfileEvents extends PureComponent {
   static fetchPosts = (props) => {
-    const { params, loadPosts } = props;
+    const { params, loadPosts, query } = props;
 
-    loadPosts({ author: params.profile }, EVENT_TYPE);
+    loadPosts({ ...query, author: params.profile }, EVENT_TYPE);
   }
 
   render() {
@@ -28,7 +28,7 @@ class ProfileEvents extends PureComponent {
                 <Link
                   className="Card__button Card__button_attach Card__button_attach_event"
                   onClick={this.onCreateLinkClick}
-                  to={'/post/new'}
+                  to={`/post/new?type=${EVENT_TYPE}`}
                   text={__t('add.on.abbigli')}
                   color="white"
                   size={'l'}

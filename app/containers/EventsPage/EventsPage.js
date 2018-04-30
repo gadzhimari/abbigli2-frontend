@@ -37,9 +37,9 @@ class EventsPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { routing } = this.props;
+    const { query } = this.props;
 
-    if (prevProps.routing !== routing) {
+    if (prevProps.query !== query) {
       this.loadItems();
     }
   }
@@ -49,10 +49,8 @@ class EventsPage extends Component {
   }
 
   loadItems = () => {
-    const { routing, dispatch } = this.props;
-    const options = routing.query;
-
-    dispatch(fetchEvents(options));
+    const { query, dispatch } = this.props;
+    dispatch(fetchEvents(query));
   }
 
   changeCity = city => this.props
@@ -78,11 +76,11 @@ class EventsPage extends Component {
   render() {
     const {
       sections,
-      routing,
+      query,
       isFetching,
       items,
       renderPaginator } = this.props;
-    const section = sections.filter(item => routing && item.slug === routing.query.category)[0];
+    const section = sections.filter(item => item.slug === query.category)[0];
 
     const crumbs = [{
       title: __t('Events'),
@@ -178,7 +176,7 @@ function mapStateToProps(state) {
     isAuthenticated: auth.isAuthenticated,
     geoCity: state.Geo.city,
     sections: state.Sections.items,
-    routing: state.routing.locationBeforeTransitions,
+    query: Location.query,
     pagesCount: events.page.count,
   };
 }

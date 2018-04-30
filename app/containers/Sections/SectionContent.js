@@ -3,7 +3,7 @@ import Type from 'prop-types';
 
 import Link from '../../components/Link/Link';
 
-import { PageSwitcher, ListWithNew } from '../../components';
+import { ListWithNew } from '../../components';
 import { SubCategoryList } from '../../components/Cards';
 import { Product } from '../../components-lib/Cards';
 import ShowMiddleCards from './ShowMiddleCards';
@@ -41,9 +41,7 @@ class SectionContent extends PureComponent {
       promo,
       posts,
       priceTemplate,
-      pages,
-      paginate,
-      activePage
+      renderPaginator
     } = this.props;
 
     const isPromo = section.is_promo || (section.children[0] && section.children[0].is_promo);
@@ -107,11 +105,7 @@ class SectionContent extends PureComponent {
           }
         </div>
 
-        <PageSwitcher
-          count={pages}
-          paginate={paginate}
-          active={activePage}
-        />
+        {renderPaginator()}
       </div>
     );
   }

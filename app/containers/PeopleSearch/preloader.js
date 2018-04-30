@@ -1,98 +1,37 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 import { Spin } from '../../components-lib';
-import { createQuery } from '../../utils/functions';
-
-import { API_URL } from '../../config';
-import { getCookie } from '../../lib/cookie';
 
 const preloader = WrappedComponent => class extends PureComponent {
-  static propTypes = {
-    routing: PropTypes.shape({
-      query: PropTypes.object,
-    }).isRequired,
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      isFetching: true,
-      results: [],
-      usersCount: null,
-      pages: 1,
-    };
-  }
-
   componentDidMount() {
     this.fetchUsers();
   }
 
   componentDidUpdate(prevProps) {
-    const { routing } = this.props;
+    const { query } = this.props;
 
-    if (prevProps.routing.query !== routing.query) {
+    if (prevProps.query !== query) {
       this.fetchUsers();
     }
   }
 
   fetchUsers = () => {
-    const { routing } = this.props;
-    const token = getCookie('id_token2');
-    const config = { headers: {} };
-    const currentQuery = (routing && routing.query) || {
-      user: '',
-      page: 1,
-    };
-    const query = createQuery({
-      search: currentQuery.user,
-      page: currentQuery.page,
-    });
-
-    this.setState({
-      isFetching: true,
-    });
-
-    if (token) {
-      config.headers.Authorization = `JWT ${token}`;
-    }
-
-    fetch(`${API_URL}profiles/${query}`, config)
-      .then((response) => {
-        if (response.status >= 400) {
-          throw new Error('Bad response from server');
-        }
-
-        return response.json();
-      })
-      .then((result) => {
-        this.setState({
-          results: result.results,
-          isFetching: false,
-          usersCount: result.count,
-          pages: Math.ceil(result.count / 50),
-        });
-      });
+    const { query: { search, page = 1 }, getUsers } = this.props;
+    getUsers({ search, page });
   }
 
   render() {
-    const { isFetching, results, usersCount, pages } = this.state;
-    const { routing } = this.props;
-    const query = (routing && routing.query) || {};
+    const { isFetching } = this.props;
 
     if (isFetching) {
-      return (<div className="spin-wrapper">
-        <Spin visible={isFetching} />
-      </div>);
+      return (
+        <div className="spin-wrapper">
+          <Spin visible={isFetching} />
+        </div>
+      );
     }
 
-    return (<WrappedComponent
-      {...this.props}
-      usersCount={usersCount}
-      users={results}
-      request={query.user}
-      pages={pages}
-    />);
+    return (<WrappedComponent {...this.props} />);
   }
 };
 

@@ -1,4 +1,4 @@
-import { Bookmarks } from '../../../api';
+import { Profile } from '../../../api';
 
 import {
   setPosts,
@@ -6,19 +6,16 @@ import {
   setPrivateStatus
 } from './loadPosts';
 
-export default function loadBookmarks(options) {
-  const { isMe, page = 1, author } = options;
+export default function loadFeed(options) {
+  const { page = 1 } = options;
   const params = { page };
 
   return (dispatch) => {
     dispatch(requestPosts());
 
-    return Bookmarks.getBookmarks(isMe, author, params)
+    return Profile.getFeed(params)
       .then(({ data }) => {
-        dispatch(setPosts({
-          ...data,
-          results: data.results.map(item => item.object)
-        }));
+        dispatch(setPosts(data));
       })
       .catch((err) => {
         if (err.status === 403) {
