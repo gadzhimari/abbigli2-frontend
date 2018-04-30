@@ -575,4 +575,6 @@ export default {
   'own works': 'своих работ',
   'Make a real business from your art': 'Преврати своё творчество в бизнес',
   Join: 'Присоединиться',
+  'pages.next': 'Следующая',
+  'pages.previous': 'Предыдущая'
 };
