@@ -99,7 +99,7 @@ class EventCard extends PureComponent {
 
   handleDelete = () => {
     const { slug } = this.props.data;
-    this.props.delete(slug);
+    this.props.delete(slug, EVENT_TYPE);
   }
 
   renderTitle(cn, postUrl) {

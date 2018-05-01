@@ -1,11 +1,11 @@
-import Type from 'prop-types';
-import React, { PureComponent } from 'react';
+import { React, PureComponent, Type, cn } from '../../components-lib/__base';
 
 import './redactor/redactor.css';
 import './Textarea.less';
 
 let textateaIds = 0;
 
+@cn('Textarea')
 export default class Textarea extends PureComponent {
   static propTypes = {
     onChange: Type.func,
@@ -17,10 +17,17 @@ export default class Textarea extends PureComponent {
 
   state = {
     id: textateaIds++,
-    value: ''
+    value: '',
+    showError: false
   }
 
-  onChange(e) {
+  componentWillReceiveProps({ errors }) {
+    if (this.props.errors !== errors && errors) {
+      this.setState({ showError: true });
+    }
+  }
+
+  onChange = (e) => {
     const { onChange, name } = this.props;
     const { value } = e.target;
 
@@ -31,6 +38,10 @@ export default class Textarea extends PureComponent {
     }
   }
 
+  onFocus = () => {
+    this.setState({ showError: false });
+  }
+
   getValue = () => {
     const { value } = this.props;
 
@@ -38,18 +49,20 @@ export default class Textarea extends PureComponent {
       this.state.value : value;
   }
 
-  render() {
-    const { wrapperClass, label, ...textareaProps } = this.props;
+  render(cn) {
+    const { label, errors, ...textareaProps } = this.props;
+    const { showError } = this.state;
 
     const props = {
       ...textareaProps,
       onChange: this.onChange,
+      onFocus: this.onFocus,
       id: this.state.id,
       value: this.getValue()
     };
 
     return (
-      <div className={wrapperClass}>
+      <div className={cn()}>
         {label &&
           <label className="label" htmlFor={this.id}>
             {label}
@@ -58,7 +71,16 @@ export default class Textarea extends PureComponent {
 
         <textarea
           {...props}
+          className={cn('field', { withError: showError })}
         />
+
+        {showError && errors && errors.length > 0 &&
+          errors.map(error => (
+            <div className={cn('error')} key={error}>
+              {error}
+            </div>
+          ))
+        }
       </div>
     );
   }

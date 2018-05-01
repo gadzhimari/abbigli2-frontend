@@ -15,11 +15,14 @@ const uploadImages = (files, callback) => (dispatch) => {
   dispatch(imageUploadReq());
 
   const formData = new FormData();
-  formData.append('files', files);
+
+  files.forEach((file) => {
+    formData.append('files', file);
+  });
 
   return Images.uploadImage(formData)
     .then((res) => {
-      callback(res.map(item => item.data));
+      callback(res.data);
       dispatch(imageUploadRes());
     })
     .catch(err => dispatch(imageUploadRes(err.response.data.file)));

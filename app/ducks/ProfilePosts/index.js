@@ -14,6 +14,7 @@ const initialState = {
   next: null,
   items: [],
   isPrivate: false,
+  pagesCount: 1
 };
 
 export default handleActions({

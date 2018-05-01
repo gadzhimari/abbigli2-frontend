@@ -78,7 +78,7 @@ export default {
     actionArgs: ['params.slug', 'token']
   },
   RELATIVE_PRODUCTS_PAGE: {
-    path: 'relative/:slug'
+    path: '/:path/:slug/relative'
   },
   NEW_PRODUCTS_PAGE: {
     path: 'new-products'

@@ -23,7 +23,7 @@ const postLoader = WrappedComponent => class extends Component {
     const { params, fetchPost } = this.props;
 
     if (params.slug) {
-      fetchPost(params.slug);
+      fetchPost(params.slug, params.type);
     }
 
     this.globalWrapper = document.querySelector('.global-wrapper');

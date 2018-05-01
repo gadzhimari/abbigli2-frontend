@@ -76,7 +76,7 @@ class ProductCard extends PureComponent {
 
   handleDelete = () => {
     const { slug } = this.props.data;
-    this.props.delete(slug);
+    this.props.delete(slug, PRODUCT_TYPE);
   }
 
   renderTitle(cn, postUrl) {

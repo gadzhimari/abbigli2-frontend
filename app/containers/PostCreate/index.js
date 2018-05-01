@@ -213,7 +213,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchPost: slug => dispatch(actions.fetchPost(slug)),
+  fetchPost: (slug, type) => dispatch(actions.fetchPost(slug, type)),
   clearData: () => dispatch(actions.clearData()),
   uploadImages: (images, callback) => dispatch(actions.uploadImages(images, callback)),
   savePost: (body, slug, postType) => dispatch(actions.savePost(body, slug, postType)),

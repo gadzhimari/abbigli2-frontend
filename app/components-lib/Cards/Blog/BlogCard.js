@@ -93,7 +93,7 @@ class BlogCard extends PureComponent {
 
   handleDelete = () => {
     const { slug } = this.props.data;
-    this.props.delete(slug);
+    this.props.delete(slug, BLOG_TYPE);
   }
 
   renderAvatar(cn) {

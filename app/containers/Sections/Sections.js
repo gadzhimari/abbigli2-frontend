@@ -80,7 +80,6 @@ const mapStateToProps = ({ CatalogPage, Sections, Settings, NetworkErrors }) => 
   sections: Sections.items,
   normalizedSections: Sections.normalizedCategories,
   posts: CatalogPage.posts,
-  priceTemplate: Settings.data.CURRENCY,
   errors: NetworkErrors,
   currentSection: CatalogPage.currentCategory,
 });

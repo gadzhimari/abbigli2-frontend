@@ -111,11 +111,11 @@ class ProductForm extends CreateForm {
 
         <FormBlock>
           <Textarea
-            wrapperClass="add-tabs__form-field"
-            className="textarea"
+            className="add-tabs__form-field"
             onChange={this.onChange}
             name="description"
             value={description}
+            errors={errors.description}
             label={__t('Description')}
           />
 

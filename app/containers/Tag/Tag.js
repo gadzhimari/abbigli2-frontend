@@ -142,7 +142,6 @@ class TagSearchResults extends Component {
       tags,
       items,
       isFetching,
-      priceTemplate,
       filters,
       renderPaginator
     } = this.props;
@@ -167,7 +166,7 @@ class TagSearchResults extends Component {
         <main className="main">
           <BreadCrumbs />
           <div className="content">
-            { this.renderResultsOfSearch() }
+            {this.renderResultsOfSearch()}
             {/* <Filters
               sections={sections}
               activeFilters={filters}
@@ -180,15 +179,14 @@ class TagSearchResults extends Component {
             */}
             {
               isFetching
-              ? <div className="cards-wrap">
-                <div className="spin-wrapper">
-                  <Spin visible={isFetching} />
+                ? <div className="cards-wrap">
+                  <div className="spin-wrapper">
+                    <Spin visible={isFetching} />
+                  </div>
                 </div>
-              </div>
                 : <ListWithNew
                   items={items}
                   count={4}
-                  itemProps={{ priceTemplate, legacy: true }}
                   query={filters.tags}
                 />
             }
@@ -200,19 +198,14 @@ class TagSearchResults extends Component {
   }
 }
 
-const mapStateToProps = ({
-  Auth,
-  Settings,
-  TagSearch,
-  Sections }) => ({
-    isAuthenticated: Auth.isAuthenticated,
-    priceTemplate: Settings.data.CURRENCY,
-    items: TagSearch.items,
-    tags: TagSearch.tags,
-    isFetching: TagSearch.isFetching,
-    pagesCount: TagSearch.pageCount,
-    sections: Sections.items,
-  });
+const mapStateToProps = ({ Auth, TagSearch, Sections }) => ({
+  isAuthenticated: Auth.isAuthenticated,
+  items: TagSearch.items,
+  tags: TagSearch.tags,
+  isFetching: TagSearch.isFetching,
+  pagesCount: TagSearch.pageCount,
+  sections: Sections.items,
+});
 
 const enhance = compose(
   connect(mapStateToProps),

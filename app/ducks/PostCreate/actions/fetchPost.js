@@ -21,7 +21,7 @@ const fetchPostRes = data => ({
   data,
 });
 
-const fetchPost = ({ slug, type }) => (dispatch) => {
+const fetchPost = (slug, type) => (dispatch) => {
   dispatch(fetchPostReq);
   const action = actionByType[type];
 

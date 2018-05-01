@@ -25,9 +25,9 @@ class Card extends PureComponent {
   };
 
   renderCards() {
-    const { type } = this.props;
+    const { data } = this.props;
 
-    switch (type) {
+    switch (data.type) {
       case PRODUCT_TYPE:
         return <ProductCard {...this.props} />;
       case EVENT_TYPE:

@@ -7,18 +7,13 @@ import { Product } from '../../components-lib/Cards';
 class Content extends PureComponent {
   static propTypes = {
     posts: Type.arrayOf(Type.object),
-    priceTemplate: Type.string,
     pages: Type.number,
     paginate: Type.func,
     activePage: Type.string,
   }
 
   render() {
-    const {
-      posts,
-      priceTemplate,
-      renderPaginator
-    } = this.props;
+    const { posts, renderPaginator } = this.props;
 
     return (
       <div>
@@ -26,7 +21,6 @@ class Content extends PureComponent {
           ItemComponent={Product}
           items={posts}
           count={8}
-          itemProps={{ priceTemplate }}
         />
 
         {renderPaginator()}

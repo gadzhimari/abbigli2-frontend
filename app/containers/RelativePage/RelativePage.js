@@ -17,7 +17,7 @@ import { Card } from '../../components-lib/Cards';
 class RelativePage extends Component {
   componentDidMount() {
     const { params, fetchData } = this.props;
-    fetchData(params.slug);
+    fetchData(params.slug, params.path);
   }
 
   render() {
@@ -32,15 +32,12 @@ class RelativePage extends Component {
       <main className="main">
         <div className="content">
           <BreadCrumbs />
-          {
-            !isFetching
+          {!isFetching
             &&
             <h1 className="section-title">
               {__t('Relative posts for')}
               {' '}
-              <Link
-                to={createPostLink(post)}
-              >
+              <Link to={createPostLink(post, post.type)}>
                 {post.title}
               </Link>
             </h1>
@@ -78,7 +75,7 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchData: slug => dispatch(actions.fetchData(slug)),
+  fetchData: (slug, path) => dispatch(actions.fetchData(slug, path))
 });
 
 const enhance = compose(

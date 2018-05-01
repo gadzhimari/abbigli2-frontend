@@ -83,7 +83,6 @@ class ProductPage extends Component {
       data,
       author,
       relativePosts,
-      priceTemplate,
       me,
       isAuthenticated,
       followUser,
@@ -168,7 +167,7 @@ class ProductPage extends Component {
             items={relativePosts}
             Component={Product}
             slug={data.slug}
-            itemProps={{ priceTemplate }}
+            type={PRODUCT_TYPE}
           />
         </div>
       </main>
@@ -190,7 +189,6 @@ const mapStateToProps = state => ({
   itemsComments: state.Comments.comments,
   isFetchingComments: state.Comments.commentFetchingState,
   isAuthenticated: state.Auth.isAuthenticated,
-  priceTemplate: state.Settings.data.CURRENCY,
   me: state.Auth.me,
   isFetchingBookmarks: state.PostPage.isFetchingBookmarks,
 });
