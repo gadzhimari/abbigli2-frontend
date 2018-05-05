@@ -12,3 +12,4 @@ export { default as Link } from './Link';
 export { default as Cards } from './Cards';
 export { default as SocialNetworks } from './SocialNetworks';
 export { default as Footer } from './Footer';
+export { default as Checkbox } from './Checkbox';

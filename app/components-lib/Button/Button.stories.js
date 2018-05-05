@@ -4,6 +4,7 @@ import { withMarkdownNotes } from '@storybook/addon-notes';
 import { React, Fragment } from '../__base';
 import Button from './Button';
 import IconHeart from '../../icons/heart';
+import IconClose from '../../icons/close';
 
 const colors = {
   primary: 'Primary',
@@ -104,6 +105,35 @@ const fabButtonStr = `
   color="attention"
   icon={<IconHeart
     size="xs"
+  />}
+/>
+~~~
+`;
+
+const iconButton = () => (
+  <Button
+    view="icon"
+    aria-label="Закрыть"
+    icon={<IconClose
+      size="xs"
+      color="blue"
+    />}
+  />
+);
+
+const iconButtonStr = `
+# Документация
+Данный тип кнопки не имеет текста, поэтому необходимо дополнительно передавать
+аттрибут aria-label для людей с ограниченными возможностями. Основное отличие от
+Fab-кнопки в том, что у данной кнопки нет бэкграунда.
+## Пример
+~~~js
+<Button
+  view="icon"
+  aria-label="Закрыть"
+  icon={<IconClose
+    size="xs"
+    color="blue"
   />}
 />
 ~~~
@@ -283,6 +313,7 @@ storiesOf('Button', module)
   .add('Outline', withMarkdownNotes(outlineButtonStr)(outlineButton))
   .add('Link', withMarkdownNotes(linkButtonStr)(linkButton))
   .add('Fab', withMarkdownNotes(fabButtonStr)(fabButton))
+  .add('Icon', withMarkdownNotes(iconButtonStr)(iconButton))
   .add('Sizes', withMarkdownNotes(buttonSizesStr)(buttonSizes))
   .add('Fullwidth', withMarkdownNotes(fullWidthButtonStr)(fullWidthButton))
   .add('Icon position',
