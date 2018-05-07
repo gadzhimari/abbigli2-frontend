@@ -74,5 +74,12 @@ export default {
       url: `/events/${slug}/comments/`,
       canApplyToken: true,
     });
+  },
+  toggleFavorite(slug) {
+    return requestV2({
+      url: `/events/${slug}/favorite/`,
+      method: 'POST',
+      mustApplyToken: true
+    });
   }
 };

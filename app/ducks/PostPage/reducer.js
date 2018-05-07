@@ -8,6 +8,7 @@ import * as usersPostsActions from './actions/fetchUsersPosts';
 import resetPost from './actions/resetPost';
 import * as bookmarksActions from './actions/bookmarks';
 import { updateFollow } from './actions/setFollow';
+import { updateFavorite } from './actions/toggleFavorite';
 
 const initialState = {
   isFetchingPost: true,
@@ -163,6 +164,15 @@ export default handleActions({
       author: {
         ...state.author,
         is_subscribed: !state.author.is_subscribed,
+      }
+    };
+  },
+  [updateFavorite](state) {
+    return {
+      ...state,
+      post: {
+        ...state.post,
+        is_favorite: !state.post.is_favorite
       }
     };
   }

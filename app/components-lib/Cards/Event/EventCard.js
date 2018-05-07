@@ -222,6 +222,7 @@ class EventCard extends PureComponent {
                 liked={liked}
                 onClick={setLike}
                 slug={slug}
+                type={type}
                 className={cn('button', { like: true, hide: !isTouch })}
               />
             }

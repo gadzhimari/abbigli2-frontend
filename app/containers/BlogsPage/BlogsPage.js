@@ -24,6 +24,16 @@ import { __t } from '../../i18n/translator';
 
 import './BlogsPage.less';
 
+const popularFilterOptions = [
+  { title: __t('New'), value: undefined },
+  { title: __t('Popular'), value: 'month' }
+];
+
+const itemProps = {
+  baseUrl: '/blogs',
+  isBlog: true,
+};
+
 class BlogsPage extends PureComponent {
   static propTypes = {
     changeSearchValue: PropTypes.func,
@@ -58,11 +68,8 @@ class BlogsPage extends PureComponent {
     const options = {
       category: query.category,
       search: query.search,
+      popular: query.popular
     };
-
-    if (query.popular === 'true') {
-      options.popular = true;
-    }
 
     if (query.page && query.page !== '1') {
       options.page = query.page;
@@ -71,14 +78,14 @@ class BlogsPage extends PureComponent {
     fetchBlogs(options);
   }
 
-  changeFilter = ({ target }) => {
+  changeFilter = (e, { value }) => {
     const { router, query } = this.props;
 
     router.push({
       pathname: '/blogs',
       query: {
         ...query,
-        popular: target.dataset.popular === 'true'
+        popular: value
       }
     });
   }
@@ -132,8 +139,6 @@ class BlogsPage extends PureComponent {
       });
     }
 
-    const isActivePopular = query.popular === 'true';
-
     return (
       <main className="main blog">
         <BreadCrumbs
@@ -144,31 +149,30 @@ class BlogsPage extends PureComponent {
             <svg className="icon icon-blog" viewBox="0 0 51 52.7">
               <path d="M51,9.4L41.5,0L31,10.4H4.1c-2.3,0-4.1,1.8-4.1,4.1v27.8c0,2.3,1.8,4.1,4.1,4.1h1.4l0.7,6.3 l8.3-6.3H38c2.3,0,4.1-1.8,4.1-4.1V18.1L51,9.4z M16.2,34.4l1-6.3l5.3,5.4L16.2,34.4z M47.2,9.4L24,32.2l-5.6-5.6l23-22.8L47.2,9.4z" />
             </svg>
+
             {__t('Blogs')}
+
             {section && ` - ${section.title}`}
           </h1>
-          {
-            sections.length > 0
-            &&
+
+          {sections.length > 0 &&
             <SliderBar
               sliderName="slider-category"
               items={sections}
               ItemComponent={BlogSection}
               itemWidth={120}
-              itemProps={{
-                baseUrl: '/blogs',
-                isBlog: true,
-              }}
+              itemProps={itemProps}
             />
           }
+
           <div className="filter filter-search">
             <ChoiseFilter
-              choiseList={[
-                { title: __t('New'), active: !isActivePopular, popular: false },
-                { title: __t('Popular'), active: isActivePopular, popular: true },
-              ]}
+              options={popularFilterOptions}
               onChange={this.changeFilter}
+              name="popular"
+              active={query.popular}
             />
+
             <input
               className="input"
               type="text"
@@ -177,6 +181,7 @@ class BlogsPage extends PureComponent {
               onKeyDown={this.handleSearchKeyDown}
               value={searchValue}
             />
+
             <button
               className="default-button"
               type="button"

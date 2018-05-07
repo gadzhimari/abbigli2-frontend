@@ -53,26 +53,6 @@ class EventsPage extends Component {
     dispatch(fetchEvents(query));
   }
 
-  changeCity = city => this.props
-    .updateFieldByName('city', city.name);
-
-  openSelectPopup = () => this.props
-    .dispatch(openPopup('selectPopup', {
-      onClickItem: this.changeCity,
-      title: 'city',
-      async: true,
-      apiUrl: `${API_URL}geo/cities/`,
-    }));
-
-  openMobileFilters = () => this.props
-    .dispatch(openPopup('filtersPopup', {
-      filters: this.props.filters,
-      updateFilter: this.props.updateFilter,
-      applyFilters: this.props.applyFilters,
-      changeCity: this.changeCity,
-      type: '3',
-    }));
-
   render() {
     const {
       sections,
@@ -99,6 +79,7 @@ class EventsPage extends Component {
         <BreadCrumbs
           crumbs={crumbs}
         />
+
         <div className="content">
           <h1 className="section-title">
             <svg className="icon icon-event" viewBox="0 0 27 26">
@@ -106,12 +87,13 @@ class EventsPage extends Component {
               <path d="M8.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8S6.8,0.8,6.8,1.8v3.3 C6.8,6.1,7.6,6.9,8.6,6.9z" />
               <path d="M18.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8s-1.8,0.8-1.8,1.8v3.3 C16.8,6.1,17.6,6.9,18.6,6.9z" />
             </svg>
+
             {__t('Events')}
+
             {section && `- ${section.title}`}
           </h1>
-          {
-            sections.length > 0
-            &&
+
+          {sections.length > 0 &&
             <SliderBar
               sliderName="slider-category"
               items={sections}
@@ -123,34 +105,24 @@ class EventsPage extends Component {
               }}
             />
           }
-          {/* <a
-            className="filter-open"
-            onClick={this.openMobileFilters}
-          >
-            Фильтры
-          </a>
 
-          <EventsFilters
-            filters={filters}
-            applyFilters={applyFilters}
-            updateFilter={updateFilter}
-            openCityPopup={this.openSelectPopup}
-          /> */}
-          {
-            isFetching
-            ? <div className="cards-wrap">
+          {isFetching ? (
+            <div className="cards-wrap">
               <div className="spin-wrapper">
                 <Spin visible={isFetching} />
               </div>
             </div>
-              : <ListWithNew
-                items={items}
-                itemsType={EVENT_TYPE}
-                itemProps={{ legacy: true }}
-                count={8}
-                ItemComponent={Event}
-              />
+          ) : (
+            <ListWithNew
+              items={items}
+              itemsType={EVENT_TYPE}
+              itemProps={{ legacy: true }}
+              count={8}
+              ItemComponent={Event}
+            />
+          )
           }
+
           {!isFetching && renderPaginator()}
         </div>
       </main>

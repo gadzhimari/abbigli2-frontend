@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { React, Component, Type } from '../../components-lib/__base';
+import { React, Component } from '../../components-lib/__base';
 
 import Link from '../../components/Link/Link';
 import { processBlogContent } from '../../lib/process-html';
@@ -30,7 +30,8 @@ import {
   setFollow,
   fetchUsersPosts,
   addBookmark,
-  deleteBookmark
+  deleteBookmark,
+  toggleFavorite
 } from '../../ducks/PostPage/actions';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { openPopup } from '../../ducks/Popup/actions';
@@ -42,13 +43,6 @@ import { BLOG_TYPE } from '../../lib/constants/posts-types';
 import './BlogPage.less';
 
 class BlogPage extends Component {
-  static propTypes = {
-    data: Type.shape().isRequired,
-    handleFavorite: Type.func.isRequired,
-    itemsBlogs: Type.arrayOf(Type.object),
-    itemsAuthors: Type.arrayOf(Type.object)
-  };
-
   componentDidMount() {
     this.globalWrapper = document.querySelector('.global-wrapper');
     this.globalWrapper.classList.add('blog');
@@ -97,9 +91,7 @@ class BlogPage extends Component {
       me,
       followUser,
       openPopup,
-      isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark
+      toggleFavorite
     } = this.props;
 
     const crumbs = [{
@@ -118,11 +110,9 @@ class BlogPage extends Component {
     const userIsOwner = author.id === me.id;
 
     const favoriteAddProps = {
-      isFetching: isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark,
-      bookmarkId: data.bookmark_id,
-      id: data.id
+      toggleFavorite,
+      isFavorite: data.is_favorite,
+      slug: data.slug
     };
 
     const editingLink = createPostEditLink(data, BLOG_TYPE);
@@ -260,7 +250,9 @@ const mapDispatch = dispatch => ({
   sendComment: data => dispatch(sendComment(data)),
   openPopup: (...args) => dispatch(openPopup(...args)),
   addBookmark: id => dispatch(addBookmark(BLOG_TYPE, id)),
-  deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId))
+  deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId)),
+
+  toggleFavorite: slug => dispatch(toggleFavorite(BLOG_TYPE, slug))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(BlogPage));

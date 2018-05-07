@@ -63,7 +63,7 @@ export default {
   },
   createComment(slug, data) {
     return requestV2({
-      url: `/products/${slug}/comments/`,
+      url: `/products/${slug}/reviews/`,
       method: 'POST',
       data,
       mustApplyToken: true,
@@ -71,8 +71,15 @@ export default {
   },
   getComments(slug) {
     return requestV2({
-      url: `/products/${slug}/comments/`,
-      canApplyToken: true,
+      url: `/products/${slug}/reviews/`,
+      canApplyToken: true
+    });
+  },
+  toggleFavorite(slug) {
+    return requestV2({
+      url: `/products/${slug}/favorite/`,
+      method: 'POST',
+      mustApplyToken: true
     });
   }
 };

@@ -20,7 +20,7 @@ import paginateHOC from '../../HOC/paginate';
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 
 import { API_URL } from '../../config';
-
+import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
 import { __t } from './../../i18n/translator';
 
 import './Tag.styl';
@@ -167,16 +167,7 @@ class TagSearchResults extends Component {
           <BreadCrumbs />
           <div className="content">
             {this.renderResultsOfSearch()}
-            {/* <Filters
-              sections={sections}
-              activeFilters={filters}
-              updateFilter={updateFilter}
-              applyFilters={applyFilters}
-              reversePriceRange={reversePriceRange}
-              changeFiltersType={changeFiltersType}
-              openCityPopup={this.openSelectPopup}
-            />
-            */}
+
             {
               isFetching
                 ? <div className="cards-wrap">
@@ -188,6 +179,7 @@ class TagSearchResults extends Component {
                   items={items}
                   count={4}
                   query={filters.tags}
+                  type={PRODUCT_TYPE}
                 />
             }
             {!isFetching && renderPaginator()}

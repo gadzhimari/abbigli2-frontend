@@ -72,9 +72,8 @@ class BlogCard extends PureComponent {
     data: Type.shape({
       title: Type.string,
       slug: Type.string,
-      price: Type.number,
       user: Type.object,
-      images: Type.array,
+      image: Type.string,
     }).isRequired,
     view: Type.number,
     isMe: Type.bool,
@@ -219,6 +218,7 @@ class BlogCard extends PureComponent {
                 liked={liked}
                 onClick={setLike}
                 slug={slug}
+                type={type}
                 className={cn('button', { like: true, hide: !isTouch })}
               />
             }

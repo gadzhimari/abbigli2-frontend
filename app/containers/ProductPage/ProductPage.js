@@ -28,7 +28,8 @@ import {
   fetchUsersPosts,
   setFollow,
   addBookmark,
-  deleteBookmark
+  deleteBookmark,
+  toggleFavorite
 } from '../../ducks/PostPage/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
@@ -87,9 +88,7 @@ class ProductPage extends Component {
       isAuthenticated,
       followUser,
       openPopup,
-      isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark
+      toggleFavorite
     } = this.props;
     const crumbs = [];
 
@@ -111,11 +110,9 @@ class ProductPage extends Component {
     const userIsOwner = author.id === me.id;
 
     const favoriteAddProps = {
-      isFetching: isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark,
-      bookmarkId: data.bookmark_id,
-      id: data.id
+      toggleFavorite,
+      isFavorite: data.is_favorite,
+      slug: data.slug
     };
 
     const editingLink = createPostEditLink(data, PRODUCT_TYPE);
@@ -129,6 +126,7 @@ class ProductPage extends Component {
               canSubscribe={!userIsOwner}
               followUser={followUser}
             />
+
             <OtherArticles
               articles={itemsAuthors}
               data={author}
@@ -210,7 +208,8 @@ const mapDispatch = dispatch => ({
   addBookmark: id => dispatch(addBookmark(PRODUCT_TYPE, id)),
   deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId)),
 
-  onUnmount: () => dispatch(resetPost())
+  onUnmount: () => dispatch(resetPost()),
+  toggleFavorite: slug => dispatch(toggleFavorite(PRODUCT_TYPE, slug))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(ProductPage));

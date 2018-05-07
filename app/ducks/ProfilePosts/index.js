@@ -35,6 +35,6 @@ export default handleActions({
   }),
   [deletePostFromPage]: (state, { payload }) => ({
     ...state,
-    items: state.items.filter(item => item.bookmark_id !== payload)
+    items: state.items.filter(item => item.slug !== payload)
   })
 }, initialState);

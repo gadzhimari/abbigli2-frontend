@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { React, Component, Type } from '../../components-lib/__base';
+import { React, Component } from '../../components-lib/__base';
 
 import {
   Gallery,
@@ -29,7 +29,8 @@ import {
   fetchUsersPosts,
   setFollow,
   addBookmark,
-  deleteBookmark
+  deleteBookmark,
+  toggleFavorite
 } from '../../ducks/PostPage/actions';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { openPopup } from '../../ducks/Popup/actions';
@@ -40,10 +41,6 @@ import { __t } from '../../i18n/translator';
 import './EventPage.less';
 
 class EventPage extends Component {
-  static propTypes = {
-    data: Type.shape().isRequired
-  };
-
   componentDidMount() {
     this.globalWrapper = document.querySelector('.global-wrapper');
     this.globalWrapper.classList.add('event');
@@ -93,9 +90,7 @@ class EventPage extends Component {
       isAuthenticated,
       followUser,
       openPopup,
-      isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark
+      toggleFavorite
     } = this.props;
 
     const crumbs = [{
@@ -115,11 +110,9 @@ class EventPage extends Component {
     const { city } = data;
 
     const favoriteAddProps = {
-      isFetching: isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark,
-      bookmarkId: data.bookmark_id,
-      id: data.id
+      toggleFavorite,
+      isFavorite: data.is_favorite,
+      slug: data.slug
     };
 
     const editingLink = createPostEditLink(data, EVENT_TYPE);
@@ -272,6 +265,7 @@ const mapDispatch = dispatch => ({
   deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId)),
 
   onUnmount: () => dispatch(resetPost()),
+  toggleFavorite: slug => dispatch(toggleFavorite(EVENT_TYPE, slug))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(EventPage));
