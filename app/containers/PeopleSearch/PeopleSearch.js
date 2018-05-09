@@ -30,11 +30,11 @@ class PeopleSearch extends PureComponent {
   }
 
   renderResultsOfSearch() {
-    const { users, query, usersCount } = this.props;
+    const { users, query: { user }, usersCount } = this.props;
 
-    return users.length === 0 ? <NoMatch query={query.search} /> : (
+    return users.length === 0 ? <NoMatch query={user} /> : (
       <h1 className="section-title">
-        {`${__t('Results for request')} «${query.search}» `}
+        {__t('users.search.result.text', { user })}
 
         <span>{usersCount}</span>
       </h1>
