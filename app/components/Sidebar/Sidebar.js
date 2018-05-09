@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 
+import get from 'lodash/get';
+
 import { FavoriteAdd, Share } from '../';
 import TagsList from './TagsList';
 import SidebarList from './SidebarList';
@@ -17,17 +19,14 @@ class Sidebar extends PureComponent {
       newSectionTitle,
       popularSectionTitle,
       data,
+      type,
 
       ...favoriteAddProps
     } = this.props;
 
-    const {
-      tags,
-      type,
-      title,
-      images
-    } = data;
-    const imageUrl = images && images[0] && images[0].file;
+    const { tags, title } = data;
+    const postUrl = createPostLink(data, type);
+    const imageUrl = get(data, 'images.0.file');
 
     return (
       <div className="sidebar">
@@ -41,7 +40,7 @@ class Sidebar extends PureComponent {
         <div className="sidebar__group sidebar__group_social">
           <Share
             buttonClass="social-btn"
-            postLink={createPostLink(this.props.data)}
+            postLink={postUrl}
             media={imageUrl}
             description={title}
           />
@@ -50,11 +49,13 @@ class Sidebar extends PureComponent {
           items={newPosts}
           title={newSectionTitle}
           seeAllUrl={seeAllUrl}
+          type={type}
         />
         <SidebarList
           items={popularPosts}
           title={popularSectionTitle}
           seeAllUrl={`${seeAllUrl}?popular=true`}
+          type={type}
         />
       </div>
     );

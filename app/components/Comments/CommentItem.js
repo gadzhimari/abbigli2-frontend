@@ -18,36 +18,36 @@ class CommentItem extends PureComponent {
   };
 
   render() {
-    const { data } = this.props;
+    const { author, created, text } = this.props.data;
+
     return (
       <div className="comment">
         <div className="comment__wrapper">
           <div className="comment__meta">
-            <Link
-              to={createProfileLink(data.user.id)}
-            >
+            <Link to={createProfileLink(author)}>
               <Avatar
                 className="avatar comment__avatar"
                 imgClassName="avatar__img"
-                avatar={data.user.avatar}
+                avatar={author.avatar}
                 thumbSize="113x113"
-                alt={data.user.profile_name}
+                alt={author.profile_name}
               />
             </Link>
+
             <div className="comment__date">
-              {
-                toLocaleDateString(data.created, COMMENT_DATE_FORMAT)
-              }
+              {toLocaleDateString(created, COMMENT_DATE_FORMAT)}
             </div>
+
             <Link
               className="comment__author"
-              to={createProfileLink(data.user.id)}
+              to={createProfileLink(author.id)}
             >
-              {data.user.profile_name}
+              {author.profile_name}
             </Link>
           </div>
+
           <div className="comment__text">
-            {data.comment}
+            {text}
           </div>
         </div>
       </div>

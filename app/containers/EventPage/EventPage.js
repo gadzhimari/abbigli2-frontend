@@ -196,6 +196,8 @@ class EventPage extends Component {
             newSectionTitle={__t('New in events')}
             popularSectionTitle={__t('Popular in events')}
 
+            type={EVENT_TYPE}
+
             {...favoriteAddProps}
           />
           {

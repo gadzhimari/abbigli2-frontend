@@ -48,7 +48,7 @@ class CommentsList extends Component {
               comments.length > 0
               ? comments
                 .slice(0, renderedCount)
-                .map(comment => <CommentItem data={comment} key={comment.id} />)
+                .map(comment => <CommentItem data={comment} key={comment.created} />)
               : __t('No.one.commented')
             }
           </div>
