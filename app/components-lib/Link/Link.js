@@ -9,10 +9,11 @@ class Link extends Component {
     iconPosition: Type.oneOf(['left', 'right']),
     text: Type.node,
     color: Type.string,
+    fullWidth: Type.bool,
     to: Type.string,
     target: Type.oneOf(['_self', '_blank', '_parent', '_top']),
     rel: Type.string,
-    view: Type.oneOf(['default', 'outline', 'link']),
+    view: Type.oneOf(['default', 'outline', 'link', 'fab']),
     disabled: Type.bool,
     size: Type.oneOf(['s', 'm', 'l']),
     children: Type.oneOfType([Type.arrayOf(Type.node), Type.node]),
@@ -28,6 +29,7 @@ class Link extends Component {
     to: '#',
     disabled: false,
     view: 'link',
+    color: 'primary',
   };
 
   /**
@@ -60,6 +62,7 @@ class Link extends Component {
       disabled,
       size,
       color,
+      fullWidth,
       view,
       rel,
       target,
@@ -76,6 +79,7 @@ class Link extends Component {
         size,
         color,
         view,
+        fullWidth,
       }),
       rel,
     };

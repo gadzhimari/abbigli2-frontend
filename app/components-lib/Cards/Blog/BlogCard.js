@@ -10,6 +10,7 @@ import IconBlog from '../../../icons/blog';
 import IconClose from '../../../icons/close';
 import IconComment from '../../../icons/comment';
 import IconShare from '../../../icons/share';
+import IconPencil from '../../../icons/pencil';
 
 import getUserName from '../../../lib/getUserName';
 import getImageUrl from '../../../lib/getImageUrl';
@@ -71,24 +72,27 @@ class BlogCard extends PureComponent {
     data: Type.shape({
       title: Type.string,
       slug: Type.string,
-      price: Type.number,
       user: Type.object,
-      images: Type.array,
+      image: Type.string,
     }).isRequired,
     view: Type.number,
     isMe: Type.bool,
     canEdit: Type.bool,
+    showLike: Type.bool,
+    showShare: Type.bool,
   };
 
   static defaultProps = {
     view: 1,
     isMe: false,
     canEdit: false,
+    showLike: true,
+    showShare: false,
   };
 
   handleDelete = () => {
     const { slug } = this.props.data;
-    this.props.delete(slug);
+    this.props.delete(slug, BLOG_TYPE);
   }
 
   renderAvatar(cn) {
@@ -104,7 +108,9 @@ class BlogCard extends PureComponent {
       <Link
         className={cn('user', { block: avatar.block[view], align: avatar.align[view], position: avatarPos })}
         to={createProfileLink(author)}
+        color="gray-600"
         text={name}
+        title={name}
         icon={
           <Avatar
             className={cn('avatar', { bordered: avatar.bordered[view], size })}
@@ -127,16 +133,18 @@ class BlogCard extends PureComponent {
         className={cn('title', { align: titleText.align[view], weight: 'bold' })}
         to={postUrl}
         text={title}
-        color="blog"
+        title={title}
+        color="black"
         icon={<IconBlog
           size="s"
+          color="green"
         />}
       />
     );
   }
 
   render(cn) {
-    const { setLike, view, isMe, canEdit, deleteFromFavorite, data } = this.props;
+    const { data, setLike, showLike, showShare, view, isMe, canEdit, isTouch } = this.props;
     const {
       liked,
       title,
@@ -180,72 +188,62 @@ class BlogCard extends PureComponent {
           </Link>
 
           <div className={cn('actions', { align: 'top-left' })}>
-            <div className="share">
-              <Button
-                size="s"
-                view="fab"
-                color="outline"
-                className={cn('button', { share: true })}
-                aria-label={__t('Share')}
-                icon={<IconShare
-                  size="xs"
-                />}
-              />
-
-              <div className="dropdown-corner" />
-
-              <div className="dropdown">
-                <Share
-                  postLink={postUrl}
-                  buttonClass="social-btn"
-                  media={imageUrl}
-                  description={title}
+            { showShare &&
+              <div className="share">
+                <Button
+                  view="fab"
+                  className={cn('button', { share: true, hide: !isTouch })}
+                  aria-label={__t('Share')}
+                  icon={<IconShare
+                    size="xs"
+                    color="gray-400"
+                  />}
                 />
+                <div className="dropdown">
+                  <div className="dropdown-corner" />
+                  <Share
+                    postLink={postUrl}
+                    buttonClass="social-btn"
+                    media={imageUrl}
+                    description={title}
+                  />
+                </div>
               </div>
-            </div>
+            }
           </div>
 
           <div className={cn('actions', { align: 'top-right' })}>
-            {isMe &&
-              <Button
-                size="s"
-                onClick={this.handleDelete}
+            {showLike &&
+              <Like
+                liked={liked}
+                onClick={setLike}
+                slug={slug}
+                type={type}
+                className={cn('button', { like: true, hide: !isTouch })}
+              />
+            }
+            { canEdit &&
+              <Link
+                to={postEditingUrl}
                 view="fab"
-                color="outline"
-                className={cn('button', { delete: true })}
-                label={__t('Delete')}
-                icon={<IconClose
+                className={cn('button', { edit: true })}
+                aria-label={__t('Edit')}
+                icon={<IconPencil
                   size="xs"
+                  color="gray-400"
                 />}
               />
             }
-
-            <Like
-              liked={liked}
-              onClick={setLike}
-              slug={slug}
-              className={cn('button', { like: true })}
-            />
-          </div>
-
-          <div className={cn('actions', { align: 'bottom-right' })}>
-            {canEdit &&
-              <Link
-                to={postEditingUrl}
-                size="s"
-                view={'default'}
-                text={__t('Edit')}
-              />
-            }
-          </div>
-
-          <div className={cn('actions', { align: 'bottom-right' })}>
-            {isMe && deleteFromFavorite &&
-              <Link
-                to={postEditingUrl}
-                size="s"
-                view={'default'}
-                text={__t('Edit')}
+            { isMe &&
+              <Button
+                onClick={this.handleDelete}
+                view="fab"
+                className={cn('button', { delete: true })}
+                aria-label={__t('Delete')}
+                icon={<IconClose
+                  size="xs"
+                  color="gray-400"
+                />}
               />
             }
           </div>
@@ -288,4 +286,4 @@ class BlogCard extends PureComponent {
   }
 }
 
-export default connect(() => ({}), { setLike })(BlogCard);
+export default connect(({ isTouch }) => ({ isTouch }), { setLike })(BlogCard);

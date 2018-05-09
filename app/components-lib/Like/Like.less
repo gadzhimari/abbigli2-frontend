@@ -2,8 +2,14 @@
 
 .Like {
   &__button {
-    &:hover {
-      fill: @attention;
+    &.Button_view_fab {
+      @media (hover: hover) {
+        &:hover {
+          .Icon {
+            fill: @red;
+          }
+        }
+      }
     }
   }
 
@@ -18,8 +24,8 @@
   }
 
   &_liked {
-    .Like__button {
-      fill: @attention;
+    .Icon {
+      fill: @red;
     }
   }
 }

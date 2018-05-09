@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import pick from 'lodash/pick';
 
-import Link from '../../components/Link/Link';
+import { React, Component, Type } from '../../components-lib/__base';
+
 import {
   AuthorInfo,
   OtherArticles,
@@ -13,9 +12,9 @@ import {
 } from '../../components';
 
 import Content from './Content';
+import { Link } from '../../components-lib';
 import { Product } from '../../components-lib/Cards';
 import { Comments } from '../../components/Comments';
-import createPostEditLink from '../../lib/links/edit-post-link';
 
 import postLoader from '../../HOC/postLoader';
 
@@ -29,17 +28,26 @@ import {
   fetchUsersPosts,
   setFollow,
   addBookmark,
-  deleteBookmark
+  deleteBookmark,
+  toggleFavorite
 } from '../../ducks/PostPage/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
 import onlyAuthAction from '../../lib/redux/onlyAuthAction';
 import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
+import createPostEditLink from '../../lib/links/edit-post-link';
 
 import { __t } from './../../i18n/translator';
 import './ProductPage.less';
 
 class ProductPage extends Component {
+  static propTypes = {
+    priceTemplate: Type.string.isRequired,
+    author: Type.shape({
+      profile_name: Type.string,
+    }),
+  };
+
   componentDidMount() {
     this.globalWrapper = document.body;
     this.globalWrapper.classList.add('goods-post');
@@ -76,14 +84,11 @@ class ProductPage extends Component {
       data,
       author,
       relativePosts,
-      priceTemplate,
       me,
       isAuthenticated,
       followUser,
       openPopup,
-      isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark
+      toggleFavorite
     } = this.props;
     const crumbs = [];
 
@@ -105,11 +110,9 @@ class ProductPage extends Component {
     const userIsOwner = author.id === me.id;
 
     const favoriteAddProps = {
-      isFetching: isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark,
-      bookmarkId: data.bookmark_id,
-      id: data.id
+      toggleFavorite,
+      isFavorite: data.is_favorite,
+      slug: data.slug
     };
 
     const editingLink = createPostEditLink(data, PRODUCT_TYPE);
@@ -123,7 +126,11 @@ class ProductPage extends Component {
               canSubscribe={!userIsOwner}
               followUser={followUser}
             />
-            <OtherArticles articles={itemsAuthors} />
+
+            <OtherArticles
+              articles={itemsAuthors}
+              data={author}
+            />
           </div>
         </div>
         <div className="main">
@@ -132,11 +139,10 @@ class ProductPage extends Component {
           {userIsOwner &&
             <div className="edit-post__container">
               <Link
+                view="default"
                 to={editingLink}
-                className="default-button edit-post-button"
-              >
-                {__t('Edit')}
-              </Link>
+                text={__t('Edit')}
+              />
             </div>
           }
 
@@ -159,20 +165,13 @@ class ProductPage extends Component {
             items={relativePosts}
             Component={Product}
             slug={data.slug}
-            itemProps={{ priceTemplate }}
+            type={PRODUCT_TYPE}
           />
         </div>
       </main>
     );
   }
 }
-
-ProductPage.propTypes = {
-  priceTemplate: PropTypes.string.isRequired,
-  author: PropTypes.shape({
-    profile_name: PropTypes.string,
-  }),
-};
 
 const mapStateToProps = state => ({
   data: state.PostPage.post,
@@ -188,7 +187,6 @@ const mapStateToProps = state => ({
   itemsComments: state.Comments.comments,
   isFetchingComments: state.Comments.commentFetchingState,
   isAuthenticated: state.Auth.isAuthenticated,
-  priceTemplate: state.Settings.data.CURRENCY,
   me: state.Auth.me,
   isFetchingBookmarks: state.PostPage.isFetchingBookmarks,
 });
@@ -210,7 +208,8 @@ const mapDispatch = dispatch => ({
   addBookmark: id => dispatch(addBookmark(PRODUCT_TYPE, id)),
   deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId)),
 
-  onUnmount: () => dispatch(resetPost())
+  onUnmount: () => dispatch(resetPost()),
+  toggleFavorite: slug => dispatch(toggleFavorite(PRODUCT_TYPE, slug))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(ProductPage));

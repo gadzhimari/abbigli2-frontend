@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { React, Component, Type } from '../../components-lib/__base';
+import { React, Component } from '../../components-lib/__base';
 
 import Link from '../../components/Link/Link';
 import { processBlogContent } from '../../lib/process-html';
@@ -30,7 +30,8 @@ import {
   setFollow,
   fetchUsersPosts,
   addBookmark,
-  deleteBookmark
+  deleteBookmark,
+  toggleFavorite
 } from '../../ducks/PostPage/actions';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { openPopup } from '../../ducks/Popup/actions';
@@ -42,13 +43,6 @@ import { BLOG_TYPE } from '../../lib/constants/posts-types';
 import './BlogPage.less';
 
 class BlogPage extends Component {
-  static propTypes = {
-    data: Type.shape().isRequired,
-    handleFavorite: Type.func.isRequired,
-    itemsBlogs: Type.arrayOf(Type.object),
-    itemsAuthors: Type.arrayOf(Type.object)
-  };
-
   componentDidMount() {
     this.globalWrapper = document.querySelector('.global-wrapper');
     this.globalWrapper.classList.add('blog');
@@ -97,9 +91,7 @@ class BlogPage extends Component {
       me,
       followUser,
       openPopup,
-      isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark
+      toggleFavorite
     } = this.props;
 
     const crumbs = [{
@@ -118,11 +110,9 @@ class BlogPage extends Component {
     const userIsOwner = author.id === me.id;
 
     const favoriteAddProps = {
-      isFetching: isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark,
-      bookmarkId: data.bookmark_id,
-      id: data.id
+      toggleFavorite,
+      isFavorite: data.is_favorite,
+      slug: data.slug
     };
 
     const editingLink = createPostEditLink(data, BLOG_TYPE);
@@ -136,8 +126,10 @@ class BlogPage extends Component {
               canSubscribe={!userIsOwner}
               followUser={followUser}
             />
-
-            <OtherArticles articles={itemsAuthors} />
+            <OtherArticles
+              articles={itemsAuthors}
+              data={author}
+            />
           </div>
         </div>
 
@@ -169,7 +161,7 @@ class BlogPage extends Component {
               <div>{processBlogContent(data.content)}</div>
 
               {userIsOwner &&
-                <Link to={createPostEditLink({ slug: data.slug, type: BLOG_TYPE })} className="edit-btn">
+                <Link to={editingLink} className="edit-btn">
                   <svg className="icon icon-edit" viewBox="0 0 18 18">
                     <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
                   </svg>
@@ -205,6 +197,7 @@ class BlogPage extends Component {
               items={relativePosts}
               Component={Blog}
               slug={data.slug}
+              type={BLOG_TYPE}
             />
           }
 
@@ -257,7 +250,9 @@ const mapDispatch = dispatch => ({
   sendComment: data => dispatch(sendComment(data)),
   openPopup: (...args) => dispatch(openPopup(...args)),
   addBookmark: id => dispatch(addBookmark(BLOG_TYPE, id)),
-  deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId))
+  deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId)),
+
+  toggleFavorite: slug => dispatch(toggleFavorite(BLOG_TYPE, slug))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(BlogPage));

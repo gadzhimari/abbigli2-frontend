@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:8-alpine
 LABEL maintainer chernyakov@decanet.ru
 
 ARG APP_ENV

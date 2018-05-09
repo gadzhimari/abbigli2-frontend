@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { React, Component, Type } from '../../components-lib/__base';
+import { React, Component } from '../../components-lib/__base';
 
 import {
   Gallery,
@@ -29,7 +29,8 @@ import {
   fetchUsersPosts,
   setFollow,
   addBookmark,
-  deleteBookmark
+  deleteBookmark,
+  toggleFavorite
 } from '../../ducks/PostPage/actions';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { openPopup } from '../../ducks/Popup/actions';
@@ -40,10 +41,6 @@ import { __t } from '../../i18n/translator';
 import './EventPage.less';
 
 class EventPage extends Component {
-  static propTypes = {
-    data: Type.shape().isRequired
-  };
-
   componentDidMount() {
     this.globalWrapper = document.querySelector('.global-wrapper');
     this.globalWrapper.classList.add('event');
@@ -93,9 +90,7 @@ class EventPage extends Component {
       isAuthenticated,
       followUser,
       openPopup,
-      isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark
+      toggleFavorite
     } = this.props;
 
     const crumbs = [{
@@ -115,11 +110,9 @@ class EventPage extends Component {
     const { city } = data;
 
     const favoriteAddProps = {
-      isFetching: isFetchingBookmarks,
-      addBookmark,
-      deleteBookmark,
-      bookmarkId: data.bookmark_id,
-      id: data.id
+      toggleFavorite,
+      isFavorite: data.is_favorite,
+      slug: data.slug
     };
 
     const editingLink = createPostEditLink(data, EVENT_TYPE);
@@ -133,7 +126,10 @@ class EventPage extends Component {
               canSubscribe={!userIsOwner}
               followUser={followUser}
             />
-            <OtherArticles articles={usersPosts} />
+            <OtherArticles
+              articles={usersPosts}
+              data={author}
+            />
           </div>
         </div>
         <div className="main article">
@@ -172,7 +168,7 @@ class EventPage extends Component {
               <div>{processBlogContent(data.content)}</div>
 
               {userIsOwner &&
-                <Link to={createPostEditLink({ slug: data.slug, type: EVENT_TYPE })} className="edit-btn">
+                <Link to={editingLink} className="edit-btn">
                   <svg className="icon icon-edit" viewBox="0 0 18 18">
                     <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
                   </svg>
@@ -209,6 +205,7 @@ class EventPage extends Component {
               items={relativePosts}
               Component={Event}
               slug={data.slug}
+              type={EVENT_TYPE}
             />
           }
           {/* <div className="section">
@@ -268,6 +265,7 @@ const mapDispatch = dispatch => ({
   deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId)),
 
   onUnmount: () => dispatch(resetPost()),
+  toggleFavorite: slug => dispatch(toggleFavorite(EVENT_TYPE, slug))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(EventPage));

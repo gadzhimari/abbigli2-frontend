@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 
 import { connect } from 'react-redux';
 
+import { React, Component, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
+
 import { ErrorInput } from '../../Inputs';
-import { FetchingButton } from '../../../components';
 
 import { getSupport } from '../../../ducks/Support';
 import { __t } from '../../../i18n/translator';
@@ -13,6 +13,13 @@ import { __t } from '../../../i18n/translator';
 import './SupportPopup.styl';
 
 class SupportPopup extends Component {
+  static propTypes = {
+    closePopup: Type.func.isRequired,
+    dispatch: Type.func.isRequired,
+    isFetching: Type.bool.isRequired,
+    errors: Type.shape().isRequired,
+  };
+
   state = {
     file: null,
     title: '',
@@ -139,14 +146,12 @@ class SupportPopup extends Component {
             </div>
 
             <div className="buttons-wrap">
-              <FetchingButton
-                className="register-popup__fetch-button"
-                type="button"
+              <Button
                 onClick={this.handleClick}
                 isFetching={isFetching}
-              >
-                {__t('Send!')}
-              </FetchingButton>
+                className="register-popup__fetch-button-new"
+                text={__t('Send!')}
+              />
             </div>
           </form>
         </div>
@@ -154,13 +159,6 @@ class SupportPopup extends Component {
     );
   }
 }
-
-SupportPopup.propTypes = {
-  closePopup: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  errors: PropTypes.shape().isRequired,
-};
 
 const mapDispatchToProps = ({ Support }) => ({
   isFetching: Support.isFetching,

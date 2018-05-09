@@ -1,12 +1,12 @@
-@import 'icons';
-@import 'mixin';
-@import 'variables';
+@import '../../../../containers/App/base/mixin';
+@import '../../../../containers/App/base/variables';
 
 .profile-avatar {
   position: absolute;
   left: 0;
   top: -30px;
   text-align: center;
+  z-index: 1;
 
   &__wrap {
     background: url("/img/bg/avatar.svg") center 25px no-repeat #dedede;
@@ -34,10 +34,7 @@
 
   &__loader {
     display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    .align-full();
     & .spin-wrapper {
       margin: 0;
     }

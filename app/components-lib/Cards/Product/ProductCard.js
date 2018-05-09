@@ -9,6 +9,7 @@ import { Button, Like, Link, Price } from '../../../components-lib';
 import IconBag from '../../../icons/bag';
 import IconClose from '../../../icons/close';
 import IconShare from '../../../icons/share';
+import IconPencil from '../../../icons/pencil';
 
 import getImageUrl from '../../../lib/getImageUrl';
 import getUserName from '../../../lib/getUserName';
@@ -61,17 +62,21 @@ class ProductCard extends PureComponent {
     view: Type.number,
     isMe: Type.bool,
     canEdit: Type.bool,
+    showLike: Type.bool,
+    showShare: Type.bool,
   };
 
   static defaultProps = {
     view: 1,
     isMe: false,
     canEdit: false,
+    showLike: true,
+    showShare: false,
   };
 
   handleDelete = () => {
     const { slug } = this.props.data;
-    this.props.delete(slug);
+    this.props.delete(slug, PRODUCT_TYPE);
   }
 
   renderTitle(cn, postUrl) {
@@ -82,9 +87,11 @@ class ProductCard extends PureComponent {
         className={cn('title', { weight: 'bold' })}
         to={postUrl}
         text={title}
-        color="goods"
+        color="black"
+        title={title}
         icon={<IconBag
           size="s"
+          color="blue"
         />}
       />
     );
@@ -104,6 +111,8 @@ class ProductCard extends PureComponent {
           className={cn('user')}
           to={authorUrl}
           text={name}
+          title={name}
+          color="gray-600"
           icon={
             <Avatar
               className={cn('avatar', { bordered: avatar.bordered[view], size })}
@@ -118,7 +127,7 @@ class ProductCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, view, canEdit, isMe, data } = this.props;
+    const { data, setLike, showLike, showShare, view, canEdit, isMe, isTouch } = this.props;
     const {
       liked,
       title,
@@ -160,55 +169,61 @@ class ProductCard extends PureComponent {
             />
           </Link>
           <div className={cn('actions', { align: 'top-left' })}>
-            <div className="share">
-              <Button
-                size="s"
-                view="fab"
-                color="outline"
-                className={cn('button', { share: true })}
-                aria-label={__t('Share')}
-                icon={<IconShare
-                  size="xs"
-                />}
-              />
-              <div className="dropdown-corner" />
-              <div className="dropdown">
-                <Share
-                  postLink={postUrl}
-                  buttonClass="social-btn"
-                  media={imageUrl}
-                  description={title}
+            { showShare &&
+              <div className="share">
+                <Button
+                  view="fab"
+                  className={cn('button', { share: true, hide: !isTouch })}
+                  aria-label={__t('Share')}
+                  icon={<IconShare
+                    size="xs"
+                    color="gray-400"
+                  />}
                 />
+                <div className="dropdown">
+                  <div className="dropdown-corner" />
+                  <Share
+                    postLink={postUrl}
+                    buttonClass="social-btn"
+                    media={imageUrl}
+                    description={title}
+                  />
+                </div>
               </div>
-            </div>
+            }
           </div>
           <div className={cn('actions', { align: 'top-right' })}>
-            {isMe &&
-              <Button
-                size="s"
-                onClick={this.handleDelete}
-                view="fab"
-                color="outline"
-                className={cn('button', { delete: true })}
-                label={__t('Delete')}
-                icon={<IconClose
-                  size="xs"
-                />}
-              />}
-            <Like
-              liked={liked}
-              onClick={setLike}
-              slug={slug}
-              className={cn('button', { like: true })}
-            />
-          </div>
-          <div className={cn('actions', { align: 'bottom-right' })}>
-            {canEdit &&
+            { showLike &&
+              <Like
+                liked={liked}
+                onClick={setLike}
+                slug={slug}
+                type={type}
+                className={cn('button', { like: true, hide: !isTouch })}
+              />
+            }
+            { canEdit &&
               <Link
                 to={postEditingUrl}
-                size="s"
-                view={'default'}
-                text={__t('Edit')}
+                view="fab"
+                className={cn('button', { edit: true })}
+                aria-label={__t('Edit')}
+                icon={<IconPencil
+                  size="xs"
+                  color="gray-400"
+                />}
+              />
+            }
+            { isMe &&
+              <Button
+                onClick={this.handleDelete}
+                view="fab"
+                className={cn('button', { delete: true })}
+                aria-label={__t('Delete')}
+                icon={<IconClose
+                  size="xs"
+                  color="gray-400"
+                />}
               />
             }
           </div>
@@ -228,4 +243,4 @@ class ProductCard extends PureComponent {
   }
 }
 
-export default connect(() => ({}), { setLike })(ProductCard);
+export default connect(({ isTouch }) => ({ isTouch }), { setLike })(ProductCard);

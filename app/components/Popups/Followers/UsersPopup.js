@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react';
 import cn from 'classnames';
 
 import Follower from '../SearchPopup/UserItem';
-import { FetchingButton } from 'components';
+import { Button } from '../../../components-lib';
 
 import { __t } from '../../../i18n/translator';
 
@@ -60,13 +60,14 @@ class UsersPopup extends PureComponent {
     let loadMoreButton = null;
 
     if (canLoadMore) {
-      loadMoreButton = (<FetchingButton
+      loadMoreButton = (<Button
         className="followers__loading"
         onClick={this.loadMore}
         isFetching={isLoadingMore}
-      >
-        {this.translater('Load more')}
-      </FetchingButton>
+        size="l"
+        text={this.translater('Load more')}
+        fullWidth
+      />
       );
     }
 

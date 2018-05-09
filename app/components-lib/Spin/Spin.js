@@ -1,4 +1,6 @@
 import { React, Component, Type, cn } from '../__base';
+import IconHand from '../../icons/hand';
+import IconLoader from '../../icons/loader';
 
 import './Spin.less';
 
@@ -24,8 +26,14 @@ class Spin extends Component {
           visible,
         })}
       >
-        <span className={cn('spinning')} />
-        <span className={cn('icon')} />
+        <IconLoader
+          className={cn('spinning')}
+          size="l"
+        />
+        <IconHand
+          className={cn('icon')}
+          size="m"
+        />
       </span>
     );
   }

@@ -1,27 +1,15 @@
-@import 'variables';
-@import 'mixin';
-
 .profile-my {
   position: relative;
-
-  .default-button {
-    .button(default);
-
-    width: 100%;
-    min-width: auto;
-    height: 40px;
-
+  .Button {
     margin-top: 10px;
-    position: relative;
   }
 }
 
 @media screen and (min-width: 501px) and (max-width: 826px) {
   .profile-my {
-    .default-button {
-      padding: 9px 0;
+    .Button {
+      padding: 0;
     }
-
     &__item-subscribe {
       display: none;
     }

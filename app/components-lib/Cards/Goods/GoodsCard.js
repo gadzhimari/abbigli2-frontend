@@ -44,6 +44,8 @@ class GoodsCard extends PureComponent {
               className={cn('user')}
               to={profileUrl}
               text={name}
+              title={name}
+              color="gray-600"
               icon={
                 <Avatar
                   className="avatar Card__avatar"
@@ -70,10 +72,11 @@ class GoodsCard extends PureComponent {
               className={cn('title')}
               to={postUrl}
               text={title}
+              title={title}
               size="s"
-              color="goods"
               icon={<IconBag
                 size="xs"
+                color="blue"
               />}
             />
             <Price className={cn('price')} price={price} />

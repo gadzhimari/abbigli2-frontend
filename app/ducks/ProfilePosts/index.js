@@ -14,6 +14,7 @@ const initialState = {
   next: null,
   items: [],
   isPrivate: false,
+  pagesCount: 1
 };
 
 export default handleActions({
@@ -34,6 +35,6 @@ export default handleActions({
   }),
   [deletePostFromPage]: (state, { payload }) => ({
     ...state,
-    items: state.items.filter(item => item.bookmark_id !== payload)
+    items: state.items.filter(item => item.slug !== payload)
   })
 }, initialState);

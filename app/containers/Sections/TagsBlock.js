@@ -1,15 +1,10 @@
 /* eslint react/require-default-props: 0 */
-
-import React, { PureComponent } from 'react';
-import Type from 'prop-types';
-
 import { connect } from 'react-redux';
 
+import { React, PureComponent, Type } from '../../components-lib/__base';
+import { Button } from '../../components-lib';
 import Link from '../../components/Link/Link';
-import { FetchingButton } from '../../components';
-
 import { fetchMoreTags } from '../../ducks/CatalogPage/actions';
-
 import { __t } from '../../i18n/translator';
 
 class TagsBlock extends PureComponent {
@@ -72,26 +67,25 @@ class TagsBlock extends PureComponent {
         }
 
         {next &&
-          <FetchingButton
-            className="default-button"
+          <Button
             onClick={this.handleLoadMore}
             isFetching={isFetchingMore}
-          >
-            {__t('More')}
-          </FetchingButton>
+            text={__t('More')}
+          />
         }
       </div>
     );
   }
 }
 
-const mapState = state => ({
+const mapStateToProps = state => ({
   isFetchingMore: state.CatalogPage.isFetchingMoreTags,
   next: state.CatalogPage.nextTagsPage,
 });
 
-const mapDispatch = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   fetchMore: (category, page) => dispatch(fetchMoreTags({ category, page })),
 });
 
-export default connect(mapState, mapDispatch)(TagsBlock);
+export default connect(mapStateToProps,
+  mapDispatchToProps)(TagsBlock);

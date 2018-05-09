@@ -1,17 +1,15 @@
-@import '../../containers/App/base/mixin';
-@import '../../containers/App/base/variables';
 @import '../__base/variables/colors';
-
-@blockName: Link;
+@import '../__base/variables/variables';
+@import '../__base/mixins';
 
 .Link {
-  .buttonBase();
+  .button-base();
   &__text {
-    .buttonBaseText();
+    .button-base-text();
   }
 
   &__icon {
-    .buttonIcon();
+    .button-icon();
   }
 
   &__icon + &__text,
@@ -19,22 +17,58 @@
     margin-left: 6px;
   }
 
-  &_disabled {
-    .disabled();
-  }
-
   &_view {
-    &_default {
-      .setType(button);
-    }
-    &_outline {
-      .setType(button);
+    &_default,
+    &_outline,
+    &_fab {
+      .button();
+      border-width: @btn-border-width;
+      border-style: @btn-border-style;
     }
     &_link {
-      .setType(link);
-      &:hover {
-        .Link__text {
-          .linkText();
+      .link();
+    }
+
+    &_default {
+      .for-each(@pair in @theme-colors) {
+        @key: at(@pair, 1);
+        @value: at(@pair, 2);
+        &.Link_color_@{key} {
+          .button-variant(@value, @value, transparent);
+        }
+      }
+    }
+
+    &_outline {
+      .for-each(@pair in @theme-colors) {
+        @key: at(@pair, 1);
+        @value: at(@pair, 2);
+        &.Link_color_@{key} {
+          .button-outline-variant(@value, @value, @value);
+        }
+      }
+    }
+
+    &_link {
+      .for-each(@pair in @palette) {
+        @key: at(@pair, 1);
+        @value: at(@pair, 2);
+        &.Link_color_@{key} {
+          .button-link-variant(@value);
+        }
+      }
+    }
+
+    &_fab {
+      .for-each(@pair in @palette) {
+        @key: at(@pair, 1);
+        @value: at(@pair, 2);
+        .button-fab-variant(@white, @gray-500, @key, @value);
+      }
+      &.Link_size {
+        &_m {
+          width: 30px;
+          .button-size(0, 0, 30px, inherit, 28px, 50%);
         }
       }
     }
@@ -43,68 +77,58 @@
     &_outline {
       &.Link_size {
         &_s {
-          .setSize(button, s);
+          .button-size(
+            @btn-padding-y-small,
+            @btn-padding-x-small,
+            @btn-height-small,
+            @font-size-small,
+            @btn-line-height-small,
+            @btn-border-radius
+          );
         }
         &_m {
-          .setSize(button, m);
+          .button-size(
+            @btn-padding-y-medium,
+            @btn-padding-x-medium,
+            @btn-height-medium,
+            @font-size-medium,
+            @btn-line-height-medium,
+            @btn-border-radius
+          );
         }
         &_l {
-          .setSize(button, l);
+          .button-size(
+            @btn-padding-y-large,
+            @btn-padding-x-large,
+            @btn-height-large,
+            @font-size-large,
+            @btn-line-height-large,
+            @btn-border-radius
+          );
         }
       }
     }
+    &_link {
+      &.Link_size {
+        &_s {
+          .link-size(@font-size-small);
+        }
+        &_m {
+          .link-size(@font-size-medium);
+        }
+        &_l {
+          .link-size(@font-size-large);
+        }
+      }
+      .Link__text {
+        .button-text();
+      }
+    }
   }
-}
-
-.buttonViewMixin(
-  @blockName,
-  view,
-  default,
-  @btn-primary-bg,
-  @btn-primary-bg-hover,
-  @btn-primary-bg-active,
-  @btn-primary-color,
-  @btn-primary-color,
-  @btn-primary-color,
-  none,
-  none,
-  @btn-primary-box-shadow-active,
-  transparent,
-  transparent,
-  transparent,
-  0,
-  none,
-  3px,
-);
-
-.buttonViewMixin(
-  @blockName,
-  view,
-  outline,
-  transparent,
-  @btn-outline-primary-bg-hover,
-  @btn-outline-primary-bg-active,
-  @btn-outline-primary-color,
-  @btn-outline-primary-color-hover,
-  @btn-outline-primary-color-hover,
-  none,
-  none,
-  @btn-outline-primary-box-shadow-active,
-  @btn-outline-primary-border-color,
-  @btn-outline-primary-border-color,
-  @btn-outline-primary-border-color-active,
-  1px,
-  solid,
-  3px
-);
-
-.buttonSizeMixin(@blockName, size, s, @link-font-small);
-.buttonSizeMixin(@blockName, size, m, @link-font-medium);
-.buttonSizeMixin(@blockName, size, l, @link-font-large);
-
-.for-each(@pair in @colors) {
-  @key: at(@pair, 1);
-  @value: at(@pair, 2);
-
-  .buttonColorMixin(@blockName, color, @key, fill, @value);
+  &_fullWidth {
+    width: 100%;
+  }
+  &_disabled {
+    .button-disabled();
+  }
 }

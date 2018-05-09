@@ -1,7 +1,7 @@
 @import '../../containers/App/base/base';
-@import '../../containers/App/base/mixin';
 @import '../../containers/App/base/variables';
 @import '../__base/variables/colors';
+@import '../__base/mixins';
 
 @cardImageHeight: 200px;
 
@@ -18,13 +18,19 @@
   display: flex;
   flex: 0 0 24%;
   flex-direction: column;
-  margin: 0 0.5% 1%;
+  margin: 4px 0.5%;
   overflow: hidden;
   border: 1px solid @card-border-color;
   border-radius: 5px;
   background-color: @card-background;
   &:hover {
     box-shadow: 0 0 4px #8f8e8e;
+    .Card__button {
+      &_like,
+      &_share {
+        opacity: 1;
+      }
+    }
   }
   &_type {
     &_product {
@@ -50,6 +56,8 @@
     &_attach {
       min-height: 275px;
       padding: 10px;
+      outline: 1px dashed @blue;
+      outline-offset: -10px;
     }
   }
 
@@ -60,7 +68,7 @@
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          height: calc(~'100% - @{cardImageHeight}');
+          flex-shrink: 0;
         }
       }
     }
@@ -78,7 +86,7 @@
         }
         &__title {
           margin-bottom: 0;
-          color: @grayText;
+          color: @gray-600;
         }
         &__price {
           font-size: 14px;
@@ -129,6 +137,9 @@
       &_top-right {
         top: 10px;
         right: 10px;
+        .Card__button:not(:first-child) {
+          margin-left: 10px;
+        }
       }
       &_bottom-left {
         bottom: 10px;
@@ -141,22 +152,26 @@
     }
   }
   &__button {
+    &_hide {
+      opacity: 0;
+    }
+    &_like,
+    &_share {
+      // opacity: 0;
+      transition: opacity 0.1s ease-in-out;
+    }
     &_share,
     &_delete {
       &:hover {
         fill: #c7c7c7;
       }
     }
-    &_like {
-      margin-left: 10px;
-    }
     &_attach {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 100%;
-      height: 100%;
+      flex: 1;
       font-family: 'ClearSansBold';
       color: #000;
 
@@ -205,7 +220,6 @@
     align-items: center;
     margin-bottom: 5px;
     font-family: ClearSans;
-    color: #000;
     &_weight {
       &_bold {
         font-family: ClearSansBold;
@@ -217,7 +231,7 @@
         justify-content: center;
       }
     }
-    .truncate-text();
+    .text-truncate();
     .Link__text {
       overflow: hidden;
     }
@@ -252,7 +266,7 @@
     flex: 0 0 auto;
     font-family: 'ClearSans';
     font-size: 16px;
-    color: @grayText;
+    color: @gray-600;
     text-align: center;
     &_short {
       width: 60px;
@@ -292,27 +306,26 @@
     margin-left: 10px;
     font-family: 'ClearSans';
     font-size: 14px;
-    .truncate-text();
+    .text-truncate();
   }
   &__comments {
     flex: 0 0 auto;
     &-icon {
       vertical-align: middle;
-      fill: @grayText;
+      fill: @gray-600;
     }
     &-count {
       font-family: 'ClearSansLight';
       margin-left: 6px;
       vertical-align: middle;
       font-size: 16px;
-      color: @grayText;
+      color: @gray-600;
     }
   }
   &__user {
-    .truncate-text();
+    .text-truncate();
     text-align: left;
     font-size: 16px;
-    color: @grayText;
     &_align {
       &_center {
         text-align: center;
@@ -344,7 +357,7 @@
   &__attach {
     width: 100%;
     height: 100%;
-    border: 1px dashed @bluish;
+    border: 1px dashed @blue;
 
     &_blog {
       border: 1px dashed @blog;

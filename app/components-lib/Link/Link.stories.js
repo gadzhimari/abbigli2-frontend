@@ -5,58 +5,99 @@ import { React, Fragment } from '../__base';
 import Link from './Link';
 import IconHeart from '../../icons/heart';
 
-const primaryLink = () => (
-  <Link
-    view="default"
-    onClick={action('onClick')}
-    text="Primary"
-  />
+const colors = {
+  primary: 'Primary',
+  secondary: 'Secondary',
+  success: 'Success',
+  danger: 'Danger',
+  warning: 'Warning',
+  info: 'Info',
+  light: 'Light',
+  dark: 'Dark',
+};
+
+const sizes = ['s', 'm', 'l'];
+
+const defaultLink = () => (
+  <Fragment>
+    {
+      Object.keys(colors).map(color =>
+        <Link
+          key={color}
+          text={colors[color]}
+          color={color}
+          view="default"
+          onClick={action('onClick')}
+        />
+      )
+    }
+  </Fragment>
 );
-const primaryLinkStr = `
+
+const defaultLinkStr = `
 # Документация
-Дефолтное представление ссылки
+Ссылка выглядящая, как кнопка. Для указания цвета достаточно передать
+модификатор color с нужным значением. Цвета кнопка определены в файле
+colors.less в переменной @theme-colors.
 ## Пример
 ~~~js
 <Link
-  view="primary"
-  onClick={action('link-click')}
-  text="Primary"
+  text="Danger"
+  color="danger"
+  view="default"
+  onClick={action('button-click')}
 />
 ~~~
 `;
 
 const outlineLink = () => (
-  <Link
-    view={'outline'}
-    text="Outline"
-  />
+  <Fragment>
+    {
+      Object.keys(colors).map(color =>
+        <Link
+          key={color}
+          text={colors[color]}
+          color={color}
+          view="outline"
+          onClick={action('onClick')}
+        />
+      )
+    }
+  </Fragment>
 );
+
 const outlineLinkStr = `
 # Документация
-Дефолтное представление ссылки
+Ссылка выглядящая, как кнопка. Для указания цвета достаточно передать
+модификатор color с нужным значением. Цвета кнопка определены в файле
+colors.less в переменной @theme-colors.
 ## Пример
 ~~~js
 <Link
-  view={'outline'}
-  text="Outline"
+  text="Warning"
+  color="warning"
+  view="outline"
+  onClick={action('onClick')}
 />
 ~~~
 `;
 
-
 const link = () => (
   <Link
-    view={'link'}
+    view="link"
     text="link"
   />
 );
+
 const linkStr = `
 # Документация
-Ссылка имеющая визуальный вид похожий на ссылку
+Дефолтное представление ссылки. Для указания цвета достаточно передать
+модификатор color с нужным значением. Цвета кнопка определены в файле
+colors.less в переменной @colors.
 ## Пример
 ~~~js
 <Link
-  view={'link'}
+  view="link"
   text="link"
 />
 ~~~
@@ -64,85 +105,41 @@ const linkStr = `
 
 const linkSizes = () => (
   <Fragment>
-    <Link
-      size={'s'}
-      text="Редактировать"
-      color="white"
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
-    <Link
-      text="Редактировать"
-      color="white"
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
-    <Link
-      text="Редактировать"
-      size={'l'}
-      color="white"
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
+    {
+      sizes.map(size =>
+        <Link
+          size={size}
+          text="Редактировать"
+        />
+      )
+    }
   </Fragment>
 );
+
 const linkSizesStr = `
 # Документация
 Размеры ссылки - s, m, l(слева направо)
 ## Пример
 ~~~js
 <Link
-  size={'s'}
+  size="s"
   text="Редактировать"
-  color="white"
-  icon={<IconHeart
-    size={'xs'}
-  />}
-/>
-
-<Link
-  text="Редактировать"
-  color="white"
-  icon={<IconHeart
-    size={'xs'}
-  />}
-/>
-
-<Link
-  text="Редактировать"
-  size={'l'}
-  color="white"
-  icon={<IconHeart
-    size={'xs'}
-  />}
 />
 ~~~
 `;
 
 const fullWidthLink = () => (
-  <Fragment>
-    <Link
-      text="Редактировать"
-      color="attention"
-      fullwidth
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
-    <Link
-      view={'outline'}
-      text="Редактировать"
-      color="attention"
-      fullwidth
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
-  </Fragment>
+  <Link
+    text="Редактировать"
+    fullWidth
+    view="outline"
+    icon={<IconHeart
+      size="xs"
+      color="red"
+    />}
+  />
 );
+
 const fullWidthLinkStr = `
 # Документация
 Ссылка занимает 100% ширины контейнера, в котором находится.
@@ -150,20 +147,10 @@ const fullWidthLinkStr = `
 ~~~js
 <Link
   text="Редактировать"
-  color="attention"
-  fullwidth
+  fullWidth
   icon={<IconHeart
-    size={'xs'}
-  />}
-/>
-
-<Link
-  view={'outline'}
-  text="Редактировать"
-  color="attention"
-  fullwidth
-  icon={<IconHeart
-    size={'xs'}
+    size="xs"
+    color="red"
   />}
 />
 ~~~
@@ -173,17 +160,17 @@ const linkIconPosition = () => (
   <Fragment>
     <Link
       text="Редактировать"
-      color="attention"
       icon={<IconHeart
-        size={'xs'}
+        size="xs"
+        color="red"
       />}
     />
     <Link
       text="Редактировать"
-      color="attention"
-      iconPosition={'right'}
+      iconPosition="right"
       icon={<IconHeart
-        size={'xs'}
+        size="xs"
+        color="red"
       />}
     />
   </Fragment>
@@ -196,18 +183,10 @@ const linkIconPositionStr = `
 ~~~js
 <Link
   text="Редактировать"
-  color="attention"
+  iconPosition="right"
   icon={<IconHeart
-    size={'xs'}
-  />}
-/>
-
-<Link
-  text="Редактировать"
-  color="attention"
-  iconPosition={'right'}
-  icon={<IconHeart
-    size={'xs'}
+    size="xs"
+    color="red"
   />}
 />
 ~~~
@@ -216,10 +195,10 @@ const linkIconPositionStr = `
 const linkDisabled = () => (
   <Link
     text="Редактировать"
-    color="white"
     disabled
     icon={<IconHeart
       size={'xs'}
+      color="red"
     />}
   />
 );
@@ -231,57 +210,17 @@ const linkDisabledStr = `
 ~~~js
 <Link
   text="Редактировать"
-  color="white"
   disabled
   icon={<IconHeart
-    size={'xs'}
-  />}
-/>
-~~~
-`;
-
-const linkColor = () => (
-  <Fragment>
-    <Link
-      text="Редактировать"
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
-    <Link
-      text="Редактировать"
-      color="event"
-      icon={<IconHeart
-        size={'xs'}
-      />}
-    />
-  </Fragment>
-);
-
-const linkColorStr = `
-# Документация
-Модификатор отвечающий за цвет иконки внутри ссылки. Название цвета берется из
-списка цветов определенных в файле colors.less
-## Пример
-~~~js
-<Link
-  text="Редактировать"
-  icon={<IconHeart
-    size={'xs'}
-  />}
-/>
-<Link
-  text="Редактировать"
-  color="event"
-  icon={<IconHeart
-    size={'xs'}
+    size="xs"
+    color="red"
   />}
 />
 ~~~
 `;
 
 storiesOf('Link', module)
-  .add('Primary', withMarkdownNotes(primaryLinkStr)(primaryLink))
+  .add('Primary', withMarkdownNotes(defaultLinkStr)(defaultLink))
   .add('Outline', withMarkdownNotes(outlineLinkStr)(outlineLink))
   .add('Link', withMarkdownNotes(linkStr)(link))
   .add('Sizes', withMarkdownNotes(linkSizesStr)(linkSizes))
@@ -289,6 +228,4 @@ storiesOf('Link', module)
   .add('Icon position',
     withMarkdownNotes(linkIconPositionStr)(linkIconPosition))
   .add('Disabled',
-    withMarkdownNotes(linkDisabledStr)(linkDisabled))
-  .add('Color',
-    withMarkdownNotes(linkColorStr)(linkColor));
+    withMarkdownNotes(linkDisabledStr)(linkDisabled));

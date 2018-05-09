@@ -33,7 +33,7 @@ const savePost = (data, slug = null, type) => (dispatch) => {
   return apiMethod(data, slug)
     .then((res) => {
       dispatch(savePostRes());
-      browserHistory.push(createPostLink({ slug: res.data.slug, type }));
+      browserHistory.push(createPostLink(res.data, type));
 
       if (slug) {
         const action = gaActionsByPostType[type];

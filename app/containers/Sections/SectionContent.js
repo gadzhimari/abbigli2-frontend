@@ -28,7 +28,6 @@ class SectionContent extends PureComponent {
     tags: Type.arrayOf(Type.string),
     promo: Type.arrayOf(SECTION_TYPES),
     posts: Type.arrayOf(Type.object),
-    priceTemplate: Type.string,
     pages: Type.number,
     paginate: Type.func,
     activePage: Type.number,
@@ -40,7 +39,6 @@ class SectionContent extends PureComponent {
       tags,
       promo,
       posts,
-      priceTemplate,
       renderPaginator
     } = this.props;
 
@@ -89,7 +87,6 @@ class SectionContent extends PureComponent {
         <ListWithNew
           ItemComponent={Product}
           items={posts}
-          itemProps={{ priceTemplate }}
           count={4}
         />
 

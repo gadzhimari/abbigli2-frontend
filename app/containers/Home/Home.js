@@ -8,15 +8,13 @@ import {
   BannerBlue,
   HomeSlider
 } from '../../components';
-import { Card, Goods } from '../../components-lib/Cards';
+import { Blog, Goods, Event } from '../../components-lib/Cards';
 import PostsList from './PostsList';
 
 import { fetchBlogs } from '../../ducks/Blogs/actions';
 import { fetchEvents } from '../../ducks/Events/actions';
 import { fetchData as fetchDataProducts } from '../../ducks/Products';
 import { stagedPopup } from '../../ducks/Auth/authActions';
-
-import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
 
 import { __t } from './../../i18n/translator';
 
@@ -29,8 +27,8 @@ class Home extends PureComponent {
 
   handleOpenCreating = () => {
     const { isAuthenticated,
-            router,
-            showRegister } = this.props;
+      router,
+      showRegister } = this.props;
 
     if (isAuthenticated) {
       router.push('/post/new');
@@ -40,15 +38,16 @@ class Home extends PureComponent {
   }
 
   render() {
-    const { isFetchingBlogs,
-            isFetchingEvents,
-            itemsBlogs,
-            itemsEvents,
-            isFetchingProducts,
-            itemsProducts,
-            isAuthenticated,
-            priceTemplate,
-            itemsSections } = this.props;
+    const {
+      isFetchingBlogs,
+      isFetchingEvents,
+      itemsBlogs,
+      itemsEvents,
+      isFetchingProducts,
+      itemsProducts,
+      isAuthenticated,
+      itemsSections
+    } = this.props;
 
     return (
       <div className="container-fluid main-page">
@@ -71,16 +70,12 @@ class Home extends PureComponent {
           title={__t('Display.for.sale.their.works')}
           hrColor="blue"
 
-          moreLinkText={__t('Explore')}
+          moreLinkText={__t('See more')}
           moreLinkUrl="/new-products"
-
-          priceTemplate={priceTemplate}
-          isAuth={isAuthenticated}
-          type={PRODUCT_TYPE}
         />
 
         <PostsList
-          Component={Card}
+          Component={Blog}
           isFetching={isFetchingBlogs}
           posts={itemsBlogs}
           view={2}
@@ -88,15 +83,12 @@ class Home extends PureComponent {
           title={__t('Share.with.the.world.the.thoughts.and.ideas.of.his.work')}
           hrColor="green"
 
-          moreLinkText={__t('read more')}
+          moreLinkText={__t('See more')}
           moreLinkUrl="/blogs"
-
-          isAuth={isAuthenticated}
-          type={BLOG_TYPE}
         />
 
         <PostsList
-          Component={Card}
+          Component={Event}
           isFetching={isFetchingEvents}
           posts={itemsEvents}
           view={2}
@@ -104,11 +96,8 @@ class Home extends PureComponent {
           title={__t('Share.information.about.your.master.class.creative.event.exhibition')}
           hrColor="purple"
 
-          moreLinkText={__t('Continue')}
+          moreLinkText={__t('See more')}
           moreLinkUrl="/events"
-
-          isAuth={isAuthenticated}
-          type={EVENT_TYPE}
         />
 
         <HR color={'orange'} />
@@ -148,8 +137,7 @@ const mapState = state => ({
   itemsProducts: state.Products.items,
   isFetchingProducts: state.Products.isFetching,
 
-  isAuthenticated: state.Auth.isAuthenticated,
-  priceTemplate: state.Settings.data.CURRENCY,
+  isAuthenticated: state.Auth.isAuthenticated
 });
 
 const mapDispatch = dispatch => ({

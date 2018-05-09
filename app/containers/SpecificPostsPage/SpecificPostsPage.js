@@ -33,7 +33,7 @@ class SpecificPostsPage extends PureComponent {
   }
 
   render() {
-    const { page, priceTemplate, items, sections, route, renderPaginator } = this.props;
+    const { page, items, sections, route, renderPaginator } = this.props;
     const crumbs = [page];
 
     const gifts = sections.filter(item => giftsCategoriesSlugs.has(item.slug))[0];
@@ -65,7 +65,6 @@ class SpecificPostsPage extends PureComponent {
           ItemComponent={Product}
           items={items}
           count={8}
-          itemProps={{ priceTemplate }}
         />
 
         {renderPaginator()}
@@ -75,12 +74,11 @@ class SpecificPostsPage extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ PostsSpecific, Settings, Auth, Sections }) => ({
+const mapStateToProps = ({ PostsSpecific, Auth, Sections }) => ({
   next: PostsSpecific.next,
   items: PostsSpecific.items,
   isFetching: PostsSpecific.isFetching,
   isAuthenticated: Auth.isAuthenticated,
-  priceTemplate: Settings.data.CURRENCY,
   pagesCount: PostsSpecific.pages,
   sections: Sections.items,
 });

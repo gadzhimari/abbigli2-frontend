@@ -20,7 +20,7 @@ import paginateHOC from '../../HOC/paginate';
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 
 import { API_URL } from '../../config';
-
+import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
 import { __t } from './../../i18n/translator';
 
 import './Tag.styl';
@@ -142,7 +142,6 @@ class TagSearchResults extends Component {
       tags,
       items,
       isFetching,
-      priceTemplate,
       filters,
       renderPaginator
     } = this.props;
@@ -167,29 +166,20 @@ class TagSearchResults extends Component {
         <main className="main">
           <BreadCrumbs />
           <div className="content">
-            { this.renderResultsOfSearch() }
-            {/* <Filters
-              sections={sections}
-              activeFilters={filters}
-              updateFilter={updateFilter}
-              applyFilters={applyFilters}
-              reversePriceRange={reversePriceRange}
-              changeFiltersType={changeFiltersType}
-              openCityPopup={this.openSelectPopup}
-            />
-            */}
+            {this.renderResultsOfSearch()}
+
             {
               isFetching
-              ? <div className="cards-wrap">
-                <div className="spin-wrapper">
-                  <Spin visible={isFetching} />
+                ? <div className="cards-wrap">
+                  <div className="spin-wrapper">
+                    <Spin visible={isFetching} />
+                  </div>
                 </div>
-              </div>
                 : <ListWithNew
                   items={items}
                   count={4}
-                  itemProps={{ priceTemplate, legacy: true }}
                   query={filters.tags}
+                  type={PRODUCT_TYPE}
                 />
             }
             {!isFetching && renderPaginator()}
@@ -200,19 +190,14 @@ class TagSearchResults extends Component {
   }
 }
 
-const mapStateToProps = ({
-  Auth,
-  Settings,
-  TagSearch,
-  Sections }) => ({
-    isAuthenticated: Auth.isAuthenticated,
-    priceTemplate: Settings.data.CURRENCY,
-    items: TagSearch.items,
-    tags: TagSearch.tags,
-    isFetching: TagSearch.isFetching,
-    pagesCount: TagSearch.pageCount,
-    sections: Sections.items,
-  });
+const mapStateToProps = ({ Auth, TagSearch, Sections }) => ({
+  isAuthenticated: Auth.isAuthenticated,
+  items: TagSearch.items,
+  tags: TagSearch.tags,
+  isFetching: TagSearch.isFetching,
+  pagesCount: TagSearch.pageCount,
+  sections: Sections.items,
+});
 
 const enhance = compose(
   connect(mapStateToProps),

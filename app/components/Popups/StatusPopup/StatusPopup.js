@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import { React, Component, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
 import { __t } from '../../../i18n/translator';
 
 class StatusPopup extends Component {
   static propTypes = {
-    closePopup: PropTypes.func.isRequired,
-    options: PropTypes.shape({
-      title: PropTypes.string,
+    closePopup: Type.func.isRequired,
+    options: Type.shape({
+      title: Type.string,
     }).isRequired,
   }
 
@@ -21,13 +21,11 @@ class StatusPopup extends Component {
             <div className="register-popup__content">
               {options.title}
             </div>
-            <button
-              className="register-popup__fetch-button"
-              type="button"
+            <Button
+              className="register-popup__fetch-button-new"
               onClick={closePopup}
-            >
-              {__t('Ok')}
-            </button>
+              text={__t('Ok')}
+            />
           </form>
         </div>
       </div>

@@ -46,11 +46,11 @@ class Like extends PureComponent {
           size={size}
           onClick={this.handleClick}
           view={'fab'}
-          color="outline"
           className={cn('button')}
           aria-label={__t('Like')}
           icon={<IconHeart
             size="xs"
+            color="gray-400"
           />}
         />
 

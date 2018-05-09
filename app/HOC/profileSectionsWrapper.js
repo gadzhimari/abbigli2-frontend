@@ -43,7 +43,7 @@ const profileSectionsWrapper = (fetchData, WrappedComponent) => class extends Pu
 const mapStateToProps = state => ({
   user: state.Profile.data,
   posts: state.ProfilePosts.items,
-  pagesCount: state.ProfilePosts.pages,
+  pagesCount: state.ProfilePosts.pagesCount,
   isFetching: state.ProfilePosts.isFetching,
 
   query: state.Location.query
