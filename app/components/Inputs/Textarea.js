@@ -42,7 +42,7 @@ export default class Textarea extends PureComponent {
     this.setState({ showError: false });
   }
 
-  getValue = () => {
+  getValue() {
     const { value } = this.props;
 
     return typeof value === 'undefined' ?

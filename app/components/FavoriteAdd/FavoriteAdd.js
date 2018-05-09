@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import { __t } from '../../i18n/translator';
@@ -7,16 +6,11 @@ import { __t } from '../../i18n/translator';
 import './FavoriteAdd.less';
 
 class FavoriteAdd extends PureComponent {
-  static propTypes = {
-    addBookmark: PropTypes.func.isRequired,
-    deleteBookmark: PropTypes.func.isRequired
-  };
-
   toggleFavorite = () => {
-    const { toggleFavorite, slug, onClick } = this.props;
+    const { toggleFavorite, slug, onClick, isFetching } = this.props;
     toggleFavorite(slug);
 
-    if (onClick) {
+    if (onClick && !isFetching) {
       onClick();
     }
   }

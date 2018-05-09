@@ -188,6 +188,7 @@ class BlogPage extends Component {
             seeAllUrl="/blogs"
             newSectionTitle={__t('New in blogs')}
             popularSectionTitle={__t('Popular in blogs')}
+            type={BLOG_TYPE}
 
             {...favoriteAddProps}
           />
