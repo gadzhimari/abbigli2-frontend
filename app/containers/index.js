@@ -24,5 +24,3 @@ export { default as PeopleSearch } from './PeopleSearch';
 export { default as ProfileEvents } from './ProfileEvents';
 export { default as ProfileBlogs } from './ProfileBlogs';
 export { default as ForMasters } from './ForMasters';
-export { default as ProfileEvents } from './ProfileEvents';
-export { default as ProfileBlogs } from './ProfileBlogs';
