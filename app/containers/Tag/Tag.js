@@ -122,17 +122,6 @@ class TagSearchResults extends Component {
       <h1 className="section-title">
         <span>{__t('Search results')}</span>
         {` "${query.tags.split(',').join(' ')}"`}
-        {/* <div className="section-title__subscribe">
-          {<button className="default-button" type="button">
-            {__t('Subscribe')}
-          </button>}
-          <a
-            className="filter-open"
-            onClick={this.openMobileFilters}
-          >
-            {__t('Filters')}
-          </a>
-        </div>*/}
       </h1>
     );
   }
@@ -190,13 +179,15 @@ class TagSearchResults extends Component {
   }
 }
 
-const mapStateToProps = ({ Auth, TagSearch, Sections }) => ({
+const mapStateToProps = ({ Auth, TagSearch, Sections, Location }) => ({
   isAuthenticated: Auth.isAuthenticated,
   items: TagSearch.items,
   tags: TagSearch.tags,
   isFetching: TagSearch.isFetching,
   pagesCount: TagSearch.pageCount,
   sections: Sections.items,
+
+  query: Location.query
 });
 
 const enhance = compose(

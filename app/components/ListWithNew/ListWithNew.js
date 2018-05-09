@@ -11,13 +11,13 @@ import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-t
 const cardsByType = {
   [PRODUCT_TYPE]: Product,
   [BLOG_TYPE]: Blog,
-  [EVENT_TYPE]: Event,
+  [EVENT_TYPE]: Event
 };
 
 const newItemsByType = {
   [PRODUCT_TYPE]: [BLOG_TYPE, EVENT_TYPE],
   [BLOG_TYPE]: [PRODUCT_TYPE, EVENT_TYPE],
-  [EVENT_TYPE]: [PRODUCT_TYPE, BLOG_TYPE],
+  [EVENT_TYPE]: [PRODUCT_TYPE, BLOG_TYPE]
 };
 
 const getNewItems = (type, postsMapByType) => {
@@ -89,6 +89,7 @@ class ListWithNew extends PureComponent {
       itemProps,
       count,
       ItemComponent,
+      type
     } = this.props;
 
     return (
@@ -96,7 +97,7 @@ class ListWithNew extends PureComponent {
         <div className="cards-wrapper">
           {
             items.slice(0, count).map((item) => {
-              const Component = ItemComponent || cardsByType[item.type];
+              const Component = ItemComponent || cardsByType[item.type || type];
 
               return (<Component
                 key={item.id}
@@ -123,7 +124,7 @@ class ListWithNew extends PureComponent {
         <div className="cards-wrapper">
           {
             items.slice(count).map((item) => {
-              const Component = ItemComponent || cardsByType[item.type];
+              const Component = ItemComponent || cardsByType[item.type || type];
 
               return (<Component
                 key={item.id}

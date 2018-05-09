@@ -417,5 +417,6 @@ Information consists of all materials and information provided by the User to AB
   'Go.back.home': 'Go back to home page',
   Oops: 'Oops!',
   'pages.next': 'Next',
-  'pages.previous': 'Previous'
+  'pages.previous': 'Previous',
+  'users.search.result.text': 'Results for query «{{user}}» '
 };

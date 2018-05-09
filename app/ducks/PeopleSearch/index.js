@@ -40,5 +40,8 @@ export default handleActions({
 export const getUsers = params => (dispatch) => {
   dispatch(peopleRequest());
 
-  return Users.getUsers(params);
+  return Users.getUsers(params)
+    .then(({ data }) => {
+      dispatch(peopleSuccess(data));
+    });
 };

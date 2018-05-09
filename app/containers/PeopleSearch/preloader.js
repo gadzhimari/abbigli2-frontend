@@ -16,8 +16,8 @@ const preloader = WrappedComponent => class extends PureComponent {
   }
 
   fetchUsers = () => {
-    const { query: { search, page = 1 }, getUsers } = this.props;
-    getUsers({ search, page });
+    const { query: { user, page = 1 }, getUsers } = this.props;
+    getUsers({ search: user, page });
   }
 
   render() {
