@@ -21,7 +21,7 @@ class Middle extends PureComponent {
     return (
       <Link
         className="category-button category-button--imaged"
-        to={item.view_on_site_url}
+        to={item.url}
         alt={item.title}
         title={item.title}
       >

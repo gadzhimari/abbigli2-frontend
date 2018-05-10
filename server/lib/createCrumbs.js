@@ -19,7 +19,7 @@ const createCrumbs = (slugs, categories) => {
     const current = targetCategories[cur];
 
     current.children = current.children.map(catSlug => targetCategories[catSlug]);
-    current.url = current.view_on_site_url;
+    current.url = current.url;
 
     acc.push(current);
 
