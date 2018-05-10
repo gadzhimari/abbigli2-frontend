@@ -19,7 +19,6 @@ const SECTION_TYPES = Type.shape({
   children: Type.arrayOf(Type.object),
   url: Type.string,
   slug: Type.string,
-  view_on_site_url: Type.string,
 });
 
 class SectionContent extends PureComponent {

@@ -95,7 +95,7 @@ class ProductPage extends Component {
     if (data.category) {
       crumbs.push({
         title: data.category.title,
-        url: data.category.view_on_site_url,
+        url: data.category.url,
       });
     }
 

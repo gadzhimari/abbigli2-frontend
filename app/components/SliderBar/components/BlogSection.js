@@ -33,7 +33,7 @@ class BlogSection extends PureComponent {
           'slider-category__item': true,
           'slider-category__item_blog': isBlog,
         })}
-        to={`${baseUrl ? `${baseUrl}?category=${item.slug}` : item.view_on_site_url}`}
+        to={`${baseUrl ? `${baseUrl}?category=${item.slug}` : item.url}`}
       >
         <Image
           alt={item.title}

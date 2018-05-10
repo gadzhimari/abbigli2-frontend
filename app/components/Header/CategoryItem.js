@@ -10,7 +10,7 @@ class CategoryItem extends PureComponent {
     item: PropTypes.shape({
       slug: PropTypes.string,
       title: PropTypes.string,
-      view_on_site_url: PropTypes.string,
+      url: PropTypes.string,
       children: PropTypes.array,
     }).isRequired,
     hideCategory: PropTypes.func.isRequired,
