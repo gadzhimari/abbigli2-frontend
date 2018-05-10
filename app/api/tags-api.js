@@ -7,12 +7,10 @@ const Tags = {
       params,
     });
   },
-  getRelatedTags(tags) {
+  getRelatedTags(params) {
     return requestV2({
       url: 'tags/',
-      params: {
-        related_with: tags,
-      },
+      params
     });
   },
 };

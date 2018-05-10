@@ -20,10 +20,12 @@ import paginateHOC from '../../HOC/paginate';
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 
 import { API_URL } from '../../config';
-import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
+import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
 import { __t } from './../../i18n/translator';
 
 import './Tag.styl';
+
+const allowedTypes = new Set([PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE]);
 
 class TagSearchResults extends Component {
   static propTypes = {
@@ -74,8 +76,17 @@ class TagSearchResults extends Component {
 
   loadRelativeTags = () => {
     const { query, dispatch } = this.props;
+    const options = {
+      related_with: query.tags
+    };
 
-    dispatch(fetchTags(query.tags));
+    if (!allowedTypes.has(query.type)) {
+      options.type = `${PRODUCT_TYPE}s`;
+    } else {
+      options.type = `${query.type}s`;
+    }
+
+    dispatch(fetchTags(options));
   }
 
   loadItems = () => {

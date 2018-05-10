@@ -69,13 +69,13 @@ class SectionContent extends PureComponent {
         <TagsBlock
           items={tags}
           category={section.slug}
-          currentUrl={section.view_on_site_url}
+          currentUrl={section.url}
         />
 
         <div className="category-buttons">
           {promo.slice(0, TOP_PROMO_COUNT)
             .map(item => <Link
-              to={item.view_on_site_url}
+              to={item.url}
               className="category-buttons__link"
               key={item.id}
             >
@@ -93,7 +93,7 @@ class SectionContent extends PureComponent {
         <div className="category-buttons">
           {promo.slice(TOP_PROMO_COUNT, isPromo ? promo.length : 15)
             .map(item => <Link
-              to={item.view_on_site_url}
+              to={item.url}
               className="category-buttons__link"
               key={item.id}
             >
