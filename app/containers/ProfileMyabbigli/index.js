@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Link, Icon } from '../../components-lib';
+import Attach from '../Profile/components/Attach';
 import { Product } from '../../components-lib/Cards';
 
 import wrapper from '../../HOC/profileSectionsWrapper';
@@ -48,24 +48,12 @@ class ProfileMyabbigli extends Component {
         }
 
         <div className="cards-row">
-          {isMe &&
-            <div className="Card Card_type_attach">
-              <div className="Card__attach">
-                <Link
-                  className="Card__button Card__button_attach"
-                  onClick={this.onCreateLinkClick}
-                  to="/post/new"
-                  text={__t('add.on.abbigli')}
-                  color="black"
-                  size={'l'}
-                  icon={<Icon
-                    glyph="plus"
-                    size="s"
-                  />}
-                />
-              </div>
-            </div>
-          }
+          <Attach
+            isVisible={isMe}
+            type="product"
+            url="/post/new"
+            onClick={this.onCreateLinkClick}
+          />
 
           {posts.map(item => (
             <Product
