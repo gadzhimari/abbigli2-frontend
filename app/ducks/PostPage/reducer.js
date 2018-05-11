@@ -117,12 +117,6 @@ export default handleActions({
       author: payload.author
     };
   },
-  [postActions.postFailure](state) {
-    return {
-      ...state,
-      isFetchingPost: false,
-    };
-  },
   [resetPost]() {
     return initialState;
   },

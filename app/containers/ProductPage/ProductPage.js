@@ -42,7 +42,6 @@ import './ProductPage.less';
 
 class ProductPage extends Component {
   static propTypes = {
-    priceTemplate: Type.string.isRequired,
     author: Type.shape({
       profile_name: Type.string,
     }),
@@ -55,6 +54,7 @@ class ProductPage extends Component {
 
   componentWillUnmount() {
     this.globalWrapper.classList.remove('goods-post');
+    this.props.onUnmount();
   }
 
   sendComment = (comment) => {

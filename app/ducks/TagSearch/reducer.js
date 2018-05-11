@@ -1,10 +1,11 @@
 import * as actions from './actionsTypes';
+import { calculatePagesCount } from '../../lib/calculatePagesCount';
 
 const initialState = {
   isFetching: true,
   items: [],
   tags: [],
-  pageCount: 0,
+  pagesCount: 0,
 };
 
 const reducer = (state = initialState, action) => {
@@ -17,8 +18,8 @@ const reducer = (state = initialState, action) => {
     case (actions.POSTS_RESPONSE): {
       return Object.assign({}, state, {
         isFetching: false,
-        items: action.data,
-        pageCount: action.pageCount,
+        items: action.data.results,
+        pagesCount: calculatePagesCount(action.data.count)
       });
     }
     case (actions.TAGS_RESPONSE): {
