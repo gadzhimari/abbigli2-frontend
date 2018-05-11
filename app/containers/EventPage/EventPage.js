@@ -153,8 +153,8 @@ class EventPage extends Component {
 
               <div className="article__date">
                 <DateRange
-                  start={data.date_start}
-                  end={data.date_end}
+                  start={data.start}
+                  end={data.end}
                 />
               </div>
 
