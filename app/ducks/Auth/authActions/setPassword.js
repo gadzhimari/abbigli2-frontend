@@ -10,7 +10,7 @@ const setPassword = creds => (dispatch) => {
 
   Auth.setPassword(creds)
     .then(() => {
-      dispatch(handleSucces({ resetStage: 'login', registerStage: 'register' }));
+      dispatch(handleSucces({ resetStage: 'login', signUpStage: 'signUp' }));
       dispatch(closePopup());
       dispatch(fetchMe());
     })

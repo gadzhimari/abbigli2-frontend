@@ -6,7 +6,7 @@ import Timer from './Timer';
 
 import { __t } from '../../../i18n/translator';
 
-import './ConfirmPopup.styl';
+import './ConfirmPopup.less';
 
 class ConfirmPopup extends PureComponent {
   static propTypes = {

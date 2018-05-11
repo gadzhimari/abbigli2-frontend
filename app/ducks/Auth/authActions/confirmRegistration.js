@@ -16,7 +16,7 @@ const confirmRegistration = creds => (dispatch) => {
     .then((res) => {
       setCookie('id_token2', res.data.token, { expires: COOKIES_EXPIRES });
 
-      dispatch(handleSucces({ registerStage: 'setPassword' }));
+      dispatch(handleSucces({ signUpStage: 'setPassword' }));
       dispatch(openPopup('passwordPopup'));
 
       gaSend({ hitType: 'pageview', page: '/firstlogin', title: 'Firstlogin' });

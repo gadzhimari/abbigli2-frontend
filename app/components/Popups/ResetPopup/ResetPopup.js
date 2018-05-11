@@ -29,7 +29,7 @@ class ResetPopup extends Component {
 
   handleClick = () => this.props.dispatch(reset(this.state))
 
-  signUpOpen = () => this.props.dispatch(openPopup('registerPopup'))
+  signUpOpen = () => this.props.dispatch(openPopup('signUpPopup'))
 
   render() {
     const { isFetching, errors, closePopup } = this.props;

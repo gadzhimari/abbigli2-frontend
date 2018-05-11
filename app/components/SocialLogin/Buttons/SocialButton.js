@@ -5,6 +5,9 @@ import { SocialIcons } from '../../../components/Icons';
 
 import { SOCIAL_TYPES_FOR_ANALITICS } from '../../../lib/constants/social';
 import { DOMAIN_URL } from '../../../config';
+import { __t } from '../../../i18n/translator';
+
+import './SocialButton.less';
 
 export default class SocialButton extends PureComponent {
   static propTypes = {
@@ -25,11 +28,13 @@ export default class SocialButton extends PureComponent {
   }
 
   render() {
-    const { socialLink,
-            provider,
-            children,
-            className,
-            ...elementProps } = this.props;
+    const {
+      socialLink,
+      provider,
+      children,
+      className,
+      ...elementProps
+    } = this.props;
 
     delete elementProps.onClick;
 
@@ -43,7 +48,7 @@ export default class SocialButton extends PureComponent {
         <div className="icon-wrap">
           {SocialIcons[provider]()}
         </div>
-        {children}
+        {__t('Sign in with')} {children}
       </a>
     );
   }

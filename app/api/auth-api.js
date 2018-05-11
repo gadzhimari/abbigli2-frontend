@@ -4,7 +4,8 @@ import { DOMAIN_URL } from '../config';
 const Auth = {
   signUp(data) {
     return request({
-      url: 'signup/',
+      url: 'api/v1/signup/',
+      baseURL: 'http://alpha.abbigli.com',
       method: 'POST',
       data,
     });

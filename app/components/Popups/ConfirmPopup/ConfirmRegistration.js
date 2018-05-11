@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
-import { registerConfirm } from 'ducks/Auth/authActions';
-import { openPopup } from 'ducks/Popup/actions';
+import { registerConfirm } from '../../../ducks/Auth/authActions';
+import { openPopup } from '../../../ducks/Popup/actions';
 
 import ConfirmPopup from './ConfirmPopup';
 
@@ -14,20 +14,20 @@ class ConfirmRegistration extends ConfirmPopup {
   goBack = () => {
     const { dispatch, options } = this.props;
 
-    dispatch(openPopup('registerPopup', {
+    dispatch(openPopup('signUpPopup', {
       contact: options.contact,
     }));
   }
 }
 
-const mapState = state => ({
+const mapStateToProps = state => ({
   isFetching: state.Auth.isFetching,
   errors: state.Auth.errors,
   number: state.Auth.number,
 });
 
-const mapDispatch = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   sendForm: creds => dispatch(registerConfirm(creds)),
 });
 
-export default connect(mapState, mapDispatch)(ConfirmRegistration);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmRegistration);

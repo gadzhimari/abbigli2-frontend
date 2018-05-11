@@ -1,27 +1,30 @@
 import { setFetchingStatus, setError, handleSucces } from './common';
 
-import { openPopup } from 'ducks/Popup/actions';
+import { openPopup } from '../../../ducks/Popup/actions';
 
-import { Auth } from 'API';
+import { Auth } from '../../../api';
 
 const regWithoutSideEffects = creds => Auth.signUp({ phone: creds.contact });
 
 const registration = creds => (dispatch) => {
   dispatch(setFetchingStatus());
 
-  return Auth.signUp({ phone: creds.phoneNumber })
+  console.log('registration ', creds);
+  return Auth.signUp(creds)
     .then((res) => {
+      console.log('confirm ', res);
       dispatch(handleSucces({
-        registerStage: 'confirm',
-        phone: res.data.phone,
+        signUpStage: 'confirm',
+        email: res.data.email,
       }));
 
-      dispatch(openPopup('confirmRegistration', {
-        contact: res.data.phone,
-        againRequest: regWithoutSideEffects,
-      }));
+      // dispatch(openPopup('confirmRegistration', {
+      //   contact: res.data.phone,
+      //   againRequest: regWithoutSideEffects,
+      // }));
     })
     .catch((error) => {
+      console.log('error ', error.response.data);
       dispatch(setError('registration', error.response.data));
     });
 };

@@ -29,7 +29,7 @@ class Checkbox extends Component {
     checked: false,
   }
 
-  handleChange = () => {
+  handleChange = (e) => {
     if (!this.props.disabled) {
       const nextCheckedValue = !(
         this.props.checked !== undefined ?
@@ -39,7 +39,7 @@ class Checkbox extends Component {
       this.setState({ checked: nextCheckedValue });
 
       if (this.props.onChange) {
-        this.props.onChange(nextCheckedValue, this.props.value);
+        this.props.onChange(e, nextCheckedValue);
       }
     }
   }
@@ -66,7 +66,7 @@ class Checkbox extends Component {
       ...restProps,
       className: cn({
         size,
-        checked: checked,
+        checked,
         disabled,
         indeterminate: !checked && indeterminate,
         color,
@@ -95,8 +95,8 @@ class Checkbox extends Component {
             className={cn('control')}
             type="checkbox"
             autoComplete="off"
-            {...checkboxProps}
             onChange={this.handleChange}
+            {...checkboxProps}
           />
           <IconCheck
             className={cn('icon')}
