@@ -76,6 +76,8 @@ class ProfileMyabbigli extends Component {
               isMe={isMe}
               canEdit={isMe}
               view={2}
+              showLike
+              showShare
             />
           ))
           }
