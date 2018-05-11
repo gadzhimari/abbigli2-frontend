@@ -15,7 +15,7 @@ class Like extends PureComponent {
   };
 
   static defaultProps = {
-    size: 's'
+    size: 'm'
   }
 
   state = {
