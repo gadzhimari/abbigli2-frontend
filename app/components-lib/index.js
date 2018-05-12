@@ -14,3 +14,4 @@ export { default as SocialNetworks } from './SocialNetworks';
 export { default as Footer } from './Footer';
 export { default as Price } from './Price';
 export { default as Icon } from './Icon';
+export { default as BreadCrumbs } from './BreadCrumbs';

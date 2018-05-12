@@ -154,12 +154,12 @@ class ProductPage extends Component {
             {...favoriteAddProps}
           />
 
-          <Comments
+          {/* <Comments
             onSend={this.sendComment}
             canComment={isAuthenticated}
             openPopup={openPopup}
             comments={commentsList}
-          />
+          /> */}
 
           <RelativePosts
             items={relativePosts}

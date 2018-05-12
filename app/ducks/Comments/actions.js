@@ -35,7 +35,7 @@ export const sendComment = (postType, data) => async (dispatch) => {
   try {
     const api = apiByType[postType];
 
-    const response = await api.sendComment(data.slug, data);
+    const response = await api.createComment(data.slug, data);
     dispatch(sendCommentSuccess({ comment: response.data }));
   } catch (e) {
     dispatch(sendCommentFailure());

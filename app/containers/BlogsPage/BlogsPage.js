@@ -5,13 +5,12 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
 import {
-  BreadCrumbs,
   ListWithNew,
   SliderBar,
   ChoiseFilter,
 } from '../../components';
 
-import { Spin } from '../../components-lib';
+import { Spin, BreadCrumbs } from '../../components-lib';
 import { Blog } from '../../components-lib/Cards';
 import BlogSection from '../../components/SliderBar/components/BlogSection';
 
@@ -125,25 +124,12 @@ class BlogsPage extends PureComponent {
       query
     } = this.props;
 
-    const section = sections.filter(item => item.slug === query.category)[0];
-
-    const crumbs = [{
-      title: __t('Blogs'),
-      url: '/blogs',
-    }];
-
-    if (section) {
-      crumbs.push({
-        title: section.title,
-        url: `/blogs?section=${section.slug}`,
-      });
-    }
+    const section = sections.find(item => item.slug === query.category);
 
     return (
       <main className="main blog">
-        <BreadCrumbs
-          crumbs={crumbs}
-        />
+        <BreadCrumbs page="blogs" />
+
         <div className="content">
           <h1 className="section-title">
             <svg className="icon icon-blog" viewBox="0 0 51 52.7">

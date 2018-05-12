@@ -16,7 +16,7 @@ class ProfileBlogs extends PureComponent {
   }
 
   render() {
-    const { posts, setLike, renderPaginator, isMe } = this.props;
+    const { posts, setLike, renderPaginator, isMe, deletePost } = this.props;
 
     return (
       <div className="profile_content">
@@ -25,10 +25,16 @@ class ProfileBlogs extends PureComponent {
 
           {posts.map(item => (
             <Blog
-              data={item}
               key={item.slug}
+              data={item}
+              view={2}
+
               setLike={setLike}
-              view={3}
+              delete={deletePost}
+
+              isMe={isMe}
+              showShare={isMe}
+              canEdit={isMe}
             />
           ))
           }

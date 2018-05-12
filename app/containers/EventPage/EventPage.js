@@ -52,7 +52,7 @@ class EventPage extends Component {
 
   sendComment = (comment) => {
     const { sendComment, data: { slug } } = this.props;
-    sendComment({ comment, slug });
+    sendComment({ text: comment, slug });
   }
 
   renderSlider = () => {

@@ -2,33 +2,32 @@
 @import 'mixin';
 @import 'variables';
 
-.breadcrumbs {
+.BreadCrumbs {
   margin-bottom: 15px;
 
   &__item {
     position: relative;
     display: inline-block;
     vertical-align: top;
-    padding-right: 10px;
+    padding-left: 10px;
     margin-right: 5px;
     line-height: 18px;
 
-    &:after {
-      content: '';
-      display: block;
-      width: 3px;
-      height: 7px;
-      background: url("/images/icons/breadcrumbs-arrow.svg") no-repeat;
-      background-size: 3px 7px;
-      position: absolute;
-      right: 0;
-      top: 7px;
-    }
+    & + & {
+      &:before {
+        width: 3px;
+        height: 7px;
 
-    &:last-child {
-      padding: 0;
-      &:after {
-        display: none;
+        display: block;
+
+        position: absolute;
+        left: 0;
+        top: 7px;
+
+        background: url("/images/icons/breadcrumbs-arrow.svg") no-repeat;
+        background-size: 3px 7px;
+
+        content: '';
       }
     }
 
@@ -44,7 +43,7 @@
 }
 
 @media only screen and (max-width: 480px) {
-  .breadcrumbs {
+  .BreadCrumbs {
     text-align: center;
   }
 }

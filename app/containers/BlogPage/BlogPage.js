@@ -54,7 +54,7 @@ class BlogPage extends Component {
 
   sendComment = (comment) => {
     const { data: { slug }, sendComment } = this.props;
-    sendComment({ comment, slug });
+    sendComment({ text: comment, slug });
   }
 
   renderSlider = () => {
@@ -248,7 +248,7 @@ const mapDispatch = dispatch => ({
   },
   onUnmount: () => dispatch(resetPost()),
   followUser: id => dispatch(setFollow(id)),
-  sendComment: data => dispatch(sendComment(data)),
+  sendComment: data => dispatch(sendComment(BLOG_TYPE, data)),
   openPopup: (...args) => dispatch(openPopup(...args)),
   addBookmark: id => dispatch(addBookmark(BLOG_TYPE, id)),
   deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId)),

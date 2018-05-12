@@ -33,7 +33,7 @@ class ProfileFeed extends PureComponent {
               data={item}
               key={item.slug}
               setLike={setLike}
-              view={3}
+              view={2}
             />
           ))
           }
