@@ -2,13 +2,14 @@ import { connect } from 'react-redux';
 
 import { React, Component, Type } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
+import IconClose from '../../../icons/close';
 
 import { ErrorInput } from '../../../components/Inputs';
 
 import { setPassword } from '../../../ducks/Auth/authActions';
 import { __t } from '../../../i18n/translator';
 
-import './PasswordPopup.styl';
+import './PasswordPopup.less';
 
 class PasswordPopup extends Component {
   static propTypes = {
@@ -20,78 +21,92 @@ class PasswordPopup extends Component {
 
   state = {
     password: '',
-    repassword: '',
+    passwordConfirm: '',
   };
 
-  handlePassword = ({ target }) => this.setState({
-    password: target.value.trim(),
-  });
+  validateForm = () => {
+    const { password, passwordConfirm } = this.state;
 
-  handleRePassword = ({ target }) => this.setState({
-    repassword: target.value.trim(),
-  });
+    return password.length > 0 && passwordConfirm.length > 0;
+  }
 
-  handleSend = () => {
+  handleChange = ({ target }) => {
+    this.setState({
+      [target.name]: target.value.trim(),
+    });
+  }
+
+  handleSubmit = () => {
+    const { password, passwordConfirm } = this.state;
     const formData = new FormData();
 
-    formData.append('new_password', this.state.password);
-    formData.append('re_new_password', this.state.repassword);
+    formData.append('new_password', password);
+    formData.append('re_new_password', passwordConfirm);
 
     this.props.dispatch(setPassword(formData));
   }
 
-
   render() {
     const { closePopup, isFetching, errors } = this.props;
+    const { password, passwordConfirm } = this.state;
 
     return (
-      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
+      <div className="popup-wrap" id="sendMessage">
         <div
           className="popup mobile-search__popup reset-popup"
         >
-          <header className="mobile-search__header">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 14.031"
-              className="popup-close icon"
-              onClick={closePopup}
-            >
-              <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
-            </svg>
-            <div className="popup-title">
-              {__t('Set up your password')}
-            </div>
-          </header>
+          <div className="register-popup__title">
+            {__t('Set up your password')}
+          </div>
+          <Button
+            view="icon"
+            className="register-popup__close"
+            onClick={closePopup}
+            aria-label={__t('Close')}
+            icon={<IconClose
+              size="xs"
+              color="gray-500"
+            />}
+          />
           <form className="register-popup__form">
             <div className="register-popup__field">
               <ErrorInput
-                className="register-popup__input"
-                value={this.state.password}
-                onChange={this.handlePassword}
+                className="input"
+                value={password}
+                onChange={this.handleChange}
                 disabled={isFetching}
                 placeholder={__t('New password')}
                 errors={errors.new_password}
                 errorClass="login__form-error"
+                id="password"
+                name="password"
                 type="password"
+                autoComplete="new-password"
+                aria-label={__t('Enter new password')}
               />
             </div>
             <div className="register-popup__field">
               <ErrorInput
-                className="register-popup__input"
-                value={this.state.repassword}
-                onChange={this.handleRePassword}
+                className="input"
+                value={passwordConfirm}
+                onChange={this.handleChange}
                 disabled={isFetching}
                 placeholder={__t('Re-enter new password')}
                 errors={errors.re_new_password}
                 errorClass="login__form-error"
+                id="passwordConfirm"
+                name="passwordConfirm"
                 type="password"
+                autoComplete="new-password"
+                aria-label={__t('Re-enter new password')}
               />
             </div>
             <Button
               className="register-popup__fetch-button-new"
-              onClick={this.handleSend}
+              onClick={this.handleSubmit}
               isFetching={isFetching}
               text={__t('Set password')}
+              disabled={!this.validateForm()}
             />
           </form>
         </div>

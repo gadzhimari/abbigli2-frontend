@@ -1,9 +1,9 @@
 import { setFetchingStatus, setError, handleSucces } from './common';
 
-import { closePopup } from 'ducks/Popup/actions';
+import { closePopup } from '../../../ducks/Popup/actions';
 import fetchMe from './fetchMe';
 
-import { Auth } from 'API';
+import { Auth } from '../../../api';
 
 const setPassword = creds => (dispatch) => {
   dispatch(setFetchingStatus());

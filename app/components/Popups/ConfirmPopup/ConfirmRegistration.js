@@ -11,7 +11,7 @@ class ConfirmRegistration extends ConfirmPopup {
   title = __t('Confirm registration');
   buttonText = __t('Send code');
 
-  goBack = () => {
+  handleBackClick = () => {
     const { dispatch, options } = this.props;
 
     dispatch(openPopup('signUpPopup', {

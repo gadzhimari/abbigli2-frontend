@@ -1,17 +1,17 @@
 import { connect } from 'react-redux';
 
-import { resetConfirm } from 'ducks/Auth/authActions';
-import { openPopup } from 'ducks/Popup/actions';
+import { resetConfirm } from '../../../ducks/Auth/authActions';
+import { openPopup } from '../../../ducks/Popup/actions';
 
 import ConfirmPopup from './ConfirmPopup';
 
 import { __t } from '../../../i18n/translator';
 
-class ConfirmRegistration extends ConfirmPopup {
+class ConfirmPassword extends ConfirmPopup {
   title = __t('Confirm the password reset');
   buttonText = __t('Send code');
 
-  goBack = () => {
+  handleBackClick = () => {
     const { dispatch, options } = this.props;
 
     dispatch(openPopup('resetPopup', {
@@ -20,14 +20,14 @@ class ConfirmRegistration extends ConfirmPopup {
   }
 }
 
-const mapState = state => ({
+const mapStateToProps = state => ({
   isFetching: state.Auth.isFetching,
   errors: state.Auth.errors,
   number: state.Auth.number,
 });
 
-const mapDispatch = dispatch => ({
-  sendForm: creds => dispatch(resetConfirm(creds)),
+const mapDispatchToProps = dispatch => ({
+  sendForm: credentials => dispatch(resetConfirm(credentials)),
 });
 
-export default connect(mapState, mapDispatch)(ConfirmRegistration);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmPassword);

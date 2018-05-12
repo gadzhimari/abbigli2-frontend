@@ -1,8 +1,8 @@
 import { setFetchingStatus, setError, handleSucces } from './common';
 
-import { openPopup } from 'ducks/Popup/actions';
+import { openPopup } from '../../../ducks/Popup/actions';
 
-import { Auth } from 'API';
+import { Auth } from '../../../api';
 
 const resetWithoutSideEffects = (creds) => {
   const formData = new FormData();

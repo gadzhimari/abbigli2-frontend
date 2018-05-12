@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import { React, Component, Type } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
+import IconClose from '../../../icons/close';
 
 import { ErrorInput } from '../../../components/Inputs';
 
@@ -9,7 +10,7 @@ import { reset } from '../../../ducks/Auth/authActions';
 import { openPopup } from '../../../ducks/Popup/actions';
 import { __t } from '../../../i18n/translator';
 
-import './ResetPopup.styl';
+import './ResetPopup.less';
 
 class ResetPopup extends Component {
   static propTypes = {
@@ -23,61 +24,72 @@ class ResetPopup extends Component {
     contact: this.props.options.contact || '',
   };
 
-  handleChange = ({ target }) => this.setState({
-    contact: target.value.trim(),
-  })
+  validateForm = () => {
+    const { contact } = this.state;
 
-  handleClick = () => this.props.dispatch(reset(this.state))
+    return contact.length > 0;
+  }
 
-  signUpOpen = () => this.props.dispatch(openPopup('signUpPopup'))
+  handleChange = ({ target }) => {
+    this.setState({
+      contact: target.value.trim(),
+    });
+  }
+
+  handleSubmit = () => {
+    this.props.dispatch(reset(this.state));
+  }
+
+  handleBackClick = () => {
+    this.props.dispatch(openPopup('signInPopup'));
+  }
 
   render() {
     const { isFetching, errors, closePopup } = this.props;
 
     return (
-      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
+      <div className="popup-wrap" id="sendMessage">
         <div
           className="popup mobile-search__popup reset-popup"
         >
-          <header className="mobile-search__header">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 14.031"
-              className="popup-close icon"
-              onClick={closePopup}
-            >
-              <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
-            </svg>
-            <div className="popup-title">
-              {__t('recover.your.password')}
-            </div>
-          </header>
+          <div className="register-popup__title">
+            {__t('Reset your password')}
+          </div>
+          <Button
+            view="icon"
+            className="register-popup__close"
+            onClick={closePopup}
+            aria-label={__t('Close')}
+            icon={<IconClose
+              size="xs"
+              color="gray-500"
+            />}
+          />
           <form className="register-popup__form">
             <div className="register-popup__field">
               <ErrorInput
-                className="register-popup__input"
+                className="input"
                 value={this.state.contact}
                 onChange={this.handleChange}
                 disabled={isFetching}
-                placeholder={__t('Your email or phone number')}
+                placeholder={__t('Email or phone')}
                 errors={errors.contact}
                 errorClass="login__form-error"
               />
             </div>
             <Button
               className="register-popup__fetch-button-new"
-              onClick={this.handleClick}
+              onClick={this.handleSubmit}
               isFetching={isFetching}
-              text={__t('Recover.your.password')}
+              text={__t('Continue')}
+              disabled={!this.validateForm()}
             />
-            <button
-              className="register-popup__button"
-              type="button"
-              onClick={this.signUpOpen}
-              disabled={isFetching}
-            >
-              {__t('Sign Up')}
-            </button>
+            <Button
+              color="secondary"
+              className="register-popup__button-back"
+              onClick={this.handleBackClick}
+              text={__t('Back')}
+            />
           </form>
         </div>
       </div>

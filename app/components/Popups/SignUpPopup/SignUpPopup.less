@@ -3,11 +3,13 @@
 @import '../../../components-lib/__base/variables/typography';
 
 .popup.mobile-search__popup.register-popup {
-  width: 718px;
+  width: 100%;
   height: auto;
+  max-width: 718px;
   padding: 40px;
   border-radius: 3px;
   background-color: @gray-100;
+
   .register-popup {
     &__form {
       padding: 0;
@@ -159,21 +161,6 @@
   margin-bottom: 15px;
 }
 
-.register-popup__link {
-  display: block;
-  color: #0090de;
-  text-decoration: underline;
-
-  &:hover {
-    text-decoration: none;
-    color: #007cc1;
-  }
-}
-
-.register-popup__link--big {
-  font-size: 18px;
-}
-
 .register-popup__fetch-button {
   width: 300px;
   height: 41px;
@@ -193,10 +180,15 @@
 
 .register-popup__fetch-button-new {
   width: 300px;
-  &.Button_view_default {
-    border-radius: 0;
-    flex-shrink: 0;
-  }
+}
+
+.register-popup__button-back {
+  width: 300px;
+  margin-top: 15px;
+}
+
+.register-popup__instructions {
+  margin-bottom: 15px;
 }
 
 .register-popup__button {
@@ -258,7 +250,6 @@
     &__form {
       padding: 35px 0;
       overflow-y: auto;
-      justify-content: space-between;
     }
 
     &__social {
@@ -292,13 +283,4 @@
   border-radius: 5px;
   transform: translate(-50%, -50%);
   box-shadow: 0 2px 4px #3d4041;
-}
-
-.test {
-  color: #000;
-}
-
-.Select-control {
-  border: 1px solid #90a4ae!important;
-  border-radius: 2px!important;
 }

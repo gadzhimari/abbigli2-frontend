@@ -70,7 +70,7 @@ class SignUpPopup extends Component {
     const { email, password, tosCheckbox } = this.state;
 
     return (
-      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
+      <div className="popup-wrap" id="sendMessage">
         <div
           className="popup mobile-search__popup register-popup"
         >
