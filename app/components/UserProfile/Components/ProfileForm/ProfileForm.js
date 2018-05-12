@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import { API_URL } from '../../../../config';
+import { API_URL, DOMAIN_URL } from '../../../../config';
 
 import { __t } from '../../../../i18n/translator';
 
@@ -62,7 +62,7 @@ class ProfileForm extends PureComponent {
       onClickItem: this.handleChangeCity,
       title: 'city',
       async: true,
-      apiUrl: `${API_URL}geo/cities/`,
+      apiUrl: `${DOMAIN_URL}/geo/cities/`,
     });
   };
 
