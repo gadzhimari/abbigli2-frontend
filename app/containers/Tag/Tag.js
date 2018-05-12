@@ -91,8 +91,9 @@ class TagSearchResults extends Component {
 
   loadItems = () => {
     const { query: { type, ...query }, dispatch } = this.props;
+    const postType = allowedTypes.has(type) ? type : PRODUCT_TYPE;
 
-    dispatch(fetchPosts(query, type));
+    dispatch(fetchPosts(query, postType));
   }
 
   changeCity = city => this.props.updateFieldByName('city', city.name);

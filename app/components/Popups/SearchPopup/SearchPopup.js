@@ -75,16 +75,11 @@ class SearchPopup extends Component {
       return;
     }
 
-    const link = tagsValue
-      .split(' ')
-      .join(',');
+    const link = tagsValue.split(' ').join(',');
 
     router.push({
       pathname: '/find',
-      query: Object.assign({}, {
-        tags: link,
-        type: 1,
-      }),
+      query: { tags: link }
     });
     this.props.closePopup();
   }
