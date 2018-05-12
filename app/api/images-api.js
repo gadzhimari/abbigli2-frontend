@@ -1,4 +1,7 @@
 import { requestV2 } from './instance';
+import { API_URL_V2 } from '../config';
+
+export const fullImagesApiUrl = `${API_URL_V2}images/`;
 
 const Images = {
   uploadImage(data) {

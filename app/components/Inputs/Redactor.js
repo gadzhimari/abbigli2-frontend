@@ -1,8 +1,7 @@
 import Type from 'prop-types';
 import React, { Component } from 'react';
 
-
-import { API_URL } from '../../config';
+import { fullImagesApiUrl } from '../../api/images-api';
 import { __t } from '../../i18n/translator';
 
 import './redactor/redactor.css';
@@ -32,8 +31,8 @@ class Textarea extends Component {
     window.jQuery('#redactor').redactor({
       linkNofollow: true,
       placeholder: __t('Description'),
-      imageUpload: `${API_URL}images/`,
-      imageUploadParam: 'file',
+      imageUpload: fullImagesApiUrl,
+      imageUploadParam: 'filesG',
       plugins: ['source'],
       callbacks: {
         uploadBeforeSend: (xhr) => {
