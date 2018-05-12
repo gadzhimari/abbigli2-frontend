@@ -62,7 +62,7 @@ class ProfileForm extends PureComponent {
       onClickItem: this.handleChangeCity,
       title: 'city',
       async: true,
-      apiUrl: `${DOMAIN_URL}/geo/cities/`,
+      apiUrl: `${DOMAIN_URL}/api/geo/cities/`,
     });
   };
 
