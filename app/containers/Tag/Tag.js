@@ -90,9 +90,9 @@ class TagSearchResults extends Component {
   }
 
   loadItems = () => {
-    const { query, dispatch } = this.props;
+    const { query: { type, ...query }, dispatch } = this.props;
 
-    dispatch(fetchPosts(query));
+    dispatch(fetchPosts(query, type));
   }
 
   changeCity = city => this.props.updateFieldByName('city', city.name);
@@ -128,11 +128,12 @@ class TagSearchResults extends Component {
 
   renderResultsOfSearch() {
     const { items, query } = this.props;
+    const tags = query.tags || '';
 
     return ((items.length !== 0) &&
       <h1 className="section-title">
         <span>{__t('Search results')}</span>
-        {` "${query.tags.split(',').join(' ')}"`}
+        {` "${tags.split(',').join(' ')}"`}
       </h1>
     );
   }
@@ -195,7 +196,7 @@ const mapStateToProps = ({ Auth, TagSearch, Sections, Location }) => ({
   items: TagSearch.items,
   tags: TagSearch.tags,
   isFetching: TagSearch.isFetching,
-  pagesCount: TagSearch.pageCount,
+  pagesCount: TagSearch.pagesCount,
   sections: Sections.items,
 
   query: Location.query

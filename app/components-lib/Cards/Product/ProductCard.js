@@ -141,7 +141,7 @@ class ProductCard extends PureComponent {
     const postUrl = createPostLink(data, type);
     const postEditingUrl = createPostEditLink(data, type);
 
-    const mods = { view, type };
+    const mods = { view, type, ownerCard: isMe };
 
     return (
       <div className={cn(mods)}>

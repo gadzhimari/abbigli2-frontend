@@ -1,9 +1,9 @@
 import { Images } from '../../../api';
 
-const rotateImage = (imageId, direction, callbacks) => {
+const rotateImage = (id, direction, callbacks) => {
   callbacks.req();
 
-  Images.rotateImage(imageId, direction)
+  Images.rotateImage({ id, direction })
     .then(res => callbacks.res(res.data.url));
 };
 

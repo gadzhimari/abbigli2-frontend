@@ -16,7 +16,7 @@ class Price extends Component {
     if (!price) return null;
 
     return (
-      <div className={cn('')}>
+      <div className={cn()}>
         {priceTemplate.replace('?', price)}
       </div>
     );

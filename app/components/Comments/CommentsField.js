@@ -42,7 +42,7 @@ class CommentsField extends Component {
           value={this.state.comment}
           placeholder={__t('Your comment')}
         />
-
+        {/* TODO: сделать прелоадер */}
         <Button
           className="default-button"
           onClick={this.sendComment}

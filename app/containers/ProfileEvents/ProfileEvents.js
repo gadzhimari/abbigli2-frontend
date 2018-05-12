@@ -1,13 +1,12 @@
 import { React, PureComponent } from '../../components-lib/__base';
 
 import { Event } from '../../components-lib/Cards';
-import { Icon, Link } from '../../components-lib';
+import Attach from '../Profile/components/Attach';
 
 import wrapper from '../../HOC/profileSectionsWrapper';
 import paginateWrapper from '../../HOC/paginate';
 
 import { EVENT_TYPE } from '../../lib/constants/posts-types';
-import { __t } from '../../i18n/translator';
 
 class ProfileEvents extends PureComponent {
   static fetchPosts = (props) => {
@@ -17,36 +16,25 @@ class ProfileEvents extends PureComponent {
   }
 
   render() {
-    const { posts, setLike, renderPaginator, isMe } = this.props;
+    const { posts, setLike, renderPaginator, isMe, deletePost } = this.props;
 
     return (
       <div className="profile_content">
         <div className="cards-row">
-          {isMe &&
-            <div className="Card Card_type_attach">
-              <div className="Card__attach Card__attach_event">
-                <Link
-                  className="Card__button Card__button_attach Card__button_attach_event"
-                  onClick={this.onCreateLinkClick}
-                  to={`/post/new?type=${EVENT_TYPE}`}
-                  text={__t('add.on.abbigli')}
-                  color="white"
-                  size={'l'}
-                  icon={<Icon
-                    glyph="plus"
-                    size="s"
-                  />}
-                />
-              </div>
-            </div>
-          }
+          <Attach isVisible={isMe} type="event" url={`/post/new?type=${EVENT_TYPE}`} />
 
           {posts.map(item => (
             <Event
-              data={item}
               key={item.slug}
+              data={item}
+              view={2}
+
               setLike={setLike}
-              view={3}
+              delete={deletePost}
+
+              showShare={isMe}
+              isMe={isMe}
+              canEdit={isMe}
             />
           ))
           }

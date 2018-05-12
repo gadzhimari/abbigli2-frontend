@@ -27,7 +27,6 @@ const fetchPost = (postType, slug, token) => async (dispatch) => {
     const res = await action(slug, token);
     dispatch(postResponse(res.data));
   } catch ({ response }) {
-    dispatch(postFailure());
     dispatch(setNetworkError(response));
   }
 };

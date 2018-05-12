@@ -16,11 +16,12 @@ const Images = {
       mustApplyToken: true,
     });
   },
-  rotateImage(id, direction) {
+  rotateImage(data) {
     return requestV2({
-      url: `images/${id}/rotate-${direction}/`,
+      url: 'images/rotate/',
       method: 'POST',
-      mustApplyToken: true,
+      data,
+      mustApplyToken: true
     });
   },
 };

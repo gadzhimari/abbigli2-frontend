@@ -52,7 +52,7 @@ class EventPage extends Component {
 
   sendComment = (comment) => {
     const { sendComment, data: { slug } } = this.props;
-    sendComment({ comment, slug });
+    sendComment({ text: comment, slug });
   }
 
   renderSlider = () => {
@@ -153,8 +153,8 @@ class EventPage extends Component {
 
               <div className="article__date">
                 <DateRange
-                  start={data.date_start}
-                  end={data.date_end}
+                  start={data.start}
+                  end={data.end}
                 />
               </div>
 

@@ -156,8 +156,8 @@ class EventCard extends PureComponent {
       created,
       preview,
       city,
-      date_start: dateStart,
-      date_end: dateEnd,
+      start: dateStart,
+      end: dateEnd,
     } = data;
 
     const type = EVENT_TYPE;

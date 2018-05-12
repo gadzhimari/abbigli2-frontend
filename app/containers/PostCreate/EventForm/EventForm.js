@@ -24,8 +24,8 @@ class EventForm extends CreateForm {
       tags: '',
       images: [],
       categories: null,
-      date_start: null,
-      date_end: null,
+      start: null,
+      end: null,
       city: null,
       cityOptions: undefined
     }, props.data);
@@ -47,8 +47,8 @@ class EventForm extends CreateForm {
             description,
             tags,
             categories,
-            start: dateStart,
-            end: dateEnd,
+            start,
+            end,
             city,
             cityOptions } = this.state;
 
@@ -100,7 +100,7 @@ class EventForm extends CreateForm {
             <ErrorInput
               wrapperClass="input-wrap add-tabs__form-calendar input-date"
               wrapperErrorClass="error"
-              value={dateStart || ''}
+              value={start || ''}
               onChange={this.onChange}
               name="start"
               errors={errors.start}
@@ -113,7 +113,7 @@ class EventForm extends CreateForm {
             <ErrorInput
               wrapperClass="input-wrap add-tabs__form-calendar input-date"
               wrapperErrorClass="error"
-              value={dateEnd || ''}
+              value={end || ''}
               onChange={this.onChange}
               name="end"
               errors={errors.end}

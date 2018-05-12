@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import uniqid from 'uniqid';
 import debounce from 'lodash/debounce';
 
-import { API_URL } from '../../config';
+import { DOMAIN_URL } from '../../config';
 
 import ScrollBar from '../ScrollBar';
 
@@ -12,6 +12,7 @@ import { __t } from './../../i18n/translator';
 
 import './SearchForm.less';
 
+// TODO: Отрефакторить эту дичь
 class SearchForm extends Component {
   static propTypes = {
     onChange: PropTypes.func,
@@ -333,7 +334,7 @@ class SearchForm extends Component {
 
     if (requestString.length < 1) return;
 
-    fetch(`${API_URL}tags/?search=${requestString}`)
+    fetch(`${DOMAIN_URL}/api/v2/tags/?search=${requestString}`)
       .then((response) => {
         if (response.status >= 400) {
           throw new Error('Bad response from server');
