@@ -158,7 +158,7 @@ class BlogPage extends Component {
 
               {this.renderSlider()}
 
-              <div>{processBlogContent(data.content)}</div>
+              <div>{processBlogContent(data.text)}</div>
 
               {userIsOwner &&
                 <Link to={editingLink} className="edit-btn">
