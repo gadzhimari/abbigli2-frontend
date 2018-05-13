@@ -148,7 +148,7 @@ class BlogCard extends PureComponent {
   render(cn) {
     const { data, setLike, showLike, showShare, view, isMe, canEdit, isTouch } = this.props;
     const {
-      liked,
+      is_favorite: isFavorite,
       title,
       slug,
       created,
@@ -217,7 +217,7 @@ class BlogCard extends PureComponent {
           <div className={cn('actions', { align: 'top-right' })}>
             {showLike &&
               <Like
-                liked={liked}
+                liked={isFavorite}
                 onClick={setLike}
                 slug={slug}
                 type={type}

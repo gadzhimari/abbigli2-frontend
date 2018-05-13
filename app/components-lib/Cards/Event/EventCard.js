@@ -152,7 +152,7 @@ class EventCard extends PureComponent {
   render(cn) {
     const { data, setLike, showLike, showShare, view, canEdit, isMe, isTouch } = this.props;
     const {
-      liked,
+      is_favorite: isFavorite,
       title,
       slug,
       created,
@@ -221,7 +221,7 @@ class EventCard extends PureComponent {
           <div className={cn('actions', { align: 'top-right' })}>
             { showLike &&
               <Like
-                liked={liked}
+                liked={isFavorite}
                 onClick={setLike}
                 slug={slug}
                 type={type}
