@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import popupHOC from '../../../HOC/popupHOC';
 
 import { React, Component, Type } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
@@ -102,4 +104,6 @@ const mapStateToProps = ({ Auth }) => ({
   errors: Auth.errors,
 });
 
-export default connect(mapStateToProps)(ResetPopup);
+const enhance = compose(connect(mapStateToProps), popupHOC);
+
+export default enhance(ResetPopup);

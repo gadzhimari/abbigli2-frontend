@@ -12,29 +12,32 @@ const Auth = {
   },
   signIn(data) {
     return request({
-      url: 'api/get-token/',
-      baseURL: DOMAIN_URL,
+      url: 'api/auth/get-token/',
+      baseURL: 'http://alpha.abbigli.com',
       method: 'POST',
       data,
     });
   },
   getMyProfile(token) {
     return request({
-      url: 'my-profile/',
+      url: 'api/v1/my-profile/',
+      baseURL: 'http://alpha.abbigli.com',
       token,
       mustApplyToken: true,
     });
   },
   resetPassword(data) {
     return request({
-      url: 'reset-password/',
+      url: 'api/v1/reset-password/',
+      baseURL: 'http://alpha.abbigli.com',
       method: 'POST',
       data,
     });
   },
   setPassword(data) {
     return request({
-      url: 'my-profile/set-password/',
+      url: 'api/v1/my-profile/set-password/',
+      baseURL: 'http://alpha.abbigli.com',
       method: 'POST',
       data,
       canApplyToken: true,
@@ -49,7 +52,8 @@ const Auth = {
   },
   resetPasswordConfirm(data) {
     return request({
-      url: 'reset-password/confirm/',
+      url: 'api/v1/reset-password/confirm/',
+      baseURL: 'http://alpha.abbigli.com',
       method: 'POST',
       data,
     });

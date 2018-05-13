@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import popupHOC from '../../../HOC/popupHOC';
 
 import { React, Component, Type } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
@@ -7,6 +9,7 @@ import IconClose from '../../../icons/close';
 import { ErrorInput } from '../../../components/Inputs';
 
 import { setPassword } from '../../../ducks/Auth/authActions';
+
 import { __t } from '../../../i18n/translator';
 
 import './PasswordPopup.less';
@@ -120,4 +123,6 @@ const mapStateToProps = ({ Auth }) => ({
   errors: Auth.errors,
 });
 
-export default connect(mapStateToProps)(PasswordPopup);
+const enhance = compose(connect(mapStateToProps), popupHOC);
+
+export default enhance(PasswordPopup);

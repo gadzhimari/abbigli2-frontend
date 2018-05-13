@@ -9,6 +9,15 @@ import { __t } from '../../../i18n/translator';
 import './DeleteMessagePopup.styl';
 
 class DeleteMessagePopup extends Component {
+  static propTypes = {
+    closePopup: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    options: PropTypes.shape({
+      recipient: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+    }).isRequired,
+  };
+
   deleteDialog = () => this.props
     .dispatch(deleteDialog(this.props.options.id))
 
@@ -62,14 +71,5 @@ class DeleteMessagePopup extends Component {
     );
   }
 }
-
-DeleteMessagePopup.propTypes = {
-  closePopup: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  options: PropTypes.shape({
-    recipient: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-  }).isRequired,
-};
 
 export default DeleteMessagePopup;

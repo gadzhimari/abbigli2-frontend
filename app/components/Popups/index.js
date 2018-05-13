@@ -16,4 +16,5 @@ export { default as followersPopup } from './Followers/Followers';
 export { default as followingPopup } from './Followers/Following';
 export { default as sendPost } from './SendPost';
 export { default as confirmRegistration } from './ConfirmPopup/ConfirmRegistration';
-export { default as confirmResetPassword } from './ConfirmPopup/ConfirmPassword';
+export { default as confirmPinReset } from './ConfirmPopup/ConfirmPinReset';
+export { default as confirmEmailReset } from './ConfirmPopup/ConfirmEmailReset';

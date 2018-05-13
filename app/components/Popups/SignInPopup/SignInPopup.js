@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import popupHOC from '../../../HOC/popupHOC';
 
 import { React, Component, Type } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
@@ -21,20 +23,28 @@ class SignInPopup extends Component {
   };
 
   state = {
-    phone: '',
+    username: '',
     password: '',
   };
 
-  handleChangePassword = ({ target }) => {
+  validateForm = () => {
+    const { username, password } = this.state;
+
+    return username.length > 0 && password.length > 0;
+  }
+
+  handleChange = ({ target }) => {
     this.setState({
-      password: target.value.trim(),
+      [target.name]: target.value.trim(),
     });
   }
 
   handleSignIn = () => {
+    const { username, password } = this.state;
+
     this.props.dispatch(login({
-      username: this.state.phone,
-      password: this.state.password,
+      username,
+      password,
     }, this.props.closePopup));
   }
 
@@ -71,14 +81,14 @@ class SignInPopup extends Component {
             <form className="register-popup__form">
               <ErrorInput
                 className="input"
-                value={this.state.login}
-                onChange={this.handleChangeLogin}
+                value={this.state.username}
+                onChange={this.handleChange}
                 disabled={isFetching}
                 errors={errors}
                 errorClass="login__form-error"
                 type="text"
-                id="login"
-                name="login"
+                id="username"
+                name="username"
                 wrapperClass="register-popup__form-field"
                 wrapperErrorClass="error"
                 labelRequired
@@ -92,7 +102,7 @@ class SignInPopup extends Component {
               <ErrorInput
                 className="input"
                 value={this.state.password}
-                onChange={this.handleChangePassword}
+                onChange={this.handleChange}
                 disabled={isFetching}
                 errors={errors}
                 errorClass="login__form-error"
@@ -121,6 +131,7 @@ class SignInPopup extends Component {
                 isFetching={isFetching}
                 name="sign in"
                 text={__t('Sign In')}
+                disabled={!this.validateForm()}
                 fullWidth
               />
             </form>
@@ -155,4 +166,6 @@ const mapStateToProps = ({ Auth }) => ({
   errors: Auth.errors,
 });
 
-export default connect(mapStateToProps)(SignInPopup);
+const enhance = compose(connect(mapStateToProps), popupHOC);
+
+export default enhance(SignInPopup);

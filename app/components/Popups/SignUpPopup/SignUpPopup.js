@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import popupHOC from '../../../HOC/popupHOC';
 
 import { React, Component, Fragment, Type } from '../../../components-lib/__base';
 import { Button, Link, Checkbox } from '../../../components-lib';
@@ -191,4 +193,6 @@ const mapStateToProps = ({ Auth }) => ({
   errors: Auth.errors,
 });
 
-export default connect(mapStateToProps)(SignUpPopup);
+const enhance = compose(connect(mapStateToProps), popupHOC);
+
+export default enhance(SignUpPopup);

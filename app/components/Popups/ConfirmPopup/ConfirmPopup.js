@@ -31,6 +31,8 @@ class ConfirmPopup extends PureComponent {
 
   title = '';
   buttonText = '';
+  description = '';
+  showConfirmCode = true;
 
   handleClick = () => {
     const { options, sendForm } = this.props;
@@ -106,24 +108,24 @@ class ConfirmPopup extends PureComponent {
                 {options.contact}
               </div>
               <div>
-                {__t("We've sent an SMS with an confirmation code to your phone.")}
-              </div>
-              <div>
-                {__t('Please enter the code below.')}
+                { this.description }
               </div>
             </div>
-            <div className="register-popup__field">
-              <ErrorInput
-                className="input"
-                value={this.state.confirmCode}
-                onChange={this.confirmChange}
-                disabled={isFetching}
-                placeholder={__t('SMS code')}
-                errors={errors && errors.code}
-                errorClass="login__form-error"
-                id="code"
-              />
-            </div>
+            {
+              this.showConfirmCode &&
+              <div className="register-popup__field">
+                <ErrorInput
+                  className="input"
+                  value={this.state.confirmCode}
+                  onChange={this.confirmChange}
+                  disabled={isFetching}
+                  placeholder={__t('SMS code')}
+                  errors={errors && errors.code}
+                  errorClass="login__form-error"
+                  id="code"
+                />
+              </div>
+            }
             <div className="register-popup__terms">
               {
                 this.state.againRequestDelay === 0
@@ -166,12 +168,15 @@ class ConfirmPopup extends PureComponent {
                 </div>
               }
             </div>
-            <Button
-              className="register-popup__fetch-button-new"
-              onClick={this.handleClick}
-              isFetching={isFetching}
-              text={this.buttonText}
-            />
+            {
+              this.showConfirmCode &&
+              <Button
+                className="register-popup__fetch-button-new"
+                onClick={this.handleClick}
+                isFetching={isFetching}
+                text={this.buttonText}
+              />
+            }
             <Button
               color="secondary"
               className="register-popup__button-back"

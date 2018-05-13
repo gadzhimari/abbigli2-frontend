@@ -249,9 +249,8 @@ export default {
   Near: 'Рядом',
   'Select other': 'Выбрать другой',
   'Confirm the password reset': 'Подтверждение сброса пароля',
-  "We've sent an SMS with an confirmation code to your phone.":
-    'Мы отправили СМС с кодом подтверждения на ваш телефон.',
-  'Please enter the code below.': 'Пожалуйста введите код в поле',
+  "We've sent an SMS with an confirmation code to your phone. Please enter the code below.": 'Мы отправили СМС с кодом подтверждения на ваш телефон. Пожалуйста введите код в поле',
+  "We've sent an email with an confirmation code. Click the link in the email to reset your password\n.If you don't see the email, check other places it might be, like your junk, spam, or other folders.": 'Мы отправили письмо с кодом потверждения на электронный адрес. Перейдите по ссылке в письме для сброса пароля. Если письма нет во входящих, то попробуйте найти его в других папках (например, «Спам», «Социальные сети» или другие).',
   'You can get request again in': 'Вы можете запросить код снова через',
   seconds: 'секунд',
   'Send code again': 'Отправить код снова',

@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
+import popupHOC from '../../../HOC/popupHOC';
 
 import EventsGroup from './Components/EventsGroup';
 import Select from './Components/Select';
 import ProductsGroup from './Components/ProductsGroup';
 
-import { openPopup } from 'ducks/Popup/actions';
-import { API_URL } from 'config';
+import { openPopup } from '../../../ducks/Popup/actions';
+import { API_URL } from '../../../config';
 import { __t } from '../../../i18n/translator';
 
 import './FiltersPopup.less';
@@ -128,6 +128,6 @@ const mapStateToProps = state => ({
   sections: state.Sections.items,
 });
 
-const enhance = compose(connect(mapStateToProps));
+const enhance = compose(connect(mapStateToProps), popupHOC);
 
 export default enhance(FiltersPopup);
