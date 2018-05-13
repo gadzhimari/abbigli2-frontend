@@ -23,7 +23,6 @@ const reset = (creds) => {
         dispatch(handleSucces({
           loginStage: 'confirm',
         }));
-        console.log('resetPassword ', res);
         const currentPopup = res.data.type === 'phone' ?
           'confirmPinReset' : 'confirmEmailReset';
 

@@ -10,18 +10,15 @@ const COOKIES_EXPIRES = 3600 * 24 * 10;
 
 const confirmReset = creds => (dispatch) => {
   dispatch(setFetchingStatus());
-  console.log('confirmReset ', creds);
 
   Auth.resetPasswordConfirm(creds)
     .then((res) => {
-      console.log('resetPasswordConfirm ', res.data);
       setCookie('id_token2', res.data.token, { expires: COOKIES_EXPIRES });
 
       dispatch(handleSucces({ resetStage: 'password' }));
       dispatch(openPopup('passwordPopup'));
     })
     .catch((error) => {
-      console.log('error ', error);
       dispatch(setError('confirmReset', error.response.data));
     });
 };

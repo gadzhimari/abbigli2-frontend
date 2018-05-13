@@ -18,3 +18,4 @@ export { default as sendPost } from './SendPost';
 export { default as confirmRegistration } from './ConfirmPopup/ConfirmRegistration';
 export { default as confirmPinReset } from './ConfirmPopup/ConfirmPinReset';
 export { default as confirmEmailReset } from './ConfirmPopup/ConfirmEmailReset';
+export { default as welcomePopup } from './WelcomePopup/WelcomePopup';

@@ -9,10 +9,8 @@ const regWithoutSideEffects = creds => Auth.signUp({ phone: creds.contact });
 const registration = creds => (dispatch) => {
   dispatch(setFetchingStatus());
 
-  console.log('registration ', creds);
   return Auth.signUp(creds)
     .then((res) => {
-      console.log('confirm ', res);
       dispatch(handleSucces({
         signUpStage: 'confirm',
         email: res.data.email,
@@ -24,7 +22,6 @@ const registration = creds => (dispatch) => {
       // }));
     })
     .catch((error) => {
-      console.log('error ', error.response.data);
       dispatch(setError('registration', error.response.data));
     });
 };

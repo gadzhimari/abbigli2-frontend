@@ -45,7 +45,8 @@ const Auth = {
   },
   signUpConfirm(data) {
     return request({
-      url: 'signup/confirm/',
+      url: 'api/v1/signup/confirm/',
+      baseURL: 'http://alpha.abbigli.com',
       method: 'POST',
       data,
     });
