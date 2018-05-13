@@ -1,4 +1,4 @@
-import { React } from '../../../components-lib/__base';
+import { React, cn } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
 
 import CreateForm from '../CreateForm/CreateForm';
@@ -14,7 +14,7 @@ import { __t } from '../../../i18n/translator';
 
 import './ProductForm.less';
 import bindMethods from '../../../lib/bindMethods';
-import cn from '../../../lib/cn';
+import parsePrice from '../../../lib/parsePrice';
 
 @cn('ProductForm')
 class ProductForm extends CreateForm {
@@ -36,7 +36,10 @@ class ProductForm extends CreateForm {
 
   onSave(...attr) {
     this.setState(
-      { categories: this.sectionSelect.value },
+      {
+        categories: this.sectionSelect.value,
+        price: parsePrice(this.state.price)
+      },
       () => super.onSave(...attr)
     );
   }

@@ -41,6 +41,9 @@ class ProfileFavorites extends PureComponent {
               setLike={setLike}
               delete={deleteFromFavorite}
               view={2}
+              isMe={isMe}
+              showLike={false}
+              showShare
             />
           ))
           }

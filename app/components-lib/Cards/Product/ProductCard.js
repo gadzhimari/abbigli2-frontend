@@ -64,6 +64,7 @@ class ProductCard extends PureComponent {
     canEdit: Type.bool,
     showLike: Type.bool,
     showShare: Type.bool,
+    showAvatar: Type.bool,
   };
 
   static defaultProps = {
@@ -72,6 +73,7 @@ class ProductCard extends PureComponent {
     canEdit: false,
     showLike: true,
     showShare: false,
+    showAvatar: true,
   };
 
   handleDelete = () => {
@@ -98,7 +100,7 @@ class ProductCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view, isMe, data } = this.props;
+    const { view, showAvatar, data } = this.props;
     const { author } = data;
     const { size, ratio } = avatar.sizes[view];
 
@@ -106,7 +108,7 @@ class ProductCard extends PureComponent {
     const authorUrl = createProfileLink(author);
 
     return (
-      isMe ||
+      showAvatar &&
         <Link
           className={cn('user')}
           to={authorUrl}

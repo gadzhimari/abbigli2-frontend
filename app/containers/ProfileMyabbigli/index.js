@@ -66,6 +66,7 @@ class ProfileMyabbigli extends Component {
               view={2}
               showLike
               showShare
+              showAvatar={!isMe}
             />
           ))
           }

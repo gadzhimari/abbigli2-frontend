@@ -34,7 +34,7 @@ class NewPost extends PureComponent {
     const { data } = this.props;
 
     const imageUrl = getImageUrl(data);
-    const postUrl = createPostLink(data);
+    const postUrl = createPostLink(data, data.type);
     const name = getUserName(data);
     const authorUrl = createProfileLink(data.author);
 

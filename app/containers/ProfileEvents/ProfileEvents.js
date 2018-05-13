@@ -35,6 +35,7 @@ class ProfileEvents extends PureComponent {
               showShare={isMe}
               isMe={isMe}
               canEdit={isMe}
+              showAvatar={!isMe}
             />
           ))
           }

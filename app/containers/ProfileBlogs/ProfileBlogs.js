@@ -35,6 +35,7 @@ class ProfileBlogs extends PureComponent {
               isMe={isMe}
               showShare={isMe}
               canEdit={isMe}
+              showAvatar={!isMe}
             />
           ))
           }
