@@ -14,16 +14,16 @@ const apiByType = {
   [EVENT_TYPE]: Events
 };
 
-const setLike = (slug, type) => async (dispatch) => {
+export const toggleLike = (slug, type) => async (dispatch) => {
   dispatch(setLikeRequest());
   const api = apiByType[type];
 
   try {
-    await api.like(slug);
+    await api.toggleFavorite(slug);
     dispatch(setLikeSuccess());
   } catch (e) {
     dispatch(setLikeFailure());
   }
 };
 
-export default onlyAuthAction(setLike);
+export default onlyAuthAction(toggleLike);

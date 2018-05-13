@@ -80,6 +80,7 @@ class BlogCard extends PureComponent {
     canEdit: Type.bool,
     showLike: Type.bool,
     showShare: Type.bool,
+    showAvatar: Type.bool,
   };
 
   static defaultProps = {
@@ -88,6 +89,7 @@ class BlogCard extends PureComponent {
     canEdit: false,
     showLike: true,
     showShare: false,
+    showAvatar: true
   };
 
   handleDelete = () => {
@@ -96,7 +98,7 @@ class BlogCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view, isMe, data } = this.props;
+    const { view, showAvatar, data } = this.props;
     const { author } = data;
 
     const name = getUserName(data);
@@ -104,7 +106,7 @@ class BlogCard extends PureComponent {
     const avatarPos = avatar.position[view] || '';
     const { size, ratio } = avatar.sizes[view];
 
-    return isMe || (
+    return showAvatar && (
       <Link
         className={cn('user', { block: avatar.block[view], align: avatar.align[view], position: avatarPos })}
         to={createProfileLink(author)}
@@ -146,7 +148,7 @@ class BlogCard extends PureComponent {
   render(cn) {
     const { data, setLike, showLike, showShare, view, isMe, canEdit, isTouch } = this.props;
     const {
-      liked,
+      is_favorite: isFavorite,
       title,
       slug,
       created,
@@ -215,7 +217,7 @@ class BlogCard extends PureComponent {
           <div className={cn('actions', { align: 'top-right' })}>
             {showLike &&
               <Like
-                liked={liked}
+                liked={isFavorite}
                 onClick={setLike}
                 slug={slug}
                 type={type}

@@ -87,6 +87,7 @@ class EventCard extends PureComponent {
     canEdit: Type.bool,
     showLike: Type.bool,
     showShare: Type.bool,
+    showAvatar: Type.bool,
   };
 
   static defaultProps = {
@@ -95,6 +96,7 @@ class EventCard extends PureComponent {
     canEdit: false,
     showLike: true,
     showShare: false,
+    showAvatar: true,
   };
 
   handleDelete = () => {
@@ -122,12 +124,12 @@ class EventCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view, isMe, data } = this.props;
+    const { view, showAvatar, data } = this.props;
     const { author } = data;
     const name = getUserName(data);
     const { size, ratio } = avatar.sizes[view];
 
-    return isMe || (
+    return showAvatar && (
       <Link
         className={cn('user')}
         to={createProfileLink(author)}
@@ -150,7 +152,7 @@ class EventCard extends PureComponent {
   render(cn) {
     const { data, setLike, showLike, showShare, view, canEdit, isMe, isTouch } = this.props;
     const {
-      liked,
+      is_favorite: isFavorite,
       title,
       slug,
       created,
@@ -219,7 +221,7 @@ class EventCard extends PureComponent {
           <div className={cn('actions', { align: 'top-right' })}>
             { showLike &&
               <Like
-                liked={liked}
+                liked={isFavorite}
                 onClick={setLike}
                 slug={slug}
                 type={type}

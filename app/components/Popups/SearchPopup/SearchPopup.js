@@ -10,7 +10,7 @@ import ResultsUsers from './ResultsUsers';
 
 import { changeValue, clearValue } from '../../../ducks/Search';
 
-import { API_URL } from '../../../config';
+import { API_URL_V2 } from '../../../config';
 import { __t } from '../../../i18n/translator';
 
 import './SearchPopup.styl';
@@ -103,7 +103,7 @@ class SearchPopup extends Component {
       isFetching: true,
     });
 
-    fetch(`${API_URL}tags/?search=${request}`)
+    fetch(`${API_URL_V2}tags/?search=${request}`)
       .then(res => res.json())
       .then((result) => {
         let array = result.results;
