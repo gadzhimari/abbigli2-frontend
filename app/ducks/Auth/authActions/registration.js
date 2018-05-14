@@ -4,8 +4,6 @@ import { openPopup } from '../../../ducks/Popup/actions';
 
 import { Auth } from '../../../api';
 
-const regWithoutSideEffects = creds => Auth.signUp({ phone: creds.contact });
-
 const registration = creds => (dispatch) => {
   dispatch(setFetchingStatus());
 
@@ -16,10 +14,7 @@ const registration = creds => (dispatch) => {
         email: res.data.email,
       }));
 
-      // dispatch(openPopup('confirmRegistration', {
-      //   contact: res.data.phone,
-      //   againRequest: regWithoutSideEffects,
-      // }));
+      dispatch(openPopup('confirmRegistration'));
     })
     .catch((error) => {
       dispatch(setError('registration', error.response.data));

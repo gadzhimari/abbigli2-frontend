@@ -40,12 +40,7 @@ class SignInPopup extends Component {
   }
 
   handleSignIn = () => {
-    const { username, password } = this.state;
-
-    this.props.dispatch(login({
-      username,
-      password,
-    }, this.props.closePopup));
+    this.props.dispatch(login(this.state, this.props.closePopup));
   }
 
   handleSignUp = () => {
@@ -60,7 +55,7 @@ class SignInPopup extends Component {
     const { closePopup, isFetching, errors } = this.props;
 
     return (
-      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
+      <div className="popup-wrap" id="sendMessage">
         <div
           className="popup mobile-search__popup register-popup"
         >
@@ -86,7 +81,6 @@ class SignInPopup extends Component {
                 disabled={isFetching}
                 errors={errors}
                 errorClass="login__form-error"
-                type="text"
                 id="username"
                 name="username"
                 wrapperClass="register-popup__form-field"

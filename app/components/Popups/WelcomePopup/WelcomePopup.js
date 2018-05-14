@@ -6,8 +6,6 @@ import { React, Component, Type } from '../../../components-lib/__base';
 import { Button, Link } from '../../../components-lib';
 import IconClose from '../../../icons/close';
 
-import pages from '../../../lib/pages';
-
 import { __t } from '../../../i18n/translator';
 
 import './WelcomePopup.less';
@@ -30,7 +28,7 @@ class WelcomePopup extends Component {
     const { closePopup, me } = this.props;
 
     return (
-      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
+      <div className="popup-wrap" id="sendMessage">
         <div
           className="popup mobile-search__popup register-popup"
         >
@@ -45,15 +43,20 @@ class WelcomePopup extends Component {
             />}
           />
           <div className="register-popup__title">
-            Поздравляем
+            {__t('Congratulations!')}
           </div>
-          <div className="register-popup__body">
+          <p
+            className="register-popup__text"
+          >
+            {__t('You signed up. Create showcases, share knowledge and skill!')}
+          </p>
+          <div className="register-popup__footer">
             <Link
               onClick={this.handleClick}
               view="default"
               to={`/profile/${me.id}`}
-              name="sign in"
-              text={__t('Sign In')}
+              name="Go to profile"
+              text={__t('Go to profile')}
             />
           </div>
         </div>

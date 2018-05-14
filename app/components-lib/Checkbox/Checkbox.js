@@ -30,17 +30,15 @@ class Checkbox extends Component {
   }
 
   handleChange = (e) => {
-    if (!this.props.disabled) {
-      const nextCheckedValue = !(
-        this.props.checked !== undefined ?
-          this.props.checked : this.state.checked
-      );
+    const nextCheckedValue = !(
+      this.props.checked !== undefined ?
+        this.props.checked : this.state.checked
+    );
 
-      this.setState({ checked: nextCheckedValue });
+    this.setState({ checked: nextCheckedValue });
 
-      if (this.props.onChange) {
-        this.props.onChange(e, nextCheckedValue);
-      }
+    if (this.props.onChange) {
+      this.props.onChange(e, nextCheckedValue);
     }
   }
 
