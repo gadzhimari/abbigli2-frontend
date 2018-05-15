@@ -11,7 +11,7 @@ const stagedPopup = type => (dispatch, getState) => {
   if (stage === 'confirm') {
     options.callback = getCallbackByType(type);
     options.previousPopup = type === 'register'
-      ? 'registerPopup'
+      ? 'signUpPopup'
       : 'resetPopup';
 
     suffix = type === 'register' ? 'Registration' : 'ResetPassword';

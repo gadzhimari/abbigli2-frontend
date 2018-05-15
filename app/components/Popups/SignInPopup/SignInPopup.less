@@ -1,15 +1,22 @@
-.auth-popup-wrapper {
-  z-index: 5
-  position: fixed
-  top: 0
-  bottom: 0
-  left: 0
-  right: 0
-  background-color: rgba(0,0,0,0.6)
+.register-popup {
+  &__forgot {
+    width: 100%;
+    margin-bottom: 30px;
+  }
 }
 
-.auth-popup{
-  z-index: 10
+.auth-popup-wrapper {
+  z-index: 5;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.auth-popup {
+  z-index: 10;
   background-color: #fff;
   position: absolute;
   padding: 30px 20px 40px;
@@ -19,22 +26,19 @@
   left: 50%;
   width: 550px;
   border: 1px solid #90a4ae;
-  -webkit-border-radius: 5px;
   border-radius: 5px;
-  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  -webkit-box-shadow: 0 2px 4px #3d4041;
   box-shadow: 0 2px 4px #3d4041;
 }
 
 .login__form-error {
-    background-color: #d10e0e;
-    padding: 5px;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 12px;
-    margin-top: 5px;
-    text-align: center;
+  background-color: #d10e0e;
+  padding: 5px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: center;
 }
 
 .login__form-error--top {

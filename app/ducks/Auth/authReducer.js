@@ -6,7 +6,7 @@ const initialState = {
   me: {},
   isAuthenticated: false,
   errors: {},
-  registerStage: 'register', // one of register, confirm, password
+  signUpStage: 'signUp', // one of register, confirm, password
   loginStage: 'login', // one of login, reset, confirm, password
 };
 
