@@ -4,8 +4,7 @@ import { DOMAIN_URL } from '../config';
 const Auth = {
   signUp(data) {
     return request({
-      url: 'api/v1/signup/',
-      baseURL: 'http://alpha.abbigli.com',
+      url: 'signup/',
       method: 'POST',
       data,
     });
@@ -13,31 +12,28 @@ const Auth = {
   signIn(data) {
     return request({
       url: 'api/auth/get-token/',
-      baseURL: 'http://alpha.abbigli.com',
+      baseURL: DOMAIN_URL,
       method: 'POST',
       data,
     });
   },
   getMyProfile(token) {
     return request({
-      url: 'api/v1/my-profile/',
-      baseURL: 'http://alpha.abbigli.com',
+      url: 'my-profile/',
       token,
       mustApplyToken: true,
     });
   },
   resetPassword(data) {
     return request({
-      url: 'api/v1/reset-password/',
-      baseURL: 'http://alpha.abbigli.com',
+      url: 'reset-password/',
       method: 'POST',
       data,
     });
   },
   setPassword(data) {
     return request({
-      url: 'api/v1/my-profile/set-password/',
-      baseURL: 'http://alpha.abbigli.com',
+      url: 'my-profile/set-password/',
       method: 'POST',
       data,
       canApplyToken: true,
@@ -45,16 +41,14 @@ const Auth = {
   },
   signUpConfirm(data) {
     return request({
-      url: 'api/v1/signup/confirm/',
-      baseURL: 'http://alpha.abbigli.com',
+      url: 'signup/confirm/',
       method: 'POST',
       data,
     });
   },
   resetPasswordConfirm(data) {
     return request({
-      url: 'api/v1/reset-password/confirm/',
-      baseURL: 'http://alpha.abbigli.com',
+      url: 'reset-password/confirm/',
       method: 'POST',
       data,
     });
