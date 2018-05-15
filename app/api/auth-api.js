@@ -11,7 +11,7 @@ const Auth = {
   },
   signIn(data) {
     return request({
-      url: 'api/auth/get-token/',
+      url: 'api/get-token/',
       baseURL: DOMAIN_URL,
       method: 'POST',
       data,
