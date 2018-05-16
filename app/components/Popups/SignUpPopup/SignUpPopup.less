@@ -58,9 +58,6 @@
   }
   &__form {
     &-field {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
       width: 100%;
       margin-bottom: 16px;
     }
@@ -182,8 +179,12 @@
   width: 300px;
 }
 
+.register-popup__fetch-button-old {
+  max-width: 300px;
+}
+
 .register-popup__button-back {
-  width: 300px;
+  max-width: 300px;
   margin-top: 15px;
 }
 
@@ -249,6 +250,8 @@
     }
 
     &__form {
+      margin-left: auto;
+      margin-right: auto;
       padding: 35px 0;
       overflow-y: auto;
     }
@@ -256,6 +259,16 @@
     &__social {
       max-width: 300px;
       margin-bottom: 20px;
+    }
+  }
+}
+
+.reset-password-popup {
+  .register-popup__form {
+    margin-left: auto;
+    margin-right: auto;
+    &-field {
+      max-width: 300px;
     }
   }
 }

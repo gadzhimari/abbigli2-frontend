@@ -86,7 +86,7 @@ class ConfirmPopup extends PureComponent {
     return (
       <div className="popup-wrap" id="sendMessage">
         <div
-          className="popup mobile-search__popup reset-popup"
+          className="popup mobile-search__popup reset-password-popup"
         >
           <div className="register-popup__title">
             {this.title}
@@ -113,7 +113,7 @@ class ConfirmPopup extends PureComponent {
             </div>
             {
               this.showConfirmCode &&
-              <div className="register-popup__field">
+              <div className="register-popup__form-field">
                 <ErrorInput
                   className="input"
                   value={this.state.confirmCode}
@@ -171,10 +171,11 @@ class ConfirmPopup extends PureComponent {
             {
               this.showConfirmCode &&
               <Button
-                className="register-popup__fetch-button-new"
+                className="register-popup__fetch-button-old"
                 onClick={this.handleClick}
                 isFetching={isFetching}
                 text={this.buttonText}
+                fullWidth
               />
             }
             <Button
@@ -182,6 +183,7 @@ class ConfirmPopup extends PureComponent {
               className="register-popup__button-back"
               onClick={this.handleBackClick}
               text={__t('Back')}
+              fullWidth
             />
           </form>
         </div>

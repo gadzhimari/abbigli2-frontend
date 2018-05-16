@@ -39,6 +39,10 @@ class SignUpPopup extends Component {
     return email.length > 0 && password.length > 0 && tosCheckbox;
   }
 
+  handleAgreement = () => {
+    this.props.dispatch(this.props.closePopup());
+  }
+
   handleChange = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -141,6 +145,7 @@ class SignUpPopup extends Component {
                       {__t('I agree with')}
                       {__t(' ')}
                       <Link
+                        onClick={this.handleAgreement}
                         size="s"
                         to="/page/agreement"
                         text={__t('terms of use of the resource')}

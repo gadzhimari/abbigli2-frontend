@@ -30,7 +30,7 @@ class ConfirmRegistration extends Component {
     return (
       <div className="popup-wrap" id="sendMessage">
         <div
-          className="popup mobile-search__popup reset-popup"
+          className="popup mobile-search__popup reset-password-popup"
         >
           <div className="register-popup__title">
             {__t('Confirm registration')}
@@ -56,6 +56,7 @@ class ConfirmRegistration extends Component {
               className="register-popup__button-back"
               onClick={this.handleBackClick}
               text={__t('Back')}
+              fullWidth
             />
           </form>
         </div>
