@@ -72,15 +72,15 @@ class SignInPopup extends Component {
           <div className="register-popup__title">
             {__t('Sign In')}
           </div>
+          {
+            errors && errors.non_field_errors
+            &&
+            <div className="login__form-error login__form-error--top">
+              {errors.non_field_errors}
+            </div>
+          }
           <div className="register-popup__body">
             <form className="register-popup__form">
-              {
-                errors && errors.non_field_errors
-                &&
-                <div className="login__form-error login__form-error--top">
-                  {errors.non_field_errors}
-                </div>
-              }
               <ErrorInput
                 className="input"
                 value={this.state.username}
