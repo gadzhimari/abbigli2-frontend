@@ -56,7 +56,7 @@ class PasswordPopup extends Component {
     return (
       <div className="popup-wrap" id="sendMessage">
         <div
-          className="popup mobile-search__popup reset-popup"
+          className="popup mobile-search__popup reset-password-popup"
         >
           <div className="register-popup__title">
             {__t('Set up your password')}
@@ -105,11 +105,12 @@ class PasswordPopup extends Component {
               />
             </div>
             <Button
-              className="register-popup__fetch-button-new"
+              className="register-popup__fetch-button-old"
               onClick={this.handleSubmit}
               isFetching={isFetching}
               text={__t('Set password')}
               disabled={!this.validateForm()}
+              fullWidth
             />
           </form>
         </div>

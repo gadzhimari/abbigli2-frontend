@@ -52,7 +52,7 @@ class ResetPopup extends Component {
     return (
       <div className="popup-wrap" id="sendMessage">
         <div
-          className="popup mobile-search__popup reset-popup"
+          className="popup mobile-search__popup reset-password-popup"
         >
           <div className="register-popup__title">
             {__t('Reset your password')}
@@ -68,7 +68,7 @@ class ResetPopup extends Component {
             />}
           />
           <form className="register-popup__form">
-            <div className="register-popup__field">
+            <div className="register-popup__form-field">
               <ErrorInput
                 className="input"
                 value={this.state.contact}
@@ -80,17 +80,19 @@ class ResetPopup extends Component {
               />
             </div>
             <Button
-              className="register-popup__fetch-button-new"
+              className="register-popup__fetch-button-old"
               onClick={this.handleSubmit}
               isFetching={isFetching}
               text={__t('Continue')}
               disabled={!this.validateForm()}
+              fullWidth
             />
             <Button
               color="secondary"
               className="register-popup__button-back"
               onClick={this.handleBackClick}
               text={__t('Back')}
+              fullWidth
             />
           </form>
         </div>

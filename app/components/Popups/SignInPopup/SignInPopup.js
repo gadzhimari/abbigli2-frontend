@@ -74,12 +74,19 @@ class SignInPopup extends Component {
           </div>
           <div className="register-popup__body">
             <form className="register-popup__form">
+              {
+                errors && errors.non_field_errors
+                &&
+                <div className="login__form-error login__form-error--top">
+                  {errors.non_field_errors}
+                </div>
+              }
               <ErrorInput
                 className="input"
                 value={this.state.username}
                 onChange={this.handleChange}
                 disabled={isFetching}
-                errors={errors}
+                errors={errors.username}
                 errorClass="login__form-error"
                 id="username"
                 name="username"
@@ -98,7 +105,7 @@ class SignInPopup extends Component {
                 value={this.state.password}
                 onChange={this.handleChange}
                 disabled={isFetching}
-                errors={errors}
+                errors={errors.password}
                 errorClass="login__form-error"
                 id="password"
                 type="password"
