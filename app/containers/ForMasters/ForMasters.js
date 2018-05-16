@@ -133,7 +133,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  showRegister: () => dispatch(stagedPopup('register')),
+  showRegister: () => dispatch(stagedPopup('signUp')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ForMasters);
