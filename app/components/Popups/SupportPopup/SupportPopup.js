@@ -1,6 +1,8 @@
 import Dropzone from 'react-dropzone';
 
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import popupHOC from '../../../HOC/popupHOC';
 
 import { React, Component, Type } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
@@ -165,4 +167,6 @@ const mapDispatchToProps = ({ Support }) => ({
   errors: Support.errors,
 });
 
-export default connect(mapDispatchToProps)(SupportPopup);
+const enhance = compose(connect(mapDispatchToProps), popupHOC);
+
+export default enhance(SupportPopup);

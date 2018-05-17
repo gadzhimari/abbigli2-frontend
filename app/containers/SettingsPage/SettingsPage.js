@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
-import Type from 'prop-types';
-
-import Checkbox from '../../components/Checkbox';
+import { React, Component } from '../../components-lib/__base';
+import { Checkbox } from '../../components-lib';
 import SettingsField from './SettingsField';
 
 import './settings-page.less';
@@ -17,14 +15,18 @@ class SettingsPage extends Component {
           <div className="settings-table__row">
             <div className="settings-table__cell">Настройки приватности</div>
             <div className="settings-table__cell">
-              <Checkbox
-                id="disableCommenting"
-                label="Показывать мою ленту"
-              />
-              <Checkbox
-                id="disableCommenting"
-                label="Показывать моё избранное"
-              />
+              <div className="settings-table__privacy">
+                <Checkbox
+                  id="showFeed"
+                  text="Показывать мою ленту"
+                />
+              </div>
+              <div className="settings-table__privacy">
+                <Checkbox
+                  id="showFavorites"
+                  text="Показывать моё избранное"
+                />
+              </div>
             </div>
             <div className="settings-table__cell" />
           </div>

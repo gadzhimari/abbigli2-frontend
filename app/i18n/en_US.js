@@ -172,7 +172,6 @@ export default {
     "read more": "Read",
     "Add.on.Abbigli": "Add on Abbigli",
     "You.added.the.product.and.put.up.for.sale": "You added the product and put up for sale",
-    "Product.Service": "Product or service",
     "Youre.creating.post ": "You’re now creating a new blog post",
     "Blog": "Blog",
     "Youre.adding.the.information.about.event ": "You’re now adding the information about the event",

@@ -1,16 +1,16 @@
 import { setFetchingStatus, setError, handleSucces } from './common';
 
-import { closePopup } from 'ducks/Popup/actions';
+import { closePopup } from '../../../ducks/Popup/actions';
 import fetchMe from './fetchMe';
 
-import { Auth } from 'API';
+import { Auth } from '../../../api';
 
 const setPassword = creds => (dispatch) => {
   dispatch(setFetchingStatus());
 
   Auth.setPassword(creds)
     .then(() => {
-      dispatch(handleSucces({ resetStage: 'login', registerStage: 'register' }));
+      dispatch(handleSucces({ resetStage: 'login', signUpStage: 'signUp' }));
       dispatch(closePopup());
       dispatch(fetchMe());
     })

@@ -82,7 +82,7 @@
   user-select: none;
   white-space: nowrap;
   touch-action: manipulation;
-  transition: color 200ms ease-out, background-color 200ms ease-out, border-color 200ms ease-out;
+  transition: color 200ms ease-out, background-color 200ms ease-out, border-color 200ms ease-out, opacity 200ms ease-out;
 
   &::-moz-focus-inner {
     padding: 0;
@@ -95,7 +95,6 @@
 }
 
 .link() {
-  vertical-align: middle;
   &:hover {
     text-decoration: underline;
   }
@@ -103,7 +102,7 @@
 
 .button-disabled() {
   opacity: 0.65;
-  cursor: default;
+  cursor: not-allowed;
   pointer-events: none;
 }
 

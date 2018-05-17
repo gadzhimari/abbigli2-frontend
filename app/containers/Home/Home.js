@@ -148,7 +148,7 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  showRegister: () => dispatch(stagedPopup('register')),
+  showRegister: () => dispatch(stagedPopup('signUp')),
   fetchData: () => {
     dispatch(fetchBlogs({ type: 4 }));
     dispatch(fetchEvents({ type: 3 }));

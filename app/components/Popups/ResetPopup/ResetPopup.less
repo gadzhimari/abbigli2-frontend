@@ -1,0 +1,56 @@
+@import '../../../components-lib/__base/variables/colors';
+@import '../../../components-lib/__base/variables/variables';
+@import '../../../components-lib/__base/variables/typography';
+@import '../../../components-lib/__base/mixins';
+
+.popup.mobile-search__popup.reset-popup {
+  height: auto;
+  width: 400px;
+}
+
+.popup.mobile-search__popup.reset-password-popup {
+  width: 100%;
+  height: auto;
+  max-width: 718px;
+  padding: 40px;
+  border-radius: 3px;
+  background-color: @gray-100;
+
+  .register-popup {
+    &__form {
+      padding: 0;
+    }
+  }
+}
+
+@media screen and (max-width: @breakpoint-m) {
+  .popup.mobile-search__popup.reset-popup {
+    width: 100%;
+    max-width: 400px;
+    .align-full();
+  }
+
+  .popup.mobile-search__popup.reset-password-popup {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    min-height: 100%;
+    border-radius: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    .register-popup {
+      &__form {
+        flex-grow: 0;
+        flex-shrink: 0;
+        max-width: 300px;
+        margin-bottom: 5px;
+        padding-bottom: 25px;
+
+        &-field {
+          flex-grow: 0;
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+}

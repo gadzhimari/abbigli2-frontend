@@ -1,8 +1,8 @@
 import { setFetchingStatus, setError, handleSucces } from './common';
 
-import { openPopup } from 'ducks/Popup/actions';
+import { openPopup } from '../../../ducks/Popup/actions';
 
-import { Auth } from 'API';
+import { Auth } from '../../../api';
 
 const resetWithoutSideEffects = (creds) => {
   const formData = new FormData();
@@ -23,8 +23,10 @@ const reset = (creds) => {
         dispatch(handleSucces({
           loginStage: 'confirm',
         }));
+        const currentPopup = res.data.type === 'phone' ?
+          'confirmPinReset' : 'confirmEmailReset';
 
-        dispatch(openPopup('confirmResetPassword', {
+        dispatch(openPopup(currentPopup, {
           contact: res.data.contact,
           againRequest: resetWithoutSideEffects,
         }));
