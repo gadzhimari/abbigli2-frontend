@@ -244,6 +244,7 @@ export default {
   'Search results': 'Результаты поиска',
   Home: 'Главная',
   Products: 'Товары',
+  Item: 'Товар',
   'Price from': 'Цена от',
   'Price to': 'Цена до',
   Near: 'Рядом',
@@ -286,7 +287,6 @@ export default {
   'Incorrect value, please type a number':
     'Некоректное значение, пожалуйста введите число',
   'This field should not be empty': 'Это поле не может быть пустым',
-  'Product or service': 'Изделие/услуга',
   Blog: 'Блог',
   Event: 'Событие',
   'Save product or service': 'Изделие/услуга',
