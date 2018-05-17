@@ -24,16 +24,19 @@ class SocialNetworks extends PureComponent {
           className="social-btn"
           provider={FACEBOOK_PROVIDER}
           href={socialGroupsUrl.fb}
+          openedWindow={false}
         />
         <ShareButton
           className="social-btn"
           provider={PINTEREST_PROVIDER}
           href={socialGroupsUrl.pinterest}
+          openedWindow={false}
         />
         <ShareButton
           className="social-btn google-plus"
           provider={GOOGLE_PROVIDER}
           href={socialGroupsUrl.google}
+          openedWindow={false}
         />
         {
           location === 'ru'
@@ -43,11 +46,13 @@ class SocialNetworks extends PureComponent {
               className="social-btn vkontakte"
               provider={VK_PROVIDER}
               href={socialGroupsUrl.vk}
+              openedWindow={false}
             />
             <ShareButton
               className="social-btn"
               provider={ODNOKLASSNIKI_PROVIDER}
               href={socialGroupsUrl.ok}
+              openedWindow={false}
             />
           </Fragment>
         }
