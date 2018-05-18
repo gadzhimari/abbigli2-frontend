@@ -16,4 +16,12 @@
       return: @white;
     }
   }
+
+  .col-width(@i, @columns, @gutter) {
+    return: calc(~'99.99% * @{i}/@{columns} - (@{gutter} - @{gutter} * @{i}/@{columns})');
+  }
+
+  .col-offset(@i, @columns, @gutter) {
+    return: calc(~'99.99% * @{i}/@{columns} - (@{gutter} - @{gutter} * @{i}/@{columns}) + @{gutter}');
+  }
 }

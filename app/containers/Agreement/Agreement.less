@@ -1,59 +1,58 @@
-#page-container {
-    background: #FFF;
-}
+@import '../../components-lib/__base/variables/colors';
+@import '../../components-lib/__base/variables/variables';
 
-.wrapper {
-    max-width: 1206px;
-    margin: 0 auto;
-}
+.agreement {
+  background: @white;
 
-.wrapper .row {
-    margin: 0 -10px;
-}
-.agreement .row:before {
-    display: table;
-    content: " ";
-}
-
-.agreement h1 {
+  h1 {
+    width: 100%;
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
     position: relative;
     margin: 66px 0 37px;
-}
+  }
 
-.agreement h2 {
+  h2 {
     padding: 20px 0px;
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
-}
+  }
 
-.agreement ol {
+  ol {
     list-style: decimal outside;
-}
+  }
 
-.agreement ol, .agreement ul {
+  ol, ul {
     padding-left: 20px;
-}
+  }
 
-.agreement ul {
+  ul {
     list-style: disc outside;
-}
+  }
 
-strong, b {
+  strong, b {
     font-weight: bold;
-}
+  }
 
-strong {
+  strong {
     margin: 0;
     padding: 0;
     border: 0;
     vertical-align: baseline;
+  }
+
+  .center-column {
+    padding: 0 25px;
+  }
 }
 
-.agreement .center-column {
-  padding: 0 20px;
+@media screen and (max-width: @breakpoint-s-only) {
+  .agreement {
+    .center-column {
+      padding: 0 10px;
+    }
+  }
 }
