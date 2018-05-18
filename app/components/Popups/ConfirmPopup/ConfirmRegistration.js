@@ -49,7 +49,7 @@ class ConfirmRegistration extends Component {
             <p
               className="register-popup__text"
             >
-              {__t("We've sent an email with an confirmation code. Click the link in the email to confirm your registration.\n.If you don't see the email, check other places it might be, like your junk, spam, or other folders.")}
+              {__t("We've sent an email with an confirmation code. Click the link in the email to confirm your registration.\nIf you don't see the email, check other places it might be, like your junk, spam, or other folders.")}
             </p>
             <Button
               color="secondary"
