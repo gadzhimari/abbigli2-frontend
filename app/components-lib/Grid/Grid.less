@@ -1,0 +1,54 @@
+@import '../__base/variables/variables';
+@import '../__base/mixins';
+
+.Row {
+  display: flex;
+  flex-flow: row wrap;
+  max-width: @container-size;
+  margin-left: auto;
+  margin-right: auto;
+
+  &_order_reverse {
+    flex-direction: row-reverse;
+    flex-wrap: row-reverse;
+  }
+}
+
+@media screen {
+  .row-align(s);
+}
+
+@media screen and (min-width: @breakpoint-m) {
+  .row-align(m);
+}
+
+@media screen and (min-width: @breakpoint-l) {
+  .row-align(l);
+}
+
+@media screen {
+  .generate-columns(s);
+}
+
+@media screen and (max-width: @breakpoint-s-only) {
+  .col-order(s);
+  .col-visibility(s);
+}
+
+@media screen and (min-width: @breakpoint-m) {
+  .generate-columns(m);
+}
+
+@media screen and (max-width: @breakpoint-m-only) {
+  .col-order(m);
+  .col-visibility(m);
+}
+
+@media screen and (min-width: @breakpoint-l) {
+  .generate-columns(l);
+}
+
+@media screen and (max-width: @breakpoint-l-only) {
+  .col-order(l);
+  .col-visibility(l);
+}
