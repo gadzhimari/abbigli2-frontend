@@ -139,7 +139,7 @@ class SignInPopup extends Component {
             <div className="register-popup__social">
               <SocialLogin />
               <div className="register-popup__notice">
-                {__t('Sign in via social network allows your friends to find you on Abbigli')}
+                {__t('Sign in via social network allows your friends to find you on Abbigli.')}
               </div>
               <div className="register-popup__social-footer">
                 <span
