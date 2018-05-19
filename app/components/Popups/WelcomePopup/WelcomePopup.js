@@ -48,7 +48,7 @@ class WelcomePopup extends Component {
           <p
             className="register-popup__text"
           >
-            {__t('You signed up. Create showcases, share knowledge and skill!')}
+            {__t('You signed up. Create showcases, share your knowledge and skill!')}
           </p>
           <div className="register-popup__footer">
             <Link
