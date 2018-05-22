@@ -1,0 +1,53 @@
+@import '../../components-lib/__base/variables/colors';
+@import '../../components-lib/__base/variables/variables';
+@import '../../components-lib/__base/variables/typography';
+@import '../../components-lib/__base/mixins';
+
+.Profile {
+  &__tabs {
+    margin-bottom: 60px;
+  }
+
+  &__toolbar {
+    &-wrapper {
+      display: flex;
+      max-width: 500px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    &-button {
+    }
+
+    &-caption {
+      font-family: @font;
+      font-size: @font-size-medium;
+
+      &_selected {
+        color: @gray-800;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: @breakpoint-s-only) {
+  .Profile {
+    &__toolbar {
+      &-wrapper {
+        flex-wrap: wrap;
+      }
+      &-button.Button_view_default.Button_size_m {
+        padding: 0 10px;
+      }
+
+      &-caption {
+        &_selected {
+          display: block;
+          width: 100%;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}

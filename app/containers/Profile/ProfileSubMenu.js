@@ -55,6 +55,19 @@ export default class ProfileSubMenu extends PureComponent {
           {__t('My Abbigli')}
         </Link>
 
+        <Link
+          to={`/profile/${data.id}/lk`}
+          onClick={this.onLinkClick}
+          className={classNames(commonClass, 'my-abbigli',
+            { active: !path })
+          }
+          name="store"
+        >
+          <div className="icon-wrap">
+            <div className="icon" />
+          </div>
+          Магазин
+        </Link>
         {(isMe || showFavorites) &&
           <Link
             to={`/profile/${data.id}/favorites`}

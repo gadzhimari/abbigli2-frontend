@@ -9,7 +9,7 @@ import { __t } from '../../../i18n/translator';
 import './Filters.less';
 
 const postTypes = [{
-  title: __t('Products'),
+  title: __t('Items'),
   slug: 1,
 },
 {

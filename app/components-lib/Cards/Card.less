@@ -341,7 +341,7 @@
   }
 }
 
-@media screen and (min-width: 761px) and (max-width: 980px) {
+@media screen and (min-width: @breakpoint-m) and (max-width: @breakpoint-l-only) {
   .cards-wrapper {
     .Card {
       &:nth-child(3n) {
@@ -355,13 +355,13 @@
   }
 }
 
-@media screen and (min-width: 481px) and (max-width: 760px) {
+@media screen and (min-width: @breakpoint-s) and (max-width: @breakpoint-m-only) {
   .Card {
     flex-basis: 49%;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: @breakpoint-s-only) {
   .cards-wrapper {
     margin: 0;
   }
@@ -369,5 +369,29 @@
   .Card {
     flex-basis: 100%;
     margin: 0 0 10px;
+
+    &_type {
+      &_attach {
+        min-height: 0;
+        max-height: 72px;
+      }
+    }
+
+    &__button {
+      &_attach {
+        flex-direction: row;
+
+        .Link__icon {
+          width: 32px;
+          height: 32px;
+          margin-bottom: 0;
+        }
+
+        .Icon_size_s {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
   }
 }

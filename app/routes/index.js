@@ -11,6 +11,7 @@ import {
   Tag,
   ProductPage,
   Profile,
+  ProfileLK,
   ProfileMyabbigli,
   ProfileFavorites,
   ProfileFeed,
@@ -65,9 +66,10 @@ function getRoutes(store) {
 
       <Route path={pages.PROFILE_PAGE.path} component={Profile} >
         <IndexRoute component={ProfileMyabbigli} />
-        <Route path={pages.FAVORITES_PAGE.path} component={ProfileFavorites} />
-        <Route path={pages.FEED_PAGE.path} component={ProfileFeed} />
-        <Route path={pages.ABOUT_PROFILE_PAGE.path} component={ProfileAbout} />
+        <Route path={'lk'} component={ProfileLK} mustScroll={false} />
+        <Route path={pages.FAVORITES_PAGE.path} component={ProfileFavorites} mustScroll={false} />
+        <Route path={pages.FEED_PAGE.path} component={ProfileFeed} mustScroll={false} />
+        <Route path={pages.ABOUT_PROFILE_PAGE.path} component={ProfileAbout} mustScroll={false} />
       </Route>
 
       <Route path={pages.SETTINGS_PAGE.path} component={SettingsPage} />

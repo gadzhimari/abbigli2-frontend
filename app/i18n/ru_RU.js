@@ -247,8 +247,8 @@ export default {
   Yes: 'Да',
   'Search results': 'Результаты поиска',
   Home: 'Главная',
-  Products: 'Товары',
   Item: 'Товар',
+  Items: 'Товары',
   'Price from': 'Цена от',
   'Price to': 'Цена до',
   Near: 'Рядом',
@@ -421,5 +421,9 @@ export default {
   'Congratulations!': 'Поздравляем!',
   'Go to profile': 'Перейти в профиль',
   'You signed up. Create showcases, share your knowledge and skill!': 'Вы зарегистрировались. Создавайте витрины, делитесь знаниями и мастерством!',
-  'privacy.text': privacyRu
+  'privacy.text': privacyRu,
+  Active: 'Активные',
+  Archive: 'Архив',
+  Selected: 'Выбранные',
+  Raise: 'Поднять',
 };

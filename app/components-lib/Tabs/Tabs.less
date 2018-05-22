@@ -1,0 +1,22 @@
+.Tabs {
+  &__content {
+    position: relative;
+  }
+
+  &_scrollable {
+    width: 100%;
+    overflow: hidden;
+
+    .Tabs {
+      &__panel {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+      }
+
+      &__content {
+        display: inline-block;
+      }
+    }
+  }
+}
