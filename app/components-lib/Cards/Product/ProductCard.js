@@ -5,11 +5,19 @@ import { React, PureComponent, Type, cn } from '../../__base';
 import Image from '../../../components/Image';
 import Avatar from '../../../components/Avatar';
 import { Share } from '../../../components';
-import { Button, Like, Link } from '../../../components-lib';
+import { Button, Checkbox, Like, Link } from '../../../components-lib';
+
+import IconArchive from '../../../icons/archive';
 import IconBag from '../../../icons/bag';
+import IconEye2 from '../../../icons/eye-2';
 import IconClose from '../../../icons/close';
+import IconHeart from '../../../icons/heart';
+import IconElevation from '../../../icons/elevation';
+import IconMail from '../../../icons/mail';
+import IconMore from '../../../icons/more';
 import IconShare from '../../../icons/share';
 import IconPencil from '../../../icons/pencil';
+import IconStatistics from '../../../icons/statistics';
 
 import getImageUrl from '../../../lib/getImageUrl';
 import getUserName from '../../../lib/getUserName';
@@ -65,6 +73,12 @@ class ProductCard extends PureComponent {
     canEdit: Type.bool,
     showLike: Type.bool,
     showShare: Type.bool,
+    showStats: Type.bool,
+    showActivationPeriod: Type.bool,
+    showMoreButton: Type.bool,
+    showMessages: Type.bool,
+    showCheckbox: Type.bool,
+    showRaiseButton: Type.bool,
   };
 
   static defaultProps = {
@@ -73,6 +87,12 @@ class ProductCard extends PureComponent {
     canEdit: false,
     showLike: true,
     showShare: false,
+    showStats: false,
+    showActivationPeriod: false,
+    showMoreButton: false,
+    showMessages: false,
+    showCheckbox: false,
+    showRaiseButton: false,
   };
 
   handleDelete = () => {
@@ -99,14 +119,15 @@ class ProductCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view, isMe } = this.props;
+    const { view, isMe, showStats } = this.props;
     const { user } = this.props.data;
     const name = getUserName(user);
     const { size, ratio } = avatar.sizes[view];
+    const emptyDiv = showStats ? null : <div />;
 
     return (
       isMe ?
-        <div /> :
+        emptyDiv :
         <Link
           className={cn('user')}
           to={createProfileLink(user)}
@@ -127,7 +148,23 @@ class ProductCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, showLike, showShare, priceTemplate, view, canEdit, isMe, isTouch } = this.props;
+    const {
+      setLike,
+      showLike,
+      showShare,
+      showStats,
+      showActivationPeriod,
+      showMoreButton,
+      showRaiseButton,
+      showCheckbox,
+      showMessages,
+      priceTemplate,
+      view,
+      canEdit,
+      isMe,
+      isTouch
+    } = this.props;
+
     const {
       user,
       liked,
@@ -165,8 +202,16 @@ class ProductCard extends PureComponent {
             />
           </Link>
           <div className={cn('actions', { align: 'top-left' })}>
+            { showCheckbox &&
+              <Checkbox
+                view="fab"
+                size="xxl"
+                className={cn('checkbox')}
+                aria-label={__t('Check')}
+              />
+            }
             { showShare &&
-              <div className="share">
+              <span className="share Card__share">
                 <Button
                   view="fab"
                   className={cn('button', { share: true, hide: !isTouch })}
@@ -185,6 +230,19 @@ class ProductCard extends PureComponent {
                     description={title}
                   />
                 </div>
+              </span>
+            }
+            { showRaiseButton &&
+              <div className={cn('spacer')}>
+                <Button
+                  view="fab"
+                  className={cn('button', { raise: true })}
+                  aria-label={__t('Raise')}
+                  icon={<IconElevation
+                    size="xs"
+                    color="red"
+                  />}
+                />
               </div>
             }
           </div>
@@ -197,7 +255,7 @@ class ProductCard extends PureComponent {
                 className={cn('button', { like: true, hide: !isTouch })}
               />
             }
-            { canEdit &&
+            { canEdit && !showMoreButton &&
               <Link
                 to={createPostEditLink({ id: user.id, slug })}
                 view="fab"
@@ -209,7 +267,7 @@ class ProductCard extends PureComponent {
                 />}
               />
             }
-            { isMe &&
+            { isMe && !showMoreButton &&
               <Button
                 onClick={this.handleDelete}
                 view="fab"
@@ -221,15 +279,119 @@ class ProductCard extends PureComponent {
                 />}
               />
             }
+            { isMe && showMoreButton &&
+              <span className="share">
+                <Button
+                  view="fab"
+                  className={cn('dropdown-item')}
+                  aria-label={__t('Show more')}
+                  icon={<IconMore
+                    size="xs"
+                    color="gray-400"
+                  />}
+                />
+                <div className="dropdown">
+                  <div className="dropdown-corner" />
+                  <Button
+                    view="link"
+                    className={cn('dropdown-item')}
+                    text={__t('Delete')}
+                    color="gray-400"
+                    onClick={this.handleDelete}
+                    icon={<IconClose
+                      size="xs"
+                      color="gray-400"
+                    />}
+                  />
+                  { canEdit &&
+                    <Link
+                      to="#"
+                      className={cn('dropdown-item')}
+                      text={__t('Edit')}
+                      color="gray-400"
+                      icon={<IconPencil
+                        size="xs"
+                        color="gray-400"
+                      />}
+                    />
+                  }
+                  <Link
+                    to="#"
+                    className={cn('dropdown-item')}
+                    text={__t('Archive')}
+                    color="gray-400"
+                    icon={<IconArchive
+                      size="xs"
+                      color="gray-400"
+                    />}
+                  />
+                </div>
+              </span>
+            }
+          </div>
+          <div className={cn('actions', { align: 'bottom-right' })}>
+            { showMessages &&
+              <Button
+                className={cn('button', { messages: true })}
+                text={2}
+                icon={<IconMail
+                  size="xs"
+                  color="white"
+                />}
+              />
+            }
           </div>
         </div>
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
             { view !== 3 && this.renderTitle(cn) }
+            {/* TODO Заменить на новое апи  */}
+            { showActivationPeriod &&
+              <div className={cn('activation-period')}>
+                {__t('From')}:{' '}
+                <span className={cn('activation-period-start')}>
+                  сегодня
+                </span>
+                {__t('To')}:{' '}
+                <span className={cn('activation-period-end')}>
+                  10 марта
+                </span>
+              </div>
+            }
           </div>
           <div className={cn('footer', { align: 'vertical' })}>
             { view !== 3 && this.renderAvatar(cn) }
             { view === 3 && this.renderTitle(cn) }
+            { isMe && showStats &&
+              <div className={cn('stats')}>
+                <span className={cn('stats-title')}>
+                  <IconStatistics
+                    size="xs"
+                    color="gray-400"
+                  />
+                  {__t('Statistics')}
+                </span>
+                <span className={cn('stats-meta')}>
+                  <span className={cn('like-count')}>
+                    <IconEye2
+                      size="xs"
+                      color="gray-400"
+                    />
+                    {/* TODO Используется в кач-ве рыбного текста для верстки.
+                        Заменить на новое апи  */}
+                    {this.props.data.likes_num}
+                  </span>
+                  <span className={cn('view-count')}>
+                    <IconHeart
+                      size="xs"
+                      color="gray-400"
+                    />
+                    {this.props.data.likes_num}
+                  </span>
+                </span>
+
+              </div>
+            }
             <div className={cn('price')}>
               { priceTemplate && priceTemplate.replace('?', price)}
             </div>

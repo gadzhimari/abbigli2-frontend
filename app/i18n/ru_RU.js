@@ -425,5 +425,10 @@ export default {
   Active: 'Активные',
   Archive: 'Архив',
   Selected: 'Выбранные',
+  Select: 'Выбрать',
   Raise: 'Поднять',
+  Statistics: 'Статистика',
+  From: 'С',
+  To: 'По',
+  Check: 'Отметить',
 };

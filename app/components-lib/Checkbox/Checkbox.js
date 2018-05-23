@@ -9,7 +9,7 @@ class Checkbox extends Component {
     id: Type.string,
     name: Type.string,
     value: Type.string,
-    size: Type.oneOf(['s', 'm', 'l']),
+    size: Type.oneOf(['s', 'm', 'l', 'xl', 'xxl']),
     color: Type.string,
     iconPosition: Type.oneOf(['left', 'right']),
     checked: Type.bool,

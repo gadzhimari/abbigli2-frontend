@@ -143,8 +143,14 @@ class ProfileLK extends Component {
                 isMe={isMe}
                 canEdit={isMe}
                 view={2}
-                showLike
+                showLike={false}
                 showShare
+                showStats
+                showActivationPeriod
+                showMoreButton
+                showCheckbox
+                showMessages
+                showRaiseButton
               />
             ))
           }

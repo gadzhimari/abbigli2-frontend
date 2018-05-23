@@ -80,7 +80,7 @@ class Link extends Component {
       ...restProps,
     } = this.props;
     const LinkElement = checked || disabled ? 'span' : RouterLink;
-    const linkTabsProps = type ? {
+    const linkTabsProps = type === 'tab' ? {
       role: 'tab',
       'aria-selected': checked,
       'aria-disabled': disabled,
