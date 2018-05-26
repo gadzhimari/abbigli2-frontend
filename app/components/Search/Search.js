@@ -152,7 +152,6 @@ class Search extends Component {
                 tags={tagList}
               />)
               : <UserSearch
-                inputClass={'search-input'}
                 search={this.searchUsers}
                 onChange={this.changeUserRequest}
                 value={this.state.userRequest}

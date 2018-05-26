@@ -5,9 +5,8 @@ import { __t } from './../../i18n/translator';
 
 class UserSearch extends Component {
   static defaultProps = {
-    searchFormClass: "user-search",
-    resultsWrapperClass: "user-search__results",
-    inputClass: "user-search__input",
+    searchFormClass: 'search-form',
+    inputClass: 'form__input',
   }
 
   handlePressEnter = ({ keyCode }) => {
@@ -41,7 +40,6 @@ class UserSearch extends Component {
 }
 
 UserSearch.propTypes = {
-  resultsWrapperClass: PropTypes.string,
   searchFormClass: PropTypes.string,
   inputClass: PropTypes.string,
   value: PropTypes.string.isRequired,
