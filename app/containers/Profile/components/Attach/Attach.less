@@ -3,18 +3,6 @@
 @import '../../../../components-lib/__base/variables/colors';
 
 .Attach {
-  min-height: 275px;
-
-  display: flex;
-  flex: 0 0 24%;
-  flex-direction: column;
-
-  margin: 4px 0.5%;
-  border: 1px solid @card-border-color;
-
-  border-radius: 5px;
-  background-color: @card-background;
-
   position: relative;
   overflow: hidden;
   outline-offset: -10px;
@@ -67,23 +55,3 @@
     }
   }
 }
-
-@media screen and (min-width: 761px) and (max-width: 980px) {
-  .Attach {
-    flex-basis: 32.3%;
-  }
-}
-
-@media screen and (min-width: 481px) and (max-width: 760px) {
-  .Attach {
-    flex-basis: 49%;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .Attach {
-    flex-basis: 100%;
-    margin-bottom: 10px;
-  }
-}
-

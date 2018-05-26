@@ -72,7 +72,7 @@ class Sections extends Component {
   }
 }
 
-const mapStateToProps = ({ CatalogPage, Sections, Settings, NetworkErrors }) => ({
+const mapStateToProps = ({ CatalogPage, Sections, NetworkErrors }) => ({
   tags: CatalogPage.tags,
   tree: CatalogPage.tree,
   promo: CatalogPage.promo,
@@ -85,7 +85,7 @@ const mapStateToProps = ({ CatalogPage, Sections, Settings, NetworkErrors }) => 
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchSectionTags: (category, page) => dispatch(fetchTags({ category, page })),
+  fetchSectionTags: options => dispatch(fetchTags(options)),
   openMobileFilters: () => dispatch(openPopup('filtersPopup')),
   fetchPosts: (category, page, tags) => dispatch(fetchPosts({ category, page, tags })),
   fetchCrumbs: data => dispatch(fetchCrumbs(data))

@@ -50,7 +50,7 @@ const preloader = WrappedComponent => class extends PureComponent {
     }
 
     Promise.all([
-      fetchSectionTags(section),
+      fetchSectionTags({ category: section }),
       fetchPosts(section, page, tag),
       fetchCrumbs({ slugs })
     ]).then(() => this.setState({

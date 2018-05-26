@@ -7,6 +7,10 @@ import './Attach.less';
 
 @cn('Attach')
 class Attach extends PureComponent {
+  static defaultProps = {
+    className: 'Card'
+  }
+
   render(cn) {
     const { isVisible, type, url, onClick } = this.props;
 

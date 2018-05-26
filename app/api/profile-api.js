@@ -44,6 +44,13 @@ const Profile = {
       method: 'POST',
       mustApplyToken: true,
     });
+  },
+  search(search) {
+    return request({
+      url: 'profiles/',
+      canApplyToken: true,
+      params: { search }
+    });
   }
 };
 
