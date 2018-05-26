@@ -10,7 +10,8 @@ import ResultsUsers from './ResultsUsers';
 
 import { changeValue, clearValue } from '../../../ducks/Search';
 
-import { API_URL_V2 } from '../../../config';
+import { Profile, Tags } from '../../../api';
+
 import { __t } from '../../../i18n/translator';
 
 import './SearchPopup.styl';
@@ -96,26 +97,20 @@ class SearchPopup extends Component {
     this.fetchTags(requestQuery.currentRequest);
   }
 
-  fetchTags = debounce((request) => {
-    if (request.length < 1) return;
+  fetchTags = debounce((search) => {
+    if (search.length < 1) return;
 
-    this.setState({
-      isFetching: true,
-    });
+    this.setState({ isFetching: true });
 
-    fetch(`${API_URL_V2}tags/?search=${request}`)
-      .then(res => res.json())
-      .then((result) => {
-        let array = result.results;
+    Tags.getTags({ search })
+      .then((res) => {
+        let { results } = res.data;
 
-        if (array.length < 1) {
-          array = this.state.results;
+        if (results.length < 1) {
+          results = this.state.results;
         }
 
-        this.setState({
-          results: array,
-          isFetching: false,
-        });
+        this.setState({ results, isFetching: false });
       });
   }, 400);
 
@@ -130,16 +125,13 @@ class SearchPopup extends Component {
   fetchUsers = debounce((request) => {
     if (request.length === 0) return;
 
-    this.setState({
-      isFetchingUsers: true,
-    });
+    this.setState({ isFetchingUsers: true });
 
-    fetch(`${API_URL}profiles/?search=${request}`)
-      .then(res => res.json())
-      .then((results) => {
-        let array = results.results;
+    Profile.search(request)
+      .then((res) => {
+        let array = res.data.results;
 
-        if (results.length === 0) {
+        if (array.length === 0) {
           array = this.state.resultsUsers;
         }
 

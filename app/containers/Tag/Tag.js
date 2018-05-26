@@ -96,16 +96,6 @@ class TagSearchResults extends Component {
     dispatch(fetchPosts(query, postType));
   }
 
-  changeCity = city => this.props.updateFieldByName('city', city.name);
-
-  openSelectPopup = () => this.props
-    .dispatch(openPopup('selectPopup', {
-      onClickItem: this.changeCity,
-      title: 'city',
-      async: true,
-      apiUrl: `${API_URL}geo/cities/`,
-    }));
-
   clickOnTag = (tag) => {
     const { router, filters } = this.props;
     const tags = filters.tags.split(',');
@@ -118,14 +108,6 @@ class TagSearchResults extends Component {
       }),
     });
   }
-
-  openMobileFilters = () => this.props
-    .dispatch(openPopup('filtersPopup', {
-      filters: this.props.filters,
-      updateFilter: this.props.updateFilter,
-      applyFilters: this.props.applyFilters,
-      changeCity: this.changeCity,
-    }));
 
   renderResultsOfSearch() {
     const { items, query } = this.props;
@@ -145,8 +127,11 @@ class TagSearchResults extends Component {
       items,
       isFetching,
       filters,
-      renderPaginator
+      renderPaginator,
+      query: { type }
     } = this.props;
+
+    const postType = allowedTypes.has(type) ? type : PRODUCT_TYPE;
 
     return (
       <div>
@@ -181,7 +166,7 @@ class TagSearchResults extends Component {
                   items={items}
                   count={4}
                   query={filters.tags}
-                  type={PRODUCT_TYPE}
+                  type={postType}
                 />
             }
             {!isFetching && renderPaginator()}

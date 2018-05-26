@@ -165,7 +165,7 @@ class EventPage extends Component {
 
               {this.renderSlider()}
 
-              <div>{processBlogContent(data.content)}</div>
+              <div>{data.description}</div>
 
               {userIsOwner &&
                 <Link to={editingLink} className="edit-btn">
