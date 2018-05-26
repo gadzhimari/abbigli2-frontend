@@ -61,16 +61,16 @@ function getRoutes(store) {
       <Route path={pages.PEOPLE_SEARCH.path} component={PeopleSearch} />
       <Route path={pages.CHAT_PAGE.path} component={Chat} />
 
-      <Route path={pages.CREATE_PAGE.path} component={PostCreate} onEnter={redirectForUnautorized} />
-      <Route path={pages.EDIT_PAGE.path} component={PostCreate} onEnter={redirectForUnautorized} />
+      <Route path={pages.CREATE_PAGE.path} component={PostCreate} onEnter={redirectForUnautorized} mustScroll />
+      <Route path={pages.EDIT_PAGE.path} component={PostCreate} onEnter={redirectForUnautorized} mustScroll />
 
       <Route path={pages.PROFILE_PAGE.path} component={Profile} >
         <IndexRoute component={ProfileMyabbigli} />
-        <Route path={pages.FAVORITES_PAGE.path} component={ProfileFavorites} mustScroll={false} />
-        <Route path={pages.FEED_PAGE.path} component={ProfileFeed} mustScroll={false} />
-        <Route path={pages.PROFILE_BLOGS_PAGE.path} component={ProfileBlogs} mustScroll={false} />
-        <Route path={pages.PROFILE_EVENTS_PAGE.path} component={ProfileEvents} mustScroll={false} />
-        <Route path={pages.ABOUT_PROFILE_PAGE.path} component={ProfileAbout} mustScroll={false} />
+        <Route path={pages.FAVORITES_PAGE.path} component={ProfileFavorites} />
+        <Route path={pages.FEED_PAGE.path} component={ProfileFeed} />
+        <Route path={pages.PROFILE_BLOGS_PAGE.path} component={ProfileBlogs} />
+        <Route path={pages.PROFILE_EVENTS_PAGE.path} component={ProfileEvents} />
+        <Route path={pages.ABOUT_PROFILE_PAGE.path} component={ProfileAbout} />
       </Route>
 
       <Route path={pages.SETTINGS_PAGE.path} component={SettingsPage} />
