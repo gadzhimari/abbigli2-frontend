@@ -6,6 +6,7 @@ import { React, Component, Type } from '../../../components-lib/__base';
 import { Button, Link } from '../../../components-lib';
 import IconClose from '../../../icons/close';
 
+import { gaSend } from '../../../lib/analitics';
 import { __t } from '../../../i18n/translator';
 
 import './WelcomePopup.less';
@@ -17,6 +18,10 @@ class WelcomePopup extends Component {
     isFetching: Type.bool.isRequired,
     errors: Type.oneOfType([Type.object, Type.any]),
   };
+
+  componentDidMount() {
+    gaSend({ hitType: 'pageview', page: '/firstlogin', title: 'Firstlogin' });
+  }
 
   handleClick = () => {
     const { closePopup, dispatch } = this.props;
