@@ -4,6 +4,22 @@
 @import '../../components-lib/__base/mixins';
 
 .Profile {
+  &__wrapper {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 25px 25px 0;
+  }
+
+  &__content {
+    margin-top: 67px;
+    padding: 35px 0;
+    border-top: 1px solid #dcdcdc;
+
+    &_no-padding {
+      padding-bottom: 0;
+    }
+  }
+
   &__tabs {
     margin-bottom: 60px;
   }
@@ -17,15 +33,114 @@
       margin-bottom: 30px;
     }
 
-    &-button {
-    }
-
     &-caption {
       font-family: @font;
       font-size: @font-size-medium;
 
       &_selected {
         color: @gray-800;
+      }
+    }
+  }
+
+  &__plans {
+    margin-top: 30px;
+  }
+
+  &__publications {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 30px;
+
+    &-wrapper {
+      width: 100%;
+      overflow: hidden;
+
+      &:after {
+        content: '';
+        display: block;
+        margin-bottom: -30px;
+      }
+    }
+
+    &-title {
+      margin-bottom: 50px;
+      font-family: 'ClearSansBold';
+      font-size: 20px;
+      text-align: center;
+      color: @black;
+    }
+  }
+
+  &__no-results {
+    &-text {
+      margin-left: 64px;
+      font-family: @font;
+      font-size: @font-size-medium;
+      color: @gray-600;
+    }
+
+    &-image {
+      max-width: 100%;
+      max-height: 300px;
+
+      &-wrapper {
+        text-align: center;
+        line-height: 0;
+      }
+    }
+
+    &-title {
+      width: 100%;
+      margin: 0 0 10px;
+      font-family: @font;
+      font-size: 30px;
+      line-height: 30px;
+      font-weight: 700;
+      color: @black;
+    }
+  }
+
+  &__cards {
+    display: flex;
+    margin: 0 -0.5%;
+    flex-wrap: wrap;
+
+    &_row {
+      flex-wrap: nowrap;
+      align-items: center;
+    }
+  }
+}
+
+@media screen and (max-width: @breakpoint-l-only) {
+  .Profile {
+    &__plans {
+      .Col_mw_6 {
+        &:nth-child(2) {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: @breakpoint-m-only) {
+  .Profile {
+    &__content {
+      margin-top: 10px;
+    }
+
+    &__no-results {
+      &-text {
+        margin: 10px 0 0;
+      }
+    }
+
+    &__cards {
+      &_row {
+        flex-wrap: wrap;
       }
     }
   }
@@ -37,6 +152,7 @@
       &-wrapper {
         flex-wrap: wrap;
       }
+
       &-button.Button_view_default.Button_size_m {
         padding: 0 10px;
       }
@@ -47,6 +163,12 @@
           width: 100%;
           margin-bottom: 10px;
         }
+      }
+    }
+
+    &__no-results {
+      &-title {
+        font-size: 26px;
       }
     }
   }

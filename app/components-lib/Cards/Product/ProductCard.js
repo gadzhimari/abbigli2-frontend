@@ -75,6 +75,7 @@ class ProductCard extends PureComponent {
     showShare: Type.bool,
     showStats: Type.bool,
     showActivationPeriod: Type.bool,
+    showDeleteButton: Type.bool,
     showMoreButton: Type.bool,
     showMessages: Type.bool,
     showCheckbox: Type.bool,
@@ -89,6 +90,7 @@ class ProductCard extends PureComponent {
     showShare: false,
     showStats: false,
     showActivationPeriod: false,
+    showDeleteButton: true,
     showMoreButton: false,
     showMessages: false,
     showCheckbox: false,
@@ -119,31 +121,60 @@ class ProductCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view, isMe, showStats } = this.props;
+    const { view } = this.props;
     const { user } = this.props.data;
     const name = getUserName(user);
     const { size, ratio } = avatar.sizes[view];
-    const emptyDiv = showStats ? null : <div />;
 
     return (
-      isMe ?
-        emptyDiv :
-        <Link
-          className={cn('user')}
-          to={createProfileLink(user)}
-          text={name}
-          title={name}
-          color="gray-600"
-          icon={
-            <Avatar
-              className={cn('avatar', { bordered: avatar.bordered[view], size })}
-              imgClassName="avatar__img"
-              avatar={user.avatar}
-              thumbSize={ratio}
-              alt={name}
+      <Link
+        className={cn('user')}
+        to={createProfileLink(user)}
+        text={name}
+        title={name}
+        color="gray-600"
+        icon={
+          <Avatar
+            className={cn('avatar', { bordered: avatar.bordered[view], size })}
+            imgClassName="avatar__img"
+            avatar={user.avatar}
+            thumbSize={ratio}
+            alt={name}
+          />
+        }
+      />
+    );
+  }
+
+  renderStats(cn) {
+    return (
+      <div className={cn('stats')}>
+        <span className={cn('stats-title')}>
+          <IconStatistics
+            size="xs"
+            color="gray-400"
+          />
+          {__t('Statistics')}
+        </span>
+        <span className={cn('stats-meta')}>
+          <span className={cn('like-count')}>
+            <IconEye2
+              size="xs"
+              color="gray-400"
             />
-          }
-        />
+            {/* TODO Используется в кач-ве рыбного текста для верстки.
+                Заменить на новое апи  */}
+            {this.props.data.likes_num}
+          </span>
+          <span className={cn('view-count')}>
+            <IconHeart
+              size="xs"
+              color="gray-400"
+            />
+            {this.props.data.likes_num}
+          </span>
+        </span>
+      </div>
     );
   }
 
@@ -154,6 +185,7 @@ class ProductCard extends PureComponent {
       showShare,
       showStats,
       showActivationPeriod,
+      showDeleteButton,
       showMoreButton,
       showRaiseButton,
       showCheckbox,
@@ -182,7 +214,7 @@ class ProductCard extends PureComponent {
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
-                this.renderAvatar(cn)
+                !isMe && this.renderAvatar(cn)
               }
               <div className={cn('date', { short: true })}>
                 {toLocaleDateString(created, CARD_DATE_SHORT_FORMAT)}
@@ -267,7 +299,7 @@ class ProductCard extends PureComponent {
                 />}
               />
             }
-            { isMe && !showMoreButton &&
+            { isMe && showDeleteButton && !showMoreButton &&
               <Button
                 onClick={this.handleDelete}
                 view="fab"
@@ -360,40 +392,15 @@ class ProductCard extends PureComponent {
             }
           </div>
           <div className={cn('footer', { align: 'vertical' })}>
-            { view !== 3 && this.renderAvatar(cn) }
-            { view === 3 && this.renderTitle(cn) }
-            { isMe && showStats &&
-              <div className={cn('stats')}>
-                <span className={cn('stats-title')}>
-                  <IconStatistics
-                    size="xs"
-                    color="gray-400"
-                  />
-                  {__t('Statistics')}
-                </span>
-                <span className={cn('stats-meta')}>
-                  <span className={cn('like-count')}>
-                    <IconEye2
-                      size="xs"
-                      color="gray-400"
-                    />
-                    {/* TODO Используется в кач-ве рыбного текста для верстки.
-                        Заменить на новое апи  */}
-                    {this.props.data.likes_num}
-                  </span>
-                  <span className={cn('view-count')}>
-                    <IconHeart
-                      size="xs"
-                      color="gray-400"
-                    />
-                    {this.props.data.likes_num}
-                  </span>
-                </span>
-
+            <div className={cn('footer-col', { left: true })}>
+              { view !== 3 && !isMe && this.renderAvatar(cn) }
+              { view === 3 && this.renderTitle(cn) }
+              { isMe && showStats && this.renderStats(cn) }
+            </div>
+            <div className={cn('footer-col', { right: true })}>
+              <div className={cn('price')}>
+                { priceTemplate && priceTemplate.replace('?', price)}
               </div>
-            }
-            <div className={cn('price')}>
-              { priceTemplate && priceTemplate.replace('?', price)}
             </div>
           </div>
         </div>

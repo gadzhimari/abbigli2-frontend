@@ -77,6 +77,41 @@
       }
     }
 
+    &_4 {
+      border: none;
+      border-radius: 0;
+      background: none;
+
+      &:hover {
+        box-shadow: none;
+      }
+
+      .Card {
+        &__img-wrapper {
+          border: 1px solid @card-border-color;
+          border-radius: 5px;
+        }
+
+        &__title {
+          font-family: @font;
+
+          .Link__icon {
+            display: none;
+          }
+
+          .Link__text {
+            margin-left: 0;
+          }
+        }
+
+        &__category {
+          font-family: 'ClearSansBold';
+          font-size: 12px;
+          text-transform: uppercase;
+        }
+      }
+    }
+
     &_goods {
       .Card {
         &__header {
@@ -112,7 +147,7 @@
   &__header,
   &__footer {
     display: flex;
-    justify-content: space-between;
+
     &_align {
       &_vertical {
         align-items: center;
@@ -135,7 +170,26 @@
     }
   }
 
+  &__header {
+    justify-content: space-between;
+  }
+
   &__footer {
+    &-col {
+      display: flex;
+      flex-grow: 1;
+
+      &_left {
+        .text-truncate();
+        flex-shrink: 1;
+      }
+
+      &_right {
+        flex-shrink: 0;
+        justify-content: flex-end;
+      }
+    }
+
     .Card {
       &__title {
         margin-bottom: 0;
