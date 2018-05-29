@@ -85,7 +85,7 @@ class ProfileFavorites extends Component {
       }
 
       <div>
-        {showContent &&
+        {showContent ?
           <InfiniteScroll
             className="cards-row"
             pageStart={1}
@@ -110,7 +110,8 @@ class ProfileFavorites extends Component {
                 />
               ))
             }
-          </InfiniteScroll>
+          </InfiniteScroll> :
+          false
         }
 
         {isMe && !itemsPosts.length &&
