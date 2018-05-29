@@ -89,6 +89,7 @@ class EventCard extends PureComponent {
     showLike: Type.bool,
     showShare: Type.bool,
     showDeleteButton: Type.bool,
+    showAvatar: Type.bool,
   };
 
   static defaultProps = {
@@ -97,6 +98,7 @@ class EventCard extends PureComponent {
     canEdit: false,
     showLike: true,
     showShare: false,
+    showAvatar: true,
     showDeleteButton: true,
   };
 
@@ -125,12 +127,13 @@ class EventCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view } = this.props;
+    const { view, isMe } = this.props;
     const { user } = this.props.data;
     const name = getUserName(user);
     const { size, ratio } = avatar.sizes[view];
 
     return (
+      !isMe &&
       <Link
         className={cn('user')}
         to={createProfileLink(user)}
@@ -151,7 +154,18 @@ class EventCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, showLike, showShare, showDeleteButton, view, canEdit, isMe, isTouch } = this.props;
+    const {
+      setLike,
+      showLike,
+      showShare,
+      showAvatar,
+      showDeleteButton,
+      view,
+      canEdit,
+      isMe,
+      isTouch
+    } = this.props;
+
     const {
       user,
       liked,
@@ -172,7 +186,7 @@ class EventCard extends PureComponent {
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
-                !isMe && this.renderAvatar(cn)
+                showAvatar && this.renderAvatar(cn)
               }
               <div className={cn('date', { short: true })}>
                 {toLocaleDateString(created, CARD_DATE_SHORT_FORMAT)}
@@ -286,7 +300,7 @@ class EventCard extends PureComponent {
           </div>
           <div className={cn('footer', { align: 'vertical' })}>
             <div className={cn('footer-col', { left: true })}>
-              { view !== 3 && !isMe && this.renderAvatar(cn) }
+              { view !== 3 && showAvatar && this.renderAvatar(cn) }
             </div>
           </div>
         </div>

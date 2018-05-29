@@ -74,6 +74,7 @@ class ProductCard extends PureComponent {
     showLike: Type.bool,
     showShare: Type.bool,
     showStats: Type.bool,
+    showAvatar: Type.bool,
     showActivationPeriod: Type.bool,
     showDeleteButton: Type.bool,
     showMoreButton: Type.bool,
@@ -89,6 +90,7 @@ class ProductCard extends PureComponent {
     showLike: true,
     showShare: false,
     showStats: false,
+    showAvatar: true,
     showActivationPeriod: false,
     showDeleteButton: true,
     showMoreButton: false,
@@ -121,12 +123,13 @@ class ProductCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view } = this.props;
+    const { view, isMe } = this.props;
     const { user } = this.props.data;
     const name = getUserName(user);
     const { size, ratio } = avatar.sizes[view];
 
     return (
+      !isMe &&
       <Link
         className={cn('user')}
         to={createProfileLink(user)}
@@ -149,13 +152,6 @@ class ProductCard extends PureComponent {
   renderStats(cn) {
     return (
       <div className={cn('stats')}>
-        <span className={cn('stats-title')}>
-          <IconStatistics
-            size="xs"
-            color="gray-400"
-          />
-          {__t('Statistics')}
-        </span>
         <span className={cn('stats-meta')}>
           <span className={cn('like-count')}>
             <IconEye2
@@ -184,6 +180,7 @@ class ProductCard extends PureComponent {
       showLike,
       showShare,
       showStats,
+      showAvatar,
       showActivationPeriod,
       showDeleteButton,
       showMoreButton,
@@ -214,7 +211,7 @@ class ProductCard extends PureComponent {
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
-                !isMe && this.renderAvatar(cn)
+                showAvatar && this.renderAvatar(cn)
               }
               <div className={cn('date', { short: true })}>
                 {toLocaleDateString(created, CARD_DATE_SHORT_FORMAT)}
@@ -393,7 +390,7 @@ class ProductCard extends PureComponent {
           </div>
           <div className={cn('footer', { align: 'vertical' })}>
             <div className={cn('footer-col', { left: true })}>
-              { view !== 3 && !isMe && this.renderAvatar(cn) }
+              { view !== 3 && showAvatar && this.renderAvatar(cn) }
               { view === 3 && this.renderTitle(cn) }
               { isMe && showStats && this.renderStats(cn) }
             </div>

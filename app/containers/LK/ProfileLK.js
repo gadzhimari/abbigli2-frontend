@@ -155,6 +155,7 @@ class ProfileLK extends Component {
           canEdit={isMe}
           view={2}
           showLike={false}
+          showAvatar={false}
           showShare
           showStats
           showActivationPeriod
@@ -244,6 +245,7 @@ class ProfileLK extends Component {
                 view={4}
                 showLike={false}
                 showShare
+                showAvatar={false}
                 showDeleteButton={false}
               />
             ))

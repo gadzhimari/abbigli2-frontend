@@ -81,6 +81,7 @@ class BlogCard extends PureComponent {
     canEdit: Type.bool,
     showLike: Type.bool,
     showShare: Type.bool,
+    showAvatar: Type.bool,
     showDeleteButton: Type.bool,
   };
 
@@ -90,6 +91,7 @@ class BlogCard extends PureComponent {
     canEdit: false,
     showLike: true,
     showShare: false,
+    showAvatar: true,
     showDeleteButton: true,
   };
 
@@ -99,13 +101,14 @@ class BlogCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view } = this.props;
+    const { view, isMe } = this.props;
     const { user } = this.props.data;
     const name = getUserName(user);
     const avatarPos = avatar.position[view] || '';
     const { size, ratio } = avatar.sizes[view];
 
     return (
+      !isMe &&
       <Link
         className={cn('user', { block: avatar.block[view], align: avatar.align[view], position: avatarPos })}
         to={createProfileLink(user)}
@@ -145,7 +148,18 @@ class BlogCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, showLike, showShare, showDeleteButton, view, isMe, canEdit, isTouch } = this.props;
+    const {
+      setLike,
+      showLike,
+      showShare,
+      showDeleteButton,
+      showAvatar,
+      view,
+      isMe,
+      canEdit,
+      isTouch
+    } = this.props;
+
     const {
       user,
       liked,
@@ -164,7 +178,7 @@ class BlogCard extends PureComponent {
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
-                !isMe && this.renderAvatar(cn)
+                showAvatar && this.renderAvatar(cn)
               }
               <div className={cn('date', { short: true })}>
                 {toLocaleDateString(created, CARD_DATE_SHORT_FORMAT)}
@@ -253,7 +267,7 @@ class BlogCard extends PureComponent {
                 color="green"
               />
             }
-            { view === 1 && !isMe && this.renderAvatar(cn) }
+            { view === 1 && showAvatar && this.renderAvatar(cn) }
             { view !== 3 && this.renderTitle(cn) }
             { view === 1 &&
               <div
@@ -269,7 +283,7 @@ class BlogCard extends PureComponent {
                   {toLocaleDateString(created, MESSAGE_DATE_FORMAT)}
                 </div>
               }
-              { view === 2 && !isMe && this.renderAvatar(cn) }
+              { view === 2 && showAvatar && this.renderAvatar(cn) }
             </div>
             <div className={cn('footer-col', { right: true })}>
               { view === 3 && this.renderTitle(cn) }
