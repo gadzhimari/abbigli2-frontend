@@ -37,6 +37,12 @@ class Footer extends PureComponent {
             />
             <Link
               className={cn('link')}
+              to={`/${pages.AGREEMENT_PAGE.path}`}
+              rel="nofollow"
+              text={__t('Agreement')}
+            />
+            <Link
+              className={cn('link')}
               to={`/${pages.FAQ_PAGE.path}`}
               rel="nofollow"
               text={__t('FAQ')}
