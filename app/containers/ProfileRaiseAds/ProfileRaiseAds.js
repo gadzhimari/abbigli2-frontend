@@ -5,6 +5,8 @@ import { React, Component, cn } from '../../components-lib/__base';
 import { Button, Spin, Link } from '../../components-lib';
 import Image from '../../components/Image';
 
+import ProfileRaiseAdsMobile from './ProfileRaiseAds.mobile';
+
 import ProfileBanners from '../Profile/components/ProfileBanners';
 
 import * as actions from '../../ducks/ProfilePosts/actions';
@@ -68,7 +70,6 @@ class ProfileRaiseAds extends Component {
             <div className={cn('item-time-selector')}>
               <Select
                 options={options}
-                name="form-field-name"
                 value={this.state.selectedValue}
                 onChange={this.handleChange}
                 clearable={false}
@@ -128,7 +129,12 @@ class ProfileRaiseAds extends Component {
     const {
       isFetchingPosts,
       isMe,
+      isTouch,
     } = this.props;
+
+    if (isTouch) {
+      return <ProfileRaiseAdsMobile />;
+    }
 
     return (
       <div className={cn('content')}>
@@ -214,6 +220,7 @@ const mapStateToProps = state => ({
   user: state.Profile.data,
   isMe: state.Profile.isMe,
   isAuth: state.Auth.isAuthenticated,
+  isTouch: state.isTouch,
   priceTemplate: state.Settings.data.CURRENCY,
 });
 

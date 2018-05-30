@@ -189,10 +189,6 @@
   }
 
   &__item {
-    display: flex;
-    border: 1px solid #b2b2b2;
-    border-radius: 3px;
-
     &-cell {
       display: flex;
       flex-direction: column;
@@ -309,11 +305,134 @@
         flex-wrap: wrap;
       }
     }
+
+    &__items {
+      &-header {
+        &-wrapper {
+          margin-bottom: 20px;
+        }
+
+        &-title {
+          margin: 0 0 5px;
+          font-size: 24px;
+          line-height: 32px;
+        }
+
+        &-subtitle {
+          margin-top: 0;
+          font-size: 20px;
+        }
+
+        &-info {
+          margin-top: 28px;
+          margin-bottom: 10px;
+        }
+
+        &-total {
+          margin-right: 0;
+
+          &-price {
+            margin-left: 5px;
+          }
+        }
+      }
+
+      &-list {
+        margin-bottom: 26px;
+      }
+
+      &-footer {
+        &-total {
+          margin: 0 0 20px;
+        }
+
+        &-payment {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          text-align: center;
+        }
+      }
+
+      &-pay-button {
+        margin-bottom: 20px;
+      }
+    }
+
+    &__item {
+      position: relative;
+      display: flex;
+      border: 1px solid #b2b2b2;
+      border-radius: 3px;
+      background-color: @white;
+
+      &-desc {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 5px;
+        overflow: hidden;
+      }
+
+      &-title {
+        .text-truncate();
+      }
+
+      &-preview {
+        padding: 5px;
+      }
+
+      &-show-more {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+      }
+
+      &-period {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &-time-selector {
+        margin-bottom: 0;
+        text-align: left;
+      }
+
+      &-period {
+        &-box {
+          text-transform: lowercase;
+          font-family: 'ClearSansBold';
+        }
+
+        &-title {
+          margin-bottom: 5px;
+          color: @gray-500;
+        }
+
+        &-start {
+          margin-right: 4px;
+        }
+
+        &-start,
+        &-end {
+          font-family: @font;
+          font-weight: 400;
+        }
+
+        &-range {
+          text-align: left;
+        }
+      }
+    }
   }
 }
 
 @media screen and (max-width: @breakpoint-s-only) {
   .Profile {
+    &__wrapper {
+      padding: 25px 10px 0;
+    }
+
     &__toolbar {
       &-wrapper {
         flex-wrap: wrap;
