@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 
-import { React, Component, Fragment, cn } from '../../components-lib/__base';
+import { React, Component, cn } from '../../components-lib/__base';
 import { Button, Spin, Link, Tabs, Tab } from '../../components-lib';
 import { Card } from '../../components-lib/Cards';
 import Image from '../../components/Image';
 
-import ProfileBanner from '../../containers/Profile/components/ProfileBanner';
+import ProfileBanners from '../Profile/components/ProfileBanners';
 
 import IconPlus from '../../icons/plus';
 import IconElevation from '../../icons/elevation';
@@ -15,7 +15,6 @@ import IconClose from '../../icons/close';
 import * as actions from '../../ducks/ProfilePosts/actions';
 import setLike from '../../ducks/Like/actions';
 
-import { banners } from '../../lib/constants/banners';
 
 import { __t } from './../../i18n/translator';
 
@@ -168,39 +167,6 @@ class ProfileLK extends Component {
     );
   }
 
-  renderPlans(cn) {
-    return (
-      <div className={cn('plans')}>
-        <div className="Row Row_sal">
-          {
-            banners.map((item, index) =>
-              <Fragment>
-                {
-                  index !== 2 &&
-                  <div className="Col_sw_12 Col_mw_6 Col_lw_4">
-                    <ProfileBanner
-                      key={index}
-                      data={item}
-                    />
-                  </div>
-                }
-                {
-                  index === 2 &&
-                  <div className="Col_sw_12 Col_lw_4">
-                    <ProfileBanner
-                      key={index}
-                      data={item}
-                    />
-                  </div>
-                }
-              </Fragment>
-            )
-          }
-        </div>
-      </div>
-    );
-  }
-
   renderLoader() {
     const { isFetchingPosts } = this.props;
 
@@ -307,7 +273,7 @@ class ProfileLK extends Component {
           }
           { hasProductsForUnathorized && this.renderNoResultsPage(cn) }
         </div>
-        { isMe && this.renderPlans(cn) }
+        { isMe && <ProfileBanners /> }
       </div>
     );
   }

@@ -92,6 +92,9 @@ export default {
   LK_PAGE: {
     path: 'lk'
   },
+  RAISE_ADS_PAGE: {
+    path: 'raise-ads',
+  },
   ACTIVE_PAGE: {
     path: 'active'
   },
