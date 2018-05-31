@@ -16,12 +16,21 @@ class BlogForm extends CreateForm {
   constructor(props) {
     super(props);
 
+    let get = (key, defaultValue) => {
+      return sessionStorage.getItem('createForm_' + key) || defaultValue;
+    };
+
+    let getInt = (key) => {
+      let str = sessionStorage.getItem('createForm_' + key);
+      return (!!str ? parseInt(str) : null);
+    };
+
     this.state = mergeObjects({
-      title: '',
-      content: '',
-      tags: '',
-      images: [],
-      categories: null
+      title: get('title', ''),
+      content: get('content', ''),
+      tags: get('tags', ''),
+      images: get('images', '').replace('createForm_', '').split(','),
+      categories: getInt('categories')
     }, props.data);
   }
 

@@ -21,13 +21,17 @@ class ProductForm extends CreateForm {
   constructor(props) {
     super(props);
 
+    let get = function(key, defaultValue) {
+      return sessionStorage.getItem('createForm_' + key) || defaultValue;
+    };
+
     this.state = mergeObjects({
-      title: '',
-      price: '',
-      content: '',
-      colors: ['red'],
-      tags: '',
-      images: [],
+      title: get('title', ''),
+      price: get('price', ''),
+      content: get('content', ''),
+      colors: [get('colors', 'red')],
+      tags: get('tags', ''),
+      images: get('images', '').replace('createForm_', '').split(','),
       currentCategory: undefined
     }, props.data);
 

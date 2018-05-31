@@ -18,17 +18,27 @@ class EventForm extends CreateForm {
   constructor(props) {
     super(props);
 
+    let get = function(key, defaultValue) {
+      return sessionStorage.getItem('createForm_' + key) || defaultValue;
+    };
+
+    let getInt = function(key) {
+      let str = sessionStorage.getItem('createForm_' + key);
+      return (!!str ? parseInt(str) : null);
+    };
+
     this.state = mergeObjects({
-      title: '',
-      content: '',
-      tags: '',
-      images: [],
-      categories: null,
-      date_start: null,
-      date_end: null,
-      city: null,
+      title: get('title', ''),
+      content: get('content', ''),
+      tags: get('tags', ''),
+      images: get('images', '').replace('createForm_', '').split(','),
+      categories: getInt('categories'),
+      date_start: get('date_start', null),
+      date_end: get('date_end', null),
+      city: getInt('city'),
       cityOptions: undefined
     }, props.data);
+
   }
 
   render() {
