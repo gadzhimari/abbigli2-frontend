@@ -1,5 +1,6 @@
 import { React, ReactDOM, Component, Type, cn } from '../__base';
 import Star from './Star';
+import { __t } from '../../i18n/translator';
 
 import keyboardCode from '../../lib/constants/keyboard-code';
 
@@ -98,7 +99,7 @@ class Rating extends Component {
     });
 
     if (this.props.onHoverChange) {
-      this.props.onHoverChange(undefined);
+      this.props.onHoverChange();
     }
   }
 
@@ -222,6 +223,7 @@ class Rating extends Component {
     } = this.props;
     const { value, hoverValue, focused } = this.state;
     const stars = [];
+    const label = `${__t('Rating')} ${value} ${__t('out of')} ${count}`;
 
     for (let index = 0; index < count; index++) {
       stars.push(
@@ -249,6 +251,7 @@ class Rating extends Component {
         onBlur={disabled ? null : this.handleBlur}
         onKeyDown={disabled ? null : this.handleKeyDown}
         ref={(control) => { this.control = control; }}
+        aria-label={label}
       >
         {stars}
       </ul>
