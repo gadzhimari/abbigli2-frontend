@@ -18,7 +18,7 @@ import { stagedPopup } from '../../ducks/Auth/authActions';
 
 import { __t } from './../../i18n/translator';
 
-import './Home.styl';
+import './Home.less';
 
 class Home extends PureComponent {
   componentDidMount() {
@@ -26,9 +26,11 @@ class Home extends PureComponent {
   }
 
   handleOpenCreating = () => {
-    const { isAuthenticated,
-            router,
-            showRegister } = this.props;
+    const {
+      isAuthenticated,
+      router,
+      showRegister
+    } = this.props;
 
     if (isAuthenticated) {
       router.push('/post/new');
@@ -38,15 +40,18 @@ class Home extends PureComponent {
   }
 
   render() {
-    const { isFetchingBlogs,
-            isFetchingEvents,
-            itemsBlogs,
-            itemsEvents,
-            isFetchingProducts,
-            itemsProducts,
-            isAuthenticated,
-            priceTemplate,
-            itemsSections } = this.props;
+    const {
+      isFetchingBlogs,
+      isFetchingEvents,
+      itemsBlogs,
+      itemsEvents,
+      isFetchingProducts,
+      itemsProducts,
+      isAuthenticated,
+      priceTemplate,
+      itemsSections
+    } = this.props;
+    console.log('items ', itemsSections);
 
     return (
       <div className="container-fluid main-page">
@@ -131,7 +136,7 @@ class Home extends PureComponent {
   }
 }
 
-const mapState = state => ({
+const mapStateToProps = state => ({
   itemsSections: state.Sections.items,
 
   itemsBlogs: state.Blogs.page.items,
@@ -147,7 +152,7 @@ const mapState = state => ({
   priceTemplate: state.Settings.data.CURRENCY,
 });
 
-const mapDispatch = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   showRegister: () => dispatch(stagedPopup('signUp')),
   fetchData: () => {
     dispatch(fetchBlogs({ type: 4 }));
@@ -156,4 +161,4 @@ const mapDispatch = dispatch => ({
   }
 });
 
-export default connect(mapState, mapDispatch)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

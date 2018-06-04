@@ -9,7 +9,8 @@
   }
 
   .slick {
-    &-prev::before, &-next::before {
+    &-prev::before,
+    &-next::before {
       background: url("/images/icons_with_bg/next.svg") no-repeat;
       content: '';
       display: block;
@@ -22,7 +23,8 @@
      transform:rotate(-180deg);
     }
 
-    &-prev.slick-disabled:before, &-next.slick-disabled:before {
+    &-prev.slick-disabled:before,
+    &-next.slick-disabled:before {
       background: url("/images/icons_with_bg/next-disabled.svg") no-repeat;
       opacity: 1;
       cursor: default;
