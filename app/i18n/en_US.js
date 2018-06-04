@@ -1,3 +1,6 @@
+import agreement from './agreement.en';
+import privacyEn from './privacy.en';
+
 export default {
   'Upload image': 'Upload image',
   'sign.up.to.leave.comment': 'Sign up to leave comment',
@@ -230,98 +233,7 @@ export default {
 
   'tooltip.create.tags': 'Words that can be used to find you on the site. These words should reflect the essence of your posts',
 
-  'aggreement.text': `<div class="center-column">
-  <h1>PRIVACY AND DATA SECURITY</h1>
-  <ul>
-  <li>
-  <h2>1. Privacy undertaking</h2>
-  <p>The abbigli.com website (the "Site") and the abbigli.com give a promise that, apart from personal goals, it will not disclose your personal information. It serves only to maintain contact with you. Everything happens in accordance with the 1998 Data Protection Act and other applicable laws. Any questions of a variety of private nature may be heard by us, and you can view your personal information at any time.</p>
-  </li>
-  <li>
-  <h2>2. Consent</h2>
-  <p>Disclosure of information through the site occurs only when you give permission. And this happens in accordance with the Privacy Policy.</p>
-  </li>
-  <li>
-  <h2>3. The type of information that the site gathers</h2>
-  <p>The modern understanding of the concept of information varies by the extent of studying the forms of identification and awareness of the role of information in the process of knowledge and management. Information is knowledge, messages that are the object for our site that help to solve a task. Information can be used by us to improve the activity and to replenish knowledge. </p>
-  <ul class="list_disk">
-  <li>“Personally-identifiable information” this is information that can be used to identify you as an individual; In particular, it refers to your name, postal address, email address (“Non-sensitive personally-identifiable information”) or phone number, social security number, or location (“Sensitive personally-identifiable information”). If during the visit to the Site you somehow leave your personal information on it, such personal information can be collected and used for communication with you are for any purpose. </li>
-  <li>“Non-personally-identifiable information” is information that does not have enough of your personal information. This means that it does not identify you openly enough.</li>
-  </ul>
-  </li>
-  <li>
-  <h2>4. How does the use of information occur?</h2>
-  <p>In order to provide our customer with the goods or services he likes, we must collect personal information about him. We may need your data when we execute orders for you. We collect information to provide better services to all our users: for example, identify the language you speak, pick up ads that will be useful to you, help you connect more easily to the right people on the web, and more. We receive traffic data through our technology, together with interests, to provide our customers with services, such as tools, to see how their websites or mobile applications are used.</p>
-  </li>
-  <li>
-  <h2>5. How do we collect information?</h2>
-  <p>Data is stored throughout your subscription period to ensure effective communication with you. At the end of this period, the data depersonalized and cannot be identified with you. We do not collect any additional information about you other than those mentioned above. </p>
-  <p>We really need to get information from you when we are online, through any application, including where we are talking to you. Your information helps us understand when you want to contact us. If you interact with other sites with our technology, then we need the information we collect about you with additional interests based on third-party vendors. What can this include?</p>
-  <ul class="list_disk">
-  <li>The data for Identification (e.g. name, username, password, address, telephone number, mobile number, email address);</li>
-  <li>The info about Profile (e.g. age, gender, country of residence, language preference, and other as part of your YP user profile);</li>
-  <li>Ordered and delivered things or services;</li>
-  <li>Enumeration of your contacts and related info (You can utilize the contact lists from other services to populate your YP when you wish so);</li>
-  <li>The meaning of any your notification with us or with any of our other users or advertisers via the services we make accessible (e.g. reviews, e-mails, instant messages, recorded telephone calls user-generated content, etc.); and</li>
-  <li>Data from viewing in which you took part.</li>
-  </ul>
-  <p>We have the opportunity to collect information from you independently. Domain name and IP address of visitor have logged automatically. This data is not personal information and do not identify you as an individual. They contain only information about computer used to view the site. Such data is used to ensure the completeness of the coverage, as well as for link analysis to better understand the features of using the Site. We do not establish a connection between such automatically collected data and personal information about specific people. Nevertheless, personal information can be collected unintentionally with the help of automatic functions of the commercial software. Also, we utilizing:</p>
-  <ul class="list_disk">
-  <li>This site uses cookies. The share of information that is transferred to your computer's hard drive from a website is called the cookie. They are not computer programs, just small informational files that allow websites to store information about user search circles and access such information. We use cookies because they allow you to turn the Internet into an effective means for users.</li>
-  Cookies allow websites to provide individualized services (such as remembering a login, storing products in a consumer basket, or displaying the required content). There are several varieties of cookies: Temporary cookies (or session cookies) are erased when the browser closes; Permanent cookies are not erased but remain until they are deliberately deleted or expired (depending on how long the website is programmed for the cookie duration).</li>
-  
-  <li>Different marketing companies use cookies, beacons, scripts and tags to inform, optimize and maintain advertisements based on visits to our website by a specific user. These technologies are used in analyzing trends, administering the website, tracking users’ movements around the site, and gathering demographic information about our user base as a whole. You can delete these types of tracking. However, they simplify the work of the web by storing browsing information. With these site files you can:<br>
-    <ul class="list_disk">
-  <li>do not leave the account;</li>
-  <li>save site settings;</li>
-  <li>get relevant content in your area. </li>
-    </ul>
-               And we use such technologies to improve the quality of our services.</li>
-  <li>“Unique Identifiers” are unique strings of symbols that may determine your mobile, computer where they can be and even they identify you. It mainly serves to track you when you visit our site.</li>
-  <li>We often use a mobile software analyst. It records information related to how often you use the application, the events that occur within the application, aggregated usage, performance data, and where the application was downloaded from. We do not combine this information with your personal information that you give us.</li>
-  <li>We use Local Storage, such as HTML5, to lay up essence of information and setup. Third parties with whom we partner to ensure certain features on our website or to show advertising based upon your web browsing practice also, use HTML5 to complete and store info. Various browsers may offer their own management tools for removing HTML5.</li>
-  <li>“Telephone Caller ID” is means that your caller ID may be recorded during your calling to us. Most telephone providers will, upon request, block your caller ID. Such services may not always be spectacular if you select to call a pay-per-call (900) or toll-free number.</li>
-  <li>We use “Web beacons” or “clear pixels” that utilized for record pages or ads that are required by users or tracking the performance of e-mail marketing campaigns. They are small graphic images on the page. The site may use web beacons for promotional purposes to send out promotional materials by e-mail and track site visits.</li>
-  <li>The computer creates a “web server log”. It supplies the web pages you request to your browser. If you write a term or link in a search then such a web server log also writes it. This is done so that you can go to a particular webpage. It also records information about your view of a particular page, and, for example, your IP address and cookies installed by the server in your browser.</li>
-  <li>You can log in to our site using “sign-in services” such as Facebook Connect or an Open ID provider. In this case, you will have the opportunity to share with us certain information regarding your name and email address for proper registration or publication in your account.</li>
-  <li>Also our site has "Geo-location technologies". This is required to determine your location. This will allow us to provide you with certain services at your place of stay. You can give us such information yourself or allow it to your mobile at the request.</li>
-  <li>We may also unwittingly utilize information from your web server or computer to define general emplacement information, such as the city in which you live.</li>
-  </ul>
-  In addition to materials that we get from you, we ought to gather information about you from third parties for purposes such as ad targeting, optimization and reporting.
-  </li>
-  <li>
-  <h2>6. Who can get our information?</h2>
-  <p>We greatly value your trust and will not sell or share your information with other persons temporarily. This can only happen in rare cases. Who with?</p>
-  <p><u>Advertisers. </u>The site can also collaborate with other companies to provide joint services and conduct joint advertising campaigns. When providing you with joint services, you may need to share your personal information with our partners. The partner will be able to use the information only to the extent essentials to provide the relevant services in a generalized form for statistical reporting.</p>
-  <p><u>Advertising Networks.</u> Remember, if you go to other websites, including our partner sites, ad agencies, merchants, and other sites related to our site, such sites may collect personal and non-personal information about you. The rules for collecting information from such other sites are not part of this privacy policy. We are not responsible for such sites or their own policies. If you would like to opt-out of having third-party advertising networks utilize info that YP has shared with them to target advertising to you then see the instructions in the section titled “What Privacy Choices Do I Have” below.</p>
-  <p><u>Affiliates.</u> In certain cases, when performing some services or gaining experience, we can share information with some YP companies, as well as with YP®, YPDirect®, BerryNetwork or ANYWHO.COM® trademarks.</p>
-  <p><u>Blogs, Online Postings, and Testimonials.</u> All non-personal information that you write on social networks, comments, blogs, and the like can be published. This may be non-sensitive information.</p>
-  <p><u>Business Transition.</u> If we bought a company or part of it, then we need to share it with all the information. However, you will know about all changes via email or through a message on a mobile or website. It even refers to what we are going to do with your information.</p>
-  <p><u>In-line Applications & Tools.</u>  Our site may offer various applications or tools for you who are “working” from a third party. You may receive non-sensitive information if you use these applications or tags. You may also receive additional information through the use of it with this third party. Third party’s utilizing of this information is governed by their privacy policy.</p>
-  <p><u>Law Enforcement.</u> If any actions are illegal, in our or your opinion, then we can report this to law enforcement agencies. After all, they can help them in the investigation. In addition, we reserve the right to disclose all types of information to law enforcement agencies if we determine in our own opinion that you have violated our rules or that the publication of information about you may protect the rights, property or safety of us or another person.</p>
-  <p><u>Legal Processes.</u> If any provided by law, we may transfer all types of information in accordance with applicable law. This may include the exchange of all types of information with government agencies or third parties in response to a claim, a court order, another trial or, as we consider necessary to exercise our legitimate rights, to protect against legal actions that have been instituted against us, or to protect against possible legal claims that we determine on our own discretion can be made against us.</p>
-  <p><u>Service Providers.</u> We subsidize all types of info to people and firms that provide us with services. It may, in particular, include helping us ensure the products or services that you request, create or maintain our database, explore or analyze the people who use our websites, the provider of mapping, to provide a map of that location, in which you are and process information on payment cards. If you do not agree, we do not allow our service providers to sell their products or services directly. We also require that our service providers give their consent to take reasonable steps to maintain the personal information we provide to them. In some cases, we can maintain the appearance of our site while you are on our service provider's website. You must look for the “Privacy Policy” link on any page you submit information to determine whether this privacy policy or other company's privacy policy is in place.</p>
-  <p><u>Other Third Parties</u> (without your agreement). Our site has the ability to share information without specifying your personal data. When we do this, we try to either unify or de-identify the information so that the third party cannot link data with you, your computer, or your device. If we need to combine the non-personal information of many people together, this can be aggression. Then the data should not relate to any person. Sometimes we delete or modify certain pieces of information that can be used to link data to a particular person.</p>
-  <p><u>Third Parties (with your consent).</u> We may distribute any info, inclusive of sensitive personally-identifiable information, with other third parties that are not delineated above if you give us consent to do so.</p>
-  </li>
-  <li>
-  <h2>7. How does the site secure the information?</h2>
-  <p>Our site is simply required to store all personal information that is available. All protection is by encryption. This applies to even credit cards during transfer and storage. We also encrypt sensitive data, such as geographic information in the transmission. For other types of information, we also use reasonable measures to prevent disclosure of information to persons not described in this policy. It is very important for us to protect you from fraudsters, from unauthorized access to your password and to your computer. Certainly, there are no very perfect security measures, and we cannot promise that information about you will remain safe in all circumstances. However, we try to make the best protection.</p>
-  </li>
-  <li>
-  <h2>8. Some additional information</h2>
-  <ul class="list_disk">
-  <li>Other Websites. This Privacy Policy does not apply to other sites that are not owned by us. This even applies to products that can be displayed when searching on our site. We encourage you to familiarize yourself with the privacy policy of third-party websites before submitting your personal information. </li>
-  <li>Other Contractual Relationships. If you enter into separate contractual relations with us that require or foresee the collection, use, exchange or provision of information about you in a manner that is different from that described in this policy, the terms of this agreement shall apply.</li>
-  <li>Referral Services. If you choose our referral service to tell a friend about our site, we will ask you for your friend's name and email address. We will automatically send your friend a one-time email inviting him or her to visit the site.</li>
-  <li>Your California Privacy Rights. Under California Civil Code sections 1798.83-1798.84, California residents which are our colleagues or have good business relations with us, may require notice. In this case, they have the right to know which categories of personal information about clients we share with third parties or corporate affiliates for these third parties or for the direct marketing purposes of corporate affiliates. This message will indicate the categories of information provided and will include a list of third parties and affiliates with which they are shared, as well as their names and addresses. If you are a California resident and would like a copy of this notice, please submit a written request to the following address: Attn: _______________________________________. The answer will be in 30 days.</li>
-  <li>Children. Our site is for an adult audience. Therefore, we accept any information only from adults over 13 years of age.</li>
-  <li>Changes To The Privacy Policy. Often, our privacy policy is updated to reflect changes in our information practices. In doing so, we will notify you of these changes on our site before the changes become effective. And if these changes apply to the information collected after the specified date. Therefore, we encourage you to review this privacy policy from time to time.</li>
-  <li>How Do We Communicate With You? If you have any questions or concerns regarding our privacy policy, please contact us at: Email address: __________ Telephone number: __________ Mailing address: _______________________________ If we need, or are required, to contact you concerning any event that involves information about you, we may do so by email, telephone, or mail. Effective Date: August 11, 2014</li>
-  </ul>
-  </li>
-  </ul>  
-  </div>`,
+  'aggreement.text': agreement,
   'Show.all': 'Show all',
   'Hide.all': 'Hide all',
   More: 'More',
@@ -329,4 +241,6 @@ export default {
   'Not.found': 'Sorry, this page not found',
   'Go.back.home': 'Go back to home page',
   Oops: 'Oops!',
+  'privacy.text': privacyEn,
+  'Privacy policy': 'Privacy policy'
 };

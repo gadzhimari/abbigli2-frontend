@@ -20,33 +20,45 @@ class Footer extends PureComponent {
 
     return (
       <footer className={cn('')}>
-        <div className={cn('wrap')}>
+        <div className={cn('content')}>
           <Link
             className={cn('logo')}
             to={pages.ROOT_PAGE.path}
           />
+
           <div className={cn('links')}>
             <span className={cn('copyright')}>
               © 2017 {__t('footer.abbigli')}
             </span>
+
             <Link
               className={cn('link')}
               to={`/${pages.ABOUT_PAGE.path}`}
               rel="nofollow"
               text={__t('About')}
             />
+
             <Link
               className={cn('link')}
               to={`/${pages.AGREEMENT_PAGE.path}`}
               rel="nofollow"
               text={__t('Agreement')}
             />
+
+            <Link
+              className={cn('link')}
+              to={`/${pages.PRIVACY_PAGE.path}`}
+              rel="nofollow"
+              text={__t('Privacy policy')}
+            />
+
             <Link
               className={cn('link')}
               to={`/${pages.FAQ_PAGE.path}`}
               rel="nofollow"
               text={__t('FAQ')}
             />
+
             <Link
               className={cn('link', { support: true })}
               name="supportPopup"
@@ -54,19 +66,17 @@ class Footer extends PureComponent {
               rel="nofollow"
               text={__t('Support')}
             />
+
             <Link
               className={cn('link', { youtube: true })}
               to={socialGroupsUrl.youtube}
               label="YouTube"
               target={'_blank'}
-              icon={
-                <IconYoutube />
-              }
+              icon={<IconYoutube />}
             />
           </div>
-          <SocialNetworks
-            className={cn('social-networks')}
-          />
+
+          <SocialNetworks className={cn('social-networks')} />
         </div>
       </footer>
     );

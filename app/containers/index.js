@@ -22,3 +22,4 @@ export { default as Agreement } from './Agreement';
 export { default as RelativePage } from './RelativePage';
 export { default as PeopleSearch } from './PeopleSearch';
 export { default as ForMasters } from './ForMasters';
+export { default as PrivacyPolicy } from './PrivacyPolicy/PrivacyPolicy';
