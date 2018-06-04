@@ -188,7 +188,7 @@ export default {
   'Create.a.mood': 'Create mood',
   "What's.near.you": "What's near you",
   About: 'About our project',
-  Agreement: 'Privacy policy',
+  Agreement: 'Agreement',
   FAQ: 'FAQ',
   Support: 'Support',
   Messages: 'Messages',
