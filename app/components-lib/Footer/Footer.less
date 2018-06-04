@@ -2,51 +2,76 @@
 @import '../__base/variables/colors';
 
 .Footer {
-  height: @footerHeight;
+  position: relative;
   background-color: #e0e0e0;
-  &__wrap {
-    position: relative;
+
+  &__content {
+    max-width: 1250px;
+
+    margin: 0 auto;
+    padding: 20px 25px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1250px;
-    margin: 0 auto;
-    padding: 20px 25px;
   }
+
+  &__social-networks, &__logo {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
   &__logo {
-    width: 136px;
+    width: 146px;
     height: 35px;
+
     background: url("/images/logo-gray.svg") no-repeat;
     background-size: 136px 35px;
   }
+
   &__copyright {
-    display: inline-block;
-    margin-right: 30px;
     font-size: 14px;
     line-height: 18px;
     color: @gray-400;
+
+    margin-right: 30px;
+
+    display: inline-block;
     vertical-align: middle;
   }
+
+  &__links {
+    flex-grow: 1;
+    text-align: center;
+  }
+
   &__link {
-    display: inline-block;
     margin-right: 30px;
+
+    display: inline-block;
+
     &.Link_view_link {
       color: #4e4d4d;
     }
+
     &_youtube {
       margin-right: 0;
+
       .Icon_size_m {
         width: 55px;
         height: 23px;
       }
     }
   }
+
   .social-btn {
     width: 40px;
     height: 40px;
+
+    margin-right: 10px;
+
     display: inline-block;
     vertical-align: top;
-    margin-right: 10px;
 
     &:last-child {
       margin-right: 0;
@@ -54,30 +79,31 @@
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: 1100px) {
-  .Footer {
-    &__link {
-      &:not(:last-child) {
-        display: none;
-      }
-    }
-  }
-}
+// @media screen and (min-width: 769px) and (max-width: 1100px) {
+//   .Footer {
+//     &__link:not(:last-child) {
+//       display: none;
+//     }
+//   }
+// }
 
-@media screen and (max-width: @breakpoint-m) {
+@media screen and (max-width: @breakpoint-l) {
   .Footer {
-    height: 200px;
-    &__wrap {
+
+    &__content {
       flex-direction: column;
     }
+
     &__logo {
       margin-bottom: 10px;
     }
+
     &__copyright {
-      display: block;
-      margin: 0 0 10px 0;
       text-align: center;
+      margin: 0 0 10px 0;
+      display: block;
     }
+
     &__social-networks {
       margin-top: 15px;
     }
@@ -90,6 +116,7 @@
       &_support {
         margin-right: 0;
       }
+
       &_youtube {
         display: none;
       }

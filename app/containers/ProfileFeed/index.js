@@ -82,6 +82,8 @@ class ProfileFeed extends Component {
       <Spin visible={isFetchingMore} />
     </div>);
 
+    const showContent = (isMe && itemsPosts.length) || (!isMe && user.is_feed_visible);
+
     return (
       <div className="profile_content">
         <TogglePrivacy
@@ -91,11 +93,7 @@ class ProfileFeed extends Component {
         />
 
         <div>
-          {
-            ((isMe && itemsPosts.length)
-              ||
-              (!isMe && user.is_feed_visible))
-            &&
+          {showContent ?
             <InfiniteScroll
               className="cards-row"
               pageStart={1}
@@ -119,6 +117,7 @@ class ProfileFeed extends Component {
                 ))
               }
             </InfiniteScroll>
+            : false
           }
 
           {isMe && !itemsPosts.length &&

@@ -24,11 +24,21 @@ class CreateForm extends PureComponent {
   }
 
   onChange(e, { value, name }) {
+    sessionStorage.setItem('createForm_' + name, value);
     this.setState({ [name]: value });
   }
 
   onSave(e, { name }) {
     const { savePost, params } = this.props;
+
+    // to clear session storage
+    let i = sessionStorage.length;
+    while(i--) {
+      let key = sessionStorage.key(i);
+      if(/createForm_/.test(key)) {
+        sessionStorage.removeItem(key);
+      }
+    }
 
     this.gaSendEvent(name);
     savePost(this.state, params.slug);

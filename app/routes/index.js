@@ -27,6 +27,7 @@ import {
   ProfileAbout,
   About,
   ForMasters,
+  PrivacyPolicy
 } from '../containers';
 
 import Chat from '../containers/Chat';
@@ -51,7 +52,8 @@ function getRoutes(store) {
       <IndexRoute component={Home} />
       <Route path={pages.FAQ_PAGE.path} component={Faq} />
       <Route path={pages.ABOUT_PAGE.path} component={About} />
-      <Route path={pages.AGREEMENT_PAGE.path} component={Agreement} />
+      <Route path={pages.AGREEMENT_PAGE.path} component={Agreement} mustScroll />
+      <Route path={pages.PRIVACY_PAGE.path} component={PrivacyPolicy} mustScroll />
       <Route path={pages.FOR_MASTERS_PAGE.path} component={ForMasters} />
       <Route path={pages.QUESTIONS_PAGE.path} component={Questions} />
       <Route path={pages.SEARCH_PAGE.path} component={Tag} />
@@ -63,9 +65,9 @@ function getRoutes(store) {
 
       <Route path={pages.PROFILE_PAGE.path} component={Profile} >
         <IndexRoute component={ProfileMyabbigli} />
-        <Route path={pages.FAVORITES_PAGE.path} component={ProfileFavorites} mustScroll={false} />
-        <Route path={pages.FEED_PAGE.path} component={ProfileFeed} mustScroll={false} />
-        <Route path={pages.ABOUT_PROFILE_PAGE.path} component={ProfileAbout} mustScroll={false} />
+        <Route path={pages.FAVORITES_PAGE.path} component={ProfileFavorites} />
+        <Route path={pages.FEED_PAGE.path} component={ProfileFeed} />
+        <Route path={pages.ABOUT_PROFILE_PAGE.path} component={ProfileAbout} />
       </Route>
 
       <Route path={pages.SETTINGS_PAGE.path} component={SettingsPage} />

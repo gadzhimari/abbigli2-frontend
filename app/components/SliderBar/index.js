@@ -23,19 +23,18 @@ class TagsBar extends PureComponent {
     items: [],
   };
 
-  state = {
-    slidedRight: 0,
-    maxSlided: 0,
-    factor: typeof window !== 'undefined' && window.innerWidth > 500 ? 3 : 1,
-  };
+  constructor(props) {
+    super(props);
+
+    this.container = React.createRef();
+    this.state = {
+      slidedRight: 0,
+      maxSlided: 0,
+      factor: typeof window !== 'undefined' && window.innerWidth > 500 ? 3 : 1,
+    };
+  }
 
   calculateOnResize = debounce(() => this.calculateMaxSlided, 300);
-
-  /** @type {HTMLElement} */
-  root;
-
-  /** @type {HTMLElement} */
-  container;
 
   componentDidMount() {
     this.calculateMaxSlided();
@@ -125,11 +124,10 @@ class TagsBar extends PureComponent {
     return (
       <div
         className={sliderName}
-        ref={(root) => { this.root = root; }}
       >
         <div
           className={`${sliderName}__viewport`}
-          ref={container => (this.container = container)}
+          ref={this.container}
         >
           <ComponentsList
             items={items}

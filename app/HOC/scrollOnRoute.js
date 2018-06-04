@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 const scrollOnRoute = WrappedComponent => class extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.mustUpdate(nextProps, this.props)) {
-      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
     }
   }
 

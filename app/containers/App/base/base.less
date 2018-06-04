@@ -190,16 +190,8 @@ h2 {
 }
 
 .global-wrapper {
-  min-height: 100%;
   position: relative;
-  margin-bottom: -@footerHeight;
   padding-top: 115px;
-
-  &:after {
-    content: '';
-    display: block;
-    height: @footerHeight;
-  }
 }
 
 .main {
@@ -283,11 +275,7 @@ h2 {
 
 @media only screen and (max-width: 760px) {
   .global-wrapper {
-    margin-bottom: -200px;
     padding-top: 55px;
-    &:after {
-      height: 200px;
-    }
   }
   .section-title {
     &__subscribe {
