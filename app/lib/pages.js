@@ -14,6 +14,9 @@ export default {
   AGREEMENT_PAGE: {
     path: 'page/agreement'
   },
+  PRIVACY_PAGE: {
+    path: 'page/policy-privacy'
+  },
   FOR_MASTERS_PAGE: {
     path: 'page/for-masters',
   },
