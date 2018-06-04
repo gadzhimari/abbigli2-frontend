@@ -64,7 +64,7 @@ class SupportPopup extends Component {
     return (
       <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
         <div
-          className="popup mobile-search__popup register-popup"
+          className="popup mobile-search__popup reset-popup"
         >
           <header className="mobile-search__header">
             <svg
