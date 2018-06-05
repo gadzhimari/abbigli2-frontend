@@ -149,6 +149,12 @@ const profileReducer = (state = initialState, action = {}) => {
         followers: state.followers.filter(follower => follower.id !== action.payload),
       };
     }
+    case (types.UPDATE_PROFILE): {
+      return {
+        ...state,
+        data: action.data
+      };
+    }
     default: {
       return state;
     }

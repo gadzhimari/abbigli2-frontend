@@ -37,7 +37,7 @@ class ProductForm extends CreateForm {
   onSave(...attr) {
     this.setState(
       {
-        categories: this.sectionSelect.value,
+        category: this.sectionSelect.value,
         price: parsePrice(this.state.price)
       },
       () => super.onSave(...attr)

@@ -8,21 +8,20 @@ class TogglePrivacy extends PureComponent {
     onToggle: Type.func,
     status: Type.bool,
     isVisible: Type.bool,
+    name: Type.string
   }
 
   state = {
-    isPrivacy: !this.props.status,
+    isPrivacy: this.props.status
   }
 
   handleToggle = () => {
     const isPrivacy = !this.state.isPrivacy;
 
-    this.setState({
-      isPrivacy,
-    });
+    this.setState({ isPrivacy });
 
     if (this.props.onToggle) {
-      this.props.onToggle(!isPrivacy);
+      this.props.onToggle(this.props.name, !isPrivacy);
     }
   }
 
@@ -30,6 +29,7 @@ class TogglePrivacy extends PureComponent {
     if (!this.props.isVisible) {
       return null;
     }
+
     let btnText;
     let glyph;
 
