@@ -16,8 +16,7 @@ class ProfileSubMenu extends PureComponent {
     path: Type.string,
     data: Type.shape({
       id: Type.number,
-      is_favorite_visible: Type.bool,
-      is_feed_visible: Type.bool,
+      favorites_visible: Type.bool,
     }),
   }
 
@@ -26,9 +25,10 @@ class ProfileSubMenu extends PureComponent {
   }
 
   render(cn) {
-    const { data, path } = this.props;
+    const { data, path, isMe } = this.props;
+    const { favorites_visible: favoritesVisible } = data;
 
-    // const showFavorites = isMe || favoritesVisible;
+    const showFavorites = isMe || favoritesVisible;
 
     return (
       <div className={cn('')}>
@@ -43,16 +43,18 @@ class ProfileSubMenu extends PureComponent {
           {__t('My Abbigli')}
         </Link>
 
-        <Link
-          to={`/profile/${data.id}/favorites`}
-          onClick={this.onLinkClick}
-          className={cn('item', { active: path === 'favorites' })}
-          name="favorites"
-        >
-          <Icon glyph="heart" />
+        {showFavorites &&
+          <Link
+            to={`/profile/${data.id}/favorites`}
+            onClick={this.onLinkClick}
+            className={cn('item', { active: path === 'favorites' })}
+            name="favorites"
+          >
+            <Icon glyph="heart" />
 
-          {__t('Favorites')}
-        </Link>
+            {__t('Favorites')}
+          </Link>
+        }
 
         <Link
           to={`/profile/${data.id}/blogs`}

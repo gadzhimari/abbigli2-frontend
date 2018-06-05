@@ -21,7 +21,7 @@ class BlogForm extends CreateForm {
       text: '',
       tags: '',
       images: [],
-      categories: null
+      category: null
     }, props.data);
   }
 
@@ -35,7 +35,7 @@ class BlogForm extends CreateForm {
       ...imageZoneProps,
     } = this.props;
 
-    const { title, text, tags, categories } = this.state;
+    const { title, text, tags, category } = this.state;
 
     if (!visible) return null;
 
@@ -62,8 +62,8 @@ class BlogForm extends CreateForm {
             options={sections}
             optionsAdapter={categoriesAdapter}
             onChange={this.onChange}
-            value={categories}
-            name="categories"
+            value={category}
+            name="category"
           />
         </FormBlock>
 

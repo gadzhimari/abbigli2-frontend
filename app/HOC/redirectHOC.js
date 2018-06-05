@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 
 const redirectHOC = type => BaseComponent => class extends Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
+    router: PropTypes.shape().isRequired,
+    user: PropTypes.shape().isRequired,
     isMe: PropTypes.bool.isRequired,
   };
 

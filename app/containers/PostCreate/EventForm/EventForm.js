@@ -23,7 +23,7 @@ class EventForm extends CreateForm {
       description: '',
       tags: '',
       images: [],
-      categories: null,
+      category: null,
       start: null,
       end: null,
       city: null,
@@ -46,7 +46,7 @@ class EventForm extends CreateForm {
     const { title,
             description,
             tags,
-            categories,
+            category,
             start,
             end,
             city,
@@ -77,8 +77,8 @@ class EventForm extends CreateForm {
             options={sections}
             optionsAdapter={categoriesAdapter}
             onChange={this.onChange}
-            value={categories}
-            name="categories"
+            value={category}
+            name="category"
           />
 
           <CitySelect
