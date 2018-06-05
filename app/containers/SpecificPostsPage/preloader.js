@@ -25,7 +25,7 @@ const preloader = WrappedComponent => class extends PureComponent {
     const opts = [
       filter === 'Mood' && { ...options, price_0: 0, price_1: 1000 },
       filter === 'New' && options,
-      filter === 'Popular' && { ...options, popular: true },
+      filter === 'Popular' && { ...options, popular: 'month' },
       filter === 'Near' && { ...options, distance: 100 }
     ].filter(Boolean)[0];
 
