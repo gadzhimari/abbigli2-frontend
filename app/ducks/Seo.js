@@ -56,7 +56,19 @@ const seoData = {
       url: '/page/faq',
       seo_title: 'FAQ',
       seo_description: 'Правило пользования сайта и то что вы можете тут делать.'
-    }
+    },
+    {
+      id: 10,
+      url: '/page/policy-privacy',
+      seo_title: 'Политика конфиденциальности',
+      seo_description: 'Политика конфиденциальности'
+    },
+    {
+      id: 11,
+      url: '/page/agreement',
+      seo_title: 'Пользовательское соглашение',
+      seo_description: 'Пользовательское соглашение'
+    },
   ],
   en: [
     {
@@ -113,7 +125,19 @@ const seoData = {
       url: '/page/faq',
       seo_title: 'FAQ',
       seo_description: 'The rule of using the website and what you can do.'
-    }
+    },
+    {
+      id: 10,
+      url: '/page/policy-privacy',
+      seo_title: 'Privacy policy',
+      seo_description: 'Privacy policy'
+    },
+    {
+      id: 11,
+      url: '/page/agreement',
+      seo_title: 'User agreement',
+      seo_description: 'User agreement'
+    },
   ],
 };
 
