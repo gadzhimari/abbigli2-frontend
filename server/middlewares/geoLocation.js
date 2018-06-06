@@ -2,13 +2,14 @@ import maxmind from 'maxmind';
 import path from 'path';
 
 import { setSettlement } from '../../app/ducks/settlement';
+import { isProduction, isTesting } from '../config';
 
 const cityLookup = maxmind.openSync(path.resolve(__dirname, '../geo-base/GeoLite2-City.mmdb'));
 
 const geoLocation = (req, res, next) => {
   let ip;
 
-  if (process.env.NODE_ENV === 'production') {
+  if (isProduction || isTesting) {
     ip = req.ip.replace('::ffff:', '');
   } else {
     ip = '85.140.76.178';
