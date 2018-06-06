@@ -3,7 +3,7 @@ import Type from 'prop-types';
 
 import { gaSendClickEvent } from '../../../lib/analitics';
 import bindMethods from '../../../lib/bindMethods';
-import {setItemToSessionStorage, clearSessionStorageByPrefix} from "../../../lib/sessionStorage";
+import { setItemToSessionStorage } from '../../../lib/sessionStorage';
 
 class CreateForm extends PureComponent {
   static propTypes = {
@@ -12,7 +12,7 @@ class CreateForm extends PureComponent {
     params: Type.shape({
       slug: Type.string,
     }),
-    sessionStoragePrefix: Type.string
+    sessionStorageKey: Type.string
   };
 
   constructor(props) {
@@ -26,15 +26,16 @@ class CreateForm extends PureComponent {
   }
 
   onChange(e, { value, name }) {
-    setItemToSessionStorage(this.sessionStoragePrefix, this.state);
-    this.setState({ [name]: value });
+    this.setState(
+      { [name]: value },
+      () => setItemToSessionStorage(this.sessionStorageKey, this.state)
+    );
   }
 
   onSave(e, { name }) {
     const { savePost, params } = this.props;
     this.gaSendEvent(name);
-    savePost(this.state, params.slug);
-    clearSessionStorageByPrefix(this.sessionStoragePrefix);
+    savePost(this.state, params.slug, this.sessionStorageKey);
   }
 
   onCancel(e, { name }) {

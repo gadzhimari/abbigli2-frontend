@@ -11,15 +11,15 @@ import Select from '../../../components/Inputs/Select';
 import categoriesAdapter from '../../../lib/adapters/categories-to-options';
 import mergeObjects from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
-import {getItemFromSessionStorage} from "App/lib/sessionStorage";
+import { getItemFromSessionStorage } from '../../../lib/sessionStorage';
 
 class BlogForm extends CreateForm {
   constructor(props) {
     super(props);
 
-    this.sessionStoragePrefix = 'eventFormBlog';
+    this.sessionStorageKey = 'eventFormBlog';
 
-    this.state = mergeObjects(getItemFromSessionStorage(this.sessionStoragePrefix, {
+    this.state = mergeObjects(getItemFromSessionStorage(this.sessionStorageKey, {
       title: '',
       content: '',
       tags: '',

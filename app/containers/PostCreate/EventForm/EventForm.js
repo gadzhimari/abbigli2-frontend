@@ -13,15 +13,15 @@ import CitySelect from '../../../components/Inputs/CitySelect/';
 import categoriesAdapter from '../../../lib/adapters/categories-to-options';
 import mergeObjects from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
-import {getItemFromSessionStorage} from '../../../lib/sessionStorage';
+import { getItemFromSessionStorage } from '../../../lib/sessionStorage';
 
 class EventForm extends CreateForm {
   constructor(props) {
     super(props);
 
-    this.sessionStoragePrefix = 'eventFormEvent';
+    this.sessionStorageKey = 'eventFormEvent';
 
-    this.state = mergeObjects(getItemFromSessionStorage(this.sessionStoragePrefix, {
+    this.state = mergeObjects(getItemFromSessionStorage(this.sessionStorageKey, {
       title: '',
       content: '',
       tags: '',
