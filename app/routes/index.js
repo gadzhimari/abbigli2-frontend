@@ -37,7 +37,7 @@ import SettingsPage from '../containers/SettingsPage';
 
 import pages from '../lib/pages';
 
-const isTesting = process.env.NODE_ENV !== 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 function getRoutes(store) {
   function redirectForUnautorized(nextState, replace, callback) {
@@ -70,17 +70,18 @@ function getRoutes(store) {
       <Route path={pages.PROFILE_PAGE.path} component={Profile} >
         <IndexRoute component={ProfileMyabbigli} />
 
-        {isTesting &&
-          <Fragment>
-            <Route path={pages.LK_PAGE.path} component={ProfileLK} />
-            <Route path={pages.RAISE_ADS_PAGE.path} component={ProfileRaiseAds} />
-          </Fragment>
+        {!isProduction &&
+          <Route path={pages.LK_PAGE.path} component={ProfileLK} />
         }
 
         <Route path={pages.FAVORITES_PAGE.path} component={ProfileFavorites} />
         <Route path={pages.FEED_PAGE.path} component={ProfileFeed} />
         <Route path={pages.ABOUT_PROFILE_PAGE.path} component={ProfileAbout} />
       </Route>
+
+      {!isProduction &&
+        <Route path={pages.RAISE_ADS_PAGE.path} component={ProfileRaiseAds} />  
+      }
 
       <Route path={pages.SETTINGS_PAGE.path} component={SettingsPage} />
 
