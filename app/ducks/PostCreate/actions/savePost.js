@@ -19,7 +19,7 @@ const savePostRes = (errors = {}) => ({
   errors,
 });
 
-const savePost = (data, slug = null) => (dispatch) => {
+const savePost = (data, slug = null, sessionStorageKey = null) => (dispatch) => {
   dispatch(savePostReq());
 
   const apiMethod = slug ? Posts.editPost : Posts.createPost;
@@ -37,6 +37,10 @@ const savePost = (data, slug = null) => (dispatch) => {
           page: `/${action}`,
           title: action
         });
+      }
+
+      if (sessionStorageKey) {
+        sessionStorage.removeItem(sessionStorageKey);
       }
     })
     .catch(({ response }) => {
