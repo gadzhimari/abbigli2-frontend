@@ -2,6 +2,7 @@
 import Raven from 'raven-js';
 
 const isProduction = process.env.NODE_ENV === 'production';
+const isTesting = process.env.NODE_ENV === 'testing';
 
 const logger = {
   info: (message) => {
@@ -10,7 +11,7 @@ const logger = {
   error: (path, err) => {
     console.error(path, err);
 
-    if (isProduction) {
+    if (isProduction || isTesting) {
       Raven.captureException(err);
     }
   },

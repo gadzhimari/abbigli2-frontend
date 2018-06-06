@@ -3,12 +3,13 @@ import path from 'path';
 import { assetsUrl, getAssets } from '../lib/etc/assets';
 import metriks from '../lib/etc/metriks';
 
+import { isTesting, isProduction } from '../config';
+
 const lang = process.env.LOCATION;
-const isProduction = process.env.NODE_ENV === 'production';
 const assets = getAssets();
 let criticalCss = '';
 
-if (isProduction) {
+if (isProduction || isTesting) {
   criticalCss = fs.readFileSync(path.resolve(__dirname, `../../public${assets.css}`));
 }
 
