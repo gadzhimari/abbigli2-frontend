@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
 import {
@@ -11,6 +11,8 @@ import {
   Tag,
   ProductPage,
   Profile,
+  ProfileLK,
+  ProfileRaiseAds,
   ProfileMyabbigli,
   ProfileFavorites,
   ProfileFeed,
@@ -34,6 +36,8 @@ import Chat from '../containers/Chat';
 import SettingsPage from '../containers/SettingsPage';
 
 import pages from '../lib/pages';
+
+const isTesting = process.env.NODE_ENV !== 'production';
 
 function getRoutes(store) {
   function redirectForUnautorized(nextState, replace, callback) {
@@ -65,6 +69,14 @@ function getRoutes(store) {
 
       <Route path={pages.PROFILE_PAGE.path} component={Profile} >
         <IndexRoute component={ProfileMyabbigli} />
+
+        {isTesting &&
+          <Fragment>
+            <Route path={pages.LK_PAGE.path} component={ProfileLK} />
+            <Route path={pages.RAISE_ADS_PAGE.path} component={ProfileRaiseAds} />
+          </Fragment>
+        }
+
         <Route path={pages.FAVORITES_PAGE.path} component={ProfileFavorites} />
         <Route path={pages.FEED_PAGE.path} component={ProfileFeed} />
         <Route path={pages.ABOUT_PROFILE_PAGE.path} component={ProfileAbout} />

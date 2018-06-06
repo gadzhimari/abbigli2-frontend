@@ -6,6 +6,7 @@ import Link from '../../components/Link/Link';
 
 import { gaSendClickEvent } from '../../lib/analitics';
 import { __t } from '../../i18n/translator';
+import { IS_TESTING } from '../../config';
 
 export default class ProfileSubMenu extends PureComponent {
   static propTypes = {
@@ -25,8 +26,9 @@ export default class ProfileSubMenu extends PureComponent {
   render() {
     const { data, isMe, path } = this.props;
 
-    const { is_favorite_visible: showFavorites,
-            is_feed_visible: showFeed,
+    const {
+      is_favorite_visible: showFavorites,
+      is_feed_visible: showFeed,
     } = data;
 
     const commonClass = 'profile-submenu__item';
@@ -54,6 +56,21 @@ export default class ProfileSubMenu extends PureComponent {
           </div>
           {__t('My Abbigli')}
         </Link>
+        {IS_TESTING &&
+          <Link
+            to={`/profile/${data.id}/lk`}
+            onClick={this.onLinkClick}
+            className={classNames(commonClass, 'my-abbigli',
+              { active: !path })
+            }
+            name="store"
+          >
+            <div className="icon-wrap">
+              <div className="icon" />
+            </div>
+            Магазин
+          </Link>
+        }
 
         {(isMe || showFavorites) &&
           <Link

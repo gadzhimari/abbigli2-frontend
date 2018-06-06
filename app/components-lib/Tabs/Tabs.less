@@ -1,0 +1,25 @@
+.Tabs {
+  &_scrollable {
+    width: 100%;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      display: block;
+      margin-bottom: -20px;
+    }
+
+    .Tabs {
+      &__panel {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        padding-bottom: 20px;
+      }
+
+      &__content {
+        display: inline-block;
+      }
+    }
+  }
+}

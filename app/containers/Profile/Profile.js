@@ -1,23 +1,32 @@
-import Type from 'prop-types';
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { React, Component, Type, cn } from '../../components-lib/__base';
 
 import { UserProfile } from '../../components';
 import ProfileSubMenu from './ProfileSubMenu';
 import ProfileLoader from './components/ProfileLoaderDecorator';
 
-import { uploadImage,
-         loadProfile,
-         saveChanges,
-         deleteImage,
+import {
+  uploadImage,
+  loadProfile,
+  saveChanges,
+  deleteImage,
 } from '../../ducks/Profile/actions';
 import { openPopup } from '../../ducks/Popup/actions';
 
 import onlyAuthAction from '../../lib/redux/onlyAuthAction';
 
-import './Profile.styl';
+import './Profile.less';
 
+@cn('Profile')
 class Profile extends Component {
+  static propTypes = {
+    data: Type.shape(),
+    childrenPath: Type.string,
+    isMe: Type.bool.isRequired,
+    children: Type.oneOfType([Type.node, Type.arrayOf(Type.node)]),
+    me: Type.shape(),
+  };
+
   state = { isEditing: false };
 
   componentWillUnmount() {
@@ -34,7 +43,7 @@ class Profile extends Component {
     }
   }
 
-  render() {
+  render(cn) {
     const {
       data,
       isMe,
@@ -43,14 +52,14 @@ class Profile extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className={cn()}>
         <UserProfile
           {...this.props}
           handleEditing={this.handleEditing}
           isEditing={this.state.isEditing}
         />
 
-        <main className="main profile">
+        <main className={cn('wrapper')}>
           {this.state.isEditing &&
             <div className="main__overlay" />
           }
@@ -68,15 +77,6 @@ class Profile extends Component {
     );
   }
 }
-
-Profile.propTypes = {
-  data: Type.shape(),
-  childrenPath: Type.string,
-  isMe: Type.bool.isRequired,
-  children: Type.oneOfType([Type.node, Type.arrayOf(Type.node)]),
-  me: Type.shape(),
-};
-
 
 function mapStateToProps(state) {
   const {

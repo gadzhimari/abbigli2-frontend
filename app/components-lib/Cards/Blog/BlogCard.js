@@ -81,6 +81,8 @@ class BlogCard extends PureComponent {
     canEdit: Type.bool,
     showLike: Type.bool,
     showShare: Type.bool,
+    showAvatar: Type.bool,
+    showDeleteButton: Type.bool,
   };
 
   static defaultProps = {
@@ -89,6 +91,8 @@ class BlogCard extends PureComponent {
     canEdit: false,
     showLike: true,
     showShare: false,
+    showAvatar: true,
+    showDeleteButton: true,
   };
 
   handleDelete = () => {
@@ -104,24 +108,23 @@ class BlogCard extends PureComponent {
     const { size, ratio } = avatar.sizes[view];
 
     return (
-      isMe ?
-        <div /> :
-        <Link
-          className={cn('user', { block: avatar.block[view], align: avatar.align[view], position: avatarPos })}
-          to={createProfileLink(user)}
-          color="gray-600"
-          text={name}
-          title={name}
-          icon={
-            <Avatar
-              className={cn('avatar', { bordered: avatar.bordered[view], size })}
-              imgClassName="avatar__img"
-              avatar={user.avatar}
-              thumbSize={ratio}
-              alt={name}
-            />
-          }
-        />
+      !isMe &&
+      <Link
+        className={cn('user', { block: avatar.block[view], align: avatar.align[view], position: avatarPos })}
+        to={createProfileLink(user)}
+        color="gray-600"
+        text={name}
+        title={name}
+        icon={
+          <Avatar
+            className={cn('avatar', { bordered: avatar.bordered[view], size })}
+            imgClassName="avatar__img"
+            avatar={user.avatar}
+            thumbSize={ratio}
+            alt={name}
+          />
+        }
+      />
     );
   }
 
@@ -145,7 +148,18 @@ class BlogCard extends PureComponent {
   }
 
   render(cn) {
-    const { setLike, showLike, showShare, view, isMe, canEdit, isTouch } = this.props;
+    const {
+      setLike,
+      showLike,
+      showShare,
+      showDeleteButton,
+      showAvatar,
+      view,
+      isMe,
+      canEdit,
+      isTouch
+    } = this.props;
+
     const {
       user,
       liked,
@@ -164,7 +178,7 @@ class BlogCard extends PureComponent {
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
-                this.renderAvatar(cn)
+                showAvatar && this.renderAvatar(cn)
               }
               <div className={cn('date', { short: true })}>
                 {toLocaleDateString(created, CARD_DATE_SHORT_FORMAT)}
@@ -228,7 +242,7 @@ class BlogCard extends PureComponent {
                 />}
               />
             }
-            { isMe &&
+            { isMe && showDeleteButton &&
               <Button
                 onClick={this.handleDelete}
                 view="fab"
@@ -244,7 +258,16 @@ class BlogCard extends PureComponent {
         </div>
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
-            { view === 1 && this.renderAvatar(cn) }
+            {/* TODO Заменить на новое апи  */}
+            { view === 4 &&
+              <Link
+                className={cn('category')}
+                text="Блоги"
+                size="s"
+                color="green"
+              />
+            }
+            { view === 1 && showAvatar && this.renderAvatar(cn) }
             { view !== 3 && this.renderTitle(cn) }
             { view === 1 &&
               <div
@@ -254,18 +277,22 @@ class BlogCard extends PureComponent {
             }
           </div>
           <div className={cn('footer', { align: 'vertical' })}>
-            { view === 1 &&
-              <div className={cn('date')}>
-                {toLocaleDateString(created, MESSAGE_DATE_FORMAT)}
+            <div className={cn('footer-col', { left: true })}>
+              { view === 1 &&
+                <div className={cn('date')}>
+                  {toLocaleDateString(created, MESSAGE_DATE_FORMAT)}
+                </div>
+              }
+              { view === 2 && showAvatar && this.renderAvatar(cn) }
+            </div>
+            <div className={cn('footer-col', { right: true })}>
+              { view === 3 && this.renderTitle(cn) }
+              <div className={cn('comments')}>
+                <IconComment size="xs" className={cn('comments-icon')} />
+                <span className={cn('comments-count')}>
+                  {commentsCount}
+                </span>
               </div>
-            }
-            { view === 2 && this.renderAvatar(cn) }
-            { view === 3 && this.renderTitle(cn) }
-            <div className={cn('comments')}>
-              <IconComment size="xs" className={cn('comments-icon')} />
-              <span className={cn('comments-count')}>
-                {commentsCount}
-              </span>
             </div>
           </div>
         </div>

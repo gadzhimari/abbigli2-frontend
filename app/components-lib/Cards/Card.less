@@ -23,6 +23,7 @@
   border: 1px solid @card-border-color;
   border-radius: 5px;
   background-color: @card-background;
+
   &:hover {
     box-shadow: 0 0 4px #8f8e8e;
     .Card__button {
@@ -32,6 +33,7 @@
       }
     }
   }
+
   &_type {
     &_product {
 
@@ -46,6 +48,7 @@
             &__body {
               padding-top: 36px;
             }
+
             &__text {
               margin-bottom: 6px;
             }
@@ -53,6 +56,7 @@
         }
       }
     }
+
     &_attach {
       min-height: 275px;
       padding: 10px;
@@ -72,68 +76,197 @@
         }
       }
     }
+
+    &_4 {
+      border: none;
+      border-radius: 0;
+      background: none;
+
+      &:hover {
+        box-shadow: none;
+      }
+
+      .Card {
+        &__img-wrapper {
+          border: 1px solid @card-border-color;
+          border-radius: 5px;
+        }
+
+        &__title {
+          font-family: @font;
+
+          .Link__icon {
+            display: none;
+          }
+
+          .Link__text {
+            margin-left: 0;
+          }
+        }
+
+        &__category {
+          font-family: 'ClearSansBold';
+          font-size: 12px;
+          text-transform: uppercase;
+        }
+      }
+    }
+
     &_goods {
       .Card {
         &__header {
           padding: 8px 0 18px 0;
         }
+
         &__footer {
           padding: 18px 0 8px 0;
         }
+
         &__avatar {
           width: 60px;
           height: 60px;
         }
+
         &__title {
           margin-bottom: 0;
           color: @gray-600;
         }
+
         &__price {
           font-size: 14px;
         }
       }
     }
   }
+
   &__wrapper {
     position: relative;
     padding: 10px;
   }
+
   &__header,
   &__footer {
     display: flex;
-    justify-content: space-between;
+
     &_align {
       &_vertical {
         align-items: center;
       }
+
       &_horizontal {
         justify-content: center;
       }
+
       &_both {
         align-items: center;
         justify-content: center;
       }
     }
+
     &_direction {
       &_column {
         flex-direction: column;
       }
     }
   }
+
+  &__header {
+    justify-content: space-between;
+  }
+
   &__footer {
+    &-col {
+      display: flex;
+      flex-grow: 1;
+
+      &_left {
+        .text-truncate();
+        flex-shrink: 1;
+      }
+
+      &_right {
+        flex-shrink: 0;
+        justify-content: flex-end;
+      }
+    }
+
     .Card {
       &__title {
         margin-bottom: 0;
       }
     }
   }
+
+  &__stats {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    text-transform: lowercase;
+
+    &-meta {
+      line-height: 0;
+    }
+  }
+
+  &__view-count,
+  &__like-count {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'ClearSans';
+    font-size: 14px;
+    line-height: 0;
+    color: @black;
+
+    .Icon {
+      margin-right: 3px;
+    }
+  }
+
+  &__view-count {
+    margin-left: 10px;
+  }
+
+  &__activation {
+    &-period {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-align: center;
+      text-transform: lowercase;
+      color: @black;
+
+      &-start,
+      &-end {
+        font-weight: 400;
+      }
+
+      &-start {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  &__dropdown {
+    &-item {
+      display: block;
+      color: @gray-400;
+    }
+  }
+
   &__actions {
+    display: flex;
+    flex-wrap: wrap;
     position: absolute;
     &_align {
       &_top-left {
         top: 10px;
         left: 10px;
+        .Card__button:not(:first-child) {
+          margin-left: 10px;
+        }
       }
+
       &_top-right {
         top: 10px;
         right: 10px;
@@ -141,31 +274,58 @@
           margin-left: 10px;
         }
       }
+
       &_bottom-left {
         bottom: 10px;
         left: 10px;
       }
+
       &_bottom-right {
         bottom: 10px;
         right: 10px;
       }
     }
   }
+
+  &__checkbox {
+    & + .Card__share {
+      margin-left: 10px;
+    }
+  }
+
+  &__share {
+    display: inline-block;
+  }
+
+  &__spacer {
+    flex-basis: 100%;
+  }
+
   &__button {
     &_hide {
       opacity: 0;
     }
+
+    &_raise {
+      margin-top: 5px;
+    }
+
+    &_messages.Button_view_default.Button_size_m {
+      padding: 0 10px
+    }
+
     &_like,
     &_share {
-      // opacity: 0;
       transition: opacity 0.1s ease-in-out;
     }
+
     &_share,
     &_delete {
       &:hover {
         fill: #c7c7c7;
       }
     }
+
     &_attach {
       display: flex;
       flex-direction: column;
@@ -183,6 +343,7 @@
         border-radius: 50%;
         background-color: @primary;
       }
+
       &:hover {
         .Link__text {
           text-decoration: none;
@@ -190,6 +351,7 @@
       }
     }
   }
+
   &__img {
     min-height: 100%;
     width: 100%;
@@ -200,6 +362,7 @@
       overflow: hidden;
     }
   }
+
   &__title {
     display: flex;
     align-items: center;
@@ -210,34 +373,41 @@
         font-family: ClearSansBold;
       }
     }
+
     &_align {
       &_center {
         text-align: center;
         justify-content: center;
       }
     }
+
     .text-truncate();
     .Link__text {
       overflow: hidden;
     }
   }
+
   &__avatar {
     overflow: hidden;
     border-radius: 50%;
+
     &_bordered {
       border: 2px solid #fff;
     }
+
     &_size {
       &_s {
         width: 25px;
         height: 25px;
       }
+
       &_m {
         width: 36px;
         height: 36px;
       }
     }
   }
+
   &__text {
     font-family: 'ClearSans';
     height: 75px;
@@ -247,58 +417,69 @@
     margin-bottom: 10px;
     overflow: hidden;
   }
+
   &__date {
     flex: 0 0 auto;
     font-family: 'ClearSans';
     font-size: 16px;
     color: @gray-600;
     text-align: center;
+
     &_short {
       width: 60px;
       font-family: 'ClearSansLight';
       font-size: 13px;
       line-height: 18px;
     }
+
     &-range {
       white-space: nowrap;
       font-family: 'ClearSansLight';
       font-size: 14px;
+
       &_weight {
         &_bold {
           font-family: 'ClearSansBold';
         }
       }
+
       &_has-margin {
         margin-left: 30px;
       }
     }
   }
+
   &__event {
     &-info {
       display: flex;
       justify-content: space-between;
+
       &_align {
         &_left {
           justify-content: flex-start;
         }
+
         &_center {
           justify-content: center;
         }
       }
     }
   }
+
   &__city {
     margin-left: 10px;
     font-family: 'ClearSans';
     font-size: 14px;
     .text-truncate();
   }
+
   &__comments {
     flex: 0 0 auto;
     &-icon {
       vertical-align: middle;
       fill: @gray-600;
     }
+
     &-count {
       font-family: 'ClearSansLight';
       margin-left: 6px;
@@ -307,15 +488,18 @@
       color: @gray-600;
     }
   }
+
   &__user {
     .text-truncate();
     text-align: left;
     font-size: 16px;
+
     &_align {
       &_center {
         text-align: center;
       }
     }
+
     &_position {
       &_float {
         position: absolute;
@@ -324,15 +508,18 @@
         transform: translate(-50%, 0);
       }
     }
+
     &_block {
       display: block;
       width: 100%;
+
       .Link__text {
         display: block;
         overflow: hidden;
       }
     }
   }
+
   &__price {
     flex: 0 0 auto;
     margin-left: 10px;
@@ -341,7 +528,7 @@
   }
 }
 
-@media screen and (min-width: 761px) and (max-width: 980px) {
+@media screen and (min-width: @breakpoint-m) and (max-width: @breakpoint-l-only) {
   .cards-wrapper {
     .Card {
       &:nth-child(3n) {
@@ -355,13 +542,13 @@
   }
 }
 
-@media screen and (min-width: 481px) and (max-width: 760px) {
+@media screen and (min-width: @breakpoint-s) and (max-width: @breakpoint-m-only) {
   .Card {
     flex-basis: 49%;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: @breakpoint-s-only) {
   .cards-wrapper {
     margin: 0;
   }
@@ -369,5 +556,29 @@
   .Card {
     flex-basis: 100%;
     margin: 0 0 10px;
+
+    &_type {
+      &_attach {
+        min-height: 0;
+      }
+    }
+
+    &__button {
+      &_attach {
+        flex-direction: row;
+        height: 50px;
+
+        .Link__icon {
+          width: 32px;
+          height: 32px;
+          margin-bottom: 0;
+        }
+
+        .Icon_size_s {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
   }
 }
