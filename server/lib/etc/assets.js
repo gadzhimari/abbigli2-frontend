@@ -10,12 +10,14 @@ const defaultAssets = {
   },
 };
 
+const useProductionAssets = isProduction || isTesting;
+
 const assetsPath = path.resolve(__dirname, '../../../public/assets/assets.json');
-const assets = isProduction || isTesting
+const assets = useProductionAssets
   ? JSON.parse(fs.readFileSync(assetsPath, 'utf8'))
   : defaultAssets;
 
-export const assetsUrl = isProduction || isTesting ? '' : 'http://localhost:8080';
+export const assetsUrl = useProductionAssets ? '' : 'http://localhost:8080';
 
 export function getAssets() {
   return {
