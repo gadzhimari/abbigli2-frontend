@@ -1,7 +1,9 @@
 import path from 'path';
 import fs from 'fs';
 
-import { isProduction, isTesting } from '../../config';
+import config from '../../config';
+
+const { isProduction, isTesting } = config;
 
 const defaultAssets = {
   main: {
