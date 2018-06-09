@@ -27,6 +27,7 @@ export const FB_ID = location === 'en'
   : '1276251119056923';
 export const GOOGLE_ID = '152791861668-te59cn5d3n0tpefmqe5av5egnr1ucvs4.apps.googleusercontent.com';
 export const VK_ID = '5225447';
+export const GOOGLE_AD_CLIENT_ID = 'ca-pub-8128249301004337';
 
 export const socialGroupsUrl = {
   vk: 'https://vk.com/abbigli',
