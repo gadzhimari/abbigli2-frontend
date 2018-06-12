@@ -103,12 +103,12 @@ class ProductCard extends PureComponent {
   }
 
   handleCheckboxChange = (e, checked) => {
-    const { addToBucket, removeFromBucker, data } = this.props;
+    const { addToBucket, removeFromBucket, data } = this.props;
 
     if (checked) {
       addToBucket(data);
     } else {
-      removeFromBucker(data.id);
+      removeFromBucket(data.id);
     }
   }
 
