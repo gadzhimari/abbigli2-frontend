@@ -5,7 +5,7 @@ import { React, PureComponent, Type, cn } from '../../__base';
 import Image from '../../../components/Image';
 import Avatar from '../../../components/Avatar';
 import { Share } from '../../../components';
-import { Button, Checkbox, Like, Link } from '../../../components-lib';
+import { Button, Checkbox, Like, Link, Price } from '../../../components-lib';
 
 import IconArchive from '../../../icons/archive';
 import IconBag from '../../../icons/bag';
@@ -17,7 +17,6 @@ import IconMail from '../../../icons/mail';
 import IconMore from '../../../icons/more';
 import IconShare from '../../../icons/share';
 import IconPencil from '../../../icons/pencil';
-import IconStatistics from '../../../icons/statistics';
 
 import getImageUrl from '../../../lib/getImageUrl';
 import getUserName from '../../../lib/getUserName';
@@ -67,7 +66,6 @@ class ProductCard extends PureComponent {
       user: Type.object,
       images: Type.array,
     }).isRequired,
-    priceTemplate: Type.string.isRequired,
     view: Type.number,
     isMe: Type.bool,
     canEdit: Type.bool,
@@ -102,6 +100,16 @@ class ProductCard extends PureComponent {
   handleDelete = () => {
     const { slug } = this.props.data;
     this.props.delete(slug);
+  }
+
+  handleCheckboxChange = (e, checked) => {
+    const { addToBucket, removeFromBucker, data } = this.props;
+
+    if (checked) {
+      addToBucket(data);
+    } else {
+      removeFromBucker(data.id);
+    }
   }
 
   renderTitle(cn) {
@@ -187,11 +195,11 @@ class ProductCard extends PureComponent {
       showRaiseButton,
       showCheckbox,
       showMessages,
-      priceTemplate,
       view,
       canEdit,
       isMe,
-      isTouch
+      isTouch,
+      checked
     } = this.props;
 
     const {
@@ -231,15 +239,18 @@ class ProductCard extends PureComponent {
             />
           </Link>
           <div className={cn('actions', { align: 'top-left' })}>
-            { showCheckbox &&
+            {showCheckbox &&
               <Checkbox
                 view="fab"
                 size="xxl"
                 className={cn('checkbox')}
                 aria-label={__t('Check')}
+
+                onChange={this.handleCheckboxChange}
+                checked={checked}
               />
             }
-            { showShare &&
+            {showShare &&
               <span className="share Card__share">
                 <Button
                   view="fab"
@@ -395,9 +406,7 @@ class ProductCard extends PureComponent {
               { isMe && showStats && this.renderStats(cn) }
             </div>
             <div className={cn('footer-col', { right: true })}>
-              <div className={cn('price')}>
-                { priceTemplate && priceTemplate.replace('?', price)}
-              </div>
+              <Price className={cn('price')} price={price} />
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
 import {
@@ -80,7 +80,7 @@ function getRoutes(store) {
       </Route>
 
       {!isProduction &&
-        <Route path={pages.RAISE_ADS_PAGE.path} component={ProfileRaiseAds} />  
+        <Route path={pages.RAISE_ADS_PAGE.path} component={ProfileRaiseAds} />
       }
 
       <Route path={pages.SETTINGS_PAGE.path} component={SettingsPage} />

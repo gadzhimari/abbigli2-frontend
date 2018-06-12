@@ -90,7 +90,7 @@ export default {
     path: 'nearest-products'
   },
   LK_PAGE: {
-    path: 'lk'
+    path: 'lk(/:tab)'
   },
   RAISE_ADS_PAGE: {
     path: 'raise-ads',

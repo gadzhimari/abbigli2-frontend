@@ -1,4 +1,6 @@
-import { React, Component, Type, cloneElement, cn } from '../__base';
+import { React, Component, Type, cn } from '../__base';
+import Tab from '../Tab';
+
 import './Tabs.less';
 
 @cn('Tabs')
@@ -15,25 +17,17 @@ class Tabs extends Component {
   };
 
   state = {
-    value: this.props.value,
+    activeTab: this.props.activeTab,
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setValue(nextProps.value);
-  }
-
-  setValue(value) {
-    const newValue = Number(value);
-
-    if (newValue !== this.state.value) {
-      this.setState({ value: newValue });
+  componentWillReceiveProps({ activeTab }) {
+    if (activeTab !== this.state.activeTab) {
+      this.setState({ activeTab });
     }
   }
 
-  handleChange = (e, value) => {
+  handleTabClick = (e, { value }) => {
     const { onChange } = this.props;
-
-    this.setValue(e.currentTarget.id);
 
     if (onChange) {
       onChange(e, value);
@@ -41,27 +35,31 @@ class Tabs extends Component {
   }
 
   render(cn) {
-    const { children } = this.props;
-    const tabs = children.map((child) => {
-      const hasValue = 'id' in child.props;
+    const { tabs } = this.props;
+    const { activeTab } = this.state;
 
-      return cloneElement(child, {
-        checked: hasValue && child.props.id === this.state.value,
-        type: 'tab',
-        onClick: hasValue ? this.handleChange : null,
-      });
-    });
+    const currentTab = tabs.find(tab => tab.value === activeTab);
 
     return (
       <div
         role="tablist"
-        className={cn({ scrollable: this.props.scrollable })}
+        className={cn()}
       >
         <div className={cn('panel')}>
           <div className={cn('content')}>
-            { tabs }
+            {tabs.map((tab, index) => <Tab
+              type="tab"
+              checked={activeTab === tab.value}
+              key={index}
+              to={tab.url}
+              text={tab.title}
+              onClick={this.handleTabClick}
+            />)
+            }
           </div>
         </div>
+
+        {currentTab.renderContent()}
       </div>
     );
   }

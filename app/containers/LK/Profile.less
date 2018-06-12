@@ -10,17 +10,26 @@
     padding: 25px 25px 0;
   }
 
+  .spin-wrapper {
+    width: 100%;
+  }
+
   &__content {
     margin-top: 67px;
     padding: 35px 0;
     border-top: 1px solid #dcdcdc;
 
-    &_no-padding {
+    &_noPadding {
       padding-bottom: 0;
+    }
+
+    &_noTopContent {
+      margin-top: 0;
+      border-top: none;
     }
   }
 
-  &__tabs {
+  .Tabs__panel {
     margin-bottom: 60px;
   }
 
@@ -137,6 +146,7 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 54px;
+        margin-bottom: 10px;
       }
 
       &-selected {
@@ -159,6 +169,7 @@
           font-size: 18px;
           color: @black;
           margin-left: 2px;
+          display: inline;
         }
       }
     }
@@ -183,95 +194,9 @@
 
         &-price {
           font-family: 'ClearSansBold';
+          display: inline;
         }
       }
-    }
-  }
-
-  &__item {
-    &-cell {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 5px;
-      flex: 1;
-
-      &:first-child {
-        flex: 0;
-      }
-    }
-
-    &-preview {
-      display: block;
-    }
-
-    &-time-selector {
-      width: 110px;
-      margin-bottom: 12px;
-    }
-
-    &-action {
-      text-align: center;
-
-      .Button {
-        text-transform: lowercase;
-      }
-    }
-
-    &-price-of-raise {
-      font-family: 'ClearSansBold';
-      font-size: 18px;
-      text-align: center;
-    }
-
-    &-period {
-      font-size: 14px;
-      line-height: 16px;
-    }
-  }
-
-  &__table {
-    border-collapse: separate;
-    border-spacing: 0 18px;
-
-    th {
-      padding-top: 12px;
-      padding-bottom: 0;
-      font-family: @font;
-      font-weight: 400;
-      font-size: 14px;
-      color: @gray-500;
-    }
-
-    .Profile__table-col {
-      vertical-align: middle;
-    }
-
-    &-row {
-      background-color: @white;
-    }
-
-    &-col {
-      border: 1px solid #dcdcdc;
-      border-style: solid none solid none;
-
-      &:first-child {
-        border-left-style: solid;
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
-      }
-
-      &:last-child {
-        border-right-style: solid;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-      }
-    }
-
-    &-cell {
-      font-family: @font;
-      font-size: 16px;
-      color: @black;
     }
   }
 }
