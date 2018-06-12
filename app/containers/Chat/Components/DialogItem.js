@@ -4,7 +4,7 @@ import AvatarPost from './AvatarPost';
 import Avatar from './Avatar';
 
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
-import { DIALOG_DATE_SHORT_FORMAT } from '../../../lib/date/formats';
+import { DAY_WITH_FULL_MONTH } from '../../../lib/date/formats';
 
 const DialogItem = ({
   data,
@@ -60,8 +60,10 @@ const DialogItem = ({
         }
         <div className="dialog__date">
           {
-            toLocaleDateString(data.last_message_sent,
-              DIALOG_DATE_SHORT_FORMAT)
+            toLocaleDateString(
+              data.last_message_sent,
+              DAY_WITH_FULL_MONTH
+            )
           }
         </div>
       </div>

@@ -16,3 +16,5 @@ export { default as Checkbox } from './Checkbox';
 export { default as Tabs } from './Tabs';
 export { default as Tab } from './Tab';
 export { default as Adsense } from './Adsense';
+export { default as Price } from './Price';
+export { default as PostsTable } from './PostsTable';

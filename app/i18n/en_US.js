@@ -238,9 +238,13 @@ export default {
   'Hide.all': 'Hide all',
   More: 'More',
   Less: 'Less',
+  'from.date': 'From: {{date}}',
+  'to.date': 'To: {{date}}',
+  Today: 'Today',
   'Not.found': 'Sorry, this page not found',
   'Go.back.home': 'Go back to home page',
   Oops: 'Oops!',
   'privacy.text': privacyEn,
-  'Privacy policy': 'Privacy policy'
+  'Privacy policy': 'Privacy policy',
+  Selected: 'Selected {{count}}'
 };

@@ -32,6 +32,7 @@ import Menu from '../ducks/Menu';
 import NetworkErrors from '../ducks/NetworkErrors';
 import settlement from '../ducks/settlement';
 import isTouch from '../ducks/isTouch';
+import AdvBucket from '../ducks/AdvBucket';
 
 export default combineReducers({
   Auth,
@@ -64,5 +65,6 @@ export default combineReducers({
   NewIn,
   CatalogPage,
   NetworkErrors,
-  isTouch
+  isTouch,
+  AdvBucket
 });
