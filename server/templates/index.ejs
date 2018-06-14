@@ -40,6 +40,11 @@
     }(document, 'script', 'facebook-jssdk'));
   </script>
 
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P4452TF"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+
   <div id="app" class="app">
     <%- markup %>
   </div>
@@ -54,12 +59,13 @@
   <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
   <link rel="stylesheet" href="<%= assetsUrl %><%= assets.css %>">
   <script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" defer></script>
-    <script>
-      (window.adsbygoogle = window.adsbygoogle || []).push({
-        google_ad_client: "ca-pub-8128249301004337",
-        enable_page_level_ads: true
-      });
-    </script>
+  <script>
+    (window.adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-8128249301004337",
+      enable_page_level_ads: true
+    });
+  </script>
+
 </body>
 
 </html>
