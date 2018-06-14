@@ -38,6 +38,29 @@ const Profile = {
       data,
     });
   },
+  addContact(data) {
+    return request({
+      url: 'my-profile/contacts/',
+      method: 'POST',
+      mustApplyToken: true,
+      data,
+    });
+  },
+  deleteContact(id) {
+    return request({
+      url: `my-profile/contacts/${id}/`,
+      method: 'DELETE',
+      mustApplyToken: true,
+    });
+  },
+  partialUpdateContact(id, data) {
+    return request({
+      url: `my-profile/contacts/${id}/`,
+      method: 'PATCH',
+      mustApplyToken: true,
+      data,
+    });
+  },
   follow(id) {
     return request({
       url: `profiles/${id}/follow/`,

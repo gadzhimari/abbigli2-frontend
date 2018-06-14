@@ -1,53 +1,111 @@
-import React from 'react';
-import Type from 'prop-types';
+import reduce from 'lodash/reduce';
+import toPairs from 'lodash/toPairs';
+import orderBy from 'lodash/orderBy';
 
-import { pure } from 'recompose';
+import { React, PureComponent, Type, cn } from '../../../components-lib/__base';
+import ContactItem from './ContactItem';
 
 import { __t } from '../../../i18n/translator';
 
-const AboutContact = ({ data }) => {
-  return (
-    <div className="profile-about__contact">
-      <h4 className="profile-about__contact-header">
-        {__t('Contact')}
-      </h4>
-      <div className="profile-about__contact-items">
-        <div className="profile-about__contact-item">
-          <svg className="icon icon-phone" viewBox="0 0 36.759998 39.453335">
-            <g transform="matrix(1.3333333,0,0,-1.3333333,0,39.453333)" id="g10">
-              <g transform="scale(0.1)" id="g12">
-                <path id="path14" d="M 192.465,0.00390625 C 172.102,0 153.398,6.14844 135.625,15.5391 118.473,24.6016 103.227,36.3281 89.0742,49.5234 65.0586,71.9102 43.9648,96.75 26.6914,124.711 14.8359,143.902 5.49609,164.215 1.75391,186.66 c -4.89454,29.352 0.12109,56.406 19.22269,80.086 5.5273,6.848 12.4687,12.098 19.0234,17.801 2.4336,2.117 4.8164,4.308 7.3867,6.25 9.8008,7.391 19.3399,6.641 28.293,-1.758 8.3984,-7.883 14.1562,-17.672 20.25,-27.226 4.5273,-7.098 8.6913,-14.379 11.5153,-22.383 4.754,-13.489 1.653,-25.379 -9.1481,-34.68 -5.8555,-5.039 -11.8828,-9.848 -17.9961,-14.574 -7.7891,-6.024 -10.1406,-14.238 -8.0391,-23.821 1.6563,-7.558 4.9453,-14.417 8.8477,-21 7.1172,-11.996 15.9219,-22.734 25.1756,-33.113 8.934,-10.019 18.371,-19.5115 29.508,-27.1404 5.359,-3.668 11.031,-6.7071 17.453,-8.1016 7.992,-1.7344 14.977,0.2422 20.707,6.0508 5.914,5.9922 12.039,11.7422 18.59,17.0312 9.441,7.629 19.762,8.727 30.82,4.016 8.481,-3.618 15.703,-9.1566 22.598,-15.1097 7.246,-6.2539 14.859,-12.1406 21.055,-19.5235 4.304,-5.1289 8.3,-10.4335 8.632,-17.5546 0.235,-5.0625 -1.164,-9.7305 -4.718,-13.168 C 258.777,26.9961 246.855,14.9375 230.945,7.98828 218.641,2.60938 205.879,-0.105469 192.465,0.00390625" />
-              </g>
-            </g>
-          </svg>
-          {data.phone_info || __t('Not filled')}
-        </div>
-        <div className="profile-about__contact-item">
-          <svg className="icon icon-mail" viewBox="0 0 39.48 28.48">
-            <g transform="matrix(1.3333333,0,0,-1.3333333,0,28.48)">
-              <g transform="scale(0.1)">
-                <path d="m 143.969,91.4023 c 1.414,-1.2773 3.558,-1.2929 4.984,-0.0273 l 130.606,115.742 c 2.57,2.281 0.957,6.528 -2.477,6.528 H 19.0039 c -3.4101,0 -5.0351,-4.204 -2.5078,-6.497 L 143.969,91.4023" />
-                <path d="M 288.012,171.172 147.977,47.1875 c -1.872,-1.6562 -4.696,-1.625 -6.528,0.0781 L 8.16406,171.156 C 5.05859,174.047 0,171.84 0,167.598 V 4.85547 C 0,2.17578 2.17578,0 4.85547,0 H 291.23 c 2.684,0 4.86,2.17578 4.86,4.85547 V 167.535 c 0,4.188 -4.945,6.414 -8.078,3.637" />
-              </g>
-            </g>
-          </svg>
-          {data.email_info || __t('Not filled')}
+const defaultSortOrder = {
+  phone: 3,
+  email: 2,
+  skype: 1,
+};
+
+@cn('ProfileAbout')
+class AboutContact extends PureComponent {
+  static propTypes = {
+    data: Type.shape({
+      phone: Type.array,
+      email: Type.array,
+      address: Type.array,
+      website: Type.array,
+    }),
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      sortOrder: this.setDefaultSortOrder(props.data),
+      currentValue: '',
+    };
+  }
+
+  setDefaultSortOrder = items => reduce(items, (acc, item, key) => ({
+    ...acc, [key]: (item.length > 0 ? defaultSortOrder[key] : 0)
+  }), {});
+
+
+  sortContacts = () => {
+    const { sortOrder } = this.state;
+
+    return orderBy(toPairs(sortOrder), 1, 'desc');
+  }
+
+  handleAddContact = (name) => {
+    this.setState({
+      currentValue: name,
+    });
+  }
+
+  handleEditContact = (name) => {
+    this.setState({
+      currentValue: name,
+    });
+  }
+
+  handleSaveContact = (type) => {
+    const orderVal = this.props.data[type].length > 0 ?
+      defaultSortOrder[type] : 0;
+    this.setState({
+      currentValue: '',
+      sortOrder: {
+        ...this.state.sortOrder, [type]: orderVal,
+      }
+    });
+  }
+
+  handleCancelContact = () => {
+    this.setState({
+      currentValue: '',
+    });
+  }
+
+  render(cn) {
+    const { currentValue } = this.state;
+    const { data, isMe } = this.props;
+    const sortedContacts = this.sortContacts();
+
+    return (
+      <div className={cn('contacts')}>
+        <h4 className={cn('contacts-header')}>
+          {__t('Contact')}
+        </h4>
+        <div className={cn('contacts-section')}>
+          <ul className={cn('contacts-list')}>
+            {
+              sortedContacts.map(([key, val]) =>
+                <ContactItem
+                  key={key}
+                  name={key}
+                  itemsCount={val}
+                  data={data[key]}
+                  isMe={isMe}
+                  isEditing={currentValue === key}
+                  onAdd={this.handleAddContact}
+                  onEdit={this.handleEditContact}
+                  onSave={this.handleSaveContact}
+                  onCancel={this.handleCancelContact}
+                />
+              )
+            }
+          </ul>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-AboutContact.propTypes = {
-  data: Type.shape({
-    phone_info: Type.string,
-    email_info: Type.string,
-    skype: Type.string,
-  }),
-};
-
-AboutContact.defaultProps = {
-  data: {},
-};
-
-export default pure(AboutContact);
+export default AboutContact;
