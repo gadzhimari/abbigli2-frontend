@@ -7,7 +7,7 @@ class Button extends Component {
     text: Type.node,
     icon: Type.node,
     iconPosition: Type.oneOf(['left', 'right']),
-    view: Type.oneOf(['default', 'outline', 'link', 'fab']),
+    view: Type.oneOf(['default', 'outline', 'link', 'fab', 'icon']),
     type: Type.oneOf(['button', 'reset', 'submit']),
     color: Type.string,
     fullWidth: Type.bool,

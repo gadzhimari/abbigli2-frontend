@@ -1,3 +1,4 @@
+import unionBy from 'lodash/unionBy';
 import * as types from './actions/types';
 
 const initialState = {
@@ -75,6 +76,60 @@ const profileReducer = (state = initialState, action = {}) => {
         isSaving: false,
       };
     }
+    case (types.SAVE_CHANGES_ERROR): {
+      return {
+        ...state,
+        isSaving: false,
+        errors: action.data,
+      };
+    }
+    case (types.ADD_CONTACT_REQUEST):
+    case (types.DELETE_CONTACT_REQUEST):
+    case (types.PARTIAL_UPDATE_CONTACT_REQUEST): {
+      return {
+        ...state,
+        isSaving: true,
+      };
+    }
+    case (types.ADD_CONTACT_RESPONSE): {
+      return {
+        ...state,
+        data: {
+          ...state,
+          contacts: [...state.data.contacts, action.data],
+        },
+        isSaving: false,
+      };
+    }
+    case (types.DELETE_CONTACT_RESPONSE): {
+      return {
+        ...state,
+        data: {
+          ...state,
+          contacts: state.data.contacts.filter(contact => contact.id !== action.payload),
+        },
+        isSaving: false,
+      };
+    }
+    case (types.PARTIAL_UPDATE_CONTACT_RESPONSE): {
+      return {
+        ...state,
+        data: {
+          ...state,
+          contacts: unionBy([action.data], state.data.contacts, 'id'),
+        },
+        isSaving: false,
+      };
+    }
+    case (types.ADD_CONTACT_ERROR):
+    case (types.REMOVE_CONTACT_ERROR):
+    case (types.PARTIAL_UPDATE_CONTACT_ERROR): {
+      return {
+        ...state,
+        isSaving: false,
+        errors: action.data,
+      };
+    }
     case (types.IMAGE_DELETE_REQUEST): {
       return {
         ...state,
@@ -82,13 +137,6 @@ const profileReducer = (state = initialState, action = {}) => {
           ...state.data,
           ...action.data,
         },
-      };
-    }
-    case (types.SAVE_CHANGES_ERROR): {
-      return {
-        ...state,
-        isSaving: false,
-        errors: action.data,
       };
     }
     case (types.MORE_FOLLOWERS_REQUEST): {

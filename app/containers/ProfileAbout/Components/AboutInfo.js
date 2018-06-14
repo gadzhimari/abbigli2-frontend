@@ -29,13 +29,6 @@ class AboutInfo extends PureComponent {
 
     return (
       <div className="profile-about__info">
-        {isMe &&
-          <Button
-            onClick={this.handleEditing}
-            text={__t('Edit')}
-          />
-        }
-
         <h3 className="profile-about__header">
           {isMe ? __t('Your contact information') : __t('User contact information')}
         </h3>
@@ -43,6 +36,14 @@ class AboutInfo extends PureComponent {
         <p className="profile-about__text">
           {info ? processBlogContent(info) : noContentText}
         </p>
+
+        {isMe &&
+          <Button
+            view="link"
+            onClick={this.handleEditing}
+            text={__t('Edit')}
+          />
+        }
       </div>
     );
   }

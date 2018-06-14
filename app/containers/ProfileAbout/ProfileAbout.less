@@ -1,6 +1,8 @@
 @import 'variables';
 @import 'mixin';
 
+@import '../../components-lib/__base/variables/colors';
+
 .profile-about {
   &__header {
     font-size: 24px;
@@ -25,6 +27,7 @@
   }
 
   &__save-buttons {
+    margin-top: 20px;
     color: red;
     .Button:last-child {
       margin-left: 15px;
@@ -53,33 +56,6 @@
     font-size: 16px;
     font-family: 'ClearSansBold';
     margin-top: 0;
-  }
-
-  &__contact-items {
-    color: #8b8b8b;
-
-    .profile-about__contact-item {
-      position: relative;
-      padding-left: 26px;
-      margin-bottom: 10px;
-    }
-
-    .icon {
-      fill: #8b8b8b;
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .icon-phone {
-      width: 20px;
-      height: 20px;
-    }
-
-    .icon-mail {
-      width: 20px;
-    }
   }
 
   &__social-item {
@@ -140,11 +116,6 @@
     padding: 0;
   }
 
-  .profile-my__item .icon {
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
   .profile-info__inner {
     padding: 30px 60px 30px 180px;
   }
@@ -179,14 +150,109 @@
   .profile-my__item {
     display: inline-block;
     width: 20%;
-
-    .icon {
-      width: 22px;
-      height: 22px;
-    }
   }
 
   .profile-my__item-number {
     right: 0px;
+  }
+}
+
+.ProfileAbout {
+  &__contacts {
+    &-wrapper {
+      max-width: 400px;
+    }
+
+    &-header {
+      font-family: 'ClearSansBold';
+    }
+
+    &-item {
+      margin-bottom: 10px;
+
+      &:hover {
+        .ProfileAbout__contacts-edit {
+          opacity: 1;
+        }
+      }
+
+      &-row {
+        display: flex;
+      }
+
+      &-value {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex: 1;
+      }
+
+      &-block {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    &-values-list {
+      margin-left: 10px;
+
+      &-item {
+        color: @gray-600;
+      }
+    }
+
+    &-select {
+      min-width: 80px;
+      margin-left: 10px;
+
+      .Select {
+        &-control {
+          height: 38px;
+        }
+
+        &-value,
+        &-option {
+          font-size: 14px;
+        }
+      }
+    }
+
+    &-actions {
+      display: flex;
+      justify-content: space-between;
+      max-width: 280px;
+    }
+
+    &-edit {
+      &_hidden {
+        opacity: 0;
+      }
+    }
+
+    &-delete {
+      margin-top: 12px;
+      margin-left: 10px;
+    }
+
+    &-input-group {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    &-social-networks {
+      margin-right: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ProfileAbout {
+    &__contacts {
+      &-item {
+        &-row {
+          flex-wrap: wrap;
+        }
+      }
+    }
   }
 }

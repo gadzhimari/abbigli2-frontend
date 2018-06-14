@@ -575,5 +575,13 @@ export default {
   'own works': 'своих работ',
   'Make a real business from your art': 'Преврати своё творчество в бизнес',
   Join: 'Присоединиться',
-  'users.search.result.text': 'Результат по запросу «{{user}}» '
+  'users.search.result.text': 'Результат по запросу «{{user}}» ',
+  'Add your phone': 'Добавьте телефон',
+  'Add your address': 'Добавьте адрес',
+  'Add your skype': 'Добавьте skype',
+  'Add a website': 'Добавьте сайт',
+  'Add an email': 'Добавьте email',
+  'Add a social link': 'Добавьте ссылку на свой профиль в сети',
+  'Your address': 'Ваш адрес',
+  'Website address': 'Адрес веб-сайта',
 };
