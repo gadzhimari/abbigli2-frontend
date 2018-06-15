@@ -11,6 +11,8 @@ export { default as ProfileMyabbigli } from './ProfileMyabbigli';
 export { default as ProfileFavorites } from './ProfileFavorites';
 export { default as ProfileFeed } from './ProfileFeed';
 export { default as ProfileAbout } from './ProfileAbout';
+export { default as ProfileLK } from './LK';
+export { default as ProfileRaiseAds } from './ProfileRaiseAds';
 export { default as BlogsPage } from './BlogsPage/BlogsPage';
 export { default as BlogPage } from './BlogPage/BlogPage';
 export { default as EventsPage } from './EventsPage/EventsPage';

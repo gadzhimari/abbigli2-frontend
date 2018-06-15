@@ -8,7 +8,9 @@ const AssetsPlugin = require('assets-webpack-plugin');
 const LessListPlugin = require('less-plugin-lists');
 const LessFunctionPlugin = require('less-plugin-functions');
 
-const isProd = process.env.NODE_ENV === 'production';
+const productionEnvs = ['production', 'testing'];
+
+const isProd = productionEnvs.includes(process.env.NODE_ENV);
 
 function inRoot(relPath) {
   return path.resolve(__dirname, relPath);

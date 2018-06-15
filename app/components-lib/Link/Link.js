@@ -7,6 +7,7 @@ class Link extends Component {
   static propTypes = {
     icon: Type.node,
     iconPosition: Type.oneOf(['left', 'right']),
+    type: Type.oneOf(['link', 'tab']),
     text: Type.node,
     color: Type.string,
     fullWidth: Type.bool,
@@ -14,19 +15,24 @@ class Link extends Component {
     target: Type.oneOf(['_self', '_blank', '_parent', '_top']),
     rel: Type.string,
     view: Type.oneOf(['default', 'outline', 'link', 'fab']),
+    checked: Type.bool,
     disabled: Type.bool,
     size: Type.oneOf(['s', 'm', 'l']),
     children: Type.oneOfType([Type.arrayOf(Type.node), Type.node]),
     className: Type.string,
     name: Type.string,
+    tabIndex: Type.number,
     dataset: Type.shape(),
     onClick: Type.func,
   }
 
   static defaultProps = {
     iconPosition: 'left',
+    type: 'link',
     size: 'm',
     to: '#',
+    tabIndex: 0,
+    checked: false,
     disabled: false,
     view: 'link',
     color: 'primary',
@@ -57,8 +63,10 @@ class Link extends Component {
       children,
       icon,
       iconPosition,
+      type,
       text,
       name,
+      checked,
       disabled,
       size,
       color,
@@ -67,14 +75,22 @@ class Link extends Component {
       rel,
       target,
       to,
+      tabIndex,
       onClick,
       ...restProps,
     } = this.props;
-    const LinkElement = disabled ? 'span' : RouterLink;
+    const LinkElement = checked || disabled ? 'span' : RouterLink;
+    const linkTabsProps = type === 'tab' ? {
+      role: 'tab',
+      'aria-selected': checked,
+      'aria-disabled': disabled,
+    } : {};
     const linkProps = {
       ...restProps,
+      ...linkTabsProps,
       ref: (root) => { this.root = root; },
       className: cn({
+        checked,
         disabled,
         size,
         color,
@@ -88,7 +104,7 @@ class Link extends Component {
       linkProps.rel = 'noreferrer noopener';
     }
 
-    if (!disabled) {
+    if (!checked && !disabled) {
       linkProps.to = to;
       linkProps.target = target;
     }

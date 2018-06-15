@@ -19,3 +19,4 @@ export { default as confirmRegistration } from './ConfirmPopup/ConfirmRegistrati
 export { default as confirmPinReset } from './ConfirmPopup/ConfirmPinReset';
 export { default as confirmEmailReset } from './ConfirmPopup/ConfirmEmailReset';
 export { default as welcomePopup } from './WelcomePopup/WelcomePopup';
+export { default as mobilePopup } from './MobilePopup/MobilePopup';

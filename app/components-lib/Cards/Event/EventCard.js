@@ -88,6 +88,8 @@ class EventCard extends PureComponent {
     canEdit: Type.bool,
     showLike: Type.bool,
     showShare: Type.bool,
+    showDeleteButton: Type.bool,
+    showAvatar: Type.bool,
   };
 
   static defaultProps = {
@@ -96,6 +98,8 @@ class EventCard extends PureComponent {
     canEdit: false,
     showLike: true,
     showShare: false,
+    showAvatar: true,
+    showDeleteButton: true,
   };
 
   handleDelete = () => {
@@ -129,29 +133,39 @@ class EventCard extends PureComponent {
     const { size, ratio } = avatar.sizes[view];
 
     return (
-      isMe ?
-        <div /> :
-        <Link
-          className={cn('user')}
-          to={createProfileLink(user)}
-          text={name}
-          title={name}
-          color="gray-600"
-          icon={
-            <Avatar
-              className={cn('avatar', { bordered: avatar.bordered[view], size })}
-              imgClassName="avatar__img"
-              avatar={user.avatar}
-              thumbSize={ratio}
-              alt={name}
-            />
-          }
-        />
+      !isMe &&
+      <Link
+        className={cn('user')}
+        to={createProfileLink(user)}
+        text={name}
+        title={name}
+        color="gray-600"
+        icon={
+          <Avatar
+            className={cn('avatar', { bordered: avatar.bordered[view], size })}
+            imgClassName="avatar__img"
+            avatar={user.avatar}
+            thumbSize={ratio}
+            alt={name}
+          />
+        }
+      />
     );
   }
 
   render(cn) {
-    const { setLike, showLike, showShare, view, canEdit, isMe, isTouch } = this.props;
+    const {
+      setLike,
+      showLike,
+      showShare,
+      showAvatar,
+      showDeleteButton,
+      view,
+      canEdit,
+      isMe,
+      isTouch
+    } = this.props;
+
     const {
       user,
       liked,
@@ -172,7 +186,7 @@ class EventCard extends PureComponent {
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
-                this.renderAvatar(cn)
+                showAvatar && this.renderAvatar(cn)
               }
               <div className={cn('date', { short: true })}>
                 {toLocaleDateString(created, CARD_DATE_SHORT_FORMAT)}
@@ -236,7 +250,7 @@ class EventCard extends PureComponent {
                 />}
               />
             }
-            { isMe &&
+            { isMe && showDeleteButton &&
               <Button
                 onClick={this.handleDelete}
                 view="fab"
@@ -252,6 +266,15 @@ class EventCard extends PureComponent {
         </div>
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
+            {/* TODO Заменить на новое апи  */}
+            { view === 4 &&
+              <Link
+                className={cn('category')}
+                text="Товары"
+                size="s"
+                color="pink"
+              />
+            }
             { this.renderTitle(cn) }
             { view === 1 &&
               <div
@@ -259,8 +282,7 @@ class EventCard extends PureComponent {
                 dangerouslySetInnerHTML={{ __html: seo_description }}
               />
             }
-          </div>
-          <div className={cn('footer', { direction: 'column' })}>
+
             <div className={cn('event-info', { align: eventInfo.align[view] })}>
               <div
                 className={cn('date-range', { weight: dateRangeText.weight[view], 'has-margin': dateRangeText.marginLeft[view] })}
@@ -275,7 +297,11 @@ class EventCard extends PureComponent {
                 </div>
               }
             </div>
-            { view !== 3 && this.renderAvatar(cn) }
+          </div>
+          <div className={cn('footer', { align: 'vertical' })}>
+            <div className={cn('footer-col', { left: true })}>
+              { view !== 3 && showAvatar && this.renderAvatar(cn) }
+            </div>
           </div>
         </div>
       </div>

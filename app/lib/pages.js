@@ -89,6 +89,18 @@ export default {
   NEAR_PAGE: {
     path: 'nearest-products'
   },
+  LK_PAGE: {
+    path: 'lk(/:tab)'
+  },
+  RAISE_ADS_PAGE: {
+    path: 'raise-ads',
+  },
+  ACTIVE_PAGE: {
+    path: 'active'
+  },
+  ARCHIVE_PAGE: {
+    path: 'archive'
+  },
   CATALOG_PAGE: {
     path: '(**/):section',
     action(params) {

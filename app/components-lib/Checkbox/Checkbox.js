@@ -9,7 +9,7 @@ class Checkbox extends Component {
     id: Type.string,
     name: Type.string,
     value: Type.string,
-    size: Type.oneOf(['s', 'm', 'l']),
+    size: Type.oneOf(['s', 'm', 'l', 'xl', 'xxl']),
     color: Type.string,
     iconPosition: Type.oneOf(['left', 'right']),
     checked: Type.bool,
@@ -29,11 +29,13 @@ class Checkbox extends Component {
     checked: false,
   }
 
+  getValue() {
+    return this.props.checked !== undefined ?
+      this.props.checked : this.state.checked;
+  }
+
   handleChange = (e) => {
-    const nextCheckedValue = !(
-      this.props.checked !== undefined ?
-        this.props.checked : this.state.checked
-    );
+    const nextCheckedValue = !this.getValue();
 
     this.setState({ checked: nextCheckedValue });
 
@@ -57,8 +59,7 @@ class Checkbox extends Component {
       ...restProps
     } = this.props;
 
-    const checked = this.props.checked !== undefined
-      ? this.props.checked : this.state.checked;
+    const checked = this.getValue();
 
     const labelProps = {
       ...restProps,

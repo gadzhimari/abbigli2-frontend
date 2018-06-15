@@ -1,0 +1,55 @@
+@import '../__base/variables/colors';
+@import '../__base/variables/variables';
+@import '../__base/mixins';
+
+.Tab {
+  display: inline-block;
+  cursor: pointer;
+  outline: 0;
+  border: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: @font;
+  color: @gray-800;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+
+  &:not(:first-child) {
+    margin-left: 20px;
+  }
+
+  &_checked {
+    cursor: default;
+    border-bottom-style: solid;
+
+    &.Tab_color {
+      .for-each(@pair in @theme-colors) {
+        @key: at(@pair, 1);
+        @value: at(@pair, 2);
+        &_@{key} {
+          color: @value;
+          border-bottom-color: @value;
+        }
+      }
+    }
+  }
+
+  &_disabled {
+    .button-disabled();
+  }
+
+  &_size {
+    &_s {
+      .link-size(@font-size-small);
+    }
+    &_m {
+      .link-size(@font-size-medium);
+      padding: 10px 12px;
+      line-height: 1.2;
+      border-bottom-width: 2px;
+    }
+    &_l {
+      .link-size(@font-size-large);
+    }
+  }
+}
