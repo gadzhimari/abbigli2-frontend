@@ -39,6 +39,10 @@ class Home extends PureComponent {
     }
   }
 
+  handleJoin = () => {
+    this.props.showRegister();
+  }
+
   render() {
     const {
       isFetchingBlogs,
@@ -51,7 +55,6 @@ class Home extends PureComponent {
       priceTemplate,
       itemsSections
     } = this.props;
-    console.log('items ', itemsSections);
 
     return (
       <div className="container-fluid main-page">
@@ -63,7 +66,7 @@ class Home extends PureComponent {
 
         <BannerBlue
           hideJoin={isAuthenticated}
-          join={this.showRegister}
+          join={this.handleJoin}
         />
 
         <PostsList
