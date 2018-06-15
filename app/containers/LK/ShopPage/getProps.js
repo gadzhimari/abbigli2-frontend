@@ -1,6 +1,6 @@
 const getPropsForShopPage = {
   propsForPostsCards(instanse) {
-    const { isMe, deletePost, setLike, addToBucket, removeFromBucket } = instanse.props;
+    const { isMe, deletePost, setLike, selectPost, unselectPost } = instanse.props;
 
     return ({
       showShare: true,
@@ -18,8 +18,8 @@ const getPropsForShopPage = {
 
       setLike,
       delete: deletePost,
-      addToBucket,
-      removeFromBucket
+      selectPost,
+      unselectPost
     });
   }
 };
