@@ -81,6 +81,7 @@ class BlogCard extends PureComponent {
     showLike: Type.bool,
     showShare: Type.bool,
     showAvatar: Type.bool,
+    showDeleteButton: Type.bool,
   };
 
   static defaultProps = {
@@ -89,7 +90,8 @@ class BlogCard extends PureComponent {
     canEdit: false,
     showLike: true,
     showShare: false,
-    showAvatar: true
+    showAvatar: true,
+    showDeleteButton: true,
   };
 
   handleDelete = () => {
@@ -146,10 +148,22 @@ class BlogCard extends PureComponent {
   }
 
   render(cn) {
-    const { data, setLike, showLike, showShare, view, isMe, canEdit, isTouch } = this.props;
     const {
-      is_favorite: isFavorite,
+      data,
+      setLike,
+      showLike,
+      showShare,
+      showDeleteButton,
+      showAvatar,
+      view,
+      isMe,
+      canEdit,
+      isTouch
+    } = this.props;
+
+    const {
       title,
+      is_favorite: isFavorite,
       slug,
       created,
       comments_num: commentsCount,
@@ -168,8 +182,9 @@ class BlogCard extends PureComponent {
         {view === 3 &&
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
-              {this.renderAvatar(cn)}
-
+              {
+                showAvatar && this.renderAvatar(cn)
+              }
               <div className={cn('date', { short: true })}>
                 {toLocaleDateString(created, CARD_DATE_SHORT_FORMAT)}
               </div>
@@ -236,7 +251,7 @@ class BlogCard extends PureComponent {
                 />}
               />
             }
-            { isMe &&
+            { isMe && showDeleteButton &&
               <Button
                 onClick={this.handleDelete}
                 view="fab"
@@ -250,12 +265,20 @@ class BlogCard extends PureComponent {
             }
           </div>
         </div>
-
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
-            {view === 1 && this.renderAvatar(cn)}
-            {view !== 3 && this.renderTitle(cn, postUrl)}
-            {view === 1 &&
+            {/* TODO Заменить на новое апи  */}
+            { view === 4 &&
+              <Link
+                className={cn('category')}
+                text="Блоги"
+                size="s"
+                color="green"
+              />
+            }
+            { view === 1 && showAvatar && this.renderAvatar(cn) }
+            { view !== 3 && this.renderTitle(cn) }
+            { view === 1 &&
               <div
                 className={cn('text')}
                 dangerouslySetInnerHTML={{ __html: preview }}
@@ -264,22 +287,22 @@ class BlogCard extends PureComponent {
           </div>
 
           <div className={cn('footer', { align: 'vertical' })}>
-            {view === 1 &&
-              <div className={cn('date')}>
-                {toLocaleDateString(created, MESSAGE_DATE_FORMAT)}
+            <div className={cn('footer-col', { left: true })}>
+              { view === 1 &&
+                <div className={cn('date')}>
+                  {toLocaleDateString(created, MESSAGE_DATE_FORMAT)}
+                </div>
+              }
+              { view === 2 && showAvatar && this.renderAvatar(cn) }
+            </div>
+            <div className={cn('footer-col', { right: true })}>
+              { view === 3 && this.renderTitle(cn) }
+              <div className={cn('comments')}>
+                <IconComment size="xs" className={cn('comments-icon')} />
+                <span className={cn('comments-count')}>
+                  {commentsCount}
+                </span>
               </div>
-            }
-
-            {view === 2 && this.renderAvatar(cn)}
-
-            {view === 3 && this.renderTitle(cn, postUrl)}
-
-            <div className={cn('comments')}>
-              <IconComment size="xs" className={cn('comments-icon')} />
-
-              <span className={cn('comments-count')}>
-                {commentsCount}
-              </span>
             </div>
           </div>
         </div>

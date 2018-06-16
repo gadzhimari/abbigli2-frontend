@@ -11,6 +11,7 @@ import ImageUploadZone from '../../../components/ImageUploadZone';
 
 import mergeObjects from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
+import { getItemFromSessionStorage } from '../../../lib/sessionStorage';
 
 import './ProductForm.less';
 import bindMethods from '../../../lib/bindMethods';
@@ -21,7 +22,8 @@ class ProductForm extends CreateForm {
   constructor(props) {
     super(props);
 
-    this.state = mergeObjects({
+    this.sessionStorageKey = 'eventFormProduct';
+    this.state = mergeObjects(getItemFromSessionStorage(this.sessionStorageKey, {
       title: '',
       price: '',
       description: '',
@@ -29,7 +31,7 @@ class ProductForm extends CreateForm {
       tags: '',
       images: [],
       currentCategory: undefined
-    }, props.data);
+    }), props.data);
 
     bindMethods(this, ['onSave']);
   }

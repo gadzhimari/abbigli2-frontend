@@ -29,7 +29,7 @@ class CommentsField extends Component {
   }
 
   handleSignupClick = () => {
-    this.props.openPopup('registerPopup');
+    this.props.openPopup('signUpPopup');
   }
 
   renderCommentsField() {

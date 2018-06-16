@@ -1,0 +1,99 @@
+@import '../__base/variables/colors';
+@import '../__base/variables/variables';
+@import '../__base/variables/typography';
+
+.PostsTable {
+    border-collapse: separate;
+    border-spacing: 0 18px;
+
+    th {
+      font-family: @font;
+      font-weight: 400;
+      font-size: 14px;
+      color: @gray-500;
+      text-align: center !important;
+
+      padding-top: 12px;
+      padding-bottom: 0;
+    }
+
+    &__col {
+      vertical-align: middle !important;
+
+      &:first-child {
+        max-width: 120px;
+        width: 120px;
+      }
+    }
+
+    &__row {
+      background-color: @white;
+    }
+
+    &__col {
+      border: 1px solid #dcdcdc;
+      border-style: solid none solid none;
+
+      &:first-child {
+        border-left-style: solid;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+      }
+
+      &:last-child {
+        border-right-style: solid;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+      }
+    }
+
+    &__cell {
+      font-family: @font;
+      font-size: 16px;
+      color: @black;
+      text-align: center;
+    }
+
+    &__item {
+      &-cell {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 5px;
+        flex: 1;
+
+        &:first-child {
+          flex: 0;
+        }
+      }
+
+      &-preview {
+        display: block;
+      }
+
+      &-period-select {
+        width: 110px;
+        margin-bottom: 12px;
+        display: inline-block;
+      }
+
+      &-action {
+        text-align: center;
+
+        .Button {
+          text-transform: lowercase;
+        }
+      }
+
+      &-price-of-raise {
+        font-family: 'ClearSansBold';
+        font-size: 18px;
+        text-align: center;
+      }
+
+      &-period {
+        font-size: 14px;
+        line-height: 16px;
+      }
+    }
+}

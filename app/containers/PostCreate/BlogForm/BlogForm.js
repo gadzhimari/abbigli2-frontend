@@ -11,18 +11,21 @@ import Select from '../../../components/Inputs/Select';
 import categoriesAdapter from '../../../lib/adapters/categories-to-options';
 import mergeObjects from '../../../lib/merge-objects';
 import { __t } from '../../../i18n/translator';
+import { getItemFromSessionStorage } from '../../../lib/sessionStorage';
 
 class BlogForm extends CreateForm {
   constructor(props) {
     super(props);
 
-    this.state = mergeObjects({
+    this.sessionStorageKey = 'eventFormBlog';
+
+    this.state = mergeObjects(getItemFromSessionStorage(this.sessionStorageKey, {
       title: '',
       text: '',
       tags: '',
       images: [],
       category: null
-    }, props.data);
+    }, props.data));
   }
 
   render() {

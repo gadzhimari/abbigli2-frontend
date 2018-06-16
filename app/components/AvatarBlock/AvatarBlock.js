@@ -19,19 +19,21 @@ class AvatarBlock extends Component {
     gaSendClickEvent('menu', name);
   }
 
-  onRegistrationClick = (...attr) => {
-    this.onSendAction(...attr);
-    this.props.registerPopup();
-  }
-
   onModalButtonClick = (e, { name }) => {
     this.props.openPopup(name);
   }
 
+  handleSignUpClick = (...attr) => {
+    this.onSendAction(...attr);
+    this.props.signUpPopup();
+  }
+
   render() {
-    const { isAuthenticated,
-            toggleMenu,
-            onLogoutClick } = this.props;
+    const {
+      isAuthenticated,
+      toggleMenu,
+      onLogoutClick
+    } = this.props;
 
     return (
       <div className="header__menu">
@@ -69,7 +71,7 @@ class AvatarBlock extends Component {
         {!isAuthenticated &&
           <Button
             className="header__menu-item login"
-            onClick={this.onRegistrationClick}
+            onClick={this.handleSignUpClick}
             name="signin_up"
           >
             <svg className="icon" viewBox="0 0 14 26">
@@ -106,7 +108,7 @@ AvatarBlock.propTypes = {
   isAuthenticated: PropTypes.bool,
   toggleMenu: PropTypes.func,
   openPopup: PropTypes.func,
-  registerPopup: PropTypes.func,
+  signUpPopup: PropTypes.func,
   onLogoutClick: PropTypes.func,
   me: PropTypes.shape({
     id: PropTypes.number,
@@ -120,11 +122,12 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatch(dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    registerPopup: () => dispatch(stagedPopup('register')),
+    signUpPopup: () => dispatch(stagedPopup('signUp')),
     openPopup: type => dispatch(openPopup(type)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatch)(AvatarBlock);
+export default connect(mapStateToProps,
+  mapDispatchToProps)(AvatarBlock);

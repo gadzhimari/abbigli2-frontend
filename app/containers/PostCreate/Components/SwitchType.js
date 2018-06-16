@@ -33,7 +33,7 @@ class SwitchType extends PureComponent {
 
     const buttons = [
       (!onlyType || onlyType === PRODUCT_TYPE) && {
-        text: __t('Product or service'),
+        text: __t('Item'),
         icon: <ProductsIcons.service className="icon icon-bag" />,
         type: PRODUCT_TYPE,
         name: 'product',

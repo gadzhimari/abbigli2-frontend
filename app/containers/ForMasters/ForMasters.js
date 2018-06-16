@@ -6,6 +6,7 @@ import IconPlus from '../../icons/plus';
 import { stagedPopup } from '../../ducks/Auth/authActions';
 
 import pages from '../../lib/pages';
+import { gaSendClickEvent } from '../../lib/analitics';
 import { __t } from '../../i18n/translator';
 
 import './ForMasters.less';
@@ -22,17 +23,18 @@ class ForMasters extends Component {
   }
 
   handleOpenCreating = () => {
-    const {
-      isAuthenticated,
-      router,
-      showRegister
-    } = this.props;
+    const { isAuthenticated, router, showRegister } = this.props;
+    let event;
 
     if (isAuthenticated) {
+      event = 'create';
       router.push(pages.CREATE_PAGE.path);
     } else {
+      event = 'join';
       showRegister();
     }
+
+    gaSendClickEvent('lp', event);
   }
 
   render(cn) {
@@ -133,7 +135,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  showRegister: () => dispatch(stagedPopup('register')),
+  showRegister: () => dispatch(stagedPopup('signUp')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ForMasters);

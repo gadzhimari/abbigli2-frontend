@@ -18,7 +18,7 @@ import { stagedPopup } from '../../ducks/Auth/authActions';
 
 import { __t } from './../../i18n/translator';
 
-import './Home.styl';
+import './Home.less';
 
 class Home extends PureComponent {
   componentDidMount() {
@@ -26,15 +26,21 @@ class Home extends PureComponent {
   }
 
   handleOpenCreating = () => {
-    const { isAuthenticated,
+    const {
+      isAuthenticated,
       router,
-      showRegister } = this.props;
+      showRegister
+    } = this.props;
 
     if (isAuthenticated) {
       router.push('/post/new');
     } else {
       showRegister();
     }
+  }
+
+  handleJoin = () => {
+    this.props.showRegister();
   }
 
   render() {
@@ -59,7 +65,7 @@ class Home extends PureComponent {
 
         <BannerBlue
           hideJoin={isAuthenticated}
-          join={this.showRegister}
+          join={this.handleJoin}
         />
 
         <PostsList
@@ -125,7 +131,7 @@ class Home extends PureComponent {
   }
 }
 
-const mapState = state => ({
+const mapStateToProps = state => ({
   itemsSections: state.Sections.items,
 
   itemsBlogs: state.Blogs.page.items,
@@ -140,8 +146,8 @@ const mapState = state => ({
   isAuthenticated: state.Auth.isAuthenticated
 });
 
-const mapDispatch = dispatch => ({
-  showRegister: () => dispatch(stagedPopup('register')),
+const mapDispatchToProps = dispatch => ({
+  showRegister: () => dispatch(stagedPopup('signUp')),
   fetchData: () => {
     dispatch(fetchBlogs());
     dispatch(fetchEvents());
@@ -149,4 +155,4 @@ const mapDispatch = dispatch => ({
   }
 });
 
-export default connect(mapState, mapDispatch)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

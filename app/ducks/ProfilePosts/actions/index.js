@@ -4,3 +4,5 @@ export { default as deleteFromFavorite } from './deleteFromFavorite';
 export { default as togglePrivacy } from './togglePrivacy';
 export { default as loadBookmarks } from './loadBookmarks';
 export { default as loadFeed } from './loadFeed';
+export { default as getActivePosts } from './getActivePosts';
+export { default as getArchivePosts } from './getArchivePosts';

@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import popupHOC from '../../../HOC/popupHOC';
 
 import { openPopup } from '../../../ducks/Popup/actions';
 
@@ -11,6 +13,13 @@ import { __t } from '../../../i18n/translator';
 import './EventSearch.styl';
 
 class EventSearch extends Component {
+  static propTypes = {
+    closePopup: PropTypes.func.isRequired,
+    options: PropTypes.shape({
+      findEvents: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   changeCity = city => this.props.changeField('city', city);
 
   doSearch = () => {
@@ -122,17 +131,12 @@ class EventSearch extends Component {
   }
 }
 
-EventSearch.propTypes = {
-  closePopup: PropTypes.func.isRequired,
-  options: PropTypes.shape({
-    findEvents: PropTypes.func.isRequired,
-  }).isRequired,
-};
-
 const mapStateToProps = ({ Events }) => ({
   city: Events.searchFields.city,
   start: Events.searchFields.start,
   end: Events.searchFields.end,
 });
 
-export default connect(mapStateToProps)(EventSearch);
+const enhance = compose(connect(mapStateToProps), popupHOC);
+
+export default enhance(EventSearch);

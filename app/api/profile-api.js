@@ -74,6 +74,20 @@ const Profile = {
       canApplyToken: true,
       params: { search }
     });
+  },
+  getActivePosts(userId, params) {
+    return request({
+      url: `profiles/${userId}/posts`,
+      params,
+      canApplyToken: true,
+    });
+  },
+  getArchivePosts(userId, params) {
+    return request({
+      url: `profiles/${userId}/posts`,
+      params,
+      canApplyToken: true,
+    });
   }
 };
 

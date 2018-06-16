@@ -44,7 +44,7 @@ class Faq extends Component {
     banner.classList.add('flash-out');
   }
 
-  loginPopup = () => this.props.dispatch(openPopup('loginPopup'))
+  signInPopup = () => this.props.dispatch(openPopup('signInPopup'))
 
   render() {
     const { activeBanner } = this.state;
@@ -53,7 +53,7 @@ class Faq extends Component {
       <div className="container-fluid faq-page" id="page-container">
         <Banner
           bannerId={activeBanner}
-          showLoginPopup={this.loginPopup}
+          showLoginPopup={this.signInPopup}
         />
         <FaqTabs func={this.doChangeActiveBanner} />
       </div>

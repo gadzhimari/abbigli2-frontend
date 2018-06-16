@@ -9,6 +9,6 @@ export default function onlyAuthAction(action) {
       return dispatch(action(...args));
     }
 
-    dispatch(openPopup('registerPopup'));
+    dispatch(openPopup('signUpPopup'));
   };
 }

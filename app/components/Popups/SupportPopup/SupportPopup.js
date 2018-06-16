@@ -1,6 +1,11 @@
 import Dropzone from 'react-dropzone';
 
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import popupHOC from '../../../HOC/popupHOC';
+
+import { React, Component, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
 import { React, Component, Type } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
@@ -62,7 +67,7 @@ class SupportPopup extends Component {
     return (
       <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
         <div
-          className="popup mobile-search__popup register-popup"
+          className="popup mobile-search__popup reset-popup"
         >
           <header className="mobile-search__header">
             <svg
@@ -165,4 +170,6 @@ const mapDispatchToProps = ({ Support }) => ({
   errors: Support.errors,
 });
 
-export default connect(mapDispatchToProps)(SupportPopup);
+const enhance = compose(connect(mapDispatchToProps), popupHOC);
+
+export default enhance(SupportPopup);

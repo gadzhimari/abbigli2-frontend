@@ -18,7 +18,9 @@ const confirmReset = creds => (dispatch) => {
       dispatch(handleSucces({ resetStage: 'password' }));
       dispatch(openPopup('passwordPopup'));
     })
-    .catch(error => dispatch(setError('confirmReset', error.response.data)));
+    .catch((error) => {
+      dispatch(setError('confirmReset', error.response.data));
+    });
 };
 
 export default confirmReset;

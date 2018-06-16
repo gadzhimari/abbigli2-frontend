@@ -12,8 +12,6 @@ import mustAddNofollow from '../lib/mustAddNofollow';
 import { nofollow } from '../lib/etc/meta';
 import prepareState from '../lib/prepareState';
 
-const domain = process.env.DOMAIN_URL.slice(0, -1);
-
 module.exports = (req, res) => {
   const store = req.redux;
   const { error, redirectLocation, renderProps } = req.renderProps;
@@ -57,6 +55,6 @@ module.exports = (req, res) => {
     markup,
     store: encodeURI(JSON.stringify(initialState)),
     seo,
-    canonical: `${domain}${req.path}`,
+    canonical: `${process.env.DOMAIN_URL}${req.path}`,
   });
 };

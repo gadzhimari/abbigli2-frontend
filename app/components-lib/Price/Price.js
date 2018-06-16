@@ -1,7 +1,7 @@
 import { React, Component, cn, Type } from '../__base';
 
 import {
-  PRICE_TEMPLATE_FOR_CURRENT_LOCATION as priceTemplate
+  PRICE_TEMPLATE_FOR_CURRENT_LOCATION as localizedPriceTemplate
 } from '../../lib/constants/price';
 
 @cn('Price')
@@ -11,7 +11,7 @@ class Price extends Component {
   }
 
   render(cn) {
-    const { price } = this.props;
+    const { price, priceTemplate = localizedPriceTemplate } = this.props;
 
     if (!price) return null;
 

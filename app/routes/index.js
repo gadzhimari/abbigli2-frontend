@@ -12,6 +12,8 @@ import {
   Tag,
   ProductPage,
   Profile,
+  ProfileLK,
+  ProfileRaiseAds,
   ProfileMyabbigli,
   ProfileFavorites,
   ProfileFeed,
@@ -29,13 +31,16 @@ import {
   ForMasters,
   ProfileBlogs,
   ProfileEvents,
-  About
+  About,
+  PrivacyPolicy
 } from '../containers';
 
 import Chat from '../containers/Chat';
 import SettingsPage from '../containers/SettingsPage';
 
 import pages from '../lib/pages';
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 function getRoutes(store) {
   function redirectForUnautorized(nextState, replace, callback) {
@@ -55,6 +60,8 @@ function getRoutes(store) {
       <Route path={pages.FAQ_PAGE.path} component={Faq} />
       <Route path={pages.ABOUT_PAGE.path} component={About} />
       <Route path={pages.AGREEMENT_PAGE.path} component={Agreement} />
+      <Route path={pages.AGREEMENT_PAGE.path} component={Agreement} mustScroll />
+      <Route path={pages.PRIVACY_PAGE.path} component={PrivacyPolicy} mustScroll />
       <Route path={pages.FOR_MASTERS_PAGE.path} component={ForMasters} />
       <Route path={pages.QUESTIONS_PAGE.path} component={Questions} />
       <Route path={pages.SEARCH_PAGE.path} component={Tag} />
@@ -70,8 +77,17 @@ function getRoutes(store) {
         <Route path={pages.FEED_PAGE.path} component={ProfileFeed} />
         <Route path={pages.PROFILE_BLOGS_PAGE.path} component={ProfileBlogs} />
         <Route path={pages.PROFILE_EVENTS_PAGE.path} component={ProfileEvents} />
+
+        {!isProduction &&
+          <Route path={pages.LK_PAGE.path} component={ProfileLK} />
+        }
+
         <Route path={pages.ABOUT_PROFILE_PAGE.path} component={ProfileAbout} />
       </Route>
+
+      {!isProduction &&
+        <Route path={pages.RAISE_ADS_PAGE.path} component={ProfileRaiseAds} />
+      }
 
       <Route path={pages.SETTINGS_PAGE.path} component={SettingsPage} />
 

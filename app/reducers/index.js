@@ -31,6 +31,7 @@ import settlement from '../ducks/settlement';
 import isTouch from '../ducks/isTouch';
 import Location from '../ducks/Location';
 import PeopleSearch from '../ducks/PeopleSearch';
+import AdvBucket from '../ducks/AdvBucket';
 
 export default combineReducers({
   Auth,
@@ -63,5 +64,6 @@ export default combineReducers({
   NetworkErrors,
   isTouch,
   Location,
-  PeopleSearch
+  PeopleSearch,
+  AdvBucket
 });

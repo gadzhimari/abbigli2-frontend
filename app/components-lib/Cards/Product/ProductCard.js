@@ -5,9 +5,16 @@ import { React, PureComponent, Type, cn } from '../../__base';
 import Image from '../../../components/Image';
 import Avatar from '../../../components/Avatar';
 import { Share } from '../../../components';
-import { Button, Like, Link, Price } from '../../../components-lib';
+import { Button, Checkbox, Like, Link, Price } from '../../../components-lib';
+
+import IconArchive from '../../../icons/archive';
 import IconBag from '../../../icons/bag';
+import IconEye2 from '../../../icons/eye-2';
 import IconClose from '../../../icons/close';
+import IconHeart from '../../../icons/heart';
+import IconElevation from '../../../icons/elevation';
+import IconMail from '../../../icons/mail';
+import IconMore from '../../../icons/more';
 import IconShare from '../../../icons/share';
 import IconPencil from '../../../icons/pencil';
 
@@ -64,7 +71,14 @@ class ProductCard extends PureComponent {
     canEdit: Type.bool,
     showLike: Type.bool,
     showShare: Type.bool,
+    showStats: Type.bool,
     showAvatar: Type.bool,
+    showActivationPeriod: Type.bool,
+    showDeleteButton: Type.bool,
+    showMoreButton: Type.bool,
+    showMessages: Type.bool,
+    showCheckbox: Type.bool,
+    showRaiseButton: Type.bool,
   };
 
   static defaultProps = {
@@ -73,12 +87,29 @@ class ProductCard extends PureComponent {
     canEdit: false,
     showLike: true,
     showShare: false,
+    showStats: false,
     showAvatar: true,
+    showActivationPeriod: false,
+    showDeleteButton: true,
+    showMoreButton: false,
+    showMessages: false,
+    showCheckbox: false,
+    showRaiseButton: false,
   };
 
   handleDelete = () => {
     const { slug } = this.props.data;
     this.props.delete(slug, PRODUCT_TYPE);
+  }
+
+  handleCheckboxChange = (e, checked) => {
+    const { addToBucket, removeFromBucket, data } = this.props;
+
+    if (checked) {
+      addToBucket(data);
+    } else {
+      removeFromBucket(data.id);
+    }
   }
 
   renderTitle(cn, postUrl) {
@@ -109,27 +140,71 @@ class ProductCard extends PureComponent {
 
     return (
       showAvatar &&
-        <Link
-          className={cn('user')}
-          to={authorUrl}
-          text={name}
-          title={name}
-          color="gray-600"
-          icon={
-            <Avatar
-              className={cn('avatar', { bordered: avatar.bordered[view], size })}
-              imgClassName="avatar__img"
-              avatar={author.avatar}
-              thumbSize={ratio}
-              alt={name}
+      <Link
+        className={cn('user')}
+        to={authorUrl}
+        text={name}
+        title={name}
+        color="gray-600"
+        icon={
+          <Avatar
+            className={cn('avatar', { bordered: avatar.bordered[view], size })}
+            imgClassName="avatar__img"
+            avatar={author.avatar}
+            thumbSize={ratio}
+            alt={name}
+          />
+        }
+      />
+    );
+  }
+
+  renderStats(cn) {
+    return (
+      <div className={cn('stats')}>
+        <span className={cn('stats-meta')}>
+          <span className={cn('like-count')}>
+            <IconEye2
+              size="xs"
+              color="gray-400"
             />
-          }
-        />
+            {/* TODO Используется в кач-ве рыбного текста для верстки.
+                Заменить на новое апи  */}
+            {this.props.data.likes_num}
+          </span>
+          <span className={cn('view-count')}>
+            <IconHeart
+              size="xs"
+              color="gray-400"
+            />
+            {this.props.data.likes_num}
+          </span>
+        </span>
+      </div>
     );
   }
 
   render(cn) {
-    const { data, setLike, showLike, showShare, view, canEdit, isMe, isTouch } = this.props;
+    const {
+      data,
+      setLike,
+      showLike,
+      showShare,
+      showStats,
+      showAvatar,
+      showActivationPeriod,
+      showDeleteButton,
+      showMoreButton,
+      showRaiseButton,
+      showCheckbox,
+      showMessages,
+      view,
+      canEdit,
+      isMe,
+      isTouch,
+      checked
+    } = this.props;
+
     const {
       is_favorite: isFavorite,
       title,
@@ -151,7 +226,7 @@ class ProductCard extends PureComponent {
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
-                this.renderAvatar(cn)
+                showAvatar && this.renderAvatar(cn)
               }
               <div className={cn('date', { short: true })}>
                 {toLocaleDateString(created, CARD_DATE_SHORT_FORMAT)}
@@ -171,8 +246,19 @@ class ProductCard extends PureComponent {
             />
           </Link>
           <div className={cn('actions', { align: 'top-left' })}>
-            { showShare &&
-              <div className="share">
+            {showCheckbox &&
+              <Checkbox
+                view="fab"
+                size="xxl"
+                className={cn('checkbox')}
+                aria-label={__t('Check')}
+
+                onChange={this.handleCheckboxChange}
+                checked={checked}
+              />
+            }
+            {showShare &&
+              <span className="share Card__share">
                 <Button
                   view="fab"
                   className={cn('button', { share: true, hide: !isTouch })}
@@ -180,6 +266,28 @@ class ProductCard extends PureComponent {
                   icon={<IconShare
                     size="xs"
                     color="gray-400"
+                  />}
+                />
+                <div className="dropdown">
+                  <div className="dropdown-corner" />
+                  <Share
+                    postLink={createPostLink(this.props.data)}
+                    buttonClass="social-btn"
+                    media={imageUrl}
+                    description={title}
+                  />
+                </div>
+              </span>
+            }
+            { showRaiseButton &&
+              <div className={cn('spacer')}>
+                <Button
+                  view="fab"
+                  className={cn('button', { raise: true })}
+                  aria-label={__t('Raise')}
+                  icon={<IconElevation
+                    size="xs"
+                    color="red"
                   />}
                 />
                 <div className="dropdown">
@@ -204,7 +312,7 @@ class ProductCard extends PureComponent {
                 className={cn('button', { like: true, hide: !isTouch })}
               />
             }
-            { canEdit &&
+            { canEdit && !showMoreButton &&
               <Link
                 to={postEditingUrl}
                 view="fab"
@@ -216,7 +324,7 @@ class ProductCard extends PureComponent {
                 />}
               />
             }
-            { isMe &&
+            { isMe && showDeleteButton && !showMoreButton &&
               <Button
                 onClick={this.handleDelete}
                 view="fab"
@@ -228,16 +336,95 @@ class ProductCard extends PureComponent {
                 />}
               />
             }
+            { isMe && showMoreButton &&
+              <span className="share">
+                <Button
+                  view="fab"
+                  className={cn('dropdown-item')}
+                  aria-label={__t('Show more')}
+                  icon={<IconMore
+                    size="xs"
+                    color="gray-400"
+                  />}
+                />
+                <div className="dropdown">
+                  <div className="dropdown-corner" />
+                  <Button
+                    view="link"
+                    className={cn('dropdown-item')}
+                    text={__t('Delete')}
+                    color="gray-400"
+                    onClick={this.handleDelete}
+                    icon={<IconClose
+                      size="xs"
+                      color="gray-400"
+                    />}
+                  />
+                  { canEdit &&
+                    <Link
+                      to="#"
+                      className={cn('dropdown-item')}
+                      text={__t('Edit')}
+                      color="gray-400"
+                      icon={<IconPencil
+                        size="xs"
+                        color="gray-400"
+                      />}
+                    />
+                  }
+                  <Link
+                    to="#"
+                    className={cn('dropdown-item')}
+                    text={__t('Archive')}
+                    color="gray-400"
+                    icon={<IconArchive
+                      size="xs"
+                      color="gray-400"
+                    />}
+                  />
+                </div>
+              </span>
+            }
+          </div>
+          <div className={cn('actions', { align: 'bottom-right' })}>
+            { showMessages &&
+              <Button
+                className={cn('button', { messages: true })}
+                text={2}
+                icon={<IconMail
+                  size="xs"
+                  color="white"
+                />}
+              />
+            }
           </div>
         </div>
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
-            {view !== 3 && this.renderTitle(cn, postUrl)}
+            { view !== 3 && this.renderTitle(cn) }
+            {/* TODO Заменить на новое апи  */}
+            { showActivationPeriod &&
+              <div className={cn('activation-period')}>
+                {__t('From')}:{' '}
+                <span className={cn('activation-period-start')}>
+                  сегодня
+                </span>
+                {__t('To')}:{' '}
+                <span className={cn('activation-period-end')}>
+                  10 марта
+                </span>
+              </div>
+            }
           </div>
           <div className={cn('footer', { align: 'vertical' })}>
-            { view !== 3 && this.renderAvatar(cn) }
-            {view === 3 && this.renderTitle(cn, postUrl)}
-            <Price className={cn('price')} price={price} />
+            <div className={cn('footer-col', { left: true })}>
+              { view !== 3 && showAvatar && this.renderAvatar(cn) }
+              { view === 3 && this.renderTitle(cn) }
+              { isMe && showStats && this.renderStats(cn) }
+            </div>
+            <div className={cn('footer-col', { right: true })}>
+              <Price className={cn('price')} price={price} />
+            </div>
           </div>
         </div>
       </div>

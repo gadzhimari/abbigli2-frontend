@@ -1,4 +1,9 @@
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import popupHOC from '../../../HOC/popupHOC';
+
+import { React, Component, Type } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
 import { React, Component, Type } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
@@ -116,4 +121,6 @@ const mapStateToProps = ({ Dialogs }) => ({
   isFetching: Dialogs.isFetching,
 });
 
-export default connect(mapStateToProps)(MessagePopup);
+const enhance = compose(connect(mapStateToProps), popupHOC);
+
+export default enhance(MessagePopup);

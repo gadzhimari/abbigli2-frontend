@@ -80,14 +80,16 @@ class PostCreate extends Component {
     this.setState({ type });
   }
 
-  save = (data, slug) => {
+  save(data, slug, sessionStorageKey) {
     const { savePost } = this.props;
 
     savePost({
       ...data,
       images: this.state.images.map(img => img.id),
-      categories: data.categories ? [data.categories] : []
-    }, slug, this.state.type);
+      categories: data.categories ? [data.categories] : [],
+      // legacy: нужно до тех пор, пока сервер требует это поле
+      sections: [1]
+    }, slug, this.state.type, sessionStorageKey);
   }
 
   handleClose = () => {
@@ -216,7 +218,9 @@ const mapDispatchToProps = dispatch => ({
   fetchPost: (slug, type) => dispatch(actions.fetchPost(slug, type)),
   clearData: () => dispatch(actions.clearData()),
   uploadImages: (images, callback) => dispatch(actions.uploadImages(images, callback)),
-  savePost: (body, slug, postType) => dispatch(actions.savePost(body, slug, postType)),
+  savePost: (body, slug, postType, sessionStorageKey) => dispatch(
+    actions.savePost(body, slug, postType, sessionStorageKey)
+  ),
   openPopup: (popup, options) => dispatch(openPopup(popup, options)),
 });
 

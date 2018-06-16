@@ -1,0 +1,96 @@
+@import '../../../../components-lib/__base/mixins';
+@import '../../../../components-lib/__base/variables/colors';
+@import '../../../../components-lib/__base/variables/variables';
+@import '../../../../components-lib/__base/variables/typography';
+
+@banner-horizontal-gutter: 20px;
+
+.ProfileBanner {
+  width: 100%;
+  margin-bottom: 8px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid @gray-300;
+
+  &__wrapper {
+    position: relative;
+    height: 180px;
+    padding: 10px 20px;
+  }
+
+  &__footer {
+    position: absolute;
+    bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    width: calc(~'100% - @{banner-horizontal-gutter} * 2');
+  }
+
+  &__title {
+    margin: 4px 0 10px;
+    font-family: 'Bitter';
+    font-size: 32px;
+    color: @white;
+  }
+
+  &__activation-period {
+    margin-left: 6px;
+    font-family: @font;
+    font-weight: 700;
+    font-size: @font-size-large;
+    color: #0b3752;
+  }
+
+  &__raise-count {
+    font-family: @font;
+    font-size: @font-size-large;
+    color: @white;
+  }
+
+  &__price {
+    font-family: @font;
+    font-weight: 700;
+    font-size: 30px;
+    color: @white;
+  }
+
+  &_type {
+    &_start {
+      background-image: url('/images/banner/start.jpg');
+      background-position: 74% 0;
+    }
+
+    &_quick {
+      background-image: url('/images/banner/quick.jpg');
+      background-position: 74% 0;
+    }
+
+    &_turbo {
+      background-image: url('/images/banner/turbo.jpg');
+      background-position: 74% 0;
+
+      .ProfileBanner__activation-period {
+        color: @yellow;
+      }
+    }
+  }
+}
+
+@media screen and (@breakpoint-m-only) {
+  .ProfileBanner {
+    &_type {
+      &_start {
+        background-position: 64% 0;
+      }
+
+      &_quick {
+        background-position: 64% 0;
+      }
+
+      &_turbo {
+        background-position: 64% 0;
+      }
+    }
+  }
+}
+

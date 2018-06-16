@@ -1,6 +1,8 @@
 import * as types from './types';
 import { Profile } from '../../../api';
 
+import { setNetworkError } from './../../NetworkErrors/reducer';
+
 const loadProfileRequest = () => ({
   type: types.PROFILE_LOAD_REQUEST,
 });
@@ -31,13 +33,16 @@ const moreFollowingResponse = data => ({
   data,
 });
 
+
 const loadProfile = (id, isAuth) => (dispatch, getState) => {
   const { Auth } = getState();
 
   const promises = [];
   const isMe = Auth.me.id === Number(id);
 
-  promises.push(Profile.getData(id, isMe, isAuth));
+  promises.push(Profile.getData(id, isMe, isAuth).catch(({ response }) => {
+    dispatch(setNetworkError(response));
+  }));
   promises.push(Profile.getFollowers(id, isMe, isAuth, 'followers'));
 
   if (isMe) {
