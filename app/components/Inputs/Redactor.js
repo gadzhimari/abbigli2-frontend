@@ -32,7 +32,7 @@ class Textarea extends Component {
       linkNofollow: true,
       placeholder: __t('Description'),
       imageUpload: fullImagesApiUrl,
-      imageUploadParam: 'filesG',
+      imageUploadParam: 'files',
       plugins: ['source'],
       callbacks: {
         uploadBeforeSend: (xhr) => {

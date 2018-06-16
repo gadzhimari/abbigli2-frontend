@@ -29,8 +29,11 @@ const fetchPost = (slug, type) => (dispatch) => {
     .then(({ data }) => {
       dispatch(fetchPostRes(preparePostForEditing(data)));
     })
-    .catch(({ response }) => {
-      dispatch(setNetworkError(response));
+    .catch((err) => {
+      if (err.response) {
+        dispatch(setNetworkError(err.response));
+      }
+      console.error(err);
     });
 };
 
