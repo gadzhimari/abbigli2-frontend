@@ -106,14 +106,12 @@
 
       .icon-delete {
         fill: #b8b8b8;
-        background-size: 10px 10px;
-        width: 10px;
-        height: 10px;
+        width: 15px;
+        height: 15px;
         position: absolute;
         right: 10px;
-        top: 24px;
+        top: 20px;
         cursor: pointer;
-        display: none;
       }
 
       &__avatar {
@@ -138,9 +136,6 @@
 
       &.active {
         background-color: #e5f4fd;
-        .icon-delete {
-          display: block;
-        }
       }
     }
   }
@@ -411,7 +406,7 @@
 
 @media only screen and (max-width: 760px) {
   .messages {
-    & ~ .footer {
+    & ~ .Footer {
       display: none;
     }
 
