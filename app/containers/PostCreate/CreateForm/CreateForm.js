@@ -21,7 +21,7 @@ class CreateForm extends PureComponent {
     bindMethods(this, ['onSave']);
   }
 
-  onChange(e, { value, name }) {
+  onChange = (e, { value, name }) => {
     this.setState(
       { [name]: value },
       () => setItemToSessionStorage(this.sessionStorageKey, this.state)

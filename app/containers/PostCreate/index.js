@@ -80,7 +80,7 @@ class PostCreate extends Component {
     this.setState({ type });
   }
 
-  save(data, slug, sessionStorageKey) {
+  save = (data, slug, sessionStorageKey) => {
     const { savePost } = this.props;
 
     savePost({

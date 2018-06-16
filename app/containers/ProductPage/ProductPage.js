@@ -124,6 +124,7 @@ class ProductPage extends Component {
             <OtherArticles
               articles={itemsAuthors}
               data={author}
+              type={PRODUCT_TYPE}
             />
           </div>
         </div>

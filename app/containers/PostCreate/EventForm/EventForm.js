@@ -32,7 +32,6 @@ class EventForm extends CreateForm {
       city: null,
       cityOptions: undefined
     }), props.data);
-
   }
 
   render() {

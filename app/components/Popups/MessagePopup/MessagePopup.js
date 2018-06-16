@@ -5,9 +5,6 @@ import popupHOC from '../../../HOC/popupHOC';
 import { React, Component, Type } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
 
-import { React, Component, Type } from '../../../components-lib/__base';
-import { Button } from '../../../components-lib';
-
 import Recipient from './Recipient';
 
 import { sendPrivateMessage } from '../../../ducks/Dialogs/actions';

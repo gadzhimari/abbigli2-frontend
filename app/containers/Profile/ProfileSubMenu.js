@@ -47,14 +47,11 @@ class ProfileSubMenu extends PureComponent {
           <Link
             to={`/profile/${data.id}/lk`}
             onClick={this.onLinkClick}
-            className={cn('item', 'my-abbigli',
-              { active: !path })
-            }
+            className={cn('item', { active: !path })}
             name="store"
           >
-            <div className="icon-wrap">
-              <div className="icon" />
-            </div>
+            <Icon glyph="abbigli" />
+
             Магазин
           </Link>
         }

@@ -25,7 +25,7 @@ class BlogForm extends CreateForm {
       tags: '',
       images: [],
       category: null
-    }, props.data));
+    }), props.data);
   }
 
   render() {

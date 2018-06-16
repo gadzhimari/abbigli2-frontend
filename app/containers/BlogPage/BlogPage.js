@@ -129,6 +129,7 @@ class BlogPage extends Component {
             <OtherArticles
               articles={itemsAuthors}
               data={author}
+              type={BLOG_TYPE}
             />
           </div>
         </div>

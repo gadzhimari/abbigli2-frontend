@@ -16,7 +16,6 @@ import DateRange from '../../components/DateRange';
 import City from '../../components-lib/City';
 
 import Link from '../../components/Link/Link';
-import { processBlogContent } from '../../lib/process-html';
 import createPostEditLink from '../../lib/links/edit-post-link';
 import postLoader from '../../HOC/postLoader';
 
@@ -129,6 +128,7 @@ class EventPage extends Component {
             <OtherArticles
               articles={usersPosts}
               data={author}
+              type={EVENT_TYPE}
             />
           </div>
         </div>
