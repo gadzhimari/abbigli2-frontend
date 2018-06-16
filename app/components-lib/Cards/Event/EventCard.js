@@ -87,6 +87,7 @@ class EventCard extends PureComponent {
     canEdit: Type.bool,
     showLike: Type.bool,
     showShare: Type.bool,
+    showDeleteButton: Type.bool,
     showAvatar: Type.bool,
   };
 
@@ -97,6 +98,7 @@ class EventCard extends PureComponent {
     showLike: true,
     showShare: false,
     showAvatar: true,
+    showDeleteButton: true,
   };
 
   handleDelete = () => {
@@ -150,14 +152,26 @@ class EventCard extends PureComponent {
   }
 
   render(cn) {
-    const { data, setLike, showLike, showShare, view, canEdit, isMe, isTouch } = this.props;
     const {
-      is_favorite: isFavorite,
+      data,
+      setLike,
+      showLike,
+      showShare,
+      showAvatar,
+      showDeleteButton,
+      view,
+      canEdit,
+      isMe,
+      isTouch
+    } = this.props;
+
+    const {
       title,
       slug,
       created,
       preview,
       city,
+      is_favorite: isFavorite,
       start: dateStart,
       end: dateEnd,
     } = data;
@@ -175,7 +189,7 @@ class EventCard extends PureComponent {
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
-                this.renderAvatar(cn)
+                showAvatar && this.renderAvatar(cn)
               }
               <div className={cn('date', { short: true })}>
                 {toLocaleDateString(created, CARD_DATE_SHORT_FORMAT)}
@@ -240,7 +254,7 @@ class EventCard extends PureComponent {
                 />}
               />
             }
-            { isMe &&
+            { isMe && showDeleteButton &&
               <Button
                 onClick={this.handleDelete}
                 view="fab"
@@ -256,21 +270,29 @@ class EventCard extends PureComponent {
         </div>
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
-            {this.renderTitle(cn, postUrl)}
-            {view === 1 &&
+            {/* TODO Заменить на новое апи  */}
+            { view === 4 &&
+              <Link
+                className={cn('category')}
+                text="Товары"
+                size="s"
+                color="pink"
+              />
+            }
+            { this.renderTitle(cn) }
+            { view === 1 &&
               <div
                 className={cn('text')}
                 dangerouslySetInnerHTML={{ __html: preview }}
               />
             }
-          </div>
-          <div className={cn('footer', { direction: 'column' })}>
+
             <div className={cn('event-info', { align: eventInfo.align[view] })}>
               <div
                 className={cn('date-range', { weight: dateRangeText.weight[view], 'has-margin': dateRangeText.marginLeft[view] })}
               >
-                {toLocaleDateString(dateStart, EVENT_DATE_FORMAT)}
-                {dateEnd ? ` - ${toLocaleDateString(dateEnd, EVENT_DATE_FORMAT)}` : ''}
+                { toLocaleDateString(dateStart, EVENT_DATE_FORMAT) }
+                { dateEnd ? ` - ${toLocaleDateString(dateEnd, EVENT_DATE_FORMAT)}` : ''}
               </div>
 
               {city &&
@@ -279,7 +301,11 @@ class EventCard extends PureComponent {
                 </div>
               }
             </div>
-            {view !== 3 && this.renderAvatar(cn)}
+          </div>
+          <div className={cn('footer', { align: 'vertical' })}>
+            <div className={cn('footer-col', { left: true })}>
+              { view !== 3 && showAvatar && this.renderAvatar(cn) }
+            </div>
           </div>
         </div>
       </div>

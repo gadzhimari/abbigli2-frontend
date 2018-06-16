@@ -1,0 +1,221 @@
+@import '../__base/mixins';
+@import '../__base/variables/colors';
+@import '../__base/variables/variables';
+@import '../__base/variables/typography';
+
+.Checkbox {
+  display: inline-flex;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+  font-family: @font;
+  font-weight: 400;
+  line-height: 1;
+  color: @gray-800;
+
+  &__box {
+    display: inline-flex;
+    position: relative;
+    flex: 0 0 auto;
+    border: 1px solid @gray-400;
+    border-radius: @checkbox-border-radius;
+    background: @white;
+    box-sizing: border-box;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0.5px;
+      height: 2px;
+      margin: auto 2px;
+      opacity: 0;
+      transform: scaleX(0.4);
+      border-radius: 1px;
+      transition: transform 200ms ease, opacity 200ms ease;
+    }
+  }
+
+  &__control {
+    position: absolute;
+    opacity: 0;
+    margin: 0;
+    z-index: -1;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    line-height: 0;
+    opacity: 0;
+    transform: translateY(-4.5px);
+    transition: transform 200ms, opacity 200ms;
+  }
+
+  &__text {
+    vertical-align: top;
+  }
+
+  &_iconPosition {
+    &_right {
+      .Checkbox__box {
+        order: 1;
+      }
+    }
+  }
+
+  &_checked {
+    .for-each(@pair in @theme-colors) {
+      @key: at(@pair, 1);
+      @value: at(@pair, 2);
+      &.Checkbox_color_@{key} {
+        fill: @value;
+      }
+    }
+
+    &.Checkbox {
+      &_disabled {
+        fill: @gray-400;
+      }
+
+      &_indeterminate {
+        .Checkbox__box {
+          &:before {
+            opacity: 0;
+          }
+        }
+      }
+    }
+
+    .Checkbox {
+      &__icon {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  &_disabled {
+    cursor: not-allowed;
+  }
+
+  &_indeterminate {
+    .for-each(@pair in @theme-colors) {
+      @key: at(@pair, 1);
+      @value: at(@pair, 2);
+      &.Checkbox_color_@{key} {
+        .Checkbox__box {
+          &:before {
+            background-color: @value;
+          }
+        }
+      }
+    }
+
+    .Checkbox__box {
+      &:before {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  &_size {
+    &_s {
+      font-size: @font-size-small;
+
+      .Checkbox {
+        &__text {
+          padding-left: 8px;
+        }
+
+        &__box {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .Icon_size_s {
+        width: 10px;
+        height: 10px;
+      }
+    }
+    &_m {
+      font-size: @font-size-medium;
+      .Checkbox {
+        &__text {
+          padding-left: 10px;
+        }
+
+        &__box {
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      .Icon_size_m {
+        width: 12px;
+        height: 12px;
+      }
+    }
+    &_l {
+      font-size: @font-size-large;
+      .Checkbox {
+        &__text {
+          padding-left: 12px;
+        }
+
+        &__box {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      .Icon_size_l {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    &_xl {
+      font-size: 20px;
+      .Checkbox {
+        &__text {
+          padding-left: 12px;
+        }
+
+        &__box {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .Icon_size_xl {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    &_xxl {
+      font-size: 24px;
+      .Checkbox {
+        &__text {
+          padding-left: 12px;
+        }
+
+        &__box {
+          width: 28px;
+          height: 28px;
+        }
+      }
+
+      .Icon_size_xxl {
+        width: 22px;
+        height: 22px;
+      }
+    }
+  }
+}

@@ -14,7 +14,6 @@ import {
 import Content from './Content';
 import { Link } from '../../components-lib';
 import { Product } from '../../components-lib/Cards';
-import { Comments } from '../../components/Comments';
 
 import postLoader from '../../HOC/postLoader';
 
@@ -77,17 +76,13 @@ class ProductPage extends Component {
   }
 
   render() {
-    const commentsList = this.props.itemsComments;
-
     const {
       itemsAuthors,
       data,
       author,
       relativePosts,
       me,
-      isAuthenticated,
       followUser,
-      openPopup,
       toggleFavorite
     } = this.props;
     const crumbs = [];
@@ -126,10 +121,10 @@ class ProductPage extends Component {
               canSubscribe={!userIsOwner}
               followUser={followUser}
             />
-
             <OtherArticles
               articles={itemsAuthors}
               data={author}
+              type={PRODUCT_TYPE}
             />
           </div>
         </div>

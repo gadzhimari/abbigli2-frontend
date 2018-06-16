@@ -4,6 +4,7 @@
 
 .Link {
   .button-base();
+
   &__text {
     .button-base-text();
   }
@@ -22,9 +23,11 @@
     &_outline,
     &_fab {
       .button();
+
       border-width: @btn-border-width;
       border-style: @btn-border-style;
     }
+
     &_link {
       .link();
     }
@@ -106,6 +109,22 @@
             @btn-border-radius
           );
         }
+      }
+    }
+    &_link {
+      &.Link_size {
+        &_s {
+          .link-size(@font-size-small);
+        }
+        &_m {
+          .link-size(@font-size-medium);
+        }
+        &_l {
+          .link-size(@font-size-large);
+        }
+      }
+      .Link__text {
+        .button-text();
       }
     }
     &_link {

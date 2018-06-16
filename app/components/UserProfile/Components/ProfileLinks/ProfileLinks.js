@@ -131,7 +131,7 @@ class ProfileLinks extends PureComponent {
         </svg>
         {__t('Likes')}
         <div className="profile-my__item-number">
-          {this.props.data.likes_num}
+          {this.props.data.followers_count}
         </div>
       </div>
 

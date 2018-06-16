@@ -2,10 +2,10 @@
 import redis from 'redis';
 import util from 'util';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const disableRedis = !isProduction && process.env.LOCAL_REDIS !== 'yes';
-const db = process.env.REDIS_DB;
+import config from '../config';
 
+const db = process.env.REDIS_DB;
+const disableRedis = !config.isProduction && !config.isTesting && process.env.LOCAL_REDIS !== 'yes';
 let client = {};
 
 if (!disableRedis) {

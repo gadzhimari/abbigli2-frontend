@@ -35,7 +35,7 @@ class ProductContent extends PureComponent {
         images,
         tags,
         title,
-        content,
+        description,
         price,
         slug,
       },
@@ -65,7 +65,7 @@ class ProductContent extends PureComponent {
               <Title title={title} />
 
               <p itemProp="description">
-                {content}
+                {description}
               </p>
 
               <div className="goods-post__buttons">

@@ -1,12 +1,13 @@
 import { React, PureComponent, Type } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
+import IconClose from '../../../icons/close';
 
 import { ErrorInput } from '../../Inputs';
 import Timer from './Timer';
 
 import { __t } from '../../../i18n/translator';
 
-import './ConfirmPopup.styl';
+import './ConfirmPopup.less';
 
 class ConfirmPopup extends PureComponent {
   static propTypes = {
@@ -15,7 +16,7 @@ class ConfirmPopup extends PureComponent {
     isFetching: Type.bool.isRequired,
     errors: Type.oneOfType([Type.object, Type.any]),
     options: Type.shape({
-      callback: Type.func.isRequired,
+      callback: Type.func,
       previousPopup: Type.string,
       contact: Type.string.isRequired,
     }).isRequired,
@@ -30,6 +31,8 @@ class ConfirmPopup extends PureComponent {
 
   title = '';
   buttonText = '';
+  description = '';
+  showConfirmCode = true;
 
   handleClick = () => {
     const { options, sendForm } = this.props;
@@ -49,7 +52,7 @@ class ConfirmPopup extends PureComponent {
     againRequestDelay: this.state.againRequestDelay - 1,
   });
 
-  againRequest = () => {
+  resendConfirmationCode = () => {
     const { options } = this.props;
 
     this.setState({
@@ -72,7 +75,7 @@ class ConfirmPopup extends PureComponent {
       });
   }
 
-  goBack = () => {
+  handleBackClick = () => {
     throw new Error('ConfirmPopup: goBack method must be overrited in child class');
   }
 
@@ -81,62 +84,58 @@ class ConfirmPopup extends PureComponent {
     const { againErrors } = this.state;
 
     return (
-      <div className="popup-wrap" id="sendMessage" style={{ display: 'block' }}>
+      <div className="popup-wrap" id="sendMessage">
         <div
-          className="popup mobile-search__popup reset-popup"
+          className="popup mobile-search__popup reset-password-popup"
         >
-          <header className="mobile-search__header">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 14.031"
-              className="popup-close icon"
-              onClick={closePopup}
-            >
-              <path d="M14,1.414L12.59,0L7,5.602L1.41,0L0,1.414l5.589,5.602L0,12.618l1.41,1.413L7,8.428l5.59,5.604L14,12.618 L8.409,7.016L14,1.414z" />
-            </svg>
-            <div className="popup-title">
-              {this.title}
-            </div>
-          </header>
+          <div className="register-popup__title">
+            {this.title}
+          </div>
+          <Button
+            view="icon"
+            className="register-popup__close"
+            onClick={closePopup}
+            aria-label={__t('Close')}
+            icon={<IconClose
+              size="xs"
+              color="gray-500"
+            />}
+          />
+
           <form className="register-popup__form">
-            <div className="register-popup__terms">
-              <div className="reset-popup__contact">
+            <div className="register-popup__instructions">
+              <div className="register-popup__contact">
                 {options.contact}
-                <a
-                  className="register-popup__link register-popup__link--small"
-                  onClick={this.goBack}
-                >
-                  {__t('edit')}
-                </a>
               </div>
               <div>
-                {__t("We've sent an SMS with an confirmation code to your phone.")}
-              </div>
-              <div>
-                {__t('Please enter the code below.')}
+                { this.description }
               </div>
             </div>
-            <div className="register-popup__field">
-              <ErrorInput
-                className="register-popup__input"
-                value={this.state.confirmCode}
-                onChange={this.confirmChange}
-                disabled={isFetching}
-                placeholder={__t('SMS code')}
-                errors={errors && errors.code}
-                errorClass="login__form-error"
-                id="code"
-              />
-            </div>
+            {
+              this.showConfirmCode &&
+              <div className="register-popup__form-field">
+                <ErrorInput
+                  className="input"
+                  value={this.state.confirmCode}
+                  onChange={this.confirmChange}
+                  disabled={isFetching}
+                  placeholder={__t('SMS code')}
+                  errors={errors && errors.code}
+                  errorClass="login__form-error"
+                  id="code"
+                />
+              </div>
+            }
             <div className="register-popup__terms">
               {
                 this.state.againRequestDelay === 0
-                  ? (<a
-                    className="register-popup__link"
-                    onClick={this.againRequest}
-                  >
-                    {__t('Send code again')}
-                  </a>)
+                  ? (
+                    <Button
+                      view="link"
+                      onClick={this.resendConfirmationCode}
+                      text={__t('Send code again')}
+                    />
+                  )
                   : (<div>
                     {__t('You can get request again in')}
                     {' '}
@@ -169,19 +168,23 @@ class ConfirmPopup extends PureComponent {
                 </div>
               }
             </div>
+            {
+              this.showConfirmCode &&
+              <Button
+                className="register-popup__fetch-button-old"
+                onClick={this.handleClick}
+                isFetching={isFetching}
+                text={this.buttonText}
+                fullWidth
+              />
+            }
             <Button
-              className="register-popup__fetch-button-new"
-              onClick={this.handleClick}
-              isFetching={isFetching}
-              text={this.buttonText}
+              color="secondary"
+              className="register-popup__button-back"
+              onClick={this.handleBackClick}
+              text={__t('Back')}
+              fullWidth
             />
-            <button
-              className="register-popup__button"
-              type="button"
-              onClick={this.goBack}
-            >
-              {__t('Back')}
-            </button>
           </form>
         </div>
       </div>

@@ -1,0 +1,33 @@
+@import '../../../components-lib/__base/variables/colors';
+
+.mobile-popup {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translateY(100%);
+  max-height: 100%;
+  width: 100%;
+  padding: 0 16px;
+  background-color: #fff;
+  overflow-y: auto;
+  box-shadow: 0 2px 4px #3d4041;
+  animation-name: slideUp;
+  animation-duration: 0.2s;
+
+  &__item {
+    padding: 16px 0;
+    text-align: center;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid @gray-300;
+    }
+  }
+}
+
+.modal-open-new {
+  .mobile-popup {
+    transform: translateY(0);
+  }
+}
+
+

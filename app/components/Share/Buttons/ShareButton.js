@@ -26,9 +26,8 @@ class ShareButton extends PureComponent {
   onClick = (e) => {
     const { provider, href, onClick, openedWindow } = this.props;
 
-    e.preventDefault();
-
     if (openedWindow) {
+      e.preventDefault();
       this.openWindow(href);
     }
 

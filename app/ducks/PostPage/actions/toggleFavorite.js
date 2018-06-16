@@ -20,7 +20,7 @@ const toggleFavorite = (type, slug) => {
 
   return (dispatch) => {
     if (!token) {
-      return dispatch(stagedPopup('register'));
+      return dispatch(stagedPopup('signUp'));
     }
 
     dispatch(updateFavorite());

@@ -44,7 +44,7 @@ class User extends PureComponent {
           fetchingFollow: false,
         }));
     } else {
-      this.props.openPopup('loginPopup');
+      this.props.openPopup('signInPopup');
     }
   }
 

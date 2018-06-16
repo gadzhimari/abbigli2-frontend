@@ -6,6 +6,7 @@ import { Icon } from '../../components-lib';
 
 import { gaSendClickEvent } from '../../lib/analitics';
 import { __t } from '../../i18n/translator';
+import { IS_TESTING } from '../../config';
 
 import './ProfileSubMenu.less';
 
@@ -42,6 +43,18 @@ class ProfileSubMenu extends PureComponent {
 
           {__t('My Abbigli')}
         </Link>
+        {IS_TESTING &&
+          <Link
+            to={`/profile/${data.id}/lk`}
+            onClick={this.onLinkClick}
+            className={cn('item', { active: !path })}
+            name="store"
+          >
+            <Icon glyph="abbigli" />
+
+            Магазин
+          </Link>
+        }
 
         {showFavorites &&
           <Link

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import { API_URL, DOMAIN_URL } from '../../../../config';
+import { DOMAIN_URL } from '../../../../config';
 
 import { __t } from '../../../../i18n/translator';
 

@@ -68,18 +68,22 @@ class GoodsCard extends PureComponent {
             </Link>
           </div>
           <div className={cn('footer', { align: 'vertical' })}>
-            <Link
-              className={cn('title')}
-              to={postUrl}
-              text={title}
-              title={title}
-              size="s"
-              icon={<IconBag
-                size="xs"
-                color="blue"
-              />}
-            />
-            <Price className={cn('price')} price={price} />
+            <div className={cn('footer-col', { left: true })}>
+              <Link
+                className={cn('title')}
+                to={createPostLink(data)}
+                text={data.title}
+                title={data.title}
+                size="s"
+                icon={<IconBag
+                  size="xs"
+                  color="blue"
+                />}
+              />
+            </div>
+            <div className={cn('footer-col', { right: true })}>
+              <Price className={cn('price')} price={price} />
+            </div>
           </div>
         </div>
       </div>

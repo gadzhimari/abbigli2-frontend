@@ -16,7 +16,7 @@ class OtherArticles extends PureComponent {
   };
 
   render() {
-    const { articles, data } = this.props;
+    const { articles, data, type } = this.props;
     if (!articles || articles.length === 0) {
       return null;
     }
@@ -35,7 +35,7 @@ class OtherArticles extends PureComponent {
               <Link
                 className="other-articles__item"
                 key={article.id}
-                to={createPostLink(article)}
+                to={createPostLink(article, type)}
               >
                 <Image
                   src={article.image}

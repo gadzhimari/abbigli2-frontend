@@ -19,7 +19,7 @@ export const {
   'SET_PRIVATE_STATUS'
 );
 
-export default function loadPosts(options, type) {
+export default function loadPosts(options, type = PRODUCT_TYPE) {
   const { page = 1, author } = options;
   const action = actionsByType[type];
 
