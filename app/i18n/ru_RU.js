@@ -449,4 +449,6 @@ export default {
   'There are currently no posts on this page': 'На этой странице пока нет товарных постов',
   'My publications in other sections': 'Мои публикации в других разделах',
   'You can view the author\'s publications in other sections': 'Вы можете просмотреть публикации автора в других разделах',
+  VK: 'ВКонтакте',
+  OK: 'Одноклассники',
 };

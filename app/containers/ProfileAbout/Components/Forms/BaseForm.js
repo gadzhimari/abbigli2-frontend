@@ -17,7 +17,6 @@ class BaseForm extends Component {
     value: Type.string,
     type: Type.string,
     onAdd: Type.func,
-    onDelete: Type.func,
     onSave: Type.func,
     onCancel: Type.func,
     errors: Type.shape({
@@ -62,13 +61,6 @@ class BaseForm extends Component {
     this.clearFields();
   }
 
-  handleDelete = () => {
-    const { name, onDelete } = this.props;
-
-    onDelete(name);
-    this.clearFields();
-  }
-
   render(cn) {
     const { type, errors } = this.props;
     const { name, value } = this.state;
@@ -84,20 +76,6 @@ class BaseForm extends Component {
             errors={errors.value}
             type={type}
           />
-          {
-            this.props.value &&
-            <Button
-              view="icon"
-              name={__t('Delete')}
-              aria-label={__t('Delete')}
-              className={cn('contacts-delete')}
-              onClick={this.handleDelete}
-              icon={<IconClose
-                size="xs"
-                color="blue"
-              />}
-            />
-          }
         </div>
         <div className={cn('contacts-actions')}>
           <Button

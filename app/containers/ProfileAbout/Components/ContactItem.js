@@ -13,6 +13,8 @@ import {
 import IconMail from '../../../icons/mail';
 import IconSkype from '../../../icons/skype';
 import IconPhone from '../../../icons/phone';
+import IconPencil from '../../../icons/pencil';
+import IconClose from '../../../icons/close';
 
 import { __t } from '../../../i18n/translator';
 
@@ -70,13 +72,13 @@ class ContactItem extends Component {
     this.props.onAdd(e.currentTarget.name);
   }
 
-  handleDeleteContact = (name) => {
-    const { id } = this.props.data[0];
+  handleDeleteContact = () => {
+    const { id, type } = this.props.data[0];
     const { deleteContact } = this.props;
 
     deleteContact(id).then((status) => {
       if (status) {
-        this.props.onSave(name);
+        this.props.onSave(type);
       }
     });
   }
@@ -140,15 +142,42 @@ class ContactItem extends Component {
         placeholder={placeholder}
         value={value}
         errors={errors}
-        onDelete={this.handleDeleteContact}
         onSave={this.handleSaveContact}
         onCancel={this.handleCancelContact}
       />
     );
   }
 
+  renderActionButtons = cn => (
+    <Fragment>
+      <Button
+        view="icon"
+        size="s"
+        name={__t('Edit')}
+        aria-label={__t('Edit')}
+        className={cn('contacts-edit')}
+        onClick={this.handleEditContact}
+        icon={<IconPencil
+          size="xs"
+          color="gray-500"
+        />}
+      />
+      <Button
+        view="icon"
+        size="s"
+        name={__t('Delete')}
+        className={cn('contacts-delete')}
+        onClick={this.handleDeleteContact}
+        icon={<IconClose
+          size="xs"
+          color="gray-500"
+        />}
+      />
+    </Fragment>
+  );
+
   renderContact = (cn, name) => {
-    const { data, isMe, isTouch } = this.props;
+    const { data, isMe } = this.props;
     const IconName = this.contactIcons[name];
 
     return (
@@ -172,17 +201,7 @@ class ContactItem extends Component {
               }
             </ul>
           </div>
-          {
-            isMe &&
-            <Button
-              view="link"
-              size="s"
-              name={name}
-              onClick={this.handleEditContact}
-              text={__t('Edit')}
-              className={cn('contacts-edit', { hidden: !isTouch })}
-            />
-          }
+          { isMe && this.renderActionButtons(cn) }
         </div>
       </div>
     );
@@ -219,7 +238,6 @@ class ContactItem extends Component {
 
 const mapStateToProps = state => ({
   errors: state.Profile.errors,
-  isTouch: state.isTouch,
 });
 
 const mapDispatchToProps = dispatch => ({

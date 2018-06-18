@@ -11,16 +11,22 @@ import {
 } from '../../../ducks/Profile/actions';
 
 import createSocialLink from '../../../lib/links/social-link';
+import { SOCIAL_PROVIDERS } from '../../../lib/constants/social';
 
-import { SocialIcons } from '../../../components/Icons';
+import IconFacebook from '../../../icons/facebook';
+import IconGooglePlus from '../../../icons/googlePlus';
+import IconVkontakte from '../../../icons/vkontakte';
+import IconOdnoklassniki from '../../../icons/odnoklassniki';
+import IconPencil from '../../../icons/pencil';
+import IconClose from '../../../icons/close';
 
 import { __t } from '../../../i18n/translator';
 
-const networkAliases = {
-  ok: 'odnoklassniki',
-  vk: 'vk',
-  fb: 'facebook',
-  gp: 'google',
+const icons = {
+  vk: IconVkontakte,
+  ok: IconOdnoklassniki,
+  fb: IconFacebook,
+  gp: IconGooglePlus,
 };
 
 @cn('ProfileAbout')
@@ -82,42 +88,63 @@ class SocialItem extends Component {
       <SocialEditForm
         data={data}
         errors={errors}
-        onDelete={this.handleDeleteContact}
         onSave={this.handleSaveContact}
         onCancel={this.handleCancelContact}
       />
     );
   }
 
+  renderActionButtons = cn => (
+    <Fragment>
+      <Button
+        view="icon"
+        size="s"
+        name={__t('Edit')}
+        aria-label={__t('Edit')}
+        className={cn('contacts-edit')}
+        onClick={this.handleEditContact}
+        icon={<IconPencil
+          size="xs"
+          color="gray-500"
+        />}
+      />
+      <Button
+        view="icon"
+        size="s"
+        name={__t('Delete')}
+        className={cn('contacts-delete')}
+        onClick={this.handleDeleteContact}
+        icon={<IconClose
+          size="xs"
+          color="gray-500"
+        />}
+      />
+    </Fragment>
+  );
+
   renderContact = (cn) => {
-    const { data, isMe, isTouch } = this.props;
+    const { data, isMe } = this.props;
     const networkUrl = createSocialLink(data.type, data.value);
-    const Icon = SocialIcons[networkAliases[data.type]];
-    const socialWrapperClass = `ProfileAbout__contacts-social-networks social-btn ${networkAliases[data.type]}`;
+    const networkName = data.type;
+    const networkLabel = SOCIAL_PROVIDERS[networkName].label;
+    const NetworkIcon = icons[networkName];
 
     return (
       <div className={cn('contacts-item-row')}>
         <div className={cn('contacts-item-value')}>
           <div className={cn('contacts-item-block')}>
-            <span className={socialWrapperClass}>
-              <Icon />
-            </span>
             <Link
-              text={data.value}
+              text={networkLabel}
               to={networkUrl}
+              className={cn('contacts-social-networks', { provider: networkName })}
               target="_blank"
+              icon={<NetworkIcon
+                size="xs"
+                color="white"
+              />}
             />
           </div>
-          {
-            isMe &&
-            <Button
-              view="link"
-              size="s"
-              onClick={this.handleEditContact}
-              text={__t('Edit')}
-              className={cn('contacts-edit', { hidden: !isTouch })}
-            />
-          }
+          { isMe && this.renderActionButtons(cn) }
         </div>
       </div>
     );
@@ -142,7 +169,6 @@ class SocialItem extends Component {
 
 const mapStateToProps = state => ({
   errors: state.Profile.errors,
-  isTouch: state.isTouch,
 });
 
 const mapDispatchToProps = dispatch => ({
