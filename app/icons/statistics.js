@@ -1,5 +1,5 @@
-import createIconComponent from './utils/createIconComponent';
 import React from 'react';
+import createIconComponent from './utils/createIconComponent';
 const IconStatistics = createIconComponent({ content: <g><path d="M15.484 4.123a.829.829 0 0 0-.059-.142.73.73 0 0 0-.147-.253.888.888 0 0 0-.462-.29l-.03-.007a.832.832 0 0 0-.18-.037h-2.62a.879.879 0 0 0 0 1.758h.563L9.729 8.57 6.89 5.73a1.081 1.081 0 0 0-1.508 0L.308 10.805a1.056 1.056 0 0 0 1.493 1.494l4.335-4.335 2.922 2.922c.012.012.029.016.041.027.014.013.02.03.034.042a.995.995 0 0 0 .148.079 1.038 1.038 0 0 0 .174.092 1.019 1.019 0 0 0 .212.041.699.699 0 0 0 .394-.023 1.011 1.011 0 0 0 .18-.053 1.035 1.035 0 0 0 .185-.122.984.984 0 0 0 .125-.083c.012-.012.015-.028.026-.04.013-.014.03-.02.042-.034l3.54-4.292.099.511a.879.879 0 0 0 1.726-.335z"/></g>, height: 16, width: 16 });
 IconStatistics.displayName = 'IconStatistics';
 export default IconStatistics;

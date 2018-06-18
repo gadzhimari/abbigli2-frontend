@@ -9,7 +9,7 @@ import { Button, Checkbox, Like, Link, Price } from '../../../components-lib';
 
 import IconArchive from '../../../icons/archive';
 import IconBag from '../../../icons/bag';
-import IconEye2 from '../../../icons/eye-2';
+import IconEye2 from '../../../icons/eye2';
 import IconClose from '../../../icons/close';
 import IconHeart from '../../../icons/heart';
 import IconElevation from '../../../icons/elevation';

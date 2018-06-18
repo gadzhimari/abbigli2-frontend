@@ -95,7 +95,7 @@ const profileReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         data: {
-          ...state,
+          ...state.data,
           contacts: [...state.data.contacts, action.data],
         },
         isSaving: false,
@@ -105,7 +105,7 @@ const profileReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         data: {
-          ...state,
+          ...state.data,
           contacts: state.data.contacts.filter(contact => contact.id !== action.payload),
         },
         isSaving: false,
@@ -115,7 +115,7 @@ const profileReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         data: {
-          ...state,
+          ...state.data,
           contacts: unionBy([action.data], state.data.contacts, 'id'),
         },
         isSaving: false,
