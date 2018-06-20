@@ -1,18 +1,17 @@
 import { React, PureComponent, Type, cn } from '../../components-lib/__base';
 
-import './redactor/redactor.css';
 import './Textarea.less';
 
 let textateaIds = 0;
 
 @cn('Textarea')
-export default class Textarea extends PureComponent {
+class Textarea extends PureComponent {
   static propTypes = {
-    onChange: Type.func,
-    value: Type.string,
     name: Type.string,
-    wrapperClass: Type.string,
+    value: Type.string,
     label: Type.string,
+    wrapperClass: Type.string,
+    onChange: Type.func,
   };
 
   state = {
@@ -85,3 +84,5 @@ export default class Textarea extends PureComponent {
     );
   }
 }
+
+export default Textarea;

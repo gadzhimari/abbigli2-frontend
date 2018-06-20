@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
+import { Icon } from '../../components-lib';
+
 import TagsSearchForm from '../TagsSearchForm';
 import UserSearch from '../UserSearch';
 
@@ -170,9 +172,10 @@ class Search extends Component {
               className={"search-users " + (this.state.mode == 'profiles' ? 'active' : '')}
               onClick={() => this.changeMode('profiles')}
             >
-              <div className="icon">
-                <use href="#users"></use>
-              </div>
+              <Icon
+                size="xs"
+                glyph="user"
+              />
             </div>
           </div>
           <div

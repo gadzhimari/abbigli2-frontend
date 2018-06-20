@@ -1,6 +1,5 @@
 import { React, PureComponent, Type, cn } from '../../components-lib/__base';
 
-
 import Link from '../../components/Link/Link';
 import { Icon } from '../../components-lib';
 

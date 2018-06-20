@@ -1,11 +1,10 @@
 import { React } from '../../../components-lib/__base';
-import { Button } from '../../../components-lib';
+import { Button, Redactor } from '../../../components-lib';
 
 import CreateForm from '../CreateForm/CreateForm';
 import FormBlock from '../FormBlock';
 import { ErrorInput } from '../../../components/Inputs';
 import ImageUploadZone from '../../../components/ImageUploadZone';
-import Redactor from '../../../components/Inputs/Redactor';
 import Select from '../../../components/Inputs/Select';
 
 import categoriesAdapter from '../../../lib/adapters/categories-to-options';
@@ -80,8 +79,8 @@ class BlogForm extends CreateForm {
 
         <FormBlock>
           <Redactor
-            wrapperClass="add-tabs__form-field"
-            className="textarea"
+            id="description"
+            className="add-tabs__form-field"
             onChange={this.onChange}
             name="text"
             value={text}

@@ -1,39 +1,40 @@
-import Type from 'prop-types';
-import React, { Component } from 'react';
+import { React, Component, Type, cn } from '../../components-lib/__base';
 
 import { fullImagesApiUrl } from '../../api/images-api';
 import { __t } from '../../i18n/translator';
 
-import './redactor/redactor.css';
+import './redactor.css';
 import { getCookie } from '../../lib/cookie';
 
-class Textarea extends Component {
+@cn('Redactor')
+class Redactor extends Component {
   static propTypes = {
-    onChange: Type.func,
-    value: Type.string,
+    id: Type.string.isRequired,
     name: Type.string,
-    wrapperClass: Type.string,
+    value: Type.string,
     label: Type.string,
+    className: Type.string,
+    onChange: Type.func,
   };
 
   componentDidMount() {
-    this.activateRedactor();
+    this.initRedactor();
   }
 
   shouldComponentUpdate() {
     return false;
   }
 
-  activateRedactor = () => {
-    const { onChange, name } = this.props;
+  initRedactor = () => {
+    const { id, name, placeholder, onChange } = this.props;
     const token = getCookie('id_token2');
 
-    window.jQuery('#redactor').redactor({
+    window.jQuery(`#${id}`).redactor({
       linkNofollow: true,
-      placeholder: __t('Description'),
       imageUpload: fullImagesApiUrl,
       imageUploadParam: 'files',
       plugins: ['source'],
+      placeholder,
       callbacks: {
         uploadBeforeSend: (xhr) => {
           xhr.setRequestHeader('Authorization', `JWT ${token}`);
@@ -49,27 +50,27 @@ class Textarea extends Component {
     });
   }
 
-  render() {
-    const { wrapperClass, label, ...textareaProps } = this.props;
-
-    delete textareaProps.onChange;
-    delete textareaProps.name;
+  render(cn) {
+    const { id, label, name, ...restProps } = this.props;
 
     return (
-      <div className={wrapperClass}>
+      <div className={cn()}>
         {label &&
-          <label className="label" htmlFor={this.id}>
+          <label
+            className={cn('label')}
+            htmlFor={id}
+          >
             {label}
           </label>
         }
 
         <textarea
-          id="redactor"
-          {...textareaProps}
+          id={id}
+          {...restProps}
         />
       </div>
     );
   }
 }
 
-export default Textarea;
+export default Redactor;

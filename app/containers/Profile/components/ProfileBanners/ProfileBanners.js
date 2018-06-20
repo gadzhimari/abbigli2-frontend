@@ -10,12 +10,11 @@ class ProfileBanners extends Component {
         <div className="Row Row_sal">
           {
             banners.map((item, index) =>
-              <Fragment>
+              <Fragment key={index}>
                 {
                   index !== 2 &&
                   <div className="Col_sw_12 Col_mw_6 Col_lw_4">
                     <ProfileBanner
-                      key={index}
                       data={item}
                     />
                   </div>
@@ -24,7 +23,6 @@ class ProfileBanners extends Component {
                   index === 2 &&
                   <div className="Col_sw_12 Col_lw_4">
                     <ProfileBanner
-                      key={index}
                       data={item}
                     />
                   </div>
