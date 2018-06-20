@@ -5,18 +5,7 @@ import { React, PureComponent, Type, cn } from '../../__base';
 import Image from '../../../components/Image';
 import Avatar from '../../../components/Avatar';
 import { Share } from '../../../components';
-import { Button, Checkbox, Like, Link, Price } from '../../../components-lib';
-
-import IconArchive from '../../../icons/archive';
-import IconBag from '../../../icons/bag';
-import IconEye2 from '../../../icons/eye2';
-import IconClose from '../../../icons/close';
-import IconHeart from '../../../icons/heart';
-import IconElevation from '../../../icons/elevation';
-import IconMail from '../../../icons/mail';
-import IconMore from '../../../icons/more';
-import IconShare from '../../../icons/share';
-import IconPencil from '../../../icons/pencil';
+import { Button, Checkbox, Like, Link, Price, Icon } from '../../../components-lib';
 
 import getImageUrl from '../../../lib/getImageUrl';
 import getUserName from '../../../lib/getUserName';
@@ -26,9 +15,7 @@ import toLocaleDateString from '../../../lib/date/toLocaleDateString';
 import { PRODUCT_TYPE } from '../../../lib/constants/posts-types';
 import createPostEditLink from '../../../lib/links/edit-post-link';
 
-import {
-  CARD_DATE_SHORT_FORMAT,
-} from '../../../lib/date/formats';
+import { CARD_DATE_SHORT_FORMAT } from '../../../lib/date/formats';
 import { __t } from '../../../i18n/translator';
 
 import setLike from '../../../ducks/Like/actions';
@@ -122,10 +109,7 @@ class ProductCard extends PureComponent {
         text={title}
         color="black"
         title={title}
-        icon={<IconBag
-          size="s"
-          color="blue"
-        />}
+        icon={<Icon glyph="bag" size="s" color="blue" />}
       />
     );
   }
@@ -164,19 +148,14 @@ class ProductCard extends PureComponent {
       <div className={cn('stats')}>
         <span className={cn('stats-meta')}>
           <span className={cn('like-count')}>
-            <IconEye2
-              size="xs"
-              color="gray-400"
-            />
-            {/* TODO Используется в кач-ве рыбного текста для верстки.
-                Заменить на новое апи  */}
-            {this.props.data.likes_num}
+            <Icon glyph="eye2" size="xs" color="gray-400" />
+
+            {this.props.data.favorites_num}
           </span>
+
           <span className={cn('view-count')}>
-            <IconHeart
-              size="xs"
-              color="gray-400"
-            />
+            <Icon glyph="heart" size="xs" color="gray-400" />
+
             {this.props.data.likes_num}
           </span>
         </span>
@@ -235,9 +214,7 @@ class ProductCard extends PureComponent {
           </div>
         }
         <div className={cn('img-wrapper')}>
-          <Link
-            to={postUrl}
-          >
+          <Link to={postUrl}>
             <Image
               className={cn('img')}
               alt={title}
@@ -263,10 +240,7 @@ class ProductCard extends PureComponent {
                   view="fab"
                   className={cn('button', { share: true, hide: !isTouch })}
                   aria-label={__t('Share')}
-                  icon={<IconShare
-                    size="xs"
-                    color="gray-400"
-                  />}
+                  icon={<Icon glyph="share" size="xs" color="gray-400" />}
                 />
                 <div className="dropdown">
                   <div className="dropdown-corner" />
@@ -285,11 +259,9 @@ class ProductCard extends PureComponent {
                   view="fab"
                   className={cn('button', { raise: true })}
                   aria-label={__t('Raise')}
-                  icon={<IconElevation
-                    size="xs"
-                    color="red"
-                  />}
+                  icon={<Icon glyph="elevation" size="xs" color="red" />}
                 />
+
                 <div className="dropdown">
                   <div className="dropdown-corner" />
                   <Share
@@ -318,10 +290,7 @@ class ProductCard extends PureComponent {
                 view="fab"
                 className={cn('button', { edit: true })}
                 aria-label={__t('Edit')}
-                icon={<IconPencil
-                  size="xs"
-                  color="gray-400"
-                />}
+                icon={<Icon glyph="pencil" size="xs" color="gray-400" />}
               />
             }
             { isMe && showDeleteButton && !showMoreButton &&
@@ -330,10 +299,7 @@ class ProductCard extends PureComponent {
                 view="fab"
                 className={cn('button', { delete: true })}
                 aria-label={__t('Delete')}
-                icon={<IconClose
-                  size="xs"
-                  color="gray-400"
-                />}
+                icon={<Icon glyph="close" size="xs" color="gray-400" />}
               />
             }
             { isMe && showMoreButton &&
@@ -342,10 +308,7 @@ class ProductCard extends PureComponent {
                   view="fab"
                   className={cn('dropdown-item')}
                   aria-label={__t('Show more')}
-                  icon={<IconMore
-                    size="xs"
-                    color="gray-400"
-                  />}
+                  icon={<Icon glyph="more" size="xs" color="gray-400" />}
                 />
                 <div className="dropdown">
                   <div className="dropdown-corner" />
@@ -355,10 +318,7 @@ class ProductCard extends PureComponent {
                     text={__t('Delete')}
                     color="gray-400"
                     onClick={this.handleDelete}
-                    icon={<IconClose
-                      size="xs"
-                      color="gray-400"
-                    />}
+                    icon={<Icon glyph="close" size="xs" color="gray-400" />}
                   />
                   { canEdit &&
                     <Link
@@ -366,10 +326,7 @@ class ProductCard extends PureComponent {
                       className={cn('dropdown-item')}
                       text={__t('Edit')}
                       color="gray-400"
-                      icon={<IconPencil
-                        size="xs"
-                        color="gray-400"
-                      />}
+                      icon={<Icon glyph="pencil" size="xs" color="gray-400" />}
                     />
                   }
                   <Link
@@ -377,10 +334,7 @@ class ProductCard extends PureComponent {
                     className={cn('dropdown-item')}
                     text={__t('Archive')}
                     color="gray-400"
-                    icon={<IconArchive
-                      size="xs"
-                      color="gray-400"
-                    />}
+                    icon={<Icon glyph="archive" size="xs" color="gray-400" />}
                   />
                 </div>
               </span>
@@ -391,17 +345,14 @@ class ProductCard extends PureComponent {
               <Button
                 className={cn('button', { messages: true })}
                 text={2}
-                icon={<IconMail
-                  size="xs"
-                  color="white"
-                />}
+                icon={<Icon glyph="mail" size="xs" color="white" />}
               />
             }
           </div>
         </div>
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
-            { view !== 3 && this.renderTitle(cn) }
+            { view !== 3 && this.renderTitle(cn, postUrl) }
             {/* TODO Заменить на новое апи  */}
             { showActivationPeriod &&
               <div className={cn('activation-period')}>
@@ -419,7 +370,7 @@ class ProductCard extends PureComponent {
           <div className={cn('footer', { align: 'vertical' })}>
             <div className={cn('footer-col', { left: true })}>
               { view !== 3 && showAvatar && this.renderAvatar(cn) }
-              { view === 3 && this.renderTitle(cn) }
+              { view === 3 && this.renderTitle(cn, postUrl) }
               { isMe && showStats && this.renderStats(cn) }
             </div>
             <div className={cn('footer-col', { right: true })}>
