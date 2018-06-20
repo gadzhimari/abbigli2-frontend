@@ -1,4 +1,5 @@
-export default `
+export default {
+  'aggreement.text': `
 <div class="center-column">
 <p>USER AGREEMENT</p>
 
@@ -382,4 +383,5 @@ export default `
   or enforceability of all other provisions of this User Agreement.</li>
 </ul>
 
-</div>`;
+</div>`
+};

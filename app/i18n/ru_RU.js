@@ -1,5 +1,6 @@
-import agreement from './agreement.ru';
+import agreementKeyset from './keysets/aggrementKeyset/ru';
 import privacyRu from './privacy.ru';
+import messsagesKeyset from './keysets/messagesKeyset/ru';
 
 export default {
   'Upload image': 'Загрузить изображение',
@@ -188,7 +189,6 @@ export default {
   'edit.profile': 'Редактировать профиль',
   'Policy privacy': 'Политика конфиденциальности',
   'Sell on Abbigli': 'Продавайте на Abbigli',
-  'Message have been successfully sent': 'Сообщение было успешно отправлено',
 
   'abbigli.about.header': 'Хендмейд или как превратить творчество в бизнес',
   'abbigli.about.p1':
@@ -370,8 +370,6 @@ export default {
 
   'You can send a private message to the author of this publication and arrange the purchase details!':
     'Вы можете отправить приватное сообщение пользователю который опубликовал этот продукт и обсудить детали покупки!',
-
-  'aggreement.text': agreement,
   red: 'красный',
   orange: 'оранжевый',
   yellow: 'желтый',
@@ -438,4 +436,6 @@ export default {
   'There are currently no posts on this page': 'На этой странице пока нет товарных постов',
   'My publications in other sections': 'Мои публикации в других разделах',
   'You can view the author\'s publications in other sections': 'Вы можете просмотреть публикации автора в других разделах',
+  ...messsagesKeyset,
+  ...agreementKeyset
 };

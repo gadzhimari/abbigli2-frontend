@@ -1,5 +1,6 @@
-import agreement from './agreement.en';
+import agreementKeyset from './keysets/aggrementKeyset/en';
 import privacyEn from './privacy.en';
+import messsagesKeyset from './keysets/messagesKeyset/en';
 
 export default {
   'Upload image': 'Upload image',
@@ -233,7 +234,6 @@ export default {
 
   'tooltip.create.tags': 'Words that can be used to find you on the site. These words should reflect the essence of your posts',
 
-  'aggreement.text': agreement,
   'Show.all': 'Show all',
   'Hide.all': 'Hide all',
   More: 'More',
@@ -246,5 +246,7 @@ export default {
   Oops: 'Oops!',
   'privacy.text': privacyEn,
   'Privacy policy': 'Privacy policy',
-  Selected: 'Selected {{count}}'
+  Selected: 'Selected {{count}}',
+  ...messsagesKeyset,
+  ...agreementKeyset
 };

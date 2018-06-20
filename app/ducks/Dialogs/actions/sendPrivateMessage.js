@@ -3,6 +3,7 @@ import * as actions from '../actionTypes';
 import { openPopup } from 'ducks/Popup/actions';
 import messageSending from './messageSending';
 import messageSended from './messageSended';
+import { __t } from '../../../i18n/translator';
 
 const pushMessage = (message, dialogID) => ({
   type: actions.PUSH_MESSAGE,
@@ -34,7 +35,7 @@ const sendPrivateMessage = (sender, message, dialogID, canShowPopup = true) => a
     await Dialogs.sendMessage(response.data.id, messageData);
     if (canShowPopup) {
       dispatch(openPopup('statusPopup', {
-        title: 'Message have been successfully sent',
+        title: __t('message.success'),
       }));
     }
     dispatch(messageSended());

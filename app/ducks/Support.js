@@ -1,6 +1,7 @@
 import { createActions, handleActions } from 'redux-actions';
 import { Support } from '../api';
 import { openPopup } from './Popup/actions';
+import { __t } from '../i18n/translator';
 
 const {
   supportRequest,
@@ -50,7 +51,7 @@ export function getSupport(data) {
       .then(() => {
         dispatch(supportSuccess());
         dispatch(openPopup('statusPopup', {
-          title: 'Message have been successfully sent',
+          title: __t('message.success'),
         }));
       })
       .catch((err) => {
