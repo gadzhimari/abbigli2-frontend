@@ -30,6 +30,7 @@ export default handleActions({
   [newPostsActions.requestNewPosts](state) {
     return {
       ...state,
+      newPosts: [],
       isFetchingNew: true
     };
   },
@@ -49,6 +50,7 @@ export default handleActions({
   [popularPostsActions.requestPopularPosts](state) {
     return {
       ...state,
+      popularPosts: [],
       isFetchingPopular: true
     };
   },
@@ -68,6 +70,7 @@ export default handleActions({
   [relativePostsActions.requestRelativePosts](state) {
     return {
       ...state,
+      relativePosts: [],
       isFetchingRelative: true
     };
   },
@@ -87,6 +90,7 @@ export default handleActions({
   [usersPostsActions.requestUsersPosts](state) {
     return {
       ...state,
+      usersPosts: [],
       isFetchingUsersPosts: true
     };
   },
