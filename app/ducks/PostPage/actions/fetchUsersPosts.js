@@ -17,13 +17,13 @@ export const {
   'FAILURE_USERS_POSTS'
 );
 
-const fetchUsersPosts = (postType, authorID) => async (dispatch) => {
+const fetchUsersPosts = (postType, authorID, postID) => async (dispatch) => {
   dispatch(requestUsersPosts());
 
   const action = actionsByType[postType];
 
   try {
-    const res = await action({ author: authorID });
+    const res = await action({ author: authorID, exclude: postID });
     dispatch(responseUsersPosts(res.data.results));
   } catch (e) {
     dispatch(failureUsersPosts());

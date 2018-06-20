@@ -39,12 +39,12 @@ const DialogItem = ({
       </svg>
       <div className="dialog__avatar dialog__avatar_goods">
         {
-          data.post
+          data.object
             ? <AvatarPost
               avatar={data.recipient.avatar}
               alt={data.recipient.profile_name || `User ID: ${data.recipient.id}`}
-              postImg={data.post.image}
-              postAlt={data.post.title}
+              postImg={data.object.image}
+              postAlt={data.object.title}
             />
             : <Avatar
               avatar={data.recipient.avatar}
