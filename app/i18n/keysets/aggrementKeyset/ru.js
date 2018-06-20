@@ -1,4 +1,5 @@
-export default `
+export default {
+  'aggreement.text': `
   <div class="center-column">
   <h1>Пользовательское соглашение</h1>
 
@@ -570,4 +571,5 @@ export default `
   </ol>
 
 </div>
-`;
+`
+};

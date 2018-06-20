@@ -3,6 +3,7 @@ import { openPopup } from '../../Popup/actions';
 
 import messageSending from './messageSending';
 import messageSended from './messageSended';
+import { __t } from '../../../i18n/translator';
 
 import { PRODUCT_TYPE } from '../../../lib/constants/posts-types';
 
@@ -20,7 +21,7 @@ const sendPostMessage = (sender, post, message) => async (dispatch) => {
     const response = await Dialogs.createDialog(postData);
     await Dialogs.sendMessage(response.data.id, { body: message });
     dispatch(openPopup('statusPopup', {
-      title: 'Message have been successfully sent',
+      title: __t('message.success')
     }));
     dispatch(messageSended());
   } catch (e) {
