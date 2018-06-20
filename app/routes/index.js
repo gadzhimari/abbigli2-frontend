@@ -64,7 +64,7 @@ function getRoutes(store) {
       <Route path={pages.PEOPLE_SEARCH.path} component={PeopleSearch} />
       <Route path={pages.CHAT_PAGE.path} component={Chat} />
 
-      <Route path={pages.CREATE_PAGE.path} component={PostCreate} onEnter={redirectForUnautorized} />
+      <Route path={pages.CREATE_PAGE.path} component={PostCreate} onEnter={redirectForUnautorized} mustScroll />
       <Route path={pages.EDIT_PAGE.path} component={PostCreate} onEnter={redirectForUnautorized} />
 
       <Route path={pages.PROFILE_PAGE.path} component={Profile} >
