@@ -254,7 +254,7 @@ const mapDispatch = dispatch => ({
   fetchSubData: (data, params) => {
     dispatch(fetchNew(EVENT_TYPE));
     dispatch(fetchComments(EVENT_TYPE, params.slug));
-    dispatch(fetchUsersPosts(EVENT_TYPE, data.author.id));
+    dispatch(fetchUsersPosts(EVENT_TYPE, data.author.id, data.id));
     dispatch(fetchPopular(EVENT_TYPE));
     dispatch(fetchRelative(EVENT_TYPE, params.slug));
   },

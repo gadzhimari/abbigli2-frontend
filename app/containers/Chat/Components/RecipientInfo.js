@@ -5,6 +5,7 @@ import Link from '../../../components/Link/Link';
 
 import AvatarPost from './AvatarPost';
 import Avatar from './Avatar';
+import { Price } from '../../../components-lib';
 
 const RecipientInfo = ({
   post,
@@ -45,12 +46,9 @@ const RecipientInfo = ({
             ? <Link to={`/post/${post.slug}`}>{post.title}</Link>
             : <Link to={`/profile/${user.id}`}>{user.profile_name || `User ID: ${user.id}`}</Link>
         }
-        {
-          post
-          &&
-          <span className="dialog__price">
-            {post.price}
-          </span>
+
+        {post &&
+          <Price price={post.price} className="dialog__price" />
         }
       </div>
       <div className="dialog__preview">
