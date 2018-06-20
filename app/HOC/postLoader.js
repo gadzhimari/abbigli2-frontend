@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 
+import isEmpty from 'lodash/isEmpty';
+
 import { Spin } from '../components-lib';
 
 const postLoader = WrappedComponent => class extends Component {
@@ -29,12 +31,12 @@ const postLoader = WrappedComponent => class extends Component {
   componentDidUpdate(prevProps) {
     const { data, routeParams, fetchPost, fetchSubData } = this.props;
 
-    if (prevProps.data.id !== data.id) {
-      fetchSubData(data, routeParams);
-    }
-
     if (prevProps.routeParams.slug !== routeParams.slug) {
       fetchPost(routeParams.slug);
+    }
+
+    if (!isEmpty(data) && prevProps.data.id !== data.id) {
+      fetchSubData(data, routeParams);
     }
   }
 
