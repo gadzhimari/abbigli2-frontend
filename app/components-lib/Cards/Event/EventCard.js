@@ -279,7 +279,7 @@ class EventCard extends PureComponent {
                 color="pink"
               />
             }
-            { this.renderTitle(cn) }
+            { this.renderTitle(cn, postUrl) }
             { view === 1 &&
               <div
                 className={cn('text')}

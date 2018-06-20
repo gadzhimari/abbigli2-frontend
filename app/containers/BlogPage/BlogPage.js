@@ -243,7 +243,7 @@ const mapDispatch = dispatch => ({
   fetchSubData: (data, params) => {
     dispatch(fetchNew(BLOG_TYPE));
     dispatch(fetchComments(BLOG_TYPE, params.slug));
-    fetchUsersPosts(BLOG_TYPE, data.author.id);
+    dispatch(fetchUsersPosts(BLOG_TYPE, data.author.id));
     dispatch(fetchPopular(BLOG_TYPE));
     dispatch(fetchRelative(BLOG_TYPE, params.slug));
   },
