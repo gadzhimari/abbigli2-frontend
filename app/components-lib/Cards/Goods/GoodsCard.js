@@ -1,9 +1,8 @@
 import { React, PureComponent, Type, cn } from '../../__base';
 
-import { Link, Price } from '../../../components-lib';
+import { Link, Price, Icon} from '../../../components-lib';
 import Image from '../../../components/Image';
 import Avatar from '../../../components/Avatar';
-import IconBag from '../../../icons/bag';
 
 import getUserName from '../../../lib/getUserName';
 import getImageUrl from '../../../lib/getImageUrl';
@@ -71,14 +70,11 @@ class GoodsCard extends PureComponent {
             <div className={cn('footer-col', { left: true })}>
               <Link
                 className={cn('title')}
-                to={createPostLink(data)}
+                to={postUrl}
                 text={data.title}
                 title={data.title}
                 size="s"
-                icon={<IconBag
-                  size="xs"
-                  color="blue"
-                />}
+                icon={<Icon glyph="bag" size="xs" color="blue" />}
               />
             </div>
             <div className={cn('footer-col', { right: true })}>

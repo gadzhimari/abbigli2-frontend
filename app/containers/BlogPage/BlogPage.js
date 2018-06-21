@@ -82,7 +82,6 @@ class BlogPage extends Component {
 
     const {
       itemsBlogs,
-      itemsAuthors,
       data,
       isAuthenticated,
       popularPosts,
@@ -91,7 +90,8 @@ class BlogPage extends Component {
       me,
       followUser,
       openPopup,
-      toggleFavorite
+      toggleFavorite,
+      usersPosts
     } = this.props;
 
     const crumbs = [{
@@ -127,7 +127,7 @@ class BlogPage extends Component {
               followUser={followUser}
             />
             <OtherArticles
-              articles={itemsAuthors}
+              articles={usersPosts}
               data={author}
               type={BLOG_TYPE}
             />
@@ -230,11 +230,11 @@ const mapStateToProps = state => ({
   relativePosts: state.PostPage.relativePosts,
   isFetchingBlogs: state.PostPage.isFetchingNew,
   isFetchingRelative: state.PostPage.isFetchingRelative,
-  itemsAuthors: state.ProfilePosts.items,
   isFetchingAuthors: state.ProfilePosts.isFetching,
   itemsComments: state.Comments.comments,
   isFetchingComments: state.Comments.commentFetchingState,
   isAuthenticated: state.Auth.isAuthenticated,
+  usersPosts: state.PostPage.usersPosts,
   me: state.Auth.me,
 });
 
@@ -243,7 +243,7 @@ const mapDispatch = dispatch => ({
   fetchSubData: (data, params) => {
     dispatch(fetchNew(BLOG_TYPE));
     dispatch(fetchComments(BLOG_TYPE, params.slug));
-    fetchUsersPosts(BLOG_TYPE, data.author.id);
+    dispatch(fetchUsersPosts(BLOG_TYPE, data.author.id, data.id));
     dispatch(fetchPopular(BLOG_TYPE));
     dispatch(fetchRelative(BLOG_TYPE, params.slug));
   },

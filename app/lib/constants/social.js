@@ -1,6 +1,8 @@
 import omit from 'lodash/omit';
 import { location } from '../../config';
 
+import { __t } from '../../i18n/translator';
+
 export const FACEBOOK_PROVIDER = 'facebook';
 export const VK_PROVIDER = 'vk';
 export const PINTEREST_PROVIDER = 'pinterest';
@@ -16,8 +18,8 @@ export const SOCIAL_TYPES_FOR_ANALITICS = {
 };
 
 export const ALL_SOCIAL_PROVIDERS = {
-  vk: { value: 'vk', label: 'VK', url: 'https://vk.com' },
-  ok: { value: 'ok', label: 'OK', url: 'https://ok.ru' },
+  vk: { value: 'vk', label: __t('VK'), url: 'https://vk.com' },
+  ok: { value: 'ok', label: __t('OK'), url: 'https://ok.ru' },
   fb: { value: 'fb', label: 'Facebook', url: 'https://facebook.com' },
   gp: { value: 'gp', label: 'Google Plus', url: 'https://plus.google.com' },
 };

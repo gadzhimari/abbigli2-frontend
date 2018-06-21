@@ -1,6 +1,5 @@
 import { React, Component, Type, cn } from '../../../../components-lib/__base';
 import { Button, Input } from '../../../../components-lib';
-import IconClose from '../../../../icons/close';
 
 import { __t } from '../../../../i18n/translator';
 
@@ -11,7 +10,6 @@ class SocialEditForm extends Component {
       type: Type.string,
       value: Type.string,
     }),
-    onDelete: Type.func,
     onSave: Type.func,
     onCancel: Type.func,
     errors: Type.shape({
@@ -49,13 +47,6 @@ class SocialEditForm extends Component {
     this.clearFields();
   }
 
-  handleDelete = () => {
-    const { type } = this.props.data;
-
-    this.props.onDelete(type);
-    this.clearFields();
-  }
-
   render(cn) {
     const { errors } = this.props;
     const { type, value } = this.state;
@@ -69,20 +60,6 @@ class SocialEditForm extends Component {
             onChange={this.handleChange}
             errors={errors.value}
           />
-          {
-            this.props.data.value &&
-            <Button
-              view="icon"
-              name={__t('Delete')}
-              aria-label={__t('Delete')}
-              className={cn('contacts-delete')}
-              onClick={this.handleDelete}
-              icon={<IconClose
-                size="xs"
-                color="blue"
-              />}
-            />
-          }
         </div>
         <div className={cn('contacts-actions')}>
           <Button

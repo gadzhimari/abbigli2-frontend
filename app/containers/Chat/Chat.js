@@ -80,7 +80,7 @@ class Chat extends Component {
     if (this.state.search.length > 0) {
       filtredDialogs = dialogs.filter(item => (
         item.recipient.profile_name.toLowerCase().includes(search.toLowerCase())
-        || (item.post && item.post.title.toLowerCase().includes(search.toLowerCase()))
+        || (item.obeject && item.obeject.title.toLowerCase().includes(search.toLowerCase()))
       ));
     } else {
       filtredDialogs = dialogs;
@@ -108,7 +108,7 @@ class Chat extends Component {
                 isFetching={isFetchingMessages}
                 userId={userId}
                 sendMessage={this.sendMessage}
-                post={dialog.post}
+                post={dialog.object}
                 recipient={dialog.recipient}
                 closeDialog={this.closeDialog}
               />

@@ -277,7 +277,7 @@ class BlogCard extends PureComponent {
               />
             }
             { view === 1 && showAvatar && this.renderAvatar(cn) }
-            { view !== 3 && this.renderTitle(cn) }
+            { view !== 3 && this.renderTitle(cn, postUrl) }
             { view === 1 &&
               <div
                 className={cn('text')}
@@ -296,7 +296,7 @@ class BlogCard extends PureComponent {
               { view === 2 && showAvatar && this.renderAvatar(cn) }
             </div>
             <div className={cn('footer-col', { right: true })}>
-              { view === 3 && this.renderTitle(cn) }
+              { view === 3 && this.renderTitle(cn, postUrl) }
               <div className={cn('comments')}>
                 <IconComment size="xs" className={cn('comments-icon')} />
                 <span className={cn('comments-count')}>

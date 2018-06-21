@@ -80,7 +80,7 @@ class AboutSocial extends PureComponent {
     );
   }
 
-  renderAddButton = () => {
+  renderAddButton = (cn) => {
     const { isMe } = this.props;
 
     return (
@@ -88,6 +88,7 @@ class AboutSocial extends PureComponent {
       <Button
         view="link"
         onClick={this.handleAddContact}
+        className={cn('contacts-add')}
         text={__t('Add a social link')}
       />
     );
@@ -122,7 +123,7 @@ class AboutSocial extends PureComponent {
               )
             }
           </ul>
-          { isCreated ? this.renderForm() : this.renderAddButton() }
+          { isCreated ? this.renderForm() : this.renderAddButton(cn) }
         </div>
       </div>
     );

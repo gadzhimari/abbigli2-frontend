@@ -190,7 +190,7 @@ const mapDispatch = dispatch => ({
   fetchPost: (...args) => dispatch(fetchPost(PRODUCT_TYPE, ...args)),
   fetchSubData: (data) => {
     dispatch(fetchComments(PRODUCT_TYPE, data.slug));
-    dispatch(fetchUsersPosts(PRODUCT_TYPE, data.author.id));
+    dispatch(fetchUsersPosts(PRODUCT_TYPE, data.author.id, data.id));
     dispatch(fetchRelative(PRODUCT_TYPE, data.slug));
   },
 

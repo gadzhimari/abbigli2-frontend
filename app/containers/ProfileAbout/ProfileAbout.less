@@ -27,7 +27,9 @@
   }
 
   &__save-buttons {
+    margin-top: 20px;
     color: red;
+
     .Button:last-child {
       margin-left: 15px;
     }
@@ -162,10 +164,6 @@
 
 .ProfileAbout {
   &__contacts {
-    &-wrapper {
-      max-width: 400px;
-    }
-
     &-header {
       font-family: 'ClearSansBold';
     }
@@ -173,26 +171,23 @@
     &-item {
       margin-bottom: 10px;
 
-      &:hover {
-        .ProfileAbout__contacts-edit {
-          opacity: 1;
-        }
-      }
-
       &-row {
         display: flex;
       }
 
       &-value {
         display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
+        align-items: center;
         flex: 1;
       }
 
       &-block {
         display: flex;
         align-items: center;
+
+        .Icon {
+          flex-shrink: 0;
+        }
       }
     }
 
@@ -201,6 +196,7 @@
 
       &-item {
         color: @gray-600;
+        word-break: break-all;
       }
     }
 
@@ -226,14 +222,12 @@
       max-width: 280px;
     }
 
-    &-edit {
-      &_hidden {
-        opacity: 0;
-      }
+    &-add {
+      white-space: normal;
     }
 
+    &-edit,
     &-delete {
-      margin-top: 12px;
       margin-left: 10px;
     }
 
@@ -243,7 +237,36 @@
     }
 
     &-social-networks {
-      margin-right: 10px;
+      &_provider {
+        &_fb {
+          .Link__icon {
+            background-color: #3d5b99;
+          }
+        }
+        &_gp {
+          .Link__icon {
+            background-color: #d44a38;
+          }
+        }
+        &_ok {
+          .Link__icon {
+            background-color: #f58426;
+          }
+        }
+        &_vk {
+          .Link__icon {
+            background-color: #5581b3;
+          }
+        }
+      }
+
+      .Link__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+      }
     }
   }
 }
