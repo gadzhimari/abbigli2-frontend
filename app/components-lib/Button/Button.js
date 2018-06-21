@@ -96,6 +96,7 @@ class Button extends Component {
       }),
     };
     const content = children || text;
+    const hasContent = typeof content !== 'undefined';
 
     const iconTemplate = (
       icon &&
@@ -104,7 +105,7 @@ class Button extends Component {
         </span>
     );
     const textTemplate = (
-      content &&
+      hasContent &&
         <span key="text" className={cn('text')}>
           {content}
         </span>

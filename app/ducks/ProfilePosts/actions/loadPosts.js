@@ -26,7 +26,7 @@ export default function loadPosts(options, type = PRODUCT_TYPE) {
   return (dispatch) => {
     dispatch(requestPosts());
 
-    return action({ page, author })
+    return action({ page, author, status: 'published' })
       .then(({ data }) => {
         dispatch(setPosts(data));
       })

@@ -95,7 +95,7 @@ class ProductCard extends PureComponent {
     if (checked) {
       selectPost(data);
     } else {
-      unselectPost(data.id);
+      unselectPost(data.slug);
     }
   }
 
@@ -344,7 +344,7 @@ class ProductCard extends PureComponent {
             { showMessages &&
               <Button
                 className={cn('button', { messages: true })}
-                text={2}
+                text={data.dialogs_num}
                 icon={<Icon glyph="mail" size="xs" color="white" />}
               />
             }

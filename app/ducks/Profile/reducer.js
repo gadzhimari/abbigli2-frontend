@@ -5,7 +5,7 @@ import { deleteImageRequest } from './actions/deleteImage';
 import { uploadImageRequest, uploadImageResponse } from './actions/uploadImage';
 import { changeFollowStatus, followUser, unfollowUser } from './actions/follow';
 import { saveChangesRequest, saveChangesResponse, saveChangesError } from './actions/saveChanges';
-import { selectPost, unselectPost } from './actions/selectedPostsActions';
+import { selectPost, unselectPost, clearSelectedPosts } from './actions/selectedPostsActions';
 import {
   loadProfileRequest,
   loadProfileResponse,
@@ -46,7 +46,7 @@ const initialState = {
   errors: {},
   /** Выбранные в магазине посты (для поднятия/удаления/архивировния) */
   selectedPosts: [],
-  selectedPostsIds: []
+  selectedPostsSlugs: []
 };
 
 const imagesActionsHandlers = {
@@ -273,14 +273,21 @@ const selectPostsActionsHandlers = {
     return ({
       ...state,
       selectedPosts: [...state.selectedPosts, payload],
-      selectedPostsIds: [...state.selectedPostsIds, payload.id]
+      selectedPostsSlugs: [...state.selectedPostsSlugs, payload.slug]
     });
   },
   [unselectPost](state, { payload }) {
     return ({
       ...state,
-      selectedPosts: state.selectedPosts.filter(({ id }) => id !== payload),
-      selectedPostsIds: state.selectedPostsIds.filter(id => id !== payload)
+      selectedPosts: state.selectedPosts.filter(({ slug }) => slug !== payload),
+      selectedPostsSlugs: state.selectedPostsSlugs.filter(slug => slug !== payload)
+    });
+  },
+  [clearSelectedPosts](state) {
+    return ({
+      ...state,
+      selectedPosts: [],
+      selectedPostsSlugs: []
     });
   }
 };

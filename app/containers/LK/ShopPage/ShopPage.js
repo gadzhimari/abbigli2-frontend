@@ -2,18 +2,15 @@ import { React, PureComponent, cn, connect } from '../../../components-lib/__bas
 
 import getProps from './getProps';
 
-import { Button, Spin, Link } from '../../../components-lib';
-import { Card } from '../../../components-lib/Cards';
+import { Button, Spin, Icon } from '../../../components-lib';
+import { Product } from '../../../components-lib/Cards';
 import Image from '../../../components/Image';
-
-import IconPlus from '../../../icons/plus';
-import IconElevation from '../../../icons/elevation';
-import IconArchive from '../../../icons/archive';
-import IconClose from '../../../icons/close';
+import Attach from '../../Profile/components/Attach';
 
 import pages from '../../../lib/pages';
+import { PRODUCT_TYPE } from '../../../lib/constants/posts-types';
 
-import { selectPost, unselectPost } from '../../../ducks/Profile/actions';
+import { selectPost, unselectPost, clearSelectedPosts } from '../../../ducks/Profile/actions';
 
 import { __t } from '../../../i18n/translator';
 
@@ -33,19 +30,29 @@ class ShopPage extends PureComponent {
   }
 
   fetchPosts = (page = 1) => {
-    const { isMe, params, loadPosts } = this.props;
+    const { params, loadPosts } = this.props;
 
     loadPosts({
-      isMe,
-      profileId: params.profile,
-      type: 'posts',
+      author: params.profile,
       page,
-    });
+    }, PRODUCT_TYPE);
+  }
+
+  deleteBatchPosts = () => {
+    const { selectedPostsSlugs, deleteBatchPosts, clearSelectedPosts } = this.props;
+    deleteBatchPosts(selectedPostsSlugs, PRODUCT_TYPE);
+    clearSelectedPosts();
+  }
+
+  addToArchiveBatchPosts = () => {
+    const { selectedPostsSlugs, batchAddToArchive, clearSelectedPosts } = this.props;
+    batchAddToArchive(selectedPostsSlugs);
+    clearSelectedPosts();
   }
 
   renderToolbar(cn) {
-    const { selectedPostsIds } = this.props;
-    const selectedCount = selectedPostsIds.length;
+    const { selectedPostsSlugs } = this.props;
+    const selectedCount = selectedPostsSlugs.length;
 
     return (
       <div className={cn('toolbar')}>
@@ -60,7 +67,8 @@ class ShopPage extends PureComponent {
             className={cn('toolbar-button')}
             disabled={!selectedCount}
             onClick={this.handleRaising}
-            icon={<IconElevation
+            icon={<Icon
+              glyph="elevation"
               size="xs"
               color="white"
             />}
@@ -68,9 +76,12 @@ class ShopPage extends PureComponent {
 
           <Button
             view="link"
-            text={__t('Archive')}
+            text={__t('common.addToArchive')}
             className={cn('toolbar-button')}
-            icon={<IconArchive
+            disabled={!selectedCount}
+            onClick={this.addToArchiveBatchPosts}
+            icon={<Icon
+              glyph="archive"
               size="xs"
               color="blue"
             />}
@@ -78,9 +89,12 @@ class ShopPage extends PureComponent {
 
           <Button
             view="link"
-            text={__t('Delete')}
+            text={__t('common.delete')}
             className={cn('toolbar-button')}
-            icon={<IconClose
+            disabled={!selectedCount}
+            onClick={this.deleteBatchPosts}
+            icon={<Icon
+              glyph="close"
               size="xs"
               color="blue"
             />}
@@ -116,7 +130,6 @@ class ShopPage extends PureComponent {
       isAuth,
       itemsPosts,
       priceTemplate,
-      deletePost,
       setLike,
     } = this.props;
 
@@ -132,7 +145,7 @@ class ShopPage extends PureComponent {
         <div className={cn('publications')}>
           {
             itemsPosts.map(item => (
-              <Card
+              <Product
                 data={item}
                 key={item.slug}
                 me={me}
@@ -164,15 +177,15 @@ class ShopPage extends PureComponent {
   }
 
   renderCards() {
-    const { itemsPosts, selectedPostsIds } = this.props;
+    const { itemsPosts, selectedPostsSlugs } = this.props;
     const cardProps = getProps.propsForPostsCards(this);
 
     return (
       itemsPosts.map(item => (
-        <Card
+        <Product
           data={item}
           key={item.slug}
-          checked={selectedPostsIds.includes(item.id)}
+          checked={selectedPostsSlugs.includes(item.slug)}
 
           {...cardProps}
         />
@@ -192,32 +205,21 @@ class ShopPage extends PureComponent {
 
         <div className={cn('cards', { row: hasProductsForAuthorized })}>
           {isMe && !isFetchingPosts &&
-            <div className="Card Card_type_attach">
-              <Link
-                className="Card__button Card__button_attach"
-                onClick={this.onCreateLinkClick}
-                to="/post/new"
-                text={__t('add.on.abbigli')}
-                size="l"
-                color="black"
-                icon={<IconPlus
-                  size={'s'}
-                  color="white"
-                />}
-              />
-            </div>
+            <Attach
+              isVisible={isMe}
+              url="/post/new"
+            />
           }
-          {/* TODO Заменить на новое апи. Показ сообщения в своем профиле при
-            * отсутствии продуктов */}
+
           {hasProductsForAuthorized &&
             <div className={cn('no-results-text')}>
               {__t('There are no products in your store yet. It\'s time to put them out! And remember, the better the quality photo, the more chances to attract a buyer, as well as the opportunity to get to the main page of the site. (eg)')}
             </div>
           }
-          {
-            isFetchingPosts ? this.renderLoader() : this.renderCards()
-          }
+
+          {isFetchingPosts ? this.renderLoader() : this.renderCards()}
         </div>
+
         {hasProductsForUnathorized && this.renderNoResultsPage(cn)}
       </div>
     );
@@ -225,8 +227,8 @@ class ShopPage extends PureComponent {
 }
 
 const mapStateToProps = ({ Profile }) => ({
-  selectedPostsIds: Profile.selectedPostsIds,
+  selectedPostsSlugs: Profile.selectedPostsSlugs,
   selectedPosts: Profile.selectedPosts
 });
 
-export default connect(mapStateToProps, { selectPost, unselectPost })(ShopPage);
+export default connect(mapStateToProps, { selectPost, unselectPost, clearSelectedPosts })(ShopPage);

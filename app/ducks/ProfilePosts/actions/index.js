@@ -6,3 +6,5 @@ export { default as loadBookmarks } from './loadBookmarks';
 export { default as loadFeed } from './loadFeed';
 export { default as getActivePosts } from './getActivePosts';
 export { default as getArchivePosts } from './getArchivePosts';
+export { deleteBatchPosts } from './deletePost';
+export { addPostToArchive, batchAddToArchive, unarchivatePost } from './archivePostsActions';

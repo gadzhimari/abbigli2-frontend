@@ -5,4 +5,4 @@ export { default as deleteImage } from './deleteImage';
 export { default as addContact } from './addContact';
 export { default as deleteContact } from './deleteContact';
 export { default as partialUpdateContact } from './partialUpdateContact';
-export { selectPost, unselectPost } from './selectedPostsActions';
+export { selectPost, unselectPost, clearSelectedPosts } from './selectedPostsActions';

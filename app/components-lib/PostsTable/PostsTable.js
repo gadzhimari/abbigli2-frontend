@@ -14,7 +14,7 @@ class PostsTable extends PureComponent {
   }
 
   render(cn) {
-    const { posts, showPeriod, onChangePrice } = this.props;
+    const { posts, showPeriod, ...restProps } = this.props;
 
     if (!posts.length) return null;
 
@@ -37,7 +37,7 @@ class PostsTable extends PureComponent {
               postData={post}
               cn={cn}
               showPeriod={showPeriod}
-              onChangePrice={onChangePrice}
+              {...restProps}
 
               key={post.id}
             />)

@@ -12,7 +12,6 @@ import ProfileBanners from '../Profile/components/ProfileBanners';
 import * as actions from '../../ducks/ProfilePosts/actions';
 import setLike from '../../ducks/Like/actions';
 
-
 import { __t } from './../../i18n/translator';
 
 import './Profile.less';

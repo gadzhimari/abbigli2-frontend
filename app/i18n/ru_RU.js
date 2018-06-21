@@ -1,7 +1,9 @@
 import agreement from './agreement.ru';
 import privacyRu from './privacy.ru';
+import commonKeyset from './keysets/common/ru';
 
 export default {
+  ...commonKeyset,
   'Upload image': 'Загрузить изображение',
   'You can upload maximum images':
     'Вы можете загрузить изображения в формате JPEG, PNG',
