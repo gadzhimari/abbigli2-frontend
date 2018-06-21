@@ -1,7 +1,6 @@
 import { React, Component, Type, cn } from '../../components-lib/__base';
 
 import { fullImagesApiUrl } from '../../api/images-api';
-import { __t } from '../../i18n/translator';
 
 import './redactor.css';
 import { getCookie } from '../../lib/cookie';
@@ -51,7 +50,7 @@ class Redactor extends Component {
   }
 
   render(cn) {
-    const { id, label, name, ...restProps } = this.props;
+    const { id, label, name, ...textareaProps } = this.props;
 
     return (
       <div className={cn()}>
@@ -66,7 +65,7 @@ class Redactor extends Component {
 
         <textarea
           id={id}
-          {...restProps}
+          {...textareaProps}
         />
       </div>
     );

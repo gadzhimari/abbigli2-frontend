@@ -1,6 +1,4 @@
-import { connect } from 'react-redux';
-
-import { React, PureComponent, Type, cn } from '../../../../components-lib/__base';
+import { React, PureComponent, Type, cn, connect } from '../../../../components-lib/__base';
 import { Button, ReadMore } from '../../../../components-lib';
 import RedactorForm from '../RedactorForm';
 

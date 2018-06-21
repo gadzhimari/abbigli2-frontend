@@ -8,7 +8,7 @@ import './RedactorForm.less';
 class RedactorForm extends PureComponent {
   static propTypes = {
     id: Type.string.isRequired,
-    value: Type.string.isRequired,
+    value: Type.string,
     placeholder: Type.string,
     isSaving: Type.bool.isRequired,
     onSubmit: Type.func.isRequired,
@@ -21,7 +21,7 @@ class RedactorForm extends PureComponent {
   };
 
   state = {
-    value: this.props.value
+    value: this.props.value || ''
   };
 
   handleChange = (e, { value }) => {

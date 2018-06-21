@@ -262,5 +262,5 @@ export default {
   'users.search.result.text': 'Results for query «{{user}}» ',
   'privacy.text': privacyEn,
   'Privacy policy': 'Privacy policy',
-  Selected: 'Selected {{count}}'
+  Selected: 'Selected {{count}}',
 };
