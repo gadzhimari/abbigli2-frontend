@@ -10,12 +10,24 @@ import getImageUrl from '../../lib/getImageUrl';
 import { ADS_DATE_PERIODS, ADS_TARIFF_BY_PERIOD } from '../../lib/constants/ads-tariffs';
 import { USD_PRICE_TEMPLATE } from '../../lib/constants/price';
 import { DAY_WITH_FULL_MONTH } from '../../lib/date/formats';
+import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
 
 import { __t } from '../../i18n/translator';
 
+export const POST_TABLE_DELETE_ACTION = 'delete';
+export const POST_TABLE_ARCHIVE_ACTION = 'archive';
+export const POST_TABLE_UNARCHIVE_ACTION = 'unarchive';
+
 class PostsTableRow extends PureComponent {
+  static defaultProps = {
+    actions: [POST_TABLE_ARCHIVE_ACTION, POST_TABLE_DELETE_ACTION]
+  }
+
   state = {
-    activePeriod: 7
+    activePeriod: 7,
+    showDeleteAction: this.props.actions.includes(POST_TABLE_DELETE_ACTION),
+    showArchiveAction: this.props.actions.includes(POST_TABLE_ARCHIVE_ACTION),
+    showUnarchiveAction: this.props.actions.includes(POST_TABLE_UNARCHIVE_ACTION)
   }
 
   onPeriodChange = ({ value }) => {
@@ -26,9 +38,24 @@ class PostsTableRow extends PureComponent {
     this.props.onChangePrice(previousTariff, newTariff);
   }
 
+  archivatePost = () => {
+    const { postData, addPostToArchive } = this.props;
+    addPostToArchive(postData.slug);
+  }
+
+  unarchivatePost = () => {
+    const { postData, unarchivatePost } = this.props;
+    unarchivatePost(postData.slug);
+  }
+
+  deletePost = () => {
+    const { postData, deletePost } = this.props;
+    deletePost(postData.slug, PRODUCT_TYPE);
+  }
+
   render() {
     const { postData, cn, showPeriod } = this.props;
-    const { activePeriod } = this.state;
+    const { activePeriod, showArchiveAction, showUnarchiveAction, showDeleteAction } = this.state;
 
     const adsPeriodEnd = momentAddDate({
       addNumber: activePeriod,
@@ -89,7 +116,7 @@ class PostsTableRow extends PureComponent {
         <td className={cn('col')}>
           <div className={cn('cell')}>
             <div className={cn('item-category')}>
-              {postData.categories[0].title}
+              {postData.category && postData.category.title}
             </div>
           </div>
         </td>
@@ -109,21 +136,38 @@ class PostsTableRow extends PureComponent {
         <td className={cn('col')}>
           <div className={cn('cell')}>
             <div className={cn('item-actions')}>
-              <div className={cn('item-action')}>
-                <Button
-                  view="link"
-                  size="s"
-                  text={__t('Archive')}
-                />
-              </div>
+              {showArchiveAction &&
+                <div className={cn('item-action')}>
+                  <Button
+                    view="link"
+                    size="s"
+                    onClick={this.archivatePost}
+                    text={__t('common.archive')}
+                  />
+                </div>
+              }
 
-              <div className={cn('item-action')}>
-                <Button
-                  view="link"
-                  size="s"
-                  text={__t('Delete')}
-                />
-              </div>
+              {showUnarchiveAction &&
+                <div className={cn('item-action')}>
+                  <Button
+                    view="link"
+                    size="s"
+                    onClick={this.unarchivatePost}
+                    text={__t('common.restore')}
+                  />
+                </div>
+              }
+
+              {showDeleteAction &&
+                <div className={cn('item-action')}>
+                  <Button
+                    view="link"
+                    size="s"
+                    onClick={this.deletePost}
+                    text={__t('common.delete')}
+                  />
+                </div>
+              }
             </div>
           </div>
         </td>

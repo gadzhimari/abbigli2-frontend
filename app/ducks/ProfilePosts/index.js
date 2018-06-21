@@ -35,6 +35,12 @@ export default handleActions({
   }),
   [deletePostFromPage]: (state, { payload }) => ({
     ...state,
-    items: state.items.filter(item => item.slug !== payload)
+    items: state.items.filter((item) => {
+      if (Array.isArray(payload)) {
+        return !payload.includes(item.slug);
+      }
+
+      return item.slug !== payload;
+    })
   })
 }, initialState);
