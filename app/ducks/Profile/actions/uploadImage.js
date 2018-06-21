@@ -1,18 +1,10 @@
-import * as types from './types';
+import { createAction } from 'redux-actions';
 
-import { Profile } from 'API';
-
+import { Profile } from '../../../api';
 import { setMe } from '../../Auth/authActions/fetchMe';
 
-const uploadImageRequest = imageName => ({
-  type: types.IMAGE_UPLOAD_REQUEST,
-  imageName,
-});
-
-const uploadImageResponse = data => ({
-  type: types.IMAGE_UPLOAD_RESPONSE,
-  data,
-});
+export const uploadImageRequest = createAction('UPLOAD_IMAGE_REQUEST');
+export const uploadImageResponse = createAction('UPLOAD_IMAGE_RESPONSE');
 
 const uploadImage = ({ target }) => {
   const formData = new FormData();
@@ -23,7 +15,9 @@ const uploadImage = ({ target }) => {
 
     return Profile.saveChanges(formData)
       .then((response) => {
+        // Обновление картинки в профиле
         dispatch(uploadImageResponse(response.data));
+        // Обновление картинки в шапке и других местах где используется store.Auth.me
         dispatch(setMe(response.data));
       });
   };

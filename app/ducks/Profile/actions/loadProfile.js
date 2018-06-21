@@ -1,37 +1,15 @@
-import * as types from './types';
-import { Profile } from 'API';
+import { createAction } from 'redux-actions';
 
+import { Profile } from '../../../api';
 import { setNetworkError } from './../../NetworkErrors/reducer';
 
-const loadProfileRequest = () => ({
-  type: types.PROFILE_LOAD_REQUEST,
-});
+export const loadProfileRequest = createAction('LOAD_PROFILE_REQUEST');
+export const loadProfileResponse = createAction('LOAD_PROFILE_RESPONSE');
 
-const loadProfileResponse = (profile, followers, following = [], isMe) => ({
-  type: types.PROFILE_LOAD_RESPONSE,
-  profile,
-  followers,
-  following,
-  isMe,
-});
-
-const moreFollowersRequest = () => ({
-  type: types.MORE_FOLLOWERS_REQUEST,
-});
-
-const moreFollowersResponse = data => ({
-  type: types.MORE_FOLLOWERS_RESPONSE,
-  data,
-});
-
-const moreFollowingRequest = () => ({
-  type: types.MORE_FOLLOWING_REQUEST,
-});
-
-const moreFollowingResponse = data => ({
-  type: types.MORE_FOLLOWING_RESPONSE,
-  data,
-});
+export const moreFollowersRequest = createAction('MORE_FOLLOWERS_REQUEST');
+export const moreFollowersResponse = createAction('MORE_FOLLOWERS_RESPONSE');
+export const moreFollowingRequest = createAction('MORE_FOLLOWING_REQUEST');
+export const moreFollowingResponse = createAction('MORE_FOLLOWING_RESPONSE');
 
 
 const loadProfile = (id, isAuth) => (dispatch, getState) => {
@@ -54,7 +32,12 @@ const loadProfile = (id, isAuth) => (dispatch, getState) => {
     .then((data) => {
       const [profile, followers, following = { data: {} }] = data;
 
-      dispatch(loadProfileResponse(profile.data, followers.data, following.data, isMe));
+      dispatch(loadProfileResponse({
+        profile: profile.data,
+        followers: followers.data,
+        following: following.data,
+        isMe
+      }));
     });
 };
 
