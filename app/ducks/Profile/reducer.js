@@ -1,5 +1,24 @@
 import unionBy from 'lodash/unionBy';
-import * as types from './actions/types';
+import { handleActions } from 'redux-actions';
+
+import { deleteImageRequest } from './actions/deleteImage';
+import { uploadImageRequest, uploadImageResponse } from './actions/uploadImage';
+import { changeFollowStatus, followUser, unfollowUser } from './actions/follow';
+import { saveChangesRequest, saveChangesResponse, saveChangesError } from './actions/saveChanges';
+import { selectPost, unselectPost } from './actions/selectedPostsActions';
+import {
+  loadProfileRequest,
+  loadProfileResponse,
+  moreFollowersRequest,
+  moreFollowersResponse,
+  moreFollowingRequest,
+  moreFollowingResponse
+} from './actions/loadProfile';
+import { addContactError, addContactRequest, addContactResponse } from './actions/addContact';
+import { deleteContactError, deleteContactRequest, deleteContactResponse } from './actions/deleteContact';
+import {
+  partialUpdateContactError, partialUpdateContactRequest, partialUpdateContactResponse
+} from './actions/partialUpdateContact';
 
 const initialState = {
   /** Статус загрузки данных о профиле */
@@ -25,188 +44,256 @@ const initialState = {
   isSaving: false,
   /** Ошибки редактирования профиля */
   errors: {},
+  /** Выбранные в магазине посты (для поднятия/удаления/архивировния) */
+  selectedPosts: [],
+  selectedPostsIds: []
 };
 
-const profileReducer = (state = initialState, action = {}) => {
-  switch (action.type) {
-    case (types.PROFILE_LOAD_REQUEST): {
-      return {
-        ...state,
-        isFetching: true,
-        data: {},
-      };
-    }
-    case (types.PROFILE_LOAD_RESPONSE): {
-      return {
-        ...state,
-        isFetching: false,
-        data: action.profile,
-        isMe: action.isMe,
-        followers: action.followers.results,
-        nextFollowersPage: 2,
-        canLoadMoreFollowers: !!action.followers.next,
-        following: action.following.results,
-        nextFollowingPage: 2,
-        canLoadMoreFollowing: !!action.following.next,
-      };
-    }
-    case (types.IMAGE_UPLOAD_REQUEST): {
-      return {
-        ...state,
-        uploadingImage: action.imageName,
-      };
-    }
-    case (types.IMAGE_UPLOAD_RESPONSE): {
-      return {
-        ...state,
-        uploadingImage: null,
-        data: action.data,
-      };
-    }
-    case (types.SAVE_CHANGES_REQUEST): {
-      return {
-        ...state,
-        isSaving: true,
-      };
-    }
-    case (types.SAVE_CHANGES_RESPONSE): {
-      return {
-        ...state,
-        data: action.data,
-        isSaving: false,
-      };
-    }
-    case (types.SAVE_CHANGES_ERROR): {
-      return {
-        ...state,
-        isSaving: false,
-        errors: action.data,
-      };
-    }
-    case (types.ADD_CONTACT_REQUEST):
-    case (types.DELETE_CONTACT_REQUEST):
-    case (types.PARTIAL_UPDATE_CONTACT_REQUEST): {
-      return {
-        ...state,
-        isSaving: true,
-      };
-    }
-    case (types.ADD_CONTACT_RESPONSE): {
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          contacts: [...state.data.contacts, action.data],
-        },
-        isSaving: false,
-      };
-    }
-    case (types.DELETE_CONTACT_RESPONSE): {
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          contacts: state.data.contacts.filter(contact => contact.id !== action.payload),
-        },
-        isSaving: false,
-      };
-    }
-    case (types.PARTIAL_UPDATE_CONTACT_RESPONSE): {
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          contacts: unionBy([action.data], state.data.contacts, 'id'),
-        },
-        isSaving: false,
-      };
-    }
-    case (types.ADD_CONTACT_ERROR):
-    case (types.REMOVE_CONTACT_ERROR):
-    case (types.PARTIAL_UPDATE_CONTACT_ERROR): {
-      return {
-        ...state,
-        isSaving: false,
-        errors: action.data,
-      };
-    }
-    case (types.IMAGE_DELETE_REQUEST): {
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          ...action.data,
-        },
-      };
-    }
-    case (types.MORE_FOLLOWERS_REQUEST): {
-      return {
-        ...state,
-        isLoadingMoreFollowers: true,
-      };
-    }
-    case (types.MORE_FOLLOWERS_RESPONSE): {
-      return {
-        ...state,
-        isLoadingMoreFollowers: false,
-        followers: [...state.followers, ...action.data.results],
-        nextFollowersPage: state.nextFollowersPage + 1,
-        canLoadMoreFollowers: !!action.data.next,
-      };
-    }
-    case (types.MORE_FOLLOWING_REQUEST): {
-      return {
-        ...state,
-        isLoadingMoreFollowing: true,
-      };
-    }
-    case (types.MORE_FOLLOWING_RESPONSE): {
-      return {
-        ...state,
-        isLoadingMoreFollowing: false,
-        following: [...state.following, ...action.data.results],
-        nextFollowingPage: state.nextFollowingPage + 1,
-        canLoadMoreFollowing: !!action.data.next,
-      };
-    }
-    case (types.CHANGE_FOLLOWING_STATUS): {
-      return {
-        ...state,
-        isFollowing: action.payload,
-      };
-    }
-    case (types.FOLLOW_USER): {
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          followers_count: state.data.followers_count + 1,
-          is_subscribed: true,
-        },
-        followers: [...state.followers, action.payload],
-      };
-    }
-    case (types.UNFOLLOW_USER): {
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          followers_count: state.data.followers_count - 1,
-          is_subscribed: false,
-        },
-        followers: state.followers.filter(follower => follower.id !== action.payload),
-      };
-    }
-    case (types.UPDATE_PROFILE): {
-      return {
-        ...state,
-        data: action.data
-      };
-    }
-    default: {
-      return state;
-    }
+const imagesActionsHandlers = {
+  [deleteImageRequest](state, { payload }) {
+    return ({
+      ...state,
+      data: {
+        ...state.data,
+        [payload]: null
+      }
+    });
+  },
+  [uploadImageRequest](state, { payload }) {
+    return ({
+      ...state,
+      uploadingImage: payload
+    });
+  },
+  [uploadImageResponse](state, { payload }) {
+    return ({
+      ...state,
+      uploadingImage: null,
+      data: payload
+    });
   }
 };
 
-export default profileReducer;
+const followActionsHandlers = {
+  [changeFollowStatus](state, { payload }) {
+    return ({
+      ...state,
+      isFollowing: payload
+    });
+  },
+  [followUser](state, { payload }) {
+    return ({
+      ...state,
+      data: {
+        ...state.data,
+        followers_count: state.data.followers_count + 1,
+        is_subscribed: true,
+      },
+      followers: [...state.followers, payload]
+    });
+  },
+  [unfollowUser](state, { payload }) {
+    return ({
+      ...state,
+      data: {
+        ...state.data,
+        followers_count: state.data.followers_count - 1,
+        is_subscribed: false,
+      },
+      followers: state.followers.filter(follower => follower.id !== payload),
+    });
+  }
+};
+
+const saveChangesActionsHandlers = {
+  [saveChangesRequest](state) {
+    return ({
+      ...state,
+      isSaving: true,
+    });
+  },
+  [saveChangesResponse](state, { payload }) {
+    return ({
+      ...state,
+      data: payload,
+      isSaving: false,
+    });
+  },
+  [saveChangesError](state, { payload }) {
+    return ({
+      ...state,
+      isSaving: false,
+      errors: payload,
+    });
+  }
+};
+
+const loadProfileActionsHandlers = {
+  [loadProfileRequest](state) {
+    return ({
+      ...state,
+      isFetching: true,
+      data: {}
+    });
+  },
+  [loadProfileResponse](state, { payload }) {
+    return ({
+      ...state,
+      isFetching: false,
+      data: payload.profile,
+      isMe: payload.isMe,
+      // Подписчики
+      followers: payload.followers.results,
+      nextFollowersPage: 2,
+      canLoadMoreFollowers: Boolean(payload.followers.next),
+      // Подписки
+      following: payload.following.results,
+      nextFollowingPage: 2,
+      canLoadMoreFollowing: Boolean(payload.following.next)
+    });
+  }
+};
+
+const followersActionsHandlers = {
+  [moreFollowersRequest](state) {
+    return ({
+      ...state,
+      isLoadingMoreFollowers: true
+    });
+  },
+  [moreFollowersResponse](state, { payload }) {
+    return ({
+      ...state,
+      isLoadingMoreFollowers: false,
+      followers: [...state.followers, ...payload.results],
+      nextFollowersPage: state.nextFollowersPage + 1,
+      canLoadMoreFollowers: Boolean(payload.next)
+    });
+  }
+};
+
+const followingActionsHandlers = {
+  [moreFollowingRequest](state) {
+    return ({
+      ...state,
+      isLoadingMoreFollowing: true
+    });
+  },
+  [moreFollowingResponse](state, { payload }) {
+    return ({
+      ...state,
+      isLoadingMoreFollowing: false,
+      following: [...state.following, ...payload.results],
+      nextFollowingPage: state.nextFollowingPage + 1,
+      canLoadMoreFollowing: Boolean(payload.next)
+    });
+  }
+};
+
+const addContactActionsHandlers = {
+  [addContactRequest](state) {
+    return {
+      ...state,
+      isSaving: true
+    };
+  },
+  [addContactResponse](state, { payload }) {
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        contacts: [...state.data.contacts, payload],
+      },
+      isSaving: false,
+    };
+  },
+  [addContactError](state, { payload }) {
+    return {
+      ...state,
+      isSaving: false,
+      errors: payload,
+    };
+  }
+};
+
+const deleteContactActionsHandlers = {
+  [deleteContactRequest](state) {
+    return {
+      ...state,
+      isSaving: true
+    };
+  },
+  [deleteContactResponse](state, { payload }) {
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        contacts: state.data.contacts.filter(contact => contact.id !== payload),
+      },
+      isSaving: false
+    };
+  },
+  [deleteContactError](state, { payload }) {
+    return {
+      ...state,
+      isSaving: false,
+      errors: payload
+    };
+  }
+};
+
+const partialUpdateContactActionsHandlers = {
+  [partialUpdateContactRequest](state) {
+    return {
+      ...state,
+      isSaving: true
+    };
+  },
+  [partialUpdateContactResponse](state, { payload }) {
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        contacts: unionBy([payload], state.data.contacts, 'id'),
+      },
+      isSaving: false,
+    };
+  },
+  [partialUpdateContactError](state, { payload }) {
+    return {
+      ...state,
+      isSaving: false,
+      errors: payload
+    };
+  }
+};
+
+const selectPostsActionsHandlers = {
+  [selectPost](state, { payload }) {
+    return ({
+      ...state,
+      selectedPosts: [...state.selectedPosts, payload],
+      selectedPostsIds: [...state.selectedPostsIds, payload.id]
+    });
+  },
+  [unselectPost](state, { payload }) {
+    return ({
+      ...state,
+      selectedPosts: state.selectedPosts.filter(({ id }) => id !== payload),
+      selectedPostsIds: state.selectedPostsIds.filter(id => id !== payload)
+    });
+  }
+};
+
+export default handleActions({
+  ...imagesActionsHandlers,
+  ...followActionsHandlers,
+  ...saveChangesActionsHandlers,
+  ...loadProfileActionsHandlers,
+  ...followersActionsHandlers,
+  ...followingActionsHandlers,
+  ...selectPostsActionsHandlers,
+  ...addContactActionsHandlers,
+  ...deleteContactActionsHandlers,
+  ...partialUpdateContactActionsHandlers
+}, initialState);

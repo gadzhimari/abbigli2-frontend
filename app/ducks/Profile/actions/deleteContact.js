@@ -1,19 +1,9 @@
-import * as types from './types';
+import { createAction } from 'redux-actions';
 import { Profile } from '../../../api';
 
-const deleteContactRequest = () => ({
-  type: types.DELETE_CONTACT_REQUEST,
-});
-
-const deleteContactResponse = id => ({
-  type: types.DELETE_CONTACT_RESPONSE,
-  payload: id,
-});
-
-const deleteContactError = data => ({
-  type: types.DELETE_CONTACT_ERROR,
-  data,
-});
+export const deleteContactRequest = createAction('DELETE_CONTACT_REQUEST');
+export const deleteContactResponse = createAction('DELETE_CONTACT_RESPONSE');
+export const deleteContactError = createAction('DELETE_CONTACT_ERROR');
 
 const deleteContact = id => (dispatch) => {
   dispatch(deleteContactRequest());

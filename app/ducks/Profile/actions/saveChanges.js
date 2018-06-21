@@ -1,33 +1,25 @@
-import * as types from './types';
-import { Profile } from '../../../api';
+import { createAction } from 'redux-actions';
 
+import { Profile } from '../../../api';
 import { setMe } from '../../Auth/authActions/fetchMe';
 
-const saveRequest = () => ({
-  type: types.SAVE_CHANGES_REQUEST,
-});
-
-const saveResponse = data => ({
-  type: types.SAVE_CHANGES_RESPONSE,
-  data,
-});
-
-const saveError = data => ({
-  type: types.SAVE_CHANGES_ERROR,
-  data,
-});
+export const saveChangesRequest = createAction('SAVE_CHANGES_REQUEST');
+export const saveChangesResponse = createAction('SAVE_CHANGES_RESPONSE');
+export const saveChangesError = createAction('SAVE_CHANGES_ERROR');
 
 const saveChanges = data => (dispatch) => {
-  dispatch(saveRequest());
+  dispatch(saveChangesRequest());
 
   return Profile.saveChanges(data)
     .then((response) => {
-      dispatch(saveResponse(response.data));
+      dispatch(saveChangesResponse(response.data));
       dispatch(setMe(response.data));
 
       return true;
     })
-    .catch(({ response }) => { dispatch(saveError(response.data)); });
+    .catch(({ response }) => {
+      dispatch(saveChangesError(response.data));
+    });
 };
 
 export default saveChanges;

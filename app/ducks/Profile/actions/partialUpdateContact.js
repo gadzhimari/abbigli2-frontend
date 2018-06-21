@@ -1,19 +1,9 @@
-import * as types from './types';
+import { createAction } from 'redux-actions';
 import { Profile } from '../../../api';
 
-const partialUpdateContactRequest = () => ({
-  type: types.PARTIAL_UPDATE_CONTACT_REQUEST,
-});
-
-const partialUpdateContactResponse = data => ({
-  type: types.PARTIAL_UPDATE_CONTACT_RESPONSE,
-  data,
-});
-
-const partialUpdateContactError = data => ({
-  type: types.PARTIAL_UPDATE_CONTACT_ERROR,
-  data,
-});
+export const partialUpdateContactRequest = createAction('PARTIAL_UPDATE_CONTACT_REQUEST');
+export const partialUpdateContactResponse = createAction('PARTIAL_UPDATE_CONTACT_RESPONSE');
+export const partialUpdateContactError = createAction('PARTIAL_UPDATE_CONTACT_ERROR');
 
 const partialUpdateContact = data => (dispatch) => {
   dispatch(partialUpdateContactRequest());

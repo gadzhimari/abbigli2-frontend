@@ -1,19 +1,9 @@
-import * as types from './types';
+import { createAction } from 'redux-actions';
 import { Profile } from '../../../api';
 
-const addContactRequest = () => ({
-  type: types.ADD_CONTACT_REQUEST,
-});
-
-const addContactResponse = data => ({
-  type: types.ADD_CONTACT_RESPONSE,
-  data,
-});
-
-const addContactError = data => ({
-  type: types.ADD_CONTACT_ERROR,
-  data,
-});
+export const addContactRequest = createAction('ADD_CONTACT_REQUEST');
+export const addContactResponse = createAction('ADD_CONTACT_RESPONSE');
+export const addContactError = createAction('ADD_CONTACT_ERROR');
 
 const addContact = data => (dispatch) => {
   dispatch(addContactRequest());
