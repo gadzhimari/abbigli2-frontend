@@ -13,7 +13,7 @@ import IconClose from '../../../icons/close';
 
 import pages from '../../../lib/pages';
 
-import * as bucketActions from '../../../ducks/AdvBucket/actions';
+import { selectPost, unselectPost } from '../../../ducks/Profile/actions';
 
 import { __t } from '../../../i18n/translator';
 
@@ -44,8 +44,8 @@ class ShopPage extends PureComponent {
   }
 
   renderToolbar(cn) {
-    const { bucketPostsIds } = this.props;
-    const selectedCount = bucketPostsIds.length;
+    const { selectedPostsIds } = this.props;
+    const selectedCount = selectedPostsIds.length;
 
     return (
       <div className={cn('toolbar')}>
@@ -164,7 +164,7 @@ class ShopPage extends PureComponent {
   }
 
   renderCards() {
-    const { itemsPosts, bucketPostsIds } = this.props;
+    const { itemsPosts, selectedPostsIds } = this.props;
     const cardProps = getProps.propsForPostsCards(this);
 
     return (
@@ -172,7 +172,7 @@ class ShopPage extends PureComponent {
         <Card
           data={item}
           key={item.slug}
-          checked={bucketPostsIds.includes(item.id)}
+          checked={selectedPostsIds.includes(item.id)}
 
           {...cardProps}
         />
@@ -224,9 +224,9 @@ class ShopPage extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ AdvBucket }) => ({
-  bucketPostsIds: AdvBucket.postsIds,
-  bucketPosts: AdvBucket.posts
+const mapStateToProps = ({ Profile }) => ({
+  selectedPostsIds: Profile.selectedPostsIds,
+  selectedPosts: Profile.selectedPosts
 });
 
-export default connect(mapStateToProps, bucketActions)(ShopPage);
+export default connect(mapStateToProps, { selectPost, unselectPost })(ShopPage);
