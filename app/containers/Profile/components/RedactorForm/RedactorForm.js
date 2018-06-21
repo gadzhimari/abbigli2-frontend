@@ -40,14 +40,14 @@ class RedactorForm extends PureComponent {
   }
 
   render(cn) {
-    const { id, isSaving } = this.props;
+    const { id, placeholder, isSaving } = this.props;
 
     return (
       <div className={cn()}>
         <Redactor
           id={id}
           value={this.state.value}
-          placeholder={__t('Information about your page')}
+          placeholder={placeholder}
           onChange={this.handleChange}
         />
         <div className={cn('actions')}>
