@@ -453,4 +453,6 @@ export default {
   'You can view the author\'s publications in other sections': 'Вы можете просмотреть публикации автора в других разделах',
   VK: 'ВКонтакте',
   OK: 'Одноклассники',
+  'Are you sure you want to delete?': 'Вы действительно хотите удалить?',
+  'Files deleted from the archive can not be restored': 'Файлы удаленные из архива будет невозможно восставновить',
 };

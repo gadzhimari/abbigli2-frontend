@@ -31,6 +31,13 @@
     color: @black;
     text-align: center;
   }
+  &__subtitle {
+    margin-bottom: 30px;
+    font-family: 'ClearSansBold';
+    font-size: 24px;
+    color: @black;
+    text-align: center;
+  }
   &__close {
     position: absolute;
     top: 10px;
@@ -92,10 +99,16 @@
 }
 
 .register-popup__content {
+  margin: 0 auto;
   text-align: center;
   font-size: 25px;
   margin-bottom: 15px;
   line-height: 1.3;
+}
+
+.register-popup__content-text {
+  font-size: 16px;
+  color: @black;
 }
 
 .register-popup__field {
@@ -280,6 +293,18 @@
   }
 }
 
+.register-popup__actions {
+  margin-top: 30px;
+
+  .Button:not(:first-child) {
+    margin-left: 20px;
+  }
+}
+
+.register-popup__action {
+  margin-bottom: 10px;
+}
+
 .reset-password-popup {
   .register-popup__form {
     margin-left: auto;
@@ -314,4 +339,12 @@
   border-radius: 5px;
   transform: translate(-50%, -50%);
   box-shadow: 0 2px 4px #3d4041;
+}
+
+@media screen and (max-width: 479px) {
+  .register-popup__actions {
+    .Button:not(:first-child) {
+      margin-left: 10px;
+    }
+  }
 }
