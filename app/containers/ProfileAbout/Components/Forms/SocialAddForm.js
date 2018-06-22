@@ -3,6 +3,7 @@ import { Button, Input } from '../../../../components-lib';
 import Select from '../../../../components/Inputs/Select';
 
 import { SOCIAL_PROVIDERS } from '../../../../lib/constants/social';
+import { containsBaseUrl, getSocialId } from '../../../../lib/links/social-link';
 
 import { __t } from '../../../../i18n/translator';
 
@@ -37,7 +38,15 @@ class SocialAddForm extends Component {
   }
 
   handleSave = () => {
-    this.props.onSave(this.state, 'creating');
+    const { type, value } = this.state;
+    const hasFullUrl = containsBaseUrl(type, value);
+    const socialId = hasFullUrl ? getSocialId(type, value) : value;
+    const data = {
+      value: socialId,
+      type,
+    };
+
+    this.props.onSave(data, 'creating');
   }
 
   handleCancel = () => {

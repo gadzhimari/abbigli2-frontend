@@ -1,6 +1,8 @@
 import { React, Component, Type, cn } from '../../../../components-lib/__base';
 import { Button, Input } from '../../../../components-lib';
 
+import { containsBaseUrl, getSocialId } from '../../../../lib/links/social-link';
+
 import { __t } from '../../../../i18n/translator';
 
 @cn('ProfileAbout')
@@ -39,7 +41,15 @@ class SocialEditForm extends Component {
   }
 
   handleSave = () => {
-    this.props.onSave(this.state);
+    const { type, value } = this.state;
+    const hasFullUrl = containsBaseUrl(type, value);
+    const socialId = hasFullUrl ? getSocialId(type, value) : value;
+    const data = {
+      value: socialId,
+      type,
+    };
+
+    this.props.onSave(data);
   }
 
   handleCancel = () => {

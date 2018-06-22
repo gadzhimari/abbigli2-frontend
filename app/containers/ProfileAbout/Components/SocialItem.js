@@ -10,7 +10,7 @@ import {
   partialUpdateContact
 } from '../../../ducks/Profile/actions';
 
-import createSocialLink from '../../../lib/links/social-link';
+import { createSocialLink } from '../../../lib/links/social-link';
 import { SOCIAL_PROVIDERS } from '../../../lib/constants/social';
 
 import IconFacebook from '../../../icons/facebook';
@@ -59,6 +59,7 @@ class SocialItem extends Component {
   }
 
   handleSaveContact = (data) => {
+    console.log('updating ', data);
     const { partialUpdateContact } = this.props;
     const newData = {
       ...data, id: this.props.data.id
