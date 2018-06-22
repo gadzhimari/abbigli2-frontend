@@ -3,5 +3,6 @@ export default {
   'common.restore': 'Восстановить',
   'common.edit': 'Редактировать',
   'common.save': 'Сохранить',
-  'common.addToArchive': 'Архивировать'
+  'common.addToArchive': 'Архивировать',
+  'common.cancel': 'Отмена',
 };

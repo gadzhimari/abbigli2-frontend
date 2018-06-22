@@ -1,9 +1,11 @@
 import agreement from './agreement.ru';
 import privacyRu from './privacy.ru';
 import commonKeyset from './keysets/common/ru';
+import modal from './keysets/modal/ru';
 
 export default {
   ...commonKeyset,
+  ...modal,
   'Upload image': 'Загрузить изображение',
   'You can upload maximum images':
     'Вы можете загрузить изображения в формате JPEG, PNG',
@@ -453,6 +455,4 @@ export default {
   'You can view the author\'s publications in other sections': 'Вы можете просмотреть публикации автора в других разделах',
   VK: 'ВКонтакте',
   OK: 'Одноклассники',
-  'Are you sure you want to delete?': 'Вы действительно хотите удалить?',
-  'Files deleted from the archive can not be restored': 'Файлы удаленные из архива будет невозможно восставновить',
 };

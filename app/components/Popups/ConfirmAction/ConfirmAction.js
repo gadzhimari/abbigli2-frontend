@@ -7,7 +7,6 @@ import './ConfirmAction.less';
 
 class ConfirmAction extends Component {
   static propTypes = {
-    dispatch: Type.func.isRequired,
     closePopup: Type.func.isRequired,
     errors: Type.oneOfType([Type.object, Type.any]),
   };
@@ -47,12 +46,12 @@ class ConfirmAction extends Component {
                 <Button
                   view="outline"
                   onClick={closePopup}
-                  text={__t('Cancel')}
+                  text={__t('common.cancel')}
                   className="register-popup__action"
                 />
                 <Button
                   onClick={this.handleAction}
-                  text={__t('Delete')}
+                  text={__t('common.delete')}
                   className="register-popup__action"
                 />
               </div>

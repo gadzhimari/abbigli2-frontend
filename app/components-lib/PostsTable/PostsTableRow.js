@@ -58,8 +58,8 @@ class PostsTableRow extends PureComponent {
   deletePost = () => {
     const { postData, deletePost } = this.props;
     const options = {
-      title: __t('Are you sure you want to delete?'),
-      text: __t('Files deleted from the archive can not be restored'),
+      title: __t('modal.messages.confirmToDelete'),
+      text: __t('modal.messages.deletedFiles'),
       action: () => deletePost(postData.slug, PRODUCT_TYPE),
     };
 
