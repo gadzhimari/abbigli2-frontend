@@ -122,15 +122,6 @@ class ProductCard extends PureComponent {
     const name = getUserName(data);
     const authorUrl = createProfileLink(author);
 
-    const avatar = (
-      <Avatar
-        className={cn('avatar', { bordered: avatar.bordered[view], size })}
-        imgClassName="avatar__img"
-        avatar={author.avatar}
-        thumbSize={ratio}
-        alt={name}
-      />
-    );
 
     return (
       showAvatar &&
@@ -140,7 +131,13 @@ class ProductCard extends PureComponent {
         text={name}
         title={name}
         color="gray-600"
-        icon={avatar}
+        icon={<Avatar
+          className={cn('avatar', { bordered: avatar.bordered[view], size })}
+          imgClassName="avatar__img"
+          avatar={author.avatar}
+          thumbSize={ratio}
+          alt={name}
+        />}
       />
     );
   }
