@@ -1,6 +1,7 @@
 @import 'base';
 @import 'variables';
 @import '../../../../components-lib/__base/variables/colors';
+@import '../../../../components-lib/__base/variables/variables';
 
 .Attach {
   min-height: 275px;
@@ -55,6 +56,28 @@
       margin-bottom: 26px;
 
       border-radius: 50%;
+    }
+  }
+}
+
+@media screen and (max-width: @breakpoint-s-only) {
+  .Attach {
+    min-height: 0;
+
+    &__link {
+      flex-direction: row;
+      height: 65px;
+
+      .Link__icon {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 0;
+      }
+
+      .Icon_size_s {
+        width: 16px;
+        height: 16px;
+      }
     }
   }
 }
