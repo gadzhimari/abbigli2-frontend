@@ -65,7 +65,7 @@ class ProfileLK extends Component {
 
     return (
       <div className={cn('content', { noPadding: hasProductsForUnathorized })}>
-        {isMe ? this.renderTabs(cn) : this.getFirstTabContent()}
+        {isMe ? this.renderTabs(cn) : <ShopPage {...this.props} />}
 
         {isMe && <ProfileBanners />}
       </div>
