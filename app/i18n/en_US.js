@@ -5,6 +5,7 @@ import modalKeyset from './keysets/modal/en';
 import bucketKeyset from './keysets/bucket/en';
 import postsTableKeyset from './keysets/postsTable/en';
 import datesKeyset from './keysets/dates/en';
+import shopKeyset from './keysets/shop/en';
 
 export default {
   ...commonKeyset,
@@ -12,6 +13,7 @@ export default {
   ...bucketKeyset,
   ...postsTableKeyset,
   ...datesKeyset,
+  ...shopKeyset,
 
   'Upload image': 'Upload image',
   'sign.up.to.leave.comment': 'Sign up to leave comment',

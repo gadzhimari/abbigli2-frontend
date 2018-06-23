@@ -33,9 +33,9 @@ export const SOCIAL_PROVIDERS = omit(ALL_SOCIAL_PROVIDERS,
   EXCLUDED_SOCIAL_PROVIDERS[location]);
 
 export const SOCIAL_PROVIDERS_REGEX_PATTERN = {
-  ok: /http(s)?:\/\/(www\.)?(ok|odnoklassniki)\.ru\/profile\//,
-  vk: /http(s)?:\/\/(www\.)?(vk|vkontakte)\.com\//,
-  fb: /http(s)?:\/\/(www\.)?(facebook|fb)\.com\//,
-  gp: /https?:\/\/plus\.google\.com\/((u)\/\d\/)?/,
-  pin: /http(?:s)?:\/\/(?:www\.)?(([a-z]){2}\.)?pinterest\.com\//,
+  ok: /(https?:\/\/)?(www\.)?(ok|odnoklassniki)\.ru\/profile\//,
+  vk: /(https?:\/\/)?(www\.)?(vk|vkontakte)\.com\//,
+  fb: /(https?:\/\/)?(www\.)?(facebook|fb)\.com\//,
+  gp: /(https?:\/\/)?(www\.)?plus\.google\.com\/((u)\/\d\/)?/,
+  pin: /(https?:\/\/)?(?:www\.)?(([a-z]){2}\.)?pinterest\.com\//,
 };

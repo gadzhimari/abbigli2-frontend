@@ -59,7 +59,6 @@ class SocialItem extends Component {
   }
 
   handleSaveContact = (data) => {
-    console.log('updating ', data);
     const { partialUpdateContact } = this.props;
     const newData = {
       ...data, id: this.props.data.id

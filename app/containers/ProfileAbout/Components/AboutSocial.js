@@ -33,7 +33,6 @@ class AboutSocial extends PureComponent {
   }
 
   handleSaveContact = (data, stage) => {
-    console.log('creating ', data);
     const { addContact } = this.props;
 
     if (stage === 'creating') {

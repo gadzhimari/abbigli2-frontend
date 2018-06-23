@@ -5,6 +5,7 @@ import modalKeyset from './keysets/modal/ru';
 import bucketKeyset from './keysets/bucket/ru';
 import postsTableKeyset from './keysets/postsTable/ru';
 import datesKeyset from './keysets/dates/ru';
+import shopKeyset from './keysets/shop/ru';
 
 export default {
   ...commonKeyset,
@@ -12,6 +13,7 @@ export default {
   ...bucketKeyset,
   ...postsTableKeyset,
   ...datesKeyset,
+  ...shopKeyset,
 
   'Upload image': 'Загрузить изображение',
   'You can upload maximum images':
@@ -462,13 +464,4 @@ export default {
   'You can view the author\'s publications in other sections': 'Вы можете просмотреть публикации автора в других разделах',
   VK: 'ВКонтакте',
   OK: 'Одноклассники',
-  Rules: 'Правила',
-  Delivery: 'Доставка',
-  'Return item': 'Возврат товара',
-  'Specify how you can pay for a purchase in your store': 'Укажите каким образом можно оплатить покупку в вашем магазин',
-  'Specify the terms of delivery': 'Укажите условия доставки',
-  'Specify return conditions': 'Укажите условия возврата',
-  'Describe in maximum detail the rules of your store and how to pay for your items. Write information using a text editor. A more detailed description will increase the level of confidence in you': 'Максимально подробно опишите правила вашего магазина и способы оплаты ваших изделий. Оформите информацию с помощью текстового редактора. Более подробное описание повысит уровень доверия к Вам',
-  'Describe in maximum detail the terms of delivery of your products': 'Максимально подробно опишите условия доставки ваших изделий',
-  'Please describe in as much detail the conditions for the return of your products': 'Максимально подробно опишите условия возврата ваших изделий',
 };
