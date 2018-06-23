@@ -23,11 +23,10 @@ class PostsTable extends PureComponent {
         <thead>
           <tr>
             <th />
-            <th>{__t('Title and Price')}</th>
-            {showPeriod && <th>{__t('The term raising')}</th>}
-            <th>{__t('Category')}</th>
-            {showPeriod && <th>{__t('Price')}</th>}
-            <th>{__t('Actions')}</th>
+            <th>{__t('postsTable.header.postTitle')}</th>
+            {showPeriod && <th>{__t('postsTable.header.raisingTerm')}</th>}
+            {showPeriod && <th>{__t('common.price')}</th>}
+            <th>{__t('postsTable.header.actions')}</th>
           </tr>
         </thead>
 

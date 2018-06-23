@@ -122,6 +122,16 @@ class ProductCard extends PureComponent {
     const name = getUserName(data);
     const authorUrl = createProfileLink(author);
 
+    const avatar = (
+      <Avatar
+        className={cn('avatar', { bordered: avatar.bordered[view], size })}
+        imgClassName="avatar__img"
+        avatar={author.avatar}
+        thumbSize={ratio}
+        alt={name}
+      />
+    );
+
     return (
       showAvatar &&
       <Link
@@ -130,15 +140,7 @@ class ProductCard extends PureComponent {
         text={name}
         title={name}
         color="gray-600"
-        icon={
-          <Avatar
-            className={cn('avatar', { bordered: avatar.bordered[view], size })}
-            imgClassName="avatar__img"
-            avatar={author.avatar}
-            thumbSize={ratio}
-            alt={name}
-          />
-        }
+        icon={avatar}
       />
     );
   }
@@ -148,15 +150,15 @@ class ProductCard extends PureComponent {
       <div className={cn('stats')}>
         <span className={cn('stats-meta')}>
           <span className={cn('like-count')}>
-            <Icon glyph="eye2" size="xs" color="gray-400" />
+            <Icon glyph="heart" size="xs" color="gray-400" />
 
             {this.props.data.favorites_num}
           </span>
 
           <span className={cn('view-count')}>
-            <Icon glyph="heart" size="xs" color="gray-400" />
+            <Icon glyph="eye2" size="xs" color="gray-400" />
 
-            {this.props.data.likes_num}
+            {this.props.data.favorites_num}
           </span>
         </span>
       </div>
@@ -204,15 +206,15 @@ class ProductCard extends PureComponent {
         {view === 3 &&
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
-              {
-                showAvatar && this.renderAvatar(cn)
-              }
+              {showAvatar && this.renderAvatar(cn)}
+
               <div className={cn('date', { short: true })}>
                 {toLocaleDateString(created, CARD_DATE_SHORT_FORMAT)}
               </div>
             </div>
           </div>
         }
+
         <div className={cn('img-wrapper')}>
           <Link to={postUrl}>
             <Image
@@ -222,6 +224,7 @@ class ProductCard extends PureComponent {
               src={imageUrl}
             />
           </Link>
+
           <div className={cn('actions', { align: 'top-left' })}>
             {showCheckbox &&
               <Checkbox
@@ -234,6 +237,7 @@ class ProductCard extends PureComponent {
                 checked={checked}
               />
             }
+
             {showShare &&
               <span className="share Card__share">
                 <Button
@@ -253,7 +257,8 @@ class ProductCard extends PureComponent {
                 </div>
               </span>
             }
-            { showRaiseButton &&
+
+            {showRaiseButton &&
               <div className={cn('spacer')}>
                 <Button
                   view="fab"
@@ -264,6 +269,7 @@ class ProductCard extends PureComponent {
 
                 <div className="dropdown">
                   <div className="dropdown-corner" />
+
                   <Share
                     postLink={postUrl}
                     buttonClass="social-btn"
@@ -275,7 +281,7 @@ class ProductCard extends PureComponent {
             }
           </div>
           <div className={cn('actions', { align: 'top-right' })}>
-            { showLike &&
+            {showLike &&
               <Like
                 liked={isFavorite}
                 onClick={setLike}
@@ -284,7 +290,7 @@ class ProductCard extends PureComponent {
                 className={cn('button', { like: true, hide: !isTouch })}
               />
             }
-            { canEdit && !showMoreButton &&
+            {canEdit && !showMoreButton &&
               <Link
                 to={postEditingUrl}
                 view="fab"
@@ -293,7 +299,8 @@ class ProductCard extends PureComponent {
                 icon={<Icon glyph="pencil" size="xs" color="gray-400" />}
               />
             }
-            { isMe && showDeleteButton && !showMoreButton &&
+
+            {isMe && showDeleteButton && !showMoreButton &&
               <Button
                 onClick={this.handleDelete}
                 view="fab"
@@ -302,7 +309,8 @@ class ProductCard extends PureComponent {
                 icon={<Icon glyph="close" size="xs" color="gray-400" />}
               />
             }
-            { isMe && showMoreButton &&
+
+            {isMe && showMoreButton &&
               <span className="share">
                 <Button
                   view="fab"
@@ -310,8 +318,10 @@ class ProductCard extends PureComponent {
                   aria-label={__t('Show more')}
                   icon={<Icon glyph="more" size="xs" color="gray-400" />}
                 />
+
                 <div className="dropdown">
                   <div className="dropdown-corner" />
+
                   <Button
                     view="link"
                     className={cn('dropdown-item')}
@@ -320,7 +330,8 @@ class ProductCard extends PureComponent {
                     onClick={this.handleDelete}
                     icon={<Icon glyph="close" size="xs" color="gray-400" />}
                   />
-                  { canEdit &&
+
+                  {canEdit &&
                     <Link
                       to="#"
                       className={cn('dropdown-item')}
@@ -329,6 +340,7 @@ class ProductCard extends PureComponent {
                       icon={<Icon glyph="pencil" size="xs" color="gray-400" />}
                     />
                   }
+
                   <Link
                     to="#"
                     className={cn('dropdown-item')}
@@ -340,8 +352,9 @@ class ProductCard extends PureComponent {
               </span>
             }
           </div>
+
           <div className={cn('actions', { align: 'bottom-right' })}>
-            { showMessages &&
+            {showMessages &&
               <Button
                 className={cn('button', { messages: true })}
                 text={data.dialogs_num}
@@ -350,10 +363,11 @@ class ProductCard extends PureComponent {
             }
           </div>
         </div>
+
         <div className={cn('wrapper')}>
           <div className={cn('body')}>
             { view !== 3 && this.renderTitle(cn, postUrl) }
-            {/* TODO Заменить на новое апи  */}
+
             { showActivationPeriod &&
               <div className={cn('activation-period')}>
                 {__t('From')}:{' '}
@@ -367,12 +381,16 @@ class ProductCard extends PureComponent {
               </div>
             }
           </div>
+
           <div className={cn('footer', { align: 'vertical' })}>
             <div className={cn('footer-col', { left: true })}>
               { view !== 3 && showAvatar && this.renderAvatar(cn) }
+
               { view === 3 && this.renderTitle(cn, postUrl) }
+
               { isMe && showStats && this.renderStats(cn) }
             </div>
+
             <div className={cn('footer-col', { right: true })}>
               <Price className={cn('price')} price={price} />
             </div>

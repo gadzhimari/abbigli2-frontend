@@ -5,4 +5,5 @@ export default {
   'common.save': 'Save',
   'common.addToArchive': 'Archive',
   'common.cancel': 'Cancel',
+  'common.price': 'Price'
 };

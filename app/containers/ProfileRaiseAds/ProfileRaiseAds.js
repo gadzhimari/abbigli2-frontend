@@ -1,22 +1,21 @@
-import { connect } from 'react-redux';
-
-import { React, Component, cn } from '../../components-lib/__base';
+import { React, Component, cn, connect } from '../../components-lib/__base';
 import { Button, Spin, Link, PostsTable, Price } from '../../components-lib';
-
-import ProfileRaiseAdsMobile from './ProfileRaiseAds.mobile';
 
 import ProfileBanners from '../Profile/components/ProfileBanners';
 
 import * as actions from '../../ducks/ProfilePosts/actions';
+import { loadBucket, removeFromBucket } from '../../ducks/AdvBucket/actions';
 
 import { ADS_TARIFF_BY_PERIOD, ADS_DATE_PERIODS } from '../../lib/constants/ads-tariffs';
 import { USD_PRICE_TEMPLATE } from '../../lib/constants/price';
+import { POST_TABLE_DELETE_ACTION } from '../../components-lib/PostsTable/PostsTableRow';
 
 import { __t } from './../../i18n/translator';
 
 import '../LK/Profile.less';
 
 const DEFAULT_TARIFF = ADS_TARIFF_BY_PERIOD[ADS_DATE_PERIODS[0].value];
+const postsTableActions = [POST_TABLE_DELETE_ACTION];
 
 @cn('Profile')
 class ProfileRaiseAds extends Component {
@@ -24,29 +23,38 @@ class ProfileRaiseAds extends Component {
     totalPrice: this.props.posts.length * DEFAULT_TARIFF
   }
 
+  componentDidMount() {
+    this.fetchPosts();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.posts.length !== nextProps.posts.length) {
+      this.setState({ totalPrice: nextProps.posts.length * DEFAULT_TARIFF });
+    }
+  }
+
   onChangePrice = (previousTariff, newTariff) => {
     const totalPrice = (this.state.totalPrice - previousTariff) + newTariff;
     this.setState({ totalPrice });
   }
 
-  renderLoader() {
-    const { isFetchingPosts } = this.props;
+  fetchPosts = () => {
+    const { loadBucket } = this.props;
+    loadBucket();
+  }
 
+  renderLoader() {
     return (
       <div className="spin-wrapper">
-        <Spin visible={isFetchingPosts} />
+        <Spin visible />
       </div>
     );
   }
 
 
   render(cn) {
-    const { isTouch, posts } = this.props;
+    const { posts, isFetching, removeFromBucket, user } = this.props;
     const { totalPrice } = this.state;
-
-    if (isTouch) {
-      return <ProfileRaiseAdsMobile />;
-    }
 
     return (
       <div className={cn('wrapper')}>
@@ -55,12 +63,12 @@ class ProfileRaiseAds extends Component {
             <div className={cn('items-header')}>
               <div className={cn('items-header-wrapper')}>
                 <h1 className={cn('items-header-title')}>
-                  Поднятие объявлений вверх списка
-              </h1>
+                  {__t('bucket.title')}
+                </h1>
 
                 <h2 className={cn('items-header-subtitle')}>
-                  Выберите срок поднятия
-              </h2>
+                  {__t('bucket.subTitle')}
+                </h2>
 
                 <div className={cn('items-header-info')}>
                   <span className={cn('items-header-selected')}>
@@ -70,7 +78,7 @@ class ProfileRaiseAds extends Component {
                   <div className={cn('items-header-payment')}>
                     <span className={cn('items-header-total')}>
                       <span className={cn('items-header-total-title')}>
-                        Общая стоимость:
+                        {__t('bucket.totalPrice')}
                       </span>
 
                       <Price
@@ -82,7 +90,7 @@ class ProfileRaiseAds extends Component {
 
                     <Button
                       view="outline"
-                      text="Оплатить"
+                      text={__t('bucket.pay')}
                       size="l"
                     />
                   </div>
@@ -91,25 +99,29 @@ class ProfileRaiseAds extends Component {
             </div>
 
             <div className={cn('items-panel')}>
-              <PostsTable
-                posts={posts}
-                showPeriod
-                onChangePrice={this.onChangePrice}
-              />
+              {isFetching ? this.renderLoader()
+                : <PostsTable
+                  posts={posts}
+                  showPeriod
+                  onChangePrice={this.onChangePrice}
+                  actions={postsTableActions}
+                  deletePost={removeFromBucket}
+                />
+              }
             </div>
 
             <div className={cn('items-footer')}>
               <div className={cn('items-footer-wrapper')}>
                 <Link
-                  to="#"
+                  to={`/profile/${user.id}/lk`}
                   size="s"
-                  text="Вернуться в витрину"
+                  text={__t('bucket.backToShop')}
                 />
 
                 <div className={cn('items-footer-payment')}>
                   <span className={cn('items-footer-total')}>
                     <span className={cn('items-footer-total-title')}>
-                      Общая стоимость:
+                      {__t('bucket.totalPrice')}
                     </span>
 
                     <Price
@@ -120,7 +132,7 @@ class ProfileRaiseAds extends Component {
                   </span>
 
                   <Button
-                    text="Оплатить"
+                    text={__t('bucket.pay')}
                     size="l"
                   />
                 </div>
@@ -139,7 +151,10 @@ const mapStateToProps = state => ({
   isTouch: state.isTouch,
 
   posts: state.AdvBucket.posts,
-  postsIds: state.AdvBucket.postsIds,
+  isFetching: state.AdvBucket.isFetching,
+  user: state.Auth.me
 });
 
-export default connect(mapStateToProps, { ...actions })(ProfileRaiseAds);
+export default connect(mapStateToProps, {
+  ...actions, loadBucket, removeFromBucket
+})(ProfileRaiseAds);

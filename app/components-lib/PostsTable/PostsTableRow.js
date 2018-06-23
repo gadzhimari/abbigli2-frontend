@@ -1,18 +1,15 @@
 import Select from 'react-select';
 
-import { React, PureComponent, Type, connect } from '../__base';
+import { React, PureComponent, Type } from '../__base';
 
 import { Button, Price } from '../../components-lib';
 import Image from '../../components/Image';
-
-import { openPopup } from '../../ducks/Popup/actions';
 
 import momentAddDate from '../../lib/date/momendAddDate';
 import getImageUrl from '../../lib/getImageUrl';
 import { ADS_DATE_PERIODS, ADS_TARIFF_BY_PERIOD } from '../../lib/constants/ads-tariffs';
 import { USD_PRICE_TEMPLATE } from '../../lib/constants/price';
 import { DAY_WITH_FULL_MONTH } from '../../lib/date/formats';
-import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
 
 import { __t } from '../../i18n/translator';
 
@@ -57,13 +54,7 @@ class PostsTableRow extends PureComponent {
 
   deletePost = () => {
     const { postData, deletePost } = this.props;
-    const options = {
-      title: __t('modal.messages.confirmToDelete'),
-      text: __t('modal.messages.deletedFiles'),
-      action: () => deletePost(postData.slug, PRODUCT_TYPE),
-    };
-
-    this.props.openPopup('confirmAction', options);
+    deletePost(postData.slug);
   }
 
   render() {
@@ -126,14 +117,6 @@ class PostsTableRow extends PureComponent {
           </td>
         }
 
-        <td className={cn('col')}>
-          <div className={cn('cell')}>
-            <div className={cn('item-category')}>
-              {postData.category && postData.category.title}
-            </div>
-          </div>
-        </td>
-
         {showPeriod &&
           <td className={cn('col')}>
             <div className={cn('cell')}>
@@ -155,7 +138,7 @@ class PostsTableRow extends PureComponent {
                     view="link"
                     size="s"
                     onClick={this.archivatePost}
-                    text={__t('common.archive')}
+                    text={__t('common.addToArchive')}
                   />
                 </div>
               }
@@ -189,11 +172,5 @@ class PostsTableRow extends PureComponent {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    openPopup: (type, options) => dispatch(openPopup(type, options)),
-  };
-}
 
-export default connect(null,
-  mapDispatchToProps)(PostsTableRow);
+export default PostsTableRow;

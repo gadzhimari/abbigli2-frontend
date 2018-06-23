@@ -86,7 +86,7 @@ function getRoutes(store) {
       </Route>
 
       {!isProduction &&
-        <Route path={pages.RAISE_ADS_PAGE.path} component={ProfileRaiseAds} />
+        <Route path={pages.RAISE_ADS_PAGE.path} component={ProfileRaiseAds} mustScroll />
       }
 
       <Route path={pages.SETTINGS_PAGE.path} component={SettingsPage} />

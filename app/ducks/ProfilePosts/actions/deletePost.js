@@ -1,8 +1,10 @@
 import { createActions } from 'redux-actions';
+import noop from 'lodash/noop';
 import { Posts, Products, Events } from '../../../api';
 
 import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../../lib/constants/posts-types';
-import { closePopup } from '../../Popup/actions';
+import { openPopup } from '../../Popup/actions';
+import { __t } from '../../../i18n/translator';
 
 export const {
   deletePostFromPage
@@ -14,27 +16,43 @@ const apiByType = {
   [EVENT_TYPE]: Events
 };
 
-export default function deletePost(slug, type) {
+export default function deletePost(slug, type, callback = noop) {
   const api = apiByType[type];
 
   return (dispatch) => {
-    dispatch(deletePostFromPage(slug));
-    return api.delete(slug);
+    dispatch(openPopup('confirmAction', {
+      title: __t('modal.messages.confirmToDelete'),
+      text: __t('modal.messages.deletedFiles'),
+      actionButtonText: __t('common.delete'),
+
+      action: () => {
+        callback();
+        dispatch(deletePostFromPage(slug));
+        return api.delete(slug);
+      }
+    }));
   };
 }
 
-export function deleteBatchPosts(slugs, type) {
+export function deleteBatchPosts(slugs, type, callback = noop) {
   const api = apiByType[type];
-  const promises = slugs.map(slug => api.delete(slug)
-    .catch(console.error) // TODO: сделать нормальную обработку
-  );
 
   return (dispatch) => {
-    dispatch(deletePostFromPage(slugs));
+    dispatch(openPopup('confirmAction', {
+      title: __t('modal.messages.confirmToDelete'),
+      text: __t('modal.messages.deletedFiles'),
+      actionButtonText: __t('common.delete'),
 
-    return Promise.all(promises)
-      .catch(() => {
-        dispatch(closePopup()); // Закрываем попап подтверждени удаления
-      });
+      action: () => {
+        callback();
+        dispatch(deletePostFromPage(slugs));
+
+        const promises = slugs.map(slug => api.delete(slug)
+          .catch(console.error) // TODO: сделать нормальную обработку
+        );
+
+        return Promise.all(promises);
+      }
+    }));
   };
 }

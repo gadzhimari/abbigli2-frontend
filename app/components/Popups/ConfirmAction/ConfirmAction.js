@@ -11,14 +11,24 @@ class ConfirmAction extends Component {
     errors: Type.oneOfType([Type.object, Type.any]),
   };
 
+  state = {
+    processingAction: false
+  }
+
   handleAction = () => {
     const { options, closePopup } = this.props;
 
-    options.action().then(() => closePopup());
+    this.setState({ processingAction: true });
+
+    options.action().then(() => {
+      this.setState({ processingAction: false });
+      closePopup();
+    });
   }
 
   render() {
     const { closePopup, options } = this.props;
+    const { processingAction } = this.state;
 
     return (
       <div className="popup-wrap" id="sendMessage">
@@ -34,24 +44,30 @@ class ConfirmAction extends Component {
               color="gray-500"
             />}
           />
+
           <div className="register-popup__body">
             <div className="register-popup__content">
               <div className="register-popup__subtitle">
                 { options.title }
               </div>
+
               <p className="register-popup__content-text">
                 { options.text }
               </p>
+
               <div className="register-popup__actions">
                 <Button
                   view="outline"
                   onClick={closePopup}
+                  disabled={processingAction}
                   text={__t('common.cancel')}
                   className="register-popup__action"
                 />
+
                 <Button
                   onClick={this.handleAction}
-                  text={__t('common.delete')}
+                  text={options.actionButtonText}
+                  isFetching={processingAction}
                   className="register-popup__action"
                 />
               </div>

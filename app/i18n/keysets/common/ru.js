@@ -5,4 +5,5 @@ export default {
   'common.save': 'Сохранить',
   'common.addToArchive': 'Архивировать',
   'common.cancel': 'Отмена',
+  'common.price': 'Цена'
 };

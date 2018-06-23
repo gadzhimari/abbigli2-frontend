@@ -13,20 +13,12 @@ import { PRODUCT_TYPE } from '../../../lib/constants/posts-types';
 import { selectPost, unselectPost, clearSelectedPosts } from '../../../ducks/Profile/actions';
 
 import { __t } from '../../../i18n/translator';
+import { batchAddToBucket } from '../../../ducks/AdvBucket/actions/addToBucket';
 
 @cn('Profile')
 class ShopPage extends PureComponent {
   componentDidMount() {
     this.fetchPosts();
-  }
-
-  handleRaising = () => {
-    const { router } = this.props;
-    console.log('async creating bucket. TODO!');
-
-    router.push({
-      pathname: pages.RAISE_ADS_PAGE.path
-    });
   }
 
   fetchPosts = (page = 1) => {
@@ -38,10 +30,18 @@ class ShopPage extends PureComponent {
     }, PRODUCT_TYPE);
   }
 
+  raiseBatchPosts = () => {
+    const { router, batchAddToBucket, selectedPostsSlugs, clearSelectedPosts } = this.props;
+
+    batchAddToBucket(selectedPostsSlugs)
+      .then(() => router.push({ pathname: `/${pages.RAISE_ADS_PAGE.path}` }));
+
+    clearSelectedPosts();
+  }
+
   deleteBatchPosts = () => {
     const { selectedPostsSlugs, deleteBatchPosts, clearSelectedPosts } = this.props;
-    deleteBatchPosts(selectedPostsSlugs, PRODUCT_TYPE);
-    clearSelectedPosts();
+    deleteBatchPosts(selectedPostsSlugs, PRODUCT_TYPE, clearSelectedPosts);
   }
 
   addToArchiveBatchPosts = () => {
@@ -51,7 +51,7 @@ class ShopPage extends PureComponent {
   }
 
   renderToolbar(cn) {
-    const { selectedPostsSlugs } = this.props;
+    const { selectedPostsSlugs, isCreatingBucket } = this.props;
     const selectedCount = selectedPostsSlugs.length;
 
     return (
@@ -66,7 +66,8 @@ class ShopPage extends PureComponent {
             text={__t('Raise')}
             className={cn('toolbar-button')}
             disabled={!selectedCount}
-            onClick={this.handleRaising}
+            onClick={this.raiseBatchPosts}
+            isFetching={isCreatingBucket}
             icon={<Icon
               glyph="elevation"
               size="xs"
@@ -226,9 +227,15 @@ class ShopPage extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ Profile }) => ({
+const mapStateToProps = ({ Profile, AdvBucket }) => ({
   selectedPostsSlugs: Profile.selectedPostsSlugs,
-  selectedPosts: Profile.selectedPosts
+  selectedPosts: Profile.selectedPosts,
+  isCreatingBucket: AdvBucket.isCreating
 });
 
-export default connect(mapStateToProps, { selectPost, unselectPost, clearSelectedPosts })(ShopPage);
+export default connect(mapStateToProps, {
+  selectPost,
+  unselectPost,
+  clearSelectedPosts,
+  batchAddToBucket
+})(ShopPage);
