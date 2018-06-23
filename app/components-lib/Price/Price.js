@@ -13,7 +13,7 @@ class Price extends Component {
   render(cn) {
     const { price, priceTemplate = localizedPriceTemplate } = this.props;
 
-    if (!price) return null;
+    if (typeof price === 'undefined') return null;
 
     return (
       <div className={cn()}>

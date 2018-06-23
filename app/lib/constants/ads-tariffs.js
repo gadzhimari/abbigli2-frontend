@@ -1,7 +1,9 @@
+import { __t } from '../../i18n/translator';
+
 export const ADS_DATE_PERIODS = [
-  { value: 7, label: '7 дней' },
-  { value: 15, label: '15 дней' },
-  { value: 30, label: '30 дней' },
+  { value: 7, label: __t('dates.day', { days: 7 }) },
+  { value: 15, label: __t('dates.day', { days: 15 }) },
+  { value: 30, label: __t('dates.day', { days: 30 }) },
 ];
 
 export const ADS_TARIFF_BY_PERIOD = {

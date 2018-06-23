@@ -6,9 +6,9 @@ const commaRegexp = new RegExp(',');
  *
  * @param {String} price - цена
  *
- * @returns {Number|String}
+ * @returns {Number}
  */
 export default function parsePrice(price) {
-  // Пока нет маски - заменяем запятую на точку ручками
-  return Number(price.replace(commaRegexp, '.')) || price;
+  return typeof price === 'string' ?
+    Number(price.replace(commaRegexp, '.')) : price;
 }

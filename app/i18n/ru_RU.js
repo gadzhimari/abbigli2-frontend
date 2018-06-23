@@ -1,11 +1,18 @@
 import agreement from './agreement.ru';
 import privacyRu from './privacy.ru';
 import commonKeyset from './keysets/common/ru';
-import modal from './keysets/modal/ru';
+import modalKeyset from './keysets/modal/ru';
+import bucketKeyset from './keysets/bucket/ru';
+import postsTableKeyset from './keysets/postsTable/ru';
+import datesKeyset from './keysets/dates/ru';
 
 export default {
   ...commonKeyset,
-  ...modal,
+  ...modalKeyset,
+  ...bucketKeyset,
+  ...postsTableKeyset,
+  ...datesKeyset,
+
   'Upload image': 'Загрузить изображение',
   'You can upload maximum images':
     'Вы можете загрузить изображения в формате JPEG, PNG',

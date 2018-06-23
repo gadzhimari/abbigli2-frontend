@@ -3,8 +3,11 @@
 @import '../__base/animation';
 @import '../__base/mixins';
 
-.Button {
+@root: ~'.Button';
+
+@{root} {
   .button-base();
+
   &__text {
     .button-base-text();
   }
@@ -18,9 +21,11 @@
     margin-left: 6px;
   }
 
-  &__fetching {
+  &__loader {
     display: inline-flex;
+  
     .align-full();
+
     &:before {
       content: '';
       display: inline-block;
@@ -32,25 +37,25 @@
     }
   }
 
-  &__text + &__fetching,
-  &__fetching + &__text {
-    opacity: 0;
-  }
-
   &_view {
     &_default,
     &_outline,
     &_fab {
       .button();
+
       border-width: @btn-border-width;
       border-style: @btn-border-style;
     }
+
     &_link {
       .link();
+
       white-space: nowrap;
     }
+
     &_icon {
       .button();
+
       background-color: transparent;
     }
 
@@ -58,7 +63,8 @@
       .for-each(@pair in @theme-colors) {
         @key: at(@pair, 1);
         @value: at(@pair, 2);
-        &.Button_color_@{key} {
+
+        &@{root}_color_@{key} {
           .button-variant(@value, @value, transparent);
         }
       }
@@ -68,7 +74,8 @@
       .for-each(@pair in @theme-colors) {
         @key: at(@pair, 1);
         @value: at(@pair, 2);
-        &.Button_color_@{key} {
+
+        &@{root}_color_@{key} {
           .button-outline-variant(@value, @value, @value);
         }
       }
@@ -76,7 +83,7 @@
 
     &_default,
     &_outline {
-      &.Button_size {
+      &@{root}_size {
         &_s {
           .button-size(
             @btn-padding-y-small,
@@ -86,8 +93,9 @@
             @btn-line-height-small,
             @btn-border-radius
           );
-          .Button {
-            &__fetching {
+
+          @{root} {
+            &__loader {
               &:before {
                 width: 16px;
                 height: 16px;
@@ -95,6 +103,7 @@
             }
           }
         }
+
         &_m {
           .button-size(
             @btn-padding-y-medium,
@@ -104,8 +113,9 @@
             @btn-line-height-medium,
             @btn-border-radius
           );
-          .Button {
-            &__fetching {
+
+          @{root} {
+            &__loader {
               &:before {
                 width: 20px;
                 height: 20px;
@@ -113,6 +123,7 @@
             }
           }
         }
+
         &_l {
           .button-size(
             @btn-padding-y-large,
@@ -122,8 +133,9 @@
             @btn-line-height-large,
             @btn-border-radius
           );
-          .Button {
-            &__fetching {
+
+          @{root} {
+            &__loader {
               &:before {
                 width: 24px;
                 height: 24px;
@@ -138,22 +150,27 @@
       .for-each(@pair in @theme-colors) {
         @key: at(@pair, 1);
         @value: at(@pair, 2);
-        &.Button_color_@{key} {
+
+        &@{root}_color_@{key} {
           .button-link-variant(@value);
         }
       }
-      &.Button_size {
+
+      &@{root}_size {
         &_s {
           .link-size(@font-size-small);
         }
+
         &_m {
           .link-size(@font-size-medium);
         }
+
         &_l {
           .link-size(@font-size-large);
         }
       }
-      .Button__text {
+
+      @{root}__text {
         .button-text();
       }
     }
@@ -164,7 +181,8 @@
         @value: at(@pair, 2);
         .button-fab-variant(@white, @gray-500, @key, @value);
       }
-      &.Button_size {
+
+      &@{root}_size {
         &_m {
           width: 30px;
           .button-size(0, 0, 30px, inherit, 28px, 50%);
@@ -179,5 +197,11 @@
 
   &_disabled {
     .button-disabled();
+  }
+
+  &_fetching {
+    @{root}__text, @{root}__icon {
+      opacity: 0;
+    }
   }
 }
