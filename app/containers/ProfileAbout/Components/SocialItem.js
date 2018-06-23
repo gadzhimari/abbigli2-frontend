@@ -10,7 +10,7 @@ import {
   partialUpdateContact
 } from '../../../ducks/Profile/actions';
 
-import createSocialLink from '../../../lib/links/social-link';
+import { createSocialLink } from '../../../lib/links/social-link';
 import { SOCIAL_PROVIDERS } from '../../../lib/constants/social';
 
 import IconFacebook from '../../../icons/facebook';

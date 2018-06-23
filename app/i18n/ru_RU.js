@@ -5,6 +5,7 @@ import modalKeyset from './keysets/modal/ru';
 import bucketKeyset from './keysets/bucket/ru';
 import postsTableKeyset from './keysets/postsTable/ru';
 import datesKeyset from './keysets/dates/ru';
+import shopKeyset from './keysets/shop/ru';
 
 export default {
   ...commonKeyset,
@@ -12,6 +13,7 @@ export default {
   ...bucketKeyset,
   ...postsTableKeyset,
   ...datesKeyset,
+  ...shopKeyset,
 
   'Upload image': 'Загрузить изображение',
   'You can upload maximum images':
