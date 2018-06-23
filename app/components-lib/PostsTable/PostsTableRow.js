@@ -1,9 +1,11 @@
 import Select from 'react-select';
 
-import { React, PureComponent } from '../__base';
+import { React, PureComponent, Type, connect } from '../__base';
 
 import { Button, Price } from '../../components-lib';
 import Image from '../../components/Image';
+
+import { openPopup } from '../../ducks/Popup/actions';
 
 import momentAddDate from '../../lib/date/momendAddDate';
 import getImageUrl from '../../lib/getImageUrl';
@@ -19,9 +21,14 @@ export const POST_TABLE_ARCHIVE_ACTION = 'archive';
 export const POST_TABLE_UNARCHIVE_ACTION = 'unarchive';
 
 class PostsTableRow extends PureComponent {
+  static propTypes = {
+    openPopup: Type.func,
+  };
+
   static defaultProps = {
     actions: [POST_TABLE_ARCHIVE_ACTION, POST_TABLE_DELETE_ACTION]
-  }
+  };
+
 
   state = {
     activePeriod: 7,
@@ -50,7 +57,13 @@ class PostsTableRow extends PureComponent {
 
   deletePost = () => {
     const { postData, deletePost } = this.props;
-    deletePost(postData.slug, PRODUCT_TYPE);
+    const options = {
+      title: __t('modal.messages.confirmToDelete'),
+      text: __t('modal.messages.deletedFiles'),
+      action: () => deletePost(postData.slug, PRODUCT_TYPE),
+    };
+
+    this.props.openPopup('confirmAction', options);
   }
 
   render() {
@@ -176,4 +189,11 @@ class PostsTableRow extends PureComponent {
   }
 }
 
-export default PostsTableRow;
+function mapDispatchToProps(dispatch) {
+  return {
+    openPopup: (type, options) => dispatch(openPopup(type, options)),
+  };
+}
+
+export default connect(null,
+  mapDispatchToProps)(PostsTableRow);

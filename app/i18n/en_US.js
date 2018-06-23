@@ -1,9 +1,11 @@
 import agreement from './agreement.en';
 import privacyEn from './privacy.en';
 import commonKeyset from './keysets/common/en';
+import modal from './keysets/modal/en';
 
 export default {
   ...commonKeyset,
+  ...modal,
   'Upload image': 'Upload image',
   'sign.up.to.leave.comment': 'Sign up to leave comment',
   'You can upload maximum images': 'You can upload images in JPEG, PNG format',
