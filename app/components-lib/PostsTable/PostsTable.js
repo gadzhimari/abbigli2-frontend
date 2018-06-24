@@ -1,6 +1,7 @@
-import { React, PureComponent, cn } from '../__base';
+import { React, PureComponent, cn, connect } from '../__base';
 
 import PostsTableRow from './PostsTableRow';
+import PostsTableRowMobile from './PostsTableRow.mobile';
 
 import { __t } from '../../i18n/translator';
 
@@ -13,10 +14,21 @@ class PostsTable extends PureComponent {
     posts: []
   }
 
+  renderForTouch(cn) {
+    const { posts, ...restProps } = this.props;
+
+    return posts
+      .map(post => <PostsTableRowMobile {...restProps} postData={post} cn={cn} />);
+  }
+
   render(cn) {
-    const { posts, showPeriod, ...restProps } = this.props;
+    const { posts, showPeriod, isTouch, ...restProps } = this.props;
 
     if (!posts.length) return null;
+
+    if (isTouch) {
+      return this.renderForTouch(cn);
+    }
 
     return (
       <table className={`Table ${cn()}`}>
@@ -47,4 +59,4 @@ class PostsTable extends PureComponent {
   }
 }
 
-export default PostsTable;
+export default connect(({ isTouch }) => ({ isTouch }))(PostsTable);
