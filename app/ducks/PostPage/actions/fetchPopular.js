@@ -23,7 +23,7 @@ const fetchPopular = postType => async (dispatch) => {
   const action = actionsByType[postType];
 
   try {
-    const res = await action({ popular: true });
+    const res = await action({ popular: 'month' });
     dispatch(responsePopularPosts(res.data.results));
   } catch (e) {
     dispatch(failurePopularPosts());

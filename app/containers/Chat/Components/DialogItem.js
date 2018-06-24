@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AvatarPost from './AvatarPost';
-import Avatar from './Avatar';
+import Avatar from '../../../components/Avatar';
 
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
 import { DAY_WITH_FULL_MONTH } from '../../../lib/date/formats';
@@ -25,6 +25,12 @@ const DialogItem = ({
     ? 'dialog active'
     : 'dialog';
 
+  const avatarProps = {
+    thumbSize: '60x60',
+    avatar: data.recipient.avatar,
+    alt: data.recipient.profile_name || `User ID: ${data.recipient.id}`
+  };
+
   return (
     <div
       className={dialogClass}
@@ -41,14 +47,14 @@ const DialogItem = ({
         {
           data.object
             ? <AvatarPost
-              avatar={data.recipient.avatar}
-              alt={data.recipient.profile_name || `User ID: ${data.recipient.id}`}
+              {...avatarProps}
               postImg={data.object.image}
               postAlt={data.object.title}
             />
             : <Avatar
-              avatar={data.recipient.avatar}
-              alt={data.recipient.profile_name || `User ID: ${data.recipient.id}`}
+              {...avatarProps}
+              className="avatar avatar_round"
+              imgClassName="avatar__image"
             />
         }
       </div>

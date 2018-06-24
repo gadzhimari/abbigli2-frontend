@@ -27,6 +27,12 @@
     margin-bottom: 16px;
   }
 
+  .section-title {
+    .Icon {
+      margin-right: 10px;
+    }
+  }
+
   .content {
     max-width: 820px;
     width: 100%;
@@ -58,20 +64,41 @@
       font-family: 'ClearSansBold';
       font-size: 40px;
       line-height: 25px;
-      .icon-blog {
-        background-size: 43px 45px;
-        width: 43px;
-        height: 45px;
-      }
     }
+  }
+}
+
+@media only screen and (max-width: 1161px) {
+  .content {
+    float: none !important;
+    margin: 0 !important;
+    max-width: 100% !important;
   }
 }
 
 @media only screen and (max-width: 767px) {
   .article {
-    .content {
-      float: none;
-      margin: 0;
+    &__date {
+      text-align: center;
+    }
+
+    .breadcrumbs {
+      text-align: center;
+    }
+
+    &__city {
+      text-align: center;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .Icon {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
     }
 
     .comments__wrapper {

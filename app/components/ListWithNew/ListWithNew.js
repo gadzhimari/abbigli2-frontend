@@ -107,20 +107,7 @@ class ListWithNew extends PureComponent {
             })
           }
         </div>
-        <div className="cards-wrapper">
-          {
-            newItems.map((item) => {
-              if (!item) {
-                return null;
-              }
-
-              return (<NewPost
-                data={item}
-                key={item.id}
-              />);
-            })
-          }
-        </div>
+        {this.renderNewPosts(newItems)}
         <div className="cards-wrapper">
           {
             items.slice(count).map((item) => {
@@ -138,13 +125,30 @@ class ListWithNew extends PureComponent {
     );
   }
 
+  renderNewPosts(newItems) {
+    return (
+      <div className="cards-wrapper">
+        {newItems.map((item) => {
+          if (!item) return null;
+
+          return <NewPost data={item} key={item.id} />;
+        })}
+      </div>
+    );
+  }
+
   render() {
     const {
       items,
       itemsType,
       newPosts,
+      showOnlyNew
     } = this.props;
     const newItems = getNewItems(itemsType, newPosts);
+
+    if (showOnlyNew) {
+      return this.renderNewPosts(newItems);
+    }
 
     return (
       <div style={{ marginBottom: '30px' }}>

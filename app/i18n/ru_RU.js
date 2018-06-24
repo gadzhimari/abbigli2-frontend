@@ -6,6 +6,7 @@ import bucketKeyset from './keysets/bucket/ru';
 import postsTableKeyset from './keysets/postsTable/ru';
 import datesKeyset from './keysets/dates/ru';
 import shopKeyset from './keysets/shop/ru';
+import profilePageKeyset from './keysets/profilePage/ru';
 
 export default {
   ...commonKeyset,
@@ -14,6 +15,7 @@ export default {
   ...postsTableKeyset,
   ...datesKeyset,
   ...shopKeyset,
+  ...profilePageKeyset,
 
   'Upload image': 'Загрузить изображение',
   'You can upload maximum images':

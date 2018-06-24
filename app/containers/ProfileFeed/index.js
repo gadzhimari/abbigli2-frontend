@@ -40,7 +40,7 @@ class ProfileFeed extends PureComponent {
         </div>
 
         {isMe && !posts.length &&
-          <div>{__t('Favorites.propfile')}</div>
+          <div>{__t('profilePage.feed.defaultText')}</div>
         }
 
         {!isMe && !posts.length &&

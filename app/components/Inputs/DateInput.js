@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import DayPicker, { DateUtils } from 'react-day-picker';
 import MomentLocaleUtils from 'react-day-picker/moment';
 import 'react-day-picker/lib/style.css';
-import moment from 'moment';
 
+import moment from 'moment';
 import 'moment/locale/ru';
 
 import { location } from '../../config';
@@ -37,7 +39,7 @@ class DateInput extends Component {
     onFocus: () => true,
     mustFormat: true,
     format: 'YYYY-MM-DDThh:mm',
-    placeholder: '',
+    placeholder: ''
   };
 
   constructor(props) {
@@ -66,7 +68,14 @@ class DateInput extends Component {
     const { name, onChange } = this.props;
     const value = moment(day).format(this.props.format);
 
-    this.setState({ selectedDay: day, showOverlay: false });
+    this.setState({ selectedDay: day });
+    onChange(null, { name, value });
+  }
+
+  handleNativeInputChange = (e) => {
+    const { name, onChange } = this.props;
+    const value = moment(e.target.value).format(this.props.format);
+
     onChange(null, { name, value });
   }
 
@@ -83,16 +92,31 @@ class DateInput extends Component {
       placeholder,
       className,
       mustFormat,
+      isTouch
     } = this.props;
 
-    const formate = location === 'en' ? EN_DATE_FORMAT : RU_DATE_FORMAT;
+    const format = location === 'en' ? EN_DATE_FORMAT : RU_DATE_FORMAT;
     const formatedValue = value && mustFormat
-      ? toLocaleDateString(value, formate) : value;
+      ? toLocaleDateString(value, format) : value;
+
+
+    if (isTouch) {
+      const nativeValue = toLocaleDateString(value, 'YYYY-MM-DD');
+
+      return (
+        <input
+          name={this.props}
+          className={className}
+          onChange={this.handleNativeInputChange}
+          type="date"
+          value={nativeValue}
+          placeholder={placeholder}
+        />
+      );
+    }
 
     return (
-      <div
-        onMouseDown={this.handleClickInside}
-      >
+      <div onMouseDown={this.handleClickInside}>
         <input
           id="start-date"
           name="startDate"
@@ -104,10 +128,8 @@ class DateInput extends Component {
           placeholder={placeholder}
         />
 
-        {
-          this.state.showOverlay
-          &&
-          (<div style={{ position: 'relative' }}>
+        {this.state.showOverlay &&
+          <div style={{ position: 'relative' }}>
             <div style={overlayStyle}>
               <DayPicker
                 initialMonth={this.state.selectedDay}
@@ -117,11 +139,11 @@ class DateInput extends Component {
                 locale={location}
               />
             </div>
-          </div>)
+          </div>
         }
       </div>
     );
   }
 }
 
-export default DateInput;
+export default connect(({ isTouch }) => ({ isTouch }))(DateInput);
