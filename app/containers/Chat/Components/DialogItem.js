@@ -13,13 +13,17 @@ const DialogItem = ({
   deleteDialog,
 }) => {
   const onClickDialog = () => onClick(data.id);
-  const onDelete = () => deleteDialog(
-    data.id,
-    data.recipient.id,
-    data.recipient.profile_name,
-    data.recipient.avatar,
-    data.recipient.city,
-  );
+  const onDelete = (e) => {
+    e.stopPropagation();
+
+    deleteDialog(
+      data.id,
+      data.recipient.id,
+      data.recipient.profile_name,
+      data.recipient.avatar,
+      data.recipient.city
+    );
+  };
 
   const dialogClass = isActive
     ? 'dialog active'
