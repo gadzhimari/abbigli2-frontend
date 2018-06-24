@@ -6,6 +6,7 @@ import bucketKeyset from './keysets/bucket/en';
 import postsTableKeyset from './keysets/postsTable/en';
 import datesKeyset from './keysets/dates/en';
 import shopKeyset from './keysets/shop/en';
+import profilePageKeyset from './keysets/profilePage/en';
 
 export default {
   ...commonKeyset,
@@ -14,6 +15,7 @@ export default {
   ...postsTableKeyset,
   ...datesKeyset,
   ...shopKeyset,
+  ...profilePageKeyset,
 
   'Upload image': 'Upload image',
   'sign.up.to.leave.comment': 'Sign up to leave comment',

@@ -21,7 +21,7 @@ import { fetchSections } from '../../ducks/Sections';
 
 import * as Popups from '../../components/Popups';
 import getComponentFromObject from '../../utils/getComponent';
-import shouldHideHeaderAndFooter from '../../lib/hide-header-footer';
+import { shouldHideHeaderAndFooter, shouldHideFooter } from '../../lib/hide-header-footer';
 
 import { appConfig } from '../../config';
 
@@ -112,6 +112,7 @@ class App extends Component {
     const Popup = getComponentFromObject(openedPopup, Popups);
     const shouldOpenModal = openedPopup;
     const hideHeaderAndFooter = shouldHideHeaderAndFooter(location);
+    const hideFooter = shouldHideFooter(location);
 
     return (
       <ContentWrapper
@@ -122,7 +123,7 @@ class App extends Component {
         closeMenu={this.closeMenu}
         isFetchingSections={isFetchingSections}
         openPopup={this.modalButtonClick}
-        showFooter={!hideHeaderAndFooter}
+        showFooter={!hideHeaderAndFooter && !hideFooter}
       >
         <Helmet
           {...appConfig.head.titleTemplate}
@@ -139,7 +140,7 @@ class App extends Component {
             ...appConfig.head.meta,
           ]}
         />
-        { !hideHeaderAndFooter &&
+        {!hideHeaderAndFooter &&
           <Header>
             <Search />
             <AvatarBlock
