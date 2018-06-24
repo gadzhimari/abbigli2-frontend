@@ -12,6 +12,7 @@ import ProfileBanners from '../Profile/components/ProfileBanners';
 
 import * as actions from '../../ducks/ProfilePosts/actions';
 import setLike from '../../ducks/Like/actions';
+import { openPopup } from '../../ducks/Popup/actions';
 
 import { __t } from './../../i18n/translator';
 
@@ -98,4 +99,4 @@ const mapStateToProps = state => ({
   priceTemplate: state.Settings.data.CURRENCY,
 });
 
-export default connect(mapStateToProps, { ...actions, setLike })(ProfileLK);
+export default connect(mapStateToProps, { ...actions, setLike, openPopup })(ProfileLK);

@@ -26,10 +26,10 @@ class ActivePostsPage extends PureComponent {
   }
 
   render() {
-    const { itemsPosts, isFetchingPosts } = this.props;
+    const { itemsPosts, isFetchingPosts, ...postsTableProps } = this.props;
 
     return (isFetchingPosts ?
-      this.renderLoader() : <PostsTable posts={itemsPosts} />
+      this.renderLoader() : <PostsTable posts={itemsPosts} {...postsTableProps} />
     );
   }
 }

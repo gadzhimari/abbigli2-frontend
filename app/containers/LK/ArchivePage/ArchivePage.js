@@ -25,17 +25,13 @@ class ArchivePage extends PureComponent {
   }
 
   render() {
-    const {
-      itemsPosts, isFetchingPosts, unarchivatePost, addPostToArchive, deletePost
-    } = this.props;
+    const { itemsPosts, isFetchingPosts, ...postTableProps } = this.props;
 
     return (isFetchingPosts ?
       this.renderLoader() : <PostsTable
         posts={itemsPosts}
         actions={postTableActions}
-        unarchivatePost={unarchivatePost}
-        addPostToArchive={addPostToArchive}
-        deletePost={deletePost}
+        {...postTableProps}
       />
     );
   }
