@@ -74,13 +74,14 @@
   width: 70px;
   height: 100%;
 
-  .active .icon {
+  .active .icon,
+  .active .Icon {
     fill: #1075ff;
   }
 }
 
 .search-tags .icon,
-.search-users .icon {
+.search-users .Icon {
   fill: #90a4ae;
 }
 
@@ -102,21 +103,6 @@
   vertical-align: top;
   cursor: pointer;
   margin-top: 10px;
-
-  .icon {
-    background-image: url("/images/icons_with_bg/user.svg"), url("/images/icons_with_bg/user_active.svg");
-    background-position: 0 0, -17px 0;
-    background-repeat: no-repeat;
-    background-size: 17px 19px;
-    width: 17px;
-    height: 19px;
-  }
-
-  &.active {
-    .icon {
-      background-position: -17px 0, 0 0;
-    }
-  }
 }
 
 .search-icon {

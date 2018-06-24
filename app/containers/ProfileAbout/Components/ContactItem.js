@@ -111,8 +111,10 @@ class ContactItem extends Component {
     this.props.onCancel();
   }
 
-  handleEditContact = (e, { name }) => {
-    this.props.onEdit(name);
+  handleEditContact = () => {
+    const { type } = this.props.data[0];
+
+    this.props.onEdit(type);
   }
 
   renderAddButton = (cn, name) => {

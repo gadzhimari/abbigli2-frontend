@@ -4,49 +4,6 @@
 @import '../../components-lib/__base/variables/colors';
 
 .profile-about {
-  &__header {
-    font-size: 24px;
-    font-family: 'ClearSansBold';
-  }
-
-  &__info {
-    width: 100%;
-    text-align: left;
-    font-size: 16px;
-    position: relative;
-
-    &-textarea {
-      width: 100%;
-      max-width: 100%;
-      min-height: 300px;
-      border: 1px solid #e8e9e8;
-      border-radius: 4px;
-      padding: 20px 25px;
-      font-size: 16px;
-    }
-  }
-
-  &__save-buttons {
-    margin-top: 20px;
-    color: red;
-
-    .Button:last-child {
-      margin-left: 15px;
-    }
-  }
-
-  &__text {
-    color: #8b8b8b;
-
-    figure {
-      margin: 10px 0;
-    }
-
-    img {
-      width: 100%;
-    }
-  }
-
   &__contact {
     margin-top: 25px;
     padding: 25px 0;
@@ -163,6 +120,16 @@
 }
 
 .ProfileAbout {
+  &__header {
+    font-size: 24px;
+    font-family: 'ClearSansBold';
+  }
+
+  &__text {
+    margin-bottom: 20px;
+    color: @gray-600;
+  }
+
   &__contacts {
     &-header {
       font-family: 'ClearSansBold';
