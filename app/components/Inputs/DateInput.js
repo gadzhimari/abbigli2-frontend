@@ -11,6 +11,7 @@ import 'moment/locale/ru';
 
 import { location } from '../../config';
 import toLocaleDateString from '../../lib/date/toLocaleDateString';
+import { isClickOutside } from '../../lib/window';
 
 const EN_DATE_FORMAT = 'MMMM Do YYYY';
 const RU_DATE_FORMAT = 'Do MMMM YYYY';
@@ -42,33 +43,47 @@ class DateInput extends Component {
     placeholder: ''
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showOverlay: false,
-      selectedDay: undefined,
-    };
+  state = {
+    showOverlay: false,
+    selectedDay: undefined,
+  };
 
-    this.clickInside = false;
+  // eslint-disable-next-line
+  container = React.createRef();
+
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside);
   }
 
   getSelectedDays = day => DateUtils.isSameDay(this.state.selectedDay, day)
 
   showOverlay = () => {
     this.setState({ showOverlay: true });
-    this.props.onFocus();
+
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+  }
+
+  handleClickOutside = ({ target }) => {
+    if (isClickOutside(this.container.current, target)) {
+      this.hideOverlay();
+    }
   }
 
   hideOverlay = () => {
-    this.setState({ showOverlay: this.clickInside });
-    this.clickInside = false;
+    this.setState({ showOverlay: false });
   }
 
   handleDayClick = (day) => {
     const { name, onChange } = this.props;
     const value = moment(day).format(this.props.format);
 
-    this.setState({ selectedDay: day });
+    this.setState({ selectedDay: day, showOverlay: false });
     onChange(null, { name, value });
   }
 
@@ -78,13 +93,6 @@ class DateInput extends Component {
 
     onChange(null, { name, value });
   }
-
-  handleClickInside = () => {
-    this.clickInside = true;
-    setTimeout(() => {
-      this.clickInside = false;
-    }, 0);
-  };
 
   render() {
     const {
@@ -116,7 +124,7 @@ class DateInput extends Component {
     }
 
     return (
-      <div onMouseDown={this.handleClickInside}>
+      <div ref={this.container}>
         <input
           id="start-date"
           name="startDate"
@@ -124,8 +132,8 @@ class DateInput extends Component {
           type="text"
           value={formatedValue}
           onFocus={this.showOverlay}
-          onBlur={this.hideOverlay}
           placeholder={placeholder}
+          autoComplete="off"
         />
 
         {this.state.showOverlay &&
