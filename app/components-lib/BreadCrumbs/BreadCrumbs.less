@@ -1,6 +1,5 @@
-@import 'icons';
-@import 'mixin';
-@import 'variables';
+@import '../../containers/App/base/mixin';
+@import '../../containers/App/base/variables';
 
 .BreadCrumbs {
   margin-bottom: 15px;
@@ -17,16 +16,12 @@
       &:before {
         width: 3px;
         height: 7px;
-
         display: block;
-
         position: absolute;
         left: 0;
         top: 7px;
-
         background: url("/images/icons/breadcrumbs-arrow.svg") no-repeat;
         background-size: 3px 7px;
-
         content: '';
       }
     }
