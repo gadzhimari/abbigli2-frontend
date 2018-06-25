@@ -40,7 +40,7 @@ class Rating extends Component {
     this.stars = {};
 
     this.state = {
-      value: props.value || props.defaultValue,
+      value: this.getValue(props),
       focused: false,
       cleanedValue: null,
     };
@@ -49,9 +49,18 @@ class Rating extends Component {
   componentWillReceiveProps(nextProps) {
     if ('value' in nextProps) {
       this.setState({
-        value: nextProps.value || nextProps.defaultValue
+        value: this.getValue(nextProps),
       });
     }
+  }
+
+  getValue(props) {
+    let value = props.value;
+    if (value === undefined) {
+      value = props.defaultValue;
+    }
+
+    return value;
   }
 
   getStarElement(index) {

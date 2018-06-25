@@ -1,5 +1,5 @@
 import { React, Component, Type, cn } from '../__base';
-import IconStar from '../../icons/star';
+import Icon from '../Icon';
 
 import './Rating.less';
 
@@ -17,45 +17,52 @@ class Star extends Component {
   };
 
   static defaultProps = {
-    icon: <IconStar size="xs" />,
+    icon: <Icon glyph="star" size="xs" />,
+  }
+
+  getClassName = () => {
+    const { index, value, allowHalf, focused } = this.props;
+    const starValue = index + 1;
+    let className = '';
+
+    if (allowHalf && value + 0.5 === starValue) {
+      className += 'half';
+    } else {
+      className += starValue <= value ? 'full' : 'zero';
+    }
+
+    const mods = {
+      focused,
+      [className]: true,
+    };
+
+    return mods;
   }
 
   handleHover = (e) => {
-    const { onHover, index } = this.props;
+    const { index, disabled, onHover } = this.props;
 
-    onHover(e, index);
+    if (!disabled) {
+      onHover(e, index);
+    }
   }
 
   handleClick = (e) => {
-    const { onClick, index } = this.props;
+    const { index, disabled, onClick } = this.props;
 
-    onClick(e, index);
+    if (!disabled) {
+      onClick(e, index);
+    }
   }
 
   render(cn) {
-    const {
-      disabled,
-      icon,
-      allowHalf,
-      value,
-      focused,
-      index
-    } = this.props;
-
-    const starValue = index + 1;
+    const { disabled, icon } = this.props;
+    const mods = this.getClassName();
 
     return (
       /* eslint-disable jsx-a11y/no-static-element-interactions */
       <li
-        className={cn(
-          'star',
-          {
-            focused,
-            half: allowHalf && value + 0.5 === starValue,
-            full: starValue <= value,
-            zero: starValue > value,
-          }
-        )}
+        className={cn('star', mods)}
         onClick={disabled ? null : this.handleClick}
         onMouseMove={disabled ? null : this.handleHover}
       >
