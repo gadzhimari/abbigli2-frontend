@@ -1,6 +1,6 @@
 import { React, PureComponent, Type, cn } from '../../__base';
 
-import { Link, Price, Icon} from '../../../components-lib';
+import { Link, Price, Icon } from '../../../components-lib';
 import Image from '../../../components/Image';
 import Avatar from '../../../components/Avatar';
 

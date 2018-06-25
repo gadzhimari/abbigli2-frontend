@@ -21,3 +21,4 @@ export { default as Adsense } from './Adsense';
 export { default as Price } from './Price';
 export { default as PostsTable } from './PostsTable';
 export { default as Redactor } from './Redactor';
+export { default as Rating } from './Rating';
