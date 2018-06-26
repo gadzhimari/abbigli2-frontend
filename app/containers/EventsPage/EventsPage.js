@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
 import { BreadCrumbs, SliderBar, ListWithNew, PageSwitcher } from 'components';
-import { Spin } from '../../components-lib';
+import { Spin, Adsense } from '../../components-lib';
 import { Event } from '../../components-lib/Cards';
 import { EventsFilters } from 'components/Filters';
 import BlogSection from 'components/SliderBar/components/BlogSection';
@@ -104,6 +104,8 @@ class EventsPage extends Component {
 
     return (
       <main className="main">
+        <Adsense data-ad-slot="1884873061" />
+
         <BreadCrumbs
           crumbs={crumbs}
         />
@@ -169,6 +171,8 @@ class EventsPage extends Component {
             />
           }
         </div>
+
+        <Adsense data-ad-slot="6554228898" />
       </main>
     );
   }

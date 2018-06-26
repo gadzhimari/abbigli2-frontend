@@ -6,6 +6,8 @@ export const DOMAIN_URL = process.env.DOMAIN_URL;
 export const API_URL = `${DOMAIN_URL}/api/v1/`;
 export const THUMBS_URL = process.env.THUMBS_URL;
 
+export const SHOW_ADSENSE = !IS_DEVELOPMENT && !IS_TESTING && location === 'en';
+
 export const IS_HOT_DEVELOPMENT = IS_DEVELOPMENT && module.hot;
 
 export const appConfig = {
