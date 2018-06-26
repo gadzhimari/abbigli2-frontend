@@ -123,7 +123,7 @@ class BlogPage extends Component {
           </div>
         </div>
         <div className="main article">
-          <Adsense data-ad-slot="1884873061" />
+          <Adsense slot="1884873061" />
 
           <BreadCrumbs crumbs={crumbs} />
 
@@ -204,7 +204,7 @@ class BlogPage extends Component {
               }
             </div>
           </div> */}
-          <Adsense data-ad-slot="6554228898" />
+          <Adsense slot="6554228898" />
         </div>
       </main>
     );

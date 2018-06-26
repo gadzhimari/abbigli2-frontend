@@ -38,7 +38,7 @@ class Sections extends Component {
 
     return (
       <main className="main">
-        <Adsense data-ad-slot="1884873061" />
+        <Adsense slot="1884873061" />
 
         <div className="content">
           <BreadCrumbs
@@ -70,7 +70,7 @@ class Sections extends Component {
           }
         </div>
 
-        <Adsense data-ad-slot="6554228898" />
+        <Adsense slot="6554228898" />
       </main>
     );
   }

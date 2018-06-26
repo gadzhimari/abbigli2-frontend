@@ -117,7 +117,7 @@ class ProductPage extends Component {
           </div>
         </div>
         <div className="main">
-          <Adsense data-ad-slot="1884873061" />
+          <Adsense slot="1884873061" />
 
           <BreadCrumbs crumbs={crumbs} />
 
@@ -153,7 +153,7 @@ class ProductPage extends Component {
           />
 
           <Adsense
-            data-ad-slot="6554228898"
+            slot="6554228898"
             position="bottom"
           />
         </div>
