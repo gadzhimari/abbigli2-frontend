@@ -18,6 +18,7 @@ import {
 
 import { Comments } from '../../components/Comments';
 import { Blog } from '../../components-lib/Cards';
+import { Adsense } from '../../components-lib';
 
 import postLoader from '../../HOC/postLoader';
 
@@ -121,8 +122,9 @@ class BlogPage extends Component {
             />
           </div>
         </div>
-
         <div className="main article">
+          <Adsense slot="1884873061" />
+
           <BreadCrumbs crumbs={crumbs} />
 
           <div className="content">
@@ -202,6 +204,7 @@ class BlogPage extends Component {
               }
             </div>
           </div> */}
+          <Adsense slot="6554228898" />
         </div>
       </main>
     );

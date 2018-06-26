@@ -12,7 +12,7 @@ import {
 } from '../../components';
 
 import Content from './Content';
-import { Link } from '../../components-lib';
+import { Link, Adsense } from '../../components-lib';
 import { Product } from '../../components-lib/Cards';
 import { Comments } from '../../components/Comments';
 
@@ -117,6 +117,8 @@ class ProductPage extends Component {
           </div>
         </div>
         <div className="main">
+          <Adsense slot="1884873061" />
+
           <BreadCrumbs crumbs={crumbs} />
 
           {userIsOwner &&
@@ -148,6 +150,11 @@ class ProductPage extends Component {
             Component={Product}
             slug={data.slug}
             itemProps={{ priceTemplate }}
+          />
+
+          <Adsense
+            slot="6554228898"
+            position="bottom"
           />
         </div>
       </main>

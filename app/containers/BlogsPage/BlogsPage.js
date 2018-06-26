@@ -12,7 +12,7 @@ import {
   ChoiseFilter,
 } from '../../components';
 
-import { Spin } from '../../components-lib';
+import { Spin, Adsense } from '../../components-lib';
 import { Blog } from '../../components-lib/Cards';
 import BlogSection from '../../components/SliderBar/components/BlogSection';
 
@@ -135,6 +135,8 @@ class BlogsPage extends PureComponent {
 
     return (
       <main className="main blog">
+        <Adsense slot="1884873061" />
+
         <BreadCrumbs
           crumbs={crumbs}
         />
@@ -216,6 +218,8 @@ class BlogsPage extends PureComponent {
             />
           }
         </div>
+
+        <Adsense slot="6554228898" />
       </main >
     );
   }

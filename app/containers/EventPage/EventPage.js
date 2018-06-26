@@ -15,6 +15,8 @@ import { Event } from '../../components-lib/Cards';
 import DateRange from '../../components/DateRange';
 import City from '../../components-lib/City';
 
+import { Adsense } from '../../components-lib';
+
 import Link from '../../components/Link/Link';
 import { processBlogContent } from '../../lib/process-html';
 import createPostEditLink from '../../lib/links/edit-post-link';
@@ -128,6 +130,8 @@ class EventPage extends Component {
           </div>
         </div>
         <div className="main article">
+          <Adsense slot="1884873061" />
+
           <BreadCrumbs crumbs={crumbs} />
 
           <div className="content">
@@ -205,6 +209,8 @@ class EventPage extends Component {
               slug={data.slug}
             />
           }
+
+          <Adsense slot="6554228898" />
           {/* <div className="section">
             <div className="cards-wrap">
               {

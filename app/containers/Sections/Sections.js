@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
 import { BreadCrumbs } from '../../components';
-import { Spin } from '../../components-lib';
+import { Spin, Adsense } from '../../components-lib';
 import Content from './SectionContent';
 import paginateHOC from '../../HOC/paginate';
 
@@ -38,6 +38,8 @@ class Sections extends Component {
 
     return (
       <main className="main">
+        <Adsense slot="1884873061" />
+
         <div className="content">
           <BreadCrumbs
             crumbs={crumbs}
@@ -67,6 +69,8 @@ class Sections extends Component {
             </p>
           }
         </div>
+
+        <Adsense slot="6554228898" />
       </main>
     );
   }
