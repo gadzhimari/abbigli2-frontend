@@ -1,5 +1,11 @@
 import { createAction } from 'redux-actions';
-import { Comments } from 'API';
+import { Posts, Products, Events } from '../../api';
+
+const apiByType = {
+  post: Posts,
+  product: Products,
+  event: Events
+};
 
 export const fetchCommentsRequest =
   createAction('COMMENTS_FETCH_REQUEST');
@@ -13,20 +19,23 @@ export const sendCommentSuccess =
   createAction('COMMENTS_SEND_SUCCESS');
 export const sendCommentFailure = createAction('COMMENTS_SEND_FAILED');
 
-export const fetchComments = slug => async (dispatch) => {
+export const fetchComments = (postType, slug) => async (dispatch) => {
   dispatch(fetchCommentsRequest());
   try {
-    const response = await Comments.getComments(slug);
+    const api = apiByType[postType];
+    const response = await api.getComments(slug);
     dispatch(fetchCommentsSuccess({ comments: response.data.results }));
   } catch (e) {
     dispatch(fetchCommentsFailure());
   }
 };
 
-export const sendComment = data => async (dispatch) => {
+export const sendComment = (postType, data) => async (dispatch) => {
   dispatch(sendCommentRequest());
   try {
-    const response = await Comments.sendComment(data.slug, data);
+    const api = apiByType[postType];
+
+    const response = await api.createComment(data.slug, data);
     dispatch(sendCommentSuccess({ comment: response.data }));
   } catch (e) {
     dispatch(sendCommentFailure());

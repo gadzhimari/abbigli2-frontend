@@ -1,7 +1,22 @@
 import agreement from './agreement.en';
 import privacyEn from './privacy.en';
+import commonKeyset from './keysets/common/en';
+import modalKeyset from './keysets/modal/en';
+import bucketKeyset from './keysets/bucket/en';
+import postsTableKeyset from './keysets/postsTable/en';
+import datesKeyset from './keysets/dates/en';
+import shopKeyset from './keysets/shop/en';
+import profilePageKeyset from './keysets/profilePage/en';
 
 export default {
+  ...commonKeyset,
+  ...modalKeyset,
+  ...bucketKeyset,
+  ...postsTableKeyset,
+  ...datesKeyset,
+  ...shopKeyset,
+  ...profilePageKeyset,
+
   'Upload image': 'Upload image',
   'sign.up.to.leave.comment': 'Sign up to leave comment',
   'You can upload maximum images': 'You can upload images in JPEG, PNG format',
@@ -244,7 +259,10 @@ export default {
   'Not.found': 'Sorry, this page not found',
   'Go.back.home': 'Go back to home page',
   Oops: 'Oops!',
+  'pages.next': 'Next',
+  'pages.previous': 'Previous',
+  'users.search.result.text': 'Results for query «{{user}}» ',
   'privacy.text': privacyEn,
   'Privacy policy': 'Privacy policy',
-  Selected: 'Selected {{count}}'
+  Selected: 'Selected {{count}}',
 };

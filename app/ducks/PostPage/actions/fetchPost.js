@@ -1,27 +1,34 @@
-import { Posts } from '../../../api';
-import * as actions from '../actionTypes';
+import { createActions } from 'redux-actions';
+import { Posts, Products, Events } from '../../../api';
 
 import { setNetworkError } from '../../NetworkErrors/reducer';
 
-const requestPost = () => ({
-  type: actions.REQUEST_POST,
-});
+const actionsByType = {
+  post: Posts.getPost,
+  product: Products.getProduct,
+  event: Events.getEvent
+};
 
-const responsePost = post => ({
-  type: actions.RESPONSE_POST,
-  post,
-});
+export const {
+  postRequest,
+  postResponse,
+  postFailure
+} = createActions(
+  'POST_REQUEST',
+  'POST_RESPONSE',
+  'POST_FAILURE'
+);
 
-const fetchPost = (slug, token) => (dispatch) => {
-  dispatch(requestPost());
+const fetchPost = (postType, slug, token) => async (dispatch) => {
+  dispatch(postRequest());
+  const action = actionsByType[postType];
 
-  return Posts.getPost(slug, token)
-    .then((response) => {
-      dispatch(responsePost(response.data));
-    })
-    .catch(({ response }) => {
-      dispatch(setNetworkError(response));
-    });
+  try {
+    const res = await action(slug, token);
+    dispatch(postResponse(res.data));
+  } catch ({ response }) {
+    dispatch(setNetworkError(response));
+  }
 };
 
 export default fetchPost;

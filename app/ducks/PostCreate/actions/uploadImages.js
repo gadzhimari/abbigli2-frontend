@@ -1,4 +1,4 @@
-import { Images } from 'API';
+import { Images } from '../../../api';
 
 import * as actions from '../actionTypes';
 
@@ -14,16 +14,15 @@ const imageUploadRes = (imageError = []) => ({
 const uploadImages = (files, callback) => (dispatch) => {
   dispatch(imageUploadReq());
 
-  const promises = files.map((file) => {
-    const formData = new FormData();
-    formData.append('file', file);
+  const formData = new FormData();
 
-    return Images.uploadImage(formData);
+  files.forEach((file) => {
+    formData.append('files', file);
   });
 
-  return Promise.all(promises)
+  return Images.uploadImage(formData)
     .then((res) => {
-      callback(res.map(item => item.data));
+      callback(res.data);
       dispatch(imageUploadRes());
     })
     .catch(err => dispatch(imageUploadRes(err.response.data.file)));

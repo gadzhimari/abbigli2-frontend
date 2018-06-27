@@ -34,14 +34,14 @@ const preloader = WrappedComponent => class extends PureComponent {
       params,
       fetchSectionTags,
       fetchPosts,
-      routing,
+      query,
       fetchCrumbs
     } = this.props;
 
     this.setState({ isFetching: true });
 
     const { section, splat } = params;
-    const { page, tag } = routing.query;
+    const { page, tag } = query;
 
     let slugs = [section];
 
@@ -50,7 +50,7 @@ const preloader = WrappedComponent => class extends PureComponent {
     }
 
     Promise.all([
-      fetchSectionTags(section),
+      fetchSectionTags({ category: section }),
       fetchPosts(section, page, tag),
       fetchCrumbs({ slugs })
     ]).then(() => this.setState({

@@ -36,10 +36,16 @@ export default {
     path: 'post/new'
   },
   EDIT_PAGE: {
-    path: 'profile/:profile/post/edit/:slug'
+    path: '/edit/:type/:slug'
   },
   PROFILE_PAGE: {
     path: 'profile/(:profile)'
+  },
+  PROFILE_BLOGS_PAGE: {
+    path: 'blogs'
+  },
+  PROFILE_EVENTS_PAGE: {
+    path: 'events'
   },
   FAVORITES_PAGE: {
     path: 'favorites'
@@ -58,7 +64,7 @@ export default {
   },
   BLOG_PAGE: {
     path: 'blog/:slug',
-    action: fetchPost,
+    action: fetchPost.bind(null, 'post'),
     actionArgs: ['params.slug', 'token']
   },
   EVENTS_PAGE: {
@@ -66,16 +72,16 @@ export default {
   },
   EVENT_PAGE: {
     path: 'event/:slug',
-    action: fetchPost,
+    action: fetchPost.bind(null, 'event'),
     actionArgs: ['params.slug', 'token']
   },
   PRODUCT_PAGE: {
     path: 'post/:slug',
-    action: fetchPost,
+    action: fetchPost.bind(null, 'product'),
     actionArgs: ['params.slug', 'token']
   },
   RELATIVE_PRODUCTS_PAGE: {
-    path: 'relative/:slug'
+    path: '/:path/:slug/relative'
   },
   NEW_PRODUCTS_PAGE: {
     path: 'new-products'

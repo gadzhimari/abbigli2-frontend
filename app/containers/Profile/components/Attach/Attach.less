@@ -1,0 +1,83 @@
+@import 'base';
+@import 'variables';
+@import '../../../../components-lib/__base/variables/colors';
+@import '../../../../components-lib/__base/variables/variables';
+
+.Attach {
+  min-height: 275px;
+
+  position: relative;
+
+  overflow: hidden;
+  outline-offset: -10px;
+
+  &_type_product {
+    outline: 1px dashed @blue;
+
+    .Link__icon {
+      background-color: @blue;
+    }
+  }
+
+  &_type_blog {
+    outline: 1px dashed @blog;
+
+    .Link__icon {
+      background-color: @blog;
+    }
+  }
+
+  &_type_event {
+    outline: 1px dashed @event;
+
+    .Link__icon {
+      background-color: @event;
+    }
+  }
+
+  &__link {
+    font-family: 'ClearSansBold';
+    color: #000;
+
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .Link__icon {
+      width: 64px;
+      height: 64px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-bottom: 26px;
+
+      border-radius: 50%;
+    }
+  }
+}
+
+@media screen and (max-width: @breakpoint-s-only) {
+  .Attach {
+    min-height: 0;
+
+    &__link {
+      flex-direction: row;
+      height: 65px;
+
+      .Link__icon {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 0;
+      }
+
+      .Icon_size_s {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}

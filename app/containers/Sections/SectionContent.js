@@ -3,7 +3,7 @@ import Type from 'prop-types';
 
 import Link from '../../components/Link/Link';
 
-import { PageSwitcher, ListWithNew } from '../../components';
+import { ListWithNew } from '../../components';
 import { SubCategoryList } from '../../components/Cards';
 import { Product } from '../../components-lib/Cards';
 import ShowMiddleCards from './ShowMiddleCards';
@@ -19,18 +19,14 @@ const SECTION_TYPES = Type.shape({
   children: Type.arrayOf(Type.object),
   url: Type.string,
   slug: Type.string,
-  view_on_site_url: Type.string,
 });
 
 class SectionContent extends PureComponent {
   static propTypes = {
     section: SECTION_TYPES,
     tags: Type.arrayOf(Type.string),
-    promo: SECTION_TYPES,
-    posts: Type.shape({
-      type: Type.string,
-    }),
-    priceTemplate: Type.string,
+    promo: Type.arrayOf(SECTION_TYPES),
+    posts: Type.arrayOf(Type.object),
     pages: Type.number,
     paginate: Type.func,
     activePage: Type.number,
@@ -42,10 +38,7 @@ class SectionContent extends PureComponent {
       tags,
       promo,
       posts,
-      priceTemplate,
-      pages,
-      paginate,
-      activePage
+      renderPaginator
     } = this.props;
 
     const isPromo = section.is_promo || (section.children[0] && section.children[0].is_promo);
@@ -75,13 +68,13 @@ class SectionContent extends PureComponent {
         <TagsBlock
           items={tags}
           category={section.slug}
-          currentUrl={section.view_on_site_url}
+          currentUrl={section.url}
         />
 
         <div className="category-buttons">
           {promo.slice(0, TOP_PROMO_COUNT)
             .map(item => <Link
-              to={item.view_on_site_url}
+              to={item.url}
               className="category-buttons__link"
               key={item.id}
             >
@@ -93,14 +86,13 @@ class SectionContent extends PureComponent {
         <ListWithNew
           ItemComponent={Product}
           items={posts}
-          itemProps={{ priceTemplate }}
           count={4}
         />
 
         <div className="category-buttons">
           {promo.slice(TOP_PROMO_COUNT, isPromo ? promo.length : 15)
             .map(item => <Link
-              to={item.view_on_site_url}
+              to={item.url}
               className="category-buttons__link"
               key={item.id}
             >
@@ -109,11 +101,7 @@ class SectionContent extends PureComponent {
           }
         </div>
 
-        <PageSwitcher
-          count={pages}
-          paginate={paginate}
-          active={activePage}
-        />
+        {renderPaginator()}
       </div>
     );
   }

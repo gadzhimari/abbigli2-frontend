@@ -102,29 +102,34 @@
         font-size: 14px;
         line-height: 18px;
         padding-left: 10px;
+        display: inline;
       }
 
       .icon-delete {
         fill: #b8b8b8;
-        background-size: 10px 10px;
-        width: 10px;
-        height: 10px;
+        width: 15px;
+        height: 15px;
         position: absolute;
         right: 10px;
-        top: 24px;
+        top: 20px;
         cursor: pointer;
-        display: none;
       }
 
       &__avatar {
         left: 20px;
         .align-vertical;
+
+        .avatar_round {
+          border-radius: 50% !important;
+        }
+
         &_goods {
           .avatar:first-child {
             width: 60px;
             height: 60px;
             border-radius: 0;
           }
+
           .avatar:nth-child(2){
             width: 30px;
             height: 30px;
@@ -138,9 +143,6 @@
 
       &.active {
         background-color: #e5f4fd;
-        .icon-delete {
-          display: block;
-        }
       }
     }
   }
@@ -270,32 +272,6 @@
     &-input {
       position: relative;
       margin-right: 50px;
-
-      .icon {
-        fill: @goods;
-        cursor: pointer;
-        .align-vertical;
-
-        &:hover {
-          fill: #076AB3;
-        }
-      }
-    }
-
-    .input {
-      padding-right: 90px;
-    }
-    .icon-smile {
-      background-size: 20px 20px;
-      width: 20px;
-      height: 20px;
-      right: 60px;
-    }
-    .icon-file {
-      background-size: 23px 20px;
-      width: 23px;
-      height: 20px;
-      right: 15px;
     }
 
     &-send {
@@ -411,7 +387,7 @@
 
 @media only screen and (max-width: 760px) {
   .messages {
-    & ~ .footer {
+    & ~ .Footer {
       display: none;
     }
 

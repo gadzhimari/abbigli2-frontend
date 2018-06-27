@@ -20,3 +20,4 @@ export { default as confirmPinReset } from './ConfirmPopup/ConfirmPinReset';
 export { default as confirmEmailReset } from './ConfirmPopup/ConfirmEmailReset';
 export { default as welcomePopup } from './WelcomePopup/WelcomePopup';
 export { default as mobilePopup } from './MobilePopup/MobilePopup';
+export { default as confirmAction } from './ConfirmAction/ConfirmAction';

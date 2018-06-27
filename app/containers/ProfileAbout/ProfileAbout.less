@@ -1,48 +1,9 @@
 @import 'variables';
 @import 'mixin';
 
+@import '../../components-lib/__base/variables/colors';
+
 .profile-about {
-  &__header {
-    font-size: 24px;
-    font-family: 'ClearSansBold';
-  }
-
-  &__info {
-    width: 100%;
-    text-align: left;
-    font-size: 16px;
-    position: relative;
-
-    &-textarea {
-      width: 100%;
-      max-width: 100%;
-      min-height: 300px;
-      border: 1px solid #e8e9e8;
-      border-radius: 4px;
-      padding: 20px 25px;
-      font-size: 16px;
-    }
-  }
-
-  &__save-buttons {
-    color: red;
-    .Button:last-child {
-      margin-left: 15px;
-    }
-  }
-
-  &__text {
-    color: #8b8b8b;
-
-    figure {
-      margin: 10px 0;
-    }
-
-    img {
-      width: 100%;
-    }
-  }
-
   &__contact {
     margin-top: 25px;
     padding: 25px 0;
@@ -53,33 +14,6 @@
     font-size: 16px;
     font-family: 'ClearSansBold';
     margin-top: 0;
-  }
-
-  &__contact-items {
-    color: #8b8b8b;
-
-    .profile-about__contact-item {
-      position: relative;
-      padding-left: 26px;
-      margin-bottom: 10px;
-    }
-
-    .icon {
-      fill: #8b8b8b;
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .icon-phone {
-      width: 20px;
-      height: 20px;
-    }
-
-    .icon-mail {
-      width: 20px;
-    }
   }
 
   &__social-item {
@@ -140,11 +74,6 @@
     padding: 0;
   }
 
-  .profile-my__item .icon {
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
   .profile-info__inner {
     padding: 30px 60px 30px 180px;
   }
@@ -172,21 +101,151 @@
     margin-top: 15px;
   }
 
+  .profile-my__item .icon {
+    left: 50%;
+  }
+
   .profile-my__item-number {
     font-size: 14px;
   }
 
   .profile-my__item {
     display: inline-block;
-    width: 25%;
-
-    .icon {
-      width: 22px;
-      height: 22px;
-    }
+    width: 20%;
   }
 
   .profile-my__item-number {
     right: 0px;
+  }
+}
+
+.ProfileAbout {
+  &__header {
+    font-size: 24px;
+    font-family: 'ClearSansBold';
+  }
+
+  &__text {
+    margin-bottom: 20px;
+    color: @gray-600;
+  }
+
+  &__contacts {
+    &-header {
+      font-family: 'ClearSansBold';
+    }
+
+    &-item {
+      margin-bottom: 10px;
+
+      &-row {
+        display: flex;
+      }
+
+      &-value {
+        display: flex;
+        align-items: center;
+        flex: 1;
+      }
+
+      &-block {
+        display: flex;
+        align-items: center;
+
+        .Icon {
+          flex-shrink: 0;
+        }
+      }
+    }
+
+    &-values-list {
+      margin-left: 10px;
+
+      &-item {
+        color: @gray-600;
+        word-break: break-all;
+      }
+    }
+
+    &-select {
+      min-width: 80px;
+      margin-left: 10px;
+
+      .Select {
+        &-control {
+          height: 38px;
+        }
+
+        &-value,
+        &-option {
+          font-size: 14px;
+        }
+      }
+    }
+
+    &-actions {
+      display: flex;
+      justify-content: space-between;
+      max-width: 280px;
+    }
+
+    &-add {
+      white-space: normal;
+    }
+
+    &-edit,
+    &-delete {
+      margin-left: 10px;
+    }
+
+    &-input-group {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    &-social-networks {
+      &_provider {
+        &_fb {
+          .Link__icon {
+            background-color: #3d5b99;
+          }
+        }
+        &_gp {
+          .Link__icon {
+            background-color: #d44a38;
+          }
+        }
+        &_ok {
+          .Link__icon {
+            background-color: #f58426;
+          }
+        }
+        &_vk {
+          .Link__icon {
+            background-color: #5581b3;
+          }
+        }
+      }
+
+      .Link__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ProfileAbout {
+    &__contacts {
+      &-item {
+        &-row {
+          flex-wrap: wrap;
+        }
+      }
+    }
   }
 }

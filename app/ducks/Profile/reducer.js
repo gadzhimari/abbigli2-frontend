@@ -1,10 +1,11 @@
+import unionBy from 'lodash/unionBy';
 import { handleActions } from 'redux-actions';
 
 import { deleteImageRequest } from './actions/deleteImage';
 import { uploadImageRequest, uploadImageResponse } from './actions/uploadImage';
 import { changeFollowStatus, followUser, unfollowUser } from './actions/follow';
 import { saveChangesRequest, saveChangesResponse, saveChangesError } from './actions/saveChanges';
-import { selectPost, unselectPost } from './actions/selectedPostsActions';
+import { selectPost, unselectPost, clearSelectedPosts } from './actions/selectedPostsActions';
 import {
   loadProfileRequest,
   loadProfileResponse,
@@ -13,6 +14,11 @@ import {
   moreFollowingRequest,
   moreFollowingResponse
 } from './actions/loadProfile';
+import { addContactError, addContactRequest, addContactResponse } from './actions/addContact';
+import { deleteContactError, deleteContactRequest, deleteContactResponse } from './actions/deleteContact';
+import {
+  partialUpdateContactError, partialUpdateContactRequest, partialUpdateContactResponse
+} from './actions/partialUpdateContact';
 
 const initialState = {
   /** Статус загрузки данных о профиле */
@@ -40,7 +46,7 @@ const initialState = {
   errors: {},
   /** Выбранные в магазине посты (для поднятия/удаления/архивировния) */
   selectedPosts: [],
-  selectedPostsIds: []
+  selectedPostsSlugs: []
 };
 
 const imagesActionsHandlers = {
@@ -184,19 +190,104 @@ const followingActionsHandlers = {
   }
 };
 
+const addContactActionsHandlers = {
+  [addContactRequest](state) {
+    return {
+      ...state,
+      isSaving: true
+    };
+  },
+  [addContactResponse](state, { payload }) {
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        contacts: [...state.data.contacts, payload],
+      },
+      isSaving: false,
+    };
+  },
+  [addContactError](state, { payload }) {
+    return {
+      ...state,
+      isSaving: false,
+      errors: payload,
+    };
+  }
+};
+
+const deleteContactActionsHandlers = {
+  [deleteContactRequest](state) {
+    return {
+      ...state,
+      isSaving: true
+    };
+  },
+  [deleteContactResponse](state, { payload }) {
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        contacts: state.data.contacts.filter(contact => contact.id !== payload),
+      },
+      isSaving: false
+    };
+  },
+  [deleteContactError](state, { payload }) {
+    return {
+      ...state,
+      isSaving: false,
+      errors: payload
+    };
+  }
+};
+
+const partialUpdateContactActionsHandlers = {
+  [partialUpdateContactRequest](state) {
+    return {
+      ...state,
+      isSaving: true
+    };
+  },
+  [partialUpdateContactResponse](state, { payload }) {
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        contacts: unionBy([payload], state.data.contacts, 'id'),
+      },
+      isSaving: false,
+    };
+  },
+  [partialUpdateContactError](state, { payload }) {
+    return {
+      ...state,
+      isSaving: false,
+      errors: payload
+    };
+  }
+};
+
 const selectPostsActionsHandlers = {
   [selectPost](state, { payload }) {
     return ({
       ...state,
       selectedPosts: [...state.selectedPosts, payload],
-      selectedPostsIds: [...state.selectedPostsIds, payload.id]
+      selectedPostsSlugs: [...state.selectedPostsSlugs, payload.slug]
     });
   },
   [unselectPost](state, { payload }) {
     return ({
       ...state,
-      selectedPosts: state.selectedPosts.filter(({ id }) => id !== payload),
-      selectedPostsIds: state.selectedPostsIds.filter(id => id !== payload)
+      selectedPosts: state.selectedPosts.filter(({ slug }) => slug !== payload),
+      selectedPostsSlugs: state.selectedPostsSlugs.filter(slug => slug !== payload)
+    });
+  },
+  [clearSelectedPosts](state) {
+    return ({
+      ...state,
+      selectedPosts: [],
+      selectedPostsSlugs: []
     });
   }
 };
@@ -208,5 +299,8 @@ export default handleActions({
   ...loadProfileActionsHandlers,
   ...followersActionsHandlers,
   ...followingActionsHandlers,
-  ...selectPostsActionsHandlers
+  ...selectPostsActionsHandlers,
+  ...addContactActionsHandlers,
+  ...deleteContactActionsHandlers,
+  ...partialUpdateContactActionsHandlers
 }, initialState);

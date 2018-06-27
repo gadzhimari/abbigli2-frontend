@@ -1,4 +1,4 @@
-import { Images } from 'API';
+import { Images } from '../../../api';
 
 const deleteImage = Images.deleteImage;
 

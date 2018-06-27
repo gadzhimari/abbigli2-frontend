@@ -1,4 +1,14 @@
-import * as actions from './actionTypes';
+import { handleActions } from 'redux-actions';
+
+import * as newPostsActions from './actions/fetchNewPosts';
+import * as popularPostsActions from './actions/fetchPopular';
+import * as relativePostsActions from './actions/fetchRelativePost';
+import * as postActions from './actions/fetchPost';
+import * as usersPostsActions from './actions/fetchUsersPosts';
+import resetPost from './actions/resetPost';
+import * as bookmarksActions from './actions/bookmarks';
+import { updateFollow } from './actions/setFollow';
+import { updateFavorite } from './actions/toggleFavorite';
 
 const initialState = {
   isFetchingPost: true,
@@ -6,6 +16,7 @@ const initialState = {
   isFetchingNew: true,
   isFetchingRelative: true,
   isFetchingUsersPosts: true,
+  isFetchingBookmarks: false,
   post: {},
   author: {},
   popularPosts: [],
@@ -15,93 +26,152 @@ const initialState = {
   isDefined: true,
 };
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case (actions.REQUEST_POST): {
-      return Object.assign({}, state, {
-        isFetchingPost: true,
-        usersPosts: [],
-        relativePosts: [],
-      });
-    }
-    case (actions.RESPONSE_POST): {
-      return Object.assign({}, state, {
-        isFetchingPost: false,
-        post: action.post,
-        author: action.post.user,
-      });
-    }
-    case (actions.REQUEST_POPULAR): {
-      return Object.assign({}, state, {
-        isFetchingPopular: true,
-      });
-    }
-    case (actions.RESPONSE_POPULAR): {
-      return Object.assign({}, state, {
-        isFetchingPopular: false,
-        popularPosts: action.popularPosts,
-      });
-    }
-    case (actions.REQUEST_NEW): {
-      return Object.assign({}, state, {
-        isFetchingNew: true,
-      });
-    }
-    case (actions.RESPONSE_NEW): {
-      return Object.assign({}, state, {
-        isFetchingNew: false,
-        newPosts: action.newPosts,
-      });
-    }
-    case (actions.REQUEST_RELATIVE): {
-      return Object.assign({}, state, {
-        isFetchingRelative: true,
-      });
-    }
-    case (actions.RESPONSE_RELATIVE): {
-      return Object.assign({}, state, {
-        isFetchingRelative: false,
-        relativePosts: action.relativePosts,
-      });
-    }
-    case (actions.REQUEST_USER_POST): {
-      return Object.assign({}, state, {
-        isFetchingUsersPosts: true,
-      });
-    }
-    case (actions.RESPONSE_USER_POST): {
-      return Object.assign({}, state, {
-        isFetchingUsersPosts: false,
-        usersPosts: action.usersPosts,
-      });
-    }
-    case (actions.SET_FOLLOWING): {
-      return Object.assign({}, state, {
-        author: Object.assign({}, state.author, {
-          is_subscribed: !state.author.is_subscribed,
-        }),
-      });
-    }
-    case (actions.TOGGLE_FAVORITE): {
-      return Object.assign({}, state, {
-        post: Object.assign({}, state.post, {
-          favorite: !state.post.favorite,
-        }),
-      });
-    }
-    case (actions.ERROR_404): {
-      return Object.assign({}, state, {
-        isFetchingPost: false,
-        isDefined: false,
-      });
-    }
-    case (actions.RESET_POST): {
-      return Object.assign({}, state, initialState);
-    }
-    default: {
-      return state;
-    }
+export default handleActions({
+  [newPostsActions.requestNewPosts](state) {
+    return {
+      ...state,
+      newPosts: [],
+      isFetchingNew: true
+    };
+  },
+  [newPostsActions.responseNewPosts](state, { payload }) {
+    return {
+      ...state,
+      isFetchingNew: false,
+      newPosts: payload
+    };
+  },
+  [newPostsActions.failureNewPosts](state) {
+    return {
+      ...state,
+      isFetchingNew: false,
+    };
+  },
+  [popularPostsActions.requestPopularPosts](state) {
+    return {
+      ...state,
+      popularPosts: [],
+      isFetchingPopular: true
+    };
+  },
+  [popularPostsActions.responsePopularPosts](state, { payload }) {
+    return {
+      ...state,
+      isFetchingPopular: false,
+      popularPosts: payload
+    };
+  },
+  [popularPostsActions.failurePopularPosts](state) {
+    return {
+      ...state,
+      isFetchingPopular: false,
+    };
+  },
+  [relativePostsActions.requestRelativePosts](state) {
+    return {
+      ...state,
+      relativePosts: [],
+      isFetchingRelative: true
+    };
+  },
+  [relativePostsActions.responseRelativePosts](state, { payload }) {
+    return {
+      ...state,
+      isFetchingRelative: false,
+      relativePosts: payload
+    };
+  },
+  [relativePostsActions.failureRelativePosts](state) {
+    return {
+      ...state,
+      isFetchingRelative: false,
+    };
+  },
+  [usersPostsActions.requestUsersPosts](state) {
+    return {
+      ...state,
+      usersPosts: [],
+      isFetchingUsersPosts: true
+    };
+  },
+  [usersPostsActions.responseUsersPosts](state, { payload }) {
+    return {
+      ...state,
+      isFetchingUsersPosts: false,
+      usersPosts: payload
+    };
+  },
+  [usersPostsActions.failureUsersPosts](state) {
+    return {
+      ...state,
+      isFetchingUsersPosts: false,
+    };
+  },
+  [postActions.postRequest](state) {
+    return {
+      ...state,
+      isFetchingPost: true
+    };
+  },
+  [postActions.postResponse](state, { payload }) {
+    return {
+      ...state,
+      isFetchingPost: false,
+      post: payload,
+      author: payload.author
+    };
+  },
+  [resetPost]() {
+    return initialState;
+  },
+  [bookmarksActions.requestBookmarks](state) {
+    return {
+      ...state,
+      isFetchingBookmarks: true
+    };
+  },
+  [bookmarksActions.addingBookmark](state, { payload }) {
+    return {
+      ...state,
+      isFetchingBookmarks: false,
+      post: {
+        ...state.post,
+        bookmark_id: payload.id
+      }
+    };
+  },
+  [bookmarksActions.delitingBookmark](state) {
+    return {
+      ...state,
+      isFetchingBookmarks: false,
+      post: {
+        ...state.post,
+        bookmark_id: null
+      }
+    };
+  },
+  [bookmarksActions.failureBookmark](state) {
+    return {
+      ...state,
+      isFetchingBookmarks: false
+    };
+  },
+  [updateFollow](state) {
+    return {
+      ...state,
+      author: {
+        ...state.author,
+        is_subscribed: !state.author.is_subscribed,
+      }
+    };
+  },
+  [updateFavorite](state) {
+    return {
+      ...state,
+      post: {
+        ...state.post,
+        is_favorite: !state.post.is_favorite
+      }
+    };
   }
-};
-
-export default reducer;
+}, initialState);

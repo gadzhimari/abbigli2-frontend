@@ -74,7 +74,7 @@ class Menu extends PureComponent {
           </Link>
 
           {itemsSections.map(section => (
-            <Link className="main-menu__item" to={section.view_on_site_url} key={section.id}>
+            <Link className="main-menu__item" to={section.url} key={section.id}>
               {section.title}
             </Link>
           ))

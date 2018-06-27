@@ -1,102 +1,141 @@
-import React from 'react';
-import Type from 'prop-types';
+import { connect } from 'react-redux';
 
-import { pure } from 'recompose';
+import { React, PureComponent, Type, cn } from '../../../components-lib/__base';
+import { Button } from '../../../components-lib';
 
-import ShareButton from '../../../components/Share/Buttons/ShareButton';
+import { addContact } from '../../../ducks/Profile/actions';
+
+import SocialItem from './SocialItem';
+import SocialAddForm from './Forms/SocialAddForm';
 
 import { __t } from '../../../i18n/translator';
 
-import { location } from 'config';
+@cn('ProfileAbout')
+class AboutSocial extends PureComponent {
+  static propTypes = {
+    data: Type.arrayOf(Type.object),
+    isMe: Type.bool,
+  };
 
-const AboutSocial = ({ data, isMe }) => {
-  const isRuLocation = location === 'ru';
-  const someNetworkExist = ['vk_account', 'ok_account', 'fb_account', 'google_account']
-    .some(network => !!data[network]);
+  static defaultProps = {
+    isMe: false,
+  };
 
-  if (!someNetworkExist) return null;
+  state = {
+    currentValue: '',
+    isCreated: false,
+  };
 
-  return (
-    <div className="profile-about__contact">
-      <h4 className="profile-about__contact-header">
-        {
-          isMe
-            ? __t('You in social networks')
-            : __t('The user in social networks')
+  handleAddContact = () => {
+    this.setState({
+      isCreated: true,
+    });
+  }
+
+  handleSaveContact = (data, stage) => {
+    const { addContact } = this.props;
+
+    if (stage === 'creating') {
+      addContact(data).then((status) => {
+        if (status) {
+          this.setState({
+            isCreated: false,
+          });
         }
-      </h4>
-      <div className="profile-about__social-items">
-        <If condition={data.vk_account && isRuLocation}>
-          <a
-            className="profile-about__social-item"
-            href={data.vk_account}
-          >
-            <ShareButton
-              className="social-btn vkontakte"
-              provider="vk"
-              link={data.vk_account}
-            />
-            {'Вконтакте'}
-          </a>
-        </If>
-        <If condition={data.ok_account && isRuLocation}>
-          <a
-            className="profile-about__social-item"
-            href={data.ok_account}
-          >
-            <ShareButton
-              className="social-btn"
-              provider="odnoklassniki"
-              link={data.ok_account}
-            />
-            {'Одноклассники'}
-          </a>
-        </If>
-        <If condition={data.fb_account}>
-          <a
-            className="profile-about__social-item"
-            href={data.fb_account}
-          >
-            <ShareButton
-              className="social-btn"
-              provider="facebook"
-              link={data.fb_account}
-            />
-            {'Facebook'}
-          </a>
-        </If>
-        <If condition={data.google_account}>
-          <a
-            className="profile-about__social-item"
-            href={data.google_account}
-          >
-            <ShareButton
-              className="social-btn google-plus"
-              provider="google"
-              link={data.google_account}
-            />
-            {'Google plus'}
-          </a>
-        </If>
+      });
+    } else {
+      this.setState({
+        currentValue: '',
+      });
+    }
+  }
+
+  handleEditContact = (type) => {
+    this.setState({
+      currentValue: type,
+    });
+  }
+
+  handleCancelContact = (stage) => {
+    if (stage === 'creating') {
+      this.setState({
+        isCreated: false,
+      });
+    } else {
+      this.setState({
+        currentValue: '',
+      });
+    }
+  }
+
+  renderForm = () => {
+    const { errors } = this.props;
+
+    return (
+      <SocialAddForm
+        errors={errors}
+        onSave={this.handleSaveContact}
+        onCancel={this.handleCancelContact}
+      />
+    );
+  }
+
+  renderAddButton = (cn) => {
+    const { isMe } = this.props;
+
+    return (
+      isMe &&
+      <Button
+        view="link"
+        onClick={this.handleAddContact}
+        className={cn('contacts-add')}
+        text={__t('Add a social link')}
+      />
+    );
+  }
+
+  render(cn) {
+    const { isMe, data } = this.props;
+    const { currentValue, isCreated } = this.state;
+
+    return (
+      <div className={cn('contacts')}>
+        <h4 className={cn('contacts-header')}>
+          {
+            isMe
+              ? __t('You in social networks')
+              : __t('The user in social networks')
+          }
+        </h4>
+        <div className={cn('contacts-section')}>
+          <ul className={cn('contacts-list')}>
+            {
+              data.map(contact =>
+                <SocialItem
+                  key={contact.id}
+                  data={contact}
+                  isMe={isMe}
+                  isEditing={currentValue === contact.id}
+                  onEdit={this.handleEditContact}
+                  onSave={this.handleSaveContact}
+                  onCancel={this.handleCancelContact}
+                />
+              )
+            }
+          </ul>
+          { isCreated ? this.renderForm() : this.renderAddButton(cn) }
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-AboutSocial.propTypes = {
-  data: Type.shape({
-    pinterest_account: Type.string,
-    vk_account: Type.string,
-    google_account: Type.string,
-    ok_account: Type.string,
-    fb_account: Type.string,
-  }),
-  isMe: Type.bool,
-};
+const mapStateToProps = state => ({
+  errors: state.Profile.errors,
+});
 
-AboutSocial.defaultProps = {
-  data: {},
-  isMe: false,
-};
+const mapDispatchToProps = dispatch => ({
+  addContact: data => dispatch(addContact(data)),
+});
 
-export default pure(AboutSocial);
+export default connect(mapStateToProps, mapDispatchToProps)(AboutSocial);

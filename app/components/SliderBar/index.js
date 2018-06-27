@@ -54,20 +54,15 @@ class TagsBar extends PureComponent {
   }
 
   calculateMaxSlided = () => {
+    if (!this.container) return;
+
     const wContainer = this.container.offsetWidth;
     const wTags = this.props.itemWidth * this.props.items.length;
     const difference = wTags - wContainer;
-
-    if (difference < 0) {
-      return this.setState({
-        maxSlided: 0,
-        slidedRight: 0,
-        factor: window.innerWidth > 500 ? 3 : 1,
-      });
-    }
+    const maxSlided = difference < 0 ? 0 : difference / this.props.itemWidth;
 
     this.setState({
-      maxSlided: difference / this.props.itemWidth,
+      maxSlided,
       slidedRight: 0,
       factor: window.innerWidth > 500 ? 3 : 1,
     });

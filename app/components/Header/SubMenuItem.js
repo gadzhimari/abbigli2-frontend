@@ -19,7 +19,7 @@ class SubMenuItem extends PureComponent {
 
     return (
       <Link
-        to={item.view_on_site_url}
+        to={item.url}
         onClick={hideCategory}
         className="header-submenu__item"
         data-cat_id={item.id}

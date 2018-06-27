@@ -31,11 +31,11 @@ class SectionTag extends Component {
       tags,
       isFetching,
       tree,
-      routing,
+      query
     } = this.props;
 
     const currentSection = tree[tree.length - 1];
-    const currentTag = routing && routing.query.tag;
+    const currentTag = query.tag;
     const crumbs = [...tree];
 
     if (currentTag) {

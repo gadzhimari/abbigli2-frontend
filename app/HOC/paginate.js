@@ -1,42 +1,57 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import { React, PureComponent, Type, connect } from '../components-lib/__base';
+
+import PageSwitcher from '../components/PageSwitcher';
 
 const paginate = WrappedComponent => class extends PureComponent {
   static displayName = 'paginateHOC';
 
   static propTypes = {
-    router: PropTypes.shape({
-      push: PropTypes.func.isRequired,
+    router: Type.shape({
+      push: Type.func.isRequired,
     }).isRequired,
-    routing: PropTypes.shape({
-      query: PropTypes.object,
-      pathname: PropTypes.string,
-    }),
+    query: Type.shape(),
+    page: Type.string
   }
 
-  static defaultProps = {
-    routing: {},
-  }
-
-  paginate = ({ target }) => {
-    const { routing, router } = this.props;
-    const query = Object.assign({}, routing.query, {
-      page: target.getAttribute('data-page'),
-    });
+  paginate = (e, { name }) => {
+    const { router, location: { pathname }, query } = this.props;
 
     router.push({
-      pathname: routing.pathname,
-      query,
+      pathname,
+      query: { ...query, page: name },
     });
+  }
+
+  renderPaginator = () => {
+    const { pagesCount, query } = this.props;
+    const page = Number(query.page) || 1;
+
+    return (
+      <PageSwitcher
+        pagesCount={pagesCount}
+        paginate={this.paginate}
+        active={page}
+      />
+    );
   }
 
   render() {
-    return (<WrappedComponent
-      {...this.props}
-      paginate={this.paginate}
-      activePage={(this.props.routing && Number(this.props.routing.query.page)) || 1}
-    />);
+    return (
+      <WrappedComponent
+        {...this.props}
+        renderPaginator={this.renderPaginator}
+      />
+    );
   }
 };
 
-export default paginate;
+const mapState = state => ({
+  location: state.Location.location,
+  query: state.Location.query
+});
+
+const paginateWrapper = WrappedComponent => connect(mapState)(
+  paginate(WrappedComponent)
+);
+
+export default paginateWrapper;

@@ -9,7 +9,7 @@ import { __t } from '../../i18n/translator';
 import * as actions from '../../ducks/Relative/actions';
 import createPostLink from '../../lib/links/post-link';
 
-import { BreadCrumbs, PageSwitcher, Link } from '../../components';
+import { BreadCrumbs, Link } from '../../components';
 
 import { Spin } from '../../components-lib';
 import { Card } from '../../components-lib/Cards';
@@ -17,8 +17,7 @@ import { Card } from '../../components-lib/Cards';
 class RelativePage extends Component {
   componentDidMount() {
     const { params, fetchData } = this.props;
-
-    fetchData(params.slug);
+    fetchData(params.slug, params.path);
   }
 
   render() {
@@ -26,24 +25,19 @@ class RelativePage extends Component {
       isFetching,
       items,
       post,
-      pages,
-      paginate,
-      activePage,
+      renderPaginator
     } = this.props;
 
     return (
       <main className="main">
         <div className="content">
           <BreadCrumbs />
-          {
-            !isFetching
+          {!isFetching
             &&
             <h1 className="section-title">
               {__t('Relative posts for')}
               {' '}
-              <Link
-                to={createPostLink(post)}
-              >
+              <Link to={createPostLink(post, post.type)}>
                 {post.title}
               </Link>
             </h1>
@@ -66,15 +60,7 @@ class RelativePage extends Component {
                 }
               </div>
           }
-          {
-            !isFetching
-            &&
-            <PageSwitcher
-              count={pages}
-              paginate={paginate}
-              active={activePage}
-            />
-          }
+          {!isFetching && renderPaginator()}
         </div>
       </main>
     );
@@ -85,14 +71,16 @@ const mapStateToProps = store => ({
   isFetching: store.RelativePage.isFetching,
   items: store.RelativePage.items,
   post: store.RelativePage.post,
-  routing: store.routing.locationBeforeTransitions,
-  pages: store.RelativePage.pages,
+  pagesCount: store.RelativePage.pages,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchData: slug => dispatch(actions.fetchData(slug)),
+  fetchData: (slug, path) => dispatch(actions.fetchData(slug, path))
 });
 
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps), paginateHOC);
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  paginateHOC
+);
 
 export default enhance(RelativePage);

@@ -1,12 +1,16 @@
 import axios from 'axios';
 import { digest } from 'json-hash';
 
-import { API_URL } from '../../../app/config';
+import { DOMAIN_URL } from '../../../app/config';
 
-import setCatalogItem, { normalizer, justReturn } from './setCatalogStore';
+import setCatalogItem, {
+  normalizer,
+  unflattenTree,
+  groupByParentId
+} from './setCatalogStore';
 
 const instance = axios.create({
-  baseURL: API_URL,
+  baseURL: `${DOMAIN_URL}/api/v2`,
 });
 
 const hashes = {
@@ -18,30 +22,47 @@ const hashes = {
 
 const catalogTypes = [
   {
-    path: 'categories/',
+    path: 'products/categories/',
+    query: { is_promo: false },
     aggregators: [{
       saveAs: 'categories',
-      func: justReturn,
-    }, {
-      saveAs: 'normalizedCategories',
-      func: normalizer,
-    }],
+      func: unflattenTree
+    }]
   },
   {
-    path: 'categories/?promo=1',
+    path: 'products/categories/',
+    aggregators: [{
+      saveAs: 'normalizedCategories',
+      func: normalizer
+    }]
+  },
+  {
+    path: 'posts/categories/',
+    aggregators: [{
+      saveAs: 'blogsCategories',
+      func: unflattenTree
+    }]
+  },
+  {
+    path: 'events/categories/',
+    aggregators: [{
+      saveAs: 'eventsCategories',
+      func: unflattenTree
+    }]
+  },
+  {
+    path: 'products/categories/',
+    query: { is_promo: true },
     aggregators: [{
       saveAs: 'promo',
-      func: normalizer,
+      func: groupByParentId
     }],
-  },
-  {
-    path: 'sections/',
-    aggregators: [{
-      saveAs: 'sections',
-      func: justReturn,
-    }],
-  },
+  }
 ];
+
+const params = {
+  page_size: 10000
+};
 
 const loadCatalog = (urls, callback) => {
   let loaded = 0;
@@ -65,14 +86,20 @@ const loadCatalog = (urls, callback) => {
   };
 
   urls.forEach((url, idx) => {
-    instance.request({ url: url.path })
+    instance.request({
+      url: url.path,
+      params: {
+        ...params,
+        ...(url.query || {})
+      }
+    })
       .then(result => loadCallback(idx, {
         ...url,
         data: result.data.results,
       }))
       .catch((err) => {
         errorCallback();
-        console.error(`error at: ${url.path}`, err.message);
+        console.error(`error at: ${url.path}`, err.stack);
       });
   });
 };

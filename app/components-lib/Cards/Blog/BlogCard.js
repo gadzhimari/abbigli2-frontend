@@ -17,7 +17,7 @@ import getImageUrl from '../../../lib/getImageUrl';
 import createProfileLink from '../../../lib/links/profile-link';
 import createPostLink from '../../../lib/links/post-link';
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
-import { POST_PATH_BY_TYPE } from '../../../lib/constants/posts-types';
+import { BLOG_TYPE } from '../../../lib/constants/posts-types';
 import createPostEditLink from '../../../lib/links/edit-post-link';
 
 import {
@@ -72,9 +72,8 @@ class BlogCard extends PureComponent {
     data: Type.shape({
       title: Type.string,
       slug: Type.string,
-      price: Type.number,
       user: Type.object,
-      images: Type.array,
+      image: Type.string,
     }).isRequired,
     view: Type.number,
     isMe: Type.bool,
@@ -97,21 +96,22 @@ class BlogCard extends PureComponent {
 
   handleDelete = () => {
     const { slug } = this.props.data;
-    this.props.delete(slug);
+    this.props.delete(slug, BLOG_TYPE);
   }
 
   renderAvatar(cn) {
-    const { view, isMe } = this.props;
-    const { user } = this.props.data;
-    const name = getUserName(user);
+    const { view, showAvatar, data } = this.props;
+    const { author } = data;
+
+    const name = getUserName(data);
+
     const avatarPos = avatar.position[view] || '';
     const { size, ratio } = avatar.sizes[view];
 
-    return (
-      !isMe &&
+    return showAvatar && (
       <Link
         className={cn('user', { block: avatar.block[view], align: avatar.align[view], position: avatarPos })}
-        to={createProfileLink(user)}
+        to={createProfileLink(author)}
         color="gray-600"
         text={name}
         title={name}
@@ -119,7 +119,7 @@ class BlogCard extends PureComponent {
           <Avatar
             className={cn('avatar', { bordered: avatar.bordered[view], size })}
             imgClassName="avatar__img"
-            avatar={user.avatar}
+            avatar={author.avatar}
             thumbSize={ratio}
             alt={name}
           />
@@ -128,14 +128,14 @@ class BlogCard extends PureComponent {
     );
   }
 
-  renderTitle(cn) {
+  renderTitle(cn, postUrl) {
     const { view } = this.props;
     const { title } = this.props.data;
 
     return (
       <Link
         className={cn('title', { align: titleText.align[view], weight: 'bold' })}
-        to={createPostLink(this.props.data)}
+        to={postUrl}
         text={title}
         title={title}
         color="black"
@@ -149,6 +149,7 @@ class BlogCard extends PureComponent {
 
   render(cn) {
     const {
+      data,
       setLike,
       showLike,
       showShare,
@@ -161,20 +162,24 @@ class BlogCard extends PureComponent {
     } = this.props;
 
     const {
-      user,
-      liked,
       title,
-      type,
+      is_favorite: isFavorite,
       slug,
       created,
-      seo_description,
       comments_num: commentsCount,
-    } = this.props.data;
-    const imageUrl = getImageUrl(this.props.data);
+      preview
+    } = data;
+
+    const type = BLOG_TYPE;
+    const imageUrl = getImageUrl(data);
+    const postUrl = createPostLink(data, type);
+    const postEditingUrl = createPostEditLink(data, type);
+
+    const mods = { type, view };
 
     return (
-      <div className={cn({ type: POST_PATH_BY_TYPE[type], view })}>
-        { view === 3 &&
+      <div className={cn(mods)}>
+        {view === 3 &&
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
@@ -186,9 +191,10 @@ class BlogCard extends PureComponent {
             </div>
           </div>
         }
+
         <div className={cn('img-wrapper')}>
           <Link
-            to={createPostLink(this.props.data)}
+            to={postUrl}
           >
             <Image
               className={cn('img')}
@@ -197,6 +203,7 @@ class BlogCard extends PureComponent {
               src={imageUrl}
             />
           </Link>
+
           <div className={cn('actions', { align: 'top-left' })}>
             { showShare &&
               <div className="share">
@@ -212,7 +219,7 @@ class BlogCard extends PureComponent {
                 <div className="dropdown">
                   <div className="dropdown-corner" />
                   <Share
-                    postLink={createPostLink(this.props.data)}
+                    postLink={postUrl}
                     buttonClass="social-btn"
                     media={imageUrl}
                     description={title}
@@ -221,18 +228,20 @@ class BlogCard extends PureComponent {
               </div>
             }
           </div>
+
           <div className={cn('actions', { align: 'top-right' })}>
-            { showLike &&
+            {showLike &&
               <Like
-                liked={liked}
+                liked={isFavorite}
                 onClick={setLike}
                 slug={slug}
+                type={type}
                 className={cn('button', { like: true, hide: !isTouch })}
               />
             }
             { canEdit &&
               <Link
-                to={createPostEditLink({ id: user.id, slug })}
+                to={postEditingUrl}
                 view="fab"
                 className={cn('button', { edit: true })}
                 aria-label={__t('Edit')}
@@ -268,14 +277,15 @@ class BlogCard extends PureComponent {
               />
             }
             { view === 1 && showAvatar && this.renderAvatar(cn) }
-            { view !== 3 && this.renderTitle(cn) }
+            { view !== 3 && this.renderTitle(cn, postUrl) }
             { view === 1 &&
               <div
                 className={cn('text')}
-                dangerouslySetInnerHTML={{ __html: seo_description }}
+                dangerouslySetInnerHTML={{ __html: preview }}
               />
             }
           </div>
+
           <div className={cn('footer', { align: 'vertical' })}>
             <div className={cn('footer-col', { left: true })}>
               { view === 1 &&
@@ -286,7 +296,7 @@ class BlogCard extends PureComponent {
               { view === 2 && showAvatar && this.renderAvatar(cn) }
             </div>
             <div className={cn('footer-col', { right: true })}>
-              { view === 3 && this.renderTitle(cn) }
+              { view === 3 && this.renderTitle(cn, postUrl) }
               <div className={cn('comments')}>
                 <IconComment size="xs" className={cn('comments-icon')} />
                 <span className={cn('comments-count')}>
@@ -301,9 +311,4 @@ class BlogCard extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuth: state.Auth.isAuthenticated,
-  isTouch: state.isTouch,
-});
-
-export default connect(mapStateToProps, { setLike })(BlogCard);
+export default connect(({ isTouch }) => ({ isTouch }), { setLike })(BlogCard);

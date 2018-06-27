@@ -67,7 +67,7 @@ class ChoiceColor extends PureComponent {
   }
 
   render(cn) {
-    const { onChange, activeColor, isMobile, className } = this.props;
+    const { onChange, activeColor, isMobile } = this.props;
     const { openedDropdown } = this.state;
 
     if (isMobile) {
@@ -75,7 +75,7 @@ class ChoiceColor extends PureComponent {
     }
 
     return (
-      <div className={cn(className)} ref={root => (this.root = root)}>
+      <div className={cn()} ref={root => (this.root = root)}>
         <Button
           className="input"
           onClick={this.openDropdown}

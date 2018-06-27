@@ -1,19 +1,14 @@
 import React, { PureComponent } from 'react';
-import moment from 'moment';
+import SidebarListItem from './SidebarListItem';
 
 import Link from '../Link/Link';
 
-import { THUMBS_URL, location } from '../../config';
 import { __t } from '../../i18n/translator';
-
-const urls = {
-  4: 'blog',
-  3: 'event',
-};
 
 class SidebarList extends PureComponent {
   render() {
-    const { items, title, seeAllUrl } = this.props;
+    const { items, title, seeAllUrl, type } = this.props;
+    const visibleItems = items.slice(0, 4);
 
     return (
       items.length > 0 &&
@@ -21,37 +16,13 @@ class SidebarList extends PureComponent {
         <div className="sidebar__title">
           {title}
         </div>
+
         <div className="sidebar-news">
-          {
-            items
-              .slice(0, 4)
-              .map(item => (
-                <div key={item.id} className="sidebar-news__item">
-                  <Link
-                    className="sidebar-news__img"
-                    to={`/${urls[item.type]}/${item.slug}`}
-                  >
-                    <img
-                      src={`${THUMBS_URL}/unsafe/120x103/${item.images[0].file}`}
-                      alt={item.title}
-                    />
-                  </Link>
-                  <Link
-                    className="sidebar-news__title"
-                    to={`/${urls[item.type]}/${item.slug}`}
-                  >
-                    {item.title}
-                  </Link>
-                  <div className="sidebar-news__date">
-                    {
-                      moment(item.created)
-                        .locale(location)
-                        .format('LL')
-                    }
-                  </div>
-                </div>
-              ))
+          {visibleItems.map(item => (
+            <SidebarListItem key={item.id} data={item} type={type} />
+          ))
           }
+
           <Link
             className="show-more"
             to={seeAllUrl}

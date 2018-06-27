@@ -8,7 +8,7 @@ import {
   BannerBlue,
   HomeSlider
 } from '../../components';
-import { Card, Goods } from '../../components-lib/Cards';
+import { Blog, Goods, Event } from '../../components-lib/Cards';
 import PostsList from './PostsList';
 
 import { fetchBlogs } from '../../ducks/Blogs/actions';
@@ -52,7 +52,6 @@ class Home extends PureComponent {
       isFetchingProducts,
       itemsProducts,
       isAuthenticated,
-      priceTemplate,
       itemsSections
     } = this.props;
 
@@ -79,13 +78,10 @@ class Home extends PureComponent {
 
           moreLinkText={__t('See more')}
           moreLinkUrl="/new-products"
-
-          priceTemplate={priceTemplate}
-          isAuth={isAuthenticated}
         />
 
         <PostsList
-          Component={Card}
+          Component={Blog}
           isFetching={isFetchingBlogs}
           posts={itemsBlogs}
           view={2}
@@ -95,12 +91,10 @@ class Home extends PureComponent {
 
           moreLinkText={__t('See more')}
           moreLinkUrl="/blogs"
-
-          isAuth={isAuthenticated}
         />
 
         <PostsList
-          Component={Card}
+          Component={Event}
           isFetching={isFetchingEvents}
           posts={itemsEvents}
           view={2}
@@ -110,8 +104,6 @@ class Home extends PureComponent {
 
           moreLinkText={__t('See more')}
           moreLinkUrl="/events"
-
-          isAuth={isAuthenticated}
         />
 
         <HR color={'orange'} />
@@ -151,15 +143,14 @@ const mapStateToProps = state => ({
   itemsProducts: state.Products.items,
   isFetchingProducts: state.Products.isFetching,
 
-  isAuthenticated: state.Auth.isAuthenticated,
-  priceTemplate: state.Settings.data.CURRENCY,
+  isAuthenticated: state.Auth.isAuthenticated
 });
 
 const mapDispatchToProps = dispatch => ({
   showRegister: () => dispatch(stagedPopup('signUp')),
   fetchData: () => {
-    dispatch(fetchBlogs({ type: 4 }));
-    dispatch(fetchEvents({ type: 3 }));
+    dispatch(fetchBlogs());
+    dispatch(fetchEvents());
     dispatch(fetchDataProducts());
   }
 });

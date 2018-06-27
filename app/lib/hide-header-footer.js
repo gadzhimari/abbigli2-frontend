@@ -1,7 +1,4 @@
 import pages from './pages';
 
-const shouldHideHeaderAndFooter = ({ pathname }) =>
-  pathname === `/${pages.FOR_MASTERS_PAGE.path}`;
-
-
-export default shouldHideHeaderAndFooter;
+export const shouldHideHeaderAndFooter = ({ pathname }) => pathname === `/${pages.FOR_MASTERS_PAGE.path}`;
+export const shouldHideFooter = ({ pathname }) => pathname === `/${pages.CHAT_PAGE.path}`;
