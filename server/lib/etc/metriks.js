@@ -57,14 +57,7 @@ export default {
   })(document, window, "yandex_metrika_callbacks2");
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/48309419" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-P4452TF');</script>
-<!-- End Google Tag Manager -->`,
+<!-- /Yandex.Metrika counter -->`,
   ru: `
   <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -106,12 +99,5 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   setTimeout("ga('send','event','Engaged users','More than 15 seconds')",15000);
   ga('require', 'displayfeatures');
 
-</script>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-N7PQ3CW');</script>
-<!-- End Google Tag Manager -->`,
+</script>`,
 };
