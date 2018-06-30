@@ -26,6 +26,7 @@ function setLocals(req, res, next) {
   res.locals.lang = lang;
   res.locals.criticalCss = isBot ? '' : criticalCss;
   res.locals.isBot = isBot;
+  res.locals.gtmCode = config.gtmCode;
 
   next();
 }

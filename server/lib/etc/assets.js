@@ -24,6 +24,6 @@ export const assetsUrl = useProductionAssets ? '' : 'http://localhost:8080';
 export function getAssets() {
   return {
     js: assets.main.js,
-    css: assets.main.css,
+    css: assets.main.css
   };
 }
