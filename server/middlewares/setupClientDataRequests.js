@@ -16,10 +16,12 @@ Object
   });
 
 function dataAdapter(req) {
-  const { renderProps: { router } } = req.renderProps;
+  const { renderProps: { router, location } } = req.renderProps;
+
   return {
-    params: router.params,
-    token: req.cookies.id_token2
+    params: router && router.params,
+    token: req.cookies.id_token2,
+    query: location && location.query
   };
 }
 

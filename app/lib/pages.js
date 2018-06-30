@@ -1,5 +1,5 @@
 import { fetchPost } from '../ducks/PostPage/actions';
-import { fetchCrumbs } from '../ducks/CatalogPage/actions';
+import { fetchCatalogPageData } from '../ducks/CatalogPage/actions';
 
 export default {
   ROOT_PAGE: {
@@ -109,14 +109,7 @@ export default {
   },
   CATALOG_PAGE: {
     path: '(**/):section',
-    action(params) {
-      let slugs = [params.section];
-      if (params[0]) {
-        slugs = params[0].split('/').concat(slugs);
-      }
-
-      return dispatch => dispatch(fetchCrumbs({ slugs }));
-    },
-    actionArgs: ['params']
-  },
+    action: fetchCatalogPageData,
+    actionArgs: ['params', 'query']
+  }
 };
