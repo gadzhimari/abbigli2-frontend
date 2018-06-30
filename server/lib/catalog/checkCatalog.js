@@ -122,7 +122,8 @@ const checkHashes = (data) => {
 };
 
 const checkCatalog = callback => loadCatalog(catalogTypes, (data) => {
-  callback(checkHashes(data));
+  data.forEach(setCatalogItem);
+  callback(true);
 });
 
 export default checkCatalog;
