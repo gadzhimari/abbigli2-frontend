@@ -13,8 +13,7 @@ import paginateHOC from '../../HOC/paginate';
 
 import preloader from './preloader';
 
-import { fetchPosts, fetchTags, fetchCrumbs } from '../../ducks/CatalogPage/actions';
-import { openPopup } from '../../ducks/Popup/actions';
+import { fetchCatalogPageData } from '../../ducks/CatalogPage/actions';
 
 import './Sections.less';
 
@@ -82,15 +81,9 @@ const mapStateToProps = ({ CatalogPage, Sections, NetworkErrors }) => ({
   posts: CatalogPage.posts,
   errors: NetworkErrors,
   currentSection: CatalogPage.currentCategory,
+  isFetching: CatalogPage.isFetching
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchSectionTags: options => dispatch(fetchTags(options)),
-  openMobileFilters: () => dispatch(openPopup('filtersPopup')),
-  fetchPosts: (category, page, tags) => dispatch(fetchPosts({ category, page, tags })),
-  fetchCrumbs: data => dispatch(fetchCrumbs(data))
-});
-
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps), paginateHOC, preloader);
+const enhance = compose(connect(mapStateToProps, { fetchCatalogPageData }), paginateHOC, preloader);
 
 export default enhance(Sections);

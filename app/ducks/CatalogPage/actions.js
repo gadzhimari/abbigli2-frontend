@@ -11,7 +11,9 @@ export const {
   requestPosts,
   responseTags,
   requestMoreTags,
-  setCurrentCategoryTree
+  setCurrentCategoryTree,
+  requestPageData,
+  responsePageData
 } = createActions(
   'RESPONSE_POSTS',
   'RESPONSE_TAGS',
@@ -20,7 +22,9 @@ export const {
   'REQUEST_TAGS',
   'RESPONSE_TAGS',
   'REQUEST_MORE_TAGS',
-  'SET_CURRENT_CATEGORY_TREE'
+  'SET_CURRENT_CATEGORY_TREE',
+  'REQUEST_PAGE_DATA',
+  'RESPONSE_PAGE_DATA'
 );
 
 // TODO: new api
@@ -52,3 +56,25 @@ export const fetchCrumbs = options => dispatch => Catalog.getCategoryCrumbs(opti
   .catch(({ response }) => {
     dispatch(setNetworkError(response));
   });
+
+export const fetchCatalogPageData = (params, query) => {
+  const { section, splat } = params;
+  const { page, tag } = query;
+
+  let slugs = [section];
+
+  if (splat) {
+    slugs = splat.split('/').concat(slugs);
+  }
+
+  return (dispatch) => {
+    dispatch(requestPageData());
+
+    dispatch(fetchTags({ category: section }));
+
+    return Promise.all([
+      dispatch(fetchPosts(section, page, tag)),
+      dispatch(fetchCrumbs({ slugs }))
+    ]).then(() => dispatch(responsePageData()));
+  };
+};

@@ -1,4 +1,4 @@
-import agreement from './agreement.en';
+import agreementKeyset from './keysets/aggrementKeyset/en';
 import privacyEn from './privacy.en';
 import commonKeyset from './keysets/common/en';
 import modalKeyset from './keysets/modal/en';
@@ -7,6 +7,7 @@ import postsTableKeyset from './keysets/postsTable/en';
 import datesKeyset from './keysets/dates/en';
 import shopKeyset from './keysets/shop/en';
 import profilePageKeyset from './keysets/profilePage/en';
+import messsagesKeyset from './keysets/messagesKeyset/en';
 
 export default {
   ...commonKeyset,
@@ -16,6 +17,8 @@ export default {
   ...datesKeyset,
   ...shopKeyset,
   ...profilePageKeyset,
+  ...messsagesKeyset,
+  ...agreementKeyset,
 
   'Upload image': 'Upload image',
   'sign.up.to.leave.comment': 'Sign up to leave comment',
@@ -248,7 +251,6 @@ export default {
 
   'tooltip.create.tags': 'Words that can be used to find you on the site. These words should reflect the essence of your posts',
 
-  'aggreement.text': agreement,
   'Show.all': 'Show all',
   'Hide.all': 'Hide all',
   More: 'More',
@@ -264,5 +266,5 @@ export default {
   'users.search.result.text': 'Results for query «{{user}}» ',
   'privacy.text': privacyEn,
   'Privacy policy': 'Privacy policy',
-  Selected: 'Selected {{count}}',
+  Selected: 'Selected {{count}}'
 };

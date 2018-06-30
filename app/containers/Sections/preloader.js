@@ -8,59 +8,37 @@ import { SectionTag } from '../../containers';
 
 const preloader = WrappedComponent => class extends PureComponent {
   static propTypes = {
-    fetchSectionTags: PropTypes.func.isRequired,
-    fetchPosts: PropTypes.func.isRequired,
+    fetchCatalogPageData: PropTypes.func.isRequired,
     params: PropTypes.shape({
       subsection: PropTypes.string,
-    }).isRequired
+    })
   }
 
   state = { isFetching: true };
 
   componentDidMount() {
-    this.fetchData();
+    const { currentSection, params } = this.props;
+
+    if (currentSection.slug !== params.section) {
+      this.fetchData();
+    }
   }
 
   componentDidUpdate(prevProps) {
-    const { params } = this.props;
+    const { params, query } = this.props;
 
-    if (prevProps.params !== params) {
+    if (prevProps.params !== params || query !== prevProps.query) {
       this.fetchData();
     }
   }
 
   fetchData = () => {
-    const {
-      params,
-      fetchSectionTags,
-      fetchPosts,
-      query,
-      fetchCrumbs
-    } = this.props;
-
-    this.setState({ isFetching: true });
-
-    const { section, splat } = params;
-    const { page, tag } = query;
-
-    let slugs = [section];
-
-    if (splat) {
-      slugs = splat.split('/').concat(slugs);
-    }
-
-    Promise.all([
-      fetchSectionTags({ category: section }),
-      fetchPosts(section, page, tag),
-      fetchCrumbs({ slugs })
-    ]).then(() => this.setState({
-      isFetching: false,
-    }));
+    const { params, query, fetchCatalogPageData } = this.props;
+    fetchCatalogPageData(params, query);
   }
 
   render() {
-    const { isFetching } = this.state;
-    const { currentSection } = this.props;
+    const { currentSection, isFetching } = this.props;
 
     return (<div>
       <Helmet>
