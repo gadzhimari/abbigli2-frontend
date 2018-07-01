@@ -1,4 +1,4 @@
-import agreementKeyset from './keysets/aggrementKeyset/en';
+import agreementKeyset from './keysets/aggrementKeyset';
 import privacyEn from './privacy.en';
 import commonKeyset from './keysets/common/en';
 import modalKeyset from './keysets/modal/en';

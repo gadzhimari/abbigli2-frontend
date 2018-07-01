@@ -4,9 +4,17 @@
     "react",
     "stage-0"
   ],
+  "env": {
+    "production": {
+      "presets": [
+        "react-optimize"
+      ]
+    }
+  },
   "plugins": [
     "transform-decorators-legacy",
     "babel-plugin-webpack-alias",
-    "jsx-control-statements"
+    "jsx-control-statements",
+    "lodash"
   ]
 }
