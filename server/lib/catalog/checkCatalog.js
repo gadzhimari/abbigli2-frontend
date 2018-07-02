@@ -23,7 +23,7 @@ const hashes = {
 const catalogTypes = [
   {
     path: 'products/categories/',
-    query: { is_promo: false },
+    query: { type: 'default' },
     aggregators: [{
       saveAs: 'categories',
       func: unflattenTree
