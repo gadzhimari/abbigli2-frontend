@@ -81,7 +81,7 @@ class ProductForm extends CreateForm {
             ref={(sectionSelect) => { this.sectionSelect = sectionSelect; }}
             currentCategory={currentCategory}
             categories={categories}
-            errors={errors.categories}
+            errors={errors.category}
           />
 
           <div className="add-tabs__form-field">

@@ -259,7 +259,7 @@ class EventCard extends PureComponent {
                 onClick={this.handleDelete}
                 view="fab"
                 className={cn('button', { delete: true })}
-                aria-label={__t('Delete')}
+                aria-label={__t('common.delete')}
                 icon={<IconClose
                   size="xs"
                   color="gray-400"

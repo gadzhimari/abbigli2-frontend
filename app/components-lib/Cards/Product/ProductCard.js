@@ -302,7 +302,7 @@ class ProductCard extends PureComponent {
                 onClick={this.handleDelete}
                 view="fab"
                 className={cn('button', { delete: true })}
-                aria-label={__t('Delete')}
+                aria-label={__t('common.delete')}
                 icon={<Icon glyph="close" size="xs" color="gray-400" />}
               />
             }
@@ -322,7 +322,7 @@ class ProductCard extends PureComponent {
                   <Button
                     view="link"
                     className={cn('dropdown-item')}
-                    text={__t('Delete')}
+                    text={__t('common.delete')}
                     color="gray-400"
                     onClick={this.handleDelete}
                     icon={<Icon glyph="close" size="xs" color="gray-400" />}

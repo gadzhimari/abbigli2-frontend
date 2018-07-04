@@ -121,7 +121,7 @@ class ProfileAvatar extends PureComponent {
             className="profile-avatar__dropdown-item"
             onClick={this.handleDeleteImage}
           >
-            {__t('Delete')}
+            {__t('common.delete')}
           </div>
           <div
             className="profile-avatar__dropdown-item"
