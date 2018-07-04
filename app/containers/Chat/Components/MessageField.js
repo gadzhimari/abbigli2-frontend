@@ -42,7 +42,7 @@ class MessageField extends Component {
           <input
             className="input"
             type="text"
-            placeholder={__t('Write a message')}
+            placeholder={__t('chat.placeholder')}
             value={this.state.message}
             onChange={this.changeMessage}
             onKeyDown={this.checkPressEnter}

@@ -8,6 +8,7 @@ import datesKeyset from './keysets/dates/ru';
 import shopKeyset from './keysets/shop/ru';
 import profilePageKeyset from './keysets/profilePage/ru';
 import messsagesKeyset from './keysets/messagesKeyset/ru';
+import chatKeyset from './keysets/chat/ru';
 
 export default {
   ...commonKeyset,
@@ -19,6 +20,7 @@ export default {
   ...profilePageKeyset,
   ...messsagesKeyset,
   ...agreementKeyset,
+  ...chatKeyset,
 
   'Upload image': 'Загрузить изображение',
   'You can upload maximum images':
@@ -370,14 +372,10 @@ export default {
   'Re-enter new password': 'Повторите ввод пароля',
   'Set password': 'Установить пароль',
   'Set up your password': 'Установить новый пароль',
-  'Go back to dialogs list': 'Назад к списку диалогов',
-  'In this section you see your correspondence with other ABBIGLI members.':
-    'В этом разделе отображается переписка с другими участниками проекта ABBIGLI.',
   'Favorites.propfile':
     'В Этом разделе отображается информация об всех ИЗДЕЛИЯХ/УСЛУГАХ , БЛОГАХ , СОБЫТИЯХ которые вы отметили ЛАЙКОМ или ПРОКОММЕНТИРОВАЛИ.',
   'My.abbigly.propfile':
     'В этом разделе Вы можете опубликовать свои Изделия/Услуги, создать свои БЛОГИ и События. Так о Вас узнают все пользователи проекта ABBIGLI.RU',
-  'Delete dialog': 'Удаление диалога',
   'Are you sure you want to remove dialogue with':
     'Вы уверены, что хотите удалить диалог с',
   Delete: 'Удалить',

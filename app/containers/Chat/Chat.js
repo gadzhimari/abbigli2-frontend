@@ -116,7 +116,7 @@ class Chat extends Component {
                 <h5
                   className="messages__content-text"
                 >
-                  {__t('In this section you see your correspondence with other ABBIGLI members.')}
+                  {__t('chat.empryText')}
                 </h5>
               </div>
           }

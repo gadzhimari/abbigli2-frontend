@@ -8,6 +8,7 @@ import datesKeyset from './keysets/dates/en';
 import shopKeyset from './keysets/shop/en';
 import profilePageKeyset from './keysets/profilePage/en';
 import messsagesKeyset from './keysets/messagesKeyset/en';
+import chatKeyset from './keysets/chat/en';
 
 export default {
   ...commonKeyset,
@@ -19,6 +20,7 @@ export default {
   ...profilePageKeyset,
   ...messsagesKeyset,
   ...agreementKeyset,
+  ...chatKeyset,
 
   'Upload image': 'Upload image',
   'sign.up.to.leave.comment': 'Sign up to leave comment',

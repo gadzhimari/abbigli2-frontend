@@ -22,7 +22,7 @@ const DialogList = ({
         <input
           className="input"
           type="text"
-          placeholder={__t('Search messages')}
+          placeholder={__t('chat.search')}
           onChange={changeSearch}
         />
         <svg className="icon icon-search" viewBox="0 0 57.9 58">

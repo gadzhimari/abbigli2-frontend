@@ -111,7 +111,7 @@ class SocialItem extends Component {
       <Button
         view="icon"
         size="s"
-        name={__t('Delete')}
+        name={__t('common.delete')}
         className={cn('contacts-delete')}
         onClick={this.handleDeleteContact}
         icon={<IconClose

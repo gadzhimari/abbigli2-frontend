@@ -19,10 +19,14 @@
       white-space: nowrap;
       border-bottom: 1px solid @border;
       padding: 15px 35px 15px 100px;
-      cursor: default;
+      cursor: pointer;
 
       &:last-child {
         border: 0;
+      }
+
+      &:hover {
+        background-color: #e5f4fd;
       }
 
       &__search {
@@ -110,9 +114,16 @@
         width: 15px;
         height: 15px;
         position: absolute;
-        right: 10px;
-        top: 20px;
+        right: 0;
+        top: 0;
+
+        padding: 10px;
+        box-sizing: initial;
         cursor: pointer;
+
+        &:hover {
+          fill: darken(#b8b8b8, 30%)
+        }
       }
 
       &__avatar {
