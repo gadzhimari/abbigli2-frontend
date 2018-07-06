@@ -1,12 +1,14 @@
 
 /**
  * На основе массива slugs создает массив категорий
- * @param {Array} slugs - массив ключей категорий
+ * @param {String[]} slugs - массив ключей категорий
  * @param {Object} categories - Объект нормализованных категорий
  * @param {Object} promo - Объект нормализованный промо-категорий
+ *
+ * @returns {Object[]|null}
  */
-const createCrumbs = (slugs, categories) => {
-  const cat = categories.entities.categories;
+const createCrumbs = (slugs, { normalizedCategories }) => {
+  const cat = normalizedCategories.entities.categories;
 
   const categoryNotExist = slugs.some(item => !(item in cat));
 
@@ -14,17 +16,15 @@ const createCrumbs = (slugs, categories) => {
     return null;
   }
 
-  return slugs.reduce((acc, cur) => {
+  return slugs.map((slug) => {
     const targetCategories = cat;
-    const current = targetCategories[cur];
+    const current = targetCategories[slug];
 
     current.children = current.children.map(catSlug => targetCategories[catSlug]);
     current.url = current.url;
 
-    acc.push(current);
-
-    return acc;
-  }, []);
+    return current;
+  });
 };
 
 export default createCrumbs;
