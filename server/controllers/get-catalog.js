@@ -1,21 +1,15 @@
-import getCatalogStore from '../lib/catalog/getCatalogStore';
+import getCatalogFromStore from '../lib/catalog/getCatalogStore';
 
 const catalogList = [
-  'categories', 'normalizedCategories', 'promo', 'blogsCategories', 'eventsCategories'
+  'categories',
+  'normalizedCategories',
+  'promo',
+  'blogsCategories',
+  'eventsCategories',
+  'defaultCategories'
 ];
 
-export default (req, res) => {
-  getCatalogStore(catalogList, ([
-    categories,
-    normalizedCategories,
-    promo,
-    blogsCategories,
-    eventsCategories
-  ]) => res.send({
-    categories,
-    normalizedCategories,
-    promo,
-    blogsCategories,
-    eventsCategories
-  }));
-};
+export default async function getCatalog(req, res) {
+  const catalogData = await getCatalogFromStore(catalogList);
+  res.send(catalogData);
+}

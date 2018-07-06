@@ -194,9 +194,8 @@ PostCreate.propTypes = {
   isTouch: Type.bool
 };
 
-// TODO: Подключить разные типы каталогов для разных типов постов
 const mapStateToProps = state => ({
-  sections: state.Sections.items,
+  sections: state.Sections.defaultCategories,
   isSaving: state.PostCreate.isSaving,
   isFetchingImage: state.PostCreate.isFetchingImage,
   errors: state.PostCreate.errors,

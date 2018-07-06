@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { digest } from 'json-hash';
 
 import { DOMAIN_URL } from '../../../app/config';
 
@@ -13,19 +12,21 @@ const instance = axios.create({
   baseURL: `${DOMAIN_URL}/api/v2`,
 });
 
-const hashes = {
-  categories: '',
-  normalizedCategories: '',
-  promo: '',
-  sections: '',
-};
-
 const catalogTypes = [
+  {
+    path: 'products/categories/?type=default&type=featured',
+    aggregators: [
+      {
+        saveAs: 'categories',
+        func: unflattenTree
+      }
+    ]
+  },
   {
     path: 'products/categories/',
     query: { type: 'default' },
     aggregators: [{
-      saveAs: 'categories',
+      saveAs: 'defaultCategories',
       func: unflattenTree
     }]
   },
@@ -52,7 +53,7 @@ const catalogTypes = [
   },
   {
     path: 'products/categories/',
-    query: { is_promo: true },
+    query: { type: 'promo' },
     aggregators: [{
       saveAs: 'promo',
       func: groupByParentId
@@ -102,23 +103,6 @@ const loadCatalog = (urls, callback) => {
         console.error(`error at: ${url.path}`, err.stack);
       });
   });
-};
-
-const checkHashes = (data) => {
-  const updatedHashes = [];
-
-  data.forEach((item) => {
-    const newHash = digest(item.data);
-
-    if (newHash !== hashes[item.type]) {
-      hashes[item.type] = newHash;
-      updatedHashes.push(item);
-    }
-  });
-
-  updatedHashes.forEach(setCatalogItem);
-
-  return updatedHashes.length !== 0;
 };
 
 const checkCatalog = callback => loadCatalog(catalogTypes, (data) => {
