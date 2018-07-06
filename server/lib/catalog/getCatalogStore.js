@@ -5,23 +5,33 @@ const getKeyFromStore = async (key) => {
   return data;
 };
 
-const getCatalog = (keys, callback) => {
-  const result = [];
-  let loaded = 0;
+/**
+ * Достает из хранилища данные по ключам
+ *
+ * @param {String[]} keys
+ * @param {Function} callback
+ *
+ * @returns {Object}
+ */
+function getCatalog(keys) {
+  return new Promise((res) => {
+    const result = {};
+    let loaded = 0;
 
-  const next = (idx, data) => {
-    result[idx] = JSON.parse(data);
-    loaded += 1;
+    const next = (key, data) => {
+      result[key] = JSON.parse(data);
+      loaded += 1;
 
-    if (loaded === keys.length) {
-      callback(result);
-    }
-  };
+      if (loaded === keys.length) {
+        res(result);
+      }
+    };
 
-  keys.forEach(async (key, idx) => {
-    const data = await getKeyFromStore(key);
-    next(idx, data);
+    keys.forEach(async (key) => {
+      const data = await getKeyFromStore(key);
+      next(key, data);
+    });
   });
-};
+}
 
 export default getCatalog;

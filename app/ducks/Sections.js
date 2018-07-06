@@ -12,6 +12,7 @@ const initalState = {
   normalizedCategories: {},
   eventsCategories: [],
   blogsCategories: [],
+  defaultCategories: [],
   promo: {},
 };
 
@@ -24,6 +25,7 @@ export default handleActions({
       promo: payload.promo,
       eventsCategories: payload.eventsCategories,
       blogsCategories: payload.blogsCategories,
+      defaultCategories: payload.defaultCategories,
       isFetching: false
     };
   },
