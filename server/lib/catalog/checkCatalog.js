@@ -14,7 +14,7 @@ const instance = axios.create({
 
 const catalogTypes = [
   {
-    path: 'products/categories/?type=default&type=featured',
+    path: 'products/categories/?type=default&type=featured&page_size=10000',
     aggregators: [
       {
         saveAs: 'categories',
