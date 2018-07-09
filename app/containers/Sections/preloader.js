@@ -14,8 +14,6 @@ const preloader = WrappedComponent => class extends PureComponent {
     })
   }
 
-  state = { isFetching: true };
-
   componentDidMount() {
     const { currentSection, params } = this.props;
 
@@ -38,7 +36,9 @@ const preloader = WrappedComponent => class extends PureComponent {
   }
 
   render() {
-    const { currentSection, isFetching } = this.props;
+    const { currentSection, isFetching, promo } = this.props;
+    const showTagPage = currentSection.type === 'promo' ?
+      promo.length === 0 : currentSection.children && currentSection.children.length === 0;
 
     return (<div>
       <Helmet>
@@ -56,14 +56,14 @@ const preloader = WrappedComponent => class extends PureComponent {
         </div>
       }
 
-      {!isFetching && currentSection.children && currentSection.children.length === 0 &&
+      {!isFetching && showTagPage &&
         <SectionTag
           isFetching={isFetching}
           {...this.props}
         />
       }
 
-      {!isFetching && currentSection.children && currentSection.children.length !== 0 &&
+      {!isFetching && !showTagPage &&
         <WrappedComponent
           isFetching={isFetching}
           {...this.props}
