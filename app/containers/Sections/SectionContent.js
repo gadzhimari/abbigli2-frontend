@@ -41,7 +41,7 @@ class SectionContent extends PureComponent {
       renderPaginator
     } = this.props;
 
-    const isPromo = section.is_promo || (section.children[0] && section.children[0].is_promo);
+    const isPromo = section.type === 'promo';
 
     return (
       <div>
@@ -59,7 +59,7 @@ class SectionContent extends PureComponent {
           />
         }
 
-        {!isPromo &&
+        {!isPromo && tags.length !== 0 &&
           <h1 className="section-title">
             {__t('Tags')}
           </h1>
