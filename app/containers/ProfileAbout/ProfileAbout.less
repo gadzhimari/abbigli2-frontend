@@ -2,6 +2,7 @@
 @import 'mixin';
 
 @import '../../components-lib/__base/variables/colors';
+@import '../../components-lib/__base/mixins';
 
 .profile-about {
   &__contact {
@@ -168,7 +169,7 @@
     }
 
     &-select {
-      min-width: 80px;
+      min-width: 120px;
       margin-left: 10px;
 
       .Select {
@@ -238,13 +239,21 @@
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: @breakpoint-m-only) {
   .ProfileAbout {
-    &__contacts {
-      &-item {
-        &-row {
-          flex-wrap: wrap;
-        }
+    &__contacts-item-row {
+      flex-wrap: wrap;
+    }
+  }
+}
+
+@media screen and (max-width: @breakpoint-s-only) {
+  .ProfileAbout {
+    &__contacts-select {
+      min-width: 80px;
+
+      .Select-option {
+        .text-truncate();
       }
     }
   }
