@@ -9,14 +9,16 @@
   <%- seo.meta %>
   <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <style>
-    <%- criticalCss %>
+  <link rel="stylesheet" href="<%= assetsUrl %><%= assets.css %>">
 
+  <style>
     .mobile-menu {
       display: none;
     }
   </style>
+
   <%- metriks %>
+
   <script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>
     (window.adsbygoogle = window.adsbygoogle || []).push({
@@ -63,7 +65,6 @@
   <script src="/js/source.js" defer></script>
   <script src="<%= assetsUrl %><%= assets.js %>" defer></script>
   <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
-  <link rel="stylesheet" href="<%= assetsUrl %><%= assets.css %>">
 </body>
 
 </html>

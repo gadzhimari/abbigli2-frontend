@@ -1,4 +1,4 @@
-import agreementKeyset from './keysets/aggrementKeyset/ru';
+import agreementKeyset from './keysets/aggrementKeyset';
 import privacyRu from './privacy.ru';
 import commonKeyset from './keysets/common/ru';
 import modalKeyset from './keysets/modal/ru';

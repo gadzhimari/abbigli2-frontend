@@ -1,19 +1,7 @@
-// TODO: create a node/webpack compatible container factory with require.context
-// TODO: migrate to universal-webpack from webpack-isomorphic-tools to allow webpack extra features
-// const componentModules = require.context('.', true, /\.js$/);
-// let res = {};
-//
-// componentsModules.keys().forEach((key) => {
-//   res[key.replace(/\.\/(.*)\.js/, "$1")] = componentModules[key];
-// });
-//
-// export default res;
-
 export { default as AvatarBlock } from './AvatarBlock/AvatarBlock';
 export { default as Banner } from './Banner/Banner';
 export { default as TileWrap } from './TileWrap/TileWrap';
 export { default as BannerBlue } from './BannerBlue/BannerBlue';
-export { default as CardsWrap } from './CardsWrap/CardsWrap';
 export { default as Header } from './Header/Header';
 export { default as Link } from './Link/Link';
 export { default as Search } from './Search/Search';

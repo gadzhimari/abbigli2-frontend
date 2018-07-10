@@ -7,6 +7,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const LessListPlugin = require('less-plugin-lists');
 const LessFunctionPlugin = require('less-plugin-functions');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const productionEnvs = ['production', 'testing'];
 
@@ -44,6 +47,9 @@ const plugins = [
       THUMBS_URL: JSON.stringify(process.env.THUMBS_URL),
     },
   }),
+  new MomentLocalesPlugin({
+    localesToKeep: ['ru'],
+  })
 ];
 
 if (isProd) {
@@ -53,7 +59,12 @@ if (isProd) {
       filename: 'assets.json',
       path: path.join(__dirname, 'public', 'assets'),
     }),
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin(),
+    new LodashModuleReplacementPlugin()
+  );
+} else {
+  plugins.push(
+    new BundleAnalyzerPlugin()
   );
 }
 
@@ -81,9 +92,7 @@ const styleLoader = isProd
     use: ['css-loader?sourceMap', 'postcss-loader', 'stylus-loader?sourceMap'],
   });
 
-const jsLoader = isProd
-  ? 'babel-loader'
-  : 'babel-loader';
+const jsLoader = 'babel-loader';
 
 const publicPath = isProd
   ? '/assets/'
