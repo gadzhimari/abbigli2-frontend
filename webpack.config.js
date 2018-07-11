@@ -13,8 +13,7 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const productionEnvs = ['production', 'testing'];
 
-const isProd = process.env.NODE_ENV === 'production';
-const isTesting = process.env.NODE_ENV === 'testing';
+const isProd = productionEnvs.includes(process.env.NODE_ENV);
 
 function inRoot(relPath) {
   return path.resolve(__dirname, relPath);
@@ -53,24 +52,19 @@ const plugins = [
   })
 ];
 
-if (isProd || isTesting) {
+if (isProd) {
   plugins.push(
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new AssetsPlugin({
       filename: 'assets.json',
       path: path.join(__dirname, 'public', 'assets'),
     }),
+    new webpack.optimize.UglifyJsPlugin(),
     new LodashModuleReplacementPlugin()
   );
 } else {
   plugins.push(
     new BundleAnalyzerPlugin()
-  );
-}
-
-if (isProd) {
-  plugins.push(
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin()
   );
 }
 
