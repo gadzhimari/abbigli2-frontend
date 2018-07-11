@@ -55,7 +55,6 @@ const plugins = [
 
 if (isProd || isTesting) {
   plugins.push(
-    new webpack.optimize.OccurrenceOrderPlugin(),
     new AssetsPlugin({
       filename: 'assets.json',
       path: path.join(__dirname, 'public', 'assets'),
@@ -69,7 +68,10 @@ if (isProd || isTesting) {
 }
 
 if (isProd) {
-  plugins.push(new webpack.optimize.UglifyJsPlugin());
+  plugins.push(
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin()
+  );
 }
 
 const alias = {
