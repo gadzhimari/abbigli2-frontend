@@ -8,12 +8,13 @@ const AssetsPlugin = require('assets-webpack-plugin');
 const LessListPlugin = require('less-plugin-lists');
 const LessFunctionPlugin = require('less-plugin-functions');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+// const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+// const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const productionEnvs = ['production', 'testing'];
 
-const isProd = productionEnvs.includes(process.env.NODE_ENV);
+const isProd = process.env.NODE_ENV === 'production';
+const isTest = process.env.NODE_ENV === 'testing';
 
 function inRoot(relPath) {
   return path.resolve(__dirname, relPath);
@@ -46,13 +47,13 @@ const plugins = [
       DOMAIN_URL: JSON.stringify(process.env.DOMAIN_URL),
       THUMBS_URL: JSON.stringify(process.env.THUMBS_URL),
     },
-  }),
-  new MomentLocalesPlugin({
-    localesToKeep: ['ru'],
   })
+  // new MomentLocalesPlugin({
+  //   localesToKeep: ['ru'],
+  // })
 ];
 
-if (isProd) {
+if (isProd || isTest) {
   plugins.push(
     new webpack.optimize.OccurrenceOrderPlugin(),
     new AssetsPlugin({
@@ -60,11 +61,19 @@ if (isProd) {
       path: path.join(__dirname, 'public', 'assets'),
     }),
     new webpack.optimize.UglifyJsPlugin(),
-    new LodashModuleReplacementPlugin()
+    // new LodashModuleReplacementPlugin()
   );
 } else {
   plugins.push(
     new BundleAnalyzerPlugin()
+  );
+}
+
+if (isProd) {
+  plugins.push(
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+    // new LodashModuleReplacementPlugin()
   );
 }
 
@@ -94,7 +103,7 @@ const styleLoader = isProd
 
 const jsLoader = 'babel-loader';
 
-const publicPath = isProd
+const publicPath = (isProd || isTest)
   ? '/assets/'
   : '/public/assets';
 
