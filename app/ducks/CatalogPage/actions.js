@@ -70,9 +70,8 @@ export const fetchCatalogPageData = (params, query) => {
   return (dispatch) => {
     dispatch(requestPageData());
 
-    dispatch(fetchTags({ category: section }));
-
     return Promise.all([
+      dispatch(fetchTags({ category: section })),
       dispatch(fetchPosts(section, page, tag)),
       dispatch(fetchCrumbs({ slugs }))
     ]).then(() => dispatch(responsePageData()));
