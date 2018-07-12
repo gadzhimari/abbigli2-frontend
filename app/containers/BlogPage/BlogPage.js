@@ -196,12 +196,10 @@ class BlogPage extends Component {
             {...favoriteAddProps}
           />
 
-          {similarPosts.length > 0 &&
-            <SimilarPosts
-              items={similarPosts}
-              Component={Blog}
-            />
-          }
+          <SimilarPosts
+            items={similarPosts}
+            Component={Blog}
+          />
 
           <div className="section">
             <ListWithNew

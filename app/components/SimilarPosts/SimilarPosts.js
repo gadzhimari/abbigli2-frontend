@@ -31,6 +31,8 @@ class SimilarPosts extends PureComponent {
     const itemsToShow = isCollapsed ? ITEMS_PER_ROW : items.length;
     const btnText = isCollapsed ? __t('Show more') : __t('Show less');
 
+    if (items.length === 0) return null;
+
     return (
       <div className="section">
         <h2 className="section__name">

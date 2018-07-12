@@ -203,12 +203,10 @@ class EventPage extends Component {
             {...favoriteAddProps}
           />
 
-          {similarPosts.length > 0 &&
-            <SimilarPosts
-              items={similarPosts}
-              Component={Event}
-            />
-          }
+          <SimilarPosts
+            items={similarPosts}
+            Component={Event}
+          />
 
           <div className="section">
             <ListWithNew

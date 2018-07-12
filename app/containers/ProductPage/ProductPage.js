@@ -156,12 +156,10 @@ class ProductPage extends Component {
             comments={commentsList}
           /> */}
 
-          {similarPosts.length > 0 &&
-            <SimilarPosts
-              items={similarPosts}
-              Component={Product}
-            />
-          }
+          <SimilarPosts
+            items={similarPosts}
+            Component={Product}
+          />
         </div>
       </main>
     );
