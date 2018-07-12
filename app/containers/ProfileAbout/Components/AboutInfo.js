@@ -1,6 +1,4 @@
-import { connect } from 'react-redux';
-
-import { React, PureComponent, Type, cn } from '../../../components-lib/__base';
+import { React, PureComponent, Type, Fragment, cn, connect } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
 import RedactorForm from '../../Profile/components/RedactorForm';
 
@@ -61,9 +59,19 @@ class AboutInfo extends PureComponent {
       __t('The user has not yet filled out information about themselves');
 
     return (
-      <div className={cn('text')}>
-        { text ? processBlogContent(text) : noContentText }
-      </div>
+      <Fragment>
+        <div className={cn('text')}>
+          { text ? processBlogContent(text) : noContentText }
+        </div>
+
+        { isMe &&
+          <Button
+            view="link"
+            onClick={this.handleEdit}
+            text={__t('Edit')}
+          />
+        }
+      </Fragment>
     );
   }
 
@@ -78,14 +86,6 @@ class AboutInfo extends PureComponent {
         </h3>
 
         { isEditing ? this.renderRedactorForm() : this.renderContent(cn) }
-
-        { isMe &&
-          <Button
-            view="link"
-            onClick={this.handleEdit}
-            text={__t('Edit')}
-          />
-        }
       </div>
     );
   }
