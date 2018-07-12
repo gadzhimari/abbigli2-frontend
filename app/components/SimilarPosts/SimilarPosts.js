@@ -1,34 +1,46 @@
 import { React, PureComponent, Type } from '../../components-lib/__base';
-import { Link } from '../../components-lib';
-import { __t } from '../../i18n/translator';
-import createRealativePostsLink from '../../lib/links/relative-posts-link';
+import { Button } from '../../components-lib';
 
-class RelativePosts extends PureComponent {
+import { __t } from '../../i18n/translator';
+
+const ITEMS_PER_ROW = 4;
+
+class SimilarPosts extends PureComponent {
   static propTypes = {
     items: Type.arrayOf(Type.object).isRequired,
     Component: Type.oneOfType([Type.element, Type.func, Type.node]),
-    slug: Type.string.isRequired,
   }
 
   static defaultProps = {
     itemProps: {},
   }
 
+  state = {
+    isCollapsed: true,
+  }
+
+  handleToggleCollapse = () => {
+    this.setState({
+      isCollapsed: !this.state.isCollapsed,
+    });
+  }
+
   render() {
-    const { items, Component, slug, type } = this.props;
+    const { items, Component } = this.props;
+    const { isCollapsed } = this.state;
+    const itemsToShow = isCollapsed ? ITEMS_PER_ROW : items.length;
+    const btnText = isCollapsed ? __t('Show more') : __t('Show less');
 
     if (items.length === 0) return null;
-
-    const realtivePostsLink = createRealativePostsLink({ slug }, type);
 
     return (
       <div className="section">
         <h2 className="section__name">
-          {__t('Relative posts')}
+          {__t('Similar posts')}
         </h2>
 
         <div className="cards-wrapper">
-          {items.slice(0, 4)
+          {items.slice(0, itemsToShow)
             .map(post => <Component
               data={post}
               legacy
@@ -36,14 +48,13 @@ class RelativePosts extends PureComponent {
             />)
           }
         </div>
-        {items.length > 4 &&
+        {items.length > ITEMS_PER_ROW &&
           <div className="section__show-more">
-            <Link
+            <Button
               view={'outline'}
-              to={realtivePostsLink}
-            >
-              {__t('Show more')}
-            </Link>
+              onClick={this.handleToggleCollapse}
+              text={btnText}
+            />
           </div>
         }
       </div>
@@ -51,4 +62,4 @@ class RelativePosts extends PureComponent {
   }
 }
 
-export default RelativePosts;
+export default SimilarPosts;

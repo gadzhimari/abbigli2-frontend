@@ -23,7 +23,6 @@ import {
   BlogsPage,
   SpecificPostsPage,
   PostCreate,
-  RelativePage,
   Faq,
   Agreement,
   PeopleSearch,
@@ -96,7 +95,6 @@ function getRoutes(store) {
       <Route path={pages.EVENT_PAGE.path} component={EventPage} mustScroll />
       <Route path={pages.BLOG_PAGE.path} component={BlogPage} mustScroll />
       <Route path={pages.PRODUCT_PAGE.path} component={ProductPage} mustScroll />
-      <Route path={pages.RELATIVE_PRODUCTS_PAGE.path} component={RelativePage} mustScroll />
 
       <Route path={pages.NEW_PRODUCTS_PAGE.path} component={SpecificPostsPage} filter="New" mustScroll />
       <Route path={pages.POPULAR_PRODUCTS_PAGE.path} component={SpecificPostsPage} filter="Popular" mustScroll />

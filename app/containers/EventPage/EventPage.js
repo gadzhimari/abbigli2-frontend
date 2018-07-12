@@ -8,7 +8,7 @@ import {
   BreadCrumbs,
   Sidebar,
   FavoriteAdd,
-  RelativePosts,
+  SimilarPosts,
   ListWithNew,
 } from '../../components';
 import { Comments } from '../../components/Comments';
@@ -26,7 +26,7 @@ import {
   fetchNew,
   resetPost,
   fetchPopular,
-  fetchRelative,
+  fetchSimilar,
   fetchUsersPosts,
   setFollow,
   addBookmark,
@@ -85,7 +85,7 @@ class EventPage extends Component {
       data,
       author,
       popularPosts,
-      relativePosts,
+      similarPosts,
       usersPosts,
       me,
       isAuthenticated,
@@ -203,14 +203,10 @@ class EventPage extends Component {
             {...favoriteAddProps}
           />
 
-          {relativePosts.length > 0 &&
-            <RelativePosts
-              items={relativePosts}
-              Component={Event}
-              slug={data.slug}
-              type={EVENT_TYPE}
-            />
-          }
+          <SimilarPosts
+            items={similarPosts}
+            Component={Event}
+          />
 
           <div className="section">
             <ListWithNew
@@ -238,7 +234,7 @@ function mapStateToProps(state) {
     isFetchingComments: state.Comments.commentFetchingState,
     isAuthenticated: auth.isAuthenticated,
     popularPosts: state.PostPage.popularPosts,
-    relativePosts: state.PostPage.relativePosts,
+    similarPosts: state.PostPage.similarPosts,
     usersPosts: state.PostPage.usersPosts,
     me: state.Auth.me,
     isFetchingBookmarks: state.PostPage.isFetchingBookmarks,
@@ -254,7 +250,7 @@ const mapDispatch = dispatch => ({
     dispatch(fetchComments(EVENT_TYPE, params.slug));
     dispatch(fetchUsersPosts(EVENT_TYPE, data.author.id, data.id));
     dispatch(fetchPopular(EVENT_TYPE));
-    dispatch(fetchRelative(EVENT_TYPE, params.slug));
+    dispatch(fetchSimilar(EVENT_TYPE, params.slug));
   },
 
   followUser: id => dispatch(setFollow(id)),

@@ -28,7 +28,7 @@ export { default as AuthorInfo } from './AuthorInfo';
 export { default as OtherArticles } from './OtherArticles';
 export { default as Sidebar } from './Sidebar';
 export { default as FavoriteAdd } from './FavoriteAdd';
-export { default as RelativePosts } from './RelativePosts';
+export { default as SimilarPosts } from './SimilarPosts';
 export { default as ChoiseFilter } from './ChoiseFilter';
 export { default as NoMatch } from './NoMatch';
 export { default as Avatar } from './Avatar';

@@ -8,7 +8,7 @@ import {
   AuthorInfo,
   OtherArticles,
   BreadCrumbs,
-  RelativePosts,
+  SimilarPosts,
 } from '../../components';
 
 import Content from './Content';
@@ -23,7 +23,7 @@ import { sendPostMessage } from '../../ducks/Dialogs/actions';
 import {
   fetchPost,
   resetPost,
-  fetchRelative,
+  fetchSimilar,
   fetchUsersPosts,
   setFollow,
   addBookmark,
@@ -80,7 +80,7 @@ class ProductPage extends Component {
       itemsAuthors,
       data,
       author,
-      relativePosts,
+      similarPosts,
       me,
       followUser,
       toggleFavorite
@@ -156,11 +156,9 @@ class ProductPage extends Component {
             comments={commentsList}
           /> */}
 
-          <RelativePosts
-            items={relativePosts}
+          <SimilarPosts
+            items={similarPosts}
             Component={Product}
-            slug={data.slug}
-            type={PRODUCT_TYPE}
           />
         </div>
       </main>
@@ -175,9 +173,9 @@ const mapStateToProps = state => ({
   isDefined: state.PostPage.isDefined,
   itemsBlogs: state.PostPage.newPosts,
   popularPosts: state.PostPage.popularPosts,
-  relativePosts: state.PostPage.relativePosts,
+  similarPosts: state.PostPage.similarPosts,
   isFetchingBlogs: state.PostPage.isFetchingNew,
-  isFetchingRelative: state.PostPage.isFetchingRelative,
+  isFetchingSimilar: state.PostPage.isFetchingSimilar,
   itemsAuthors: state.PostPage.usersPosts,
   itemsComments: state.Comments.comments,
   isFetchingComments: state.Comments.commentFetchingState,
@@ -191,7 +189,7 @@ const mapDispatch = dispatch => ({
   fetchSubData: (data) => {
     dispatch(fetchComments(PRODUCT_TYPE, data.slug));
     dispatch(fetchUsersPosts(PRODUCT_TYPE, data.author.id, data.id));
-    dispatch(fetchRelative(PRODUCT_TYPE, data.slug));
+    dispatch(fetchSimilar(PRODUCT_TYPE, data.slug));
   },
 
   followUser: id => dispatch(setFollow(id)),
