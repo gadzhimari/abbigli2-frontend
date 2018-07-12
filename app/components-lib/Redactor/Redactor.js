@@ -5,6 +5,8 @@ import { fullImagesApiUrl } from '../../api/images-api';
 import './redactor.css';
 import { getCookie } from '../../lib/cookie';
 
+import './Redactor.less';
+
 @cn('Redactor')
 class Redactor extends Component {
   static propTypes = {
@@ -16,19 +18,25 @@ class Redactor extends Component {
     onChange: Type.func,
   };
 
+  state = {
+    showError: false
+  }
+
   componentDidMount() {
     this.initRedactor();
   }
 
-  shouldComponentUpdate() {
-    return false;
+  componentWillReceiveProps({ errors }) {
+    if (this.props.errors !== errors && errors) {
+      this.setState({ showError: true });
+    }
   }
 
   initRedactor = () => {
     const { id, name, placeholder, onChange } = this.props;
     const token = getCookie('id_token2');
 
-    window.jQuery(`#${id}`).redactor({
+    window.$(`#${id}`).redactor({
       linkNofollow: true,
       imageUpload: fullImagesApiUrl,
       imageUploadParam: 'files',
@@ -45,15 +53,19 @@ class Redactor extends Component {
         change() {
           onChange({}, { name, value: this.code.get() });
         },
+        focus: () => {
+          this.setState({ showError: false });
+        }
       },
     });
   }
 
   render(cn) {
-    const { id, label, name, ...textareaProps } = this.props;
+    const { showError } = this.state;
+    const { id, label, name, errors, ...textareaProps } = this.props;
 
     return (
-      <div className={cn()}>
+      <div className={cn({ error: showError })}>
         {label &&
           <label
             className={cn('label')}
@@ -67,6 +79,14 @@ class Redactor extends Component {
           id={id}
           {...textareaProps}
         />
+
+        {showError && errors &&
+          errors.map(error => (
+            <div className={cn('error')} key={error}>
+              {error}
+            </div>
+          ))
+        }
       </div>
     );
   }
