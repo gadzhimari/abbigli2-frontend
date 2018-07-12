@@ -73,8 +73,8 @@ class EventForm extends CreateForm {
           />
 
           <Select
-            wrapperClass="add-tabs__form-field"
-            className="add-tabs__select"
+            className="add-tabs__form-field"
+            selectClassName="add-tabs__select"
             label={__t('Choose category')}
             placeholder=""
             options={sections}
@@ -82,11 +82,12 @@ class EventForm extends CreateForm {
             onChange={this.onChange}
             value={category}
             name="category"
+            errors={errors.category}
           />
 
           <CitySelect
-            wrapperClass="add-tabs__form-field input-wrap"
-            className="add-tabs__select"
+            className="add-tabs__form-field"
+            selectClassName="add-tabs__select"
             label={__t('Place')}
             placeholder=""
             value={city}
@@ -142,6 +143,7 @@ class EventForm extends CreateForm {
             onChange={this.onChange}
             name="description"
             value={description}
+            errors={errors.description}
             label={__t('Description')}
           />
 
