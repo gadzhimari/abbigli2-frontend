@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { React, Component, Fragment, Type, cn } from '../../../components-lib/__base';
-import { Button } from '../../../components-lib';
+import { Button, Icon } from '../../../components-lib';
 import BaseForm from './Forms/BaseForm';
 
 import {
@@ -10,13 +10,7 @@ import {
   partialUpdateContact
 } from '../../../ducks/Profile/actions';
 
-import { FORMAT_CHARACTERS, INPUT_MASKS } from '../../../lib/constants/mask';
-
-import IconMail from '../../../icons/mail';
-import IconSkype from '../../../icons/skype';
-import IconPhone from '../../../icons/phone';
-import IconPencil from '../../../icons/pencil';
-import IconClose from '../../../icons/close';
+import mask from '../../../lib/constants/masks/phone';
 
 import { __t } from '../../../i18n/translator';
 
@@ -24,6 +18,12 @@ const translation = {
   phone: __t('Add your phone'),
   email: __t('Add an email'),
   skype: __t('Add your skype'),
+};
+
+const contactIcons = {
+  phone: 'phone',
+  email: 'mail',
+  skype: 'skype',
 };
 
 @cn('ProfileAbout')
@@ -46,19 +46,12 @@ class ContactItem extends Component {
     isMe: false,
   };
 
-  contactIcons = {
-    phone: IconPhone,
-    email: IconMail,
-    skype: IconSkype,
-  };
-
   forms = {
     phone: {
       className: BaseForm,
       type: 'tel',
       placeholder: __t('Your phone number'),
-      mask: INPUT_MASKS.phone,
-      formatCharacters: FORMAT_CHARACTERS.phone,
+      mask,
     },
     email: {
       className: BaseForm,
@@ -163,7 +156,8 @@ class ContactItem extends Component {
         aria-label={__t('Edit')}
         className={cn('contacts-edit')}
         onClick={this.handleEditContact}
-        icon={<IconPencil
+        icon={<Icon
+          glyph="pencil"
           size="xs"
           color="gray-500"
         />}
@@ -174,7 +168,8 @@ class ContactItem extends Component {
         name={__t('common.delete')}
         className={cn('contacts-delete')}
         onClick={this.handleDeleteContact}
-        icon={<IconClose
+        icon={<Icon
+          glyph="close"
           size="xs"
           color="gray-500"
         />}
@@ -184,13 +179,13 @@ class ContactItem extends Component {
 
   renderContact = (cn, name) => {
     const { data, isMe } = this.props;
-    const IconName = this.contactIcons[name];
 
     return (
       <div className={cn('contacts-item-row')}>
         <div className={cn('contacts-item-value')}>
           <div className={cn('contacts-item-block')}>
-            <IconName
+            <Icon
+              glyph={contactIcons[name]}
               size="xs"
               color="gray-600"
             />

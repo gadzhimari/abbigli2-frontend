@@ -61,7 +61,7 @@ class BaseForm extends Component {
   }
 
   render(cn) {
-    const { type, errors, mask, formatCharacters } = this.props;
+    const { type, errors, mask } = this.props;
     const { name, value } = this.state;
 
     return (
@@ -75,7 +75,6 @@ class BaseForm extends Component {
             errors={errors.value}
             type={type}
             mask={mask}
-            formatCharacters={formatCharacters}
           />
         </div>
         <div className={cn('contacts-actions')}>

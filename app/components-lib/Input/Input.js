@@ -26,16 +26,20 @@ class Input extends PureComponent {
   }
 
   onChange = (e) => {
-    const { onChange, name, formatCharacters, mask } = this.props;
-    const { value } = e.target;
-    const rawValue = mask === undefined
-      ? value
-      : value.replace(formatCharacters, '');
+    const { onChange, name, mask } = this.props;
+    const formattedValue = e.target.value;
 
-    this.setState({ value: rawValue });
+    let value;
+    if (mask && mask.formatter) {
+      value = mask.formatter(formattedValue);
+    } else {
+      value = formattedValue;
+    }
+
+    this.setState({ value });
 
     if (onChange) {
-      onChange(e, { name, value: rawValue });
+      onChange(e, { name, value });
     }
   }
 
@@ -114,7 +118,7 @@ class Input extends PureComponent {
               ? <input {...inputProps} />
               : <MaskedInput
                 {...inputProps}
-                mask={mask}
+                mask={mask.mask}
               />
           }
         </div>
