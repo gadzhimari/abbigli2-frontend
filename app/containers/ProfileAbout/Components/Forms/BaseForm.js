@@ -4,7 +4,7 @@ import { Button, Input } from '../../../../components-lib';
 import { __t } from '../../../../i18n/translator';
 
 const translation = {
-  phone: __t('Your phone'),
+  phone: __t('Your phone number'),
   email: __t('Your email'),
   skype: __t('Your skype'),
 };
