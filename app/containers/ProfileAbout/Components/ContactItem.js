@@ -10,6 +10,8 @@ import {
   partialUpdateContact
 } from '../../../ducks/Profile/actions';
 
+import { FORMAT_CHARACTERS, INPUT_MASKS } from '../../../lib/constants/mask';
+
 import IconMail from '../../../icons/mail';
 import IconSkype from '../../../icons/skype';
 import IconPhone from '../../../icons/phone';
@@ -55,6 +57,8 @@ class ContactItem extends Component {
       className: BaseForm,
       type: 'tel',
       placeholder: __t('Your phone number'),
+      mask: INPUT_MASKS.phone,
+      formatCharacters: FORMAT_CHARACTERS.phone,
     },
     email: {
       className: BaseForm,
@@ -132,7 +136,7 @@ class ContactItem extends Component {
   };
 
   renderForm = (cn, name) => {
-    const { type, className, placeholder } = this.forms[name];
+    const { type, className, ...restProps } = this.forms[name];
     const FormName = className;
     const { errors, data } = this.props;
     const value = data && data[0] && data[0].value;
@@ -141,11 +145,11 @@ class ContactItem extends Component {
       <FormName
         name={name}
         type={type}
-        placeholder={placeholder}
         value={value}
         errors={errors}
         onSave={this.handleSaveContact}
         onCancel={this.handleCancelContact}
+        {...restProps}
       />
     );
   }

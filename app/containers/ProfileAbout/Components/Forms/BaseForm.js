@@ -1,6 +1,5 @@
 import { React, Component, Type, cn } from '../../../../components-lib/__base';
 import { Button, Input } from '../../../../components-lib';
-import IconClose from '../../../../icons/close';
 
 import { __t } from '../../../../i18n/translator';
 
@@ -62,7 +61,7 @@ class BaseForm extends Component {
   }
 
   render(cn) {
-    const { type, errors } = this.props;
+    const { type, errors, mask, formatCharacters } = this.props;
     const { name, value } = this.state;
 
     return (
@@ -75,6 +74,8 @@ class BaseForm extends Component {
             onChange={this.handleChange}
             errors={errors.value}
             type={type}
+            mask={mask}
+            formatCharacters={formatCharacters}
           />
         </div>
         <div className={cn('contacts-actions')}>
