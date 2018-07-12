@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 
 import * as newPostsActions from './actions/fetchNewPosts';
 import * as popularPostsActions from './actions/fetchPopular';
-import * as relativePostsActions from './actions/fetchRelativePost';
+import * as similarPostsActions from './actions/fetchSimilarPost';
 import * as postActions from './actions/fetchPost';
 import * as usersPostsActions from './actions/fetchUsersPosts';
 import resetPost from './actions/resetPost';
@@ -10,18 +10,20 @@ import * as bookmarksActions from './actions/bookmarks';
 import { updateFollow } from './actions/setFollow';
 import { updateFavorite } from './actions/toggleFavorite';
 
+const SIMILAR_POSTS_COUNT = 8;
+
 const initialState = {
   isFetchingPost: true,
   isFetchingPopular: true,
   isFetchingNew: true,
-  isFetchingRelative: true,
+  isFetchingSimilar: true,
   isFetchingUsersPosts: true,
   isFetchingBookmarks: false,
   post: {},
   author: {},
   popularPosts: [],
   newPosts: [],
-  relativePosts: [],
+  similarPosts: [],
   usersPosts: [],
   isDefined: true,
 };
@@ -67,24 +69,24 @@ export default handleActions({
       isFetchingPopular: false,
     };
   },
-  [relativePostsActions.requestRelativePosts](state) {
+  [similarPostsActions.requestSimilarPosts](state) {
     return {
       ...state,
-      relativePosts: [],
-      isFetchingRelative: true
+      similarPosts: [],
+      isFetchingSimilar: true
     };
   },
-  [relativePostsActions.responseRelativePosts](state, { payload }) {
+  [similarPostsActions.responseSimilarPosts](state, { payload }) {
     return {
       ...state,
-      isFetchingRelative: false,
-      relativePosts: payload
+      isFetchingSimilar: false,
+      similarPosts: payload.slice(0, SIMILAR_POSTS_COUNT),
     };
   },
-  [relativePostsActions.failureRelativePosts](state) {
+  [similarPostsActions.failureSimilarPosts](state) {
     return {
       ...state,
-      isFetchingRelative: false,
+      isFetchingSimilar: false,
     };
   },
   [usersPostsActions.requestUsersPosts](state) {

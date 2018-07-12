@@ -22,7 +22,6 @@ import PostCreate from '../ducks/PostCreate';
 import PostPage from '../ducks/PostPage';
 import TagSearch from '../ducks/TagSearch';
 import Filters from '../ducks/Filters';
-import RelativePage from '../ducks/Relative';
 import NewIn from '../ducks/NewIn';
 import CatalogPage from '../ducks/CatalogPage';
 import Menu from '../ducks/Menu';
@@ -58,7 +57,6 @@ export default combineReducers({
   PostPage,
   TagSearch,
   Filters,
-  RelativePage,
   NewIn,
   CatalogPage,
   NetworkErrors,

@@ -21,7 +21,6 @@ export { default as SpecificPostsPage } from './SpecificPostsPage/SpecificPostsP
 export { default as PostCreate } from './PostCreate';
 export { default as Faq } from './Faq';
 export { default as Agreement } from './Agreement';
-export { default as RelativePage } from './RelativePage';
 export { default as PeopleSearch } from './PeopleSearch';
 export { default as ProfileEvents } from './ProfileEvents';
 export { default as ProfileBlogs } from './ProfileBlogs';

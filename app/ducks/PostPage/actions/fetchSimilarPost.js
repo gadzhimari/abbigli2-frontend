@@ -8,26 +8,26 @@ const actionsByType = {
 };
 
 export const {
-  requestRelativePosts,
-  responseRelativePosts,
-  failureRelativePosts
+  requestSimilarPosts,
+  responseSimilarPosts,
+  failureSimilarPosts
 } = createActions(
-  'REQUEST_RELATIVE_POSTS',
-  'RESPONSE_RELATIVE_POSTS',
-  'FAILURE_RELATIVE_POSTS'
+  'REQUEST_SIMILAR_POSTS',
+  'RESPONSE_SIMILAR_POSTS',
+  'FAILURE_SIMILAR_POSTS'
 );
 
-const fetchRelative = (postType, slug) => async (dispatch) => {
-  dispatch(requestRelativePosts());
+const fetchSimilar = (postType, slug) => async (dispatch) => {
+  dispatch(requestSimilarPosts());
 
   const action = actionsByType[postType];
 
   try {
     const res = await action(slug);
-    dispatch(responseRelativePosts(res.data.results));
+    dispatch(responseSimilarPosts(res.data.results));
   } catch ({ response }) {
-    dispatch(failureRelativePosts());
+    dispatch(failureSimilarPosts());
   }
 };
 
-export default fetchRelative;
+export default fetchSimilar;

@@ -13,7 +13,7 @@ import {
   BreadCrumbs,
   Sidebar,
   FavoriteAdd,
-  RelativePosts,
+  SimilarPosts,
   ListWithNew,
 } from '../../components';
 
@@ -28,7 +28,7 @@ import {
   fetchNew,
   resetPost,
   fetchPopular,
-  fetchRelative,
+  fetchSimilar,
   setFollow,
   fetchUsersPosts,
   addBookmark,
@@ -88,7 +88,7 @@ class BlogPage extends Component {
       isAuthenticated,
       popularPosts,
       author,
-      relativePosts,
+      similarPosts,
       me,
       followUser,
       openPopup,
@@ -196,12 +196,10 @@ class BlogPage extends Component {
             {...favoriteAddProps}
           />
 
-          {relativePosts.length > 0 &&
-            <RelativePosts
-              items={relativePosts}
+          {similarPosts.length > 0 &&
+            <SimilarPosts
+              items={similarPosts}
               Component={Blog}
-              slug={data.slug}
-              type={BLOG_TYPE}
             />
           }
 
@@ -225,9 +223,9 @@ const mapStateToProps = state => ({
   isDefined: state.PostPage.isDefined,
   itemsBlogs: state.PostPage.newPosts,
   popularPosts: state.PostPage.popularPosts,
-  relativePosts: state.PostPage.relativePosts,
+  similarPosts: state.PostPage.similarPosts,
   isFetchingBlogs: state.PostPage.isFetchingNew,
-  isFetchingRelative: state.PostPage.isFetchingRelative,
+  isFetchingSimilar: state.PostPage.isFetchingSimilar,
   isFetchingAuthors: state.ProfilePosts.isFetching,
   itemsComments: state.Comments.comments,
   isFetchingComments: state.Comments.commentFetchingState,
@@ -243,7 +241,7 @@ const mapDispatch = dispatch => ({
     dispatch(fetchComments(BLOG_TYPE, params.slug));
     dispatch(fetchUsersPosts(BLOG_TYPE, data.author.id, data.id));
     dispatch(fetchPopular(BLOG_TYPE));
-    dispatch(fetchRelative(BLOG_TYPE, params.slug));
+    dispatch(fetchSimilar(BLOG_TYPE, params.slug));
   },
   onUnmount: () => dispatch(resetPost()),
   followUser: id => dispatch(setFollow(id)),
