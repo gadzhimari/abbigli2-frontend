@@ -4,19 +4,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { BreadCrumbs, SliderBar, ListWithNew } from '../../components';
+import { BreadCrumbs, SliderBar, ListWithNew, SliderBarCard } from '../../components';
 import { Spin } from '../../components-lib';
 import { Event } from '../../components-lib/Cards';
-import BlogSection from '../../components/SliderBar/components/BlogSection';
 
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 import paginateHOC from '../../HOC/paginate';
 
-import { openPopup } from '../../ducks/Popup/actions';
 import { fetchEvents } from '../../ducks/Events/actions';
 
 import { EVENT_TYPE } from '../../lib/constants/posts-types';
-import { API_URL } from '../../config';
 import { __t } from './../../i18n/translator';
 
 import './EventPage.less';
@@ -25,7 +22,6 @@ class EventsPage extends Component {
   componentDidMount() {
     const { items, location } = this.props;
     this.globalWrapper = document.body;
-    this.globalWrapper.classList.add('event', 'blogs-page');
 
     if (location.action === 'POP' && items.length === 0) {
       this.loadItems();
@@ -44,38 +40,38 @@ class EventsPage extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.globalWrapper.classList.remove('event', 'blogs-page');
-  }
-
   loadItems = () => {
-    const { query, dispatch } = this.props;
-    dispatch(fetchEvents(query));
+    const { query, dispatch, params } = this.props;
+    dispatch(fetchEvents({
+      ...query,
+      category: params.category
+    }));
   }
 
   render() {
     const {
-      sections,
+      categories,
       query,
       isFetching,
       items,
       renderPaginator } = this.props;
-    const section = sections.filter(item => item.slug === query.category)[0];
+
+    const category = categories.filter(item => item.slug === query.category)[0];
 
     const crumbs = [{
       title: __t('Events'),
       url: '/events',
     }];
 
-    if (section) {
+    if (category) {
       crumbs.push({
-        title: section.title,
-        url: `/events?section=${section.slug}`,
+        title: category.title,
+        url: category.url,
       });
     }
 
     return (
-      <main className="main">
+      <main className="main EventsPage">
         <BreadCrumbs
           crumbs={crumbs}
         />
@@ -90,21 +86,13 @@ class EventsPage extends Component {
 
             {__t('Events')}
 
-            {section && `- ${section.title}`}
+            {category && `- ${category.title}`}
           </h1>
 
-          {sections.length > 0 &&
-            <SliderBar
-              sliderName="slider-category"
-              items={sections}
-              ItemComponent={BlogSection}
-              itemWidth={120}
-              itemProps={{
-                baseUrl: '/events',
-                isBlog: true,
-              }}
-            />
-          }
+          <SliderBar
+            items={categories}
+            ItemComponent={SliderBarCard}
+          />
 
           {isFetching ? (
             <div className="cards-wrap">
@@ -120,7 +108,7 @@ class EventsPage extends Component {
               count={8}
               ItemComponent={Event}
             />
-          )
+            )
           }
 
           {!isFetching && renderPaginator()}
@@ -147,7 +135,7 @@ function mapStateToProps(state) {
     isFetching: events.eventsFetchingState,
     isAuthenticated: auth.isAuthenticated,
     geoCity: state.Geo.city,
-    sections: state.Sections.items,
+    categories: state.Sections.eventsCategories,
     query: state.Location.query,
     pagesCount: events.page.count,
   };

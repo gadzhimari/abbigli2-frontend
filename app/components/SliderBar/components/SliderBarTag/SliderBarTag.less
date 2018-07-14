@@ -1,0 +1,90 @@
+@import '../../../../containers/App/base/variables';
+
+
+@root: ~'.SliderBarTag';
+
+@tags-array:
+  @tagBgPosition_1 #7c4dff,
+  @tagBgPosition_2 #ffab40,
+  @tagBgPosition_3 #00b0ff,
+  @tagBgPosition_4 #e040fb,
+  @tagBgPosition_5 #00c853,
+  @tagBgPosition_6 #ff6e40,
+  @tagBgPosition_7 #97c70b,
+  @tagBgPosition_8 #ff4081,
+  @tagBgPosition_8 #f9ca19;
+
+.tag-bg-generator(@iterator: 1) when (@iterator <= length(@tags-array)) {
+  @item: extract(@tags-array, @iterator);
+  @position: extract(@item, 1);
+  @color: extract(@item, 2);
+
+  &_type_@{iterator} {
+    background-color: @color;
+    background-position: @position;
+  }
+
+  .tag-bg-generator((@iterator + 1));
+}
+
+@{root} {
+  font-family: ClearSansBold;
+  font-size: 18px;
+  line-height: 22px;
+  display: inline-block;
+  vertical-align: top;
+  width: 175px;
+  height: 55px;
+  color: #fff;
+  text-align: center;
+  padding: 14px 10px 0;
+  background-image: url(/images/bg/tag-bg.png);
+  background-repeat: no-repeat;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+
+  &:after,
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 16px;
+    height: 55px;
+  }
+
+  &:after {
+    left: -8px;
+    background: url("/images/bg/tag-division.svg") no-repeat;
+    background-size: 16px 55px;
+  }
+
+  &:before {
+    right: -4px;
+    background: url("/images/bg/tag-division.png") no-repeat;
+    background-size: 16px 55px;
+  }
+
+  .tag-bg-generator();
+}
+
+@media only screen and (max-width: 480px) {
+ @{root} {
+    font-size: 16px;
+    line-height: 20px;
+    height: 40px;
+    padding-top: 8px;
+    
+    &:after,
+    &:before {
+      top: -6px;
+    }
+
+    &:before {
+      width: 10px;
+    }
+  }
+}
