@@ -7,11 +7,12 @@ import ShopPage from './ShopPage/ShopPage';
 import ActivePostsPage from './ActivePostsPage/ActivePostsPage';
 import ArchivePage from './ArchivePage/ArchivePage';
 
+import ProfileRules from '../Profile/components/ProfileRules';
 import ProfileBanners from '../Profile/components/ProfileBanners';
 
 import * as actions from '../../ducks/ProfilePosts/actions';
 import setLike from '../../ducks/Like/actions';
-
+import { openPopup } from '../../ducks/Popup/actions';
 
 import { __t } from './../../i18n/translator';
 
@@ -58,6 +59,17 @@ class ProfileLK extends Component {
     );
   }
 
+  renderRules = () => {
+    const { user, isMe } = this.props;
+
+    return (
+      <ProfileRules
+        data={user}
+        isMe={isMe}
+      />
+    );
+  }
+
   render(cn) {
     const { isFetchingPosts, itemsPosts, isMe } = this.props;
 
@@ -66,9 +78,11 @@ class ProfileLK extends Component {
 
     return (
       <div className={cn('content', { noPadding: hasProductsForUnathorized })}>
-        {isMe ? this.renderTabs(cn) : this.getFirstTabContent()}
+        {isMe ? this.renderTabs(cn) : <ShopPage {...this.props} />}
 
         {isMe && <ProfileBanners />}
+
+        { this.renderRules() }
       </div>
     );
   }
@@ -85,4 +99,4 @@ const mapStateToProps = state => ({
   priceTemplate: state.Settings.data.CURRENCY,
 });
 
-export default connect(mapStateToProps, { ...actions, setLike })(ProfileLK);
+export default connect(mapStateToProps, { ...actions, setLike, openPopup })(ProfileLK);

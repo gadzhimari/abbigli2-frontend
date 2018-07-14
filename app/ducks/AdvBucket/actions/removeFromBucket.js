@@ -1,11 +1,12 @@
 import { createAction } from 'redux-actions';
+import { Bucket } from '../../../api';
 
 export const removePostFromBucket = createAction('REMOVE_POST_FROM_BUCKET');
 
-const removeFromBucket = id => (dispatch) => {
-  dispatch(removePostFromBucket(id));
+const removeFromBucket = slug => (dispatch) => {
+  dispatch(removePostFromBucket(slug));
 
-  console.log(`Deliting from bucket post with id ${id}`);
+  return Bucket.removeFromBucket(slug);
 };
 
 export default removeFromBucket;

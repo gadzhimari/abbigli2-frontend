@@ -1,25 +1,23 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-const propTypes = {
-  children: PropTypes.any,
-  onClick: PropTypes.func,
-};
-
 class ScrollBar extends Component {
+  static propTypes = {
+    children: PropTypes.any,
+    onClick: PropTypes.func,
+  };
+
   render() {
     return (
       <div
         className="form__tags"
         onClick={this.props.onClick}
-        ref={container => (this.container = container)}
+        ref={this.props.scrollbarRef}
       >
         {this.props.children}
       </div>
     );
   }
 }
-
-ScrollBar.propTypes = propTypes;
 
 export default ScrollBar;

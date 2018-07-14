@@ -1,37 +1,39 @@
 /* eslint react/sort-comp: 0 */
 
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
 import debounce from 'lodash/debounce';
 
-import ComponentsList from './components/ComponentsList';
-import SliderButtons from './components/SliderButtons';
+import { React, Type, PureComponent, cn } from '../../components-lib/__base';
+
+import SliderBarList from './components/SliderBarList';
+import SliderBarButtons from './components/SliderBarButtons';
 
 import './index.less';
 
-class TagsBar extends PureComponent {
+@cn('SliderBar')
+class SliderBar extends PureComponent {
   static propTypes = {
-    items: PropTypes.arrayOf(PropTypes.object),
-    sliderName: PropTypes.string.isRequired,
-    itemWidth: PropTypes.number.isRequired,
-    itemProps: PropTypes.object,
+    items: Type.arrayOf(Type.object),
+    sliderName: Type.string.isRequired,
+    itemWidth: Type.number.isRequired,
   };
 
   static defaultProps = {
     link: '',
     itemProps: {},
     items: [],
+    itemWidth: 164
   };
 
   constructor(props) {
     super(props);
 
-    this.container = React.createRef();
     this.state = {
       slidedRight: 0,
       maxSlided: 0,
       factor: typeof window !== 'undefined' && window.innerWidth > 500 ? 3 : 1,
     };
+
+    this.container = React.createRef();
   }
 
   calculateOnResize = debounce(() => this.calculateMaxSlided, 300);
@@ -54,20 +56,15 @@ class TagsBar extends PureComponent {
   }
 
   calculateMaxSlided = () => {
-    const wContainer = this.container.offsetWidth;
+    if (!this.container.current) return;
+
+    const wContainer = this.container.current.offsetWidth;
     const wTags = this.props.itemWidth * this.props.items.length;
     const difference = wTags - wContainer;
-
-    if (difference < 0) {
-      return this.setState({
-        maxSlided: 0,
-        slidedRight: 0,
-        factor: window.innerWidth > 500 ? 3 : 1,
-      });
-    }
+    const maxSlided = difference < 0 ? 0 : difference / this.props.itemWidth;
 
     this.setState({
-      maxSlided: difference / this.props.itemWidth,
+      maxSlided,
       slidedRight: 0,
       factor: window.innerWidth > 500 ? 3 : 1,
     });
@@ -115,34 +112,32 @@ class TagsBar extends PureComponent {
     });
   }
 
-  render() {
+  render(cn) {
     const { items, itemProps, ItemComponent, sliderName, itemWidth } = this.props;
     const { maxSlided, slidedRight } = this.state;
 
     if (items.length === 0) return null;
 
     return (
-      <div
-        className={sliderName}
-      >
-        <div
-          className={`${sliderName}__viewport`}
-          ref={this.container}
-        >
-          <ComponentsList
+      <div className={cn()}>
+        <div className={cn('content')} ref={this.container}>
+          <SliderBarList
             items={items}
             itemProps={itemProps}
             slidedRight={this.state.slidedRight}
             ItemComponent={ItemComponent}
             sliderName={sliderName}
             itemWidth={itemWidth}
+            cn={cn}
           />
-          <SliderButtons
+
+          <SliderBarButtons
             slideRight={this.slideRight}
             slideLeft={this.slideLeft}
             showLeft={slidedRight !== 0}
             showRight={maxSlided !== slidedRight}
             sliderName={sliderName}
+            cn={cn}
           />
         </div>
       </div>
@@ -150,4 +145,4 @@ class TagsBar extends PureComponent {
   }
 }
 
-export default TagsBar;
+export default SliderBar;

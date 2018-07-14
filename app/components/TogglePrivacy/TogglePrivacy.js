@@ -1,8 +1,6 @@
 /* eslint react/require-default-props: 0 */
 import { React, PureComponent, Type } from '../../components-lib/__base';
-import { Button } from '../../components-lib';
-import IconEye from '../../icons/eye';
-import IconEyeClosed from '../../icons/eye-closed';
+import { Button, Icon } from '../../components-lib';
 import { __t } from '../../i18n/translator';
 
 class TogglePrivacy extends PureComponent {
@@ -10,21 +8,20 @@ class TogglePrivacy extends PureComponent {
     onToggle: Type.func,
     status: Type.bool,
     isVisible: Type.bool,
+    name: Type.string
   }
 
   state = {
-    isPrivacy: !this.props.status,
+    isPrivacy: this.props.status
   }
 
   handleToggle = () => {
     const isPrivacy = !this.state.isPrivacy;
 
-    this.setState({
-      isPrivacy,
-    });
+    this.setState({ isPrivacy });
 
     if (this.props.onToggle) {
-      this.props.onToggle(!isPrivacy);
+      this.props.onToggle(this.props.name, !isPrivacy);
     }
   }
 
@@ -32,15 +29,16 @@ class TogglePrivacy extends PureComponent {
     if (!this.props.isVisible) {
       return null;
     }
+
     let btnText;
-    let Icon;
+    let glyph;
 
     if (this.state.isPrivacy) {
       btnText = __t('Remove privacy');
-      Icon = IconEye;
+      glyph = 'eye';
     } else {
       btnText = __t('Make private');
-      Icon = IconEyeClosed;
+      glyph = 'eyeClosed';
     }
 
     return (
@@ -51,6 +49,7 @@ class TogglePrivacy extends PureComponent {
           text={btnText}
           color="primary"
           icon={<Icon
+            glyph={glyph}
             size="s"
             color="blue"
           />}

@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { Posts } from '../api';
+import { Products } from '../api';
 
 const REQUEST = 'abbigli/Products/REQUEST';
 const SET = 'abbigli/Products/SET';
@@ -32,7 +32,7 @@ export function fetchData() {
   return (dispatch) => {
     dispatch(requestData());
 
-    return Posts.getPosts({ type: 1, main: true })
+    return Products.getProducts({ main: true })
       .then((res) => {
         dispatch(setData(res.data));
       });

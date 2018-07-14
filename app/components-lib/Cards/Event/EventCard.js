@@ -16,7 +16,7 @@ import getUserName from '../../../lib/getUserName';
 import createPostLink from '../../../lib/links/post-link';
 import createProfileLink from '../../../lib/links/profile-link';
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
-import { POST_PATH_BY_TYPE } from '../../../lib/constants/posts-types';
+import { EVENT_TYPE } from '../../../lib/constants/posts-types';
 import createPostEditLink from '../../../lib/links/edit-post-link';
 import {
   EVENT_DATE_FORMAT,
@@ -79,7 +79,6 @@ class EventCard extends PureComponent {
     data: Type.shape({
       title: Type.string,
       slug: Type.string,
-      price: Type.number,
       user: Type.object,
       images: Type.array,
     }).isRequired,
@@ -104,17 +103,17 @@ class EventCard extends PureComponent {
 
   handleDelete = () => {
     const { slug } = this.props.data;
-    this.props.delete(slug);
+    this.props.delete(slug, EVENT_TYPE);
   }
 
-  renderTitle(cn) {
+  renderTitle(cn, postUrl) {
     const { view } = this.props;
     const { title } = this.props.data;
 
     return (
       <Link
         className={cn('title', { align: titleText.align[view], weight: 'bold' })}
-        to={createPostLink(this.props.data)}
+        to={postUrl}
         text={title}
         title={title}
         color="black"
@@ -127,16 +126,15 @@ class EventCard extends PureComponent {
   }
 
   renderAvatar(cn) {
-    const { view, isMe } = this.props;
-    const { user } = this.props.data;
-    const name = getUserName(user);
+    const { view, showAvatar, data } = this.props;
+    const { author } = data;
+    const name = getUserName(data);
     const { size, ratio } = avatar.sizes[view];
 
-    return (
-      !isMe &&
+    return showAvatar && (
       <Link
         className={cn('user')}
-        to={createProfileLink(user)}
+        to={createProfileLink(author)}
         text={name}
         title={name}
         color="gray-600"
@@ -144,7 +142,7 @@ class EventCard extends PureComponent {
           <Avatar
             className={cn('avatar', { bordered: avatar.bordered[view], size })}
             imgClassName="avatar__img"
-            avatar={user.avatar}
+            avatar={author.avatar}
             thumbSize={ratio}
             alt={name}
           />
@@ -155,6 +153,7 @@ class EventCard extends PureComponent {
 
   render(cn) {
     const {
+      data,
       setLike,
       showLike,
       showShare,
@@ -167,22 +166,26 @@ class EventCard extends PureComponent {
     } = this.props;
 
     const {
-      user,
-      liked,
       title,
-      type,
       slug,
       created,
-      seo_description,
+      preview,
       city,
-      date_start: dateStart,
-      date_end: dateEnd,
-    } = this.props.data;
-    const imageUrl = getImageUrl(this.props.data);
+      is_favorite: isFavorite,
+      start: dateStart,
+      end: dateEnd,
+    } = data;
+
+    const type = EVENT_TYPE;
+    const imageUrl = getImageUrl(data);
+    const postUrl = createPostLink(data, type);
+    const postEditUrl = createPostEditLink(data, type);
+
+    const mods = { type, view };
 
     return (
-      <div className={cn({ type: POST_PATH_BY_TYPE[type], view })}>
-        { view === 3 &&
+      <div className={cn(mods)}>
+        {view === 3 &&
           <div className={cn('wrapper')}>
             <div className={cn('header', { align: 'vertical' })}>
               {
@@ -196,7 +199,7 @@ class EventCard extends PureComponent {
         }
         <div className={cn('img-wrapper')}>
           <Link
-            to={createPostLink(this.props.data)}
+            to={postUrl}
           >
             <Image
               className={cn('img')}
@@ -220,7 +223,7 @@ class EventCard extends PureComponent {
                 <div className="dropdown">
                   <div className="dropdown-corner" />
                   <Share
-                    postLink={createPostLink(this.props.data)}
+                    postLink={postUrl}
                     buttonClass="social-btn"
                     media={imageUrl}
                     description={title}
@@ -232,15 +235,16 @@ class EventCard extends PureComponent {
           <div className={cn('actions', { align: 'top-right' })}>
             { showLike &&
               <Like
-                liked={liked}
+                liked={isFavorite}
                 onClick={setLike}
                 slug={slug}
+                type={type}
                 className={cn('button', { like: true, hide: !isTouch })}
               />
             }
             { canEdit &&
               <Link
-                to={createPostEditLink({ id: user.id, slug })}
+                to={postEditUrl}
                 view="fab"
                 className={cn('button', { edit: true })}
                 aria-label={__t('Edit')}
@@ -255,7 +259,7 @@ class EventCard extends PureComponent {
                 onClick={this.handleDelete}
                 view="fab"
                 className={cn('button', { delete: true })}
-                aria-label={__t('Delete')}
+                aria-label={__t('common.delete')}
                 icon={<IconClose
                   size="xs"
                   color="gray-400"
@@ -275,11 +279,11 @@ class EventCard extends PureComponent {
                 color="pink"
               />
             }
-            { this.renderTitle(cn) }
+            { this.renderTitle(cn, postUrl) }
             { view === 1 &&
               <div
                 className={cn('text')}
-                dangerouslySetInnerHTML={{ __html: seo_description }}
+                dangerouslySetInnerHTML={{ __html: preview }}
               />
             }
 
@@ -309,9 +313,4 @@ class EventCard extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuth: state.Auth.isAuthenticated,
-  isTouch: state.isTouch,
-});
-
-export default connect(mapStateToProps, { setLike })(EventCard);
+export default connect(({ isTouch }) => ({ isTouch }), { setLike })(EventCard);

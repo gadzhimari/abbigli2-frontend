@@ -77,6 +77,18 @@ class Button extends Component {
       isFetching,
       ...restProps
     } = this.props;
+
+    const mods = {
+      disabled,
+      view,
+      color,
+      size,
+      fullWidth,
+      togglable,
+      checked,
+      fetching: isFetching
+    };
+
     const buttonProps = {
       ...restProps,
       ref: (control) => { this.control = control; },
@@ -85,16 +97,11 @@ class Button extends Component {
       type,
       title,
       disabled,
-      className: cn({
-        disabled,
-        view,
-        color,
-        size,
-        fullWidth,
-        togglable,
-        checked,
-      }),
+      className: cn(mods),
     };
+
+    const content = children || text;
+    const hasContent = typeof content !== 'undefined';
 
     const iconTemplate = (
       icon &&
@@ -103,9 +110,9 @@ class Button extends Component {
         </span>
     );
     const textTemplate = (
-      (children || text) &&
+      hasContent &&
         <span key="text" className={cn('text')}>
-          { children || text }
+          {content}
         </span>
     );
     const buttonContent = [
@@ -116,15 +123,14 @@ class Button extends Component {
 
     return (
       <button
-        onClick={this.handleClick}
         {...buttonProps}
+        onClick={this.handleClick}
       >
-        { isFetching &&
-          <span className={cn('fetching')} />
+        {isFetching &&
+          <span className={cn('loader')} />
         }
-        {
-          buttonContent
-        }
+
+        {buttonContent}
       </button>
     );
   }

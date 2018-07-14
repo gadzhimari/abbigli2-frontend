@@ -2,8 +2,7 @@ import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 
 import * as actions from './actions';
-
-const PAGE_SIZE = 30;
+import { calculatePagesCount } from '../../lib/calculatePagesCount';
 
 const eventsFetchingState = handleActions({
   [actions.fetchEventsRequest]() {
@@ -19,7 +18,7 @@ const eventsFetchingState = handleActions({
 
 const page = handleActions({
   [actions.fetchEventsSuccess](state, { payload: { results, count } }) {
-    const pageCount = Math.ceil(count / PAGE_SIZE);
+    const pageCount = calculatePagesCount(count);
     return { ...state, items: results, count: pageCount };
   },
 }, {

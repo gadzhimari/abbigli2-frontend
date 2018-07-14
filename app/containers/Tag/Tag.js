@@ -1,49 +1,42 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import Helmet from 'react-helmet';
 
-import {
-  BreadCrumbs,
-  SliderBar,
-  Filters,
-  ListWithNew,
-  PageSwitcher,
-} from '../../components';
+import { React, Component, Type, cn, connect } from '../../components-lib/__base';
 
-import Tag from '../../components/SliderBar/components/Tag';
+import { BreadCrumbs, SliderBar, ListWithNew, SliderBarTag } from '../../components';
+
 import { Spin } from '../../components-lib';
 
-import { openPopup } from '../../ducks/Popup/actions';
 import { fetchPosts, fetchTags } from '../../ducks/TagSearch/actions';
 
 import paginateHOC from '../../HOC/paginate';
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 
-import { API_URL } from '../../config';
-
+import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
 import { __t } from './../../i18n/translator';
 
-import './Tag.styl';
+import './Tag.less';
 
+const allowedTypes = new Set([PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE]);
+
+@cn('TagPage')
 class TagSearchResults extends Component {
   static propTypes = {
-    routeParams: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    applyFilters: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired,
-    changeFiltersType: PropTypes.func.isRequired,
-    updateFieldByName: PropTypes.func.isRequired,
-    paginate: PropTypes.func.isRequired,
-    reversePriceRange: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired,
-    filters: PropTypes.shape({
-      price_from: PropTypes.string,
-      price_to: PropTypes.string,
-      section: PropTypes.string,
-      color: PropTypes.string,
-      distance: PropTypes.string,
+    routeParams: Type.shape().isRequired,
+    dispatch: Type.func.isRequired,
+    applyFilters: Type.func.isRequired,
+    updateFilter: Type.func.isRequired,
+    changeFiltersType: Type.func.isRequired,
+    updateFieldByName: Type.func.isRequired,
+    paginate: Type.func.isRequired,
+    reversePriceRange: Type.func.isRequired,
+    isAuthenticated: Type.bool.isRequired,
+    filters: Type.shape({
+      price_from: Type.string,
+      price_to: Type.string,
+      section: Type.string,
+      color: Type.string,
+      distance: Type.string,
     }).isRequired,
   };
 
@@ -74,28 +67,29 @@ class TagSearchResults extends Component {
     }
   }
 
-  loadRelativeTags = () => {
-    const { routing, dispatch } = this.props;
+  sliderBarTagProps;
 
-    dispatch(fetchTags(routing.query.tags));
+  loadRelativeTags = () => {
+    const { query, dispatch } = this.props;
+    const options = {
+      related_with: query.tags
+    };
+
+    if (!allowedTypes.has(query.type)) {
+      options.type = `${PRODUCT_TYPE}s`;
+    } else {
+      options.type = `${query.type}s`;
+    }
+
+    dispatch(fetchTags(options));
   }
 
   loadItems = () => {
-    const { routing, dispatch } = this.props;
-    const options = routing.query;
+    const { query: { type, ...query }, dispatch } = this.props;
+    const postType = allowedTypes.has(type) ? type : PRODUCT_TYPE;
 
-    dispatch(fetchPosts(options));
+    dispatch(fetchPosts(query, postType));
   }
-
-  changeCity = city => this.props.updateFieldByName('city', city.name);
-
-  openSelectPopup = () => this.props
-    .dispatch(openPopup('selectPopup', {
-      onClickItem: this.changeCity,
-      title: 'city',
-      async: true,
-      apiUrl: `${API_URL}geo/cities/`,
-    }));
 
   clickOnTag = (tag) => {
     const { router, filters } = this.props;
@@ -110,110 +104,71 @@ class TagSearchResults extends Component {
     });
   }
 
-  openMobileFilters = () => this.props
-    .dispatch(openPopup('filtersPopup', {
-      filters: this.props.filters,
-      updateFilter: this.props.updateFilter,
-      applyFilters: this.props.applyFilters,
-      changeCity: this.changeCity,
-    }));
-
   renderResultsOfSearch() {
-    const { items, routing } = this.props;
+    const { items, query } = this.props;
+    const tags = query.tags || '';
 
     return ((items.length !== 0) &&
       <h1 className="section-title">
         <span>{__t('Search results')}</span>
-        {routing && ` "${routing.query.tags.split(',').join(' ')}"`}
-        {/* <div className="section-title__subscribe">
-          {<button className="default-button" type="button">
-            {__t('Subscribe')}
-          </button>}
-          <a
-            className="filter-open"
-            onClick={this.openMobileFilters}
-          >
-            {__t('Filters')}
-          </a>
-        </div>*/}
+        {` "${tags.split(',').join(' ')}"`}
       </h1>
     );
   }
 
-  render() {
+  render(cn) {
     const {
-      routeParams,
-      dispatch,
-      isAuthenticated,
       tags,
-      pageCount,
       items,
       isFetching,
-      priceTemplate,
-      routing,
-      sections,
       filters,
-      updateFilter,
-      applyFilters,
-      reversePriceRange,
-      paginate,
-      changeFiltersType,
+      renderPaginator,
+      query: { type }
     } = this.props;
 
+    const postType = allowedTypes.has(type) ? type : PRODUCT_TYPE;
+
+    if (!this.sliderBarTagProps) {
+      this.sliderBarTagProps = { onClick: this.clickOnTag };
+    }
+
     return (
-      <div>
+      <div className={cn()}>
         <Helmet>
           <title>{__t('Searching on Abbigli')}</title>
           <meta name="robots" content="noindex, follow" />
         </Helmet>
-        {
-          tags.length > 0
-          &&
-          <SliderBar
-            sliderName="slider-tags"
-            items={tags}
-            ItemComponent={Tag}
-            itemWidth={175}
-            itemProps={{ onClick: this.clickOnTag }}
-          />
-        }
+
+        <SliderBar
+          className={cn('sliderBar')}
+          items={tags}
+          ItemComponent={SliderBarTag}
+          itemWidth={175}
+          itemProps={this.sliderBarTagProps}
+        />
+
         <main className="main">
           <BreadCrumbs />
+
           <div className="content">
-            { this.renderResultsOfSearch() }
-            {/* <Filters
-              sections={sections}
-              activeFilters={filters}
-              updateFilter={updateFilter}
-              applyFilters={applyFilters}
-              reversePriceRange={reversePriceRange}
-              changeFiltersType={changeFiltersType}
-              openCityPopup={this.openSelectPopup}
-            />
-            */}
+            {this.renderResultsOfSearch()}
+
             {
               isFetching
-              ? <div className="cards-wrap">
-                <div className="spin-wrapper">
-                  <Spin visible={isFetching} />
+                ? <div className="cards-wrap">
+                  <div className="spin-wrapper">
+                    <Spin visible={isFetching} />
+                  </div>
                 </div>
-              </div>
                 : <ListWithNew
                   items={items}
                   count={4}
-                  itemProps={{ priceTemplate, legacy: true }}
                   query={filters.tags}
+                  type={postType}
                 />
             }
-            {
-              !isFetching
-              &&
-              <PageSwitcher
-                count={pageCount}
-                paginate={paginate}
-                active={(routing && Number(routing.query.page)) || 1}
-              />
-            }
+
+            {!isFetching && renderPaginator()}
           </div>
         </main>
       </div>
@@ -221,22 +176,21 @@ class TagSearchResults extends Component {
   }
 }
 
-const mapStateToProps = ({
-  Auth,
-  Settings,
-  TagSearch,
-  routing,
-  Sections }) => ({
-    isAuthenticated: Auth.isAuthenticated,
-    priceTemplate: Settings.data.CURRENCY,
-    items: TagSearch.items,
-    tags: TagSearch.tags,
-    isFetching: TagSearch.isFetching,
-    pageCount: TagSearch.pageCount,
-    routing: routing.locationBeforeTransitions,
-    sections: Sections.items,
-  });
+const mapStateToProps = ({ Auth, TagSearch, Sections, Location }) => ({
+  isAuthenticated: Auth.isAuthenticated,
+  items: TagSearch.items,
+  tags: TagSearch.tags,
+  isFetching: TagSearch.isFetching,
+  pagesCount: TagSearch.pagesCount,
+  sections: Sections.items,
 
-const enhance = compose(connect(mapStateToProps), mapFiltersToProps, paginateHOC);
+  query: Location.query
+});
+
+const enhance = compose(
+  connect(mapStateToProps),
+  mapFiltersToProps,
+  paginateHOC
+);
 
 export default enhance(TagSearchResults);

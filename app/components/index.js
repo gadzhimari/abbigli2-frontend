@@ -1,19 +1,7 @@
-// TODO: create a node/webpack compatible container factory with require.context
-// TODO: migrate to universal-webpack from webpack-isomorphic-tools to allow webpack extra features
-// const componentModules = require.context('.', true, /\.js$/);
-// let res = {};
-//
-// componentsModules.keys().forEach((key) => {
-//   res[key.replace(/\.\/(.*)\.js/, "$1")] = componentModules[key];
-// });
-//
-// export default res;
-
 export { default as AvatarBlock } from './AvatarBlock/AvatarBlock';
 export { default as Banner } from './Banner/Banner';
 export { default as TileWrap } from './TileWrap/TileWrap';
 export { default as BannerBlue } from './BannerBlue/BannerBlue';
-export { default as CardsWrap } from './CardsWrap/CardsWrap';
 export { default as Header } from './Header/Header';
 export { default as Link } from './Link/Link';
 export { default as Search } from './Search/Search';
@@ -40,9 +28,11 @@ export { default as AuthorInfo } from './AuthorInfo';
 export { default as OtherArticles } from './OtherArticles';
 export { default as Sidebar } from './Sidebar';
 export { default as FavoriteAdd } from './FavoriteAdd';
-export { default as RelativePosts } from './RelativePosts';
+export { default as SimilarPosts } from './SimilarPosts';
 export { default as ChoiseFilter } from './ChoiseFilter';
 export { default as NoMatch } from './NoMatch';
 export { default as Avatar } from './Avatar';
 export { default as Image } from './Image';
+export { default as SliderBarCard } from './SliderBar/components/SliderBarCard';
+export { default as SliderBarTag } from './SliderBar/components/SliderBarTag';
 

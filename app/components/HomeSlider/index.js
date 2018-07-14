@@ -8,6 +8,13 @@ import SliderCard from './SliderCard';
 import './index.less';
 
 const CHUNK_SIZE = 6;
+const sliderSettings = {
+  dots: true,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1
+};
 
 @cn('HomeSlider')
 class HomeSlider extends PureComponent {
@@ -31,14 +38,6 @@ class HomeSlider extends PureComponent {
     if (!slides.length) {
       return null;
     }
-
-    const sliderSettings = {
-      dots: true,
-      infinite: false,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1
-    };
 
     return (
       <div className={cn()}>

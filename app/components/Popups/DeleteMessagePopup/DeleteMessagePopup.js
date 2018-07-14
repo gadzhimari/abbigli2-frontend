@@ -56,7 +56,7 @@ class DeleteMessagePopup extends Component {
               type="button"
               onClick={this.deleteDialog}
             >
-              {__t('Delete')}
+              {__t('common.delete')}
             </button>
             <button
               className="register-popup__button"

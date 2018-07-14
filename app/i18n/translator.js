@@ -2,14 +2,16 @@
 import forIn from 'lodash/forIn';
 import isObject from 'lodash/isObject';
 
-import en from './en_US';
-import ru from './ru_RU';
+import locale from './locale';
 
-const location = process.env.LOCATION;
-const langs = { en, ru };
+import plural from './plural/plural';
 
 export const __t = (key, params) => {
-  let result = langs[location][key] || key;
+  let result = locale[key] || key;
+
+  if (isObject(result)) {
+    return plural(result, params);
+  }
 
   if (isObject(params)) {
     forIn(params, (value, key) => {

@@ -4,84 +4,72 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import {
-  BreadCrumbs,
-  ListWithNew,
-  PageSwitcher,
-  SliderBar,
-  ChoiseFilter,
-} from '../../components';
+import { ListWithNew, SliderBar, ChoiseFilter, SliderBarCard } from '../../components';
 
-import { Spin, Adsense } from '../../components-lib';
+import { Spin, BreadCrumbs, Adsense } from '../../components-lib';
 import { Blog } from '../../components-lib/Cards';
-import BlogSection from '../../components/SliderBar/components/BlogSection';
 
 import paginateHOC from '../../HOC/paginate';
 
 import { fetchBlogs, changeBlogsSearchValue } from '../../ducks/Blogs/actions';
 
+import { BLOG_TYPE } from '../../lib/constants/posts-types';
 import { __t } from '../../i18n/translator';
 
 import './BlogsPage.less';
 
+const popularFilterOptions = [
+  { title: __t('New'), value: undefined },
+  { title: __t('Popular'), value: 'month' }
+];
+
 class BlogsPage extends PureComponent {
   static propTypes = {
-    changeSearchValue: PropTypes.func.isRequired,
-    fetchBlogs: PropTypes.func.isRequired,
-    pages: PropTypes.number.isRequired,
-    activePage: PropTypes.number.isRequired,
-    paginate: PropTypes.func.isRequired,
+    changeSearchValue: PropTypes.func,
+    fetchBlogs: PropTypes.func
   };
 
   state = {
-    searchValue: (this.props.routing && this.props.routing.query.search) || '',
+    searchValue: this.props.query.search || ''
   }
 
   componentDidMount() {
     this.fetchData();
-
-    document.body.classList.add('blogs-page');
   }
 
   componentDidUpdate(prevProps) {
-    const { location } = this.props;
+    const { query } = this.props;
 
-    if (prevProps.location.query !== location.query) {
+    if (prevProps.query !== query) {
       this.fetchData();
     }
   }
 
-  componentWillUnmount() {
-    document.body.classList.remove('blogs-page');
-  }
-
   fetchData = () => {
-    const { routing, fetchBlogs } = this.props;
+    const { query, fetchBlogs, params } = this.props;
 
     const options = {
-      popular: routing.query.popular === 'true',
-      category: routing.query.category,
-      type: 4,
-      search: routing.query.search,
+      category: params.category,
+      search: query.search,
+      popular: query.popular
     };
 
-    if (routing.query.page && routing.query.page !== '1') {
-      options.page = routing.query.page;
+    if (query.page && query.page !== '1') {
+      options.page = query.page;
     }
 
     fetchBlogs(options);
   }
 
-  changeFilter = ({ target }) => {
-    const { router, routing } = this.props;
-    const query = Object.assign({}, routing.query, {
-      popular: target.dataset.popular === 'true',
-      page: 1,
-    });
+  changeFilter = (e, { value }) => {
+    const { router, query, location } = this.props;
 
     router.push({
-      pathname: '/blogs',
-      query,
+      pathname: location.pathname,
+      query: {
+        ...query,
+        popular: value
+      }
     });
   }
 
@@ -90,18 +78,15 @@ class BlogsPage extends PureComponent {
   })
 
   doSearch = () => {
-    const { router, routing } = this.props;
+    const { router, query, location } = this.props;
     const { searchValue } = this.state;
+    const search = searchValue.trim();
 
-    if (searchValue.trim().length === 0) return;
-
-    const query = Object.assign({}, routing.query, {
-      search: searchValue.trim(),
-    });
+    if (search.length === 0) return;
 
     router.push({
-      pathname: '/blogs',
-      query,
+      pathname: location.pathname,
+      query: { ...query, search }
     });
   }
 
@@ -114,62 +99,48 @@ class BlogsPage extends PureComponent {
   }
 
   render() {
-    const { isFetching, items, sections, params, routing, router, pages, paginate, activePage } = this.props;
     const { searchValue } = this.state;
+    const {
+      isFetching,
+      items,
+      categories,
+      renderPaginator,
+      params,
+      query
+    } = this.props;
 
-    const section = sections.filter(item => routing && item.slug === routing.query.category)[0];
-
-    const crumbs = [{
-      title: __t('Blogs'),
-      url: '/blogs',
-    }];
-
-    if (section) {
-      crumbs.push({
-        title: section.title,
-        url: `/blogs?section=${section.slug}`,
-      });
-    }
-
-    const isActivePopular = routing && routing.query.popular === 'true';
+    const currentCategory = categories && categories
+      .find(item => item.slug === params.category);
 
     return (
       <main className="main blog">
         <Adsense slot="1884873061" />
+        <BreadCrumbs page="blogs" category={currentCategory} />
 
-        <BreadCrumbs
-          crumbs={crumbs}
-        />
         <div className="content">
           <h1 className="section-title">
             <svg className="icon icon-blog" viewBox="0 0 51 52.7">
               <path d="M51,9.4L41.5,0L31,10.4H4.1c-2.3,0-4.1,1.8-4.1,4.1v27.8c0,2.3,1.8,4.1,4.1,4.1h1.4l0.7,6.3 l8.3-6.3H38c2.3,0,4.1-1.8,4.1-4.1V18.1L51,9.4z M16.2,34.4l1-6.3l5.3,5.4L16.2,34.4z M47.2,9.4L24,32.2l-5.6-5.6l23-22.8L47.2,9.4z" />
             </svg>
+
             {__t('Blogs')}
-            {section && ` - ${section.title}`}
+
+            {currentCategory && ` - ${currentCategory.title}`}
           </h1>
-          {
-            sections.length > 0
-            &&
-            <SliderBar
-              sliderName="slider-category"
-              items={sections}
-              ItemComponent={BlogSection}
-              itemWidth={120}
-              itemProps={{
-                baseUrl: '/blogs',
-                isBlog: true,
-              }}
-            />
-          }
+
+          <SliderBar
+            items={categories}
+            ItemComponent={SliderBarCard}
+          />
+
           <div className="filter filter-search">
             <ChoiseFilter
-              choiseList={[
-                { title: __t('New'), active: !isActivePopular, popular: false },
-                { title: __t('Popular'), active: isActivePopular, popular: true },
-              ]}
+              options={popularFilterOptions}
               onChange={this.changeFilter}
+              name="popular"
+              active={query.popular}
             />
+
             <input
               className="input"
               type="text"
@@ -178,6 +149,7 @@ class BlogsPage extends PureComponent {
               onKeyDown={this.handleSearchKeyDown}
               value={searchValue}
             />
+
             <button
               className="default-button"
               type="button"
@@ -194,29 +166,22 @@ class BlogsPage extends PureComponent {
           </div>
           {
             isFetching
-            ? <div className="cards-wrap">
-              <div className="spin-wrapper">
-                <Spin visible={isFetching} />
+              ? <div className="cards-wrap">
+                <div className="spin-wrapper">
+                  <Spin visible={isFetching} />
+                </div>
               </div>
-            </div>
               : <ListWithNew
                 items={items}
-                itemsType={4}
+                itemsType={BLOG_TYPE}
                 itemProps={{ legacy: true }}
                 count={8}
                 ItemComponent={Blog}
                 query={searchValue}
               />
           }
-          {
-            !isFetching
-            &&
-            <PageSwitcher
-              active={activePage}
-              count={pages}
-              paginate={paginate}
-            />
-          }
+
+          {!isFetching && renderPaginator()}
         </div>
 
         <Adsense slot="6554228898" />
@@ -225,17 +190,18 @@ class BlogsPage extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ Blogs, Sections, routing }) => ({
+const mapStateToProps = ({ Blogs, Sections, Location }) => ({
   isFetching: Blogs.blogsFetchingState,
   items: Blogs.page.items,
   searchValue: Blogs.searchValue,
-  sections: Sections.items,
-  routing: routing.locationBeforeTransitions,
-  pages: Blogs.page.count,
+  categories: Sections.blogsCategories,
+  pagesCount: Blogs.page.count,
+
+  query: Location.query
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchBlogs: (page, searchValue, popular) => dispatch(fetchBlogs(page, searchValue, popular)),
+  fetchBlogs: opts => dispatch(fetchBlogs(opts)),
   changeSearchValue: value => dispatch(changeBlogsSearchValue(value)),
 });
 

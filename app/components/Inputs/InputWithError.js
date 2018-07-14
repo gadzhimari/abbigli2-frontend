@@ -51,6 +51,8 @@ class InputWithError extends Component {
     const wrapper = this.state.showError
       ? `${wrapperClass} ${wrapperErrorClass}`
       : wrapperClass;
+    
+    const showError = this.mustShowErrors;
 
     return (
       <div className={wrapper}>
@@ -63,7 +65,7 @@ class InputWithError extends Component {
             }
           </label>
         }
-        {Icon &&
+        {Icon && !showError &&
           <div className="input__icon-wrapper">
             {Icon}
           </div>
@@ -78,12 +80,12 @@ class InputWithError extends Component {
             {...inputProps}
           />
 
-          {this.mustShowErrors &&
+          {showError &&
             <span className="input__icon input__icon_error">!</span>
           }
         </span>
 
-        {this.mustShowErrors &&
+        {showError &&
           errors.map(error => (
             <div className={errorClass} key={error}>
               {error}

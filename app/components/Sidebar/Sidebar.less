@@ -1,6 +1,5 @@
-@import 'icons';
-@import 'mixin';
-@import 'variables';
+@import '../../containers/App/base/mixin';
+@import '../../containers/App/base/variables';
 
 .sidebar {
   float: right;
@@ -40,11 +39,16 @@
   }
 }
 
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 1161px) {
   .sidebar {
     float: none;
     margin: 30px 0 0 0;
     width: 100%;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .sidebar {
     &__group {
       &_favourite {
         display: none;

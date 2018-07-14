@@ -7,20 +7,24 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const LessListPlugin = require('less-plugin-lists');
 const LessFunctionPlugin = require('less-plugin-functions');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+// const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
-const productionEnvs = ['production', 'testing'];
 
-const isProd = productionEnvs.includes(process.env.NODE_ENV);
+const isProd = process.env.NODE_ENV === 'production';
+const isTest = process.env.NODE_ENV === 'testing';
+const isTestOrProd = isProd || isTest;
 
 function inRoot(relPath) {
   return path.resolve(__dirname, relPath);
 }
 
-const jsName = isProd
+const jsName = isTestOrProd
   ? 'bundle-[hash].js'
   : 'bundle.js';
 
-const cssName = isProd
+const cssName = isTestOrProd
   ? 'style-[hash].css'
   : 'style.css';
 
@@ -43,16 +47,31 @@ const plugins = [
       DOMAIN_URL: JSON.stringify(process.env.DOMAIN_URL),
       THUMBS_URL: JSON.stringify(process.env.THUMBS_URL),
     },
-  }),
+  })
+  // new MomentLocalesPlugin({
+  //   localesToKeep: ['ru'],
+  // })
 ];
 
-if (isProd) {
+if (isTestOrProd) {
   plugins.push(
     new webpack.optimize.OccurrenceOrderPlugin(),
     new AssetsPlugin({
       filename: 'assets.json',
       path: path.join(__dirname, 'public', 'assets'),
     }),
+    new webpack.optimize.UglifyJsPlugin(),
+    // new LodashModuleReplacementPlugin()
+  );
+} else {
+  plugins.push(
+    new BundleAnalyzerPlugin()
+  );
+}
+
+if (isProd) {
+  plugins.push(
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin()
   );
 }
@@ -71,7 +90,7 @@ const alias = {
   utils: inRoot('app/utils'),
 };
 
-const styleLoader = isProd
+const styleLoader = isTestOrProd
   ? ExtractTextPlugin.extract({
     fallback: 'style-loader',
     use: ['css-loader', 'postcss-loader', 'stylus-loader'],
@@ -81,13 +100,8 @@ const styleLoader = isProd
     use: ['css-loader?sourceMap', 'postcss-loader', 'stylus-loader?sourceMap'],
   });
 
-const jsLoader = isProd
-  ? 'babel-loader'
-  : 'babel-loader';
-
-const publicPath = isProd
-  ? '/assets/'
-  : '/public/assets';
+const jsLoader = 'babel-loader';
+const publicPath = isTestOrProd ? '/assets/' : '/public/assets';
 
 module.exports = {
   entry: ['./app/index.js'],
@@ -158,9 +172,7 @@ module.exports = {
       },
     ],
   },
-  devtool: isProd
-    ? false
-    : 'source-map',
+  devtool: isTestOrProd ? false : 'source-map',
   devServer: {
     contentBase: path.join(__dirname, 'public'),
     headers: {

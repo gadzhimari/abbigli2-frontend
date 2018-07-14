@@ -1,7 +1,8 @@
 import { createActions } from 'redux-actions';
 
-import { Posts, Tags, Catalog } from '../../api';
+import { Products, Tags, Catalog } from '../../api';
 import { setNetworkError } from '../NetworkErrors/reducer';
+import { PRODUCT_TYPE } from '../../lib/constants/posts-types';
 
 export const {
   responsePosts,
@@ -10,7 +11,9 @@ export const {
   requestPosts,
   responseTags,
   requestMoreTags,
-  setCurrentCategoryTree
+  setCurrentCategoryTree,
+  requestPageData,
+  responsePageData
 } = createActions(
   'RESPONSE_POSTS',
   'RESPONSE_TAGS',
@@ -19,27 +22,30 @@ export const {
   'REQUEST_TAGS',
   'RESPONSE_TAGS',
   'REQUEST_MORE_TAGS',
-  'SET_CURRENT_CATEGORY_TREE'
+  'SET_CURRENT_CATEGORY_TREE',
+  'REQUEST_PAGE_DATA',
+  'RESPONSE_PAGE_DATA'
 );
 
+// TODO: new api
 export const fetchPosts = options => (dispatch) => {
   dispatch(requestPosts());
 
-  return Posts.getPosts({ type: 1, ...options })
+  return Products.getProducts(options)
     .then(res => dispatch(responsePosts(res.data)));
 };
 
 export const fetchTags = options => (dispatch) => {
   dispatch(requestTags());
 
-  return Tags.getTags(options)
+  return Tags.getTags({ ...options, type: `${PRODUCT_TYPE}s` })
     .then(res => dispatch(responseTags(res.data)));
 };
 
 export const fetchMoreTags = options => (dispatch) => {
   dispatch(requestMoreTags());
 
-  return Tags.getTags(options)
+  return Tags.getTags({ ...options, type: `${PRODUCT_TYPE}s` })
     .then(res => dispatch(responseMoreTags(res.data)));
 };
 
@@ -50,3 +56,24 @@ export const fetchCrumbs = options => dispatch => Catalog.getCategoryCrumbs(opti
   .catch(({ response }) => {
     dispatch(setNetworkError(response));
   });
+
+export const fetchCatalogPageData = (params, query) => {
+  const { section, splat } = params;
+  const { page, tag } = query;
+
+  let slugs = [section];
+
+  if (splat) {
+    slugs = splat.split('/').concat(slugs);
+  }
+
+  return (dispatch) => {
+    dispatch(requestPageData());
+
+    return Promise.all([
+      dispatch(fetchTags({ category: section })),
+      dispatch(fetchPosts(section, page, tag)),
+      dispatch(fetchCrumbs({ slugs }))
+    ]).then(() => dispatch(responsePageData()));
+  };
+};

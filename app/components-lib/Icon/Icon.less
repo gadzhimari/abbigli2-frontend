@@ -3,6 +3,8 @@
 
 .Icon {
   display: inline-block;
+  line-height: 0;
+
   .for-each(@pair in @icon-sizes) {
     @key: at(@pair, 1);
     @value: at(@pair, 2);

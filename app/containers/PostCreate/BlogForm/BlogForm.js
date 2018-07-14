@@ -1,11 +1,10 @@
 import { React } from '../../../components-lib/__base';
-import { Button } from '../../../components-lib';
+import { Button, Redactor } from '../../../components-lib';
 
 import CreateForm from '../CreateForm/CreateForm';
 import FormBlock from '../FormBlock';
 import { ErrorInput } from '../../../components/Inputs';
 import ImageUploadZone from '../../../components/ImageUploadZone';
-import Redactor from '../../../components/Inputs/Redactor';
 import Select from '../../../components/Inputs/Select';
 
 import categoriesAdapter from '../../../lib/adapters/categories-to-options';
@@ -21,10 +20,10 @@ class BlogForm extends CreateForm {
 
     this.state = mergeObjects(getItemFromSessionStorage(this.sessionStorageKey, {
       title: '',
-      content: '',
+      text: '',
       tags: '',
       images: [],
-      categories: null
+      category: null
     }), props.data);
   }
 
@@ -38,7 +37,7 @@ class BlogForm extends CreateForm {
       ...imageZoneProps,
     } = this.props;
 
-    const { title, content, tags, categories } = this.state;
+    const { title, text, tags, category } = this.state;
 
     if (!visible) return null;
 
@@ -58,15 +57,16 @@ class BlogForm extends CreateForm {
           />
 
           <Select
-            wrapperClass="add-tabs__form-field"
-            className="add-tabs__select"
+            className="add-tabs__form-field"
+            selectClassName="add-tabs__select"
             label={__t('Choose category')}
             placeholder=""
             options={sections}
             optionsAdapter={categoriesAdapter}
             onChange={this.onChange}
-            value={categories}
-            name="categories"
+            value={category}
+            name="category"
+            errors={errors.category}
           />
         </FormBlock>
 
@@ -80,12 +80,13 @@ class BlogForm extends CreateForm {
 
         <FormBlock>
           <Redactor
-            wrapperClass="add-tabs__form-field"
-            className="textarea"
+            id="description"
+            className="add-tabs__form-field"
             onChange={this.onChange}
-            name="content"
-            value={content}
+            name="text"
+            value={text}
             label={__t('Description')}
+            errors={errors.text}
           />
 
           <ErrorInput

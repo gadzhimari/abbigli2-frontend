@@ -7,10 +7,14 @@ import {
   responseTags,
   requestMoreTags,
   responseMoreTags,
-  setCurrentCategoryTree
+  setCurrentCategoryTree,
+  requestPageData,
+  responsePageData
 } from './actions';
+import { calculatePagesCount } from '../../lib/calculatePagesCount';
 
 const initialState = {
+  isFetching: true,
   isFetchingPosts: true,
   isFetchingTags: true,
   isFetchingMoreTags: false,
@@ -32,6 +36,18 @@ const getCurrentCategory = (categories) => {
 };
 
 export default handleActions({
+  [requestPageData](state) {
+    return {
+      ...state,
+      isFetching: true
+    };
+  },
+  [responsePageData](state) {
+    return {
+      ...state,
+      isFetching: false
+    };
+  },
   [requestPosts](state) {
     return {
       ...state,
@@ -43,7 +59,7 @@ export default handleActions({
       ...state,
       isFetchingPosts: false,
       posts: payload.results,
-      postPagesCount: Math.ceil(payload.count / 30),
+      postPagesCount: calculatePagesCount(payload.count)
     };
   },
   [requestTags](state) {

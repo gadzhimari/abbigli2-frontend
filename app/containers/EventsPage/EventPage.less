@@ -2,28 +2,20 @@
 @import 'variables';
 @import 'mixin';
 
-.event {
-  .filter .select {
-    margin-top: 15px;
+.EventsPage {
+  .SliderBar {
+    margin-bottom: 30px;
   }
 
-  .filter .date-range {
-    vertical-align: top;
-    margin: 15px 15px 0;
-  }
-
-  .pagination__item {
-    &.active {
-      background-color: @event;
-      border-color: @event;
-    }
-  }
   .content {
     .default-button {
       .button(event);
     }
   }
+
   .section-title {
+    margin-bottom: 30px;
+
     .icon-event {
       margin-right: 10px;
     }

@@ -1,39 +1,34 @@
 import { createActions } from 'redux-actions';
-import { Profile } from '../../../api';
+import { Products, Posts, Events } from '../../../api';
+
+import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../../lib/constants/posts-types';
+
+const actionsByType = {
+  [PRODUCT_TYPE]: Products.getProducts,
+  [BLOG_TYPE]: Posts.getPosts,
+  [EVENT_TYPE]: Events.getEvents
+};
 
 export const {
   setPosts,
-  setMorePosts,
   requestPosts,
-  requestMorePosts,
   setPrivateStatus
 } = createActions(
-  {
-    SET_POSTS: (posts, next) => ({ posts, next }),
-    SET_MORE_POSTS: (posts, next) => ({ posts, next }),
-  },
+  'SET_POSTS',
   'REQUEST_POSTS',
-  'REQUEST_MORE_POSTS',
   'SET_PRIVATE_STATUS'
 );
 
-export default function loadPosts(option) {
-  const { type = 'posts', excludeId, page = 1, profileId } = option;
-  const params = {
-    exclude_id: excludeId,
-    page
-  };
-
-  const [requestAction, responseAction] = page === 1 ?
-    [requestPosts, setPosts] :
-    [requestMorePosts, setMorePosts];
+export default function loadPosts(options, type = PRODUCT_TYPE) {
+  const { page = 1, author } = options;
+  const action = actionsByType[type];
 
   return (dispatch) => {
-    dispatch(requestAction());
+    dispatch(requestPosts());
 
-    return Profile.getProfilePosts(profileId, type, params)
+    return action({ page, author, status: 'published' })
       .then(({ data }) => {
-        dispatch(responseAction(data.results, data.next));
+        dispatch(setPosts(data));
       })
       .catch((err) => {
         if (err.status === 403) {

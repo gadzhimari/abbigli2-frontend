@@ -1,14 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import DayPicker, { DateUtils } from 'react-day-picker';
 import MomentLocaleUtils from 'react-day-picker/moment';
 import 'react-day-picker/lib/style.css';
-import moment from 'moment';
 
+import moment from 'moment';
 import 'moment/locale/ru';
 
 import { location } from '../../config';
 import toLocaleDateString from '../../lib/date/toLocaleDateString';
+import { isClickOutside } from '../../lib/window';
 
 const EN_DATE_FORMAT = 'MMMM Do YYYY';
 const RU_DATE_FORMAT = 'Do MMMM YYYY';
@@ -37,29 +40,43 @@ class DateInput extends Component {
     onFocus: () => true,
     mustFormat: true,
     format: 'YYYY-MM-DDThh:mm',
-    placeholder: '',
+    placeholder: ''
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showOverlay: false,
-      selectedDay: undefined,
-    };
+  state = {
+    showOverlay: false,
+    selectedDay: undefined,
+  };
 
-    this.clickInside = false;
+  // eslint-disable-next-line
+  container = React.createRef();
+
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside);
   }
 
   getSelectedDays = day => DateUtils.isSameDay(this.state.selectedDay, day)
 
   showOverlay = () => {
     this.setState({ showOverlay: true });
-    this.props.onFocus();
+
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+  }
+
+  handleClickOutside = ({ target }) => {
+    if (isClickOutside(this.container.current, target)) {
+      this.hideOverlay();
+    }
   }
 
   hideOverlay = () => {
-    this.setState({ showOverlay: this.clickInside });
-    this.clickInside = false;
+    this.setState({ showOverlay: false });
   }
 
   handleDayClick = (day) => {
@@ -70,12 +87,12 @@ class DateInput extends Component {
     onChange(null, { name, value });
   }
 
-  handleClickInside = () => {
-    this.clickInside = true;
-    setTimeout(() => {
-      this.clickInside = false;
-    }, 0);
-  };
+  handleNativeInputChange = (e) => {
+    const { name, onChange } = this.props;
+    const value = moment(e.target.value).format(this.props.format);
+
+    onChange(null, { name, value });
+  }
 
   render() {
     const {
@@ -83,16 +100,31 @@ class DateInput extends Component {
       placeholder,
       className,
       mustFormat,
+      isTouch
     } = this.props;
 
-    const formate = location === 'en' ? EN_DATE_FORMAT : RU_DATE_FORMAT;
+    const format = location === 'en' ? EN_DATE_FORMAT : RU_DATE_FORMAT;
     const formatedValue = value && mustFormat
-      ? toLocaleDateString(value, formate) : value;
+      ? toLocaleDateString(value, format) : value;
+
+
+    if (isTouch) {
+      const nativeValue = toLocaleDateString(value, 'YYYY-MM-DD');
+
+      return (
+        <input
+          name={this.props}
+          className={className}
+          onChange={this.handleNativeInputChange}
+          type="date"
+          value={nativeValue}
+          placeholder={placeholder}
+        />
+      );
+    }
 
     return (
-      <div
-        onMouseDown={this.handleClickInside}
-      >
+      <div ref={this.container}>
         <input
           id="start-date"
           name="startDate"
@@ -100,14 +132,12 @@ class DateInput extends Component {
           type="text"
           value={formatedValue}
           onFocus={this.showOverlay}
-          onBlur={this.hideOverlay}
           placeholder={placeholder}
+          autoComplete="off"
         />
 
-        {
-          this.state.showOverlay
-          &&
-          (<div style={{ position: 'relative' }}>
+        {this.state.showOverlay &&
+          <div style={{ position: 'relative' }}>
             <div style={overlayStyle}>
               <DayPicker
                 initialMonth={this.state.selectedDay}
@@ -117,11 +147,11 @@ class DateInput extends Component {
                 locale={location}
               />
             </div>
-          </div>)
+          </div>
         }
       </div>
     );
   }
 }
 
-export default DateInput;
+export default connect(({ isTouch }) => ({ isTouch }))(DateInput);

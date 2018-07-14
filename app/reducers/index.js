@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux';
 
-import { routerReducer } from 'react-router-redux';
-
 import Follow from '../ducks/Follow';
 import Sections from '../ducks/Sections';
 import Blogs from '../ducks/Blogs';
@@ -9,7 +7,6 @@ import Events from '../ducks/Events';
 import Products from '../ducks/Products';
 import PostsSpecific from '../ducks/PostsSpecific';
 import ProfilePosts from '../ducks/ProfilePosts';
-import TopAuthors from '../ducks/TopAuthors';
 import Auth from '../ducks/Auth';
 import Popup from '../ducks/Popup';
 import Comments from '../ducks/Comments';
@@ -25,13 +22,14 @@ import PostCreate from '../ducks/PostCreate';
 import PostPage from '../ducks/PostPage';
 import TagSearch from '../ducks/TagSearch';
 import Filters from '../ducks/Filters';
-import RelativePage from '../ducks/Relative';
 import NewIn from '../ducks/NewIn';
 import CatalogPage from '../ducks/CatalogPage';
 import Menu from '../ducks/Menu';
 import NetworkErrors from '../ducks/NetworkErrors';
 import settlement from '../ducks/settlement';
 import isTouch from '../ducks/isTouch';
+import Location from '../ducks/Location';
+import PeopleSearch from '../ducks/PeopleSearch';
 import AdvBucket from '../ducks/AdvBucket';
 
 export default combineReducers({
@@ -43,7 +41,6 @@ export default combineReducers({
   Products,
   PostsSpecific,
   ProfilePosts,
-  TopAuthors,
   Popup,
   Comments,
   Dialogs,
@@ -55,16 +52,16 @@ export default combineReducers({
   Settings,
   Search,
   Menu,
-  routing: routerReducer,
   Follow,
   PostCreate,
   PostPage,
   TagSearch,
   Filters,
-  RelativePage,
   NewIn,
   CatalogPage,
   NetworkErrors,
   isTouch,
+  Location,
+  PeopleSearch,
   AdvBucket
 });

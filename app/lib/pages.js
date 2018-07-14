@@ -1,5 +1,5 @@
 import { fetchPost } from '../ducks/PostPage/actions';
-import { fetchCrumbs } from '../ducks/CatalogPage/actions';
+import { fetchCatalogPageData } from '../ducks/CatalogPage/actions';
 
 export default {
   ROOT_PAGE: {
@@ -36,10 +36,16 @@ export default {
     path: 'post/new'
   },
   EDIT_PAGE: {
-    path: 'profile/:profile/post/edit/:slug'
+    path: '/edit/:type/:slug'
   },
   PROFILE_PAGE: {
     path: 'profile/(:profile)'
+  },
+  PROFILE_BLOGS_PAGE: {
+    path: 'blogs'
+  },
+  PROFILE_EVENTS_PAGE: {
+    path: 'events'
   },
   FAVORITES_PAGE: {
     path: 'favorites'
@@ -54,28 +60,25 @@ export default {
     path: 'settings'
   },
   BLOGS_PAGE: {
-    path: 'blogs'
+    path: 'blogs(/:category)'
   },
   BLOG_PAGE: {
     path: 'blog/:slug',
-    action: fetchPost,
+    action: fetchPost.bind(null, 'post'),
     actionArgs: ['params.slug', 'token']
   },
   EVENTS_PAGE: {
-    path: 'events'
+    path: 'events(/:category)'
   },
   EVENT_PAGE: {
     path: 'event/:slug',
-    action: fetchPost,
+    action: fetchPost.bind(null, 'event'),
     actionArgs: ['params.slug', 'token']
   },
   PRODUCT_PAGE: {
     path: 'post/:slug',
-    action: fetchPost,
+    action: fetchPost.bind(null, 'product'),
     actionArgs: ['params.slug', 'token']
-  },
-  RELATIVE_PRODUCTS_PAGE: {
-    path: 'relative/:slug'
   },
   NEW_PRODUCTS_PAGE: {
     path: 'new-products'
@@ -103,14 +106,7 @@ export default {
   },
   CATALOG_PAGE: {
     path: '(**/):section',
-    action(params) {
-      let slugs = [params.section];
-      if (params[0]) {
-        slugs = params[0].split('/').concat(slugs);
-      }
-
-      return dispatch => dispatch(fetchCrumbs({ slugs }));
-    },
-    actionArgs: ['params']
-  },
+    action: fetchCatalogPageData,
+    actionArgs: ['params', 'query']
+  }
 };

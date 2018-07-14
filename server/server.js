@@ -20,6 +20,7 @@ import setupDataRequests from './middlewares/setupDataRequests';
 import setupClientDataRequests from './middlewares/setupClientDataRequests';
 import handleRequests from './middlewares/handleRequests';
 import fetchUserProfile from './middlewares/fetchUserProfile';
+import syncLocation from './middlewares/syncLocation';
 import showPasswordPopup from './middlewares/showPasswordPopup';
 import showWelcomePopup from './middlewares/showWelcomePopup';
 
@@ -57,6 +58,7 @@ app.use(setupUseragent);
 app.use(setupDataRequests);
 app.use(fetchUserProfile);
 app.use(getRenderProps);
+app.use(syncLocation);
 app.use(setupClientDataRequests);
 app.use(showPasswordPopup);
 app.use(showWelcomePopup);

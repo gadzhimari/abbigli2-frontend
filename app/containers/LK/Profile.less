@@ -199,6 +199,21 @@
       }
     }
   }
+
+  &__rules {
+    padding-top: 24px;
+    border-top: 1px solid #dcdcdc;
+
+    .ProfileSection {
+      &:last-child {
+        .ProfileSection__section {
+          margin-bottom: 0;
+          padding-bottom: 0;
+          border-bottom: none;
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: @breakpoint-l-only) {
@@ -354,10 +369,6 @@
 
 @media screen and (max-width: @breakpoint-s-only) {
   .Profile {
-    &__wrapper {
-      padding: 25px 10px 0;
-    }
-
     &__toolbar {
       &-wrapper {
         flex-wrap: wrap;

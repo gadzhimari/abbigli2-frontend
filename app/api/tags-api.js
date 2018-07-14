@@ -1,18 +1,16 @@
-import request from './instance';
+import { requestV2 } from './instance';
 
 const Tags = {
   getTags(params) {
-    return request({
+    return requestV2({
       url: 'tags/',
       params,
     });
   },
-  getRelatedTags(tags) {
-    return request({
+  getRelatedTags(params) {
+    return requestV2({
       url: 'tags/',
-      params: {
-        related_with: tags,
-      },
+      params
     });
   },
 };

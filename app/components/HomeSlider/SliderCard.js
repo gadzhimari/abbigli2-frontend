@@ -4,16 +4,17 @@ import Link from '../../components/Link';
 import Image from '../Image';
 
 import './SliderCard.less';
+import { DOMAIN_URL } from '../../config';
 
 @cn('SliderCard')
 class SliderCard extends PureComponent {
   render(cn) {
-    const { title, images, view_on_site_url: url } = this.props.data;
+    const { title, images, url } = this.props.data;
 
     return (
       <Link
         className={cn()}
-        to={url}
+        to={url.replace(DOMAIN_URL, '')}
       >
         <div className={cn('image-wrapper')}>
           <Image

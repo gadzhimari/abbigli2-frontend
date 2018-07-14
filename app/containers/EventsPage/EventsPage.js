@@ -4,18 +4,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { BreadCrumbs, SliderBar, ListWithNew, PageSwitcher } from 'components';
+import { BreadCrumbs, SliderBar, ListWithNew, SliderBarCard } from '../../components';
 import { Spin, Adsense } from '../../components-lib';
 import { Event } from '../../components-lib/Cards';
-import { EventsFilters } from 'components/Filters';
-import BlogSection from 'components/SliderBar/components/BlogSection';
 
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 import paginateHOC from '../../HOC/paginate';
 
-import { openPopup } from 'ducks/Popup/actions';
-import { fetchEvents } from 'ducks/Events/actions';
-import { API_URL } from 'config';
+import { fetchEvents } from '../../ducks/Events/actions';
+
+import { EVENT_TYPE } from '../../lib/constants/posts-types';
 import { __t } from './../../i18n/translator';
 
 import './EventPage.less';
@@ -24,7 +22,6 @@ class EventsPage extends Component {
   componentDidMount() {
     const { items, location } = this.props;
     this.globalWrapper = document.body;
-    this.globalWrapper.classList.add('event', 'blogs-page');
 
     if (location.action === 'POP' && items.length === 0) {
       this.loadItems();
@@ -36,79 +33,50 @@ class EventsPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { routing } = this.props;
+    const { query } = this.props;
 
-    if (prevProps.routing !== routing) {
+    if (prevProps.query !== query) {
       this.loadItems();
     }
   }
 
-  componentWillUnmount() {
-    this.globalWrapper.classList.remove('event', 'blogs-page');
-  }
-
   loadItems = () => {
-    const { routing, dispatch } = this.props;
-    const options = Object.assign({}, routing.query, {
-      type: 3,
-    });
-
-    dispatch(fetchEvents(options));
+    const { query, dispatch, params } = this.props;
+    dispatch(fetchEvents({
+      ...query,
+      category: params.category
+    }));
   }
-
-  changeCity = city => this.props
-    .updateFieldByName('city', city.name);
-
-  openSelectPopup = () => this.props
-    .dispatch(openPopup('selectPopup', {
-      onClickItem: this.changeCity,
-      title: 'city',
-      async: true,
-      apiUrl: `${API_URL}geo/cities/`,
-    }));
-
-  openMobileFilters = () => this.props
-    .dispatch(openPopup('filtersPopup', {
-      filters: this.props.filters,
-      updateFilter: this.props.updateFilter,
-      applyFilters: this.props.applyFilters,
-      changeCity: this.changeCity,
-      type: '3',
-    }));
 
   render() {
     const {
-      sections,
-      routing,
+      categories,
+      query,
       isFetching,
       items,
-      filters,
-      applyFilters,
-      updateFilter,
-      pages,
-      paginate,
-    } = this.props;
-    const section = sections.filter(item => routing && item.slug === routing.query.category)[0];
+      renderPaginator } = this.props;
+
+    const category = categories.filter(item => item.slug === query.category)[0];
 
     const crumbs = [{
       title: __t('Events'),
       url: '/events',
     }];
 
-    if (section) {
+    if (category) {
       crumbs.push({
-        title: section.title,
-        url: `/events?section=${section.slug}`,
+        title: category.title,
+        url: category.url,
       });
     }
 
     return (
-      <main className="main">
+      <main className="main EventsPage">
         <Adsense slot="1884873061" />
-
         <BreadCrumbs
           crumbs={crumbs}
         />
+
         <div className="content">
           <h1 className="section-title">
             <svg className="icon icon-event" viewBox="0 0 27 26">
@@ -116,60 +84,35 @@ class EventsPage extends Component {
               <path d="M8.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8S6.8,0.8,6.8,1.8v3.3 C6.8,6.1,7.6,6.9,8.6,6.9z" />
               <path d="M18.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8s-1.8,0.8-1.8,1.8v3.3 C16.8,6.1,17.6,6.9,18.6,6.9z" />
             </svg>
-            {__t('Events')}
-            {section && `- ${section.title}`}
-          </h1>
-          {
-            sections.length > 0
-            &&
-            <SliderBar
-              sliderName="slider-category"
-              items={sections}
-              ItemComponent={BlogSection}
-              itemWidth={120}
-              itemProps={{
-                baseUrl: '/events',
-                isBlog: true,
-              }}
-            />
-          }
-          {/* <a
-            className="filter-open"
-            onClick={this.openMobileFilters}
-          >
-            Фильтры
-          </a>
 
-          <EventsFilters
-            filters={filters}
-            applyFilters={applyFilters}
-            updateFilter={updateFilter}
-            openCityPopup={this.openSelectPopup}
-          /> */}
-          {
-            isFetching
-            ? <div className="cards-wrap">
+            {__t('Events')}
+
+            {category && `- ${category.title}`}
+          </h1>
+
+          <SliderBar
+            items={categories}
+            ItemComponent={SliderBarCard}
+          />
+
+          {isFetching ? (
+            <div className="cards-wrap">
               <div className="spin-wrapper">
                 <Spin visible={isFetching} />
               </div>
             </div>
-              : <ListWithNew
-                items={items}
-                itemsType={3}
-                itemProps={{ legacy: true }}
-                count={8}
-                ItemComponent={Event}
-              />
-          }
-          {
-            !isFetching
-            &&
-            <PageSwitcher
-              active={(routing && Number(routing.query.page || 1)) || 1}
-              count={pages}
-              paginate={paginate}
+          ) : (
+            <ListWithNew
+              items={items}
+              itemsType={EVENT_TYPE}
+              itemProps={{ legacy: true }}
+              count={8}
+              ItemComponent={Event}
             />
+            )
           }
+
+          {!isFetching && renderPaginator()}
         </div>
 
         <Adsense slot="6554228898" />
@@ -179,7 +122,6 @@ class EventsPage extends Component {
 }
 
 EventsPage.propTypes = {
-  items: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   updateFieldByName: PropTypes.func.isRequired,
@@ -196,9 +138,9 @@ function mapStateToProps(state) {
     isFetching: events.eventsFetchingState,
     isAuthenticated: auth.isAuthenticated,
     geoCity: state.Geo.city,
-    sections: state.Sections.items,
-    routing: state.routing.locationBeforeTransitions,
-    pages: events.page.count,
+    categories: state.Sections.eventsCategories,
+    query: state.Location.query,
+    pagesCount: events.page.count,
   };
 }
 

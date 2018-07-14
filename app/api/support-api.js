@@ -1,8 +1,8 @@
-import req from './instance';
+import { request } from './instance';
 
 const Support = {
   sendMessage(data) {
-    return req({
+    return request({
       data,
       url: 'support/',
       method: 'POST',

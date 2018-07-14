@@ -9,13 +9,13 @@ import './Like.less';
 class Like extends PureComponent {
   static propTypes = {
     count: Type.number,
-    liked: Type.bool.isRequired,
+    liked: Type.bool,
     onClick: Type.func.isRequired,
     size: Type.oneOf(['s', 'm', 'l']),
   };
 
   static defaultProps = {
-    size: 'm',
+    size: 'm'
   }
 
   state = {
@@ -24,14 +24,14 @@ class Like extends PureComponent {
   };
 
   handleClick = () => {
-    const { onClick, slug } = this.props;
+    const { onClick, slug, type } = this.props;
     const liked = !this.state.liked;
 
     let count = this.state.count;
     count = liked ? count + 1 : count - 1;
 
     if (onClick) {
-      onClick(slug);
+      onClick(slug, type);
       this.setState({ liked, count });
     }
   }

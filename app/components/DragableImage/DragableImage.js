@@ -78,6 +78,7 @@ class DragableImage extends Component {
     image: null,
     imageId: this.props.id,
     isOpenedPreview: false,
+    src: this.props.src
   }
 
   componentDidMount() {
@@ -106,10 +107,7 @@ class DragableImage extends Component {
     const image = document.createElement('img');
 
     image.addEventListener('load', () => {
-      this.setState({
-        isFetching: false,
-        image,
-      });
+      this.setState({ isFetching: false, image, src: imageSrc });
     });
 
     image.src = `${THUMBS_URL}/unsafe/276x184/${imageSrc}`;
@@ -133,15 +131,11 @@ class DragableImage extends Component {
   }
 
   openBigPreview = () => {
-    this.setState({
-      isOpenedPreview: true,
-    });
+    this.setState({ isOpenedPreview: true });
   }
 
   closeBigPreview = () => {
-    this.setState({
-      isOpenedPreview: false,
-    });
+    this.setState({ isOpenedPreview: false });
   }
 
   renderLoader() {
@@ -188,8 +182,8 @@ class DragableImage extends Component {
   }
 
   render() {
-    const { isFetching } = this.state;
-    const { connectDragSource, connectDropTarget, isDragging, src } = this.props;
+    const { isFetching, src } = this.state;
+    const { connectDragSource, connectDropTarget, isDragging } = this.props;
     const opacity = isDragging ? 0 : 1;
 
     return connectDragSource(connectDropTarget(
@@ -197,17 +191,16 @@ class DragableImage extends Component {
         className="photo-upload__item uploaded"
         style={{ opacity }}
       >
-        {
-          this.state.isOpenedPreview
-          &&
+        {this.state.isOpenedPreview &&
           <ModalGallery
             images={[{ file: src }]}
             closeGallery={this.closeBigPreview}
             isOpen
           />
         }
-        {
-          isFetching ? this.renderLoader() : this.renderImageItem()
+
+        {isFetching ?
+          this.renderLoader() : this.renderImageItem()
         }
       </div>
     ));

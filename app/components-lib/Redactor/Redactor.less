@@ -1,0 +1,17 @@
+@import '../__base/variables/colors';
+@import '../__base/variables/fonts';
+
+.Redactor {
+  &_error {
+    .redactor-box {
+      border: 1px solid @error;
+    }
+  }
+
+  &__error {
+    font-size: @size-medium;
+    color: @error;
+
+    margin-top: 5px;
+  }
+}

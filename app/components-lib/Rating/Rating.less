@@ -1,0 +1,72 @@
+@import '../__base/variables/colors';
+@import '../__base/variables/variables';
+@import '../__base/animation';
+@import '../__base/mixins';
+
+.Rating {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 20px;
+  outline: none;
+  box-sizing: border-box;
+
+  &_disabled {
+    .Rating__star {
+      cursor: default;
+
+      &:hover {
+        transform: scale(1);
+      }
+    }
+  }
+
+  &__star {
+    display: inline-block;
+    position: relative;
+    margin-right: 8px;
+    color: @gray-300;
+    transition: all 300ms;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    .Icon {
+      fill: currentColor;
+      transition: all 300ms;
+    }
+
+    &-first {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      opacity: 0;
+    }
+
+    &_half {
+      .Rating__star {
+        &-first {
+          opacity: 1;
+          color: @orange-100;
+        }
+
+        &-second {
+          opacity: 1;
+        }
+      }
+    }
+
+    &_full {
+      .Rating__star-second {
+        color: @orange-100;
+      }
+    }
+  }
+}

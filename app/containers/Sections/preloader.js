@@ -8,59 +8,37 @@ import { SectionTag } from '../../containers';
 
 const preloader = WrappedComponent => class extends PureComponent {
   static propTypes = {
-    fetchSectionTags: PropTypes.func.isRequired,
-    fetchPosts: PropTypes.func.isRequired,
+    fetchCatalogPageData: PropTypes.func.isRequired,
     params: PropTypes.shape({
       subsection: PropTypes.string,
-    }).isRequired
+    })
   }
 
-  state = { isFetching: true };
-
   componentDidMount() {
-    this.fetchData();
+    const { currentSection, params } = this.props;
+
+    if (currentSection.slug !== params.section) {
+      this.fetchData();
+    }
   }
 
   componentDidUpdate(prevProps) {
-    const { params } = this.props;
+    const { params, query } = this.props;
 
-    if (prevProps.params !== params) {
+    if (prevProps.params !== params || query !== prevProps.query) {
       this.fetchData();
     }
   }
 
   fetchData = () => {
-    const {
-      params,
-      fetchSectionTags,
-      fetchPosts,
-      routing,
-      fetchCrumbs
-    } = this.props;
-
-    this.setState({ isFetching: true });
-
-    const { section, splat } = params;
-    const { page, tag } = routing.query;
-
-    let slugs = [section];
-
-    if (splat) {
-      slugs = splat.split('/').concat(slugs);
-    }
-
-    Promise.all([
-      fetchSectionTags(section),
-      fetchPosts(section, page, tag),
-      fetchCrumbs({ slugs })
-    ]).then(() => this.setState({
-      isFetching: false,
-    }));
+    const { params, query, fetchCatalogPageData } = this.props;
+    fetchCatalogPageData(params, query);
   }
 
   render() {
-    const { isFetching } = this.state;
-    const { currentSection } = this.props;
+    const { currentSection, isFetching, promo } = this.props;
+    const showTagPage = currentSection.type === 'promo' ?
+      promo.length === 0 : currentSection.children && currentSection.children.length === 0;
 
     return (<div>
       <Helmet>
@@ -78,14 +56,14 @@ const preloader = WrappedComponent => class extends PureComponent {
         </div>
       }
 
-      {!isFetching && currentSection.children && currentSection.children.length === 0 &&
+      {!isFetching && showTagPage &&
         <SectionTag
           isFetching={isFetching}
           {...this.props}
         />
       }
 
-      {!isFetching && currentSection.children && currentSection.children.length !== 0 &&
+      {!isFetching && !showTagPage &&
         <WrappedComponent
           isFetching={isFetching}
           {...this.props}

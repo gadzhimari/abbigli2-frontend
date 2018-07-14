@@ -1,19 +1,29 @@
 import { createAction } from 'redux-actions';
-import { Posts } from '../../api';
+import { Posts, Products, Events } from '../../api';
 import onlyAuthAction from '../../lib/redux/onlyAuthAction';
+
+import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
 
 const setLikeRequest = createAction('LIKE_SET_REQUEST');
 const setLikeSuccess = createAction('LIKE_SET_SUCCESS');
 const setLikeFailure = createAction('LIKE_SET_FAILED');
 
-const setLike = slug => async (dispatch) => {
+const apiByType = {
+  [PRODUCT_TYPE]: Products,
+  [BLOG_TYPE]: Posts,
+  [EVENT_TYPE]: Events
+};
+
+export const toggleLike = (slug, type) => async (dispatch) => {
   dispatch(setLikeRequest());
+  const api = apiByType[type];
+
   try {
-    await Posts.likePost(slug);
+    await api.toggleFavorite(slug);
     dispatch(setLikeSuccess());
   } catch (e) {
     dispatch(setLikeFailure());
   }
 };
 
-export default onlyAuthAction(setLike);
+export default onlyAuthAction(toggleLike);

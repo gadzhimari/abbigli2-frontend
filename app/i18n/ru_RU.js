@@ -1,8 +1,29 @@
-import agreementKeyset from './keysets/aggrementKeyset/ru';
+import agreementKeyset from './keysets/aggrementKeyset';
 import privacyRu from './privacy.ru';
+import commonKeyset from './keysets/common/ru';
+import modalKeyset from './keysets/modal/ru';
+import bucketKeyset from './keysets/bucket/ru';
+import postsTableKeyset from './keysets/postsTable/ru';
+import datesKeyset from './keysets/dates/ru';
+import shopKeyset from './keysets/shop/ru';
+import profilePageKeyset from './keysets/profilePage/ru';
 import messsagesKeyset from './keysets/messagesKeyset/ru';
+import chatKeyset from './keysets/chat/ru';
 
 export default {
+  ...commonKeyset,
+  ...modalKeyset,
+  ...bucketKeyset,
+  ...postsTableKeyset,
+  ...datesKeyset,
+  ...shopKeyset,
+  ...profilePageKeyset,
+  ...messsagesKeyset,
+  ...agreementKeyset,
+  ...chatKeyset,
+  ...messsagesKeyset,
+  ...agreementKeyset,
+
   'Upload image': 'Загрузить изображение',
   'You can upload maximum images':
     'Вы можете загрузить изображения в формате JPEG, PNG',
@@ -11,9 +32,10 @@ export default {
   'Popular in blogs': 'Популярное в блогах',
   'Popular in events': 'Популярное в событиях',
   'Show more': 'Показать еще',
+  'Show less': 'Показать меньше',
   'Add to favorites': 'Добавить в избранное',
   'Post is in favorites': 'Пост в избранном',
-  'Relative posts': 'Похожие посты',
+  'Similar posts': 'Похожие посты',
   'tag.search': 'Поиск тегов',
   'tag.for.search': 'Поиск по тегам',
   'users.for.search': 'Поиск людей',
@@ -353,14 +375,10 @@ export default {
   'Re-enter new password': 'Повторите ввод пароля',
   'Set password': 'Установить пароль',
   'Set up your password': 'Установить новый пароль',
-  'Go back to dialogs list': 'Назад к списку диалогов',
-  'In this section you see your correspondence with other ABBIGLI members.':
-    'В этом разделе отображается переписка с другими участниками проекта ABBIGLI.',
   'Favorites.propfile':
     'В Этом разделе отображается информация об всех ИЗДЕЛИЯХ/УСЛУГАХ , БЛОГАХ , СОБЫТИЯХ которые вы отметили ЛАЙКОМ или ПРОКОММЕНТИРОВАЛИ.',
   'My.abbigly.propfile':
     'В этом разделе Вы можете опубликовать свои Изделия/Услуги, создать свои БЛОГИ и События. Так о Вас узнают все пользователи проекта ABBIGLI.RU',
-  'Delete dialog': 'Удаление диалога',
   'Are you sure you want to remove dialogue with':
     'Вы уверены, что хотите удалить диалог с',
   Delete: 'Удалить',
@@ -394,7 +412,9 @@ export default {
   'Not.found': 'Извините, такой страницы нет',
   'Go.back.home': 'Вернуться на главную',
   Oops: 'Упсс!',
-  'Relative posts for': 'Похожие посты для',
+  'Similar posts for': 'Похожие посты для',
+  'pages.next': 'Следующая',
+  'pages.previous': 'Предыдущая',
   'Profile name': 'Имя профиля',
   'Profile description': 'Описание профиля',
   'Upload new': 'Загрузить новую',
@@ -410,6 +430,15 @@ export default {
   'own works': 'своих работ',
   'Make a real business from your art': 'Преврати своё творчество в бизнес',
   Join: 'Присоединиться',
+  'users.search.result.text': 'Результат по запросу «{{user}}» ',
+  'Add your phone': 'Добавьте телефон',
+  'Add your address': 'Добавьте адрес',
+  'Add your skype': 'Добавьте skype',
+  'Add a website': 'Добавьте сайт',
+  'Add an email': 'Добавьте email',
+  'Add a social link': 'Добавьте ссылку на свой профиль в сети',
+  'Your address': 'Ваш адрес',
+  'Website address': 'Адрес веб-сайта',
   'I agree with': 'Я согласен(а) с',
   'Sign in via social network allows your friends to find you on Abbigli.': 'Вход через соцсети позволит друзьям найти вас на Abbigli.',
   'Do you already have an account on Abbigli?': 'У вас уже есть аккаунт на Abbigli?',
@@ -436,6 +465,8 @@ export default {
   'There are currently no posts on this page': 'На этой странице пока нет товарных постов',
   'My publications in other sections': 'Мои публикации в других разделах',
   'You can view the author\'s publications in other sections': 'Вы можете просмотреть публикации автора в других разделах',
-  ...messsagesKeyset,
-  ...agreementKeyset
+  VK: 'ВКонтакте',
+  OK: 'Одноклассники',
+  Rating: 'Рейтинг',
+  'out of': 'из'
 };

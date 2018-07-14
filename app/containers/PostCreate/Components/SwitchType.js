@@ -67,8 +67,8 @@ class SwitchType extends PureComponent {
 
 SwitchType.propTypes = {
   onClick: PropTypes.func,
-  onlyType: PropTypes.number,
-  activeType: PropTypes.number.isRequired,
+  onlyType: PropTypes.string,
+  activeType: PropTypes.string,
 };
 
 SwitchType.defaultProps = {

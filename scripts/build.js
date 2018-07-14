@@ -1,22 +1,27 @@
-const createReactPackage = require('./createReactPackage');
 const del = require('del');
 const fs = require('fs-extra');
 const path = require('path');
 const svgOptimize = require('./svgOptimize');
 
-const BUILD_PATH = path.join(__dirname, '..', 'app/icons');
-console.log('path ', BUILD_PATH);
+const createReactPackage = require('./createReactPackage');
+const createIndexIconsFile = require('./createIndexIconsFile');
 
-// Build the npm packages
+const BUILD_PATH = path.join(__dirname, '..', 'app/icons');
+
+const writeFile = ({ filepath, source }) => {
+  fs.outputFile(path.join(BUILD_PATH, filepath), source);
+};
+
 const createPackages = (svgDataList) => {
-  const packagers = [createReactPackage]; // list other packagers here
+  const packagers = [createReactPackage, createIndexIconsFile];
   const packages = packagers.map(packager => packager(svgDataList));
+
   del.sync(BUILD_PATH);
+
   packages.forEach((pack) => {
-    console.log('Building package');
-    pack.files.forEach((file) => {
-      fs.outputFile(path.join(BUILD_PATH, file.filepath), file.source);
-    });
+    const array = Array.isArray(pack) ? pack : [pack];
+
+    array.forEach(writeFile);
   });
 };
 

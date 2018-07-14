@@ -1,23 +1,29 @@
 import * as actions from '../actionsTypes';
 
-import { Posts } from '../../../api';
+import { Posts, Products, Events } from '../../../api';
+import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../../lib/constants/posts-types';
+
+const actionByType = {
+  [PRODUCT_TYPE]: Products.getProducts,
+  [BLOG_TYPE]: Posts.getPosts,
+  [EVENT_TYPE]: Events.getEvents
+};
 
 const request = () => ({
   type: actions.POSTS_REQUEST,
 });
 
-const response = (data, pageCount) => ({
+const response = data => ({
   type: actions.POSTS_RESPONSE,
   data,
-  pageCount,
 });
 
-const fetchPosts = options => (dispatch) => {
+const fetchPosts = (options, type = PRODUCT_TYPE) => (dispatch) => {
   dispatch(request());
+  const action = actionByType[type];
 
-  return Posts.getPosts(options)
-    .then(res =>
-      dispatch(response(res.data.results, Math.ceil(res.data.count / 30))));
+  return action(options)
+    .then(res => dispatch(response(res.data)));
 };
 
 export default fetchPosts;

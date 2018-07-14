@@ -36,14 +36,13 @@ class CommentsField extends Component {
     return (
       <div>
         <Textarea
-          wrapperClass="comment-field__textarea-wrapper"
-          className="textarea comment-field__textarea"
+          className="comment-field__textarea-wrapper"
           onChange={this.changeComment}
           name="content"
           value={this.state.comment}
           placeholder={__t('Your comment')}
         />
-
+        {/* TODO: сделать прелоадер */}
         <Button
           className="default-button"
           onClick={this.sendComment}

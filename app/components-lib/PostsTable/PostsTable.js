@@ -1,6 +1,7 @@
-import { React, PureComponent, cn } from '../__base';
+import { React, PureComponent, cn, connect } from '../__base';
 
 import PostsTableRow from './PostsTableRow';
+import PostsTableRowMobile from './PostsTableRow.mobile';
 
 import { __t } from '../../i18n/translator';
 
@@ -13,21 +14,31 @@ class PostsTable extends PureComponent {
     posts: []
   }
 
+  renderForTouch(cn) {
+    const { posts, ...restProps } = this.props;
+
+    return posts
+      .map(post => <PostsTableRowMobile {...restProps} postData={post} cn={cn} />);
+  }
+
   render(cn) {
-    const { posts, showPeriod, onChangePrice } = this.props;
+    const { posts, showPeriod, isTouch, ...restProps } = this.props;
 
     if (!posts.length) return null;
+
+    if (isTouch) {
+      return this.renderForTouch(cn);
+    }
 
     return (
       <table className={`Table ${cn()}`}>
         <thead>
           <tr>
             <th />
-            <th>{__t('Title and Price')}</th>
-            {showPeriod && <th>{__t('The term raising')}</th>}
-            <th>{__t('Category')}</th>
-            {showPeriod && <th>{__t('Price')}</th>}
-            <th>{__t('Actions')}</th>
+            <th>{__t('postsTable.header.postTitle')}</th>
+            {showPeriod && <th>{__t('postsTable.header.raisingTerm')}</th>}
+            {showPeriod && <th>{__t('common.price')}</th>}
+            <th>{__t('postsTable.header.actions')}</th>
           </tr>
         </thead>
 
@@ -37,7 +48,7 @@ class PostsTable extends PureComponent {
               postData={post}
               cn={cn}
               showPeriod={showPeriod}
-              onChangePrice={onChangePrice}
+              {...restProps}
 
               key={post.id}
             />)
@@ -48,4 +59,4 @@ class PostsTable extends PureComponent {
   }
 }
 
-export default PostsTable;
+export default connect(({ isTouch }) => ({ isTouch }))(PostsTable);

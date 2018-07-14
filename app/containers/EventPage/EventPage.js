@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { React, Component, Type } from '../../components-lib/__base';
+import { React, Component } from '../../components-lib/__base';
 
 import {
   Gallery,
@@ -8,17 +8,16 @@ import {
   BreadCrumbs,
   Sidebar,
   FavoriteAdd,
-  RelativePosts,
+  SimilarPosts,
+  ListWithNew,
 } from '../../components';
 import { Comments } from '../../components/Comments';
 import { Event } from '../../components-lib/Cards';
 import DateRange from '../../components/DateRange';
 import City from '../../components-lib/City';
-
-import { Adsense } from '../../components-lib';
+import { Icon, Adsense } from '../../components-lib';
 
 import Link from '../../components/Link/Link';
-import { processBlogContent } from '../../lib/process-html';
 import createPostEditLink from '../../lib/links/edit-post-link';
 import postLoader from '../../HOC/postLoader';
 
@@ -27,14 +26,15 @@ import {
   fetchNew,
   resetPost,
   fetchPopular,
-  fetchRelative,
-  toggleFavorite,
+  fetchSimilar,
   fetchUsersPosts,
-  setFollow
+  setFollow,
+  addBookmark,
+  deleteBookmark,
+  toggleFavorite
 } from '../../ducks/PostPage/actions';
 import { sendComment, fetchComments } from '../../ducks/Comments/actions';
 import { openPopup } from '../../ducks/Popup/actions';
-
 
 import { EVENT_TYPE } from '../../lib/constants/posts-types';
 
@@ -42,10 +42,6 @@ import { __t } from '../../i18n/translator';
 import './EventPage.less';
 
 class EventPage extends Component {
-  static propTypes = {
-    data: Type.shape().isRequired
-  };
-
   componentDidMount() {
     this.globalWrapper = document.querySelector('.global-wrapper');
     this.globalWrapper.classList.add('event');
@@ -57,7 +53,7 @@ class EventPage extends Component {
 
   sendComment = (comment) => {
     const { sendComment, data: { slug } } = this.props;
-    sendComment({ comment, slug });
+    sendComment({ text: comment, slug });
   }
 
   renderSlider = () => {
@@ -89,13 +85,13 @@ class EventPage extends Component {
       data,
       author,
       popularPosts,
-      relativePosts,
+      similarPosts,
       usersPosts,
       me,
       isAuthenticated,
-      handleFavorite,
       followUser,
-      openPopup
+      openPopup,
+      toggleFavorite
     } = this.props;
 
     const crumbs = [{
@@ -103,8 +99,8 @@ class EventPage extends Component {
       url: '/events',
     },
     {
-      title: data.user.profile_name || `User ID: ${data.user.id}`,
-      url: `/profile/${data.user.id}`,
+      title: author.profile_name || `User ID: ${author.id}`,
+      url: `/profile/${author.id}`,
     },
     {
       title: data.title,
@@ -113,6 +109,15 @@ class EventPage extends Component {
 
     const userIsOwner = author.id === me.id;
     const { city } = data;
+
+    const favoriteAddProps = {
+      toggleFavorite,
+      isFavorite: data.is_favorite,
+      slug: data.slug
+    };
+
+    const editingLink = createPostEditLink(data, EVENT_TYPE);
+    const eventIcon = <Icon glyph="event" color="pink" />;
 
     return (
       <main>
@@ -123,9 +128,11 @@ class EventPage extends Component {
               canSubscribe={!userIsOwner}
               followUser={followUser}
             />
+
             <OtherArticles
               articles={usersPosts}
               data={author}
+              type={EVENT_TYPE}
             />
           </div>
         </div>
@@ -137,14 +144,11 @@ class EventPage extends Component {
           <div className="content">
             <div className="article__wrapper">
               <h1 className="section-title">
-                {userIsOwner &&
-                  <Link to={createPostEditLink({ id: data.user.id, slug: data.slug })}>
-                    <svg className="icon icon-event" viewBox="0 0 27 26">
-                      <path d="M22.2,3v2.1c0,2-1.6,3.5-3.5,3.5S15.1,7,15.1,5.1V3h-2.9v2.1c0,2-1.6,3.5-3.5,3.5 S5.1,7,5.1,5.1V3H0V26h27V3H22.2z M8.8,22.8H4.2v-4h4.5V22.8z M8.8,15.7H4.2v-4h4.5V15.7z M15.8,22.8h-4.5v-4h4.5V22.8z M15.8,15.7 h-4.5v-4h4.5V15.7z M18.2,22.8v-4h4.5L18.2,22.8z M22.8,15.7h-4.5v-4h4.5V15.7z" />
-                      <path d="M8.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8S6.8,0.8,6.8,1.8v3.3 C6.8,6.1,7.6,6.9,8.6,6.9z" />
-                      <path d="M18.6,6.9c1,0,1.8-0.8,1.8-1.8V1.8c0-1-0.8-1.8-1.8-1.8s-1.8,0.8-1.8,1.8v3.3 C16.8,6.1,17.6,6.9,18.6,6.9z" />
-                    </svg>
-                  </Link>
+                {userIsOwner ?
+                  <Link to={editingLink}>
+                    {eventIcon}
+                  </Link> :
+                  eventIcon
                 }
 
                 {data.title}
@@ -152,8 +156,8 @@ class EventPage extends Component {
 
               <div className="article__date">
                 <DateRange
-                  start={data.date_start}
-                  end={data.date_end}
+                  start={data.start}
+                  end={data.end}
                 />
               </div>
 
@@ -164,10 +168,10 @@ class EventPage extends Component {
 
               {this.renderSlider()}
 
-              <div>{processBlogContent(data.content)}</div>
+              <div>{data.description}</div>
 
               {userIsOwner &&
-                <Link to={createPostEditLink({ id: data.user.id, slug: data.slug })} className="edit-btn">
+                <Link to={editingLink} className="edit-btn">
                   <svg className="icon icon-edit" viewBox="0 0 18 18">
                     <path d="M0,14.249V18h3.75L14.807,6.941l-3.75-3.749L0,14.249z M17.707,4.042c0.391-0.391,0.391-1.02,0-1.409l-2.34-2.34c-0.391-0.391-1.019-0.391-1.408,0l-1.83,1.829l3.749,3.749L17.707,4.042z" />
                   </svg>
@@ -177,11 +181,7 @@ class EventPage extends Component {
               }
             </div>
 
-            <FavoriteAdd
-              toggleFavorite={handleFavorite}
-              slug={data.slug}
-              isFavorited={data.favorite}
-            />
+            <FavoriteAdd {...favoriteAddProps} />
 
             <Comments
               onSend={this.sendComment}
@@ -190,37 +190,34 @@ class EventPage extends Component {
               comments={commentsList}
             />
           </div>
+
           <Sidebar
             data={data}
             newPosts={itemsEvents}
             popularPosts={popularPosts}
-            toggleFavorite={handleFavorite}
-            isFavorited={data.favorite}
+
             seeAllUrl="/events"
             newSectionTitle={__t('New in events')}
             popularSectionTitle={__t('Popular in events')}
+
+            type={EVENT_TYPE}
+
+            {...favoriteAddProps}
           />
-          {
-            relativePosts.length > 0
-            &&
-            <RelativePosts
-              items={relativePosts}
-              Component={Event}
-              slug={data.slug}
+
+          <SimilarPosts
+            items={similarPosts}
+            Component={Event}
+          />
+
+          <div className="section">
+            <ListWithNew
+              showOnlyNew
+              itemsType={EVENT_TYPE}
             />
-          }
+          </div>
 
           <Adsense slot="6554228898" />
-          {/* <div className="section">
-            <div className="cards-wrap">
-              {
-                newData.map(item => <NewPost
-                  data={item}
-                  key={item.id}
-                />)
-              }
-            </div>
-          </div> */}
         </div>
       </main>
     );
@@ -241,26 +238,34 @@ function mapStateToProps(state) {
     isFetchingComments: state.Comments.commentFetchingState,
     isAuthenticated: auth.isAuthenticated,
     popularPosts: state.PostPage.popularPosts,
-    relativePosts: state.PostPage.relativePosts,
+    similarPosts: state.PostPage.similarPosts,
     usersPosts: state.PostPage.usersPosts,
     me: state.Auth.me,
+    isFetchingBookmarks: state.PostPage.isFetchingBookmarks,
   };
 }
 
+// TODO: тип поста (event) можно сохранить в при первом запросе посте (fetchPost)
+// и при последующих запросах брать оттуда не пробрасывая в каждый экшен
 const mapDispatch = dispatch => ({
-  fetchPost: (...args) => dispatch(fetchPost(...args)),
+  fetchPost: (...args) => dispatch(fetchPost(EVENT_TYPE, ...args)),
   fetchSubData: (data, params) => {
-    dispatch(fetchNew({ type: EVENT_TYPE, }));
-    dispatch(fetchComments(params.slug));
-    dispatch(fetchUsersPosts(EVENT_TYPE, data.user.id));
+    dispatch(fetchNew(EVENT_TYPE));
+    dispatch(fetchComments(EVENT_TYPE, params.slug));
+    dispatch(fetchUsersPosts(EVENT_TYPE, data.author.id, data.id));
     dispatch(fetchPopular(EVENT_TYPE));
-    dispatch(fetchRelative(params.slug));
+    dispatch(fetchSimilar(EVENT_TYPE, params.slug));
   },
-  onUnmount: () => dispatch(resetPost()),
-  handleFavorite: slug => dispatch(toggleFavorite(slug)),
+
   followUser: id => dispatch(setFollow(id)),
-  sendComment: data => dispatch(sendComment(data)),
-  openPopup: (...args) => dispatch(openPopup(...args))
+  sendComment: data => dispatch(sendComment(EVENT_TYPE, data)),
+  openPopup: (...args) => dispatch(openPopup(...args)),
+
+  addBookmark: id => dispatch(addBookmark(EVENT_TYPE, id)),
+  deleteBookmark: bookmarkId => dispatch(deleteBookmark(bookmarkId)),
+
+  onUnmount: () => dispatch(resetPost()),
+  toggleFavorite: slug => dispatch(toggleFavorite(EVENT_TYPE, slug))
 });
 
 export default connect(mapStateToProps, mapDispatch)(postLoader(EventPage));
