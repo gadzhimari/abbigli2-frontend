@@ -21,8 +21,6 @@ export default {
   ...messsagesKeyset,
   ...agreementKeyset,
   ...chatKeyset,
-  ...messsagesKeyset,
-  ...agreementKeyset,
 
   'Upload image': 'Загрузить изображение',
   'You can upload maximum images':

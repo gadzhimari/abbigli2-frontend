@@ -21,8 +21,6 @@ export default {
   ...messsagesKeyset,
   ...agreementKeyset,
   ...chatKeyset,
-  ...messsagesKeyset,
-  ...agreementKeyset,
 
   'Upload image': 'Upload image',
   'sign.up.to.leave.comment': 'Sign up to leave comment',
