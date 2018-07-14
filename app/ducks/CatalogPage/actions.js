@@ -72,7 +72,7 @@ export const fetchCatalogPageData = (params, query) => {
 
     return Promise.all([
       dispatch(fetchTags({ category: section })),
-      dispatch(fetchPosts(section, page, tag)),
+      dispatch(fetchPosts({ category: section, page, tag })),
       dispatch(fetchCrumbs({ slugs }))
     ]).then(() => dispatch(responsePageData()));
   };
