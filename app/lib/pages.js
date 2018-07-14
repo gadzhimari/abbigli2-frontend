@@ -60,7 +60,7 @@ export default {
     path: 'settings'
   },
   BLOGS_PAGE: {
-    path: 'blogs'
+    path: 'blogs(/:category)'
   },
   BLOG_PAGE: {
     path: 'blog/:slug',
@@ -68,7 +68,7 @@ export default {
     actionArgs: ['params.slug', 'token']
   },
   EVENTS_PAGE: {
-    path: 'events'
+    path: 'events(/:category)'
   },
   EVENT_PAGE: {
     path: 'event/:slug',

@@ -1,16 +1,9 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import { compose } from 'recompose';
+import { React, PureComponent, connect, cn } from '../../components-lib/__base';
 
-import {
-  BreadCrumbs,
-  ListWithNew,
-  SliderBar,
-} from '../../components';
+import { BreadCrumbs, ListWithNew, SliderBar, SliderBarCard } from '../../components';
 import { Product } from '../../components-lib/Cards';
 import { ProductsIcons } from '../../components/Icons';
-
-import BlogSection from '../../components/SliderBar/components/BlogSection';
 
 import { fetchData } from '../../ducks/PostsSpecific';
 
@@ -20,19 +13,14 @@ import preloader from './preloader';
 
 import { __t } from '../../i18n/translator';
 
+import './SpecificPostsPage.less';
+
 const giftsCategoriesSlugs = new Set(['podarki', 'gifts']);
 
+@cn('SpecificPostsPage')
 class SpecificPostsPage extends PureComponent {
 
-  componentDidMount() {
-    document.body.classList.add('blogs-page');
-  }
-
-  componentWillUnmount() {
-    document.body.classList.remove('blogs-page');
-  }
-
-  render() {
+  render(cn) {
     const { page, items, sections, route, renderPaginator } = this.props;
     const crumbs = [page];
 
@@ -40,20 +28,19 @@ class SpecificPostsPage extends PureComponent {
     const Icon = ProductsIcons[route.filter] || null;
 
     return (
-      <main className="main">
+      <main className={`main ${cn()}`}>
         <BreadCrumbs
           crumbs={crumbs}
         />
 
-        <div className="gifts__title">
+        <div className={cn('giftsTitle')}>
           {__t('Buy a gifts')}
         </div>
 
         <SliderBar
-          sliderName="slider-category"
+          className={cn('giftsSlider')}
           items={gifts && gifts.children}
-          ItemComponent={BlogSection}
-          itemWidth={164}
+          ItemComponent={SliderBarCard}
         />
 
         <h1 className="section-title">

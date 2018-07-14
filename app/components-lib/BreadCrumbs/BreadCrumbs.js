@@ -24,17 +24,13 @@ class BreadCrumbs extends PureComponent {
     crumbs: [],
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.page !== this.props.page;
-  }
-
   render(cn) {
-    const { page } = this.props;
+    const { page, ...crumbsCreatorProps } = this.props;
     const crumbsGenerator = crumbsByPage[page];
 
     if (!crumbsGenerator) return null;
 
-    const crumbs = crumbsGenerator();
+    const crumbs = crumbsGenerator(crumbsCreatorProps);
 
     return (
       <ul className={cn()} itemScope itemType="http://schema.org/BreadcrumbList">

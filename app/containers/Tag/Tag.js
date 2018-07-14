@@ -1,49 +1,42 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import Helmet from 'react-helmet';
 
-import {
-  BreadCrumbs,
-  SliderBar,
-  ListWithNew,
-} from '../../components';
+import { React, Component, Type, cn, connect } from '../../components-lib/__base';
 
-import Tag from '../../components/SliderBar/components/Tag';
+import { BreadCrumbs, SliderBar, ListWithNew, SliderBarTag } from '../../components';
+
 import { Spin } from '../../components-lib';
 
-import { openPopup } from '../../ducks/Popup/actions';
 import { fetchPosts, fetchTags } from '../../ducks/TagSearch/actions';
 
 import paginateHOC from '../../HOC/paginate';
 import mapFiltersToProps from '../../HOC/mapFiltersToProps';
 
-import { API_URL } from '../../config';
 import { PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE } from '../../lib/constants/posts-types';
 import { __t } from './../../i18n/translator';
 
-import './Tag.styl';
+import './Tag.less';
 
 const allowedTypes = new Set([PRODUCT_TYPE, BLOG_TYPE, EVENT_TYPE]);
 
+@cn('TagPage')
 class TagSearchResults extends Component {
   static propTypes = {
-    routeParams: PropTypes.shape().isRequired,
-    dispatch: PropTypes.func.isRequired,
-    applyFilters: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired,
-    changeFiltersType: PropTypes.func.isRequired,
-    updateFieldByName: PropTypes.func.isRequired,
-    paginate: PropTypes.func.isRequired,
-    reversePriceRange: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired,
-    filters: PropTypes.shape({
-      price_from: PropTypes.string,
-      price_to: PropTypes.string,
-      section: PropTypes.string,
-      color: PropTypes.string,
-      distance: PropTypes.string,
+    routeParams: Type.shape().isRequired,
+    dispatch: Type.func.isRequired,
+    applyFilters: Type.func.isRequired,
+    updateFilter: Type.func.isRequired,
+    changeFiltersType: Type.func.isRequired,
+    updateFieldByName: Type.func.isRequired,
+    paginate: Type.func.isRequired,
+    reversePriceRange: Type.func.isRequired,
+    isAuthenticated: Type.bool.isRequired,
+    filters: Type.shape({
+      price_from: Type.string,
+      price_to: Type.string,
+      section: Type.string,
+      color: Type.string,
+      distance: Type.string,
     }).isRequired,
   };
 
@@ -73,6 +66,8 @@ class TagSearchResults extends Component {
       this.loadRelativeTags();
     }
   }
+
+  sliderBarTagProps;
 
   loadRelativeTags = () => {
     const { query, dispatch } = this.props;
@@ -121,7 +116,7 @@ class TagSearchResults extends Component {
     );
   }
 
-  render() {
+  render(cn) {
     const {
       tags,
       items,
@@ -133,25 +128,28 @@ class TagSearchResults extends Component {
 
     const postType = allowedTypes.has(type) ? type : PRODUCT_TYPE;
 
+    if (!this.sliderBarTagProps) {
+      this.sliderBarTagProps = { onClick: this.clickOnTag };
+    }
+
     return (
-      <div>
+      <div className={cn()}>
         <Helmet>
           <title>{__t('Searching on Abbigli')}</title>
           <meta name="robots" content="noindex, follow" />
         </Helmet>
-        {
-          tags.length > 0
-          &&
-          <SliderBar
-            sliderName="slider-tags"
-            items={tags}
-            ItemComponent={Tag}
-            itemWidth={175}
-            itemProps={{ onClick: this.clickOnTag }}
-          />
-        }
+
+        <SliderBar
+          className={cn('sliderBar')}
+          items={tags}
+          ItemComponent={SliderBarTag}
+          itemWidth={175}
+          itemProps={this.sliderBarTagProps}
+        />
+
         <main className="main">
           <BreadCrumbs />
+
           <div className="content">
             {this.renderResultsOfSearch()}
 
@@ -169,6 +167,7 @@ class TagSearchResults extends Component {
                   type={postType}
                 />
             }
+
             {!isFetching && renderPaginator()}
           </div>
         </main>

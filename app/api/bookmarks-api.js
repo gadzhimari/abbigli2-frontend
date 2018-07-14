@@ -22,13 +22,15 @@ export default {
   },
   getBookmarks(isMe, id, params) {
     const url = isMe ? '/my-profile/bookmarks/' : `/profiles/${id}/bookmarks/`;
+
     return request({
       url,
       params: {
         page_size: pageSize,
         ...params
       },
-      mustApplyToken: true
+      mustApplyToken: isMe,
+      canApplyToken: true
     });
   }
 };

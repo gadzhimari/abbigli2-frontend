@@ -1,32 +1,25 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import { React, Component, Type, cn } from '../../components-lib/__base';
 
-import {
-  BreadCrumbs,
-  SliderBar,
-} from '../../components';
+import { BreadCrumbs, SliderBar, SliderBarTag } from '../../components';
 
 import { Spin } from '../../components-lib';
 import Content from './Content';
 import paginateHOC from '../../HOC/paginate';
-import Tag from '../../components/SliderBar/components/Tag';
 
+import './index.less';
 
-import './index.styl';
-
+@cn('SectionTag')
 class SectionTag extends Component {
   clickOnTag = (tag) => {
     const { router } = this.props;
 
     router.push({
       pathname: location.pathname,
-      query: Object.assign({}, {
-        tag,
-      }),
+      query: { tag }
     });
   }
 
-  render() {
+  render(cn) {
     const {
       tags,
       isFetching,
@@ -46,18 +39,17 @@ class SectionTag extends Component {
     }
 
     return (
-      <div>
-        {tags.length > 0 &&
-          <SliderBar
-            sliderName="slider-tags"
-            items={tags}
-            ItemComponent={Tag}
-            itemWidth={175}
-            itemProps={{
-              onClick: this.clickOnTag,
-            }}
-          />
-        }
+      <div className={cn()}>
+        <SliderBar
+          className={cn('sliderBar')}
+          items={tags}
+          ItemComponent={SliderBarTag}
+          itemWidth={175}
+          itemProps={{
+            onClick: this.clickOnTag,
+          }}
+        />
+
         <main className="main">
           <BreadCrumbs
             crumbs={crumbs}
@@ -99,7 +91,7 @@ SectionTag.defaultProps = {
 };
 
 SectionTag.propTypes = {
-  isFetching: PropTypes.bool.isRequired,
+  isFetching: Type.bool.isRequired,
 };
 
 export default paginateHOC(SectionTag);

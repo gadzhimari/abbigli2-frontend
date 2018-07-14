@@ -4,15 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import {
-  ListWithNew,
-  SliderBar,
-  ChoiseFilter,
-} from '../../components';
+import { ListWithNew, SliderBar, ChoiseFilter, SliderBarCard } from '../../components';
 
 import { Spin, BreadCrumbs } from '../../components-lib';
 import { Blog } from '../../components-lib/Cards';
-import BlogSection from '../../components/SliderBar/components/BlogSection';
 
 import paginateHOC from '../../HOC/paginate';
 
@@ -28,11 +23,6 @@ const popularFilterOptions = [
   { title: __t('Popular'), value: 'month' }
 ];
 
-const itemProps = {
-  baseUrl: '/blogs',
-  isBlog: true,
-};
-
 class BlogsPage extends PureComponent {
   static propTypes = {
     changeSearchValue: PropTypes.func,
@@ -45,8 +35,6 @@ class BlogsPage extends PureComponent {
 
   componentDidMount() {
     this.fetchData();
-
-    document.body.classList.add('blogs-page');
   }
 
   componentDidUpdate(prevProps) {
@@ -57,15 +45,11 @@ class BlogsPage extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    document.body.classList.remove('blogs-page');
-  }
-
   fetchData = () => {
-    const { query, fetchBlogs } = this.props;
+    const { query, fetchBlogs, params } = this.props;
 
     const options = {
-      category: query.category,
+      category: params.category,
       search: query.search,
       popular: query.popular
     };
@@ -78,10 +62,10 @@ class BlogsPage extends PureComponent {
   }
 
   changeFilter = (e, { value }) => {
-    const { router, query } = this.props;
+    const { router, query, location } = this.props;
 
     router.push({
-      pathname: '/blogs',
+      pathname: location.pathname,
       query: {
         ...query,
         popular: value
@@ -94,14 +78,14 @@ class BlogsPage extends PureComponent {
   })
 
   doSearch = () => {
-    const { router, query } = this.props;
+    const { router, query, location } = this.props;
     const { searchValue } = this.state;
     const search = searchValue.trim();
 
     if (search.length === 0) return;
 
     router.push({
-      pathname: '/blogs',
+      pathname: location.pathname,
       query: { ...query, search }
     });
   }
@@ -119,16 +103,18 @@ class BlogsPage extends PureComponent {
     const {
       isFetching,
       items,
-      sections,
+      categories,
       renderPaginator,
+      params,
       query
     } = this.props;
 
-    const section = sections.find(item => item.slug === query.category);
+    const currentCategory = categories && categories
+      .find(item => item.slug === params.category);
 
     return (
       <main className="main blog">
-        <BreadCrumbs page="blogs" />
+        <BreadCrumbs page="blogs" category={currentCategory} />
 
         <div className="content">
           <h1 className="section-title">
@@ -138,18 +124,13 @@ class BlogsPage extends PureComponent {
 
             {__t('Blogs')}
 
-            {section && ` - ${section.title}`}
+            {currentCategory && ` - ${currentCategory.title}`}
           </h1>
 
-          {sections.length > 0 &&
-            <SliderBar
-              sliderName="slider-category"
-              items={sections}
-              ItemComponent={BlogSection}
-              itemWidth={120}
-              itemProps={itemProps}
-            />
-          }
+          <SliderBar
+            items={categories}
+            ItemComponent={SliderBarCard}
+          />
 
           <div className="filter filter-search">
             <ChoiseFilter
@@ -210,7 +191,7 @@ const mapStateToProps = ({ Blogs, Sections, Location }) => ({
   isFetching: Blogs.blogsFetchingState,
   items: Blogs.page.items,
   searchValue: Blogs.searchValue,
-  sections: Sections.items,
+  categories: Sections.blogsCategories,
   pagesCount: Blogs.page.count,
 
   query: Location.query

@@ -33,4 +33,6 @@ export { default as ChoiseFilter } from './ChoiseFilter';
 export { default as NoMatch } from './NoMatch';
 export { default as Avatar } from './Avatar';
 export { default as Image } from './Image';
+export { default as SliderBarCard } from './SliderBar/components/SliderBarCard';
+export { default as SliderBarTag } from './SliderBar/components/SliderBarTag';
 
