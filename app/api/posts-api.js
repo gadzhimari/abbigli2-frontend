@@ -1,78 +1,85 @@
-import request from './instance';
+import { requestV2 } from './instance';
+import { pageSize } from '../lib/calculatePagesCount';
 
-const Posts = {
+export default {
   getPosts(params) {
-    return request({
-      url: 'posts/',
-      params,
-      canApplyToken: true,
+    return requestV2({
+      url: '/posts/',
+      params: {
+        page_size: pageSize,
+        ...params
+      },
+      canApplyToken: true
+    });
+  },
+  getPostsCategories() {
+    return requestV2({
+      url: '/posts/categories/',
+      canApplyToken: true
     });
   },
   getPost(slug, token) {
-    return request({
-      url: `posts/${slug}/`,
+    return requestV2({
+      url: `/posts/${slug}/`,
       canApplyToken: true,
-      token,
+      token
     });
   },
-  getSimilarPosts(slug) {
-    return request({
-      url: `posts/${slug}/similar/`,
-      canApplyToken: true,
-    });
-  },
-  getUsersPosts(userId, params) {
-    return request({
-      url: `profiles/${userId}/posts/`,
-      params,
-      canApplyToken: true,
-    });
-  },
-  toggleFavorite(slug) {
-    return request({
+  like(slug) {
+    return requestV2({
       method: 'POST',
-      url: `posts/${slug}/favorite/`,
+      url: `/posts/${slug}/like/`,
       mustApplyToken: true,
     });
   },
-  likePost(slug) {
-    return request({
-      method: 'POST',
-      url: `posts/${slug}/like/`,
-      mustApplyToken: true,
-    });
-  },
-  createPost(data) {
-    return request({
+  create(data) {
+    return requestV2({
       url: '/posts/',
       mustApplyToken: true,
       method: 'POST',
       data,
     });
   },
-  editPost(data, slug) {
-    return request({
+  edit(data, slug) {
+    return requestV2({
       url: `/posts/${slug}/`,
       mustApplyToken: true,
       method: 'PATCH',
       data,
     });
   },
-  deletePost(slug) {
-    return request({
+  delete(slug) {
+    return requestV2({
       url: `/posts/${slug}/`,
       mustApplyToken: true,
       method: 'DELETE',
     });
   },
-  getSpecificPosts(specific, params) {
-    const url = specific ? `posts/${specific}/` : 'posts/';
-    return request({
-      url,
+  getSimilarPosts(slug) {
+    return requestV2({
+      url: `/posts/${slug}/similar/`,
       canApplyToken: true,
-      params,
     });
   },
+  createComment(slug, data) {
+    return requestV2({
+      url: `/posts/${slug}/comments/`,
+      method: 'POST',
+      data,
+      mustApplyToken: true,
+    });
+  },
+  getComments(slug) {
+    return requestV2({
+      url: `/posts/${slug}/comments/`,
+      canApplyToken: true,
+    });
+  },
+  toggleFavorite(slug) {
+    return requestV2({
+      url: `/posts/${slug}/favorite/`,
+      method: 'POST',
+      mustApplyToken: true
+    });
+  }
 };
-
-export default Posts;

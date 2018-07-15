@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AvatarPost from './AvatarPost';
-import Avatar from './Avatar';
+import Avatar from '../../../components/Avatar';
 
 import toLocaleDateString from '../../../lib/date/toLocaleDateString';
 import { DAY_WITH_FULL_MONTH } from '../../../lib/date/formats';
@@ -13,17 +13,27 @@ const DialogItem = ({
   deleteDialog,
 }) => {
   const onClickDialog = () => onClick(data.id);
-  const onDelete = () => deleteDialog(
-    data.id,
-    data.recipient.id,
-    data.recipient.profile_name,
-    data.recipient.avatar,
-    data.recipient.city,
-  );
+  const onDelete = (e) => {
+    e.stopPropagation();
+
+    deleteDialog(
+      data.id,
+      data.recipient.id,
+      data.recipient.profile_name,
+      data.recipient.avatar,
+      data.recipient.city
+    );
+  };
 
   const dialogClass = isActive
     ? 'dialog active'
     : 'dialog';
+
+  const avatarProps = {
+    thumbSize: '60x60',
+    avatar: data.recipient.avatar,
+    alt: data.recipient.profile_name || `User ID: ${data.recipient.id}`
+  };
 
   return (
     <div
@@ -39,16 +49,16 @@ const DialogItem = ({
       </svg>
       <div className="dialog__avatar dialog__avatar_goods">
         {
-          data.post
+          data.object
             ? <AvatarPost
-              avatar={data.recipient.avatar}
-              alt={data.recipient.profile_name || `User ID: ${data.recipient.id}`}
-              postImg={data.post.image}
-              postAlt={data.post.title}
+              {...avatarProps}
+              postImg={data.object.image}
+              postAlt={data.object.title}
             />
             : <Avatar
-              avatar={data.recipient.avatar}
-              alt={data.recipient.profile_name || `User ID: ${data.recipient.id}`}
+              {...avatarProps}
+              className="avatar avatar_round"
+              imgClassName="avatar__image"
             />
         }
       </div>

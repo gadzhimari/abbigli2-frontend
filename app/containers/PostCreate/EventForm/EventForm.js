@@ -23,16 +23,15 @@ class EventForm extends CreateForm {
 
     this.state = mergeObjects(getItemFromSessionStorage(this.sessionStorageKey, {
       title: '',
-      content: '',
+      description: '',
       tags: '',
       images: [],
-      categories: null,
-      date_start: null,
-      date_end: null,
+      category: null,
+      start: null,
+      end: null,
       city: null,
       cityOptions: undefined
     }), props.data);
-
   }
 
   render() {
@@ -48,11 +47,11 @@ class EventForm extends CreateForm {
             ...imageZoneProps } = this.props;
 
     const { title,
-            content,
+            description,
             tags,
-            categories,
-            date_start: dateStart,
-            date_end: dateEnd,
+            category,
+            start,
+            end,
             city,
             cityOptions } = this.state;
 
@@ -74,20 +73,21 @@ class EventForm extends CreateForm {
           />
 
           <Select
-            wrapperClass="add-tabs__form-field"
-            className="add-tabs__select"
+            className="add-tabs__form-field"
+            selectClassName="add-tabs__select"
             label={__t('Choose category')}
             placeholder=""
             options={sections}
             optionsAdapter={categoriesAdapter}
             onChange={this.onChange}
-            value={categories}
-            name="categories"
+            value={category}
+            name="category"
+            errors={errors.category}
           />
 
           <CitySelect
-            wrapperClass="add-tabs__form-field input-wrap"
-            className="add-tabs__select"
+            className="add-tabs__form-field"
+            selectClassName="add-tabs__select"
             label={__t('Place')}
             placeholder=""
             value={city}
@@ -104,10 +104,10 @@ class EventForm extends CreateForm {
             <ErrorInput
               wrapperClass="input-wrap add-tabs__form-calendar input-date"
               wrapperErrorClass="error"
-              value={dateStart || ''}
+              value={start || ''}
               onChange={this.onChange}
-              name="date_start"
-              errors={errors.date_start}
+              name="start"
+              errors={errors.start}
               component={DateInput}
               className="input"
               label={__t('Start.date')}
@@ -117,10 +117,10 @@ class EventForm extends CreateForm {
             <ErrorInput
               wrapperClass="input-wrap add-tabs__form-calendar input-date"
               wrapperErrorClass="error"
-              value={dateEnd || ''}
+              value={end || ''}
               onChange={this.onChange}
-              name="date_end"
-              errors={errors.date_end}
+              name="end"
+              errors={errors.end}
               component={DateInput}
               className="input"
               label={__t('End.date')}
@@ -141,8 +141,9 @@ class EventForm extends CreateForm {
             wrapperClass="add-tabs__form-field"
             className="textarea"
             onChange={this.onChange}
-            name="content"
-            value={content}
+            name="description"
+            value={description}
+            errors={errors.description}
             label={__t('Description')}
           />
 

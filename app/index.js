@@ -6,7 +6,6 @@ import Router from 'react-router/lib/Router';
 import browserHistory from 'react-router/lib/browserHistory';
 import match from 'react-router/lib/match';
 
-import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import 'babel-polyfill';
 
@@ -18,7 +17,8 @@ import getRoutes from './routes';
 import store from './store/store';
 
 import parseQuery from './lib/parse-query';
-import { createHistoryListener } from './lib/analitics';
+import { googleSetPage } from './lib/analitics';
+import { syncLocationWithStore } from './ducks/Location';
 
 import { DOMAIN_URL } from './config';
 
@@ -31,12 +31,11 @@ function renderApp() {
     container.removeChild(container.firstChild);
   }
 
-  const history = syncHistoryWithStore(browserHistory, store);
   const routes = getRoutes(store);
 
   const routerParams = {
     routes,
-    history,
+    history: browserHistory
   };
 
   if (location.pathname === '/search') {
@@ -56,7 +55,9 @@ function renderApp() {
     routerParams.location = location.pathname;
   }
 
-  createHistoryListener(history);
+  // Слушатели изменений браузерной истории
+  browserHistory.listen(googleSetPage);
+  browserHistory.listen(syncLocationWithStore);
 
   // убираем хэш оставленный от входа через oauth
   if (/#.*$/.test(location.href)) {
@@ -67,7 +68,7 @@ function renderApp() {
     render(
       <Provider store={store}>
         <Geolocation>
-          <Router history={history} {...renderProps} />
+          <Router history={browserHistory} {...renderProps} />
         </Geolocation>
       </Provider>, container);
   });

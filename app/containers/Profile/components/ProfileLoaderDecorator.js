@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import Helmet from 'react-helmet';
@@ -54,16 +53,15 @@ const ProfileLoaderDecorator = Profile => class extends Component {
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={data.info} />
+
           {mustNofollow(childrenPath) &&
             <meta name="robots" content="noindex, follow" />
           }
         </Helmet>
 
         {isFetching &&
-          <div className="container-fluid">
-            <div className="spin-wrapper">
-              <Spin visible={isFetching} />
-            </div>
+          <div className="spin-wrapper">
+            <Spin visible={isFetching} />
           </div>
         }
 

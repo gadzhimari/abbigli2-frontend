@@ -47,13 +47,13 @@ export default class CitySelect extends PureComponent {
 
   render() {
     const { compact, ...selectProps } = this.props;
-    const { wrapperClass, label } = selectProps;
+    const { selectClassName, label } = selectProps;
 
     delete selectProps.openPopup;
 
     if (compact) {
       return (
-        <div className={wrapperClass}>
+        <div className={selectClassName}>
           {label &&
             <label className="label" htmlFor={this.id}>
               {label}

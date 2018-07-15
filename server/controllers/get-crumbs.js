@@ -1,21 +1,21 @@
-import getCatalogStore from '../lib/catalog/getCatalogStore';
+import getCatalogFromStore from '../lib/catalog/getCatalogStore';
 import createCrumbs from '../lib/createCrumbs';
 import getPromo from '../lib/getPromo';
 
-export default (req, res) => {
-  getCatalogStore(['normalizedCategories', 'promo'], (result) => {
-    const slugs = req.query.slugs;
-    const crumbs = createCrumbs(slugs, ...result);
+export default async function getCrumbs(req, res) {
+  const result = await getCatalogFromStore(['normalizedCategories', 'promo']);
 
-    if (!crumbs) {
-      return res.status(404).send({ message: 'Not found' });
-    }
+  const slugs = req.query.slugs;
+  const crumbs = createCrumbs(slugs, result);
 
-    const promoCategories = result[1];
-    const currentCategory = crumbs[crumbs.length - 1];
+  if (!crumbs) {
+    return res.status(404).send({ message: 'Not found' });
+  }
 
-    const promo = getPromo(currentCategory, promoCategories);
+  let { promo } = result;
+  const currentCategory = crumbs[crumbs.length - 1];
 
-    return res.send({ crumbs, promo });
-  });
+  promo = getPromo(currentCategory, promo);
+
+  return res.send({ crumbs, promo });
 };

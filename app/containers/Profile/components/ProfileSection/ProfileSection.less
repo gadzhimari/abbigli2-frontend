@@ -1,0 +1,51 @@
+@import '../../../../components-lib/__base/variables/colors';
+@import '../../../../components-lib/__base/variables/typography';
+
+.ProfileSection {
+  margin-bottom: 10px;
+
+  &__title {
+    margin-top: 0;
+    font-family: 'ClearSansBold';
+    font-size: 20px;
+  }
+
+  &__section {
+    min-height: 100px;
+    margin-bottom: 20px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #dcdcdc;
+  }
+
+  &__text {
+    font-family: @font;
+    font-size: @font-size-medium;
+    color: @gray-600;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ProfileSection {
+    &__section {
+      .ReadMore__button {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .ProfileSection__text {
+        margin-bottom: 10px;
+      }
+    }
+
+    &__header {
+      .ProfileSection__edit {
+        margin-bottom: 10px;
+      }
+    }
+
+    &__title {
+      margin-bottom: 10px;
+    }
+  }
+}

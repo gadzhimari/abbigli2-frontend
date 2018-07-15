@@ -9,7 +9,7 @@ export const {
 } = createActions(
   'FETCH_BLOGS_REQUEST',
   'FETCH_BLOGS_SUCCESS',
-  'FETCH_BLOGS_FAILED',
+  'FETCH_BLOGS_FAILURE',
   'CHANGE_BLOGS_SEARCH_VALUE'
 );
 export const fetchBlogs = options => async (dispatch) => {

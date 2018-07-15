@@ -16,7 +16,7 @@ class OtherArticles extends PureComponent {
   };
 
   render() {
-    const { articles, data } = this.props;
+    const { articles, data, type } = this.props;
     if (!articles || articles.length === 0) {
       return null;
     }
@@ -30,15 +30,15 @@ class OtherArticles extends PureComponent {
           to={createProfileLink(data)}
         />
         {
-          articles && articles.slice(0, 4)
+          articles.slice(0, 4)
             .map(article => (
               <Link
                 className="other-articles__item"
                 key={article.id}
-                to={createPostLink(article)}
+                to={createPostLink(article, type)}
               >
                 <Image
-                  src={article.images[0] && article.images[0].file}
+                  src={article.image}
                   thumbSize="120x103"
                   alt={article.title}
                 />

@@ -3,7 +3,7 @@
 import { connect } from 'react-redux';
 
 import { React, PureComponent } from '../../../../components-lib/__base';
-import { Button } from '../../../../components-lib';
+import { Button, Icon } from '../../../../components-lib';
 
 import Link from '../../../Link/Link';
 
@@ -37,6 +37,14 @@ class ProfileLinks extends PureComponent {
     return (
       <div className="profile-my">
         <div className="main__overlay" />
+        <Link
+          className="profile-my__item"
+          to={`/profile/${data.id}/feed`}
+        >
+          <Icon size="xs" glyph="feed" className="icon" />
+
+          {__t('Feed')}
+        </Link>
         <Link
           className="profile-my__item"
           to="/chat"
@@ -87,7 +95,7 @@ class ProfileLinks extends PureComponent {
           </svg>
           {__t('Likes')}
           <div className="profile-my__item-number">
-            {data.likes_num}
+            {data.favorites_num}
           </div>
         </div>
       </div >
@@ -123,7 +131,7 @@ class ProfileLinks extends PureComponent {
         </svg>
         {__t('Likes')}
         <div className="profile-my__item-number">
-          {this.props.data.likes_num}
+          {this.props.data.followers_count}
         </div>
       </div>
 

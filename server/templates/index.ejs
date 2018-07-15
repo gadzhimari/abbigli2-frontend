@@ -6,23 +6,17 @@
   <link rel="canonical" href="<%= canonical %>" />
   <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
   <%- seo.title %>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-    <%- seo.meta %>
-      <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
-      <meta name="viewport" content="width=device-width,initial-scale=1.0">
-      <style>
-        <%- criticalCss %>.mobile-menu {
-          display: none;
-        }
-      </style>
-      <%- metriks %>
-        <script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <script>
-          (window.adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-8128249301004337",
-            enable_page_level_ads: true
-          });
-        </script>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+  <%- seo.meta %>
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+  <style>
+    .mobile-menu { display: none; }
+  </style>
+  <link rel="stylesheet" href="<%= assetsUrl %><%= assets.css %>">
+
+  <%- metriks %>
 </head>
 
 <body>
@@ -53,7 +47,7 @@
     <%- markup %>
   </div>
   <script>
-    window.PRELOADED_STATE = <% - JSON.stringify(decodeURI(store)) %>;
+    window.PRELOADED_STATE = <%-JSON.stringify(decodeURI(store)) %>;
   </script>
 
   <script src="/js/jQuery_1.11.min.js" defer></script>
@@ -61,7 +55,6 @@
   <script src="/js/source.js" defer></script>
   <script src="<%= assetsUrl %><%= assets.js %>" defer></script>
   <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
-  <link rel="stylesheet" href="<%= assetsUrl %><%= assets.css %>">
 </body>
 
 </html>

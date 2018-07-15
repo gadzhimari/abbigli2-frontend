@@ -2,14 +2,15 @@
 import redis from 'redis';
 import util from 'util';
 
-import { isProduction, isTesting } from '../config';
+import config from '../config';
 
-const disableRedis = !isProduction && !isTesting && process.env.LOCAL_REDIS !== 'yes';
+const db = process.env.REDIS_DB;
+const disableRedis = !config.isProduction && !config.isTesting && process.env.LOCAL_REDIS !== 'yes';
 let client = {};
 
 if (!disableRedis) {
   client = redis.createClient({
-    db: process.env.REDIS_DB,
+    db,
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
   });

@@ -3,8 +3,6 @@ import Type from 'prop-types';
 
 import Image from '../Image';
 
-// TODO: После того, как сделаем svg спрайт
-// нужно будет использовать его вместо инлайновой картинки
 class Avatar extends PureComponent {
   static propTypes = {
     avatar: Type.string,

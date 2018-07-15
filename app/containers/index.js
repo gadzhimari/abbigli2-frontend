@@ -12,7 +12,7 @@ export { default as ProfileFavorites } from './ProfileFavorites';
 export { default as ProfileFeed } from './ProfileFeed';
 export { default as ProfileAbout } from './ProfileAbout';
 export { default as ProfileLK } from './LK';
-export { default as ProfileRaiseAds } from './ProfileRaiseAds';
+export { default as RaiseAds } from './RaiseAds';
 export { default as BlogsPage } from './BlogsPage/BlogsPage';
 export { default as BlogPage } from './BlogPage/BlogPage';
 export { default as EventsPage } from './EventsPage/EventsPage';
@@ -21,7 +21,8 @@ export { default as SpecificPostsPage } from './SpecificPostsPage/SpecificPostsP
 export { default as PostCreate } from './PostCreate';
 export { default as Faq } from './Faq';
 export { default as Agreement } from './Agreement';
-export { default as RelativePage } from './RelativePage';
 export { default as PeopleSearch } from './PeopleSearch';
+export { default as ProfileEvents } from './ProfileEvents';
+export { default as ProfileBlogs } from './ProfileBlogs';
 export { default as ForMasters } from './ForMasters';
 export { default as PrivacyPolicy } from './PrivacyPolicy/PrivacyPolicy';

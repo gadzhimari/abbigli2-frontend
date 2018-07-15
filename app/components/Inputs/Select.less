@@ -1,0 +1,17 @@
+@import '../../components-lib/__base/variables/colors';
+@import '../../components-lib/__base/variables/fonts';
+
+.Selector {
+  &_error {
+    .Select {
+      border-color: @error !important;
+    }
+  }
+
+  &__error {
+    font-size: @size-medium;
+    color: @error;
+
+    margin-top: 5px;
+  }
+}

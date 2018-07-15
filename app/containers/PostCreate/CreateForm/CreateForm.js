@@ -18,14 +18,10 @@ class CreateForm extends PureComponent {
   constructor(props) {
     super(props);
 
-    bindMethods(this, [
-      'onChange',
-      'onSave',
-      'onCancel'
-    ]);
+    bindMethods(this, ['onSave']);
   }
 
-  onChange(e, { value, name }) {
+  onChange = (e, { value, name }) => {
     this.setState(
       { [name]: value },
       () => setItemToSessionStorage(this.sessionStorageKey, this.state)
@@ -38,7 +34,7 @@ class CreateForm extends PureComponent {
     savePost(this.state, params.slug, this.sessionStorageKey);
   }
 
-  onCancel(e, { name }) {
+  onCancel = (e, { name }) => {
     this.gaSendEvent(name);
     this.props.onCancel();
   }

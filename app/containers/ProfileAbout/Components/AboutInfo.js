@@ -1,51 +1,103 @@
-import { React, PureComponent, Type } from '../../../components-lib/__base';
+import { React, PureComponent, Type, Fragment, cn, connect } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
+import RedactorForm from '../../Profile/components/RedactorForm';
 
 import { processBlogContent } from '../../../lib/process-html';
+import { saveChanges } from '../../../ducks/Profile/actions';
+
 import { __t } from '../../../i18n/translator';
 
+@cn('ProfileAbout')
 class AboutInfo extends PureComponent {
   static propTypes = {
-    info: Type.string,
+    text: Type.string,
     isMe: Type.bool,
-    handleEditing: Type.func,
   }
 
   static defaultProps = {
-    info: null,
     isMe: false,
-    handleEditing: () => { },
   }
 
-  handleEditing = () => {
-    this.props.handleEditing(true);
+  state = {
+    isEditing: false,
   }
 
-  render() {
-    const { info, isMe } = this.props;
+  handleSubmit = (data) => {
+    this.props.saveChanges(data)
+      .then(status => status && this.handleCancel());
+  }
+
+  handleEdit = () => {
+    this.setState({
+      isEditing: true,
+    });
+  }
+
+  handleCancel = () => {
+    this.setState({
+      isEditing: false,
+    });
+  }
+
+  renderRedactorForm = () => {
+    const { isSaving, text } = this.props;
+
+    return (<RedactorForm
+      id="description"
+      value={text}
+      isSaving={isSaving}
+      placeholder={__t('Information about your page')}
+      onSubmit={this.handleSubmit}
+      onCancel={this.handleCancel}
+    />);
+  }
+
+  renderContent = (cn) => {
+    const { text, isMe } = this.props;
     const noContentText = isMe ?
       __t('You did not provide your contact information yet') :
       __t('The user has not yet filled out information about themselves');
 
     return (
-      <div className="profile-about__info">
-        {isMe &&
+      <Fragment>
+        <div className={cn('text')}>
+          { text ? processBlogContent(text) : noContentText }
+        </div>
+
+        { isMe &&
           <Button
-            onClick={this.handleEditing}
+            view="link"
+            onClick={this.handleEdit}
             text={__t('Edit')}
           />
         }
+      </Fragment>
+    );
+  }
 
-        <h3 className="profile-about__header">
-          {isMe ? __t('Your contact information') : __t('User contact information')}
+  render(cn) {
+    const { isMe } = this.props;
+    const { isEditing } = this.state;
+
+    return (
+      <div className={cn('info')}>
+        <h3 className={cn('header')}>
+          { isMe ? __t('Your contact information') : __t('User contact information') }
         </h3>
 
-        <p className="profile-about__text">
-          {info ? processBlogContent(info) : noContentText}
-        </p>
+        { isEditing ? this.renderRedactorForm() : this.renderContent(cn) }
       </div>
     );
   }
 }
 
-export default AboutInfo;
+const mapStateToProps = state => ({
+  data: state.Profile.data,
+  isSaving: state.Profile.isSaving,
+});
+
+const mapDispatchToProps = dispatch => ({
+  saveChanges: data => dispatch(saveChanges(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AboutInfo);

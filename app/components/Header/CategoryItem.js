@@ -10,7 +10,7 @@ class CategoryItem extends PureComponent {
     item: PropTypes.shape({
       slug: PropTypes.string,
       title: PropTypes.string,
-      view_on_site_url: PropTypes.string,
+      url: PropTypes.string,
       children: PropTypes.array,
     }).isRequired,
     hideCategory: PropTypes.func.isRequired,
@@ -29,7 +29,7 @@ class CategoryItem extends PureComponent {
       >
         <Link
           className="header-category__title"
-          to={item.view_on_site_url}
+          to={item.url}
           onClick={hideCategory}
         >
           {item.title}
@@ -43,7 +43,7 @@ class CategoryItem extends PureComponent {
               return (<Link
                 className="header-category__name"
                 key={child.id}
-                to={child.view_on_site_url}
+                to={child.url}
                 onClick={hideCategory}
               >
                 {child.title}
@@ -53,7 +53,7 @@ class CategoryItem extends PureComponent {
         {item.children.length > 4 &&
           <Link
             className="header-category__name"
-            to={item.view_on_site_url}
+            to={item.url}
             onClick={hideCategory}
           >
             {__t('More')}

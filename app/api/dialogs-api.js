@@ -1,4 +1,4 @@
-import request from './instance';
+import { request } from './instance';
 
 const Dialogs = {
   createDialog(data) {

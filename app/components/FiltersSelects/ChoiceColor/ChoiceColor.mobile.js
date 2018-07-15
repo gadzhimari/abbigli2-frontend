@@ -16,10 +16,10 @@ class ChoiceColor extends Component {
   }
 
   render(cn) {
-    const { activeColor, onChange, className } = this.props;
+    const { activeColor, onChange } = this.props;
 
     return (
-      <div className={cn(className)}>
+      <div className={cn()}>
         <div className={cn('label')}>
           {__t('Pick a color')}
         </div>

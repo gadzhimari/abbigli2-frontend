@@ -1,26 +1,16 @@
+import { createAction } from 'redux-actions';
+
 import { Profile } from '../../../api';
 import onlyAuthAction from '../../../lib/redux/onlyAuthAction';
 import store from '../../../store/store';
 
-import { CHANGE_FOLLOWING_STATUS, FOLLOW_USER, UNFOLLOW_USER } from './types';
-
-const changeFollowStatus = status => ({
-  payload: status,
-  type: CHANGE_FOLLOWING_STATUS,
-});
-
-const followUser = followerData => ({
-  type: FOLLOW_USER,
-  payload: followerData,
-});
-
-const unfollowUser = followerId => ({
-  type: UNFOLLOW_USER,
-  payload: followerId,
-});
+export const changeFollowStatus = createAction('CHANGE_FOLLOW_STATUS');
+export const followUser = createAction('FOLLOW_USER');
+export const unfollowUser = createAction('UNFOLLOW_USER');
 
 const follow = (id, prevStatus) => (dispatch) => {
   dispatch(changeFollowStatus(true));
+
   const { me } = store.getState().Auth;
 
   Profile.follow(id)

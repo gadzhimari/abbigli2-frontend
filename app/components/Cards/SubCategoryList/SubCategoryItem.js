@@ -6,7 +6,7 @@ import Link from '../../Link/Link';
 const SubCategoryItem = ({ data }) => (
   <Link
     className="category-button"
-    to={data.view_on_site_url}
+    to={data.url}
   >
     {data.title}
   </Link>

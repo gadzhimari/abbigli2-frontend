@@ -41,7 +41,7 @@
     &_event {
 
     }
-    &_blog {
+    &_post {
       &.Card_view {
         &_1 {
           .Card {
@@ -55,13 +55,6 @@
           }
         }
       }
-    }
-
-    &_attach {
-      min-height: 275px;
-      padding: 10px;
-      outline: 1px dashed @blue;
-      outline-offset: -10px;
     }
   }
 
@@ -325,31 +318,6 @@
         fill: #c7c7c7;
       }
     }
-
-    &_attach {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      font-family: 'ClearSansBold';
-      .Link__icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 64px;
-        height: 64px;
-        margin-bottom: 26px;
-        border-radius: 50%;
-        background-color: @primary;
-      }
-
-      &:hover {
-        .Link__text {
-          text-decoration: none;
-        }
-      }
-    }
   }
 
   &__img {
@@ -380,8 +348,9 @@
         justify-content: center;
       }
     }
-
+  
     .text-truncate();
+
     .Link__text {
       overflow: hidden;
     }

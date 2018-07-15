@@ -3,16 +3,34 @@
   &__price {
     display: inline-block;
     vertical-align: top;
-    width: 25%;
-    margin-right: 5%;
+    padding-right: 10px;
+    width: 30%;
   }
 
   &__choiceColor {
-     display: inline-block;
-      vertical-align: top;
-      width: 70%;
-      &__label {
-        margin-bottom: 7px;
-      }
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 10px;
+    width: 70%;
+
+    &__label {
+      margin-bottom: 7px;
+    }
+  }
+}
+
+@media all and (max-width: 1000px) {
+  .ProductForm {
+    &__price, &__choiceColor {
+      width: 50%;
+    }
+  }
+}
+
+@media all and (max-width: 620px) {
+  .ProductForm {
+    &__price, &__choiceColor {
+      width: 100%;
+    }
   }
 }

@@ -1,7 +1,3 @@
-import * as actions from '../actionTypes';
+import { createAction } from 'redux-actions';
 
-const resetData = () => ({
-  type: actions.RESET_POST,
-});
-
-export default resetData;
+export default createAction('RESET_DATA');

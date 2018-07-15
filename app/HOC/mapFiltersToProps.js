@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { updateOptions } from '../ducks/Popup/actions';
@@ -16,37 +16,17 @@ const omitInvalidData = (object) => {
   return newObject;
 };
 
-const mapFiltersToProps = WrappedComponent => class MapFilters extends
-Component {
+const mapFiltersToProps = WrappedComponent => class MapFilters extends PureComponent {
   static propTypes = {
-    routing: PropTypes.shape({
-      query: PropTypes.object,
-      pathname: PropTypes.string,
-    }),
     router: PropTypes.shape({
       push: PropTypes.func,
     }).isRequired,
     dispatch: PropTypes.func.isRequired,
   }
 
-  static defaultProps = {
-    routing: {
-      query: {},
-    },
-  }
-
-  constructor(props) {
-    super(props);
-
-    const { routing } = props;
-    let filters = {};
-
-    if (routing && routing.query) {
-      filters = Object.assign(filters, routing.query);
-    }
-
-    this.state = filters;
-  }
+  state = {
+    ...this.props.query
+  };
 
   updateFilter = (event) => {
     event.stopPropagation();
@@ -65,12 +45,11 @@ Component {
   }
 
   applyFilters = () => {
-    const { routing, router } = this.props;
-    const query = Object.assign({}, omitInvalidData(this.state));
+    const { router } = this.props;
 
     router.push({
-      pathname: routing.pathname,
-      query,
+      pathname: router.location.pathname,
+      query: omitInvalidData(this.state)
     });
   }
 
@@ -82,20 +61,13 @@ Component {
   }
 
   changeFiltersType = ({ target }) => {
-    const { router, routing } = this.props;
-    const query = Object.assign({}, {
-      type: target.getAttribute('data-value'),
-      tags: this.state.tags,
-    });
+    const { router } = this.props;
+    const type = target.getAttribute('data-value');
 
-    this.setState({
-      type: target.getAttribute('data-value'),
-    });
+    const query = { type, tags: this.state.tags };
+    this.setState({ type });
 
-    router.push({
-      pathname: routing.pathname,
-      query,
-    });
+    router.push({ pathname: router.location.pathname, query });
   }
 
   updateFilterPopupOptions = (options) => {
@@ -105,7 +77,7 @@ Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.routing.query);
+    this.setState(nextProps.query);
   }
 
   render() {

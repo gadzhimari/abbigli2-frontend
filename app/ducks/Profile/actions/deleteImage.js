@@ -1,15 +1,9 @@
-import * as types from './types';
+import { createAction } from 'redux-actions';
 
-import { Profile } from 'API';
-
+import { Profile } from '../../../api';
 import { setMe } from '../../Auth/authActions/fetchMe';
 
-const deleteImageRequest = imageName => ({
-  type: types.IMAGE_DELETE_REQUEST,
-  data: {
-    [imageName]: null,
-  },
-});
+export const deleteImageRequest = createAction('IMAGE_DELETE_REQUEST');
 
 const deleteImage = (name) => {
   const formData = new FormData();

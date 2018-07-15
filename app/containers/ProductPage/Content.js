@@ -20,9 +20,7 @@ class ProductContent extends PureComponent {
   }
 
   onFavoriteClick = () => {
-    const { onFavoriteClick, data } = this.props;
     gaSendClickEvent('product', 'add_to_favotites');
-    onFavoriteClick(data.slug);
   }
 
   onShareClick = (e, { socialCode }) => {
@@ -37,11 +35,11 @@ class ProductContent extends PureComponent {
         images,
         tags,
         title,
-        content,
-        favorite,
+        description,
         price,
         slug,
-      }
+      },
+      ...favoriteAddProps
     } = this.props;
     const imageUrl = images && images[0] && images[0].file;
 
@@ -59,15 +57,15 @@ class ProductContent extends PureComponent {
             <div className="goods-post__info">
               <div className="goods-post__favourite">
                 <FavoriteAdd
-                  toggleFavorite={this.onFavoriteClick}
-                  isFavorited={favorite}
+                  {...favoriteAddProps}
+                  onClick={this.onFavoriteClick}
                 />
               </div>
 
               <Title title={title} />
 
               <p itemProp="description">
-                {content}
+                {description}
               </p>
 
               <div className="goods-post__buttons">

@@ -1,3 +1,4 @@
+import MaskedInput from 'react-text-mask';
 import { React, PureComponent, cn } from '../__base';
 
 import './Input.less';
@@ -25,8 +26,15 @@ class Input extends PureComponent {
   }
 
   onChange = (e) => {
-    const { onChange, name } = this.props;
-    const { value } = e.target;
+    const { onChange, name, mask } = this.props;
+    const formattedValue = e.target.value;
+
+    let value;
+    if (mask && mask.formatter) {
+      value = mask.formatter(formattedValue);
+    } else {
+      value = formattedValue;
+    }
 
     this.setState({ value });
 
@@ -54,14 +62,18 @@ class Input extends PureComponent {
 
   render(cn) {
     const { id, showError } = this.state;
-    const { label,
-            required,
-            Icon,
-            clearable,
-            fullWidth,
-            view,
-            errors,
-            ...otherProps } = this.props;
+    const {
+      label,
+      required,
+      Icon,
+      clearable,
+      fullWidth,
+      view,
+      errors,
+      mask,
+      formatCharacters,
+      ...otherProps
+    } = this.props;
 
     const inputProps = {
       ...otherProps,
@@ -83,6 +95,8 @@ class Input extends PureComponent {
       withError: showError
     };
 
+    const isMaskedInput = mask !== undefined;
+
     return (
       <div className={cn('wrapper', wrapperMods)}>
         {label &&
@@ -99,10 +113,14 @@ class Input extends PureComponent {
           {Icon &&
             <div className={cn('iconWrapper')}>{Icon}</div>
           }
-
-          <input
-            {...inputProps}
-          />
+          {
+            !isMaskedInput
+              ? <input {...inputProps} />
+              : <MaskedInput
+                {...inputProps}
+                mask={mask.mask}
+              />
+          }
         </div>
 
         {showError && errors && errors.length !== 0 &&

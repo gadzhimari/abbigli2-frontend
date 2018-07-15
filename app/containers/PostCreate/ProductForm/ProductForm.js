@@ -1,4 +1,4 @@
-import { React } from '../../../components-lib/__base';
+import { React, cn } from '../../../components-lib/__base';
 import { Button } from '../../../components-lib';
 
 import CreateForm from '../CreateForm/CreateForm';
@@ -15,7 +15,7 @@ import { getItemFromSessionStorage } from '../../../lib/sessionStorage';
 
 import './ProductForm.less';
 import bindMethods from '../../../lib/bindMethods';
-import cn from '../../../lib/cn';
+import parsePrice from '../../../lib/parsePrice';
 
 @cn('ProductForm')
 class ProductForm extends CreateForm {
@@ -26,7 +26,7 @@ class ProductForm extends CreateForm {
     this.state = mergeObjects(getItemFromSessionStorage(this.sessionStorageKey, {
       title: '',
       price: '',
-      content: '',
+      description: '',
       colors: ['red'],
       tags: '',
       images: [],
@@ -38,7 +38,10 @@ class ProductForm extends CreateForm {
 
   onSave(...attr) {
     this.setState(
-      { categories: this.sectionSelect.value },
+      {
+        category: this.sectionSelect.value,
+        price: parsePrice(this.state.price)
+      },
       () => super.onSave(...attr)
     );
   }
@@ -54,7 +57,7 @@ class ProductForm extends CreateForm {
     ...imageZoneProps,
     } = this.props;
 
-    const { title, price, colors, content, tags, currentCategory } = this.state;
+    const { title, price, colors, description, tags, currentCategory } = this.state;
 
     if (!visible) return null;
 
@@ -78,7 +81,7 @@ class ProductForm extends CreateForm {
             ref={(sectionSelect) => { this.sectionSelect = sectionSelect; }}
             currentCategory={currentCategory}
             categories={categories}
-            errors={errors.categories}
+            errors={errors.category}
           />
 
           <div className="add-tabs__form-field">
@@ -113,11 +116,11 @@ class ProductForm extends CreateForm {
 
         <FormBlock>
           <Textarea
-            wrapperClass="add-tabs__form-field"
-            className="textarea"
+            className="add-tabs__form-field"
             onChange={this.onChange}
-            name="content"
-            value={content}
+            name="description"
+            value={description}
+            errors={errors.description}
             label={__t('Description')}
           />
 

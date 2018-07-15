@@ -5,11 +5,14 @@ import messageSending from './messageSending';
 import messageSended from './messageSended';
 import { __t } from '../../../i18n/translator';
 
+import { PRODUCT_TYPE } from '../../../lib/constants/posts-types';
+
 const sendPostMessage = (sender, post, message) => async (dispatch) => {
   const postData = {
     subject: post.title,
-    post: post.id,
+    object_id: post.id,
     recipient: sender,
+    type: PRODUCT_TYPE
   };
 
   dispatch(messageSending());

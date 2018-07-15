@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+
+import get from 'lodash/get';
 
 import { FavoriteAdd, Share } from '../';
 import TagsList from './TagsList';
@@ -10,39 +11,27 @@ import createPostLink from '../../lib/links/post-link';
 import './Sidebar.less';
 
 class Sidebar extends PureComponent {
-  static propTypes = {
-    isFavorited: PropTypes.bool.isRequired,
-    toggleFavorite: PropTypes.func.isRequired,
-  };
-
   render() {
     const {
       newPosts,
       popularPosts,
-      isFavorited,
-      toggleFavorite,
       seeAllUrl,
       newSectionTitle,
       popularSectionTitle,
+      data,
+      type,
+
+      ...favoriteAddProps
     } = this.props;
 
-    const {
-      tags,
-      type,
-      title,
-      images,
-      slug
-    } = this.props.data;
-    const imageUrl = images && images[0] && images[0].file;
+    const { tags, title } = data;
+    const postUrl = createPostLink(data, type);
+    const imageUrl = get(data, 'images.0.file');
 
     return (
       <div className="sidebar">
         <div className="sidebar__group sidebar__group_favourite">
-          <FavoriteAdd
-            toggleFavorite={toggleFavorite}
-            isFavorited={isFavorited}
-            slug={slug}
-          />
+          <FavoriteAdd {...favoriteAddProps} />
         </div>
         <TagsList
           tags={tags}
@@ -51,7 +40,7 @@ class Sidebar extends PureComponent {
         <div className="sidebar__group sidebar__group_social">
           <Share
             buttonClass="social-btn"
-            postLink={createPostLink(this.props.data)}
+            postLink={postUrl}
             media={imageUrl}
             description={title}
           />
@@ -60,11 +49,13 @@ class Sidebar extends PureComponent {
           items={newPosts}
           title={newSectionTitle}
           seeAllUrl={seeAllUrl}
+          type={type}
         />
         <SidebarList
           items={popularPosts}
           title={popularSectionTitle}
           seeAllUrl={`${seeAllUrl}?popular=true`}
+          type={type}
         />
       </div>
     );

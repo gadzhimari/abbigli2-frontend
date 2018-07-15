@@ -1,4 +1,6 @@
 export { default as Posts } from './posts-api';
+export { default as Events } from './events-api';
+export { default as Products } from './products-api';
 export { default as Auth } from './auth-api';
 export { default as Profile } from './profile-api';
 export { default as Tags } from './tags-api';
@@ -8,4 +10,7 @@ export { default as Catalog } from './catalog-api';
 export { default as Geo } from './geo-api';
 export { default as Dialogs } from './dialogs-api';
 export { default as Comments } from './comments-api';
+export { default as Bookmarks } from './bookmarks-api';
 export { default as errorHandler } from './error-handler';
+export { default as Users } from './users-api';
+export { default as Bucket } from './bucket-api';

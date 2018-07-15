@@ -1,4 +1,4 @@
-import request from './instance';
+import { request } from './instance';
 
 const Profile = {
   getData(id, isMe) {
@@ -13,6 +13,13 @@ const Profile = {
       url: `profiles/${userId}/${type}`,
       params,
       canApplyToken: true,
+    });
+  },
+  getFeed(params) {
+    return request({
+      url: 'my-profile/feed/',
+      params,
+      mustApplyToken: true
     });
   },
   getFollowers(id, isMe, isAuth, type, params) {
@@ -31,6 +38,29 @@ const Profile = {
       data,
     });
   },
+  addContact(data) {
+    return request({
+      url: 'my-profile/contacts/',
+      method: 'POST',
+      mustApplyToken: true,
+      data,
+    });
+  },
+  deleteContact(id) {
+    return request({
+      url: `my-profile/contacts/${id}/`,
+      method: 'DELETE',
+      mustApplyToken: true,
+    });
+  },
+  partialUpdateContact(id, data) {
+    return request({
+      url: `my-profile/contacts/${id}/`,
+      method: 'PATCH',
+      mustApplyToken: true,
+      data,
+    });
+  },
   follow(id) {
     return request({
       url: `profiles/${id}/follow/`,
@@ -38,18 +68,11 @@ const Profile = {
       mustApplyToken: true,
     });
   },
-  getActivePosts(userId, params) {
+  search(search) {
     return request({
-      url: `profiles/${userId}/posts`,
-      params,
+      url: 'profiles/',
       canApplyToken: true,
-    });
-  },
-  getArchivePosts(userId, params) {
-    return request({
-      url: `profiles/${userId}/posts`,
-      params,
-      canApplyToken: true,
+      params: { search }
     });
   }
 };

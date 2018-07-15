@@ -7,19 +7,19 @@ const getSVGContent = source => source.slice(source.indexOf('>') + 1).slice(0, -
 /**
  * Template: React components
  */
-const getReactSource = ({ componentName, height, width, svgPaths }) =>
-`import createIconComponent from './utils/createIconComponent';
-import React from 'react';
+const getReactSource = ({ componentName, height, width, svgPaths }) => (
+`import React from 'react';
+import createIconComponent from './utils/createIconComponent';
 const ${componentName} = createIconComponent({ content: <g>${svgPaths}</g>, height: ${height}, width: ${width} });
 ${componentName}.displayName = '${componentName}';
 export default ${componentName};
-`;
+`);
 
 /**
  * Template: createIconComponent
  */
-const getCreateIconSource = () => (`
-import { React, PureComponent, Type, cn } from '../../components-lib/__base';
+const getCreateIconSource = () => (
+`import { React, PureComponent, Type, cn } from '../../components-lib/__base';
 import '../../components-lib/Icon/Icon.less';
 
 const createIconComponent = ({ content, height, width }) =>
@@ -66,10 +66,13 @@ export default createIconComponent;
 const createReactPackage = (svgs) => {
   const files = svgs.map((svg) => {
     const { name, width, height } = svg.metadata;
-    const componentName = `Icon${lodash.upperFirst(lodash.camelCase(name))}`;
     const svgPaths = getSVGContent(svg.source);
+
+    const camelCasedName = lodash.camelCase(name);
+    const componentName = `Icon${lodash.upperFirst(camelCasedName)}`;
+
     const source = getReactSource({ componentName, width, height, svgPaths });
-    const filepath = `${name}.js`;
+    const filepath = `${camelCasedName}.js`;
 
     return { filepath, source };
   });
@@ -79,9 +82,7 @@ const createReactPackage = (svgs) => {
     source: getCreateIconSource()
   });
 
-  return {
-    files
-  };
+  return files;
 };
 
 module.exports = createReactPackage;

@@ -22,6 +22,14 @@ build_beta:
   - docker push $CI_REGISTRY/$CI_PROJECT_PATH/beta
   only:
   - staging
+  
+build_beta_ru:
+  stage: build
+  script:
+  - docker build --build-arg APP_ENV=beta-ru -t $CI_REGISTRY/$CI_PROJECT_PATH/beta-ru:$CI_COMMIT_SHA -t $CI_REGISTRY/$CI_PROJECT_PATH/beta-ru:latest .
+  - docker push $CI_REGISTRY/$CI_PROJECT_PATH/beta-ru
+  only:
+  - staging
 
 build_ru:
   stage: build
@@ -71,6 +79,24 @@ deploy_beta:
   environment:
     name: beta
     url: http://beta.abbigli.com
+  when: manual
+  only:
+  - staging
+  
+deploy_beta_ru:
+  stage: deploy
+  before_script:
+  - apk add --no-cache openssh-client
+  - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa.pub && chmod 600 ~/.ssh/id_rsa.pub
+  - ssh-add ~/.ssh/id_rsa.pub
+  - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
+  script:
+  - ssh -t abbigli@de1.abbigli.com -p 799 "cd ./dev-server && ./deploy.sh -f --token=$CI_BUILD_TOKEN --env=app-frontend-beta-ru"
+  environment:
+    name: beta-ru
+    url: http://beta.abbigli.ru
   when: manual
   only:
   - staging

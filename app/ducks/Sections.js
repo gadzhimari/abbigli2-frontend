@@ -9,8 +9,10 @@ const {
 const initalState = {
   isFetching: true,
   items: [],
-  subsections: [],
   normalizedCategories: {},
+  eventsCategories: [],
+  blogsCategories: [],
+  defaultCategories: [],
   promo: {},
 };
 
@@ -19,9 +21,11 @@ export default handleActions({
     return {
       ...state,
       items: payload.categories,
-      subsections: payload.sections,
       normalizedCategories: payload.normalizedCategories,
       promo: payload.promo,
+      eventsCategories: payload.eventsCategories,
+      blogsCategories: payload.blogsCategories,
+      defaultCategories: payload.defaultCategories,
       isFetching: false
     };
   },

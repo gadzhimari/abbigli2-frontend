@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import uniqid from 'uniqid';
 import debounce from 'lodash/debounce';
 
-import { API_URL } from '../../config';
+import { DOMAIN_URL } from '../../config';
 
 import ScrollBar from '../ScrollBar';
 
@@ -12,6 +12,7 @@ import { __t } from './../../i18n/translator';
 
 import './SearchForm.less';
 
+// TODO: Отрефакторить эту дичь
 class SearchForm extends Component {
   static propTypes = {
     onChange: PropTypes.func,
@@ -49,6 +50,8 @@ class SearchForm extends Component {
       tags: [],
     };
 
+    this.formTags = React.createRef();
+
     this.nextTagId = 0;
   }
 
@@ -63,6 +66,7 @@ class SearchForm extends Component {
   componentDidUpdate(prevProps) {
     const { mustFocus } = this.state;
     const { tags } = this.props;
+    const formTags = this.formTags.current;
 
     if (mustFocus && prevProps.tags === tags) {
       this.input.focus();
@@ -70,6 +74,11 @@ class SearchForm extends Component {
 
     if (prevProps.tags !== tags) {
       this.getTagsFromProps();
+    }
+
+    if (formTags) {
+      const scrollbarWidth = formTags.clientWidth + formTags.scrollWidth;
+      formTags.scroll(scrollbarWidth, 0);
     }
 
     const optionsList = this.optionsList;
@@ -325,7 +334,7 @@ class SearchForm extends Component {
 
     if (requestString.length < 1) return;
 
-    fetch(`${API_URL}tags/?search=${requestString}`)
+    fetch(`${DOMAIN_URL}/api/v2/tags/?search=${requestString}`)
       .then((response) => {
         if (response.status >= 400) {
           throw new Error('Bad response from server');
@@ -377,6 +386,7 @@ class SearchForm extends Component {
       <div className="form__tags-wrap">
         <ScrollBar
           onClick={this.focusedOnInput}
+          scrollbarRef={this.formTags}
         >
           {
             tags.map((tag, idx) => (

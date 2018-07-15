@@ -1,11 +1,25 @@
 import { createAction } from 'redux-actions';
+import { Bucket } from '../../../api';
 
-export const addPostToBucket = createAction('ADD_TO_BUCKET');
+export const addPostToBucketRequest = createAction('ADD_TO_BUCKET_REQUEST');
+export const addPostToBucketResponse = createAction('ADD_TO_BUCKET_RESPONSE');
+export const addPostToBucketError = createAction('ADD_TO_BUCKET_ERROR');
 
-const addToBucket = post => (dispatch) => {
-  dispatch(addPostToBucket(post));
+export const addToBucket = slug => (dispatch) => {
+  dispatch(addPostToBucketRequest());
 
-  console.log(`Adding to bucket post "${post.title}"`);
+  return Bucket.addToBucket(slug)
+    .then(() => dispatch(addPostToBucketResponse()));
 };
 
-export default addToBucket;
+export const batchAddToBucket = slugs => (dispatch) => {
+  dispatch(addPostToBucketRequest());
+
+  const promises = slugs.map(
+    slug => Bucket.addToBucket(slug)
+      .catch(() => dispatch(addPostToBucketError()))
+  );
+
+  return Promise.all(promises)
+    .then(() => dispatch(addPostToBucketResponse()));
+};

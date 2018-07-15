@@ -1,5 +1,7 @@
 import Truncate from 'react-truncate';
 import { React, Component, Type, cn } from '../__base';
+import Button from '../Button';
+import Icon from '../Icon';
 
 import { __t } from '../../i18n/translator';
 
@@ -7,16 +9,24 @@ import './ReadMore.less';
 
 @cn('ReadMore')
 class ReadMore extends Component {
+  static propTypes = {
+    children: Type.node.isRequired,
+    text: Type.node,
+    icon: Type.node,
+    lines: Type.number,
+    more: Type.string,
+    less: Type.string,
+  };
+
   static defaultProps = {
     lines: 3,
     more: __t('More'),
     less: __t('Less'),
-  };
-
-  static propTypes = {
-    children: Type.node.isRequired,
-    text: Type.node,
-    lines: Type.number
+    icon: <Icon
+      glyph="arrowLeft"
+      size="xs"
+      color="blue"
+    />,
   };
 
   state = {
@@ -39,17 +49,8 @@ class ReadMore extends Component {
   }
 
   render(cn) {
-    const {
-      children,
-      more,
-      less,
-      lines
-    } = this.props;
-
-    const {
-      expanded,
-      truncated
-    } = this.state;
+    const { children, more, less, lines, icon } = this.props;
+    const { expanded, truncated } = this.state;
 
     return (
       <div className={cn()}>
@@ -57,12 +58,14 @@ class ReadMore extends Component {
           lines={!expanded && lines}
           ellipsis={(
             <span>...
-              <button
+              <Button
+                view="link"
+                text={more}
+                className={cn('button', { more: true })}
+                icon={icon}
+                iconPosition="right"
                 onClick={this.toggleLines}
-                className={cn('button')}
-              >
-                {more}
-              </button>
+              />
             </span>
           )}
           onTruncate={this.handleTruncate}
@@ -71,12 +74,14 @@ class ReadMore extends Component {
         </Truncate>
         {!truncated && expanded && (
           <span>
-            <button
+            <Button
+              view="link"
+              text={less}
+              className={cn('button', { less: true })}
+              icon={icon}
+              iconPosition="right"
               onClick={this.toggleLines}
-              className={cn('button')}
-            >
-              {less}
-            </button>
+            />
           </span>
         )}
       </div>

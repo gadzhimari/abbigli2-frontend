@@ -7,8 +7,8 @@ export default function preparePostForEditing(data) {
   return {
     ...data,
     tags: data.tags.join(' '),
-    currentCategory: data.categories[0].slug,
-    categories: data.categories[0].id,
+    currentCategory: data.category.slug,
+    category: data.category.id,
     cityOptions: data.city && [{
       value: data.city.id,
       label: `${data.city.name}, ${data.city.country.name}`
