@@ -24,7 +24,7 @@ class Sections extends Component {
   };
 
   render() {
-    const { tree, query, currentSection, isFetching } = this.props;
+    const { tree, query, currentSection, isFetching, location } = this.props;
     const currentTag = query.tag;
     const crumbs = [...tree];
 
