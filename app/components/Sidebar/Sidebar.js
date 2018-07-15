@@ -54,7 +54,7 @@ class Sidebar extends PureComponent {
         <SidebarList
           items={popularPosts}
           title={popularSectionTitle}
-          seeAllUrl={`${seeAllUrl}?popular=true`}
+          seeAllUrl={`${seeAllUrl}?popular=month`}
           type={type}
         />
       </div>
