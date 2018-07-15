@@ -4,7 +4,6 @@ import { BreadCrumbs, SliderBar, SliderBarTag } from '../../components';
 
 import { Spin } from '../../components-lib';
 import Content from './Content';
-import paginateHOC from '../../HOC/paginate';
 
 import './index.less';
 
@@ -24,7 +23,8 @@ class SectionTag extends Component {
       tags,
       isFetching,
       tree,
-      query
+      query,
+      location
     } = this.props;
 
     const currentSection = tree[tree.length - 1];
@@ -94,4 +94,4 @@ SectionTag.propTypes = {
   isFetching: Type.bool.isRequired,
 };
 
-export default paginateHOC(SectionTag);
+export default SectionTag;
